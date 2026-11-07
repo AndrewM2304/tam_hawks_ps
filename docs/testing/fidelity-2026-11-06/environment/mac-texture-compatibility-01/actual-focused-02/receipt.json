@@ -1,0 +1,88 @@
+{
+  "started_utc": "2026-11-07T11:23:02.460268+00:00",
+  "ended_utc": "2026-11-07T11:23:37.402903+00:00",
+  "original_aggregate_deadline_utc": "2026-11-07T11:25:57.288171Z",
+  "continuation_of": "actual-focused-01 (rejected extraMainfixture15s; ordinarybootclean)",
+  "reason": null,
+  "stages": [
+    {
+      "name": "native19-format-only",
+      "pid": 123929,
+      "start": "2026-11-07T11:23:02.460333+00:00",
+      "deadline": "2026-11-07T11:23:17.460333+00:00",
+      "command": [
+        "godot",
+        "--path",
+        "/workspace/tam_hawks_ps",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/actual-focused-02/actual_probe.gd",
+        "--",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/actual-focused-02/native"
+      ],
+      "cwd": "/workspace/tam_hawks_ps",
+      "end": "2026-11-07T11:23:02.963727+00:00",
+      "elapsed_seconds": 0.5034242420006194,
+      "exit_code": 0
+    },
+    {
+      "name": "public-verify",
+      "pid": 123939,
+      "start": "2026-11-07T11:23:02.963806+00:00",
+      "deadline": "2026-11-07T11:23:47.963806+00:00",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/tam_hawks_ps/tools/fetch_environment_materials.py",
+        "--verify-only"
+      ],
+      "cwd": "/workspace/tam_hawks_ps",
+      "end": "2026-11-07T11:23:03.165757+00:00",
+      "elapsed_seconds": 0.20198052399791777,
+      "exit_code": 0
+    },
+    {
+      "name": "public-derived-verify",
+      "pid": 123940,
+      "start": "2026-11-07T11:23:03.165859+00:00",
+      "deadline": "2026-11-07T11:23:47.963878+00:00",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/tam_hawks_ps/tools/build_environment_derivatives.py",
+        "--verify-only"
+      ],
+      "cwd": "/workspace/tam_hawks_ps",
+      "end": "2026-11-07T11:23:08.099168+00:00",
+      "elapsed_seconds": 4.933369324004161,
+      "exit_code": 0
+    },
+    {
+      "name": "source-cold-ordinary-import-boot",
+      "pid": 123953,
+      "start": "2026-11-07T11:23:08.099273+00:00",
+      "deadline": "2026-11-07T11:25:57.288168+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--quit-after",
+        "60"
+      ],
+      "cwd": "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/full-source-cold",
+      "end": "2026-11-07T11:23:37.200176+00:00",
+      "elapsed_seconds": 29.100965389996418,
+      "exit_code": 0
+    }
+  ],
+  "actual_source_count": 890,
+  "actual_source_changes": [],
+  "source_cold_source_changes": [],
+  "source_cold_initial_cache_absent": true,
+  "source_cold_copy_policy": "Rawimmutableassets hardlinked from explicitly frozen actualsource; scripts/imports/manifests/tools/guide/licences copiedbyvalue. No importedcache copied. OrdinaryGODOT_BIN=godot tools/run.sh route. Actualordinary usescheckout-privateXDG(.local), directprobeepoch-privateXDG, sourcecoldfreshcheckout-privateXDG.",
+  "no_manual_actual_cache_deletion": true,
+  "limits": "NativeLinuxGodot4.6.3Compatibilityformat/pipeline/currentMainheadlessboot/sourcecoldstartup only. TargetAppleM5OpenGLupload/no-warning/performance and actualmovingMainfinish remainopen."
+}

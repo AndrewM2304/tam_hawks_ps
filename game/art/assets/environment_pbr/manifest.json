@@ -25,6 +25,19 @@
       "zc_materials_all_maps": 1024
     },
     "added_texture_budget_mib": 32,
+    "desktop_vram_compression": {
+      "high_quality": false,
+      "cache_targets": "S3TC/ETC2 remaps trigger ordinary editor reimport without deleting cached files",
+      "opaque": "S3TC DXT1 (BC1)",
+      "normal": "RGTC_RG (BC5); reconstruct positive Z from RG",
+      "allowed_native_formats": [
+        "DXT1",
+        "DXT5",
+        "RGTC_R",
+        "RGTC_RG"
+      ],
+      "reason": "Compatibility desktop OpenGL including macOS4.1; BC7/BPTC requires an extension unavailable in the observed AppleM5 driver"
+    },
     "budget_note": "Declared additional resident GPU texture ceiling; actual renderer memory must be measured. Primary albedo remains 2K, normals and packed roughness/AO import at 1K; close/chase comparison must verify the normal-map resource reduction."
   },
   "materials": {

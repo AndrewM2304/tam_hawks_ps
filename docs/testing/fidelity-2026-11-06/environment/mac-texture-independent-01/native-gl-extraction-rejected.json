@@ -1,0 +1,1032 @@
+{
+  "reviewer": "/root/independent_qa",
+  "utc": "2026-11-07T11:22:09.604610+00:00",
+  "scope": "Independent offline18nativeGL pixel/camera/Canvas/proof checks and fresh process renderer-counter allocation. Four actual originals personally opened. No new engine execution.",
+  "checks": [
+    {
+      "check": "all recorded source/BC7-copy hashes stable",
+      "pass": true,
+      "actual": 101
+    },
+    {
+      "check": "macro139/0 eighteen full targets complete",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "both actualGL stages exit0 inside deadlines",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "macro/allocation raw logs clean",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "executed macro bound before/after",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-a-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-a-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-a-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-a-paving-close.png red",
+      "pass": true,
+      "actual": 5.652360024080719e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-paving-close.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 313,
+        "centroid_error": 0.036469325182529794
+      }
+    },
+    {
+      "check": "independent world projection baseline-a-paving-close.png green",
+      "pass": true,
+      "actual": 2.108994372574076e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-paving-close.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 306,
+        "centroid_error": 0.07349285122889247
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-a-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-a-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-a-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-a-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-a-sandstone-wall.png red",
+      "pass": true,
+      "actual": 4.010853412767976e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-sandstone-wall.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 309,
+        "centroid_error": 0.03365047990917946
+      }
+    },
+    {
+      "check": "independent world projection baseline-a-sandstone-wall.png green",
+      "pass": true,
+      "actual": 3.981105076597024e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-sandstone-wall.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 309,
+        "centroid_error": 0.05840486905223215
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-a-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-a-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-a-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-a-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-a-asphalt-oblique.png red",
+      "pass": true,
+      "actual": 3.264663781815412e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-asphalt-oblique.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 227,
+        "centroid_error": 0.015194792094358677
+      }
+    },
+    {
+      "check": "independent world projection baseline-a-asphalt-oblique.png green",
+      "pass": true,
+      "actual": 4.342299801427504e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-asphalt-oblique.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 222,
+        "centroid_error": 0.07828336697310004
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-a-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-a-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-a-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-a-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-a-wood-wall.png red",
+      "pass": true,
+      "actual": 4.849838973907642e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-wood-wall.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 310,
+        "centroid_error": 0.2061521213096895
+      }
+    },
+    {
+      "check": "independent world projection baseline-a-wood-wall.png green",
+      "pass": true,
+      "actual": 2.964511011268985e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-wood-wall.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 305,
+        "centroid_error": 0.05336818924003317
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-a-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-a-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-a-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-a-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-a-grass-close.png red",
+      "pass": true,
+      "actual": 1.7411334395506365e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-grass-close.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 300,
+        "centroid_error": 0.03442064715513715
+      }
+    },
+    {
+      "check": "independent world projection baseline-a-grass-close.png green",
+      "pass": true,
+      "actual": 1.8825271179611742e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-grass-close.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 302,
+        "centroid_error": 0.10127883509014916
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-a-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-a-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-a-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-a-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-a-paving-grazing.png red",
+      "pass": true,
+      "actual": 1.6630005555822304e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-paving-grazing.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 137,
+        "centroid_error": 0.07711778169907853
+      }
+    },
+    {
+      "check": "independent world projection baseline-a-paving-grazing.png green",
+      "pass": true,
+      "actual": 4.339212440391066e-06
+    },
+    {
+      "check": "independent actual marker pixels baseline-a-paving-grazing.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 126,
+        "centroid_error": 0.06022263358954029
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-a-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA compatible-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket compatible-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection compatible-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection compatible-paving-close.png red",
+      "pass": true,
+      "actual": 3.756143002814574e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-paving-close.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 309,
+        "centroid_error": 0.044306969123983006
+      }
+    },
+    {
+      "check": "independent world projection compatible-paving-close.png green",
+      "pass": true,
+      "actual": 2.2856306407540727e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-paving-close.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 308,
+        "centroid_error": 0.06843339577035508
+      }
+    },
+    {
+      "check": "actual current Canvas compatible-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA compatible-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket compatible-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection compatible-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection compatible-sandstone-wall.png red",
+      "pass": true,
+      "actual": 1.784674546688502e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-sandstone-wall.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 308,
+        "centroid_error": 0.04387131460464075
+      }
+    },
+    {
+      "check": "independent world projection compatible-sandstone-wall.png green",
+      "pass": true,
+      "actual": 2.144960300909056e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-sandstone-wall.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 308,
+        "centroid_error": 0.07722489468209029
+      }
+    },
+    {
+      "check": "actual current Canvas compatible-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA compatible-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket compatible-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection compatible-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection compatible-asphalt-oblique.png red",
+      "pass": true,
+      "actual": 1.255113318956872e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-asphalt-oblique.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 229,
+        "centroid_error": 0.07956047029235411
+      }
+    },
+    {
+      "check": "independent world projection compatible-asphalt-oblique.png green",
+      "pass": true,
+      "actual": 6.957177090151488e-06
+    },
+    {
+      "check": "independent actual marker pixels compatible-asphalt-oblique.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 228,
+        "centroid_error": 0.05360585698466943
+      }
+    },
+    {
+      "check": "actual current Canvas compatible-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA compatible-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket compatible-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection compatible-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection compatible-wood-wall.png red",
+      "pass": true,
+      "actual": 2.884015060762515e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-wood-wall.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 319,
+        "centroid_error": 0.43816435408132076
+      }
+    },
+    {
+      "check": "independent world projection compatible-wood-wall.png green",
+      "pass": true,
+      "actual": 2.8280176855112214e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-wood-wall.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 306,
+        "centroid_error": 0.10109626357209141
+      }
+    },
+    {
+      "check": "actual current Canvas compatible-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA compatible-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket compatible-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection compatible-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection compatible-grass-close.png red",
+      "pass": true,
+      "actual": 5.028180777779544e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-grass-close.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 301,
+        "centroid_error": 0.02552366700539092
+      }
+    },
+    {
+      "check": "independent world projection compatible-grass-close.png green",
+      "pass": true,
+      "actual": 2.7810616244215514e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-grass-close.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 301,
+        "centroid_error": 0.07085215581665852
+      }
+    },
+    {
+      "check": "actual current Canvas compatible-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA compatible-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket compatible-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection compatible-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection compatible-paving-grazing.png red",
+      "pass": true,
+      "actual": 6.026313455699492e-06
+    },
+    {
+      "check": "independent actual marker pixels compatible-paving-grazing.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 132,
+        "centroid_error": 0.09600241073319328
+      }
+    },
+    {
+      "check": "independent world projection compatible-paving-grazing.png green",
+      "pass": true,
+      "actual": 1.410138866520536e-05
+    },
+    {
+      "check": "independent actual marker pixels compatible-paving-grazing.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 128,
+        "centroid_error": 0.054224103078041354
+      }
+    },
+    {
+      "check": "actual current Canvas compatible-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-b-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-b-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-b-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-b-paving-close.png red",
+      "pass": true,
+      "actual": 5.3725439502390703e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-paving-close.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 308,
+        "centroid_error": 0.05639063958053237
+      }
+    },
+    {
+      "check": "independent world projection baseline-b-paving-close.png green",
+      "pass": true,
+      "actual": 3.382065501145633e-06
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-paving-close.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 309,
+        "centroid_error": 0.05249003679398441
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-b-paving-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-b-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-b-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-b-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-b-sandstone-wall.png red",
+      "pass": true,
+      "actual": 2.4523127805553987e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-sandstone-wall.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 308,
+        "centroid_error": 0.04153150281719814
+      }
+    },
+    {
+      "check": "independent world projection baseline-b-sandstone-wall.png green",
+      "pass": true,
+      "actual": 2.1076740723459392e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-sandstone-wall.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 315,
+        "centroid_error": 0.07676423496085247
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-b-sandstone-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-b-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-b-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-b-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-b-asphalt-oblique.png red",
+      "pass": true,
+      "actual": 5.070323642172668e-06
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-asphalt-oblique.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 222,
+        "centroid_error": 0.04047234070627392
+      }
+    },
+    {
+      "check": "independent world projection baseline-b-asphalt-oblique.png green",
+      "pass": true,
+      "actual": 1.858570952132363e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-asphalt-oblique.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 224,
+        "centroid_error": 0.027037820653248567
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-b-asphalt-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-b-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-b-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-b-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-b-wood-wall.png red",
+      "pass": true,
+      "actual": 1.5109740817780734e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-wood-wall.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 319,
+        "centroid_error": 0.45724244343026027
+      }
+    },
+    {
+      "check": "independent world projection baseline-b-wood-wall.png green",
+      "pass": true,
+      "actual": 3.568345976386911e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-wood-wall.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 310,
+        "centroid_error": 0.06268957575282029
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-b-wood-wall.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-b-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-b-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-b-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-b-grass-close.png red",
+      "pass": true,
+      "actual": 2.3236308295525853e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-grass-close.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 301,
+        "centroid_error": 0.057072404158959415
+      }
+    },
+    {
+      "check": "independent world projection baseline-b-grass-close.png green",
+      "pass": true,
+      "actual": 1.7686643993179807e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-grass-close.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 307,
+        "centroid_error": 0.10252846931182247
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-b-grass-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativeRGBA baseline-b-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "same native tick bracket baseline-b-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "finite rigid camera/projection baseline-b-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent world projection baseline-b-paving-grazing.png red",
+      "pass": true,
+      "actual": 1.6819733968735384e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-paving-grazing.png red",
+      "pass": true,
+      "actual": {
+        "pixels": 132,
+        "centroid_error": 0.13129357578896597
+      }
+    },
+    {
+      "check": "independent world projection baseline-b-paving-grazing.png green",
+      "pass": true,
+      "actual": 2.128897473532427e-05
+    },
+    {
+      "check": "independent actual marker pixels baseline-b-paving-grazing.png green",
+      "pass": true,
+      "actual": {
+        "pixels": 131,
+        "centroid_error": 0.048751258953090015
+      }
+    },
+    {
+      "check": "actual current Canvas baseline-b-paving-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "matched camera across A/B/A asphalt-oblique",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "matched camera across A/B/A grass-close",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "matched camera across A/B/A paving-close",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "matched camera across A/B/A paving-grazing",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "matched camera across A/B/A sandstone-wall",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "matched camera across A/B/A wood-wall",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "baseline material inventories restored exactly",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual bound compatible formats15,baselineBC7",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "fresh separate native allocation difference and32MiB ceiling",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native allocation draws/primitives unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "retired primitive texture function copied exact",
+      "pass": false,
+      "actual": null
+    }
+  ],
+  "passed": 159,
+  "failed": 1,
+  "native_originals": [
+    {
+      "file": "baseline-a-paving-close.png",
+      "png_sha256": "b876ac17c5eab1cbe142cec2ee109066e0ccd1ffab3245e318c46467f27a2086",
+      "rgba8_sha256": "06e8a68f9aa270010dd6ccbe0240c6b401c3cb8401f3e9fb28dac043bcf4fa2b"
+    },
+    {
+      "file": "baseline-a-sandstone-wall.png",
+      "png_sha256": "9af961483e7b9a29c9a5a9cefbb4c1e2862cc5d0278c16bee588173270f4ba3e",
+      "rgba8_sha256": "6b0a89d030db9c6c5df46249d33b6b78ab907d4d49352f90b3e52e579ef776df"
+    },
+    {
+      "file": "baseline-a-asphalt-oblique.png",
+      "png_sha256": "26f0966933c47dca75710585d66394c64f6240f416ad558f87ec5025c8d0d1dc",
+      "rgba8_sha256": "d804026e027142727c2c99acba1565402e6500b77df586720670da9d12bd183f"
+    },
+    {
+      "file": "baseline-a-wood-wall.png",
+      "png_sha256": "387df2f24e5f4d91f779433bff34509aa7568cf4f374e025d246eda54b1fe2fb",
+      "rgba8_sha256": "e87f364d583f75fd3301a9b8a81194695255dde7768b76f04023ffc100c88d74"
+    },
+    {
+      "file": "baseline-a-grass-close.png",
+      "png_sha256": "70747915f0ae770ce597b9781a121c4107ef0065302a973421daa97192fab761",
+      "rgba8_sha256": "afb904d47e1843e53251d4b698ece7abfc77f96ed40bb3f6f507f488e8f237e6"
+    },
+    {
+      "file": "baseline-a-paving-grazing.png",
+      "png_sha256": "6b75f032f08a2fd64268ab7fe5116b34cafeaa918f15c004cfc96aebb03d95d3",
+      "rgba8_sha256": "3d770886640a35ff25d24e05d6c0eb2b5aa21714150ee84ff57438dc59bab834"
+    },
+    {
+      "file": "compatible-paving-close.png",
+      "png_sha256": "dd46a30e2f897a2d5b131ce82b08dc593bdd309beec86d2a4ce4b26f4a6c7dba",
+      "rgba8_sha256": "83e960ad19e0cd90cdce7d027533b26d11715ef5ec56538815f64526d264914a"
+    },
+    {
+      "file": "compatible-sandstone-wall.png",
+      "png_sha256": "0a2e31c5b446c50f44f1a166db95f315bd6476a26e0cadfe0e861149d939665c",
+      "rgba8_sha256": "1c5a3d4ab04e6ef30e27ef7a2c3c75d5fe20464597c18ca2ee7b7ce68a8d6f26"
+    },
+    {
+      "file": "compatible-asphalt-oblique.png",
+      "png_sha256": "4f379c9ba4d4b42ffc6a5b037ef84ebc8b9cab9df91520ed965197c324504ad2",
+      "rgba8_sha256": "be898b31f0cd3bb5ccd573662f1b40d0df626b7dda79c50cc00f77eb2b247ee7"
+    },
+    {
+      "file": "compatible-wood-wall.png",
+      "png_sha256": "10d642b67ab44dff765386bf7619cfcec2b3509bfd2774d5a4e0c5d8c2ec0560",
+      "rgba8_sha256": "7799aad2d84a3fff5eeb86b72533c51a7ff35d8ce8db002dec8bf8cb474a9c62"
+    },
+    {
+      "file": "compatible-grass-close.png",
+      "png_sha256": "9b485b9dc52df4a7ffcd7920e399545f1366bb64b0c46ccfbb18066c2f23fb69",
+      "rgba8_sha256": "20b0243956298a65b8f5d2c15574dcfd16f8f758f7beafde5b94812e27280d04"
+    },
+    {
+      "file": "compatible-paving-grazing.png",
+      "png_sha256": "5203ee57d4d2512dd0bd142216aa308f4e2ae9cc36ea294f86936cb3de6a3d90",
+      "rgba8_sha256": "f232c41fd8eb8f8a029b948373c74b6cd9ac368d48ab5fd0352e1823b3fe20ca"
+    },
+    {
+      "file": "baseline-b-paving-close.png",
+      "png_sha256": "7ad12d39424b72184911db6b4384588dc44bc7a2958162f7a9be4aa87f671536",
+      "rgba8_sha256": "498bf802b83ccc665784a322c6f76099306f1848b43bd3b32aa16a2817a1a260"
+    },
+    {
+      "file": "baseline-b-sandstone-wall.png",
+      "png_sha256": "3a42b73c0171849a0342b6c189178dfda79506031dee05f732d7d68a06c3278d",
+      "rgba8_sha256": "8caacb98741e5f39fdf89a61bd8bb6646d621b8c8eb40774d10c5a2dcd18f736"
+    },
+    {
+      "file": "baseline-b-asphalt-oblique.png",
+      "png_sha256": "ed548d6e8dcaba2ed4999ff1acd677a79989eda0077440e39fade5aaaf1aa2e3",
+      "rgba8_sha256": "30b0e854506b0e62cd48ec26252ac79b27d914980d62b142f0fe3292856f60c2"
+    },
+    {
+      "file": "baseline-b-wood-wall.png",
+      "png_sha256": "957acadc7ce7b400f90916fd0c68ae2df7ec6b9448f2b88c2e9ada840eef4efe",
+      "rgba8_sha256": "478e3ca5651f275100cbe9fdf372f1867ba148141392b0a2ab75396c97895aef"
+    },
+    {
+      "file": "baseline-b-grass-close.png",
+      "png_sha256": "c30ead74bbca5b258997c8a1b87b93efde9f1400b1b3c187638dd19ad2d4b33f",
+      "rgba8_sha256": "0987b42c1f2534a5184beb419ad28694342005d596da6dfac3ea1a1242bfeab3"
+    },
+    {
+      "file": "baseline-b-paving-grazing.png",
+      "png_sha256": "51f80790ca694c40fdb0ac53d94bbf3b7213be9c5f7e027365ea956df6eaa776",
+      "rgba8_sha256": "df8c77e427965c2ce8ceffd74edee438fd7bf47cf819e42d1df02551c9a93ce8"
+    }
+  ],
+  "max_independent_projection_error_px": 5.652360024080719e-05,
+  "max_independent_marker_centroid_error_px": 0.45724244343026027,
+  "source_input_count": 101,
+  "visual_subset": {
+    "opened": [
+      "baseline-a-asphalt-oblique.png",
+      "compatible-asphalt-oblique.png",
+      "baseline-a-sandstone-wall.png",
+      "compatible-sandstone-wall.png"
+    ],
+    "finding": "Asphalt cracks/granularity and sandstone mortar/normal relief remain coherent under the shared lit component setup. No gross format-induced normal inversion or flat/black material failure observed in these two paired views; minor grain/colour differences remain. Fourteen target originals are verified for integrity, not personally inspected.",
+    "fixture": "Six-metre plane and4\u00d73m wall with shared production material settings; not actualMain."
+  },
+  "allocation": {
+    "additional_native_renderer_texture_counter_bytes": 19486307,
+    "before": 9007392,
+    "after": 28493699,
+    "draws": 8,
+    "primitives": 96,
+    "scope": "Fresh separate process; process-local Godot renderer allocation counter, not total hardware residency/Mac memory or FPS. Both texture sets remain resident in macroprocess, so macro counters are not its allocation experiment."
+  },
+  "verdict": "Pass for recorded component integrity and bounded fresh native allocation. Two inspected material pairs have no blocking format artifact; completeMain/Mac no-warning/target quality and performance remain unmeasured.",
+  "audit_setup_correction": "The independent function extractor included two blank separator lines before the next CityArt function. The standalone copy has one terminal newline. Preserve this failed extraction check; compare the exact function body through its last nonblank line plus one newline. Native source/results are unchanged."
+}

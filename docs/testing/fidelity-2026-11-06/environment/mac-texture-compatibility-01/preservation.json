@@ -1,0 +1,558 @@
+{
+  "utc": "2026-11-07T11:31:04.364588+00:00",
+  "post_run_packaging_correction": "Four generated fontconfig cache/tag files excluded; identities/original preservation in excluded-generated-files.json. All raw native receipts/logs unchanged.",
+  "files": {
+    "actual-protected-before.json": {
+      "bytes": 10038,
+      "sha256": "9b0e283601785b6eb88cb751c2d81b634886894a63ac86bc7ec7304fe31534ab"
+    },
+    "post-migration-cache-cleanup.json": {
+      "bytes": 5081,
+      "sha256": "75884cd2ff2857fc720553d7efd95e1d83a302ea88911b65750b16472e6ed663"
+    },
+    "completed-firstmini-cache-cleanup.json": {
+      "bytes": 10758,
+      "sha256": "a3d4e993a99f248031c983dcdc3912f8de2ce8dbbbd6a1c7b5d655876305ed27"
+    },
+    "proposal.patch": {
+      "bytes": 35996,
+      "sha256": "9b8ebe0675b82042aa5b15018bf1162eb8b1da4b8f15a855e9bf75ffcc135c81"
+    },
+    "declared-budget.json": {
+      "bytes": 773,
+      "sha256": "cd8a6fbaee1f9ca827987f2633bf820dcf1c5257a2556c178fb54ec759f2502f"
+    },
+    "excluded-generated-files.json": {
+      "bytes": 2679,
+      "sha256": "6965cc75e666d83422d79f5717aaf0daf647aee93492d3a5fea1e9962e0cc853"
+    },
+    "README.md": {
+      "bytes": 5281,
+      "sha256": "0dc22f0487ba8bde81e24fb74b540918c1a6a62f28c6eab977ef638ac310bda0"
+    },
+    "allocation-adapter.json": {
+      "bytes": 808,
+      "sha256": "e28c3f795f5c6d9c44d561f2523d8819572fc8b90eebd38c6bbcfd9acb2c9953"
+    },
+    "cold-exact-binding.json": {
+      "bytes": 495,
+      "sha256": "085a89abb860bd3e357db2f625417f0a36e73fecd7506375244a071674eac9eb"
+    },
+    "baseline-cache-transfer.json": {
+      "bytes": 9664,
+      "sha256": "701539a0bd5ca6e4fdd061c613d268539b73d63f6d5ee9f619fe507973c64413"
+    },
+    "actual-native-binding.json": {
+      "bytes": 414,
+      "sha256": "55a725798095b04866ed299705c716e02577f6628bcea1a54931047c4faef9ce"
+    },
+    "proposal-manifest.json": {
+      "bytes": 7936,
+      "sha256": "91f37cea75287ba5d8fd900b9ebd1560c73e0e8cece29c6fd5b6e1ae37714856"
+    },
+    "macro-baseline-cache-transfer.json": {
+      "bytes": 5401,
+      "sha256": "ea6ddd7eee1d772ec0ce08a39e07f380c8c8b65942a69622f644edd8d90b9b10"
+    },
+    "cold-exact-concurrency-addendum.json": {
+      "bytes": 530,
+      "sha256": "6b73f0b783afaaa1e89d31f8201f06df54010349e58ec8182507e659cce31d1e"
+    },
+    "candidate-post-readback-inventory.json": {
+      "bytes": 7091,
+      "sha256": "9975e0bb0fdf0d68cbdfe6f613bbbde129702629d12498c18729e5ed09e8fa1f"
+    },
+    "pipeline-verification.json": {
+      "bytes": 10139,
+      "sha256": "7eafd75f7cf10f0fda320877e87b252065568e4a3242b719f76236098580074f"
+    },
+    "actual-focused-01/ordinary-import-and-boot.log": {
+      "bytes": 6097,
+      "sha256": "dfcc17fe086dbc09d50baab909c9369879830f88fce932593d3dcb3552215dec"
+    },
+    "actual-focused-01/source-before.json": {
+      "bytes": 132345,
+      "sha256": "b2b308392dc3e9964678f95adda4033f6664a8bca11606779704fd8cc9d4f9f2"
+    },
+    "actual-focused-01/source-cold-after.json": {
+      "bytes": 132345,
+      "sha256": "b2b308392dc3e9964678f95adda4033f6664a8bca11606779704fd8cc9d4f9f2"
+    },
+    "actual-focused-01/native19-realmain.log": {
+      "bytes": 73,
+      "sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    "actual-focused-01/observer.py.txt": {
+      "bytes": 6990,
+      "sha256": "a04a81590562de9ba61426b9313b455956e2c7f60246f8d638c4f61178f8f168"
+    },
+    "actual-focused-01/receipt.json": {
+      "bytes": 2143,
+      "sha256": "ba202d7cb1c651e850d1a490c364aa2d2a3ad64ed9181c5c2721722cff8902bd"
+    },
+    "actual-focused-01/actual_probe.gd": {
+      "bytes": 11437,
+      "sha256": "713a8cfb44b9f1e68c2cda6dffead1d026ee15ec3879322d092e8549f7423d55"
+    },
+    "actual-focused-01/source-after.json": {
+      "bytes": 132345,
+      "sha256": "b2b308392dc3e9964678f95adda4033f6664a8bca11606779704fd8cc9d4f9f2"
+    },
+    "research/sources.json": {
+      "bytes": 3059,
+      "sha256": "4f92243b4e63292a2fe5fb80913ac212655ed902c3b5c85c1c1e59134ca0d049"
+    },
+    "research/SOURCE-NOTES.md": {
+      "bytes": 1934,
+      "sha256": "def916448b61eff56f784184ff390dce1501ce56091674f95fa1470722296a08"
+    },
+    "rejected/params-only-native-report.json": {
+      "bytes": 25007,
+      "sha256": "9f51cedc337490b3854a02a48f3627b8f9c342b0ea95e083c97cab89c71f064f"
+    },
+    "observers/verify_pipeline.py.txt": {
+      "bytes": 2747,
+      "sha256": "2b2e7912177af5e0aaf37109087541f409796bbf400ca4379d9495555ffe4f8d"
+    },
+    "observers/run_actual_gate.py.txt": {
+      "bytes": 6990,
+      "sha256": "a04a81590562de9ba61426b9313b455956e2c7f60246f8d638c4f61178f8f168"
+    },
+    "observers/run_actual_gate_continuation.py.txt": {
+      "bytes": 7010,
+      "sha256": "3ea4582b62e11c7bd3d2c2385a7af931b2ce7cf60fc581b11635823e490f36c6"
+    },
+    "observers/reused-proof-helpers.gd.txt.txt": {
+      "bytes": 4841,
+      "sha256": "13c75975ec7de89fbcf5a3c6a5be1af4802b81bbaa8c6eebcfb1e5fb906c41e9"
+    },
+    "observers/run_gl.py.txt": {
+      "bytes": 4441,
+      "sha256": "36500dd9bd8edc2b9dda83f359b734b89009c28b329f4b47277cfaec015a0393"
+    },
+    "observers/native_formats.gd.txt": {
+      "bytes": 2044,
+      "sha256": "24f7816542a6b48efc153a929095950c7f8cd06566385e2142b7c8b6d348f79b"
+    },
+    "actual-focused-02/public-derived-verify.log": {
+      "bytes": 209,
+      "sha256": "1d5b687a066a140c0f502c5300403f69b3bd309dde51b01b5613b8ce364e086f"
+    },
+    "actual-focused-02/source-before.json": {
+      "bytes": 132345,
+      "sha256": "b2b308392dc3e9964678f95adda4033f6664a8bca11606779704fd8cc9d4f9f2"
+    },
+    "actual-focused-02/source-cold-after.json": {
+      "bytes": 132345,
+      "sha256": "b2b308392dc3e9964678f95adda4033f6664a8bca11606779704fd8cc9d4f9f2"
+    },
+    "actual-focused-02/native19-format-only.log": {
+      "bytes": 116,
+      "sha256": "66bbf1287f49e4dc44eb9e4f1ed0beb511a15e0aab4f22e6d8ccd7da06f5258e"
+    },
+    "actual-focused-02/observer.py.txt": {
+      "bytes": 7010,
+      "sha256": "3ea4582b62e11c7bd3d2c2385a7af931b2ce7cf60fc581b11635823e490f36c6"
+    },
+    "actual-focused-02/source-cold-ordinary-import-boot.log": {
+      "bytes": 39063,
+      "sha256": "11407a8861cf92593a6c1b6fc2ff3fdd0f88e297698b7570d2e7ba2fd35b2afe"
+    },
+    "actual-focused-02/public-verify.log": {
+      "bytes": 107,
+      "sha256": "775a338404d3c8e236757e853d544df83e4cef9f40700684d9fcca54707a04c8"
+    },
+    "actual-focused-02/receipt.json": {
+      "bytes": 3422,
+      "sha256": "aa7d7264aa9ec6c346aa38dc97c97282ca072c0a33360cdd1275f90e10720f82"
+    },
+    "actual-focused-02/actual_probe.gd": {
+      "bytes": 10164,
+      "sha256": "775f561beb1ef0f50360f8d3f461cd2e6340105646e4e3922f6ca8353166136b"
+    },
+    "actual-focused-02/source-after.json": {
+      "bytes": 132345,
+      "sha256": "b2b308392dc3e9964678f95adda4033f6664a8bca11606779704fd8cc9d4f9f2"
+    },
+    "actual-install-01/source-before.json": {
+      "bytes": 132343,
+      "sha256": "31edebe47133151f6f3afbedce3b217117e135b65b73d68f83352e93745981e7"
+    },
+    "actual-install-01/installer.py.txt": {
+      "bytes": 2909,
+      "sha256": "617674c379b13d3cd1eb7affe18994ad94945fd3b085f7383fabe836ad90d6f5"
+    },
+    "actual-install-01/proposal-manifest.json": {
+      "bytes": 7936,
+      "sha256": "91f37cea75287ba5d8fd900b9ebd1560c73e0e8cece29c6fd5b6e1ae37714856"
+    },
+    "actual-install-01/receipt.json": {
+      "bytes": 2786,
+      "sha256": "71dd37805e65ccbc49e2f07bea3d765165c2d861333c6e4a23972960270f3db4"
+    },
+    "actual-install-01/source-after.json": {
+      "bytes": 132345,
+      "sha256": "b2b308392dc3e9964678f95adda4033f6664a8bca11606779704fd8cc9d4f9f2"
+    },
+    "cold/native-format-report.json": {
+      "bytes": 11940,
+      "sha256": "627e880d5be0c5b7d35dddf7921b3ca9353ec306c8a43586663e59f57b02a9f5"
+    },
+    "gl/baseline-a-wood-wall.png": {
+      "bytes": 1290473,
+      "sha256": "387df2f24e5f4d91f779433bff34509aa7568cf4f374e025d246eda54b1fe2fb"
+    },
+    "gl/macro-report.json": {
+      "bytes": 54092,
+      "sha256": "42615e53cc842a470442f869e368fdd73081fd1041d037f6102ef578d265c3eb"
+    },
+    "gl/macro-engine.log": {
+      "bytes": 408,
+      "sha256": "d0c88b23c5bd1aebc54cabdeea1381dbebefa185175574dcd37dddf56c46b200"
+    },
+    "gl/source-before.json": {
+      "bytes": 12979,
+      "sha256": "aa4f3b729383fb880ccebc50efb632f1b502fea6f27ea4d96ae74aa7cbabf78f"
+    },
+    "gl/baseline-a-paving-grazing.png": {
+      "bytes": 1518685,
+      "sha256": "6b75f032f08a2fd64268ab7fe5116b34cafeaa918f15c004cfc96aebb03d95d3"
+    },
+    "gl/baseline-b-paving-close.png": {
+      "bytes": 1887719,
+      "sha256": "7ad12d39424b72184911db6b4384588dc44bc7a2958162f7a9be4aa87f671536"
+    },
+    "gl/compatible-paving-close.png": {
+      "bytes": 2038053,
+      "sha256": "dd46a30e2f897a2d5b131ce82b08dc593bdd309beec86d2a4ce4b26f4a6c7dba"
+    },
+    "gl/baseline-b-wood-wall.png": {
+      "bytes": 1290420,
+      "sha256": "957acadc7ce7b400f90916fd0c68ae2df7ec6b9448f2b88c2e9ada840eef4efe"
+    },
+    "gl/compatible-grass-close.png": {
+      "bytes": 2302231,
+      "sha256": "9b485b9dc52df4a7ffcd7920e399545f1366bb64b0c46ccfbb18066c2f23fb69"
+    },
+    "gl/baseline-a-asphalt-oblique.png": {
+      "bytes": 2240738,
+      "sha256": "26f0966933c47dca75710585d66394c64f6240f416ad558f87ec5025c8d0d1dc"
+    },
+    "gl/baseline-a-paving-close.png": {
+      "bytes": 1887922,
+      "sha256": "b876ac17c5eab1cbe142cec2ee109066e0ccd1ffab3245e318c46467f27a2086"
+    },
+    "gl/baseline-b-grass-close.png": {
+      "bytes": 2196934,
+      "sha256": "c30ead74bbca5b258997c8a1b87b93efde9f1400b1b3c187638dd19ad2d4b33f"
+    },
+    "gl/compatible-wood-wall.png": {
+      "bytes": 1394261,
+      "sha256": "10d642b67ab44dff765386bf7619cfcec2b3509bfd2774d5a4e0c5d8c2ec0560"
+    },
+    "gl/baseline-b-paving-grazing.png": {
+      "bytes": 1518651,
+      "sha256": "51f80790ca694c40fdb0ac53d94bbf3b7213be9c5f7e027365ea956df6eaa776"
+    },
+    "gl/baseline-b-sandstone-wall.png": {
+      "bytes": 1442446,
+      "sha256": "3a42b73c0171849a0342b6c189178dfda79506031dee05f732d7d68a06c3278d"
+    },
+    "gl/compatible-sandstone-wall.png": {
+      "bytes": 1539926,
+      "sha256": "0a2e31c5b446c50f44f1a166db95f315bd6476a26e0cadfe0e861149d939665c"
+    },
+    "gl/compatible-paving-grazing.png": {
+      "bytes": 1640907,
+      "sha256": "5203ee57d4d2512dd0bd142216aa308f4e2ae9cc36ea294f86936cb3de6a3d90"
+    },
+    "gl/compatible-asphalt-oblique.png": {
+      "bytes": 2329198,
+      "sha256": "4f379c9ba4d4b42ffc6a5b037ef84ebc8b9cab9df91520ed965197c324504ad2"
+    },
+    "gl/observer.py.txt": {
+      "bytes": 4441,
+      "sha256": "36500dd9bd8edc2b9dda83f359b734b89009c28b329f4b47277cfaec015a0393"
+    },
+    "gl/xorg.log": {
+      "bytes": 53297,
+      "sha256": "76b4a64280fedef7e16cb76eb6ef6c57f7de20d4b1f820401da1bce9cf5dbe20"
+    },
+    "gl/baseline-a-grass-close.png": {
+      "bytes": 2197233,
+      "sha256": "70747915f0ae770ce597b9781a121c4107ef0065302a973421daa97192fab761"
+    },
+    "gl/xorg-console.log": {
+      "bytes": 1548,
+      "sha256": "cf1fd30a8926d8a98547545fc672902b84cbce09aba77297f04623be86eae73b"
+    },
+    "gl/allocation-engine.log": {
+      "bytes": 438,
+      "sha256": "40c1a190d7304dfdd1f3f163c51c5235a3a4cdb7686347293d45a9c6fb8a03c4"
+    },
+    "gl/baseline-a-sandstone-wall.png": {
+      "bytes": 1442586,
+      "sha256": "9af961483e7b9a29c9a5a9cefbb4c1e2862cc5d0278c16bee588173270f4ba3e"
+    },
+    "gl/receipt.json": {
+      "bytes": 4038,
+      "sha256": "8be583a181b8618efd04139697e5b2031000cfd430b96a9ebd936bcd925aecfe"
+    },
+    "gl/texture-report.json": {
+      "bytes": 6284,
+      "sha256": "701d1c5c34e9fdf5fb9e716b42cf2afbf779a19835d824554c1f05aed7d7abfc"
+    },
+    "gl/macro.gd.txt": {
+      "bytes": 12434,
+      "sha256": "f5d8a38f26fc0deb71531c5c6b84bf243013b581762e7ee2cb9b0a208f192f43"
+    },
+    "gl/baseline-b-asphalt-oblique.png": {
+      "bytes": 2240794,
+      "sha256": "ed548d6e8dcaba2ed4999ff1acd677a79989eda0077440e39fade5aaaf1aa2e3"
+    },
+    "gl/source-after.json": {
+      "bytes": 12979,
+      "sha256": "aa4f3b729383fb880ccebc50efb632f1b502fea6f27ea4d96ae74aa7cbabf78f"
+    },
+    "cpu/quality-report.json": {
+      "bytes": 135831,
+      "sha256": "ee30e88da3fef84d7ff7467391cc27dadb04a172ff62c27c119e0f7185eab497"
+    },
+    "cpu/blind-T_wood01--T_wood01_albedo.png": {
+      "bytes": 227106,
+      "sha256": "af0bbd4db2019aac71531c05f1abad43df08cd1cb2be010954cea8a981f916c3"
+    },
+    "cpu/crop-key.json": {
+      "bytes": 797,
+      "sha256": "9393a99f6eaf9c306905a931248e4ac598346117f65304a36a09edb8749a8aac"
+    },
+    "cpu/blind-derived--grass_albedo.png": {
+      "bytes": 346585,
+      "sha256": "d2f631072ae7f60b34590c689b12cc9ef9a0a45c9cda4b195521b25345e31418"
+    },
+    "cpu/full-buffer-index.json": {
+      "bytes": 44416,
+      "sha256": "44a796daa07277793e7086ba61b3abfccb06c73306e669ce0e5b18f1de0d8e02"
+    },
+    "cpu/blind-sandstone_blocks_04--sandstone_blocks_04_diff_2k.png": {
+      "bytes": 262833,
+      "sha256": "930a8600a828edd4d315e7a758f6d7d1d056a7b12dd64010108d68313ffa7eb9"
+    },
+    "cpu/candidate-native-report.json": {
+      "bytes": 25011,
+      "sha256": "67b6ba4660a8ba76418392fffe9493fb6140d613f8c9c7f2a0a1fd8249352151"
+    },
+    "cpu/baseline-receipt.json": {
+      "bytes": 7487,
+      "sha256": "f131979a30c03d6e575de3dd9249a63126a2aaf7bbbc1f64a408f5ca3237c2a5"
+    },
+    "cpu/blind-derived--pavement_albedo.png": {
+      "bytes": 257063,
+      "sha256": "cf0467ad09bcf32599b98623a3b80e2d8551628bcb34c6af473b6ea3d7ddba3b"
+    },
+    "cpu/blind-asphalt_02--asphalt_02_diff_2k.png": {
+      "bytes": 319418,
+      "sha256": "a5076e995abe0d4751b5411afe402a3d46e580a5988c0d3391f1a40c8512d524"
+    },
+    "cpu/candidate-receipt.json": {
+      "bytes": 7493,
+      "sha256": "e625dd6fa64ca8b3d404cb5da15c10959748d7d421089829b736e4c2b0cefb0c"
+    },
+    "cpu/baseline-native-report.json": {
+      "bytes": 38306,
+      "sha256": "e17f4b84b66e03a2965b2af9851bc6e2cdd7fff59c107c92f6004fe31ac17626"
+    },
+    "actual-focused-01/native-xdg/data/godot/app_userdata/Tam Hawks Pro Skater/logs/godot.log": {
+      "bytes": 73,
+      "sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    "rejected/baseline-probe-02/engine.log": {
+      "bytes": 524,
+      "sha256": "40fc9549c713df9bb5a69778418072509b122238c85b9349352c135081f04e59"
+    },
+    "rejected/baseline-probe-02/receipt.json": {
+      "bytes": 7482,
+      "sha256": "de3c4ffc793f17aa4d95e17c693afc64816e4de6b63dbfc640066ee00fc30310"
+    },
+    "rejected/baseline-probe-04/engine.log": {
+      "bytes": 2003,
+      "sha256": "05530b82bdaf228900ca69c116f610626ec49b76d630f475fd0b5bcea8841f47"
+    },
+    "rejected/baseline-probe-04/receipt.json": {
+      "bytes": 7485,
+      "sha256": "354afda96ec27d9e0f590514847ef7bb90daff84dc07e7e7256305a0f7f74da1"
+    },
+    "rejected/baseline-probe-03/engine.log": {
+      "bytes": 314,
+      "sha256": "0698a50e474662d607384af6c315f45fb85e4df72dc28c3baaaea0645bc2c1e7"
+    },
+    "rejected/baseline-probe-03/receipt.json": {
+      "bytes": 7485,
+      "sha256": "ed19af86c6ba4851cbde7ed622526669a28bf8aa7798598cfa797d4d3f7f08f5"
+    },
+    "rejected/baseline-import/engine.log": {
+      "bytes": 11761,
+      "sha256": "bd6898b7b3b99940b84bfd17cd117483c640c7d041b5c04465d52781f5ba0f00"
+    },
+    "rejected/baseline-import/receipt.json": {
+      "bytes": 7066,
+      "sha256": "5c46b24fee1610e6782c8013179c3d5a01c76a57a8a54ced471443b7eea96fb7"
+    },
+    "rejected/candidate-probe/engine.log": {
+      "bytes": 133,
+      "sha256": "7a7de18c770f6aa046e5a2f9f03be267fa7c1183ddfda4ecdc8d46e6b1885ad5"
+    },
+    "rejected/candidate-probe/receipt.json": {
+      "bytes": 7483,
+      "sha256": "11fe49ebda4a9b3ef1a300bf4ef156f383343fd5b67ee7704364c4ac3ab0e269"
+    },
+    "rejected/baseline-probe/engine.log": {
+      "bytes": 1207,
+      "sha256": "c36dc2b7204d15a1568c6b81b364ee8597303ee4ddbec23f49404a4d9a642bbd"
+    },
+    "rejected/baseline-probe/receipt.json": {
+      "bytes": 7483,
+      "sha256": "c82299d351125d3a11e5a45e6bb2863e33d063f845dba6533e49ae4c05e5542b"
+    },
+    "rejected/candidate-import/engine.log": {
+      "bytes": 4467,
+      "sha256": "a559a4777e78db087abe94b0836a3ddf18d7898756d71ac59540b47f4cd37fc7"
+    },
+    "rejected/candidate-import/receipt.json": {
+      "bytes": 7387,
+      "sha256": "675257a6327de3feba26c9faaa5ef95bb6db630ec2d5cbd26f44e5755448a91e"
+    },
+    "actual-focused-02/native/report.json": {
+      "bytes": 11940,
+      "sha256": "627e880d5be0c5b7d35dddf7921b3ca9353ec306c8a43586663e59f57b02a9f5"
+    },
+    "actual-focused-02/native-xdg/data/godot/app_userdata/Tam Hawks Pro Skater/logs/godot.log": {
+      "bytes": 116,
+      "sha256": "66bbf1287f49e4dc44eb9e4f1ed0beb511a15e0aab4f22e6d8ccd7da06f5258e"
+    },
+    "actual-install-01/preimage/tools/build_environment_derivatives.py": {
+      "bytes": 6596,
+      "sha256": "8047cba5645b8eab5421505ac116dfe536d93e1c6afca20c26fd18320fcd23e2"
+    },
+    "actual-install-01/preimage/tools/fetch_environment_materials.py": {
+      "bytes": 9484,
+      "sha256": "c961b8f8b3814b8747f4b49b2fc77d572b6297e175a1e62317285661709cc625"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/manifest.json": {
+      "bytes": 9899,
+      "sha256": "17ade7bc3747740593853303da2d90a7e9bff549619aca04d46482a79b6fa99f"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import": {
+      "bytes": 1224,
+      "sha256": "b353cd11ca4c41e081036993589f0d7dba88c154f74798bdb23de5367b430d18"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import": {
+      "bytes": 1279,
+      "sha256": "28f100bb9ba9ed28e0c1ffe20ae1b14389419c8df41159618ca5f48ace911008"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import": {
+      "bytes": 1244,
+      "sha256": "fc273a3d629d2c46015a1cf01a8b5d5d44098eaf260148244b0436e29c498655"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import": {
+      "bytes": 1309,
+      "sha256": "abfc6e142e9988960ea514bb5d2df6faa8c486c3900a5120214dc003ed3de376"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import": {
+      "bytes": 1304,
+      "sha256": "9f9c2626a0ea47f152e620046673f7855dce02fcfffb48e6f6ce7e4fd26f9f8a"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import": {
+      "bytes": 1318,
+      "sha256": "84f4968b97ed5af92e9f4dde3882a9d2f0427a4c0b41c3ec7030b22d90dfff54"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import": {
+      "bytes": 1272,
+      "sha256": "869db3c7c41859cd4161fd914a6b31e16827ed4c0139d89c22fae396493b7ad5"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import": {
+      "bytes": 1238,
+      "sha256": "d64e0bd8751fcf3af9344dea7cf5788b0bbaa339db91afe4a4a89315903a8321"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import": {
+      "bytes": 1218,
+      "sha256": "faa9d3787e47e6f8f0d37ee3ab8841f8a2c1eee2eb2a2abaa8fa69a9f923e3b1"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import": {
+      "bytes": 1277,
+      "sha256": "90dedf535e0a5ba9d85c35e0f4dd9a5525cbf01b6457e8b2f27a0072af7a0774"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/derived/manifest.json": {
+      "bytes": 2252,
+      "sha256": "aff368e987d08fcec6c05e7d686aeb9de78ea3106b9cac2c6a6cc1c7800ba1fd"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/derived/pavement_albedo.png.import": {
+      "bytes": 1237,
+      "sha256": "d4a50f8980d5030203cdbe924d6d01cbb189c1be822f93e7d0eee90322c23623"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import": {
+      "bytes": 1257,
+      "sha256": "5819885d5ff5571f71500cae33dff8f96efa04dbc8b23fb4481e530f23cdc479"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/derived/grass_albedo.png.import": {
+      "bytes": 1221,
+      "sha256": "d24bdbac95aa1ed09acdcc51016d1c4b45234a1cd9f7b25f55b3e662a0f38840"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import": {
+      "bytes": 1249,
+      "sha256": "76ec5bce0261678f2beb707bd63f4d4adca7ad40a2ce3bc708351f005438bd9c"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import": {
+      "bytes": 1265,
+      "sha256": "62b4c9443288ec18a6dcb1c9309e5cc17f8daf7912f123118d1342fc15c19e55"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import": {
+      "bytes": 1255,
+      "sha256": "000eb3971009ce45f4f50b6a9fb460da394592b73de3ba5288098a4e3cc08ed2"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import": {
+      "bytes": 1256,
+      "sha256": "f40e889892a940ee45c8f6abf5170ab6f2674294e370b6925a4182b61d3201a4"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import": {
+      "bytes": 1261,
+      "sha256": "31c53a7ecc455cd6a3b8da543bd91f34ece7098c1f33ab2c581be9387039442c"
+    },
+    "actual-install-01/preimage/game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import": {
+      "bytes": 1271,
+      "sha256": "407fc4b014c4337e3e79608f7ebb9bb90980b1ed3308743721cfa54aaedfcb1d"
+    },
+    "cold/cold-exact-probe/engine.log": {
+      "bytes": 116,
+      "sha256": "66bbf1287f49e4dc44eb9e4f1ed0beb511a15e0aab4f22e6d8ccd7da06f5258e"
+    },
+    "cold/cold-exact-probe/observer.py.txt": {
+      "bytes": 2960,
+      "sha256": "58c737003ee6ff615b642c3d0bf60b3bc1d47d79765ed93dfdc969b5b86d8654"
+    },
+    "cold/cold-exact-probe/receipt.json": {
+      "bytes": 14378,
+      "sha256": "3d09db768b2e6e6f847ac2588a37a3db4cfba89133a94f931b228fa943f79e41"
+    },
+    "cold/cold-exact-probe/probe.gd.txt": {
+      "bytes": 2044,
+      "sha256": "24f7816542a6b48efc153a929095950c7f8cd06566385e2142b7c8b6d348f79b"
+    },
+    "cold/cold-exact-import/engine.log": {
+      "bytes": 6107,
+      "sha256": "9f17194c72612869cc8afd616751d73e5ffa82068882c528b67383c7afd1dbe7"
+    },
+    "cold/cold-exact-import/observer.py.txt": {
+      "bytes": 2960,
+      "sha256": "58c737003ee6ff615b642c3d0bf60b3bc1d47d79765ed93dfdc969b5b86d8654"
+    },
+    "cold/cold-exact-import/receipt.json": {
+      "bytes": 13942,
+      "sha256": "a782e5cd09ffa1446896846900c2e99deb82bc40954e8d923d814c1a0261c65b"
+    },
+    "cold/cold-exact-import/probe.gd.txt": {
+      "bytes": 2044,
+      "sha256": "24f7816542a6b48efc153a929095950c7f8cd06566385e2142b7c8b6d348f79b"
+    }
+  }
+}

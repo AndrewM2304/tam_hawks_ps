@@ -1,0 +1,19 @@
+from pathlib import Path
+import hashlib,json,os,datetime,shutil
+R=Path('/workspace/tam_hawks_ps');O=R/'.local/mac-texture-compat-2026-11-07';D=O/'actual-install-01';D.mkdir(exist_ok=False)
+manifest=json.loads((O/'proposal-manifest.json').read_text());baseline=json.loads((R/'.local/fidelity-checkpoints/required-03/source-after.json').read_text());assert len(baseline)==890
+h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def inventory():
+ return {name:{'sha256':h(R/name),'bytes':(R/name).stat().st_size} for name in baseline}
+before=inventory();unexpected=[n for n in baseline if before[n]!=baseline[n]];assert not unexpected,unexpected
+assert set(manifest['files']).issubset(before)
+for rel,entry in manifest['files'].items():
+ target=R/rel;src=O/'proposal'/rel
+ assert not target.is_symlink() and h(target)==entry['baseline_sha256'] and h(src)==entry['candidate_sha256'],rel
+ backup=D/'preimage'/rel;backup.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(target,backup)
+(D/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(D/'installer.py.txt').write_bytes(Path(__file__).read_bytes());(D/'proposal-manifest.json').write_bytes((O/'proposal-manifest.json').read_bytes());started=datetime.datetime.now(datetime.timezone.utc).isoformat()
+for rel,entry in manifest['files'].items():
+ target=R/rel;src=O/'proposal'/rel;assert h(target)==entry['baseline_sha256'];temporary=target.with_name(target.name+'.ea-mac-tmp');assert not temporary.exists();temporary.write_bytes(src.read_bytes());os.chmod(temporary,target.stat().st_mode&0o777);assert h(temporary)==entry['candidate_sha256'];os.replace(temporary,target)
+after=inventory();changed=[n for n in before if before[n]!=after[n]];assert set(changed)==set(manifest['files']),changed
+for rel,entry in manifest['files'].items():assert after[rel]['sha256']==entry['candidate_sha256']
+(D/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');receipt={'started_utc':started,'finished_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'INSTALLED_EXACT23','full_required03_scope':890,'baseline_current_differences':unexpected,'changed_exactly':changed,'unchanged_scope_count':890-len(changed),'proposal_manifest_sha256':h(O/'proposal-manifest.json'),'source_before_sha256':h(D/'source-before.json'),'source_after_sha256':h(D/'source-after.json'),'actual_cache_mutated':False,'raw_source_images_and_derivative_pngs_changed':False,'normal_flags_colour_semantics_dimensions_mips_renderer_material_code_collision_unchanged':True,'validation_scope':'Private exactcold19formats,CPUdecodedquality,GL18macros139/0,nativeisolatedallocation18.58359MiB,QEsource419/0. Actualordinaryreimport/nativeformat/coldlaunch andtargetMacstillpending. Existingrequired03greenappliespre-format-source,not thispostinstallpoint.'};(D/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2))

@@ -1,0 +1,2724 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"checks": 139,
+	"complete": true,
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"images": [
+		{
+			"camera_basis": [
+				[
+					0.847998321056366,
+					0.0,
+					-0.529998898506165
+				],
+				[
+					-0.195774391293526,
+					0.929275870323181,
+					-0.313239067792892
+				],
+				[
+					0.492515206336975,
+					0.369386464357376,
+					0.788024425506592
+				]
+			],
+			"camera_position": [
+				1.0,
+				0.75,
+				1.60000002384186
+			],
+			"far": 30.0,
+			"file": "baseline-a-paving-close.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "paving",
+			"mode": "baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 1,
+			"physics_before": 1,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							352.493621826172,
+							184.346649169922
+						],
+						"color": "red",
+						"error_pixels": 0.0364614576101303,
+						"pixel_count": 313,
+						"projected_xy": [
+							352.507263183594,
+							184.380462646484
+						],
+						"world_position": [
+							-3.05430269241333,
+							0.0181988477706909,
+							-1.86801064014435
+						]
+					},
+					{
+						"centroid_xy": [
+							909.555541992188,
+							256.320251464844
+						],
+						"color": "green",
+						"error_pixels": 0.0734780728816986,
+						"pixel_count": 306,
+						"projected_xy": [
+							909.5244140625,
+							256.253692626953
+						],
+						"world_position": [
+							-0.347198009490967,
+							-0.353511571884155,
+							-3.38571166992188
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 6455606,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 614421,
+				"rgba8_sha256": "06e8a68f9aa270010dd6ccbe0240c6b401c3cb8401f3e9fb28dac043bcf4fa2b"
+			},
+			"process_after": 0,
+			"process_before": 0,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "paving-close",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.930155217647552,
+					0.0,
+					-0.367166519165039
+				],
+				[
+					-0.0268898438662291,
+					0.997314631938934,
+					-0.0681209415197372
+				],
+				[
+					0.366180539131165,
+					0.0732361003756523,
+					0.927657425403595
+				]
+			],
+			"camera_position": [
+				1.5,
+				1.79999995231628,
+				1.39999997615814
+			],
+			"far": 30.0,
+			"file": "baseline-a-sandstone-wall.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "stone",
+			"mode": "baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 2,
+			"physics_before": 2,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.274509817361832,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.274509817361832,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							379.428802490234,
+							184.367309570312
+						],
+						"color": "red",
+						"error_pixels": 0.0336522683501244,
+						"pixel_count": 309,
+						"projected_xy": [
+							379.459777832031,
+							184.380462646484
+						],
+						"world_position": [
+							-1.71189546585083,
+							2.63059711456299,
+							-2.78764057159424
+						]
+					},
+					{
+						"centroid_xy": [
+							887.988647460938,
+							256.305816650391
+						],
+						"color": "green",
+						"error_pixels": 0.0583856701850891,
+						"pixel_count": 309,
+						"projected_xy": [
+							887.962463378906,
+							256.253631591797
+						],
+						"world_position": [
+							0.931199550628662,
+							2.23167109489441,
+							-3.79947328567505
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 3063579,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 421233,
+				"rgba8_sha256": "6b0a89d030db9c6c5df46249d33b6b78ab907d4d49352f90b3e52e579ef776df"
+			},
+			"process_after": 1,
+			"process_before": 1,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "sandstone-wall",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.811534345149994,
+					0.0,
+					-0.584304749965668
+				],
+				[
+					-0.196489915251732,
+					0.941762149333954,
+					-0.27290266752243
+				],
+				[
+					0.550276041030884,
+					0.336279839277267,
+					0.764272272586823
+				]
+			],
+			"camera_position": [
+				1.79999995231628,
+				1.10000002384186,
+				1.89999997615814
+			],
+			"far": 30.0,
+			"file": "baseline-a-asphalt-oblique.png",
+			"fov": 55.0,
+			"keep_aspect": 1,
+			"key": "asphalt",
+			"mode": "baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 3,
+			"physics_before": 3,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.39215686917305,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.39215686917305,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							440.218048095703,
+							215.57048034668
+						],
+						"color": "red",
+						"error_pixels": 0.0151988565921783,
+						"pixel_count": 227,
+						"projected_xy": [
+							440.217864990234,
+							215.585678100586
+						],
+						"world_position": [
+							-2.24216294288635,
+							0.548715472221375,
+							-1.48924839496613
+						]
+					},
+					{
+						"centroid_xy": [
+							833.558532714844,
+							277.04052734375
+						],
+						"color": "green",
+						"error_pixels": 0.0783114209771156,
+						"pixel_count": 222,
+						"projected_xy": [
+							833.635070800781,
+							277.057098388672
+						],
+						"world_position": [
+							-0.0860388278961182,
+							0.172010540962219,
+							-2.87590742111206
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 4562469,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 386992,
+				"rgba8_sha256": "d804026e027142727c2c99acba1565402e6500b77df586720670da9d12bd183f"
+			},
+			"process_after": 2,
+			"process_before": 2,
+			"projection_columns": [
+				[
+					1.20061385631561,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.92098212242126,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "asphalt-oblique",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.930155217647552,
+					0.0,
+					-0.367166519165039
+				],
+				[
+					-0.0268898438662291,
+					0.997314631938934,
+					-0.0681209415197372
+				],
+				[
+					0.366180539131165,
+					0.0732361003756523,
+					0.927657425403595
+				]
+			],
+			"camera_position": [
+				1.5,
+				1.79999995231628,
+				1.39999997615814
+			],
+			"far": 30.0,
+			"file": "baseline-a-wood-wall.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "wood",
+			"mode": "baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 4,
+			"physics_before": 4,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.509803950786591,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.509803950786591,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							433.451599121094,
+							184.193542480469
+						],
+						"color": "red",
+						"error_pixels": 0.20615166425705,
+						"pixel_count": 310,
+						"projected_xy": [
+							433.364654541016,
+							184.380462646484
+						],
+						"world_position": [
+							-1.43284893035889,
+							2.63059711456299,
+							-2.89779043197632
+						]
+					},
+					{
+						"centroid_xy": [
+							844.880310058594,
+							256.286895751953
+						],
+						"color": "green",
+						"error_pixels": 0.0533607937395573,
+						"pixel_count": 305,
+						"projected_xy": [
+							844.838562011719,
+							256.253662109375
+						],
+						"world_position": [
+							0.707962274551392,
+							2.23167109489441,
+							-3.71135377883911
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 4425554,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 378813,
+				"rgba8_sha256": "e87f364d583f75fd3301a9b8a81194695255dde7768b76f04023ffc100c88d74"
+			},
+			"process_after": 3,
+			"process_before": 3,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "wood-wall",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.847998321056366,
+					0.0,
+					-0.529998898506165
+				],
+				[
+					-0.195774391293526,
+					0.929275870323181,
+					-0.313239067792892
+				],
+				[
+					0.492515206336975,
+					0.369386464357376,
+					0.788024425506592
+				]
+			],
+			"camera_position": [
+				1.0,
+				0.75,
+				1.60000002384186
+			],
+			"far": 30.0,
+			"file": "baseline-a-grass-close.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "grass",
+			"mode": "baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 5,
+			"physics_before": 5,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.627451002597809,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.627451002597809,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							460.323333740234,
+							184.346664428711
+						],
+						"color": "red",
+						"error_pixels": 0.0344229228794575,
+						"pixel_count": 300,
+						"projected_xy": [
+							460.317047119141,
+							184.380508422852
+						],
+						"world_position": [
+							-2.54550361633301,
+							0.0181988477706909,
+							-2.18600988388062
+						]
+					},
+					{
+						"centroid_xy": [
+							823.337768554688,
+							256.334442138672
+						],
+						"color": "green",
+						"error_pixels": 0.101295061409473,
+						"pixel_count": 302,
+						"projected_xy": [
+							823.276611328125,
+							256.253692626953
+						],
+						"world_position": [
+							-0.754237174987793,
+							-0.353511571884155,
+							-3.13131237030029
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 3329736,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 472707,
+				"rgba8_sha256": "afb904d47e1843e53251d4b698ece7abfc77f96ed40bb3f6f507f488e8f237e6"
+			},
+			"process_after": 4,
+			"process_before": 4,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "grass-close",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.581238210201263,
+					0.0,
+					-0.813733458518982
+				],
+				[
+					-0.117014333605766,
+					0.989606857299805,
+					-0.0835816711187363
+				],
+				[
+					0.805276215076447,
+					0.143799334764481,
+					0.575197339057922
+				]
+			],
+			"camera_position": [
+				2.79999995231628,
+				0.5,
+				1.0
+			],
+			"far": 30.0,
+			"file": "baseline-a-paving-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"key": "paving",
+			"mode": "baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 6,
+			"physics_before": 6,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.745098054409027,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.745098054409027,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							539.244506835938,
+							257.624084472656
+						],
+						"color": "red",
+						"error_pixels": 0.0771055743098259,
+						"pixel_count": 137,
+						"projected_xy": [
+							539.185852050781,
+							257.674133300781
+						],
+						"world_position": [
+							-1.86085057258606,
+							0.968531608581543,
+							-1.28461122512817
+						]
+					},
+					{
+						"centroid_xy": [
+							746.801574707031,
+							305.134918212891
+						],
+						"color": "green",
+						"error_pixels": 0.0602099150419235,
+						"pixel_count": 126,
+						"projected_xy": [
+							746.744384765625,
+							305.116088867188
+						],
+						"world_position": [
+							-0.796878099441528,
+							0.57268887758255,
+							-2.67521190643311
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 5483627,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 529733,
+				"rgba8_sha256": "3d770886640a35ff25d24e05d6c0eb2b5aa21714150ee84ff57438dc59bab834"
+			},
+			"process_after": 5,
+			"process_before": 5,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "paving-grazing",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.847998321056366,
+					0.0,
+					-0.529998898506165
+				],
+				[
+					-0.195774391293526,
+					0.929275870323181,
+					-0.313239067792892
+				],
+				[
+					0.492515206336975,
+					0.369386464357376,
+					0.788024425506592
+				]
+			],
+			"camera_position": [
+				1.0,
+				0.75,
+				1.60000002384186
+			],
+			"far": 30.0,
+			"file": "compatible-paving-close.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "paving",
+			"mode": "compatible",
+			"near": 0.0500000007450581,
+			"physics_after": 7,
+			"physics_before": 7,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							370.454681396484,
+							184.341430664062
+						],
+						"color": "red",
+						"error_pixels": 0.0443063303828239,
+						"pixel_count": 309,
+						"projected_xy": [
+							370.475646972656,
+							184.380462646484
+						],
+						"world_position": [
+							-2.96950268745422,
+							0.0181988477706909,
+							-1.92101061344147
+						]
+					},
+					{
+						"centroid_xy": [
+							909.545471191406,
+							234.626617431641
+						],
+						"color": "green",
+						"error_pixels": 0.0684441700577736,
+						"pixel_count": 308,
+						"projected_xy": [
+							909.5244140625,
+							234.691741943359
+						],
+						"world_position": [
+							-0.370690941810608,
+							-0.241998493671417,
+							-3.42330026626587
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 692158,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 582572,
+				"rgba8_sha256": "83e960ad19e0cd90cdce7d027533b26d11715ef5ec56538815f64526d264914a"
+			},
+			"process_after": 6,
+			"process_before": 6,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "paving-close",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.930155217647552,
+					0.0,
+					-0.367166519165039
+				],
+				[
+					-0.0268898438662291,
+					0.997314631938934,
+					-0.0681209415197372
+				],
+				[
+					0.366180539131165,
+					0.0732361003756523,
+					0.927657425403595
+				]
+			],
+			"camera_position": [
+				1.5,
+				1.79999995231628,
+				1.39999997615814
+			],
+			"far": 30.0,
+			"file": "compatible-sandstone-wall.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "stone",
+			"mode": "compatible",
+			"near": 0.0500000007450581,
+			"physics_after": 8,
+			"physics_before": 8,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.274509817361832,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.274509817361832,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							397.409088134766,
+							184.340911865234
+						],
+						"color": "red",
+						"error_pixels": 0.0438700132071972,
+						"pixel_count": 308,
+						"projected_xy": [
+							397.428070068359,
+							184.380462646484
+						],
+						"world_position": [
+							-1.61888003349304,
+							2.63059711456299,
+							-2.82435750961304
+						]
+					},
+					{
+						"centroid_xy": [
+							888.032470703125,
+							234.659088134766
+						],
+						"color": "green",
+						"error_pixels": 0.0772289410233498,
+						"pixel_count": 308,
+						"projected_xy": [
+							887.962463378906,
+							234.691696166992
+						],
+						"world_position": [
+							0.927972793579102,
+							2.35134887695312,
+							-3.80764818191528
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 194742,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 385177,
+				"rgba8_sha256": "1c5a3d4ab04e6ef30e27ef7a2c3c75d5fe20464597c18ca2ee7b7ce68a8d6f26"
+			},
+			"process_after": 7,
+			"process_before": 7,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "sandstone-wall",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.811534345149994,
+					0.0,
+					-0.584304749965668
+				],
+				[
+					-0.196489915251732,
+					0.941762149333954,
+					-0.27290266752243
+				],
+				[
+					0.550276041030884,
+					0.336279839277267,
+					0.764272272586823
+				]
+			],
+			"camera_position": [
+				1.79999995231628,
+				1.10000002384186,
+				1.89999997615814
+			],
+			"far": 30.0,
+			"file": "compatible-asphalt-oblique.png",
+			"fov": 55.0,
+			"keep_aspect": 1,
+			"key": "asphalt",
+			"mode": "compatible",
+			"near": 0.0500000007450581,
+			"physics_after": 9,
+			"physics_before": 9,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.39215686917305,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.39215686917305,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							455.508728027344,
+							215.565505981445
+						],
+						"color": "red",
+						"error_pixels": 0.0795649215579033,
+						"pixel_count": 229,
+						"projected_xy": [
+							455.585693359375,
+							215.585678100586
+						],
+						"world_position": [
+							-2.1610095500946,
+							0.548715472221375,
+							-1.54767882823944
+						]
+					},
+					{
+						"centroid_xy": [
+							833.618408203125,
+							258.666656494141
+						],
+						"color": "green",
+						"error_pixels": 0.0536001622676849,
+						"pixel_count": 228,
+						"projected_xy": [
+							833.635009765625,
+							258.615692138672
+						],
+						"world_position": [
+							-0.109617710113525,
+							0.285022020339966,
+							-2.90865564346313
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 231558,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 377015,
+				"rgba8_sha256": "be898b31f0cd3bb5ccd573662f1b40d0df626b7dda79c50cc00f77eb2b247ee7"
+			},
+			"process_after": 8,
+			"process_before": 8,
+			"projection_columns": [
+				[
+					1.20061385631561,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.92098212242126,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "asphalt-oblique",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.930155217647552,
+					0.0,
+					-0.367166519165039
+				],
+				[
+					-0.0268898438662291,
+					0.997314631938934,
+					-0.0681209415197372
+				],
+				[
+					0.366180539131165,
+					0.0732361003756523,
+					0.927657425403595
+				]
+			],
+			"camera_position": [
+				1.5,
+				1.79999995231628,
+				1.39999997615814
+			],
+			"far": 30.0,
+			"file": "compatible-wood-wall.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "wood",
+			"mode": "compatible",
+			"near": 0.0500000007450581,
+			"physics_after": 10,
+			"physics_before": 10,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.509803950786591,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.509803950786591,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							451.217864990234,
+							183.95768737793
+						],
+						"color": "red",
+						"error_pixels": 0.438158363103867,
+						"pixel_count": 319,
+						"projected_xy": [
+							451.332946777344,
+							184.380462646484
+						],
+						"world_position": [
+							-1.3398334980011,
+							2.63059711456299,
+							-2.93450736999512
+						]
+					},
+					{
+						"centroid_xy": [
+							844.921569824219,
+							234.633987426758
+						],
+						"color": "green",
+						"error_pixels": 0.101096957921982,
+						"pixel_count": 306,
+						"projected_xy": [
+							844.838562011719,
+							234.691696166992
+						],
+						"world_position": [
+							0.704735517501831,
+							2.35134887695312,
+							-3.71952819824219
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 461182,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 359933,
+				"rgba8_sha256": "7799aad2d84a3fff5eeb86b72533c51a7ff35d8ce8db002dec8bf8cb474a9c62"
+			},
+			"process_after": 9,
+			"process_before": 9,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "wood-wall",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.847998321056366,
+					0.0,
+					-0.529998898506165
+				],
+				[
+					-0.195774391293526,
+					0.929275870323181,
+					-0.313239067792892
+				],
+				[
+					0.492515206336975,
+					0.369386464357376,
+					0.788024425506592
+				]
+			],
+			"camera_position": [
+				1.0,
+				0.75,
+				1.60000002384186
+			],
+			"far": 30.0,
+			"file": "compatible-grass-close.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "grass",
+			"mode": "compatible",
+			"near": 0.0500000007450581,
+			"physics_after": 11,
+			"physics_before": 11,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.627451002597809,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.627451002597809,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							478.310638427734,
+							184.377075195312
+						],
+						"color": "red",
+						"error_pixels": 0.0255309641361237,
+						"pixel_count": 301,
+						"projected_xy": [
+							478.285339355469,
+							184.380508422852
+						],
+						"world_position": [
+							-2.4607036113739,
+							0.0181988477706909,
+							-2.23900985717773
+						]
+					},
+					{
+						"centroid_xy": [
+							823.320617675781,
+							234.636215209961
+						],
+						"color": "green",
+						"error_pixels": 0.0708623453974724,
+						"pixel_count": 301,
+						"projected_xy": [
+							823.276611328125,
+							234.691757202148
+						],
+						"world_position": [
+							-0.777729988098145,
+							-0.241998493671417,
+							-3.16890096664429
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 193485,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 392576,
+				"rgba8_sha256": "20b0243956298a65b8f5d2c15574dcfd16f8f758f7beafde5b94812e27280d04"
+			},
+			"process_after": 10,
+			"process_before": 10,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "grass-close",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.581238210201263,
+					0.0,
+					-0.813733458518982
+				],
+				[
+					-0.117014333605766,
+					0.989606857299805,
+					-0.0835816711187363
+				],
+				[
+					0.805276215076447,
+					0.143799334764481,
+					0.575197339057922
+				]
+			],
+			"camera_position": [
+				2.79999995231628,
+				0.5,
+				1.0
+			],
+			"far": 30.0,
+			"file": "compatible-paving-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"key": "paving",
+			"mode": "compatible",
+			"near": 0.0500000007450581,
+			"physics_after": 12,
+			"physics_before": 12,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.745098054409027,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.745098054409027,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							551.01513671875,
+							257.583343505859
+						],
+						"color": "red",
+						"error_pixels": 0.0959975942969322,
+						"pixel_count": 132,
+						"projected_xy": [
+							551.046325683594,
+							257.674133300781
+						],
+						"world_position": [
+							-1.80272698402405,
+							0.968531608581543,
+							-1.36598443984985
+						]
+					},
+					{
+						"centroid_xy": [
+							746.78125,
+							290.84375
+						],
+						"color": "green",
+						"error_pixels": 0.0542241036891937,
+						"pixel_count": 128,
+						"projected_xy": [
+							746.744384765625,
+							290.883514404297
+						],
+						"world_position": [
+							-0.810920000076294,
+							0.691441655158997,
+							-2.68524169921875
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 225385,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 432152,
+				"rgba8_sha256": "f232c41fd8eb8f8a029b948373c74b6cd9ac368d48ab5fd0352e1823b3fe20ca"
+			},
+			"process_after": 11,
+			"process_before": 11,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "paving-grazing",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.847998321056366,
+					0.0,
+					-0.529998898506165
+				],
+				[
+					-0.195774391293526,
+					0.929275870323181,
+					-0.313239067792892
+				],
+				[
+					0.492515206336975,
+					0.369386464357376,
+					0.788024425506592
+				]
+			],
+			"camera_position": [
+				1.0,
+				0.75,
+				1.60000002384186
+			],
+			"far": 30.0,
+			"file": "baseline-b-paving-close.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "paving",
+			"mode": "baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 13,
+			"physics_before": 13,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							388.486999511719,
+							184.344161987305
+						],
+						"color": "red",
+						"error_pixels": 0.0563763752579689,
+						"pixel_count": 308,
+						"projected_xy": [
+							388.443878173828,
+							184.380477905273
+						],
+						"world_position": [
+							-2.8847029209137,
+							0.0181988477706909,
+							-1.97401058673859
+						]
+					},
+					{
+						"centroid_xy": [
+							909.558227539062,
+							213.169906616211
+						],
+						"color": "green",
+						"error_pixels": 0.0524768270552158,
+						"pixel_count": 309,
+						"projected_xy": [
+							909.5244140625,
+							213.129776000977
+						],
+						"world_position": [
+							-0.394183874130249,
+							-0.130485415458679,
+							-3.46088933944702
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 4608146,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 571166,
+				"rgba8_sha256": "498bf802b83ccc665784a322c6f76099306f1848b43bd3b32aa16a2817a1a260"
+			},
+			"process_after": 12,
+			"process_before": 12,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "paving-close",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.930155217647552,
+					0.0,
+					-0.367166519165039
+				],
+				[
+					-0.0268898438662291,
+					0.997314631938934,
+					-0.0681209415197372
+				],
+				[
+					0.366180539131165,
+					0.0732361003756523,
+					0.927657425403595
+				]
+			],
+			"camera_position": [
+				1.5,
+				1.79999995231628,
+				1.39999997615814
+			],
+			"far": 30.0,
+			"file": "baseline-b-sandstone-wall.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "stone",
+			"mode": "baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 14,
+			"physics_before": 14,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.274509817361832,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.274509817361832,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							415.409088134766,
+							184.340911865234
+						],
+						"color": "red",
+						"error_pixels": 0.041528008878231,
+						"pixel_count": 308,
+						"projected_xy": [
+							415.396331787109,
+							184.380432128906
+						],
+						"world_position": [
+							-1.52586460113525,
+							2.63059711456299,
+							-2.86107397079468
+						]
+					},
+					{
+						"centroid_xy": [
+							888.036499023438,
+							213.109527587891
+						],
+						"color": "green",
+						"error_pixels": 0.0767546370625496,
+						"pixel_count": 315,
+						"projected_xy": [
+							887.962463378906,
+							213.129776000977
+						],
+						"world_position": [
+							0.924746036529541,
+							2.47102642059326,
+							-3.81582260131836
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 3156943,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 408134,
+				"rgba8_sha256": "8caacb98741e5f39fdf89a61bd8bb6646d621b8c8eb40774d10c5a2dcd18f736"
+			},
+			"process_after": 13,
+			"process_before": 13,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "sandstone-wall",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.811534345149994,
+					0.0,
+					-0.584304749965668
+				],
+				[
+					-0.196489915251732,
+					0.941762149333954,
+					-0.27290266752243
+				],
+				[
+					0.550276041030884,
+					0.336279839277267,
+					0.764272272586823
+				]
+			],
+			"camera_position": [
+				1.79999995231628,
+				1.10000002384186,
+				1.89999997615814
+			],
+			"far": 30.0,
+			"file": "baseline-b-asphalt-oblique.png",
+			"fov": 55.0,
+			"keep_aspect": 1,
+			"key": "asphalt",
+			"mode": "baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 15,
+			"physics_before": 15,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.39215686917305,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.39215686917305,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							470.954956054688,
+							215.626129150391
+						],
+						"color": "red",
+						"error_pixels": 0.0404754020273685,
+						"pixel_count": 222,
+						"projected_xy": [
+							470.953552246094,
+							215.585678100586
+						],
+						"world_position": [
+							-2.07985591888428,
+							0.548715472221375,
+							-1.60610926151276
+						]
+					},
+					{
+						"centroid_xy": [
+							833.611633300781,
+							240.160720825195
+						],
+						"color": "green",
+						"error_pixels": 0.0270119048655033,
+						"pixel_count": 224,
+						"projected_xy": [
+							833.635009765625,
+							240.174255371094
+						],
+						"world_position": [
+							-0.133196473121643,
+							0.398033380508423,
+							-2.94140386581421
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 4995744,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 404953,
+				"rgba8_sha256": "30b0e854506b0e62cd48ec26252ac79b27d914980d62b142f0fe3292856f60c2"
+			},
+			"process_after": 14,
+			"process_before": 14,
+			"projection_columns": [
+				[
+					1.20061385631561,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.92098212242126,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "asphalt-oblique",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.930155217647552,
+					0.0,
+					-0.367166519165039
+				],
+				[
+					-0.0268898438662291,
+					0.997314631938934,
+					-0.0681209415197372
+				],
+				[
+					0.366180539131165,
+					0.0732361003756523,
+					0.927657425403595
+				]
+			],
+			"camera_position": [
+				1.5,
+				1.79999995231628,
+				1.39999997615814
+			],
+			"far": 30.0,
+			"file": "baseline-b-wood-wall.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "wood",
+			"mode": "baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 16,
+			"physics_before": 16,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.509803950786591,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.509803950786591,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							469.509399414062,
+							183.973358154297
+						],
+						"color": "red",
+						"error_pixels": 0.457236677408218,
+						"pixel_count": 319,
+						"projected_xy": [
+							469.301177978516,
+							184.380432128906
+						],
+						"world_position": [
+							-1.24681806564331,
+							2.63059711456299,
+							-2.97122383117676
+						]
+					},
+					{
+						"centroid_xy": [
+							844.900024414062,
+							213.141937255859
+						],
+						"color": "green",
+						"error_pixels": 0.0627138689160347,
+						"pixel_count": 310,
+						"projected_xy": [
+							844.838500976562,
+							213.129776000977
+						],
+						"world_position": [
+							0.701508760452271,
+							2.47102642059326,
+							-3.72770261764526
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 3670813,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 373792,
+				"rgba8_sha256": "478e3ca5651f275100cbe9fdf372f1867ba148141392b0a2ab75396c97895aef"
+			},
+			"process_after": 15,
+			"process_before": 15,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "wood-wall",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.847998321056366,
+					0.0,
+					-0.529998898506165
+				],
+				[
+					-0.195774391293526,
+					0.929275870323181,
+					-0.313239067792892
+				],
+				[
+					0.492515206336975,
+					0.369386464357376,
+					0.788024425506592
+				]
+			],
+			"camera_position": [
+				1.0,
+				0.75,
+				1.60000002384186
+			],
+			"far": 30.0,
+			"file": "baseline-b-grass-close.png",
+			"fov": 48.0,
+			"keep_aspect": 1,
+			"key": "grass",
+			"mode": "baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 17,
+			"physics_before": 17,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.627451002597809,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.627451002597809,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							496.310638427734,
+							184.377075195312
+						],
+						"color": "red",
+						"error_pixels": 0.0570796616375446,
+						"pixel_count": 301,
+						"projected_xy": [
+							496.253662109375,
+							184.380508422852
+						],
+						"world_position": [
+							-2.37590384483337,
+							0.0181988477706909,
+							-2.29200983047485
+						]
+					},
+					{
+						"centroid_xy": [
+							823.359924316406,
+							213.070037841797
+						],
+						"color": "green",
+						"error_pixels": 0.102516837418079,
+						"pixel_count": 307,
+						"projected_xy": [
+							823.276611328125,
+							213.129776000977
+						],
+						"world_position": [
+							-0.801223039627075,
+							-0.130485415458679,
+							-3.20648956298828
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 2322325,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 388229,
+				"rgba8_sha256": "0987b42c1f2534a5184beb419ad28694342005d596da6dfac3ea1a1242bfeab3"
+			},
+			"process_after": 16,
+			"process_before": 16,
+			"projection_columns": [
+				[
+					1.40377295017242,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					2.24603676795959,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "grass-close",
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"camera_basis": [
+				[
+					0.581238210201263,
+					0.0,
+					-0.813733458518982
+				],
+				[
+					-0.117014333605766,
+					0.989606857299805,
+					-0.0835816711187363
+				],
+				[
+					0.805276215076447,
+					0.143799334764481,
+					0.575197339057922
+				]
+			],
+			"camera_position": [
+				2.79999995231628,
+				0.5,
+				1.0
+			],
+			"far": 30.0,
+			"file": "baseline-b-paving-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"key": "paving",
+			"mode": "baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 18,
+			"physics_before": 18,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.745098054409027,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.745098054409027,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							562.840881347656,
+							257.560607910156
+						],
+						"color": "red",
+						"error_pixels": 0.131305918097496,
+						"pixel_count": 132,
+						"projected_xy": [
+							562.906860351562,
+							257.674133300781
+						],
+						"world_position": [
+							-1.74460291862488,
+							0.968531608581543,
+							-1.44735789299011
+						]
+					},
+					{
+						"centroid_xy": [
+							746.790100097656,
+							276.667938232422
+						],
+						"color": "green",
+						"error_pixels": 0.0487732850015163,
+						"pixel_count": 131,
+						"projected_xy": [
+							746.744384765625,
+							276.650939941406
+						],
+						"world_position": [
+							-0.82496166229248,
+							0.810194492340088,
+							-2.69527149200439
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 4130866,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 504076,
+				"rgba8_sha256": "df8c77e427965c2ce8ceffd74edee438fd7bf47cf819e42d1df02551c9a93ce8"
+			},
+			"process_after": 17,
+			"process_before": 17,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00333881378174,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100166939198971,
+					0.0
+				]
+			],
+			"view": "paving-grazing",
+			"viewport_size": [
+				1280,
+				800
+			]
+		}
+	],
+	"inventories": {
+		"baseline-a": {
+			"bound_count": 15,
+			"maps": [
+				{
+					"format": 22,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 5592432,
+					"resource": "res://.local/reference-bptc/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.bptc.ctex",
+					"width": 2048
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 5592432,
+					"resource": "res://.local/reference-bptc/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.bptc.ctex",
+					"width": 2048
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 5592432,
+					"resource": "res://.local/reference-bptc/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.bptc.ctex",
+					"width": 2048
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.bptc.ctex",
+					"width": 1024
+				}
+			],
+			"scope": "Bothbaselineandcandidatemapsresidentthroughout;thisisvisualonly,notallocationorFPS"
+		},
+		"baseline-b": {
+			"bound_count": 15,
+			"maps": [
+				{
+					"format": 22,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 5592432,
+					"resource": "res://.local/reference-bptc/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.bptc.ctex",
+					"width": 2048
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 5592432,
+					"resource": "res://.local/reference-bptc/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.bptc.ctex",
+					"width": 2048
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 5592432,
+					"resource": "res://.local/reference-bptc/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.bptc.ctex",
+					"width": 2048
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.bptc.ctex",
+					"width": 1024
+				},
+				{
+					"format": 22,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://.local/reference-bptc/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.bptc.ctex",
+					"width": 1024
+				}
+			],
+			"scope": "Bothbaselineandcandidatemapsresidentthroughout;thisisvisualonly,notallocationorFPS"
+		},
+		"compatible": {
+			"bound_count": 15,
+			"maps": [
+				{
+					"format": 17,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 2796216,
+					"resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+					"width": 2048
+				},
+				{
+					"format": 21,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 699064,
+					"resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 2796216,
+					"resource": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+					"width": 2048
+				},
+				{
+					"format": 21,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 699064,
+					"resource": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 2048,
+					"mips": 11,
+					"payload_bytes": 2796216,
+					"resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+					"width": 2048
+				},
+				{
+					"format": 21,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 699064,
+					"resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 699064,
+					"resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+					"width": 1024
+				},
+				{
+					"format": 21,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 699064,
+					"resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 699064,
+					"resource": "res://game/art/assets/environment_pbr/derived/grass_albedo.png",
+					"width": 1024
+				},
+				{
+					"format": 21,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 1398128,
+					"resource": "res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+					"width": 1024
+				},
+				{
+					"format": 17,
+					"height": 1024,
+					"mips": 10,
+					"payload_bytes": 699064,
+					"resource": "res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+					"width": 1024
+				}
+			],
+			"scope": "Bothbaselineandcandidatemapsresidentthroughout;thisisvisualonly,notallocationorFPS"
+		}
+	},
+	"renderer": "gl_compatibility",
+	"scope": "Sixclose/obliquecomponentmaterialviews, exactproductionsharedlibrarysettings/physicalscaleandoriginalcompiledBC7versuscompatiblecompiledS3TC/RGTC.18A/B/Arendered1280x800originalswithperimagenatural-frame/3Dmarkers/Canvas/fullprojection/nativeRGBAproofs. Fixedsimple6mgroundand4x3mwallfixture,notactualMainorMac. Bothsetsresident; allocationmeasuredinseparatefreshprocessusingexistingproductioncontrol.",
+	"timing_measured": false
+}

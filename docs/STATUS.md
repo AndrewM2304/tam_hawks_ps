@@ -43,8 +43,17 @@ protocol cases and independent22/0 use a labelled fake editor. Original pushed
 source took129.183s silently importing on Linux. The owner's subsequent M5 log
 shows asset import completed and the game process started on Compatibility/
 OpenGL4.1; repeated unsupported BPTC_RGBA conversions then occurred while loading
-PBR materials. A guarded S3TC-compatible import repair is being verified privately.
-Actual Mac interaction, smooth startup and performance remain unmeasured.
+PBR materials. A guarded23-file import repair now uses S3TC-compatible desktop
+textures: native readback verifies13DXT1 and6RGTC_RG maps with original source
+pixels, dimensions and mip chains. Both provenance verification commands pass;
+ordinary actual-source and cache-free source-copy launches finish60 iterations
+cleanly on Linux. The added Main-readiness diagnostic exceeded its15s deadline
+and remains rejected. Six matched material views and an isolated native allocation
+comparison retain an18.58359MiB increase over retired materials, with eight draws
+and96 primitives unchanged. Fine colour precision is lower than BC7; inspected
+detail remains coherent. Actual Mac interaction, no-warning play, smooth startup
+and performance remain unmeasured. The6,600-assertion run preceded this import-only
+change; its GDScript/runtime source is unchanged by the format repair.
 
 The [second complete November regression](testing/fidelity-2026-11-06/integrated-required-02-rejected/README.md)
 is rejected: **6,526 passed, seven failed**, with three freed-owner script errors;

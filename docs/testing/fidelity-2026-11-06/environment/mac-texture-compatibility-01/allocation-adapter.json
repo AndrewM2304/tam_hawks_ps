@@ -1,0 +1,10 @@
+{
+  "source": "game/levels/city_art.gd::_surface_texture",
+  "function_sha256": "eaeddd64da1907cb105ed74f471fe7cb9ed5239715682b810c987d53eb304f7b",
+  "source_function_copied_exact": true,
+  "observer": "tools/environment_texture_probe.gd",
+  "only_observer_change": "CityArt preload refers to standalone identical _surface_texture function. Avoid unrelated current CityArt rider-preload dependencies; allnativeallocation8cubegeometry/camera/12naturalwarmframe/PBRbindings/counters/budgetchecks unchanged.",
+  "original_observer_sha256": "e0dabfc2643f35ff330c0da6eea56d5db375c6dee8a70680740dfedfbd7378bf",
+  "adapted_observer_sha256": "1656dde8691fa76c150c701be51593fc3b6c452dd42908f7df37325b51ef1de7",
+  "scope": "Separate fresh-process surface allocation, not macroA/B memory and not Main/M5 performance"
+}

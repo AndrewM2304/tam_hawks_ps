@@ -1,0 +1,144 @@
+{
+  "utc": "2026-11-07T10:58:55.421832+00:00",
+  "checks": [
+    {
+      "check": "fetch_environment_materials.py verify-only under network/write traps",
+      "pass": true
+    },
+    {
+      "check": "build_environment_derivatives.py verify-only under network/write traps",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/derived/grass_albedo.png.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import",
+      "pass": true
+    },
+    {
+      "check": "rejectreintroducedBC7 game/art/assets/environment_pbr/derived/pavement_albedo.png.import",
+      "pass": true
+    }
+  ],
+  "passed": 21,
+  "failed": 0,
+  "source_inventory_before_after_identical": {
+    "probe.gd.uid": "118b248e117dfe7a7b95b100622cf32449f1a12087367ff6a88b7afe33ee8367",
+    "project.godot": "08041bae572988f6180e6377ef0a43df2cb7e983666e07bc9645c25d45fd65d2",
+    "probe.gd": "3a62e4f8ac0e990ae4cbc827be3ec79137ca1a577ec453ada7d38a1887ab16fc",
+    "entries.json": "7e68f1d5c7a84dc382c9046a1d6b6719f42d91d0ffad60e96d0701b6f9ced2b9",
+    "tools/build_environment_derivatives.py": "0424cc504ea12407b82ac11e2ecddd2c65e8f4531aff9bd9e6e97754286d668c",
+    "tools/fetch_environment_materials.py": "639b7349ba618c36a176961f0ed0ccd1cf974cabc09d557d15c96fbc3cee68a7",
+    "game/levels/art/material_library.gd.uid": "00568e9249715bc5945ee1b9b5f3999bbc96c3e8e9c694877aa000960b604c35",
+    "game/levels/art/material_library.gd": "9cf81acd258254d27d8b813c57bd55a58f5df557c0eec02d67ef3c56510c661f",
+    "game/art/shaders/window_interior.gdshader.uid": "33f0d44ea52d5d64450032e6339659624fc67ec44a9fda760771c965a435f9a1",
+    "game/art/shaders/window_interior.gdshader": "45a4109b5473f8bc680892bc81549a976855a29e4fbfce16ae65c47b335b5c4f",
+    "game/art/assets/environment_pbr/manifest.json": "9ed722f95ca63d0e8fb2031e36e75826b8045c28c3a35d2822bd5394cf7f3823",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import": "59ce766f916997f23c10d7044172e29bfec37e6c8fcc8a1a65cad1bc66d0b94c",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg": "c04821991fefccfb1feb5508660e28c0c2b86bc85ee9bdf9202f8bc2ad57d7ca",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg": "a226e00dadc773be187d652c41683dcd61720ca40eeeff5220436ff211940275",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg": "7453f91ad36757c559e438169e77549eab16519978c303469543f896b7887ec7",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import": "26b7421a3883ebe74f78df7bf9fafc0a46218126d4725081d1737b11e9b61d1e",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import": "493ece21a628d38e04107a754470b982a4a0b5b8a0b74dd1abd02855514941b1",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import": "0cf1f81f053e94248469c468ba2bf785bc51752f902f7e7cee345a4855283d70",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import": "60fa0a6ef334f0107109244050d110bcd95851217c7a83d72b058a9288e6356a",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg": "b367bdae7a75df039f3425a6eb9d395cd390a7a67b581bec89a44d2a31a8dbdc",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg": "69530a3f6ca25cea7d4b42066d4d7191cfee4c237b2719d0cffcc8f859218fac",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg": "4571ff357e041bacb75ab06ad1958e74a0b396e0f3d8b9dc9d4717f704996304",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import": "ba3b4eb06e0818d92e4307b48bf522517c3a3365fa35a5e5abc88c50384d7388",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg": "4075c2a997e51b46d9f95e871dd533297ba9c21ac7171caa379f456078efb5b8",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import": "9e0126493177cf139085d5d72f016f24fc606b2819fef396297071ada82ac287",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import": "f18073552b6a18882d54703cefd3062c058b21502de0e66c5281d0849562c72a",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import": "6712a3d8da1e93e7dd398878f96fb6a2cdf5e65f7f0ab928f7241189192d0d3b",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg": "3f66a04aeb698f98467c8c71ce3c0239710944909e712f6e0dc0e4edbae872ea",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg": "c80c2faa87c9466c0b26a90e7193dd544ec261502c440b0198f90d789eda4abb",
+    "game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png": "17bb6a2dcacaf480b5bf6e3d40d7859ead76aec4e54431526d811a4da86b09de",
+    "game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import": "ac2a1e93b9754e2b0d4d6ae5206c5b885e4de842ec6465079f645908033e7ca2",
+    "game/art/assets/environment_pbr/derived/manifest.json": "88ec789f49c465953632dc5b392e50b2bf2d5d385cb86a270322b0878d5fd960",
+    "game/art/assets/environment_pbr/derived/pavement_albedo.png.import": "27cd0dcecdac318cd1a8e5580d9c8eb6e24be8c0bb0bc054265776ad71c82c60",
+    "game/art/assets/environment_pbr/derived/grass_normal_opengl.png": "8d8b3a041cb598688392b6b581946c4d4ed02642da9bd18add0bbe33cdb128e3",
+    "game/art/assets/environment_pbr/derived/grass_albedo.png": "224ca06e75373e392115863c5f50ac49852d13455b08f9a1249a2e0e58e50a58",
+    "game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import": "70cf7cfed1e7d144e00a1efe9a9873fcdb8eca7cf6c9607c25006dc816fe1513",
+    "game/art/assets/environment_pbr/derived/grass_albedo.png.import": "f5fb8c0c89f6f8e7efb469e487707f73a62297cc5d0740ffbb78aeb95e3e5789",
+    "game/art/assets/environment_pbr/derived/pavement_albedo.png": "e77efebba3b0947b02e98cef16115e83d254e7067cb870a7b702c4fbc6683055",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import": "8cacae326dc294ac5b4bcd9792a11adfd6d3b3d8f0415f6ec059ea184eec5670",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg": "ffe49db71a0fd34c1e259625df66a302a237597d6ef655307987ec4e45bc6f21",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import": "06707c657bca1a0bd3fa3e42cbe008a3fbfc93d58ec50b4a843a0f7990c889eb",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import": "a2148d3483137a60c1457af15f31cfd44f7a4ab8f05bbd4da702b129398793eb",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg": "28f5ba8690553f192c0e5e1a5ff40f34765b4b93f4cc7059b1a3e9c795b6c28c",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg": "ed70e88640e4ed51cf1c3e57cb20db26983599b20b867c2526439e3a2c849fea",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import": "7418917658dbd4acf1c62afcafa7799cc09c0863c99a6013744e374eec1417b6",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import": "5e812a49558b2d2ea96d20c7e004ebbadc4b76a667d127c561009cffe26b3583",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import": "56ae9889503cc080e7d035c226dc243f03be9703ef40a2403edef76e74522c3f",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg": "af8c79f49ca34a0996c0a5581eb721ee1622404bde2a6214f48c900ac71c25dc",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg": "f519dd2077b2eaaf9d1708f303b5bae5317867a6ac78e0aed1d4f41b9291adcc",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg": "90f63249f6e7323fc659644956deffebbe68cf814163b4e75edd351948879646"
+  },
+  "scope": "Private source/generator/verifier and exact unchanged source image/derivative bytes; no engine/GPU or Mac claim"
+}

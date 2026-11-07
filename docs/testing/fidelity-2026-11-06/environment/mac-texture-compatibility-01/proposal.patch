@@ -1,0 +1,674 @@
+--- a/tools/fetch_environment_materials.py
++++ b/tools/fetch_environment_materials.py
+@@ -24,6 +24,14 @@
+     'mipmaps': True, 'filter': 'linear anisotropic', 'maximum_dimension': 2048,
+     'maximum_dimension_by_map': {'albedo': 2048, 'normal_opengl': 1024, 'arm': 1024, 'zc_materials_all_maps': 1024},
+     'added_texture_budget_mib': 32,
++    'desktop_vram_compression': {
++        'high_quality': False,
++        'cache_targets': 'S3TC/ETC2 remaps trigger ordinary editor reimport without deleting cached files',
++        'opaque': 'S3TC DXT1 (BC1)',
++        'normal': 'RGTC_RG (BC5); reconstruct positive Z from RG',
++        'allowed_native_formats': ['DXT1', 'DXT5', 'RGTC_R', 'RGTC_RG'],
++        'reason': 'Compatibility desktop OpenGL including macOS4.1; BC7/BPTC requires an extension unavailable in the observed AppleM5 driver',
++    },
+     'budget_note': 'Declared additional resident GPU texture ceiling; actual renderer memory must be measured. Primary albedo remains 2K, normals and packed roughness/AO import at 1K; close/chase comparison must verify the normal-map resource reduction.',
+ }
+ PACKED_CHANNELS = {'red': 'ambient occlusion', 'green': 'roughness', 'blue': 'metallic (unused on dielectric stone/asphalt)'}
+@@ -61,7 +69,7 @@
+     text = import_path.read_text() if import_path.exists() else f'[remap]\n\nimporter="texture"\ntype="CompressedTexture2D"\n\n[deps]\n\nsource_file="{resource_path}"\n\n[params]\n'
+     if '[params]' not in text:
+         raise ValueError(f'{import_path}: missing importer parameters')
+-    parameters = {'compress/mode': '2', 'compress/high_quality': 'true',
++    parameters = {'compress/mode': '2', 'compress/high_quality': 'false',
+                   'compress/normal_map': '1' if channel == 'normal_opengl' else '2',
+                   'mipmaps/generate': 'true', 'mipmaps/limit': '-1',
+                   'process/normal_map_invert_y': 'false',
+@@ -74,6 +82,11 @@
+             text = re.sub(pattern, key + '=' + value, text, flags=re.MULTILINE)
+         else:
+             text += '\n' + key + '=' + value
++    # Keep the authored cache targets consistent with the compatible policy.
++    # A normal editor import sees missing S3TC/ETC2 targets and regenerates them
++    # even if its previous filesystem cache is absent; no cache wipe is needed.
++    text = text.replace('path.bptc=', 'path.s3tc=').replace('.bptc.ctex', '.s3tc.ctex')
++    text = text.replace('path.astc=', 'path.etc2=').replace('.astc.ctex', '.etc2.ctex')
+     import_path.write_text(text.rstrip() + '\n')
+ 
+ def fetch_material(entry: tuple, provider: str, previous: dict) -> tuple:
+@@ -126,12 +139,14 @@
+             if sha(data) != entry['file_sha256'][key] or len(data) != entry['file_bytes'][key] or jpeg_dimensions(data) != entry['source_dimensions_px'][key]:
+                 raise ValueError(f'{asset}/{key}: source image integrity/dimensions differ')
+             settings = Path(str(path) + '.import').read_text()
+-            expected = {'compress/mode': '2', 'compress/normal_map': '1' if key == 'normal_opengl' else '2',
++            expected = {'compress/mode': '2', 'compress/high_quality': 'false', 'compress/normal_map': '1' if key == 'normal_opengl' else '2',
+                         'mipmaps/generate': 'true', 'process/normal_map_invert_y': 'false',
+                         'process/size_limit': str(size_limit(asset, key))}
+             for property_name, value in expected.items():
+                 if not re.search(rf'^{re.escape(property_name)}={re.escape(value)}$', settings, flags=re.MULTILINE):
+                     raise ValueError(f'{asset}/{key}: {property_name} must equal {value}')
++            if '.bptc.ctex' in settings or '.astc.ctex' in settings:
++                raise ValueError(f'{asset}/{key}: cache targets retain unsupported high-quality compression')
+             count += 1
+     if count != 15:
+         raise ValueError(f'Expected exactly 15 inspected maps, found {count}')
+--- a/tools/build_environment_derivatives.py
++++ b/tools/build_environment_derivatives.py
+@@ -18,7 +18,7 @@
+ sys.dont_write_bytecode = True
+ import numpy as np
+ from PIL import Image, ImageFilter, __version__ as PIL_VERSION
+-from fetch_environment_materials import ROOT, DEST, apply_import_policy, verify
++from fetch_environment_materials import ROOT, DEST, apply_import_policy, verify, IMPORT_POLICY
+ 
+ OUTPUT = DEST / "derived"
+ 
+@@ -79,6 +79,7 @@
+         "source_sha256": {key: sources[key]["file_sha256"] for key in ["T_grass01", "pavement_01"]},
+         "physical_width_m": {"grass": 3.0, "pavement": 1.5},
+         "physical_scale_note": "Grass contains two original authored1.5m tiles per axis; paving retains the provider1.5m width.",
++        "desktop_vram_compression": IMPORT_POLICY["desktop_vram_compression"],
+         "gpu_policy": "These replace existing map bindings: same4maps resident, no extra sampling or draw family; mipmapped VRAM compression, grass1K/paving2K.",
+         "files": {name: {"sha256": sha(data), "bytes": len(data), "dimensions_px": list(Image.open(io.BytesIO(data)).size)} for name, data in result.items()}}
+     return result, receipt
+@@ -96,12 +97,14 @@
+         for name, data in images.items():
+             if (OUTPUT / name).read_bytes() != data: raise ValueError(name + ": derivative is not reproducible")
+             settings = (OUTPUT / (name + ".import")).read_text()
+-            expected = {"compress/mode": "2", "compress/normal_map": "1" if "normal_opengl" in name else "2",
++            expected = {"compress/mode": "2", "compress/high_quality": "false", "compress/normal_map": "1" if "normal_opengl" in name else "2",
+                 "mipmaps/generate": "true", "process/normal_map_invert_y": "false",
+                 "process/size_limit": "1024" if name.startswith("grass_") else "2048"}
+             for key, value in expected.items():
+                 if not re.search(rf"^{re.escape(key)}={re.escape(value)}$", settings, flags=re.MULTILINE):
+                     raise ValueError(name + ": import contract differs: " + key)
++            if ".bptc.ctex" in settings or ".astc.ctex" in settings:
++                raise ValueError(name + ": cache targets retain unsupported high-quality compression")
+         print("DERIVATIVES_VERIFY: 4 maps / complete repeat identity / import contracts passed; no network or writes")
+         return
+     OUTPUT.mkdir(parents=True, exist_ok=True)
+--- a/game/art/assets/environment_pbr/manifest.json
++++ b/game/art/assets/environment_pbr/manifest.json
+@@ -25,6 +25,19 @@
+       "zc_materials_all_maps": 1024
+     },
+     "added_texture_budget_mib": 32,
++    "desktop_vram_compression": {
++      "high_quality": false,
++      "cache_targets": "S3TC/ETC2 remaps trigger ordinary editor reimport without deleting cached files",
++      "opaque": "S3TC DXT1 (BC1)",
++      "normal": "RGTC_RG (BC5); reconstruct positive Z from RG",
++      "allowed_native_formats": [
++        "DXT1",
++        "DXT5",
++        "RGTC_R",
++        "RGTC_RG"
++      ],
++      "reason": "Compatibility desktop OpenGL including macOS4.1; BC7/BPTC requires an extension unavailable in the observed AppleM5 driver"
++    },
+     "budget_note": "Declared additional resident GPU texture ceiling; actual renderer memory must be measured. Primary albedo remains 2K, normals and packed roughness/AO import at 1K; close/chase comparison must verify the normal-map resource reduction."
+   },
+   "materials": {
+--- a/game/art/assets/environment_pbr/derived/manifest.json
++++ b/game/art/assets/environment_pbr/derived/manifest.json
+@@ -7,7 +7,7 @@
+     "NumPy": "2.3.5"
+   },
+   "licence": "CC0-1.0; derivatives of the exact retained maps in ../manifest.json",
+-  "source_manifest_sha256": "17ade7bc3747740593853303da2d90a7e9bff549619aca04d46482a79b6fa99f",
++  "source_manifest_sha256": "9ed722f95ca63d0e8fb2031e36e75826b8045c28c3a35d2822bd5394cf7f3823",
+   "source_sha256": {
+     "T_grass01": {
+       "albedo": "a226e00dadc773be187d652c41683dcd61720ca40eeeff5220436ff211940275",
+@@ -25,6 +25,19 @@
+     "pavement": 1.5
+   },
+   "physical_scale_note": "Grass contains two original authored1.5m tiles per axis; paving retains the provider1.5m width.",
++  "desktop_vram_compression": {
++    "high_quality": false,
++    "cache_targets": "S3TC/ETC2 remaps trigger ordinary editor reimport without deleting cached files",
++    "opaque": "S3TC DXT1 (BC1)",
++    "normal": "RGTC_RG (BC5); reconstruct positive Z from RG",
++    "allowed_native_formats": [
++      "DXT1",
++      "DXT5",
++      "RGTC_R",
++      "RGTC_RG"
++    ],
++    "reason": "Compatibility desktop OpenGL including macOS4.1; BC7/BPTC requires an extension unavailable in the observed AppleM5 driver"
++  },
+   "gpu_policy": "These replace existing map bindings: same4maps resident, no extra sampling or draw family; mipmapped VRAM compression, grass1K/paving2K.",
+   "files": {
+     "grass_albedo.png": {
+--- a/game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import
++++ b/game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://ckh3ord42aicx"
+-path.bptc="res://.godot/imported/T_grass01_ao.jpg-1b1b88061599736e201a1cc7538ef1af.bptc.ctex"
+-path.astc="res://.godot/imported/T_grass01_ao.jpg-1b1b88061599736e201a1cc7538ef1af.astc.ctex"
++path.s3tc="res://.godot/imported/T_grass01_ao.jpg-1b1b88061599736e201a1cc7538ef1af.s3tc.ctex"
++path.etc2="res://.godot/imported/T_grass01_ao.jpg-1b1b88061599736e201a1cc7538ef1af.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg"
+-dest_files=["res://.godot/imported/T_grass01_ao.jpg-1b1b88061599736e201a1cc7538ef1af.bptc.ctex", "res://.godot/imported/T_grass01_ao.jpg-1b1b88061599736e201a1cc7538ef1af.astc.ctex"]
++dest_files=["res://.godot/imported/T_grass01_ao.jpg-1b1b88061599736e201a1cc7538ef1af.s3tc.ctex", "res://.godot/imported/T_grass01_ao.jpg-1b1b88061599736e201a1cc7538ef1af.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import
++++ b/game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://de5wmqy28djpw"
+-path.bptc="res://.godot/imported/T_grass01_normal_opengl.jpg-f45aef8a0cfca61e9038cebfd97e0ade.bptc.ctex"
+-path.astc="res://.godot/imported/T_grass01_normal_opengl.jpg-f45aef8a0cfca61e9038cebfd97e0ade.astc.ctex"
++path.s3tc="res://.godot/imported/T_grass01_normal_opengl.jpg-f45aef8a0cfca61e9038cebfd97e0ade.s3tc.ctex"
++path.etc2="res://.godot/imported/T_grass01_normal_opengl.jpg-f45aef8a0cfca61e9038cebfd97e0ade.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg"
+-dest_files=["res://.godot/imported/T_grass01_normal_opengl.jpg-f45aef8a0cfca61e9038cebfd97e0ade.bptc.ctex", "res://.godot/imported/T_grass01_normal_opengl.jpg-f45aef8a0cfca61e9038cebfd97e0ade.astc.ctex"]
++dest_files=["res://.godot/imported/T_grass01_normal_opengl.jpg-f45aef8a0cfca61e9038cebfd97e0ade.s3tc.ctex", "res://.godot/imported/T_grass01_normal_opengl.jpg-f45aef8a0cfca61e9038cebfd97e0ade.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import
++++ b/game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://dwqljjjbyrfun"
+-path.bptc="res://.godot/imported/T_grass01_albedo.jpg-7a0e2200813874c3623f0cc40e63e584.bptc.ctex"
+-path.astc="res://.godot/imported/T_grass01_albedo.jpg-7a0e2200813874c3623f0cc40e63e584.astc.ctex"
++path.s3tc="res://.godot/imported/T_grass01_albedo.jpg-7a0e2200813874c3623f0cc40e63e584.s3tc.ctex"
++path.etc2="res://.godot/imported/T_grass01_albedo.jpg-7a0e2200813874c3623f0cc40e63e584.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg"
+-dest_files=["res://.godot/imported/T_grass01_albedo.jpg-7a0e2200813874c3623f0cc40e63e584.bptc.ctex", "res://.godot/imported/T_grass01_albedo.jpg-7a0e2200813874c3623f0cc40e63e584.astc.ctex"]
++dest_files=["res://.godot/imported/T_grass01_albedo.jpg-7a0e2200813874c3623f0cc40e63e584.s3tc.ctex", "res://.godot/imported/T_grass01_albedo.jpg-7a0e2200813874c3623f0cc40e63e584.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import
++++ b/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://boqee185sgiso"
+-path.bptc="res://.godot/imported/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.bptc.ctex"
+-path.astc="res://.godot/imported/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.astc.ctex"
++path.s3tc="res://.godot/imported/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.s3tc.ctex"
++path.etc2="res://.godot/imported/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg"
+-dest_files=["res://.godot/imported/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.bptc.ctex", "res://.godot/imported/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.astc.ctex"]
++dest_files=["res://.godot/imported/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.s3tc.ctex", "res://.godot/imported/sandstone_blocks_04_diff_2k.jpg-fd8405a36a65ae54e094db2dc68c3eba.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import
++++ b/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://ckh7rwa2srspe"
+-path.bptc="res://.godot/imported/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.bptc.ctex"
+-path.astc="res://.godot/imported/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.astc.ctex"
++path.s3tc="res://.godot/imported/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.s3tc.ctex"
++path.etc2="res://.godot/imported/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg"
+-dest_files=["res://.godot/imported/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.bptc.ctex", "res://.godot/imported/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.astc.ctex"]
++dest_files=["res://.godot/imported/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.s3tc.ctex", "res://.godot/imported/sandstone_blocks_04_arm_2k.jpg-c357a8de1523b6970c36c21f3c7dcdb6.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import
++++ b/game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://47w12o2fmc43"
+-path.bptc="res://.godot/imported/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.bptc.ctex"
+-path.astc="res://.godot/imported/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.astc.ctex"
++path.s3tc="res://.godot/imported/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.s3tc.ctex"
++path.etc2="res://.godot/imported/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg"
+-dest_files=["res://.godot/imported/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.bptc.ctex", "res://.godot/imported/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.astc.ctex"]
++dest_files=["res://.godot/imported/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.s3tc.ctex", "res://.godot/imported/sandstone_blocks_04_nor_gl_2k.jpg-b917eb27f17f0e99f618daff644cd6f2.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import
++++ b/game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://3u8uk2qehdyj"
+-path.bptc="res://.godot/imported/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.bptc.ctex"
+-path.astc="res://.godot/imported/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.astc.ctex"
++path.s3tc="res://.godot/imported/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.s3tc.ctex"
++path.etc2="res://.godot/imported/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg"
+-dest_files=["res://.godot/imported/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.bptc.ctex", "res://.godot/imported/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.astc.ctex"]
++dest_files=["res://.godot/imported/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.s3tc.ctex", "res://.godot/imported/T_wood01_normal_opengl.jpg-78da1ffcfc843a88eb96b768ea4f1965.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import
++++ b/game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://cr2s4x5qnb8y7"
+-path.bptc="res://.godot/imported/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.bptc.ctex"
+-path.astc="res://.godot/imported/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.astc.ctex"
++path.s3tc="res://.godot/imported/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.s3tc.ctex"
++path.etc2="res://.godot/imported/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg"
+-dest_files=["res://.godot/imported/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.bptc.ctex", "res://.godot/imported/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.astc.ctex"]
++dest_files=["res://.godot/imported/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.s3tc.ctex", "res://.godot/imported/T_wood01_albedo.jpg-835a8bca10ef36b06639f63217892738.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import
++++ b/game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://cb7er62637w8i"
+-path.bptc="res://.godot/imported/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.bptc.ctex"
+-path.astc="res://.godot/imported/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.astc.ctex"
++path.s3tc="res://.godot/imported/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.s3tc.ctex"
++path.etc2="res://.godot/imported/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg"
+-dest_files=["res://.godot/imported/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.bptc.ctex", "res://.godot/imported/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.astc.ctex"]
++dest_files=["res://.godot/imported/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.s3tc.ctex", "res://.godot/imported/T_wood01_ao.jpg-8cb188769a41f5e67649e30fb062f3e5.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import
++++ b/game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://bcutnww8fqsnr"
+-path.bptc="res://.godot/imported/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.bptc.ctex"
+-path.astc="res://.godot/imported/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.astc.ctex"
++path.s3tc="res://.godot/imported/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.s3tc.ctex"
++path.etc2="res://.godot/imported/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png"
+-dest_files=["res://.godot/imported/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.bptc.ctex", "res://.godot/imported/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.astc.ctex"]
++dest_files=["res://.godot/imported/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.s3tc.ctex", "res://.godot/imported/grass_ambient_occlusion.png-0a3bb6e3e5f5053ff6cbf69ee9ab933b.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/derived/pavement_albedo.png.import
++++ b/game/art/assets/environment_pbr/derived/pavement_albedo.png.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://csdo0uvjknysx"
+-path.bptc="res://.godot/imported/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.bptc.ctex"
+-path.astc="res://.godot/imported/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.astc.ctex"
++path.s3tc="res://.godot/imported/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.s3tc.ctex"
++path.etc2="res://.godot/imported/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/derived/pavement_albedo.png"
+-dest_files=["res://.godot/imported/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.bptc.ctex", "res://.godot/imported/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.astc.ctex"]
++dest_files=["res://.godot/imported/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.s3tc.ctex", "res://.godot/imported/pavement_albedo.png-b07e4b41478b119040f46a1c46fb8287.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import
++++ b/game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://dln5aoecqn8rd"
+-path.bptc="res://.godot/imported/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.bptc.ctex"
+-path.astc="res://.godot/imported/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.astc.ctex"
++path.s3tc="res://.godot/imported/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.s3tc.ctex"
++path.etc2="res://.godot/imported/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png"
+-dest_files=["res://.godot/imported/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.bptc.ctex", "res://.godot/imported/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.astc.ctex"]
++dest_files=["res://.godot/imported/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.s3tc.ctex", "res://.godot/imported/grass_normal_opengl.png-4adebdc4df4ca439952f701341f7517a.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/derived/grass_albedo.png.import
++++ b/game/art/assets/environment_pbr/derived/grass_albedo.png.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://popcnjulifvd"
+-path.bptc="res://.godot/imported/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.bptc.ctex"
+-path.astc="res://.godot/imported/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.astc.ctex"
++path.s3tc="res://.godot/imported/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.s3tc.ctex"
++path.etc2="res://.godot/imported/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/derived/grass_albedo.png"
+-dest_files=["res://.godot/imported/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.bptc.ctex", "res://.godot/imported/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.astc.ctex"]
++dest_files=["res://.godot/imported/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.s3tc.ctex", "res://.godot/imported/grass_albedo.png-5e2a46f33756932e2e7043a0a089ca0e.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import
++++ b/game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://2iycdbkyw6fq"
+-path.bptc="res://.godot/imported/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.bptc.ctex"
+-path.astc="res://.godot/imported/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.astc.ctex"
++path.s3tc="res://.godot/imported/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.s3tc.ctex"
++path.etc2="res://.godot/imported/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg"
+-dest_files=["res://.godot/imported/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.bptc.ctex", "res://.godot/imported/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.astc.ctex"]
++dest_files=["res://.godot/imported/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.s3tc.ctex", "res://.godot/imported/asphalt_02_arm_2k.jpg-8c642bb69e72adc03b5918676c59cdee.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import
++++ b/game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://cyu7ldq440p8a"
+-path.bptc="res://.godot/imported/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.bptc.ctex"
+-path.astc="res://.godot/imported/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.astc.ctex"
++path.s3tc="res://.godot/imported/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.s3tc.ctex"
++path.etc2="res://.godot/imported/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg"
+-dest_files=["res://.godot/imported/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.bptc.ctex", "res://.godot/imported/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.astc.ctex"]
++dest_files=["res://.godot/imported/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.s3tc.ctex", "res://.godot/imported/asphalt_02_nor_gl_2k.jpg-d65ca0471a053493e17b71587a53576e.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import
++++ b/game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://bqtb701x1c5g3"
+-path.bptc="res://.godot/imported/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.bptc.ctex"
+-path.astc="res://.godot/imported/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.astc.ctex"
++path.s3tc="res://.godot/imported/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.s3tc.ctex"
++path.etc2="res://.godot/imported/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg"
+-dest_files=["res://.godot/imported/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.bptc.ctex", "res://.godot/imported/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.astc.ctex"]
++dest_files=["res://.godot/imported/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.s3tc.ctex", "res://.godot/imported/asphalt_02_diff_2k.jpg-d3c18dcc62a921656ef62eea0238f5ef.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import
++++ b/game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://bdwxyrrugvrox"
+-path.bptc="res://.godot/imported/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.bptc.ctex"
+-path.astc="res://.godot/imported/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.astc.ctex"
++path.s3tc="res://.godot/imported/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.s3tc.ctex"
++path.etc2="res://.godot/imported/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg"
+-dest_files=["res://.godot/imported/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.bptc.ctex", "res://.godot/imported/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.astc.ctex"]
++dest_files=["res://.godot/imported/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.s3tc.ctex", "res://.godot/imported/pavement_01_arm_2k.jpg-cb422ee8a354c846db1256e8578984c5.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import
++++ b/game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://c4nttnqusi8pv"
+-path.bptc="res://.godot/imported/pavement_01_diff_2k.jpg-7bb805fba4e14a782676d7dd2fd40fcc.bptc.ctex"
+-path.astc="res://.godot/imported/pavement_01_diff_2k.jpg-7bb805fba4e14a782676d7dd2fd40fcc.astc.ctex"
++path.s3tc="res://.godot/imported/pavement_01_diff_2k.jpg-7bb805fba4e14a782676d7dd2fd40fcc.s3tc.ctex"
++path.etc2="res://.godot/imported/pavement_01_diff_2k.jpg-7bb805fba4e14a782676d7dd2fd40fcc.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg"
+-dest_files=["res://.godot/imported/pavement_01_diff_2k.jpg-7bb805fba4e14a782676d7dd2fd40fcc.bptc.ctex", "res://.godot/imported/pavement_01_diff_2k.jpg-7bb805fba4e14a782676d7dd2fd40fcc.astc.ctex"]
++dest_files=["res://.godot/imported/pavement_01_diff_2k.jpg-7bb805fba4e14a782676d7dd2fd40fcc.s3tc.ctex", "res://.godot/imported/pavement_01_diff_2k.jpg-7bb805fba4e14a782676d7dd2fd40fcc.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0
+--- a/game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import
++++ b/game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import
+@@ -3,8 +3,8 @@
+ importer="texture"
+ type="CompressedTexture2D"
+ uid="uid://byjd1xf1dubkr"
+-path.bptc="res://.godot/imported/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.bptc.ctex"
+-path.astc="res://.godot/imported/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.astc.ctex"
++path.s3tc="res://.godot/imported/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.s3tc.ctex"
++path.etc2="res://.godot/imported/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.etc2.ctex"
+ metadata={
+ "imported_formats": ["s3tc_bptc", "etc2_astc"],
+ "vram_texture": true
+@@ -13,12 +13,12 @@
+ [deps]
+ 
+ source_file="res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg"
+-dest_files=["res://.godot/imported/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.bptc.ctex", "res://.godot/imported/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.astc.ctex"]
++dest_files=["res://.godot/imported/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.s3tc.ctex", "res://.godot/imported/pavement_01_nor_gl_2k.jpg-1f25eb2815072aa0dec70e07d82a36fa.etc2.ctex"]
+ 
+ [params]
+ 
+ compress/mode=2
+-compress/high_quality=true
++compress/high_quality=false
+ compress/lossy_quality=0.7
+ compress/uastc_level=0
+ compress/rdo_quality_loss=0.0

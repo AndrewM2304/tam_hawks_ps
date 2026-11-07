@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "licence": "CC0-1.0",
+  "licence_urls": [
+    "https://polyhaven.com/license",
+    "https://github.com/DaZCDude/ZCs-Spectacular-Textures/blob/a866769b0ccb5e041f8855a52223d7d1a1166125/LICENSE"
+  ],
+  "inspected_utc_date": "2026-11-06",
+  "retrieved_utc": "2026-11-06T23:22:09.807098+00:00",
+  "images_modified": false,
+  "normal_convention": "OpenGL +Y",
+  "packed_arm_channels": {
+    "red": "ambient occlusion",
+    "green": "roughness",
+    "blue": "metallic (unused on dielectric stone/asphalt)"
+  },
+  "import_policy": {
+    "mipmaps": true,
+    "filter": "linear anisotropic",
+    "maximum_dimension": 2048,
+    "maximum_dimension_by_map": {
+      "albedo": 2048,
+      "normal_opengl": 1024,
+      "arm": 1024,
+      "zc_materials_all_maps": 1024
+    },
+    "added_texture_budget_mib": 32,
+    "budget_note": "Declared additional resident GPU texture ceiling; actual renderer memory must be measured. Primary albedo remains 2K, normals and packed roughness/AO import at 1K; close/chase comparison must verify the normal-map resource reduction."
+  },
+  "materials": {
+    "pavement_01": {
+      "source_url": "https://polyhaven.com/a/pavement_01",
+      "download_urls": {
+        "albedo": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/pavement_01/pavement_01_diff_2k.jpg",
+        "normal_opengl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/pavement_01/pavement_01_nor_gl_2k.jpg",
+        "arm": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/pavement_01/pavement_01_arm_2k.jpg"
+      },
+      "creator": "Rob Tuytel / Poly Haven",
+      "provider": "Poly Haven",
+      "licence": "CC0-1.0",
+      "tile_size_m": 1.5,
+      "scale_evidence": "Published width on inspected official asset page",
+      "files": {
+        "albedo": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+        "normal_opengl": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+        "arm": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg"
+      },
+      "file_sha256": {
+        "albedo": "af8c79f49ca34a0996c0a5581eb721ee1622404bde2a6214f48c900ac71c25dc",
+        "normal_opengl": "90f63249f6e7323fc659644956deffebbe68cf814163b4e75edd351948879646",
+        "arm": "f519dd2077b2eaaf9d1708f303b5bae5317867a6ac78e0aed1d4f41b9291adcc"
+      },
+      "file_bytes": {
+        "albedo": 1782516,
+        "normal_opengl": 1834002,
+        "arm": 799069
+      },
+      "source_dimensions_px": {
+        "albedo": [
+          2048,
+          2048
+        ],
+        "normal_opengl": [
+          2048,
+          2048
+        ],
+        "arm": [
+          2048,
+          2048
+        ]
+      }
+    },
+    "sandstone_blocks_04": {
+      "source_url": "https://polyhaven.com/a/sandstone_blocks_04",
+      "download_urls": {
+        "albedo": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+        "normal_opengl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+        "arm": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg"
+      },
+      "creator": "Rob Tuytel / Poly Haven",
+      "provider": "Poly Haven",
+      "licence": "CC0-1.0",
+      "tile_size_m": 3.0,
+      "scale_evidence": "Published width on inspected official asset page",
+      "files": {
+        "albedo": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+        "normal_opengl": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+        "arm": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg"
+      },
+      "file_sha256": {
+        "albedo": "4571ff357e041bacb75ab06ad1958e74a0b396e0f3d8b9dc9d4717f704996304",
+        "normal_opengl": "b367bdae7a75df039f3425a6eb9d395cd390a7a67b581bec89a44d2a31a8dbdc",
+        "arm": "69530a3f6ca25cea7d4b42066d4d7191cfee4c237b2719d0cffcc8f859218fac"
+      },
+      "file_bytes": {
+        "albedo": 2066659,
+        "normal_opengl": 2182355,
+        "arm": 833744
+      },
+      "source_dimensions_px": {
+        "albedo": [
+          2048,
+          2048
+        ],
+        "normal_opengl": [
+          2048,
+          2048
+        ],
+        "arm": [
+          2048,
+          2048
+        ]
+      }
+    },
+    "asphalt_02": {
+      "source_url": "https://polyhaven.com/a/asphalt_02",
+      "download_urls": {
+        "albedo": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_diff_2k.jpg",
+        "normal_opengl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+        "arm": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_arm_2k.jpg"
+      },
+      "creator": "Rob Tuytel / Poly Haven",
+      "provider": "Poly Haven",
+      "licence": "CC0-1.0",
+      "tile_size_m": 3.0,
+      "scale_evidence": "Published width on inspected official asset page",
+      "files": {
+        "albedo": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+        "normal_opengl": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+        "arm": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg"
+      },
+      "file_sha256": {
+        "albedo": "28f5ba8690553f192c0e5e1a5ff40f34765b4b93f4cc7059b1a3e9c795b6c28c",
+        "normal_opengl": "ffe49db71a0fd34c1e259625df66a302a237597d6ef655307987ec4e45bc6f21",
+        "arm": "ed70e88640e4ed51cf1c3e57cb20db26983599b20b867c2526439e3a2c849fea"
+      },
+      "file_bytes": {
+        "albedo": 3075676,
+        "normal_opengl": 4943950,
+        "arm": 1299186
+      },
+      "source_dimensions_px": {
+        "albedo": [
+          2048,
+          2048
+        ],
+        "normal_opengl": [
+          2048,
+          2048
+        ],
+        "arm": [
+          2048,
+          2048
+        ]
+      }
+    },
+    "T_grass01": {
+      "source_url": "https://github.com/DaZCDude/ZCs-Spectacular-Textures/tree/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_grass01",
+      "download_urls": {
+        "albedo": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_grass01/T_grass01_albedo.jpg",
+        "normal_opengl": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_grass01/T_grass01_normal_opengl.jpg",
+        "ambient_occlusion": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_grass01/T_grass01_ao.jpg"
+      },
+      "creator": "ZC / DaZCDude",
+      "provider": "ZC",
+      "licence": "CC0-1.0",
+      "tile_size_m": 1.5,
+      "scale_evidence": "Authored starting scale; source supplies no physical dimensions",
+      "files": {
+        "albedo": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+        "normal_opengl": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+        "ambient_occlusion": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg"
+      },
+      "file_sha256": {
+        "albedo": "a226e00dadc773be187d652c41683dcd61720ca40eeeff5220436ff211940275",
+        "normal_opengl": "7453f91ad36757c559e438169e77549eab16519978c303469543f896b7887ec7",
+        "ambient_occlusion": "c04821991fefccfb1feb5508660e28c0c2b86bc85ee9bdf9202f8bc2ad57d7ca"
+      },
+      "file_bytes": {
+        "albedo": 1300412,
+        "normal_opengl": 782759,
+        "ambient_occlusion": 409154
+      },
+      "source_dimensions_px": {
+        "albedo": [
+          3024,
+          3024
+        ],
+        "normal_opengl": [
+          3024,
+          3024
+        ],
+        "ambient_occlusion": [
+          3024,
+          3024
+        ]
+      }
+    },
+    "T_wood01": {
+      "source_url": "https://github.com/DaZCDude/ZCs-Spectacular-Textures/tree/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_wood01",
+      "download_urls": {
+        "albedo": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_wood01/T_wood01_albedo.jpg",
+        "normal_opengl": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_wood01/T_wood01_normal_opengl.jpg",
+        "ambient_occlusion": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_wood01/T_wood01_ao.jpg"
+      },
+      "creator": "ZC / DaZCDude",
+      "provider": "ZC",
+      "licence": "CC0-1.0",
+      "tile_size_m": 2.0,
+      "scale_evidence": "Authored starting scale; source supplies no physical dimensions",
+      "files": {
+        "albedo": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+        "normal_opengl": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+        "ambient_occlusion": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg"
+      },
+      "file_sha256": {
+        "albedo": "c80c2faa87c9466c0b26a90e7193dd544ec261502c440b0198f90d789eda4abb",
+        "normal_opengl": "4075c2a997e51b46d9f95e871dd533297ba9c21ac7171caa379f456078efb5b8",
+        "ambient_occlusion": "3f66a04aeb698f98467c8c71ce3c0239710944909e712f6e0dc0e4edbae872ea"
+      },
+      "file_bytes": {
+        "albedo": 959303,
+        "normal_opengl": 615707,
+        "ambient_occlusion": 1005411
+      },
+      "source_dimensions_px": {
+        "albedo": [
+          3000,
+          3000
+        ],
+        "normal_opengl": [
+          3000,
+          3000
+        ],
+        "ambient_occlusion": [
+          3000,
+          3000
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+from pathlib import Path
+import sys,json,hashlib,urllib.request,os,runpy,datetime
+from unittest.mock import patch
+sys.dont_write_bytecode=True
+O=Path('/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07');P=O/'project';sys.path.insert(0,str(P/'tools'))
+import fetch_environment_materials as fetch
+import build_environment_derivatives as derive
+manifest=json.loads((fetch.DEST/'manifest.json').read_text());images,receipt=derive.build(manifest);before={str(p.relative_to(P)):hashlib.sha256(p.read_bytes()).hexdigest() for p in P.rglob('*') if p.is_file() and '.godot' not in p.parts and '.local' not in p.parts[len(P.parts):]}
+checks=[]
+def forbidden(*args,**kwargs):raise AssertionError('Network/write attempted in verify-only')
+for script in ['fetch_environment_materials.py','build_environment_derivatives.py']:
+ with patch.object(sys,'argv',[script,'--verify-only']),patch.object(urllib.request,'urlopen',forbidden),patch.object(Path,'write_text',forbidden),patch.object(Path,'write_bytes',forbidden),patch.object(os,'replace',forbidden):
+  runpy.run_path(str(P/'tools'/script),run_name='__main__')
+ checks.append({'check':script+' verify-only under network/write traps','pass':True})
+read=Path.read_text
+raw_imports=[Path(str(P/resource.removeprefix('res://'))+'.import') for value in manifest['materials'].values() for resource in value['files'].values()]
+derived_imports=[fetch.DEST/'derived'/(name+'.import') for name in receipt['files']]
+for target in raw_imports+derived_imports:
+ def tampered(path,*a,**kw):
+  text=read(path,*a,**kw)
+  return text.replace('compress/high_quality=false','compress/high_quality=true') if path==target else text
+ rejected=False
+ with patch.object(Path,'read_text',tampered):
+  try:
+   if target in raw_imports:fetch.verify(manifest)
+   else:
+    with patch.object(derive,'build',return_value=(images,receipt)),patch.object(sys,'argv',['build_environment_derivatives.py','--verify-only']):derive.main()
+  except ValueError as e:rejected='compress/high_quality' in str(e)
+ assert rejected,target
+ checks.append({'check':'rejectreintroducedBC7 '+str(target.relative_to(P)),'pass':True})
+after={str(p.relative_to(P)):hashlib.sha256(p.read_bytes()).hexdigest() for p in P.rglob('*') if p.is_file() and '.godot' not in p.parts and '.local' not in p.parts[len(P.parts):]};assert before==after
+out={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'checks':checks,'passed':len(checks),'failed':0,'source_inventory_before_after_identical':before,'scope':'Private source/generator/verifier and exact unchanged source image/derivative bytes; no engine/GPU or Mac claim'}
+(O/'pipeline-verification.json').write_text(json.dumps(out,indent=2)+'\n');print('PIPELINE_VERIFY',len(checks),'PASS0FAIL')

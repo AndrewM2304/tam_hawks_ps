@@ -18,7 +18,7 @@ import sys
 sys.dont_write_bytecode = True
 import numpy as np
 from PIL import Image, ImageFilter, __version__ as PIL_VERSION
-from fetch_environment_materials import ROOT, DEST, apply_import_policy, verify
+from fetch_environment_materials import ROOT, DEST, apply_import_policy, verify, IMPORT_POLICY
 
 OUTPUT = DEST / "derived"
 
@@ -79,6 +79,7 @@ def build(manifest: dict) -> tuple[dict[str, bytes], dict]:
         "source_sha256": {key: sources[key]["file_sha256"] for key in ["T_grass01", "pavement_01"]},
         "physical_width_m": {"grass": 3.0, "pavement": 1.5},
         "physical_scale_note": "Grass contains two original authored1.5m tiles per axis; paving retains the provider1.5m width.",
+        "desktop_vram_compression": IMPORT_POLICY["desktop_vram_compression"],
         "gpu_policy": "These replace existing map bindings: same4maps resident, no extra sampling or draw family; mipmapped VRAM compression, grass1K/paving2K.",
         "files": {name: {"sha256": sha(data), "bytes": len(data), "dimensions_px": list(Image.open(io.BytesIO(data)).size)} for name, data in result.items()}}
     return result, receipt
@@ -96,12 +97,14 @@ def main() -> None:
         for name, data in images.items():
             if (OUTPUT / name).read_bytes() != data: raise ValueError(name + ": derivative is not reproducible")
             settings = (OUTPUT / (name + ".import")).read_text()
-            expected = {"compress/mode": "2", "compress/normal_map": "1" if "normal_opengl" in name else "2",
+            expected = {"compress/mode": "2", "compress/high_quality": "false", "compress/normal_map": "1" if "normal_opengl" in name else "2",
                 "mipmaps/generate": "true", "process/normal_map_invert_y": "false",
                 "process/size_limit": "1024" if name.startswith("grass_") else "2048"}
             for key, value in expected.items():
                 if not re.search(rf"^{re.escape(key)}={re.escape(value)}$", settings, flags=re.MULTILINE):
                     raise ValueError(name + ": import contract differs: " + key)
+            if ".bptc.ctex" in settings or ".astc.ctex" in settings:
+                raise ValueError(name + ": cache targets retain unsupported high-quality compression")
         print("DERIVATIVES_VERIFY: 4 maps / complete repeat identity / import contracts passed; no network or writes")
         return
     OUTPUT.mkdir(parents=True, exist_ok=True)

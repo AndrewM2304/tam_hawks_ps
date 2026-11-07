@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+"""Independent offline proposal/format/pixel audit. Does not import Godot."""
+from pathlib import Path
+import datetime, hashlib, json, math, re, shutil
+import numpy as np
+import zstandard
+
+R=Path('/workspace/tam_hawks_ps'); B=R/'.local/mac-texture-compat-2026-11-07'
+O=R/'docs/testing/fidelity-2026-11-06/environment/mac-texture-independent-01'
+O.mkdir(parents=True,exist_ok=True)
+H=lambda b:hashlib.sha256(b).hexdigest()
+load=lambda p:json.loads(p.read_text())
+m=load(B/'proposal-manifest.json'); old=load(B/'baseline-rgba/report.json'); new=load(B/'candidate-migration/report.json'); exact=load(B/'cold-exact/report.json')
+checks=[]
+def check(label,ok,actual=None):checks.append({'check':label,'pass':bool(ok),'actual':actual})
+def params(data):return dict(re.findall(r'^([^=\n]+)=(.*)$',data.split('[params]',1)[1],re.M))
+for n,meta in m['files'].items():
+ check('guard current preimage '+n,H((R/n).read_bytes())==meta['baseline_sha256'])
+ check('guard payload '+n,H((B/'proposal'/n).read_bytes())==meta['candidate_sha256'])
+check('23 files exactly,19 import descriptors',len(m['files'])==23 and sum(n.endswith('.import') for n in m['files'])==19)
+for n in m['files']:
+ if not n.endswith('.import'):continue
+ a=(R/n).read_text();z=(B/'proposal'/n).read_text();aa=params(a);zz=params(z)
+ check('only HQ compression param changes '+n,{k:v for k,v in aa.items() if k!='compress/high_quality'}=={k:v for k,v in zz.items() if k!='compress/high_quality'} and aa['compress/high_quality']=='true' and zz['compress/high_quality']=='false')
+ check('exact descriptor delta limited to HQ and compatible suffixes '+n,a.replace('compress/high_quality=true','compress/high_quality=false').replace('path.bptc=','path.s3tc=').replace('.bptc.ctex','.s3tc.ctex').replace('path.astc=','path.etc2=').replace('.astc.ctex','.etc2.ctex')==z)
+for name in ['game/art/assets/environment_pbr/manifest.json','game/art/assets/environment_pbr/derived/manifest.json']:
+ a=load(R/name);z=load(B/'proposal'/name);zz=dict(z)
+ if name.endswith('/derived/manifest.json'):
+  zz.pop('desktop_vram_compression');zz['source_manifest_sha256']=a['source_manifest_sha256']
+ else:
+  zz['import_policy']=dict(zz['import_policy']);zz['import_policy'].pop('desktop_vram_compression')
+ check('manifest old image/licence/scale metadata retained '+name,zz==a)
+check('derived receipt references exact new source manifest',load(B/'proposal/game/art/assets/environment_pbr/derived/manifest.json')['source_manifest_sha256']==H((B/'proposal/game/art/assets/environment_pbr/manifest.json').read_bytes()))
+for tag in ['cold-exact-import','cold-exact-probe']:
+ x=load(B/tag/'receipt.json');log=(B/tag/'engine.log').read_text()
+ check(tag+' exit0 inside deadline and rawclean',x['exit_code']==0 and datetime.datetime.fromisoformat(x['end'])<datetime.datetime.fromisoformat(x['deadline']) and not re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:',log))
+ if tag=='cold-exact-probe':
+  check('fresh exact native probe before/after source maps equal',x['inputs_before']==x['inputs_after'])
+  check('all23 exact payloads native before+after bound',all(x['inputs_before'].get(n)==v['candidate_sha256'] for n,v in m['files'].items()))
+check('19 baseline/candidate/exact resource identities preserved',len(old['maps'])==len(new['maps'])==len(exact['maps'])==19 and [x['resource'] for x in old['maps']]==[x['resource'] for x in new['maps']]==[x['resource'] for x in exact['maps']])
+check('native reports complete noerror, explicitCPU/notGPU',all(x['complete'] and not x['errors'] for x in [old,new,exact]) and all(x['headless_cpu_readback'] and not x['resident_gpu_memory_measured'] for x in [old,new]) and exact['scope']=='Headless CPU native imported format/payload only, no GLresidency/FPS/Macupload claim')
+
+def mip_bytes(w,h,block):
+ total=0
+ while True:
+  total+=((w+3)//4)*((h+3)//4)*block
+  if w==h==1:return total
+  w=max(1,w//2);h=max(1,h//2)
+
+def decode(folder,meta):
+ data=(B/folder/meta['path']).read_bytes();check('compressed RGBA file hash '+folder+'/'+meta['path'],H(data)==meta['zstd_sha256'])
+ raw=zstandard.ZstdDecompressor().decompress(data)
+ check('decoded native RGBA identity '+folder+'/'+meta['path'],H(raw)==meta['rgba_sha256'] and len(raw)==meta['rgba_bytes']==meta['width']*meta['height']*4)
+ return np.frombuffer(raw,np.uint8).reshape(meta['height'],meta['width'],4)
+
+def normal(rgb):
+ xy=rgb[...,:2].astype(np.float64)/127.5-1
+ out=np.concatenate([xy,np.sqrt(np.maximum(0,1-np.sum(xy*xy,axis=-1)))[...,None]],axis=-1)
+ return out/np.maximum(np.linalg.norm(out,axis=-1,keepdims=True),1e-15)
+
+def summary(values):return {'mean':float(np.mean(values)),'p95':float(np.quantile(values,.95)),'p99':float(np.quantile(values,.99)),'max':float(np.max(values))}
+
+quality=[];active_old=0;active_new=0;counts={}
+for a,z,e in zip(old['maps'],new['maps'],exact['maps']):
+ ident=z['resource'];fmt=21 if z['normal'] else 17
+ check('native actual formats/dimensions/fullmips '+ident,a['native_format']==22 and z['native_format']==e['native_format']==fmt and all(a[k]==z[k]==e[k] for k in ['width','height','mipmap_count','compressed']) and z['mipmap_count']==int(math.log2(max(z['width'],z['height']))))
+ check('exact cold desktop compressed payload agrees with quality epoch '+ident,z['payload_sha256']==e['payload_sha256'] and z['payload_bytes']==e['payload_bytes']==mip_bytes(z['width'],z['height'],16 if z['normal'] else 8) and a['payload_bytes']==mip_bytes(a['width'],a['height'],16))
+ counts[str(fmt)]=counts.get(str(fmt),0)+1
+ source=R/ident.removeprefix('res://');check('actual source image is native before-bound '+ident,H(source.read_bytes())==load(B/'cold-exact-probe/receipt.json')['inputs_before'][ident.removeprefix('res://')])
+ if z['active']:active_old+=a['payload_bytes'];active_new+=z['payload_bytes']
+ q={'resource':ident,'active':z['active'],'normal':z['normal'],'levels':{}}
+ for level in [0,3]:
+  s=decode('baseline-rgba',a[f'source_mip{level}']);v=decode('baseline-rgba',a[f'decoded_mip{level}']);w=decode('candidate-migration',z[f'decoded_mip{level}'])
+  check('opaque source/native decode and equal size '+ident+f' mip{level}',s.shape==v.shape==w.shape and bool(np.all(s[...,3]==255) and np.all(v[...,3]==255) and np.all(w[...,3]==255)))
+  entry={'baseline_source_RGB8_absolute':summary(np.abs(v[...,:3].astype(np.int16)-s[...,:3].astype(np.int16))),'candidate_source_RGB8_absolute':summary(np.abs(w[...,:3].astype(np.int16)-s[...,:3].astype(np.int16))),'candidate_baseline_RGB8_absolute':summary(np.abs(w[...,:3].astype(np.int16)-v[...,:3].astype(np.int16)))}
+  if z['normal']:
+   ns=normal(s);nv=normal(v);nw=normal(w)
+   entry['positive_Z_normal_angle_degrees']={name:summary(np.degrees(np.arctan2(np.linalg.norm(np.cross(x,y),axis=-1),np.sum(x*y,axis=-1)))) for name,x,y in [('baseline_source',nv,ns),('candidate_source',nw,ns),('candidate_baseline',nw,nv)]}
+  q['levels'][str(level)]=entry
+ quality.append(q)
+budget=load(B/'declared-budget.json')
+check('independent active payload total and ceiling arithmetic',active_old==33554832 and active_new==20272736 and active_new-budget['retired_procedural_bytes']==19486307<budget['additional_texture_ceiling_bytes'])
+pipeline=load(B/'pipeline-verification.json');check('recorded verify-only and19 high-quality-negative outcomes',pipeline['passed']==21 and pipeline['failed']==0 and len(pipeline['checks'])==21 and all(x['pass'] for x in pipeline['checks']))
+report={'reviewer':'/root/independent_qa','recorded_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Offline independent exact23-file source guards, recorded native CPU-format/readback evidence,114 decoded source/old/new buffers, block/mip arithmetic and five personally inspected comparison crops. No Godot/GL/Mac execution by reviewer.',
+ 'verdict':'No compression-policy source blocker identified for guarded integration/fresh import. Native exact cold CPU proof supports compatible format selection. Actual GLES upload/shading, Mac no-warning boot and target performance remain Unmeasured.',
+ 'checks':checks,'passed':sum(x['pass'] for x in checks),'failed':sum(not x['pass'] for x in checks),'formats':counts,'active_old_payload_bytes':active_old,'active_new_payload_bytes':active_new,'active_new_added_payload_bytes':active_new-budget['retired_procedural_bytes'],'resident_gpu_bytes_measured':False,
+ 'quality':quality,'visual_review':{'personally_opened':['pavement','asphalt','sandstone','grass','wood'],'finding':'Source detail and orientation remain recognizable. BC1 introduces local quantized colour/block edges and changed grain contrast; no gross lost subject/detail in these five enlarged albedo crops. This is not lit material/ARM/normal quality or target appearance admission.','blind_review':False,'blind_limit':'The A/B key was read during source inspection; author blind-sheet labels do not make this independent review blind.'},
+ 'provenance_corrections':['Earlier desktop-only mini-project descriptors differ from final both-target proposal. New cold-exact epoch now binds all23 exact files before/after native readback, with identical desktop compressed payloads to the quality epoch.','Old run_job receipts are before-only; later inventory is not retroactive native-exit measurement.','The final import descriptors retain mobile ETC2 targets; mobile rendering/upload is not tested.','Unchanged source image pixels does not mean decoded BC1/BC5 pixels are identical.','Public4.6.3 source corroborates format choice; installed7d41 versus public tag35e80 source-byte parity remains unestablished.'],
+ 'proposal_manifest_sha256':H((B/'proposal-manifest.json').read_bytes()),'exact_native_receipt_sha256':H((B/'cold-exact-probe/receipt.json').read_bytes())}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(__file__,O/'independent-audit.py.txt')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'formats':counts,'active_payload_bytes':active_new,'additional_payload_MiB':report['active_new_added_payload_bytes']/2**20},indent=2))

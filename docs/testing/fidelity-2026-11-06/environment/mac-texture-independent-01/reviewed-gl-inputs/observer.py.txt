@@ -1,0 +1,41 @@
+from pathlib import Path
+import os,sys,subprocess,datetime,time,hashlib,json,re,signal,shutil
+O=Path('/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07');P=O/'exact-proposal-project';out=O/'gl-macro-01';out.mkdir(exist_ok=False);deadline=time.monotonic()+240
+start=datetime.datetime.now(datetime.timezone.utc);display_file=(out/'display').open('w');xlog=(out/'xorg-console.log').open('w');xorg=proc=None;stages=[];reason=None
+
+def inventory():
+ files=[p for p in P.rglob('*') if p.is_file() and '.godot' not in p.parts and '.local' not in p.parts[len(P.parts):]]+list((P/'.local/reference-bptc').glob('*.ctex'))
+ return {str(p.relative_to(P)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)}
+def stop(p):
+ if p is not None and p.poll() is None:
+  os.killpg(p.pid,signal.SIGTERM)
+  try:p.wait(timeout=5)
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
+before=inventory();(out/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(out/'observer.py.txt').write_bytes(Path(__file__).read_bytes());(out/'macro.gd.txt').write_bytes((P/'macro.gd').read_bytes())
+try:
+ xorg=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(display_file.fileno()),'-config',str(P/'tools/xorg-dummy.conf'),'-logfile',str(out/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=(display_file.fileno(),),stdout=xlog,stderr=subprocess.STDOUT,start_new_session=True)
+ for i in range(50):
+  display=(out/'display').read_text().strip()
+  if display:break
+  if xorg.poll() is not None:raise RuntimeError('Xorgfailed')
+  time.sleep(.1)
+ else:raise RuntimeError('No display')
+ env=os.environ.copy();env.update(DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1',LP_NUM_THREADS='4')
+ for key,leaf in [('XDG_DATA_HOME','data'),('XDG_CACHE_HOME','cache'),('XDG_CONFIG_HOME','config')]:env[key]=str(P/'.local'/leaf)
+ commands=[('macro',180,[str(P/'macro.gd')]),('allocation',60,[str(P/'tools/environment_texture_probe.gd')])]
+ for name,bound,script in commands:
+  cmd=['godot','--path',str(P),'--rendering-method','gl_compatibility','--audio-driver','Dummy','--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60','--script',script[0],'--',str(out)] if name=='macro' else ['godot','--path',str(P),'--rendering-method','gl_compatibility','--audio-driver','Dummy','--windowed','--resolution','1280x800','--script',script[0],'--',str(out)]
+  maximum=min(bound,deadline-time.monotonic());stage_start=datetime.datetime.now(datetime.timezone.utc)
+  with (out/(name+'-engine.log')).open('w') as log:
+   proc=subprocess.Popen(cmd,cwd=P,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);stage={'name':name,'pid':proc.pid,'start':stage_start.isoformat(),'deadline':(stage_start+datetime.timedelta(seconds=maximum)).isoformat(),'command':cmd};print(json.dumps(stage),flush=True)
+   until=time.monotonic()+maximum
+   while proc.poll() is None:
+    if time.monotonic()>until:reason='Timedout '+name;stop(proc);break
+    text=(out/(name+'-engine.log')).read_text(errors='replace')
+    if re.search(r'SCRIPT ERROR:|SHADER ERROR:|ERROR:|FAIL:',text):reason='Engineerrors '+name;stop(proc);break
+    time.sleep(.1)
+   stage.update(end=datetime.datetime.now(datetime.timezone.utc).isoformat(),exit_code=proc.returncode);stages.append(stage)
+  if reason or proc.returncode:break
+except Exception as e:reason=repr(e)
+finally:stop(proc);stop(xorg);display_file.close();xlog.close()
+after=inventory();(out/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');changed=[n for n in before.keys()|after.keys() if before.get(n)!=after.get(n)];receipt={'start':start.isoformat(),'end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'bound_seconds':240,'reason':reason,'source_changes':changed,'source_stable':not changed,'stages':stages,'scope':'Root-authorized qualitativecomponentGLmacro +separatefreshprocessnativeallocation. RA351ended10:56:37; actualknownGap/otherheadlessoverlapperteamrecords only, no FPS/CPUexclusivity/Macupload/Mainfinish claim. Bothtexturefamiliesresidentduringmacro; allocationobserverseparateprocess.','pngs':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in out.glob('*.png')}};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in receipt.items() if k!='pngs'}),flush=True);sys.exit(0 if not reason and len(stages)==2 and all(s['exit_code']==0 for s in stages) and not changed else 1)

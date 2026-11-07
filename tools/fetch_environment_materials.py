@@ -24,6 +24,14 @@ IMPORT_POLICY = {
     'mipmaps': True, 'filter': 'linear anisotropic', 'maximum_dimension': 2048,
     'maximum_dimension_by_map': {'albedo': 2048, 'normal_opengl': 1024, 'arm': 1024, 'zc_materials_all_maps': 1024},
     'added_texture_budget_mib': 32,
+    'desktop_vram_compression': {
+        'high_quality': False,
+        'cache_targets': 'S3TC/ETC2 remaps trigger ordinary editor reimport without deleting cached files',
+        'opaque': 'S3TC DXT1 (BC1)',
+        'normal': 'RGTC_RG (BC5); reconstruct positive Z from RG',
+        'allowed_native_formats': ['DXT1', 'DXT5', 'RGTC_R', 'RGTC_RG'],
+        'reason': 'Compatibility desktop OpenGL including macOS4.1; BC7/BPTC requires an extension unavailable in the observed AppleM5 driver',
+    },
     'budget_note': 'Declared additional resident GPU texture ceiling; actual renderer memory must be measured. Primary albedo remains 2K, normals and packed roughness/AO import at 1K; close/chase comparison must verify the normal-map resource reduction.',
 }
 PACKED_CHANNELS = {'red': 'ambient occlusion', 'green': 'roughness', 'blue': 'metallic (unused on dielectric stone/asphalt)'}
@@ -61,7 +69,7 @@ def apply_import_policy(path: Path, asset: str, channel: str) -> None:
     text = import_path.read_text() if import_path.exists() else f'[remap]\n\nimporter="texture"\ntype="CompressedTexture2D"\n\n[deps]\n\nsource_file="{resource_path}"\n\n[params]\n'
     if '[params]' not in text:
         raise ValueError(f'{import_path}: missing importer parameters')
-    parameters = {'compress/mode': '2', 'compress/high_quality': 'true',
+    parameters = {'compress/mode': '2', 'compress/high_quality': 'false',
                   'compress/normal_map': '1' if channel == 'normal_opengl' else '2',
                   'mipmaps/generate': 'true', 'mipmaps/limit': '-1',
                   'process/normal_map_invert_y': 'false',
@@ -74,6 +82,11 @@ def apply_import_policy(path: Path, asset: str, channel: str) -> None:
             text = re.sub(pattern, key + '=' + value, text, flags=re.MULTILINE)
         else:
             text += '\n' + key + '=' + value
+    # Keep the authored cache targets consistent with the compatible policy.
+    # A normal editor import sees missing S3TC/ETC2 targets and regenerates them
+    # even if its previous filesystem cache is absent; no cache wipe is needed.
+    text = text.replace('path.bptc=', 'path.s3tc=').replace('.bptc.ctex', '.s3tc.ctex')
+    text = text.replace('path.astc=', 'path.etc2=').replace('.astc.ctex', '.etc2.ctex')
     import_path.write_text(text.rstrip() + '\n')
 
 def fetch_material(entry: tuple, provider: str, previous: dict) -> tuple:
@@ -126,12 +139,14 @@ def verify(manifest: dict) -> None:
             if sha(data) != entry['file_sha256'][key] or len(data) != entry['file_bytes'][key] or jpeg_dimensions(data) != entry['source_dimensions_px'][key]:
                 raise ValueError(f'{asset}/{key}: source image integrity/dimensions differ')
             settings = Path(str(path) + '.import').read_text()
-            expected = {'compress/mode': '2', 'compress/normal_map': '1' if key == 'normal_opengl' else '2',
+            expected = {'compress/mode': '2', 'compress/high_quality': 'false', 'compress/normal_map': '1' if key == 'normal_opengl' else '2',
                         'mipmaps/generate': 'true', 'process/normal_map_invert_y': 'false',
                         'process/size_limit': str(size_limit(asset, key))}
             for property_name, value in expected.items():
                 if not re.search(rf'^{re.escape(property_name)}={re.escape(value)}$', settings, flags=re.MULTILINE):
                     raise ValueError(f'{asset}/{key}: {property_name} must equal {value}')
+            if '.bptc.ctex' in settings or '.astc.ctex' in settings:
+                raise ValueError(f'{asset}/{key}: cache targets retain unsupported high-quality compression')
             count += 1
     if count != 15:
         raise ValueError(f'Expected exactly 15 inspected maps, found {count}')

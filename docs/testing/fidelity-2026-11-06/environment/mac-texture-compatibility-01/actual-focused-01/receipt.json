@@ -1,0 +1,55 @@
+{
+  "started_utc": "2026-11-07T11:19:57.288171+00:00",
+  "ended_utc": "2026-11-07T11:20:41.185077+00:00",
+  "deadline_seconds": 360,
+  "reason": "Deadline native19-realmain",
+  "stages": [
+    {
+      "name": "ordinary-import-and-boot",
+      "pid": 123214,
+      "start": "2026-11-07T11:19:57.288224+00:00",
+      "deadline": "2026-11-07T11:21:57.288224+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--quit-after",
+        "60"
+      ],
+      "cwd": "/workspace/tam_hawks_ps",
+      "end": "2026-11-07T11:20:25.705648+00:00",
+      "elapsed_seconds": 28.41751514399948,
+      "exit_code": 0
+    },
+    {
+      "name": "native19-realmain",
+      "pid": 123608,
+      "start": "2026-11-07T11:20:25.705844+00:00",
+      "deadline": "2026-11-07T11:20:40.705844+00:00",
+      "command": [
+        "godot",
+        "--path",
+        "/workspace/tam_hawks_ps",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/actual-focused-01/actual_probe.gd",
+        "--",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/actual-focused-01/native"
+      ],
+      "cwd": "/workspace/tam_hawks_ps",
+      "end": "2026-11-07T11:20:40.801487+00:00",
+      "elapsed_seconds": 15.095680125996296,
+      "exit_code": -15
+    }
+  ],
+  "actual_source_count": 890,
+  "actual_source_changes": [],
+  "source_cold_source_changes": [],
+  "source_cold_initial_cache_absent": true,
+  "source_cold_copy_policy": "Rawimmutableassets hardlinked from explicitly frozen actualsource; scripts/imports/manifests/tools/guide/licences copiedbyvalue. No importedcache copied. OrdinaryGODOT_BIN=godot tools/run.sh route. Actualordinary usescheckout-privateXDG(.local), directprobeepoch-privateXDG, sourcecoldfreshcheckout-privateXDG.",
+  "no_manual_actual_cache_deletion": true,
+  "limits": "NativeLinuxGodot4.6.3Compatibilityformat/pipeline/currentMainheadlessboot/sourcecoldstartup only. TargetAppleM5OpenGLupload/no-warning/performance and actualmovingMainfinish remainopen."
+}

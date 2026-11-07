@@ -1,0 +1,43 @@
+from pathlib import Path
+import datetime,hashlib,json,re,shutil
+import numpy as np
+from PIL import Image
+R=Path('/workspace/tam_hawks_ps');B=R/'.local/mac-texture-compat-2026-11-07';E=B/'gl-macro-01';O=R/'docs/testing/fidelity-2026-11-06/environment/mac-texture-independent-01'
+H=lambda b:hashlib.sha256(b).hexdigest();load=lambda p:json.loads(p.read_text());m=load(E/'macro-report.json');a=load(E/'texture-report.json');r=load(E/'receipt.json');checks=[]
+def check(label,ok,actual=None):checks.append({'check':label,'pass':bool(ok),'actual':actual})
+before=load(E/'source-before.json');after=load(E/'source-after.json')
+check('all recorded source/BC7-copy hashes stable',before==after and r['source_stable'] and not r['source_changes'],len(before))
+check('macro139/0 eighteen full targets complete',m['complete'] and m['checks']==139 and m['failures']==0 and len(m['images'])==18 and len({v['file'] for v in m['images']})==18 and not m['timing_measured'])
+check('both actualGL stages exit0 inside deadlines',len(r['stages'])==2 and all(s['exit_code']==0 and datetime.datetime.fromisoformat(s['end'])<datetime.datetime.fromisoformat(s['deadline']) for s in r['stages']))
+check('macro/allocation raw logs clean',all(not re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:',(E/n).read_text()) for n in ['macro-engine.log','allocation-engine.log']))
+check('executed macro bound before/after',before['macro.gd']==H((E/'macro.gd.txt').read_bytes()))
+max_projection=max_centroid=0.;images=[]
+for row in m['images']:
+ im=Image.open(E/row['file']).convert('RGBA');raw=im.tobytes();pixels=np.array(im)
+ check('nativeRGBA '+row['file'],im.size==(1280,800) and row['viewport_size']==[1280,800] and len(raw)==row['pixels']['bytes']==4096000 and H(raw)==row['pixels']['rgba8_sha256'])
+ check('same native tick bracket '+row['file'],row['physics_before']==row['physics_after'] and row['process_before']==row['process_after'])
+ camera=np.array(row['camera_basis'],float).T;proj=np.array(row['projection_columns'],float).T;origin=np.array(row['camera_position'],float)
+ check('finite rigid camera/projection '+row['file'],np.isfinite(camera).all() and np.isfinite(proj).all() and np.max(np.abs(camera.T@camera-np.eye(3)))<1e-5 and row['near']>0 and row['far']>row['near'])
+ for marker in row['pixel_proofs']['markers']:
+  local=camera.T@(np.array(marker['world_position'])-origin);clip=proj@np.r_[local,1.];ndc=clip[:3]/clip[3];position=np.array([(ndc[0]+1)*640,(1-ndc[1])*400]);error=float(np.linalg.norm(position-marker['projected_xy']));max_projection=max(error,max_projection)
+  check('independent world projection '+row['file']+' '+marker['color'],error<.01,error)
+  px,py=marker['projected_xy'];x0=max(0,int(px)-10);x1=min(1280,int(px)+11);y0=max(0,int(py)-10);y1=min(800,int(py)+11)
+  rgb=(pixels[y0:y1,x0:x1,:3].astype(np.float32)/np.float32(255)).astype(np.float64);channel=0 if marker['color']=='red' else 1;other=[v for v in range(3) if v!=channel];mask=(rgb[...,channel]>.75)&(rgb[...,channel]-rgb[...,other[0]]>.20)&(rgb[...,channel]-rgb[...,other[1]]>.20);yy,xx=np.where(mask);centre=np.array([float(xx.mean()+x0+.5),float(yy.mean()+y0+.5)]);gap=float(np.linalg.norm(centre-np.array(marker['projected_xy'])));max_centroid=max(gap,max_centroid)
+  check('independent actual marker pixels '+row['file']+' '+marker['color'],len(xx)==marker['pixel_count'] and np.linalg.norm(centre-marker['centroid_xy'])<.001 and gap<=2.0,{'pixels':len(xx),'centroid_error':gap})
+ sample=row['pixel_proofs']['canvas_sample_xy'];expected=np.array(row['pixel_proofs']['canvas_expected_rgb'])*255
+ check('actual current Canvas '+row['file'],np.max(np.abs(pixels[sample[1],sample[0],:3].astype(float)-expected))<=2.)
+ images.append({'file':row['file'],'png_sha256':H((E/row['file']).read_bytes()),'rgba8_sha256':H(raw)})
+for view in sorted({v['view'] for v in m['images']}):
+ v=[x for x in m['images'] if x['view']==view];fields=['camera_basis','camera_position','projection_columns','fov','near','far','keep_aspect','viewport_size']
+ check('matched camera across A/B/A '+view,len(v)==3 and all({k:x[k] for k in fields}=={k:v[0][k] for k in fields} for x in v))
+check('baseline material inventories restored exactly',m['inventories']['baseline-a']==m['inventories']['baseline-b'])
+check('actual bound compatible formats15,baselineBC7',m['inventories']['compatible']['bound_count']==15 and all(v['format']in[17,21]for v in m['inventories']['compatible']['maps']) and all(v['format']==22 for v in m['inventories']['baseline-a']['maps']))
+check('fresh separate native allocation difference and32MiB ceiling',a['failures']==0 and a['budget_pass'] and a['additional_texture_bytes']==a['after']['texture_bytes']-a['before']['texture_bytes']==19486307 and a['additional_texture_bytes']<32*2**20)
+check('native allocation draws/primitives unchanged',a['before']['draws']==a['after']['draws']==8 and a['before']['primitives']==a['after']['primitives']==96 and a['before']['unique_bound_maps']==3 and a['after']['unique_bound_maps']==15)
+adapter=load(B/'allocation-adapter.json');actual=(R/'game/levels/city_art.gd').read_text();body=re.search(r'^func _surface_texture\(.*?(?=^func |\Z)',actual,re.M|re.S).group(0);standalone=(B/'exact-proposal-project/retired_textures.gd').read_text();copy=re.search(r'^func _surface_texture\(.*?(?=^func |\Z)',standalone,re.M|re.S).group(0)
+check('retired primitive texture function body copied exact, excluding inter-function blank separators',body.rstrip()+'\n'==copy and H((body.rstrip()+'\n').encode())==adapter['function_sha256'])
+report={'reviewer':'/root/independent_qa','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Independent offline18nativeGL pixel/camera/Canvas/proof checks and fresh process renderer-counter allocation. Four actual originals personally opened. No new engine execution.', 'checks':checks,'passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'native_originals':images,'max_independent_projection_error_px':max_projection,'max_independent_marker_centroid_error_px':max_centroid,'source_input_count':len(before),
+ 'visual_subset':{'opened':['baseline-a-asphalt-oblique.png','compatible-asphalt-oblique.png','baseline-a-sandstone-wall.png','compatible-sandstone-wall.png'],'finding':'Asphalt cracks/granularity and sandstone mortar/normal relief remain coherent under the shared lit component setup. No gross format-induced normal inversion or flat/black material failure observed in these two paired views; minor grain/colour differences remain. Fourteen target originals are verified for integrity, not personally inspected.','fixture':'Six-metre plane and4×3m wall with shared production material settings; not actualMain.'},
+ 'allocation':{'additional_native_renderer_texture_counter_bytes':19486307,'before':a['before']['texture_bytes'],'after':a['after']['texture_bytes'],'draws':8,'primitives':96,'scope':'Fresh separate process; process-local Godot renderer allocation counter, not total hardware residency/Mac memory or FPS. Both texture sets remain resident in macroprocess, so macro counters are not its allocation experiment.'},
+ 'verdict':'Pass for recorded component integrity and bounded fresh native allocation. Two inspected material pairs have no blocking format artifact; completeMain/Mac no-warning/target quality and performance remain unmeasured.'}
+(O/'native-gl-supplement.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(__file__,O/'native-gl-audit.py.txt');print(json.dumps({'passed':report['passed'],'failed':report['failed'],'sources':len(before),'max_projection':max_projection,'max_centroid':max_centroid},indent=2))

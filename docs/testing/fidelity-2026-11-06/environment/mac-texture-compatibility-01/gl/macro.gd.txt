@@ -1,0 +1,233 @@
+extends SceneTree
+const Library = preload("res://game/levels/art/material_library.gd")
+var output := ""
+var _native_size := Vector2i(1280,800)
+var _raw_spool := false
+var checks := 0
+var failures := 0
+var _proof_markers: Array[MeshInstance3D] = []
+var _proof_swatch: ColorRect
+var _active_proof_camera: Camera3D
+var _candidate := {}
+var _baseline := {}
+var _meshes: Array[MeshInstance3D] = []
+var _images: Array[Dictionary] = []
+var _inventories := {}
+const KEYS: Array[String] = ["stone","stone_light","sandstone","paving","path","asphalt","wood","grass","glass","facade_glass","window_dull","window_lit","shop_glass","iron"]
+const MODES: Array[String] = ["baseline-a","compatible","baseline-b"]
+
+func _initialize() -> void: _run.call_deferred()
+
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	if args.size()!=1 or DisplayServer.get_name()=="headless":quit(2);return
+	output=args[0]
+	DirAccess.make_dir_recursive_absolute(output)
+	root.size=_native_size
+	root.content_scale_size=_native_size
+	RenderingServer.set_render_loop_enabled(false)
+	for key: String in KEYS: _candidate[key]=StandardMaterial3D.new()
+	Library.apply(_candidate)
+	var reference_paths: Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://baseline-textures.json"))
+	var references: Dictionary={}
+	for path: String in reference_paths:references[path]=load(String(reference_paths[path])) as Texture2D
+	for key: String in KEYS:
+		if not _candidate[key] is StandardMaterial3D:continue
+		var material: StandardMaterial3D=_candidate[key].duplicate(false)
+		for property: String in ["albedo_texture","normal_texture","roughness_texture","ao_texture"]:
+			var texture: Texture2D=material.get(property)
+			if texture!=null:
+				_check(references.has(texture.resource_path),"baselineexactsourcecacheexists "+texture.resource_path)
+				material.set(property,references[texture.resource_path])
+		_baseline[key]=material
+	_lighting()
+	var ground:=MeshInstance3D.new()
+	var plane:=PlaneMesh.new()
+	plane.size=Vector2(6,6)
+	ground.mesh=plane
+	root.add_child(ground)
+	_meshes.append(ground)
+	var wall:=MeshInstance3D.new()
+	var box:=BoxMesh.new()
+	box.size=Vector3(4,3,.25)
+	wall.mesh=box
+	wall.position=Vector3(0,1.5,-2.5)
+	root.add_child(wall)
+	_meshes.append(wall)
+	_active_proof_camera=Camera3D.new()
+	_active_proof_camera.near=.05
+	_active_proof_camera.far=30
+	root.add_child(_active_proof_camera)
+	_active_proof_camera.current=true
+	_create_pixel_proofs()
+	var views: Array[Dictionary]=[
+		{"id":"paving-close","key":"paving","at":Vector3(1,.75,1.6),"target":Vector3(0,0,0),"fov":48.0},
+		{"id":"sandstone-wall","key":"stone","at":Vector3(1.5,1.8,1.4),"target":Vector3(0,1.5,-2.4),"fov":48.0},
+		{"id":"asphalt-oblique","key":"asphalt","at":Vector3(1.8,1.1,1.9),"target":Vector3(0,0,-.6),"fov":55.0},
+		{"id":"wood-wall","key":"wood","at":Vector3(1.5,1.8,1.4),"target":Vector3(0,1.5,-2.4),"fov":48.0},
+		{"id":"grass-close","key":"grass","at":Vector3(1,.75,1.6),"target":Vector3(0,0,0),"fov":48.0},
+		{"id":"paving-grazing","key":"paving","at":Vector3(2.8,.5,1),"target":Vector3(0,0,-1),"fov":68.0}]
+	for mode_index: int in MODES.size():
+		var mode: String=MODES[mode_index]
+		var materials: Dictionary=_candidate if mode=="compatible" else _baseline
+		_inventories[mode]=_inventory(materials)
+		for index: int in views.size():
+			var view: Dictionary=views[index]
+			for mesh: MeshInstance3D in _meshes:mesh.material_override=materials[view.key]
+			_active_proof_camera.position=view.at
+			_active_proof_camera.look_at(view.target)
+			_active_proof_camera.fov=float(view.fov)
+			_proof_markers[0].global_position=_active_proof_camera.to_global(Vector3(-1.6+index*.15+mode_index*.10,1.2,-5))
+			_proof_markers[1].global_position=_active_proof_camera.to_global(Vector3(1.5-index*.12,.8+mode_index*.12,-5))
+			_proof_swatch.color=Color8(30+70*mode_index,40+30*index,190-30*mode_index)
+			await process_frame
+			await create_timer(0.0,true).timeout
+			var physics_before:=Engine.get_physics_frames()
+			var process_before:=Engine.get_process_frames()
+			var image: Image=await _render_current_frame()
+			var proofs:=_verify_pixel_proofs(image)
+			var projection:=_active_proof_camera.get_camera_projection()
+			var filename:=mode+"-"+String(view.id)+".png"
+			var pixels:=_store_frame(image,filename)
+			_images.append({"file":filename,"mode":mode,"view":view.id,"key":view.key,"pixels":pixels,"pixel_proofs":proofs,"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"camera_position":_v(_active_proof_camera.position),"camera_basis":[_v(_active_proof_camera.global_basis.x),_v(_active_proof_camera.global_basis.y),_v(_active_proof_camera.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],"fov":_active_proof_camera.fov,"near":_active_proof_camera.near,"far":_active_proof_camera.far,"keep_aspect":_active_proof_camera.keep_aspect,"viewport_size":[root.size.x,root.size.y]})
+			_write_report(false)
+	_check(_images.size()==18,"all18matchedsixviewA/B/Aoriginalscomplete")
+	_write_report(true)
+	print("MAC_TEXTURE_MACRO checks=",checks," failures=",failures)
+	quit(1 if failures else 0)
+
+func _inventory(materials: Dictionary) -> Dictionary:
+	var seen: Dictionary={}
+	var maps: Array[Dictionary]=[]
+	for key: String in ["stone","paving","asphalt","wood","grass"]:
+		var material: StandardMaterial3D=materials[key]
+		for texture: Texture2D in [material.albedo_texture,material.normal_texture,material.roughness_texture,material.ao_texture]:
+			if texture==null or seen.has(texture.get_rid()):continue
+			seen[texture.get_rid()]=true
+			var image: Image=texture.get_image()
+			maps.append({"resource":texture.resource_path,"format":image.get_format(),"width":image.get_width(),"height":image.get_height(),"mips":image.get_mipmap_count(),"payload_bytes":image.get_data().size()})
+	return {"maps":maps,"bound_count":maps.size(),"scope":"Bothbaselineandcandidatemapsresidentthroughout;thisisvisualonly,notallocationorFPS"}
+
+func _write_report(complete: bool) -> void:
+	var file:=FileAccess.open(output.path_join("macro-report.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify({"complete":complete,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),"images":_images,"inventories":_inventories,"timing_measured":false,"scope":"Sixclose/obliquecomponentmaterialviews, exactproductionsharedlibrarysettings/physicalscaleandoriginalcompiledBC7versuscompatiblecompiledS3TC/RGTC.18A/B/Arendered1280x800originalswithperimagenatural-frame/3Dmarkers/Canvas/fullprojection/nativeRGBAproofs. Fixedsimple6mgroundand4x3mwallfixture,notactualMainorMac. Bothsetsresident; allocationmeasuredinseparatefreshprocessusingexistingproductioncontrol."},"\t")+"\n")
+	file.close()
+
+func _lighting() -> void:
+	var world:=WorldEnvironment.new()
+	var environment:=Environment.new()
+	environment.background_mode=Environment.BG_COLOR
+	environment.background_color=Color("c4c8c4")
+	environment.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR
+	environment.ambient_light_color=Color("d0dce2")
+	environment.ambient_light_energy=.36
+	environment.tonemap_mode=Environment.TONE_MAPPER_ACES
+	world.environment=environment
+	root.add_child(world)
+	var sun:=DirectionalLight3D.new()
+	sun.rotation_degrees=Vector3(-42,-32,0)
+	sun.light_color=Color("fffaf3")
+	sun.light_energy=.86
+	sun.shadow_enabled=true
+	sun.shadow_opacity=.8
+	root.add_child(sun)
+
+func _render_current_frame() -> Image:
+	# Let the engine flush current Node3D, Skeleton and Canvas notifications in
+	# its normal render pass. Manual force_draw immediately after changing the
+	# camera can read the previous camera, even when metadata is already current.
+	var native_tick := Engine.get_physics_frames()
+	var process_tick := Engine.get_process_frames()
+	var started := Time.get_ticks_usec()
+	RenderingServer.set_render_loop_enabled(true)
+	await RenderingServer.frame_post_draw
+	RenderingServer.set_render_loop_enabled(false)
+	_check(Engine.get_physics_frames() == native_tick and Engine.get_process_frames() == process_tick,
+		"natural readback completes the current frame without another physics/process tick")
+	var image := root.get_texture().get_image()
+	image.convert(Image.FORMAT_RGBA8)
+	_check(image.get_width() == _native_size.x and image.get_height() == _native_size.y,
+		"native capture retains every pixel of its declared "+str(_native_size)+" viewport")
+	image.set_meta("draw_and_read_microseconds", Time.get_ticks_usec() - started)
+	return image
+
+func _store_frame(image: Image, relative: String) -> Dictionary:
+	var started := Time.get_ticks_usec()
+	var bytes := image.get_data()
+	var hash := HashingContext.new()
+	hash.start(HashingContext.HASH_SHA256)
+	hash.update(bytes)
+	var pixel_hash := hash.finish().hex_encode()
+	if _raw_spool:
+		var raw_path := output.path_join(relative.get_basename() + ".rgba")
+		var file := FileAccess.open(raw_path + ".tmp", FileAccess.WRITE)
+		_check(file != null, "raw pixel spool opened " + relative)
+		if file != null:
+			file.store_buffer(bytes)
+			file.close()
+			_check(DirAccess.rename_absolute(raw_path + ".tmp", raw_path) == OK,
+				"complete native pixel spool published atomically " + relative)
+	else:
+		_check(image.save_png(output.path_join(relative)) == OK, "lossless frame saved " + relative)
+	return {"format":"RGBA8", "rgba8_sha256":pixel_hash, "bytes":bytes.size(),
+		"draw_and_read_microseconds":image.get_meta("draw_and_read_microseconds", 0),
+		"hash_and_store_microseconds":Time.get_ticks_usec() - started,
+		"encoding":"atomic raw spool to standard-library lossless PNG" if _raw_spool else "Godot lossless PNG"}
+
+func _v(point: Vector3) -> Array:
+	return [point.x, point.y, point.z]
+
+func _check(ok: bool, label: String) -> void:
+	checks += 1
+	if not ok:
+		failures += 1
+		push_error("FAIL: " + label)
+
+func _create_pixel_proofs() -> void:
+	for color: Color in [Color.RED,Color.GREEN]:
+		var mesh := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.055
+		sphere.height = 0.11
+		sphere.radial_segments = 12
+		sphere.rings = 6
+		mesh.mesh = sphere
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.albedo_color = color
+		material.no_depth_test = true
+		mesh.material_override = material
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		root.add_child(mesh)
+		_proof_markers.append(mesh)
+	var canvas := CanvasLayer.new()
+	root.add_child(canvas)
+	_proof_swatch = ColorRect.new()
+	_proof_swatch.position = Vector2(4,4)
+	_proof_swatch.size = Vector2(18,18)
+	canvas.add_child(_proof_swatch)
+
+func _verify_pixel_proofs(image: Image) -> Dictionary:
+	var records: Array[Dictionary] = []
+	for index: int in _proof_markers.size():
+		var point := _proof_markers[index].global_position
+		var projected := _active_proof_camera.unproject_position(point)
+		var center := Vector2.ZERO
+		var count := 0
+		for y: int in range(maxi(0,int(projected.y)-10),mini(image.get_height(),int(projected.y)+11)):
+			for x: int in range(maxi(0,int(projected.x)-10),mini(image.get_width(),int(projected.x)+11)):
+				var color := image.get_pixel(x,y)
+				var found := color.r>0.75 and color.r-color.g>0.20 and color.r-color.b>0.20 if index==0 else color.g>0.75 and color.g-color.r>0.20 and color.g-color.b>0.20
+				if found: center+=Vector2(x+0.5,y+0.5);count+=1
+		if count: center/=float(count)
+		var error := center.distance_to(projected)
+		_check(count>=8 and error<=2.0,"projected independent3D marker matches actual pixels")
+		records.append({"color":"red" if index==0 else "green","world_position":_v(point),"projected_xy":[projected.x,projected.y],"pixel_count":count,"centroid_xy":[center.x,center.y],"error_pixels":error})
+	var expected := _proof_swatch.color
+	var actual := image.get_pixel(10,10)
+	var swatch_error := maxf(absf(expected.r-actual.r),maxf(absf(expected.g-actual.g),absf(expected.b-actual.b)))
+	_check(swatch_error<=2.0/255.0,"current Canvas material/view swatch agrees with native pixels")
+	return {"markers":records,"canvas_expected_rgb":[expected.r,expected.g,expected.b],"canvas_actual_rgb":[actual.r,actual.g,actual.b],"canvas_error":swatch_error,"canvas_sample_xy":[10,10]}
+
+func _v4(value: Vector4) -> Array:
+	return [value.x,value.y,value.z,value.w]

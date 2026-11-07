@@ -7,7 +7,7 @@
     "NumPy": "2.3.5"
   },
   "licence": "CC0-1.0; derivatives of the exact retained maps in ../manifest.json",
-  "source_manifest_sha256": "17ade7bc3747740593853303da2d90a7e9bff549619aca04d46482a79b6fa99f",
+  "source_manifest_sha256": "9ed722f95ca63d0e8fb2031e36e75826b8045c28c3a35d2822bd5394cf7f3823",
   "source_sha256": {
     "T_grass01": {
       "albedo": "a226e00dadc773be187d652c41683dcd61720ca40eeeff5220436ff211940275",
@@ -25,6 +25,19 @@
     "pavement": 1.5
   },
   "physical_scale_note": "Grass contains two original authored1.5m tiles per axis; paving retains the provider1.5m width.",
+  "desktop_vram_compression": {
+    "high_quality": false,
+    "cache_targets": "S3TC/ETC2 remaps trigger ordinary editor reimport without deleting cached files",
+    "opaque": "S3TC DXT1 (BC1)",
+    "normal": "RGTC_RG (BC5); reconstruct positive Z from RG",
+    "allowed_native_formats": [
+      "DXT1",
+      "DXT5",
+      "RGTC_R",
+      "RGTC_RG"
+    ],
+    "reason": "Compatibility desktop OpenGL including macOS4.1; BC7/BPTC requires an extension unavailable in the observed AppleM5 driver"
+  },
   "gpu_policy": "These replace existing map bindings: same4maps resident, no extra sampling or draw family; mipmapped VRAM compression, grass1K/paving2K.",
   "files": {
     "grass_albedo.png": {

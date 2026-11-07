@@ -1,0 +1,31 @@
+extends SceneTree
+func _initialize() -> void:
+	var args := OS.get_cmdline_user_args()
+	assert(args.size() == 1)
+	var entries: Array = JSON.parse_string(FileAccess.get_file_as_string("res://entries.json"))
+	var report := {"engine": Engine.get_version_info(), "scope": "Headless CPU native imported format/payload only, no GLresidency/FPS/Macupload claim", "complete": false, "errors": [], "maps": []}
+	var output := ProjectSettings.globalize_path("res://../" + args[0])
+	DirAccess.make_dir_recursive_absolute(output)
+	for value: Dictionary in entries:
+		var texture: Texture2D = load(String(value.resource))
+		if texture == null:
+			report.errors.append(String(value.resource) + ": loadfailed")
+			continue
+		var image: Image = texture.get_image()
+		if image == null:
+			report.errors.append(String(value.resource) + ": imagefailed")
+			continue
+		var row := value.duplicate(true)
+		var hash := HashingContext.new()
+		hash.start(HashingContext.HASH_SHA256)
+		hash.update(image.get_data())
+		row.merge({"native_format": image.get_format(), "width": image.get_width(), "height": image.get_height(), "mipmap_count": image.get_mipmap_count(), "compressed": image.is_compressed(), "payload_bytes": image.get_data().size(), "payload_sha256": hash.finish().hex_encode()}, true)
+		if image.get_format() != (Image.FORMAT_RGTC_RG if value.normal else Image.FORMAT_DXT1) or not image.is_compressed() or image.get_mipmap_count() < 10 or image.get_width() != int(value.limit) or image.get_height() != int(value.limit) or image.get_data().size() != int(value.candidate_expected_payload):
+			report.errors.append(String(value.resource) + ": format/dimensions/mips/payloadcontractfailed")
+		report.maps.append(row)
+	report.complete = true
+	var file := FileAccess.open(output.path_join("report.json"), FileAccess.WRITE)
+	file.store_string(JSON.stringify(report,"\t") + "\n")
+	file.close()
+	print("NATIVE_TEXTURE_FORMATS: ", report.maps.size(), " maps / ", report.errors.size(), " errors")
+	quit(0 if report.errors.is_empty() and report.maps.size() == 19 else 1)

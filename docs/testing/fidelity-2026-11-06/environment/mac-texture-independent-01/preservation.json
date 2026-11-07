@@ -1,0 +1,121 @@
+{
+  "purpose": "Independent post-run review/preservation; native producer receipts remain unchanged",
+  "files": {
+    "README.md": {
+      "sha256": "bf5c17ca78fdf7c395cede6ba011f9d7b30e871d57319c4173bcae0de5a702b6",
+      "bytes": 5030
+    },
+    "comparison-crops/blind-T_wood01--T_wood01_albedo.png": {
+      "sha256": "af0bbd4db2019aac71531c05f1abad43df08cd1cb2be010954cea8a981f916c3",
+      "bytes": 227106
+    },
+    "comparison-crops/blind-asphalt_02--asphalt_02_diff_2k.png": {
+      "sha256": "a5076e995abe0d4751b5411afe402a3d46e580a5988c0d3391f1a40c8512d524",
+      "bytes": 319418
+    },
+    "comparison-crops/blind-derived--grass_albedo.png": {
+      "sha256": "d2f631072ae7f60b34590c689b12cc9ef9a0a45c9cda4b195521b25345e31418",
+      "bytes": 346585
+    },
+    "comparison-crops/blind-derived--pavement_albedo.png": {
+      "sha256": "cf0467ad09bcf32599b98623a3b80e2d8551628bcb34c6af473b6ea3d7ddba3b",
+      "bytes": 257063
+    },
+    "comparison-crops/blind-sandstone_blocks_04--sandstone_blocks_04_diff_2k.png": {
+      "sha256": "930a8600a828edd4d315e7a758f6d7d1d056a7b12dd64010108d68313ffa7eb9",
+      "bytes": 262833
+    },
+    "independent-audit.py.txt": {
+      "sha256": "2f6b5ae8c5eb88c3ec6c503d4c1dd9e5822f132774b723724cc02785e3e70ef6",
+      "bytes": 10046
+    },
+    "independent-review.json": {
+      "sha256": "9388595fd84bd0cae464c0778802cdab698e793d2e591da9cd103db4420c54c1",
+      "bytes": 107148
+    },
+    "native-gl-audit.py.txt": {
+      "sha256": "dcfa4b2bc5203b95dc50346a72ea3768cc5ea35a0a5c7f7dcefda325eb6c6252",
+      "bytes": 7654
+    },
+    "native-gl-extraction-rejected.json": {
+      "sha256": "91fb82c632bc34855f006c30bff552a1cf9a457b7f98f731a4668990f023097f",
+      "bytes": 30216
+    },
+    "native-gl-supplement.json": {
+      "sha256": "17385f98a3641a1010410ad5b2ea5247d324a2e03135ec35e1150f751c3ec22d",
+      "bytes": 29925
+    },
+    "reviewed-gl-inputs/macro-report.json": {
+      "sha256": "42615e53cc842a470442f869e368fdd73081fd1041d037f6102ef578d265c3eb",
+      "bytes": 54092
+    },
+    "reviewed-gl-inputs/macro.gd.txt": {
+      "sha256": "f5d8a38f26fc0deb71531c5c6b84bf243013b581762e7ee2cb9b0a208f192f43",
+      "bytes": 12434
+    },
+    "reviewed-gl-inputs/observer.py.txt": {
+      "sha256": "36500dd9bd8edc2b9dda83f359b734b89009c28b329f4b47277cfaec015a0393",
+      "bytes": 4441
+    },
+    "reviewed-gl-inputs/receipt.json": {
+      "sha256": "8be583a181b8618efd04139697e5b2031000cfd430b96a9ebd936bcd925aecfe",
+      "bytes": 4038
+    },
+    "reviewed-gl-inputs/source-after.json": {
+      "sha256": "aa4f3b729383fb880ccebc50efb632f1b502fea6f27ea4d96ae74aa7cbabf78f",
+      "bytes": 12979
+    },
+    "reviewed-gl-inputs/source-before.json": {
+      "sha256": "aa4f3b729383fb880ccebc50efb632f1b502fea6f27ea4d96ae74aa7cbabf78f",
+      "bytes": 12979
+    },
+    "reviewed-gl-inputs/texture-report.json": {
+      "sha256": "701d1c5c34e9fdf5fb9e716b42cf2afbf779a19835d824554c1f05aed7d7abfc",
+      "bytes": 6284
+    },
+    "reviewed-inputs/baseline-rgba--report.json.gz": {
+      "sha256": "e15cef2f8d1bd335029342de675052bed4c36b87be2a3248b80308c2a5ace6f8",
+      "bytes": 8613
+    },
+    "reviewed-inputs/candidate-migration--report.json.gz": {
+      "sha256": "c57f7508716d1e474777bc563b9ffec1c7b0ae09e330b67cce4d387658828fec",
+      "bytes": 5289
+    },
+    "reviewed-inputs/cold-exact/report.json": {
+      "sha256": "627e880d5be0c5b7d35dddf7921b3ca9353ec306c8a43586663e59f57b02a9f5",
+      "bytes": 11940
+    },
+    "reviewed-inputs/cold-exact-binding.json": {
+      "sha256": "085a89abb860bd3e357db2f625417f0a36e73fecd7506375244a071674eac9eb",
+      "bytes": 495
+    },
+    "reviewed-inputs/cold-exact-concurrency-addendum.json": {
+      "sha256": "6b73f0b783afaaa1e89d31f8201f06df54010349e58ec8182507e659cce31d1e",
+      "bytes": 530
+    },
+    "reviewed-inputs/cold-exact-probe/engine.log": {
+      "sha256": "66bbf1287f49e4dc44eb9e4f1ed0beb511a15e0aab4f22e6d8ccd7da06f5258e",
+      "bytes": 116
+    },
+    "reviewed-inputs/cold-exact-probe/probe.gd.txt": {
+      "sha256": "24f7816542a6b48efc153a929095950c7f8cd06566385e2142b7c8b6d348f79b",
+      "bytes": 2044
+    },
+    "reviewed-inputs/cold-exact-probe/receipt.json": {
+      "sha256": "3d09db768b2e6e6f847ac2588a37a3db4cfba89133a94f931b228fa943f79e41",
+      "bytes": 14378
+    },
+    "reviewed-inputs/declared-budget.json": {
+      "sha256": "cd8a6fbaee1f9ca827987f2633bf820dcf1c5257a2556c178fb54ec759f2502f",
+      "bytes": 773
+    },
+    "reviewed-inputs/proposal-manifest.json": {
+      "sha256": "d618366dbaa7130174dac01dccbe93c5e72e87e74a7da58dda308938164a31ed",
+      "bytes": 7882
+    },
+    "reviewed-inputs/quality--report.json.gz": {
+      "sha256": "dbf958d794f35abae069435b4ff4976ff8cf3d5f6fc9bd7be0baad92388650df",
+      "bytes": 15351
+    }
+  }
+}

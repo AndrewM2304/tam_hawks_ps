@@ -1,0 +1,43 @@
+from pathlib import Path
+import os,sys,subprocess,datetime,time,hashlib,json,re,signal,shutil
+R=Path('/workspace/tam_hawks_ps');O=R/'.local/mac-texture-compat-2026-11-07';D=O/'actual-focused-01';D.mkdir(exist_ok=False);cold=O/'full-source-cold';assert not cold.exists();cold.mkdir()
+base=json.loads((O/'actual-install-01/source-after.json').read_text());proposal=json.loads((O/'proposal-manifest.json').read_text())['files'];h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def inventory():return {n:{'sha256':h(R/n),'bytes':(R/n).stat().st_size} for n in base}
+before=inventory();assert before==base
+for n,v in before.items():
+ src=R/n;dst=cold/n;dst.parent.mkdir(parents=True,exist_ok=True)
+ if src.suffix.lower() in ['.png','.jpg','.jpeg','.obj','.glb','.wav','.ogg','.ttf']:os.link(src,dst)
+ else:shutil.copy2(src,dst)
+assert not (cold/'.godot').exists()
+probe=(O/'native_formats.gd').read_text();entries=(O/'exact-proposal-project/entries.json').read_text();probe=probe.replace('func _initialize() -> void:', 'func _initialize() -> void: _run.call_deferred()\nfunc _run() -> void:').replace('var entries: Array = JSON.parse_string(FileAccess.get_file_as_string("res://entries.json"))','var entries: Array = JSON.parse_string('+json.dumps(entries)+')').replace('var output := ProjectSettings.globalize_path("res://../" + args[0])','var output := args[0]')
+needle='\treport.complete = true'
+addition='''\tvar scene_path: String = ProjectSettings.get_setting("application/run/main_scene")\n\tvar packed: PackedScene = load(scene_path)\n\tvar main: Node = packed.instantiate()\n\tmain.set("persistence_enabled", false)\n\troot.add_child(main)\n\tcurrent_scene = main\n\tvar process_before := Engine.get_process_frames()\n\tvar physics_before := Engine.get_physics_frames()\n\tawait physics_frame\n\tawait process_frame\n\tvar alive := is_instance_valid(main) and main.is_node_ready() and current_scene == main and main.get("world") != null and main.get("skater") != null and main.get("hud") != null\n\treport["main_boot"] = {"scene": scene_path, "ready": alive, "process_before": process_before, "process_after": Engine.get_process_frames(), "physics_before": physics_before, "physics_after": Engine.get_physics_frames(), "world_children": main.get("world").get_child_count(), "music_persist": main.get("music").get("_persist"), "music_control": main.get("music").get("_can_control"), "scope": "Real configuredMainScene constructed and alive across native process+physics ticks; headless only, no graphical/Macfirstframe claim"}\n\tif not alive or Engine.get_process_frames() <= process_before or Engine.get_physics_frames() <= physics_before: report.errors.append("RealMainnotaliveacrossnativeframes")\n'''
+assert needle in probe;probe=probe.replace(needle,addition+needle);(D/'actual_probe.gd').write_text(probe)
+(D/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(D/'observer.py.txt').write_bytes(Path(__file__).read_bytes());started=datetime.datetime.now(datetime.timezone.utc);whole_deadline=time.monotonic()+360;stages=[];reason=None
+normal=['./tools/run.sh','--headless','--audio-driver','Dummy','--quit-after','60']
+commands=[('ordinary-import-and-boot',120,normal,R),('native19-realmain',15,['godot','--path',str(R),'--headless','--audio-driver','Dummy','--script',str(D/'actual_probe.gd'),'--',str(D/'native')],R),('public-verify',45,[sys.executable,'-B',str(R/'tools/fetch_environment_materials.py'),'--verify-only'],R),('public-derived-verify',45,[sys.executable,'-B',str(R/'tools/build_environment_derivatives.py'),'--verify-only'],R),('source-cold-ordinary-import-boot',180,normal,cold)]
+def stop(proc):
+ if proc is not None and proc.poll() is None:
+  os.killpg(proc.pid,signal.SIGTERM)
+  try:proc.wait(timeout=5)
+  except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait()
+try:
+ for name,limit,cmd,cwd in commands:
+  if name=='public-derived-verify':limit=max(.1,45-sum(s['elapsed_seconds'] for s in stages if s['name']=='public-verify'))
+  limit=min(limit,whole_deadline-time.monotonic());stage_start=datetime.datetime.now(datetime.timezone.utc);mono=time.monotonic();env=os.environ.copy();env['GODOT_BIN']='godot';env['TAM_ASSET_IMPORT_TIMEOUT_SECONDS']=str(max(1,int(limit)-8))
+  for key,leaf in [('XDG_DATA_HOME','data'),('XDG_CACHE_HOME','cache'),('XDG_CONFIG_HOME','config')]:
+   path=D/'native-xdg'/leaf;path.mkdir(parents=True,exist_ok=True);env[key]=str(path)
+  # Ordinary run.sh intentionally resets XDG to its checkout-private .local roots;
+  # the source-cold checkout is completely fresh. The directnativeprobe uses epoch-private XDG.
+  with (D/(name+'.log')).open('w') as log:
+   proc=subprocess.Popen(cmd,cwd=cwd,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);stage={'name':name,'pid':proc.pid,'start':stage_start.isoformat(),'deadline':(stage_start+datetime.timedelta(seconds=limit)).isoformat(),'command':cmd,'cwd':str(cwd)};print(json.dumps(stage),flush=True)
+   while proc.poll() is None:
+    if time.monotonic()-mono>limit:reason='Deadline '+name;stop(proc);break
+    text=(D/(name+'.log')).read_text(errors='replace')
+    if re.search(r'SCRIPT ERROR:|SHADER ERROR:|ERROR:|FAIL:',text):reason='Engine/validationerror '+name;stop(proc);break
+    time.sleep(.1)
+   stage.update(end=datetime.datetime.now(datetime.timezone.utc).isoformat(),elapsed_seconds=time.monotonic()-mono,exit_code=proc.returncode);stages.append(stage)
+  if reason or proc.returncode:break
+except Exception as e:reason=repr(e)
+after=inventory();(D/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');cold_after={n:{'sha256':h(cold/n),'bytes':(cold/n).stat().st_size} for n in base};(D/'source-cold-after.json').write_text(json.dumps(cold_after,indent=2)+'\n');changed=[n for n in before if before[n]!=after[n]];cold_changes=[n for n in before if before[n]!=cold_after[n]]
+report={'started_utc':started.isoformat(),'ended_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'deadline_seconds':360,'reason':reason,'stages':stages,'actual_source_count':len(before),'actual_source_changes':changed,'source_cold_source_changes':cold_changes,'source_cold_initial_cache_absent':True,'source_cold_copy_policy':'Rawimmutableassets hardlinked from explicitly frozen actualsource; scripts/imports/manifests/tools/guide/licences copiedbyvalue. No importedcache copied. OrdinaryGODOT_BIN=godot tools/run.sh route. Actualordinary usescheckout-privateXDG(.local), directprobeepoch-privateXDG, sourcecoldfreshcheckout-privateXDG.','no_manual_actual_cache_deletion':True,'limits':'NativeLinuxGodot4.6.3Compatibilityformat/pipeline/currentMainheadlessboot/sourcecoldstartup only. TargetAppleM5OpenGLupload/no-warning/performance and actualmovingMainfinish remainopen.'};(D/'receipt.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2),flush=True);sys.exit(0 if not reason and len(stages)==5 and all(x['exit_code']==0 for x in stages) and not changed and not cold_changes else 1)

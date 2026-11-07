@@ -1,0 +1,82 @@
+{
+  "start": "2026-11-07T11:10:30.820094+00:00",
+  "end": "2026-11-07T11:11:57.677463+00:00",
+  "bound_seconds": 240,
+  "reason": null,
+  "source_changes": [],
+  "source_stable": true,
+  "stages": [
+    {
+      "name": "macro",
+      "pid": 121747,
+      "start": "2026-11-07T11:10:31.260840+00:00",
+      "deadline": "2026-11-07T11:13:31.260840+00:00",
+      "command": [
+        "godot",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/exact-proposal-project",
+        "--rendering-method",
+        "gl_compatibility",
+        "--audio-driver",
+        "Dummy",
+        "--windowed",
+        "--resolution",
+        "1280x800",
+        "--disable-render-loop",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/exact-proposal-project/macro.gd",
+        "--",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/gl-macro-01"
+      ],
+      "end": "2026-11-07T11:11:44.945903+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "allocation",
+      "pid": 121941,
+      "start": "2026-11-07T11:11:44.946200+00:00",
+      "deadline": "2026-11-07T11:12:44.946200+00:00",
+      "command": [
+        "godot",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/exact-proposal-project",
+        "--rendering-method",
+        "gl_compatibility",
+        "--audio-driver",
+        "Dummy",
+        "--windowed",
+        "--resolution",
+        "1280x800",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/exact-proposal-project/tools/environment_texture_probe.gd",
+        "--",
+        "/workspace/tam_hawks_ps/.local/mac-texture-compat-2026-11-07/gl-macro-01"
+      ],
+      "end": "2026-11-07T11:11:57.501696+00:00",
+      "exit_code": 0
+    }
+  ],
+  "scope": "Root-authorized qualitativecomponentGLmacro +separatefreshprocessnativeallocation. RA351ended10:56:37; actualknownGap/otherheadlessoverlapperteamrecords only, no FPS/CPUexclusivity/Macupload/Mainfinish claim. Bothtexturefamiliesresidentduringmacro; allocationobserverseparateprocess.",
+  "pngs": {
+    "baseline-a-wood-wall.png": "387df2f24e5f4d91f779433bff34509aa7568cf4f374e025d246eda54b1fe2fb",
+    "baseline-a-paving-grazing.png": "6b75f032f08a2fd64268ab7fe5116b34cafeaa918f15c004cfc96aebb03d95d3",
+    "baseline-b-paving-close.png": "7ad12d39424b72184911db6b4384588dc44bc7a2958162f7a9be4aa87f671536",
+    "compatible-paving-close.png": "dd46a30e2f897a2d5b131ce82b08dc593bdd309beec86d2a4ce4b26f4a6c7dba",
+    "baseline-b-wood-wall.png": "957acadc7ce7b400f90916fd0c68ae2df7ec6b9448f2b88c2e9ada840eef4efe",
+    "compatible-grass-close.png": "9b485b9dc52df4a7ffcd7920e399545f1366bb64b0c46ccfbb18066c2f23fb69",
+    "baseline-a-asphalt-oblique.png": "26f0966933c47dca75710585d66394c64f6240f416ad558f87ec5025c8d0d1dc",
+    "baseline-a-paving-close.png": "b876ac17c5eab1cbe142cec2ee109066e0ccd1ffab3245e318c46467f27a2086",
+    "baseline-b-grass-close.png": "c30ead74bbca5b258997c8a1b87b93efde9f1400b1b3c187638dd19ad2d4b33f",
+    "compatible-wood-wall.png": "10d642b67ab44dff765386bf7619cfcec2b3509bfd2774d5a4e0c5d8c2ec0560",
+    "baseline-b-paving-grazing.png": "51f80790ca694c40fdb0ac53d94bbf3b7213be9c5f7e027365ea956df6eaa776",
+    "baseline-b-sandstone-wall.png": "3a42b73c0171849a0342b6c189178dfda79506031dee05f732d7d68a06c3278d",
+    "compatible-sandstone-wall.png": "0a2e31c5b446c50f44f1a166db95f315bd6476a26e0cadfe0e861149d939665c",
+    "compatible-paving-grazing.png": "5203ee57d4d2512dd0bd142216aa308f4e2ae9cc36ea294f86936cb3de6a3d90",
+    "compatible-asphalt-oblique.png": "4f379c9ba4d4b42ffc6a5b037ef84ebc8b9cab9df91520ed965197c324504ad2",
+    "baseline-a-grass-close.png": "70747915f0ae770ce597b9781a121c4107ef0065302a973421daa97192fab761",
+    "baseline-a-sandstone-wall.png": "9af961483e7b9a29c9a5a9cefbb4c1e2862cc5d0278c16bee588173270f4ba3e",
+    "baseline-b-asphalt-oblique.png": "ed548d6e8dcaba2ed4999ff1acd677a79989eda0077440e39fade5aaaf1aa2e3"
+  }
+}

@@ -1,0 +1,3269 @@
+{
+  "reviewer": "/root/independent_qa",
+  "recorded_utc": "2026-11-07T11:07:31.038651+00:00",
+  "scope": "Offline independent exact23-file source guards, recorded native CPU-format/readback evidence,114 decoded source/old/new buffers, block/mip arithmetic and five personally inspected comparison crops. No Godot/GL/Mac execution by reviewer.",
+  "verdict": "No compression-policy source blocker identified for guarded integration/fresh import. Native exact cold CPU proof supports compatible format selection. Actual GLES upload/shading, Mac no-warning boot and target performance remain Unmeasured.",
+  "checks": [
+    {
+      "check": "guard current preimage tools/fetch_environment_materials.py",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload tools/fetch_environment_materials.py",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage tools/build_environment_derivatives.py",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload tools/build_environment_derivatives.py",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/manifest.json",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/manifest.json",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/derived/manifest.json",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/derived/manifest.json",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/derived/pavement_albedo.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/derived/pavement_albedo.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/derived/grass_albedo.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/derived/grass_albedo.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard current preimage game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "guard payload game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "23 files exactly,19 import descriptors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/derived/pavement_albedo.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/derived/pavement_albedo.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/derived/grass_albedo.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/derived/grass_albedo.png.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only HQ compression param changes game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact descriptor delta limited to HQ and compatible suffixes game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "manifest old image/licence/scale metadata retained game/art/assets/environment_pbr/manifest.json",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "manifest old image/licence/scale metadata retained game/art/assets/environment_pbr/derived/manifest.json",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "derived receipt references exact new source manifest",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "cold-exact-import exit0 inside deadline and rawclean",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "cold-exact-probe exit0 inside deadline and rawclean",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "fresh exact native probe before/after source maps equal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all23 exact payloads native before+after bound",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "19 baseline/candidate/exact resource identities preserved",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native reports complete noerror, explicitCPU/notGPU",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_diff_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_diff_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/pavement_01--pavement_01_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/pavement_01--pavement_01_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_diff_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_diff_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/pavement_01--pavement_01_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/pavement_01--pavement_01_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_nor_gl_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_nor_gl_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/pavement_01--pavement_01_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/pavement_01--pavement_01_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_nor_gl_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_nor_gl_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/pavement_01--pavement_01_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/pavement_01--pavement_01_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_arm_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_arm_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/pavement_01--pavement_01_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/pavement_01--pavement_01_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_arm_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_arm_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/pavement_01--pavement_01_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/pavement_01--pavement_01_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/pavement_01--pavement_01_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/pavement_01--pavement_01_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_diff_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_diff_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/asphalt_02--asphalt_02_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/asphalt_02--asphalt_02_diff_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_diff_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_diff_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/asphalt_02--asphalt_02_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/asphalt_02--asphalt_02_diff_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/asphalt_02--asphalt_02_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/asphalt_02--asphalt_02_nor_gl_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/asphalt_02--asphalt_02_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/asphalt_02--asphalt_02_nor_gl_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_arm_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_arm_2k--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/asphalt_02--asphalt_02_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/asphalt_02--asphalt_02_arm_2k--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_arm_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_arm_2k--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/asphalt_02--asphalt_02_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/asphalt_02--asphalt_02_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/asphalt_02--asphalt_02_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/asphalt_02--asphalt_02_arm_2k--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_albedo--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_albedo--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_grass01--T_grass01_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_grass01--T_grass01_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_albedo--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_albedo--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_grass01--T_grass01_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_grass01--T_grass01_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_normal_opengl--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_normal_opengl--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_grass01--T_grass01_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_grass01--T_grass01_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_normal_opengl--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_normal_opengl--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_grass01--T_grass01_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_grass01--T_grass01_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_ao--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_ao--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_ao--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_ao--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_grass01--T_grass01_ao--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_grass01--T_grass01_ao--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_ao--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_ao--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_grass01--T_grass01_ao--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_grass01--T_grass01_ao--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_grass01--T_grass01_ao--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_grass01--T_grass01_ao--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_albedo--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_albedo--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_wood01--T_wood01_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_wood01--T_wood01_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_albedo--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_albedo--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_wood01--T_wood01_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_wood01--T_wood01_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_normal_opengl--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_normal_opengl--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_wood01--T_wood01_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_wood01--T_wood01_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_normal_opengl--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_normal_opengl--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_wood01--T_wood01_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_wood01--T_wood01_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_ao--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_ao--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_ao--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_ao--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_wood01--T_wood01_ao--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_wood01--T_wood01_ao--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_ao--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_ao--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/T_wood01--T_wood01_ao--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/T_wood01--T_wood01_ao--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/T_wood01--T_wood01_ao--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/T_wood01--T_wood01_ao--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/derived/grass_albedo.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/derived/grass_albedo.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/derived/grass_albedo.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_albedo--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_albedo--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/derived--grass_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/derived--grass_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/derived/grass_albedo.png mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_albedo--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_albedo--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/derived--grass_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/derived--grass_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/derived/grass_albedo.png mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_normal_opengl--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_normal_opengl--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/derived--grass_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/derived--grass_normal_opengl--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_normal_opengl--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_normal_opengl--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/derived--grass_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/derived--grass_normal_opengl--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_ambient_occlusion--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_ambient_occlusion--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_ambient_occlusion--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_ambient_occlusion--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/derived--grass_ambient_occlusion--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/derived--grass_ambient_occlusion--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_ambient_occlusion--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_ambient_occlusion--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--grass_ambient_occlusion--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--grass_ambient_occlusion--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/derived--grass_ambient_occlusion--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/derived--grass_ambient_occlusion--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native actual formats/dimensions/fullmips res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact cold desktop compressed payload agrees with quality epoch res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "actual source image is native before-bound res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--pavement_albedo--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--pavement_albedo--source-mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--pavement_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--pavement_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/derived--pavement_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/derived--pavement_albedo--mip0.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/derived/pavement_albedo.png mip0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--pavement_albedo--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--pavement_albedo--source-mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash baseline-rgba/derived--pavement_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity baseline-rgba/derived--pavement_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "compressed RGBA file hash candidate-migration/derived--pavement_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "decoded native RGBA identity candidate-migration/derived--pavement_albedo--mip3.rgba.zst",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "opaque source/native decode and equal size res://game/art/assets/environment_pbr/derived/pavement_albedo.png mip3",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent active payload total and ceiling arithmetic",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "recorded verify-only and19 high-quality-negative outcomes",
+      "pass": true,
+      "actual": null
+    }
+  ],
+  "passed": 419,
+  "failed": 0,
+  "formats": {
+    "17": 13,
+    "21": 6
+  },
+  "active_old_payload_bytes": 33554832,
+  "active_new_payload_bytes": 20272736,
+  "active_new_added_payload_bytes": 19486307,
+  "resident_gpu_bytes_measured": false,
+  "quality": [
+    {
+      "resource": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+      "active": false,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.7746876875559489,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 18.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.300257603327433,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 45.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.3689878781636557,
+            "p95": 8.0,
+            "p99": 12.0,
+            "max": 42.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.8577982584635416,
+            "p95": 2.0,
+            "p99": 4.0,
+            "max": 12.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.379302978515625,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 26.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.4088236490885415,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 26.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+      "active": true,
+      "normal": true,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.442734718322754,
+            "p95": 4.0,
+            "p99": 8.0,
+            "max": 43.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.20001697540283,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.3005968729655,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 1.0915231178721063,
+              "p95": 2.843903444894816,
+              "p99": 5.025848324501571,
+              "max": 26.9450683522345
+            },
+            "candidate_source": {
+              "mean": 1.2093477086355668,
+              "p95": 2.842447500939213,
+              "p99": 5.060842673725913,
+              "max": 39.09502582760996
+            },
+            "candidate_baseline": {
+              "mean": 1.3315479866411608,
+              "p95": 3.7068749859459498,
+              "p99": 6.334475505368928,
+              "max": 36.67820615582587
+            }
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.12823486328125,
+            "p95": 3.0,
+            "p99": 5.0,
+            "max": 13.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.67618815104167,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.76222737630208,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.9277185029657622,
+              "p95": 2.249659440448177,
+              "p99": 3.0242757551011152,
+              "max": 5.923703170615234
+            },
+            "candidate_source": {
+              "mean": 1.1758111392264436,
+              "p95": 2.2540490123111536,
+              "p99": 2.851645846414459,
+              "max": 4.930409314892371
+            },
+            "candidate_baseline": {
+              "mean": 1.1841474424448342,
+              "p95": 2.7497638649732346,
+              "p99": 4.021480806456666,
+              "max": 7.2583660294017855
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.5038150151570637,
+            "p95": 5.0,
+            "p99": 8.0,
+            "max": 40.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 4.306243896484375,
+            "p95": 14.0,
+            "p99": 26.0,
+            "max": 83.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 4.418095588684082,
+            "p95": 14.0,
+            "p99": 27.0,
+            "max": 96.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.6868082682291667,
+            "p95": 5.0,
+            "p99": 9.0,
+            "max": 20.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 4.589518229166667,
+            "p95": 14.0,
+            "p99": 22.0,
+            "max": 43.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 4.426188151041667,
+            "p95": 15.0,
+            "p99": 24.0,
+            "max": 50.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.9694665273030599,
+            "p95": 3.0,
+            "p99": 4.0,
+            "max": 40.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.503974517186483,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 86.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.5936652024586997,
+            "p95": 9.0,
+            "p99": 13.0,
+            "max": 90.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.7444356282552084,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 12.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.1523844401041665,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 30.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.2156473795572915,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 27.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+      "active": true,
+      "normal": true,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 2.1719468434651694,
+            "p95": 6.0,
+            "p99": 8.0,
+            "max": 40.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.67965920766194,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 84.79460112253825,
+            "p95": 253.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 1.2422500712401492,
+              "p95": 2.735727228494307,
+              "p99": 3.993652984137645,
+              "max": 37.66032381883714
+            },
+            "candidate_source": {
+              "mean": 1.2551932703450355,
+              "p95": 2.302502627460862,
+              "p99": 3.257835449602259,
+              "max": 36.55897422218854
+            },
+            "candidate_baseline": {
+              "mean": 1.287679149861671,
+              "p95": 2.893952999726307,
+              "p99": 4.431956018164484,
+              "max": 19.980746153606603
+            }
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.97265625,
+            "p95": 3.0,
+            "p99": 4.0,
+            "max": 9.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.10089111328125,
+            "p95": 253.0,
+            "p99": 253.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 84.88580322265625,
+            "p95": 253.0,
+            "p99": 254.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.8339323992656151,
+              "p95": 1.6633740408157385,
+              "p99": 2.3130457816638885,
+              "max": 4.560329303293095
+            },
+            "candidate_source": {
+              "mean": 1.1453019004288996,
+              "p95": 1.8790099616408247,
+              "p99": 2.0439884622139504,
+              "max": 2.857551114440924
+            },
+            "candidate_baseline": {
+              "mean": 0.947888658423697,
+              "p95": 1.8615962060145634,
+              "p99": 2.477886228165004,
+              "max": 4.8114830309279295
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.5862738291422527,
+            "p95": 5.0,
+            "p99": 9.0,
+            "max": 40.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 4.109533627827962,
+            "p95": 13.0,
+            "p99": 22.0,
+            "max": 73.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 4.176638603210449,
+            "p95": 13.0,
+            "p99": 23.0,
+            "max": 76.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.6154988606770833,
+            "p95": 4.0,
+            "p99": 7.0,
+            "max": 26.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 4.548909505208333,
+            "p95": 13.0,
+            "p99": 21.0,
+            "max": 44.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 4.366434733072917,
+            "p95": 14.0,
+            "p99": 21.0,
+            "max": 56.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.648697296778361,
+            "p95": 5.0,
+            "p99": 7.0,
+            "max": 47.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 6.4812227090199785,
+            "p95": 17.0,
+            "p99": 23.0,
+            "max": 86.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 6.6545125643412275,
+            "p95": 17.0,
+            "p99": 24.0,
+            "max": 89.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.9534047444661459,
+            "p95": 3.0,
+            "p99": 5.0,
+            "max": 18.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.839869181315104,
+            "p95": 10.0,
+            "p99": 13.0,
+            "max": 37.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.8928934733072915,
+            "p95": 10.0,
+            "p99": 13.0,
+            "max": 40.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+      "active": true,
+      "normal": true,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 3.9693946838378906,
+            "p95": 10.0,
+            "p99": 16.0,
+            "max": 51.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 84.72233931223552,
+            "p95": 253.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 86.2109301884969,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 2.6576929680845938,
+              "p95": 5.527737229690599,
+              "p99": 7.489262203580423,
+              "max": 20.913736124227484
+            },
+            "candidate_source": {
+              "mean": 2.431167732628799,
+              "p95": 5.4019122883009745,
+              "p99": 7.541788234004668,
+              "max": 29.80129818806617
+            },
+            "candidate_baseline": {
+              "mean": 3.1619887057148093,
+              "p95": 7.510777806471921,
+              "p99": 10.215129134100835,
+              "max": 31.411292312466497
+            }
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.52789306640625,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 6.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.98307291666667,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.76833089192708,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.5810235387164895,
+              "p95": 1.0062480624504653,
+              "p99": 1.6204077028574355,
+              "max": 3.279005874932563
+            },
+            "candidate_source": {
+              "mean": 1.018460338043746,
+              "p95": 1.6205573093588053,
+              "p99": 1.9069042910409886,
+              "max": 3.051475128907019
+            },
+            "candidate_baseline": {
+              "mean": 0.8203234140638266,
+              "p95": 1.4216263694742657,
+              "p99": 1.8543116064259997,
+              "max": 3.4232311731196248
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 2.9568045934041343,
+            "p95": 9.0,
+            "p99": 13.0,
+            "max": 48.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 7.314321200052897,
+            "p95": 22.0,
+            "p99": 32.0,
+            "max": 83.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 7.287652969360352,
+            "p95": 23.0,
+            "p99": 33.0,
+            "max": 91.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.61004638671875,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 20.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 4.017415364583333,
+            "p95": 12.0,
+            "p99": 18.0,
+            "max": 35.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 4.461934407552083,
+            "p95": 12.0,
+            "p99": 18.489999999997963,
+            "max": 39.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+      "active": false,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 3.1522754033406577,
+            "p95": 9.0,
+            "p99": 14.0,
+            "max": 42.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 8.984816869099935,
+            "p95": 23.0,
+            "p99": 31.0,
+            "max": 78.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 9.19703197479248,
+            "p95": 24.0,
+            "p99": 32.0,
+            "max": 76.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 2.05084228515625,
+            "p95": 6.0,
+            "p99": 9.0,
+            "max": 17.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 4.804951985677083,
+            "p95": 12.0,
+            "p99": 16.0,
+            "max": 27.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 4.783365885416667,
+            "p95": 12.0,
+            "p99": 16.0,
+            "max": 27.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+      "active": false,
+      "normal": true,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.9301122029622396,
+            "p95": 2.0,
+            "p99": 4.0,
+            "max": 12.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.69004249572754,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.53443590799968,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.6757203906812954,
+              "p95": 1.3488356985758148,
+              "p99": 1.623777015207338,
+              "max": 3.182722398295402
+            },
+            "candidate_source": {
+              "mean": 0.987715997450962,
+              "p95": 1.620407832888381,
+              "p99": 1.852919795104713,
+              "max": 2.5597089730632465
+            },
+            "candidate_baseline": {
+              "mean": 0.768923699377516,
+              "p95": 1.4216258475884753,
+              "p99": 1.79793457721886,
+              "max": 3.2779489260799832
+            }
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.5496826171875,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 5.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 86.246337890625,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.86173502604167,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.6034574021099957,
+              "p95": 1.0056032501934946,
+              "p99": 1.4217469618859846,
+              "max": 2.4238756530965895
+            },
+            "candidate_source": {
+              "mean": 1.2527647945266454,
+              "p95": 1.9066695264961382,
+              "p99": 2.0098133720110676,
+              "max": 2.5424346928573156
+            },
+            "candidate_baseline": {
+              "mean": 0.9036592962070067,
+              "p95": 1.4219545232401403,
+              "p99": 1.6207761888035173,
+              "max": 2.0145075728684603
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg",
+      "active": false,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.09566020965576172,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 2.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.24373722076416,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 16.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.243495305379232,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 17.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.0404052734375,
+            "p95": 0.0,
+            "p99": 1.0,
+            "max": 1.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.53228759765625,
+            "p95": 9.0,
+            "p99": 11.0,
+            "max": 14.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.5287068684895835,
+            "p95": 9.0,
+            "p99": 11.0,
+            "max": 14.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.2027851740519206,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 28.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 5.270632743835449,
+            "p95": 14.0,
+            "p99": 20.0,
+            "max": 63.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 5.370899200439453,
+            "p95": 14.0,
+            "p99": 20.0,
+            "max": 66.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.9981892903645834,
+            "p95": 3.0,
+            "p99": 5.0,
+            "max": 11.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 4.01275634765625,
+            "p95": 10.0,
+            "p99": 15.0,
+            "max": 32.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 4.0281982421875,
+            "p95": 10.0,
+            "p99": 15.0,
+            "max": 33.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+      "active": true,
+      "normal": true,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.1333681742350261,
+            "p95": 3.0,
+            "p99": 5.0,
+            "max": 17.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.52783203125,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.37024180094402,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.7175457431398702,
+              "p95": 1.4216263694742657,
+              "p99": 1.8535745209171726,
+              "max": 4.074276784817096
+            },
+            "candidate_source": {
+              "mean": 1.030801919332853,
+              "p95": 1.628496684332107,
+              "p99": 2.0172548529276715,
+              "max": 4.692603616418183
+            },
+            "candidate_baseline": {
+              "mean": 0.8122345198447583,
+              "p95": 1.6209614108891328,
+              "p99": 2.013634197865477,
+              "max": 5.13105323767775
+            }
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.5774739583333334,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 6.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 86.1368408203125,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.80533854166667,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.598494815827777,
+              "p95": 1.0075952463085278,
+              "p99": 1.421534995860048,
+              "max": 2.8425523176747207
+            },
+            "candidate_source": {
+              "mean": 1.208102660860922,
+              "p95": 1.8544129856975733,
+              "p99": 2.009954192064961,
+              "max": 2.543689861001973
+            },
+            "candidate_baseline": {
+              "mean": 0.8763237548865713,
+              "p95": 1.4225312080110424,
+              "p99": 1.6253589086393254,
+              "max": 2.431086002476328
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.4400927225748698,
+            "p95": 1.0,
+            "p99": 2.0,
+            "max": 5.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 4.275012969970703,
+            "p95": 11.0,
+            "p99": 15.0,
+            "max": 30.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 4.283133188883464,
+            "p95": 11.0,
+            "p99": 15.0,
+            "max": 30.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.27410888671875,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 2.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.5262247721354165,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 21.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.5333658854166665,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 21.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/derived/grass_albedo.png",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 1.553073247273763,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 16.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 5.738147735595703,
+            "p95": 14.0,
+            "p99": 19.0,
+            "max": 39.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 5.829076766967773,
+            "p95": 15.0,
+            "p99": 19.0,
+            "max": 42.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.792724609375,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 5.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.2818603515625,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 17.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.3210856119791665,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 18.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+      "active": true,
+      "normal": true,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.6382182439168295,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 6.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.30267969767253,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.62766806284587,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.46609856668086375,
+              "p95": 1.0053553553544161,
+              "p99": 1.42153418570338,
+              "max": 2.742513446031977
+            },
+            "candidate_source": {
+              "mean": 0.6074408278914306,
+              "p95": 1.0056032501934946,
+              "p99": 1.2715499673507173,
+              "max": 1.9210048601786758
+            },
+            "candidate_baseline": {
+              "mean": 0.7679421120703513,
+              "p95": 1.4213774072452061,
+              "p99": 1.6240104698798565,
+              "max": 3.0151689007491584
+            }
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.2844034830729167,
+            "p95": 1.0,
+            "p99": 2.0,
+            "max": 4.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 85.92000325520833,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 85.93910725911458,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "positive_Z_normal_angle_degrees": {
+            "baseline_source": {
+              "mean": 0.3394047328562846,
+              "p95": 0.8988287972893969,
+              "p99": 1.0054729968177283,
+              "max": 1.8559430412488185
+            },
+            "candidate_source": {
+              "mean": 0.9455207871832925,
+              "p95": 1.3483330176123038,
+              "p99": 1.6206227643687456,
+              "max": 1.907374471213045
+            },
+            "candidate_baseline": {
+              "mean": 0.9719705091074157,
+              "p95": 1.620373213825928,
+              "p99": 1.6216979142006251,
+              "max": 2.2916409513163196
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.014440536499023438,
+            "p95": 0.0,
+            "p99": 1.0,
+            "max": 1.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 2.462505022684733,
+            "p95": 6.0,
+            "p99": 7.0,
+            "max": 13.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 2.461493492126465,
+            "p95": 6.0,
+            "p99": 7.0,
+            "max": 13.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 2.2742716471354165,
+            "p95": 5.0,
+            "p99": 6.0,
+            "max": 8.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 2.2742716471354165,
+            "p95": 5.0,
+            "p99": 6.0,
+            "max": 8.0
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+      "active": true,
+      "normal": false,
+      "levels": {
+        "0": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.7829976081848145,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 23.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.3049940268198648,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 40.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.3712823390960693,
+            "p95": 8.0,
+            "p99": 12.0,
+            "max": 41.0
+          }
+        },
+        "3": {
+          "baseline_source_RGB8_absolute": {
+            "mean": 0.860076904296875,
+            "p95": 3.0,
+            "p99": 4.0,
+            "max": 12.0
+          },
+          "candidate_source_RGB8_absolute": {
+            "mean": 3.3817138671875,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 28.0
+          },
+          "candidate_baseline_RGB8_absolute": {
+            "mean": 3.410888671875,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 30.0
+          }
+        }
+      }
+    }
+  ],
+  "visual_review": {
+    "personally_opened": [
+      "pavement",
+      "asphalt",
+      "sandstone",
+      "grass",
+      "wood"
+    ],
+    "finding": "Source detail and orientation remain recognizable. BC1 introduces local quantized colour/block edges and changed grain contrast; no gross lost subject/detail in these five enlarged albedo crops. This is not lit material/ARM/normal quality or target appearance admission.",
+    "blind_review": false,
+    "blind_limit": "The A/B key was read during source inspection; author blind-sheet labels do not make this independent review blind."
+  },
+  "provenance_corrections": [
+    "Earlier desktop-only mini-project descriptors differ from final both-target proposal. New cold-exact epoch now binds all23 exact files before/after native readback, with identical desktop compressed payloads to the quality epoch.",
+    "Old run_job receipts are before-only; later inventory is not retroactive native-exit measurement.",
+    "The final import descriptors retain mobile ETC2 targets; mobile rendering/upload is not tested.",
+    "Unchanged source image pixels does not mean decoded BC1/BC5 pixels are identical.",
+    "Public4.6.3 source corroborates format choice; installed7d41 versus public tag35e80 source-byte parity remains unestablished."
+  ],
+  "proposal_manifest_sha256": "d618366dbaa7130174dac01dccbe93c5e72e87e74a7da58dda308938164a31ed",
+  "exact_native_receipt_sha256": "3d09db768b2e6e6f847ac2588a37a3db4cfba89133a94f931b228fa943f79e41"
+}

@@ -1,0 +1,4503 @@
+{
+  "scope": "headless native imported compressed formats and CPU decoded pixels; not renderer-resident allocation, no FPS, no targetMacdriverclaim",
+  "normal_comparison": "Reconstruct positiveZ independently from RG for source/baseline/candidate then normalize; do not use stored blue.",
+  "active_candidate_payload_bytes": 20272736,
+  "active_added_payload_bytes": 19486307,
+  "errors": [],
+  "maps": [
+    {
+      "resource": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+      "active": false,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 2796216,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.7746877074241638,
+            "p50": 1.0,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 18.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.9203181266784668,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 11.0
+            },
+            "G_roughness": {
+              "mean": 0.34267258644104004,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 1.0610723495483398,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 18.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.300257682800293,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 45.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.515110969543457,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 33.0
+            },
+            "G_roughness": {
+              "mean": 2.8010611534118652,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 28.0
+            },
+            "B": {
+              "mean": 3.5846006870269775,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 45.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.368988037109375,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 12.0,
+            "max": 42.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.602231025695801,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 32.0
+            },
+            "G_roughness": {
+              "mean": 2.8479011058807373,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 32.0
+            },
+            "B": {
+              "mean": 3.6568315029144287,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 42.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/pavement_01--pavement_01_diff_2k--source-mip0.rgba.zst",
+              "sha256": "2ef23d838972bd983b9f643913c103ada92e1f28a2b179addfd4f95f47c4977b"
+            },
+            "baseline": {
+              "path": "baseline-rgba/pavement_01--pavement_01_diff_2k--mip0.rgba.zst",
+              "sha256": "c8d48c44cf858ff6c963716ab1ff77e951820a09e394c0a1c5495d20129e2a9d"
+            },
+            "candidate": {
+              "path": "candidate-migration/pavement_01--pavement_01_diff_2k--mip0.rgba.zst",
+              "sha256": "d537d2c454cc521e058fc339b456faa89f64e758b70b7c9b146e09f939cbf3d8"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.8577982783317566,
+            "p50": 1.0,
+            "p95": 2.0,
+            "p99": 4.0,
+            "max": 12.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.023284912109375,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 8.0
+            },
+            "G_roughness": {
+              "mean": 0.32440185546875,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 3.0
+            },
+            "B": {
+              "mean": 1.2257080078125,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 12.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.379302978515625,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 26.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.70513916015625,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 26.0
+            },
+            "G_roughness": {
+              "mean": 2.736572265625,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 9.0,
+              "max": 19.0
+            },
+            "B": {
+              "mean": 3.696197509765625,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 13.0,
+              "max": 25.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.4088237285614014,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 26.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.767364501953125,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 26.0
+            },
+            "G_roughness": {
+              "mean": 2.780426025390625,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 19.0
+            },
+            "B": {
+              "mean": 3.678680419921875,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 24.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/pavement_01--pavement_01_diff_2k--source-mip3.rgba.zst",
+              "sha256": "2c9d22b8aebaf082e6a27f4746269062b872791f944ded42a4ec48d93c27f5d3"
+            },
+            "baseline": {
+              "path": "baseline-rgba/pavement_01--pavement_01_diff_2k--mip3.rgba.zst",
+              "sha256": "15940dd568808105aa57ac5330874b51f3aaa9da8bc0c377c913cc67e975f70e"
+            },
+            "candidate": {
+              "path": "candidate-migration/pavement_01--pavement_01_diff_2k--mip3.rgba.zst",
+              "sha256": "5c1191a1f9face9b30e71ffa823080696013eb08f1247477b8f6bdaa26f2513e"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+      "active": true,
+      "normal": true,
+      "baseline_format": 22,
+      "candidate_format": 21,
+      "candidate_payload_bytes": 1398128,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.442734718322754,
+            "p50": 1.0,
+            "p95": 4.0,
+            "p99": 8.0,
+            "max": 43.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.4250860214233398,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 7.0,
+              "max": 43.0
+            },
+            "G_roughness": {
+              "mean": 1.5114688873291016,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 8.0,
+              "max": 33.0
+            },
+            "B": {
+              "mean": 1.3916492462158203,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 8.0,
+              "max": 42.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.20001983642578,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.6647233963012695,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 8.0,
+              "max": 31.0
+            },
+            "G_roughness": {
+              "mean": 1.6532821655273438,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 8.0,
+              "max": 32.0
+            },
+            "B": {
+              "mean": 252.28204345703125,
+              "p50": 254.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.30059814453125,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.7485065460205078,
+              "p50": 1.0,
+              "p95": 5.0,
+              "p99": 10.0,
+              "max": 46.0
+            },
+            "G_roughness": {
+              "mean": 1.8632850646972656,
+              "p50": 1.0,
+              "p95": 6.0,
+              "p99": 10.0,
+              "max": 41.0
+            },
+            "B": {
+              "mean": 252.29000854492188,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 1.091411828994751,
+              "p50": 0.9013548493385315,
+              "p95": 2.8438615798950195,
+              "p99": 5.025819301605225,
+              "max": 26.9450626373291
+            },
+            "candidate_vs_source": {
+              "mean": 1.2092506885528564,
+              "p50": 1.008718490600586,
+              "p95": 2.8424155712127686,
+              "p99": 5.060840606689453,
+              "max": 39.095027923583984
+            },
+            "candidate_vs_baseline": {
+              "mean": 1.3314447402954102,
+              "p50": 1.006387710571289,
+              "p95": 3.706866502761841,
+              "p99": 6.334455490112305,
+              "max": 36.67820358276367
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/pavement_01--pavement_01_nor_gl_2k--source-mip0.rgba.zst",
+              "sha256": "292a026a221e0ce8a73eadebd99fab4a4af1935c68f9b8f56d5fb857b521d4eb"
+            },
+            "baseline": {
+              "path": "baseline-rgba/pavement_01--pavement_01_nor_gl_2k--mip0.rgba.zst",
+              "sha256": "cdb440691c883680726baa9d40afc7a56fc3c5fe19757022b75dd2280a8a4e96"
+            },
+            "candidate": {
+              "path": "candidate-migration/pavement_01--pavement_01_nor_gl_2k--mip0.rgba.zst",
+              "sha256": "cac0e72496df5978d68d56a4ac85062fcceec65e48a191ca48cdcf0656ffc11a"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.12823486328125,
+            "p50": 1.0,
+            "p95": 3.0,
+            "p99": 5.0,
+            "max": 13.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.2568359375,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 5.0,
+              "max": 10.0
+            },
+            "G_roughness": {
+              "mean": 1.2955322265625,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 5.0,
+              "max": 13.0
+            },
+            "B": {
+              "mean": 0.83233642578125,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 8.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.67618560791016,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.67919921875,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 10.0
+            },
+            "G_roughness": {
+              "mean": 1.6466064453125,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 5.0,
+              "max": 10.0
+            },
+            "B": {
+              "mean": 253.7027587890625,
+              "p50": 254.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.7622299194336,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.630126953125,
+              "p50": 1.0,
+              "p95": 5.0,
+              "p99": 7.0,
+              "max": 13.0
+            },
+            "G_roughness": {
+              "mean": 1.642578125,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 7.0,
+              "max": 16.0
+            },
+            "B": {
+              "mean": 254.01397705078125,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.9276028871536255,
+              "p50": 0.8987458944320679,
+              "p95": 2.2495973110198975,
+              "p99": 3.0242483615875244,
+              "max": 5.9236741065979
+            },
+            "candidate_vs_source": {
+              "mean": 1.1757159233093262,
+              "p50": 1.0108500719070435,
+              "p95": 2.254030227661133,
+              "p99": 2.8515846729278564,
+              "max": 4.930381774902344
+            },
+            "candidate_vs_baseline": {
+              "mean": 1.1840431690216064,
+              "p50": 1.0073596239089966,
+              "p95": 2.7497737407684326,
+              "p99": 4.021446704864502,
+              "max": 7.258365631103516
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/pavement_01--pavement_01_nor_gl_2k--source-mip3.rgba.zst",
+              "sha256": "cf03b9d90ba2bac501c428659140db7b3231a280041ee7cffa8184c0599feb19"
+            },
+            "baseline": {
+              "path": "baseline-rgba/pavement_01--pavement_01_nor_gl_2k--mip3.rgba.zst",
+              "sha256": "cdce4a017bca39ced9dc8c4eb1c2fda35158b9faf4b1caa20279d270ade7782a"
+            },
+            "candidate": {
+              "path": "candidate-migration/pavement_01--pavement_01_nor_gl_2k--mip3.rgba.zst",
+              "sha256": "219a1a4468d10d81f9c39b51466d67dca3e16b7956fec92cb093b809d6b9664a"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.5038150548934937,
+            "p50": 1.0,
+            "p95": 5.0,
+            "p99": 8.0,
+            "max": 40.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.2014923095703125,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 11.0,
+              "max": 40.0
+            },
+            "G_roughness": {
+              "mean": 0.5470905303955078,
+              "p50": 0.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 8.0
+            },
+            "B": {
+              "mean": 1.762862205505371,
+              "p50": 1.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 24.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 4.306243896484375,
+            "p50": 3.0,
+            "p95": 14.0,
+            "p99": 26.0,
+            "max": 83.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 5.789351463317871,
+              "p50": 4.0,
+              "p95": 18.0,
+              "p99": 30.0,
+              "max": 83.0
+            },
+            "G_roughness": {
+              "mean": 5.187869071960449,
+              "p50": 3.0,
+              "p95": 16.0,
+              "p99": 27.0,
+              "max": 77.0
+            },
+            "B": {
+              "mean": 1.9415111541748047,
+              "p50": 2.0,
+              "p95": 5.0,
+              "p99": 8.0,
+              "max": 32.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 4.418095588684082,
+            "p50": 3.0,
+            "p95": 14.0,
+            "p99": 27.0,
+            "max": 96.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 5.957198143005371,
+              "p50": 4.0,
+              "p95": 19.0,
+              "p99": 32.0,
+              "max": 96.0
+            },
+            "G_roughness": {
+              "mean": 5.188782691955566,
+              "p50": 4.0,
+              "p95": 16.0,
+              "p99": 27.0,
+              "max": 79.0
+            },
+            "B": {
+              "mean": 2.1083059310913086,
+              "p50": 2.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 25.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/pavement_01--pavement_01_arm_2k--source-mip0.rgba.zst",
+              "sha256": "00981fd7ed69ea5d046ca5e4f3b8953d82e429678a69d1da3c7b90ced9ff7f57"
+            },
+            "baseline": {
+              "path": "baseline-rgba/pavement_01--pavement_01_arm_2k--mip0.rgba.zst",
+              "sha256": "8be4371c9fc71a02e6ece1f3e814227b512bf81cacaa5f014b5bbc4f0f03174d"
+            },
+            "candidate": {
+              "path": "candidate-migration/pavement_01--pavement_01_arm_2k--mip0.rgba.zst",
+              "sha256": "0ab4a67ae506c55611ce815d55f36c9d42bda185ce20a971599d2a3eab3629d2"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.6868082284927368,
+            "p50": 1.0,
+            "p95": 5.0,
+            "p99": 9.0,
+            "max": 20.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.65130615234375,
+              "p50": 2.0,
+              "p95": 8.0,
+              "p99": 12.0,
+              "max": 20.0
+            },
+            "G_roughness": {
+              "mean": 0.68218994140625,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 1.7269287109375,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 8.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 4.589518070220947,
+            "p50": 3.0,
+            "p95": 14.0,
+            "p99": 22.0,
+            "max": 43.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 6.1146240234375,
+              "p50": 4.0,
+              "p95": 18.0,
+              "p99": 26.0,
+              "max": 41.0
+            },
+            "G_roughness": {
+              "mean": 5.344970703125,
+              "p50": 4.0,
+              "p95": 15.0,
+              "p99": 22.0,
+              "max": 43.0
+            },
+            "B": {
+              "mean": 2.3089599609375,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 7.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 4.426187992095947,
+            "p50": 3.0,
+            "p95": 15.0,
+            "p99": 24.0,
+            "max": 50.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 6.32977294921875,
+              "p50": 4.0,
+              "p95": 20.0,
+              "p99": 28.0,
+              "max": 50.0
+            },
+            "G_roughness": {
+              "mean": 5.32672119140625,
+              "p50": 4.0,
+              "p95": 15.0,
+              "p99": 22.0,
+              "max": 41.0
+            },
+            "B": {
+              "mean": 1.6220703125,
+              "p50": 1.0,
+              "p95": 8.0,
+              "p99": 8.0,
+              "max": 8.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/pavement_01--pavement_01_arm_2k--source-mip3.rgba.zst",
+              "sha256": "cea5a00820e634779f29cd67a66d97f02beee0343373d4f35baeb98f11b9e106"
+            },
+            "baseline": {
+              "path": "baseline-rgba/pavement_01--pavement_01_arm_2k--mip3.rgba.zst",
+              "sha256": "4b4bb2781a129f40eeb545ba9037db4a0ae1fe5ee02259035f09bf68e165c54f"
+            },
+            "candidate": {
+              "path": "candidate-migration/pavement_01--pavement_01_arm_2k--mip3.rgba.zst",
+              "sha256": "7d403fec24659f9936960f659714969f15ecfa261cf7a9d386f320e391a4457e"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 2796216,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.969466507434845,
+            "p50": 1.0,
+            "p95": 3.0,
+            "p99": 4.0,
+            "max": 40.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.1745059490203857,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 5.0,
+              "max": 35.0
+            },
+            "G_roughness": {
+              "mean": 0.40607452392578125,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 9.0
+            },
+            "B": {
+              "mean": 1.3278191089630127,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 5.0,
+              "max": 40.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.503974199295044,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 86.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.7906880378723145,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 13.0,
+              "max": 86.0
+            },
+            "G_roughness": {
+              "mean": 2.9099855422973633,
+              "p50": 2.0,
+              "p95": 8.0,
+              "p99": 11.0,
+              "max": 46.0
+            },
+            "B": {
+              "mean": 3.8112499713897705,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 74.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.593665361404419,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 13.0,
+            "max": 90.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.902195692062378,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 90.0
+            },
+            "G_roughness": {
+              "mean": 2.9534754753112793,
+              "p50": 2.0,
+              "p95": 8.0,
+              "p99": 11.0,
+              "max": 41.0
+            },
+            "B": {
+              "mean": 3.9253244400024414,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 74.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--source-mip0.rgba.zst",
+              "sha256": "57965133ded855b4f88d1e745ac6eef437ee0540e24c9f5b0f41de24475b12a4"
+            },
+            "baseline": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip0.rgba.zst",
+              "sha256": "cecc311fe7f08301ee3797d6f128b82cba2f8245acfb555c7bf0b3a8e33a9207"
+            },
+            "candidate": {
+              "path": "candidate-migration/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip0.rgba.zst",
+              "sha256": "aea68ff3b2530ea98da4c3309b1af3b47a3c7ec2c05360776676cad66515a2fa"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.7444356083869934,
+            "p50": 1.0,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 12.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.87335205078125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 10.0
+            },
+            "G_roughness": {
+              "mean": 0.218536376953125,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 1.14141845703125,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 12.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.1523845195770264,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 30.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.4211883544921875,
+              "p50": 3.0,
+              "p95": 8.0,
+              "p99": 11.0,
+              "max": 20.0
+            },
+            "G_roughness": {
+              "mean": 2.37579345703125,
+              "p50": 2.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 18.0
+            },
+            "B": {
+              "mean": 3.6601715087890625,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 30.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.2156474590301514,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 27.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.5077667236328125,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 23.0
+            },
+            "G_roughness": {
+              "mean": 2.406646728515625,
+              "p50": 2.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 18.0
+            },
+            "B": {
+              "mean": 3.7325286865234375,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 27.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--source-mip3.rgba.zst",
+              "sha256": "28bffb91607197169f6dbed89787d58a7f7662c9bf67628cd3ffd023af1272da"
+            },
+            "baseline": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip3.rgba.zst",
+              "sha256": "490f0f74f283cb70343eda2488352c53f061e1ec6884a6301c0d7c572e76ba57"
+            },
+            "candidate": {
+              "path": "candidate-migration/sandstone_blocks_04--sandstone_blocks_04_diff_2k--mip3.rgba.zst",
+              "sha256": "2986b76c2f61bee9b11a4d7d5eb8452400c575a78e15bfac7489cf70c485c614"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+      "active": true,
+      "normal": true,
+      "baseline_format": 22,
+      "candidate_format": 21,
+      "candidate_payload_bytes": 1398128,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 2.1719467639923096,
+            "p50": 2.0,
+            "p95": 6.0,
+            "p99": 8.0,
+            "max": 40.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.6832304000854492,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 7.0,
+              "max": 30.0
+            },
+            "G_roughness": {
+              "mean": 1.7152318954467773,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 7.0,
+              "max": 40.0
+            },
+            "B": {
+              "mean": 3.1173782348632812,
+              "p50": 3.0,
+              "p95": 7.0,
+              "p99": 9.0,
+              "max": 36.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.67965698242188,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.77630615234375,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 5.0,
+              "max": 27.0
+            },
+            "G_roughness": {
+              "mean": 1.7967710494995117,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 25.0
+            },
+            "B": {
+              "mean": 253.46591186523438,
+              "p50": 254.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 84.79460144042969,
+            "p50": 2.0,
+            "p95": 253.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.718672752380371,
+              "p50": 1.0,
+              "p95": 5.0,
+              "p99": 8.0,
+              "max": 27.0
+            },
+            "G_roughness": {
+              "mean": 1.808736801147461,
+              "p50": 1.0,
+              "p95": 5.0,
+              "p99": 8.0,
+              "max": 36.0
+            },
+            "B": {
+              "mean": 250.85638427734375,
+              "p50": 251.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 1.2421627044677734,
+              "p50": 1.0246930122375488,
+              "p95": 2.7356646060943604,
+              "p99": 3.9936325550079346,
+              "max": 37.66032409667969
+            },
+            "candidate_vs_source": {
+              "mean": 1.2551171779632568,
+              "p50": 1.2845087051391602,
+              "p95": 2.3024826049804688,
+              "p99": 3.2578039169311523,
+              "max": 36.55897521972656
+            },
+            "candidate_vs_baseline": {
+              "mean": 1.2875946760177612,
+              "p50": 1.0233553647994995,
+              "p95": 2.893876314163208,
+              "p99": 4.431929111480713,
+              "max": 19.98073959350586
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--source-mip0.rgba.zst",
+              "sha256": "214517501cac74821ee529ec2cb46a6c97a28be5a96bea6ba109137649d79390"
+            },
+            "baseline": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip0.rgba.zst",
+              "sha256": "ec4a317169e3e5ecbc6536fd7ab6479b699633acafc9407bfb6cb944fffffcb5"
+            },
+            "candidate": {
+              "path": "candidate-migration/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip0.rgba.zst",
+              "sha256": "694b8d0d46f314fe172a7a218d9326af5d41f53a783f7fe9ded3deb8ffa81903"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.97265625,
+            "p50": 1.0,
+            "p95": 3.0,
+            "p99": 4.0,
+            "max": 9.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.1417236328125,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 8.0
+            },
+            "G_roughness": {
+              "mean": 1.12811279296875,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 9.0
+            },
+            "B": {
+              "mean": 0.64813232421875,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 7.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.10089111328125,
+            "p50": 2.0,
+            "p95": 253.0,
+            "p99": 253.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.69024658203125,
+              "p50": 2.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 6.0
+            },
+            "G_roughness": {
+              "mean": 1.62176513671875,
+              "p50": 2.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 251.99066162109375,
+              "p50": 252.0,
+              "p95": 253.0,
+              "p99": 254.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 84.88580322265625,
+            "p50": 2.0,
+            "p95": 253.0,
+            "p99": 254.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.32366943359375,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 10.0
+            },
+            "G_roughness": {
+              "mean": 1.293701171875,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 10.0
+            },
+            "B": {
+              "mean": 252.0400390625,
+              "p50": 252.0,
+              "p95": 253.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.8337706327438354,
+              "p50": 0.6525208950042725,
+              "p95": 1.6633342504501343,
+              "p99": 2.3130569458007812,
+              "max": 4.560336112976074
+            },
+            "candidate_vs_source": {
+              "mean": 1.1452075242996216,
+              "p50": 1.0288857221603394,
+              "p95": 1.8789117336273193,
+              "p99": 2.0439093112945557,
+              "max": 2.8575263023376465
+            },
+            "candidate_vs_baseline": {
+              "mean": 0.9477748870849609,
+              "p50": 0.9132170677185059,
+              "p95": 1.8616044521331787,
+              "p99": 2.4778449535369873,
+              "max": 4.811493396759033
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--source-mip3.rgba.zst",
+              "sha256": "d18407a6758860cc626e85c1d396348071ca339ef2a57b3baaef373c25bd02e7"
+            },
+            "baseline": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip3.rgba.zst",
+              "sha256": "6ee4d3d64b6788bb63d4f9733a7d852f2cd50d7a79a6427c1ff1a8ef475ab9e8"
+            },
+            "candidate": {
+              "path": "candidate-migration/sandstone_blocks_04--sandstone_blocks_04_nor_gl_2k--mip3.rgba.zst",
+              "sha256": "fd3f24772bda8c54d9907434233c9686ad5b0ba1feff7c0dd8a7184a4c413593"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.5862737894058228,
+            "p50": 1.0,
+            "p95": 5.0,
+            "p99": 9.0,
+            "max": 40.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.3090333938598633,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 11.0,
+              "max": 40.0
+            },
+            "G_roughness": {
+              "mean": 0.6257972717285156,
+              "p50": 0.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 10.0
+            },
+            "B": {
+              "mean": 1.823990821838379,
+              "p50": 1.0,
+              "p95": 5.0,
+              "p99": 8.0,
+              "max": 27.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 4.109533786773682,
+            "p50": 3.0,
+            "p95": 13.0,
+            "p99": 22.0,
+            "max": 73.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 5.529670715332031,
+              "p50": 4.0,
+              "p95": 16.0,
+              "p99": 26.0,
+              "max": 73.0
+            },
+            "G_roughness": {
+              "mean": 4.762185096740723,
+              "p50": 3.0,
+              "p95": 14.0,
+              "p99": 22.0,
+              "max": 71.0
+            },
+            "B": {
+              "mean": 2.036745071411133,
+              "p50": 2.0,
+              "p95": 5.0,
+              "p99": 9.0,
+              "max": 25.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 4.176638603210449,
+            "p50": 3.0,
+            "p95": 13.0,
+            "p99": 23.0,
+            "max": 76.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 5.670971870422363,
+              "p50": 4.0,
+              "p95": 16.0,
+              "p99": 27.0,
+              "max": 76.0
+            },
+            "G_roughness": {
+              "mean": 4.76247501373291,
+              "p50": 4.0,
+              "p95": 14.0,
+              "p99": 23.0,
+              "max": 73.0
+            },
+            "B": {
+              "mean": 2.096468925476074,
+              "p50": 2.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 26.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--source-mip0.rgba.zst",
+              "sha256": "4cb36e6075011df4da43a2b9d6a3459a4add388523fc43662d84d70594d73fea"
+            },
+            "baseline": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip0.rgba.zst",
+              "sha256": "77c0505e4f360d923a5e663290f90bcacce03ec6615c9fd82967fcf767a0472f"
+            },
+            "candidate": {
+              "path": "candidate-migration/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip0.rgba.zst",
+              "sha256": "585b2d5a8fb0b3571878f066700d36b8a5c15ee49340a9c86b9786fc02a5f0d3"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.6154989004135132,
+            "p50": 1.0,
+            "p95": 4.0,
+            "p99": 7.0,
+            "max": 26.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.21099853515625,
+              "p50": 2.0,
+              "p95": 6.0,
+              "p99": 9.0,
+              "max": 26.0
+            },
+            "G_roughness": {
+              "mean": 0.6160888671875,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 7.0
+            },
+            "B": {
+              "mean": 2.0194091796875,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 5.0,
+              "max": 7.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 4.548909664154053,
+            "p50": 3.0,
+            "p95": 13.0,
+            "p99": 21.0,
+            "max": 44.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 6.13690185546875,
+              "p50": 5.0,
+              "p95": 17.0,
+              "p99": 25.0,
+              "max": 44.0
+            },
+            "G_roughness": {
+              "mean": 5.23248291015625,
+              "p50": 4.0,
+              "p95": 14.0,
+              "p99": 20.0,
+              "max": 38.0
+            },
+            "B": {
+              "mean": 2.27734375,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 5.0,
+              "max": 7.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 4.366434574127197,
+            "p50": 3.0,
+            "p95": 14.0,
+            "p99": 21.0,
+            "max": 56.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 6.3304443359375,
+              "p50": 5.0,
+              "p95": 17.0,
+              "p99": 25.0,
+              "max": 56.0
+            },
+            "G_roughness": {
+              "mean": 5.19573974609375,
+              "p50": 4.0,
+              "p95": 14.0,
+              "p99": 20.0,
+              "max": 38.0
+            },
+            "B": {
+              "mean": 1.5731201171875,
+              "p50": 0.0,
+              "p95": 5.0,
+              "p99": 8.0,
+              "max": 8.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--source-mip3.rgba.zst",
+              "sha256": "cbf60f3e274f4a4b63acdb6d85940a59fa59dc52b94493b8ea43a953f76f92e3"
+            },
+            "baseline": {
+              "path": "baseline-rgba/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip3.rgba.zst",
+              "sha256": "f6af8c06979359e4962c6062042539815b43fd3c3366236c3b9ef2f5ad2fa20e"
+            },
+            "candidate": {
+              "path": "candidate-migration/sandstone_blocks_04--sandstone_blocks_04_arm_2k--mip3.rgba.zst",
+              "sha256": "f32876a089baf4f9bfedb81b1ea1bfcacfc7cbc9c6c40887c7c132814b4fe0d8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 2796216,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.6486972570419312,
+            "p50": 1.0,
+            "p95": 5.0,
+            "p99": 7.0,
+            "max": 47.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.4794535636901855,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 5.0,
+              "max": 22.0
+            },
+            "G_roughness": {
+              "mean": 1.078918218612671,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 9.0
+            },
+            "B": {
+              "mean": 2.3877201080322266,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 9.0,
+              "max": 47.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 6.481222629547119,
+            "p50": 5.0,
+            "p95": 17.0,
+            "p99": 23.0,
+            "max": 86.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 6.682703971862793,
+              "p50": 5.0,
+              "p95": 17.0,
+              "p99": 23.0,
+              "max": 58.0
+            },
+            "G_roughness": {
+              "mean": 6.067627906799316,
+              "p50": 5.0,
+              "p95": 16.0,
+              "p99": 21.0,
+              "max": 41.0
+            },
+            "B": {
+              "mean": 6.693336486816406,
+              "p50": 5.0,
+              "p95": 17.0,
+              "p99": 23.0,
+              "max": 86.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 6.654512405395508,
+            "p50": 5.0,
+            "p95": 17.0,
+            "p99": 24.0,
+            "max": 89.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 6.697540283203125,
+              "p50": 6.0,
+              "p95": 17.0,
+              "p99": 24.0,
+              "max": 56.0
+            },
+            "G_roughness": {
+              "mean": 6.150643348693848,
+              "p50": 5.0,
+              "p95": 16.0,
+              "p99": 21.0,
+              "max": 45.0
+            },
+            "B": {
+              "mean": 7.115353584289551,
+              "p50": 6.0,
+              "p95": 18.0,
+              "p99": 25.0,
+              "max": 89.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_diff_2k--source-mip0.rgba.zst",
+              "sha256": "4202e9b5ccbf7adfa449d3cfc28e53d8f0cc6529e19e8562ea6d08897cb721f7"
+            },
+            "baseline": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_diff_2k--mip0.rgba.zst",
+              "sha256": "614cb55d1f81324a1e1e0deda1d8525f38e873470237db146e57038f6c9bdc97"
+            },
+            "candidate": {
+              "path": "candidate-migration/asphalt_02--asphalt_02_diff_2k--mip0.rgba.zst",
+              "sha256": "44404e3ab0dfafc03bfd4f28b293ff5b33e00610abf6c14952d862954bd231e1"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.9534047245979309,
+            "p50": 1.0,
+            "p95": 3.0,
+            "p99": 5.0,
+            "max": 18.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.92578125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 10.0
+            },
+            "G_roughness": {
+              "mean": 0.5347137451171875,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 5.0
+            },
+            "B": {
+              "mean": 1.39971923828125,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 18.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.839869260787964,
+            "p50": 3.0,
+            "p95": 10.0,
+            "p99": 13.0,
+            "max": 37.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 4.1799774169921875,
+              "p50": 4.0,
+              "p95": 10.0,
+              "p99": 14.0,
+              "max": 34.0
+            },
+            "G_roughness": {
+              "mean": 3.246002197265625,
+              "p50": 3.0,
+              "p95": 8.0,
+              "p99": 11.0,
+              "max": 21.0
+            },
+            "B": {
+              "mean": 4.0936279296875,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 37.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.8928935527801514,
+            "p50": 3.0,
+            "p95": 10.0,
+            "p99": 13.0,
+            "max": 40.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 4.0603179931640625,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 14.0,
+              "max": 36.0
+            },
+            "G_roughness": {
+              "mean": 3.3200225830078125,
+              "p50": 3.0,
+              "p95": 8.0,
+              "p99": 11.0,
+              "max": 22.0
+            },
+            "B": {
+              "mean": 4.29833984375,
+              "p50": 4.0,
+              "p95": 11.0,
+              "p99": 14.0,
+              "max": 40.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_diff_2k--source-mip3.rgba.zst",
+              "sha256": "e409452f06d401b8e867b029fff7f3d88c8510118f32d3c673abf78624e840cb"
+            },
+            "baseline": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_diff_2k--mip3.rgba.zst",
+              "sha256": "7bd6fc3da370254343525fc0456ca41c127c2bdba9eb215c8fbe611af6c35f72"
+            },
+            "candidate": {
+              "path": "candidate-migration/asphalt_02--asphalt_02_diff_2k--mip3.rgba.zst",
+              "sha256": "1cc864c1f4bbebd86bd72265ed43d4d5bc28544b310c600aeb3323c753efe32b"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+      "active": true,
+      "normal": true,
+      "baseline_format": 22,
+      "candidate_format": 21,
+      "candidate_payload_bytes": 1398128,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 3.9693946838378906,
+            "p50": 3.0,
+            "p95": 10.0,
+            "p99": 16.0,
+            "max": 51.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.7000370025634766,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 13.0,
+              "max": 38.0
+            },
+            "G_roughness": {
+              "mean": 3.6606063842773438,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 13.0,
+              "max": 39.0
+            },
+            "B": {
+              "mean": 4.547540664672852,
+              "p50": 3.0,
+              "p95": 13.0,
+              "p99": 19.0,
+              "max": 51.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 84.72234344482422,
+            "p50": 5.0,
+            "p95": 253.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.208629608154297,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 36.0
+            },
+            "G_roughness": {
+              "mean": 3.3934106826782227,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 13.0,
+              "max": 35.0
+            },
+            "B": {
+              "mean": 247.5649871826172,
+              "p50": 249.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 86.21092987060547,
+            "p50": 6.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 4.209964752197266,
+              "p50": 3.0,
+              "p95": 13.0,
+              "p99": 18.0,
+              "max": 55.0
+            },
+            "G_roughness": {
+              "mean": 4.223021507263184,
+              "p50": 3.0,
+              "p95": 13.0,
+              "p99": 18.0,
+              "max": 45.0
+            },
+            "B": {
+              "mean": 250.19979858398438,
+              "p50": 251.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 2.657642364501953,
+              "p50": 2.348520517349243,
+              "p95": 5.527758598327637,
+              "p99": 7.489253997802734,
+              "max": 20.91374397277832
+            },
+            "candidate_vs_source": {
+              "mean": 2.4311108589172363,
+              "p50": 2.1965975761413574,
+              "p95": 5.401899814605713,
+              "p99": 7.541775226593018,
+              "max": 29.801279067993164
+            },
+            "candidate_vs_baseline": {
+              "mean": 3.1619410514831543,
+              "p50": 2.6372640132904053,
+              "p95": 7.510740756988525,
+              "p99": 10.215112686157227,
+              "max": 31.411287307739258
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--source-mip0.rgba.zst",
+              "sha256": "92b09d04efde59b36682ca88674420fdd47dfdc7c5773fe608633e55dd51ef33"
+            },
+            "baseline": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--mip0.rgba.zst",
+              "sha256": "f12c39f3dba4f3dcfb66c69dab2733e31f806ca3deaca98fba44453c55b24136"
+            },
+            "candidate": {
+              "path": "candidate-migration/asphalt_02--asphalt_02_nor_gl_2k--mip0.rgba.zst",
+              "sha256": "70359377c77b021c019d5db8470c031659979de0f4d8a98e6dfb71b1065e192b"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.52789306640625,
+            "p50": 0.0,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 6.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.76934814453125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "G_roughness": {
+              "mean": 0.7935791015625,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 0.020751953125,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 1.0,
+              "max": 3.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.98307037353516,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.5054931640625,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "G_roughness": {
+              "mean": 1.46392822265625,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 254.97979736328125,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.7683334350586,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.13604736328125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 7.0
+            },
+            "G_roughness": {
+              "mean": 1.17083740234375,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "B": {
+              "mean": 254.99810791015625,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.5808916091918945,
+              "p50": 0.44980481266975403,
+              "p95": 1.0061933994293213,
+              "p99": 1.620395541191101,
+              "max": 3.279008388519287
+            },
+            "candidate_vs_source": {
+              "mean": 1.0183537006378174,
+              "p50": 1.004831075668335,
+              "p95": 1.620516300201416,
+              "p99": 1.9069044589996338,
+              "max": 3.0513975620269775
+            },
+            "candidate_vs_baseline": {
+              "mean": 0.8201940059661865,
+              "p50": 0.8987458944320679,
+              "p95": 1.421614646911621,
+              "p99": 1.854212760925293,
+              "max": 3.4232540130615234
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--source-mip3.rgba.zst",
+              "sha256": "47255b936642a22a81f6ed593ad2d31a00ff04348e3d38b6117133379654fd1c"
+            },
+            "baseline": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_nor_gl_2k--mip3.rgba.zst",
+              "sha256": "e652bc9c8fe2a899136447e60c4b1e77805cb011acaffd728e4b9cf9eb52d4c7"
+            },
+            "candidate": {
+              "path": "candidate-migration/asphalt_02--asphalt_02_nor_gl_2k--mip3.rgba.zst",
+              "sha256": "1846a7660d0b1d9280f38d9e7e556a4c68fc3fe3538a58390c83b0390b4dae07"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 2.9568045139312744,
+            "p50": 2.0,
+            "p95": 9.0,
+            "p99": 13.0,
+            "max": 48.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 4.302437782287598,
+              "p50": 4.0,
+              "p95": 11.0,
+              "p99": 16.0,
+              "max": 48.0
+            },
+            "G_roughness": {
+              "mean": 1.4197940826416016,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 5.0,
+              "max": 11.0
+            },
+            "B": {
+              "mean": 3.148181915283203,
+              "p50": 3.0,
+              "p95": 8.0,
+              "p99": 12.0,
+              "max": 35.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 7.314321041107178,
+            "p50": 5.0,
+            "p95": 22.0,
+            "p99": 32.0,
+            "max": 83.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 9.532783508300781,
+              "p50": 8.0,
+              "p95": 25.0,
+              "p99": 35.0,
+              "max": 82.0
+            },
+            "G_roughness": {
+              "mean": 9.093907356262207,
+              "p50": 7.0,
+              "p95": 24.0,
+              "p99": 34.0,
+              "max": 83.0
+            },
+            "B": {
+              "mean": 3.316272735595703,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 12.0,
+              "max": 32.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 7.287652969360352,
+            "p50": 5.0,
+            "p95": 23.0,
+            "p99": 33.0,
+            "max": 91.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 9.696356773376465,
+              "p50": 7.0,
+              "p95": 26.0,
+              "p99": 36.0,
+              "max": 91.0
+            },
+            "G_roughness": {
+              "mean": 9.142300605773926,
+              "p50": 7.0,
+              "p95": 25.0,
+              "p99": 35.0,
+              "max": 83.0
+            },
+            "B": {
+              "mean": 3.024301528930664,
+              "p50": 2.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 35.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_arm_2k--source-mip0.rgba.zst",
+              "sha256": "fabbab49b0e77a8091c573038bd49d47c6a1c12cad572578aae1022eeb8f39d5"
+            },
+            "baseline": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_arm_2k--mip0.rgba.zst",
+              "sha256": "4a5fb022cfcd999a430eaf937da81a0ef2b5743ebc77972570e18fa633637c3d"
+            },
+            "candidate": {
+              "path": "candidate-migration/asphalt_02--asphalt_02_arm_2k--mip0.rgba.zst",
+              "sha256": "476fbde2dcff6bc90a2992ba1d12f64b92dad0d290f65715fb2203b5e70f1d78"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.61004638671875,
+            "p50": 1.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 20.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.1060791015625,
+              "p50": 2.0,
+              "p95": 5.0,
+              "p99": 8.0,
+              "max": 20.0
+            },
+            "G_roughness": {
+              "mean": 0.6417236328125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 2.08233642578125,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 5.0,
+              "max": 6.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 4.017415523529053,
+            "p50": 3.0,
+            "p95": 12.0,
+            "p99": 18.0,
+            "max": 35.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 5.57916259765625,
+              "p50": 5.0,
+              "p95": 14.0,
+              "p99": 20.0,
+              "max": 35.0
+            },
+            "G_roughness": {
+              "mean": 4.72906494140625,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 19.0,
+              "max": 34.0
+            },
+            "B": {
+              "mean": 1.7440185546875,
+              "p50": 1.0,
+              "p95": 5.0,
+              "p99": 5.0,
+              "max": 6.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 4.461934566497803,
+            "p50": 3.0,
+            "p95": 12.0,
+            "p99": 18.4921875,
+            "max": 39.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 5.77825927734375,
+              "p50": 5.0,
+              "p95": 14.0,
+              "p99": 21.0,
+              "max": 39.0
+            },
+            "G_roughness": {
+              "mean": 4.71746826171875,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 19.0,
+              "max": 33.0
+            },
+            "B": {
+              "mean": 2.89007568359375,
+              "p50": 3.0,
+              "p95": 7.0,
+              "p99": 8.0,
+              "max": 8.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_arm_2k--source-mip3.rgba.zst",
+              "sha256": "b60d8e28af45f502fe64f6efac73d2fd59011a0907cac4048e59da2a91efa28c"
+            },
+            "baseline": {
+              "path": "baseline-rgba/asphalt_02--asphalt_02_arm_2k--mip3.rgba.zst",
+              "sha256": "f7ad823ab2cfd0b00d656f3ea95537bb07f3c844dd9e471a57786bd14ef7742c"
+            },
+            "candidate": {
+              "path": "candidate-migration/asphalt_02--asphalt_02_arm_2k--mip3.rgba.zst",
+              "sha256": "8af173bb2463c4a7559e9c44c952efee1699b3307b251b0c5d92d9c8cf61604a"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+      "active": false,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 3.152275323867798,
+            "p50": 2.0,
+            "p95": 9.0,
+            "p99": 14.0,
+            "max": 42.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.7220916748046875,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 14.0,
+              "max": 38.0
+            },
+            "G_roughness": {
+              "mean": 1.5959854125976562,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 12.0
+            },
+            "B": {
+              "mean": 4.138749122619629,
+              "p50": 3.0,
+              "p95": 11.0,
+              "p99": 16.0,
+              "max": 42.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 8.984816551208496,
+            "p50": 7.0,
+            "p95": 23.0,
+            "p99": 31.0,
+            "max": 78.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 9.040128707885742,
+              "p50": 7.0,
+              "p95": 23.0,
+              "p99": 31.0,
+              "max": 67.0
+            },
+            "G_roughness": {
+              "mean": 9.330828666687012,
+              "p50": 7.0,
+              "p95": 24.0,
+              "p99": 33.0,
+              "max": 73.0
+            },
+            "B": {
+              "mean": 8.58349323272705,
+              "p50": 7.0,
+              "p95": 22.0,
+              "p99": 29.0,
+              "max": 78.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 9.19703197479248,
+            "p50": 8.0,
+            "p95": 24.0,
+            "p99": 32.0,
+            "max": 76.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 9.252368927001953,
+              "p50": 8.0,
+              "p95": 24.0,
+              "p99": 33.0,
+              "max": 69.0
+            },
+            "G_roughness": {
+              "mean": 9.404549598693848,
+              "p50": 7.0,
+              "p95": 24.0,
+              "p99": 33.0,
+              "max": 76.0
+            },
+            "B": {
+              "mean": 8.93417739868164,
+              "p50": 8.0,
+              "p95": 23.0,
+              "p99": 30.0,
+              "max": 63.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_grass01--T_grass01_albedo--source-mip0.rgba.zst",
+              "sha256": "c0728b63e3dc97402a890238b997bc46c62d13649392dd6ba4884280106f8727"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_grass01--T_grass01_albedo--mip0.rgba.zst",
+              "sha256": "7fcfd55ddcdbf32d7852f7977581575e89c14a356b3bcce61bea1bd8684a39a4"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_grass01--T_grass01_albedo--mip0.rgba.zst",
+              "sha256": "01258c0a53d820b5a53ba825165a13032216c5f40d4d64c68606fa7db10bacaf"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 2.05084228515625,
+            "p50": 1.0,
+            "p95": 6.0,
+            "p99": 9.0,
+            "max": 17.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.44525146484375,
+              "p50": 2.0,
+              "p95": 6.0,
+              "p99": 9.0,
+              "max": 17.0
+            },
+            "G_roughness": {
+              "mean": 0.84185791015625,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "B": {
+              "mean": 2.86541748046875,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 17.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 4.804952144622803,
+            "p50": 4.0,
+            "p95": 12.0,
+            "p99": 16.0,
+            "max": 27.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 4.77691650390625,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 16.0,
+              "max": 26.0
+            },
+            "G_roughness": {
+              "mean": 4.78546142578125,
+              "p50": 4.0,
+              "p95": 13.0,
+              "p99": 17.0,
+              "max": 27.0
+            },
+            "B": {
+              "mean": 4.85247802734375,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 16.0,
+              "max": 27.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 4.783365726470947,
+            "p50": 4.0,
+            "p95": 12.0,
+            "p99": 16.0,
+            "max": 27.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 4.75927734375,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 16.0,
+              "max": 27.0
+            },
+            "G_roughness": {
+              "mean": 4.8251953125,
+              "p50": 4.0,
+              "p95": 13.0,
+              "p99": 17.0,
+              "max": 27.0
+            },
+            "B": {
+              "mean": 4.765625,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 15.0,
+              "max": 27.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_grass01--T_grass01_albedo--source-mip3.rgba.zst",
+              "sha256": "fa578d7f559520c68a44b4fef0d05353be5d3ac1a0a66ff5c58536790ac165b8"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_grass01--T_grass01_albedo--mip3.rgba.zst",
+              "sha256": "ced3e0212d48e19f97be29948a1128c89bfd179148dcd6b1b6310699a52d8c2e"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_grass01--T_grass01_albedo--mip3.rgba.zst",
+              "sha256": "5b223e5893bed31decc92090272ff2c7045ad69b025ceb2c5189c153ed8ce9c1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+      "active": false,
+      "normal": true,
+      "baseline_format": 22,
+      "candidate_format": 21,
+      "candidate_payload_bytes": 1398128,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.9301121830940247,
+            "p50": 1.0,
+            "p95": 2.0,
+            "p99": 4.0,
+            "max": 12.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.8714466094970703,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "G_roughness": {
+              "mean": 0.9635457992553711,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 7.0
+            },
+            "B": {
+              "mean": 0.9553442001342773,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 5.0,
+              "max": 12.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.6900405883789,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.3560419082641602,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "G_roughness": {
+              "mean": 1.5269098281860352,
+              "p50": 2.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 254.1871795654297,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.53443145751953,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.0175981521606445,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 7.0
+            },
+            "G_roughness": {
+              "mean": 1.1060905456542969,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 254.4796142578125,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.6755549907684326,
+              "p50": 0.6355060935020447,
+              "p95": 1.348861813545227,
+              "p99": 1.6237735748291016,
+              "max": 3.182661294937134
+            },
+            "candidate_vs_source": {
+              "mean": 0.9875901937484741,
+              "p50": 1.004831075668335,
+              "p95": 1.620395541191101,
+              "p99": 1.8528739213943481,
+              "max": 2.5597143173217773
+            },
+            "candidate_vs_baseline": {
+              "mean": 0.7687714099884033,
+              "p50": 0.6364291310310364,
+              "p95": 1.4214770793914795,
+              "p99": 1.797874093055725,
+              "max": 3.2779335975646973
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_grass01--T_grass01_normal_opengl--source-mip0.rgba.zst",
+              "sha256": "d1d48cf1c65b464d9dc307efb0727f41153b737b7fe609aa30f8fcb9a9685e0d"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_grass01--T_grass01_normal_opengl--mip0.rgba.zst",
+              "sha256": "3a6aef9914853cb7d579fab3257f242e9fb02bf9f5828870a35e76e08d4f5b31"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_grass01--T_grass01_normal_opengl--mip0.rgba.zst",
+              "sha256": "b25db7f8ee2bb89b6c7cdf87512aeda92d19326b7371146e78606456e2cbc7a6"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.5496826171875,
+            "p50": 0.0,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 5.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.76873779296875,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "G_roughness": {
+              "mean": 0.87030029296875,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "B": {
+              "mean": 0.010009765625,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.169921875,
+              "max": 1.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 86.246337890625,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.8292236328125,
+              "p50": 2.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "G_roughness": {
+              "mean": 1.912109375,
+              "p50": 2.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 254.9976806640625,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.86173248291016,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.30572509765625,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "G_roughness": {
+              "mean": 1.28790283203125,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 254.9915771484375,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.6032944917678833,
+              "p50": 0.6351981163024902,
+              "p95": 1.0056097507476807,
+              "p99": 1.421638011932373,
+              "max": 2.423901081085205
+            },
+            "candidate_vs_source": {
+              "mean": 1.2526673078536987,
+              "p50": 1.2710317373275757,
+              "p95": 1.9066990613937378,
+              "p99": 2.009739398956299,
+              "max": 2.5423738956451416
+            },
+            "candidate_vs_baseline": {
+              "mean": 0.9035254716873169,
+              "p50": 1.0046364068984985,
+              "p95": 1.4218900203704834,
+              "p99": 1.620757818222046,
+              "max": 2.0144083499908447
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_grass01--T_grass01_normal_opengl--source-mip3.rgba.zst",
+              "sha256": "e3acdd337520acb60c840d45e8695efdca2cd19fb364c0bcd2860c1f5bbbd39e"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_grass01--T_grass01_normal_opengl--mip3.rgba.zst",
+              "sha256": "eab54056d25646e172f266960cf8c7410a06df8b53df526c4f74e59d0ab55a88"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_grass01--T_grass01_normal_opengl--mip3.rgba.zst",
+              "sha256": "4bfec5d59e7d6dda68c1584ba4651cb19854ab6d8c47e6dc630fa47947f12d92"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg",
+      "active": false,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.09566020965576172,
+            "p50": 0.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 2.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.09566020965576172,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 2.0
+            },
+            "G_roughness": {
+              "mean": 0.09566020965576172,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 2.0
+            },
+            "B": {
+              "mean": 0.09566020965576172,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 2.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.24373722076416,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 16.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.70327091217041,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 16.0
+            },
+            "G_roughness": {
+              "mean": 2.32466983795166,
+              "p50": 2.0,
+              "p95": 6.0,
+              "p99": 7.0,
+              "max": 11.0
+            },
+            "B": {
+              "mean": 3.70327091217041,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 16.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.243495225906372,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 17.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.702188491821289,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 17.0
+            },
+            "G_roughness": {
+              "mean": 2.326108932495117,
+              "p50": 2.0,
+              "p95": 6.0,
+              "p99": 7.0,
+              "max": 12.0
+            },
+            "B": {
+              "mean": 3.702188491821289,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 17.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_grass01--T_grass01_ao--source-mip0.rgba.zst",
+              "sha256": "569db904b01e587f5c066486799989ecb9ef79a300c6bbc69707ab949886af8a"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_grass01--T_grass01_ao--mip0.rgba.zst",
+              "sha256": "613764b4c459d5ab22fa54c831747197eebef58a56646265cce674e460c1368c"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_grass01--T_grass01_ao--mip0.rgba.zst",
+              "sha256": "fcca919684c79cfa7091b42f8e86ae506e9d49dde0b4c248542e7711cf2ccb5e"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.0404052734375,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 1.0,
+            "max": 1.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.0404052734375,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 1.0,
+              "max": 1.0
+            },
+            "G_roughness": {
+              "mean": 0.0404052734375,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 1.0,
+              "max": 1.0
+            },
+            "B": {
+              "mean": 0.0404052734375,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 1.0,
+              "max": 1.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.53228759765625,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 11.0,
+            "max": 14.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 4.19842529296875,
+              "p50": 4.0,
+              "p95": 10.0,
+              "p99": 11.0,
+              "max": 14.0
+            },
+            "G_roughness": {
+              "mean": 2.20001220703125,
+              "p50": 2.0,
+              "p95": 5.0,
+              "p99": 7.0,
+              "max": 9.0
+            },
+            "B": {
+              "mean": 4.19842529296875,
+              "p50": 4.0,
+              "p95": 10.0,
+              "p99": 11.0,
+              "max": 14.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.5287067890167236,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 11.0,
+            "max": 14.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 4.19451904296875,
+              "p50": 4.0,
+              "p95": 10.0,
+              "p99": 11.0,
+              "max": 14.0
+            },
+            "G_roughness": {
+              "mean": 2.19708251953125,
+              "p50": 2.0,
+              "p95": 5.0,
+              "p99": 7.0,
+              "max": 9.0
+            },
+            "B": {
+              "mean": 4.19451904296875,
+              "p50": 4.0,
+              "p95": 10.0,
+              "p99": 11.0,
+              "max": 14.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_grass01--T_grass01_ao--source-mip3.rgba.zst",
+              "sha256": "8dd0be90a621447e8980e14ac1651e9cb8fe66305a29c6ac1a425e53f1455b06"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_grass01--T_grass01_ao--mip3.rgba.zst",
+              "sha256": "3fd24cfc21ed676518ecbee26149924d64094799491b20be3d1eefe1e69665af"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_grass01--T_grass01_ao--mip3.rgba.zst",
+              "sha256": "9fab2b822804c030511019fbf6abcf4c573b0715c0f85334878066cecbbb3920"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.2027851343154907,
+            "p50": 1.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 28.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.273280143737793,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 5.0,
+              "max": 28.0
+            },
+            "G_roughness": {
+              "mean": 0.7021427154541016,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 8.0
+            },
+            "B": {
+              "mean": 1.6329326629638672,
+              "p50": 1.0,
+              "p95": 5.0,
+              "p99": 8.0,
+              "max": 22.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 5.270632743835449,
+            "p50": 4.0,
+            "p95": 14.0,
+            "p99": 20.0,
+            "max": 63.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 5.364772796630859,
+              "p50": 4.0,
+              "p95": 14.0,
+              "p99": 20.0,
+              "max": 63.0
+            },
+            "G_roughness": {
+              "mean": 4.730588912963867,
+              "p50": 4.0,
+              "p95": 13.0,
+              "p99": 18.0,
+              "max": 51.0
+            },
+            "B": {
+              "mean": 5.716536521911621,
+              "p50": 5.0,
+              "p95": 15.0,
+              "p99": 20.0,
+              "max": 62.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 5.370899200439453,
+            "p50": 4.0,
+            "p95": 14.0,
+            "p99": 20.0,
+            "max": 66.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 5.481827735900879,
+              "p50": 4.0,
+              "p95": 14.0,
+              "p99": 20.0,
+              "max": 65.0
+            },
+            "G_roughness": {
+              "mean": 4.779272079467773,
+              "p50": 4.0,
+              "p95": 13.0,
+              "p99": 18.0,
+              "max": 52.0
+            },
+            "B": {
+              "mean": 5.851597785949707,
+              "p50": 5.0,
+              "p95": 15.0,
+              "p99": 21.0,
+              "max": 66.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_wood01--T_wood01_albedo--source-mip0.rgba.zst",
+              "sha256": "23551685ec510ab8dc036a13dc21b3905e3056a4feefdb5a698cd89c369e93d9"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_wood01--T_wood01_albedo--mip0.rgba.zst",
+              "sha256": "b121852709e1189998374f8ce5b244c3a6cad599ef9e21aceaa4ee189364b195"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_wood01--T_wood01_albedo--mip0.rgba.zst",
+              "sha256": "dddf982df6e1f1f3cd8686f73bd3950969c4662852237789856031d4bdd9991c"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.9981892704963684,
+            "p50": 1.0,
+            "p95": 3.0,
+            "p99": 5.0,
+            "max": 11.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.12408447265625,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 8.0
+            },
+            "G_roughness": {
+              "mean": 0.440185546875,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 3.0
+            },
+            "B": {
+              "mean": 1.4302978515625,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 11.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 4.01275634765625,
+            "p50": 3.0,
+            "p95": 10.0,
+            "p99": 15.0,
+            "max": 32.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 4.37518310546875,
+              "p50": 4.0,
+              "p95": 11.0,
+              "p99": 16.0,
+              "max": 32.0
+            },
+            "G_roughness": {
+              "mean": 3.1953125,
+              "p50": 3.0,
+              "p95": 8.0,
+              "p99": 11.0,
+              "max": 23.0
+            },
+            "B": {
+              "mean": 4.4677734375,
+              "p50": 4.0,
+              "p95": 11.0,
+              "p99": 15.0,
+              "max": 30.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 4.0281982421875,
+            "p50": 3.0,
+            "p95": 10.0,
+            "p99": 15.0,
+            "max": 33.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 4.4425048828125,
+              "p50": 4.0,
+              "p95": 11.0,
+              "p99": 17.0,
+              "max": 33.0
+            },
+            "G_roughness": {
+              "mean": 3.23876953125,
+              "p50": 3.0,
+              "p95": 8.0,
+              "p99": 11.0,
+              "max": 23.0
+            },
+            "B": {
+              "mean": 4.4033203125,
+              "p50": 4.0,
+              "p95": 11.0,
+              "p99": 15.0,
+              "max": 33.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_wood01--T_wood01_albedo--source-mip3.rgba.zst",
+              "sha256": "2d38f84b26b0e760a95b321c44840f2bd8d62695795e05cfbf5ae5d197af157e"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_wood01--T_wood01_albedo--mip3.rgba.zst",
+              "sha256": "4b528e7f2b1ba162ec571bf21081a6ffcdb4027b4a39f817a5676c3def27780f"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_wood01--T_wood01_albedo--mip3.rgba.zst",
+              "sha256": "d204b9545c4524f91945e7cdb3c5ee1a28d55c742af5c9777729fd9ce08c4354"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+      "active": true,
+      "normal": true,
+      "baseline_format": 22,
+      "candidate_format": 21,
+      "candidate_payload_bytes": 1398128,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.1333681344985962,
+            "p50": 1.0,
+            "p95": 3.0,
+            "p99": 5.0,
+            "max": 17.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.00909423828125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 9.0
+            },
+            "G_roughness": {
+              "mean": 0.9627475738525391,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 7.0
+            },
+            "B": {
+              "mean": 1.428262710571289,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 7.0,
+              "max": 17.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.52783203125,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.5892620086669922,
+              "p50": 2.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "G_roughness": {
+              "mean": 1.395157814025879,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 9.0
+            },
+            "B": {
+              "mean": 253.5990753173828,
+              "p50": 254.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.3702392578125,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.1278362274169922,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 11.0
+            },
+            "G_roughness": {
+              "mean": 1.1134653091430664,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 8.0
+            },
+            "B": {
+              "mean": 253.86941528320312,
+              "p50": 254.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.7174022197723389,
+              "p50": 0.6361216306686401,
+              "p95": 1.421614646911621,
+              "p99": 1.8535076379776,
+              "max": 4.074195384979248
+            },
+            "candidate_vs_source": {
+              "mean": 1.030686378479004,
+              "p50": 1.0054150819778442,
+              "p95": 1.6283468008041382,
+              "p99": 2.017223834991455,
+              "max": 4.692563056945801
+            },
+            "candidate_vs_baseline": {
+              "mean": 0.8121001720428467,
+              "p50": 0.6458899974822998,
+              "p95": 1.6208784580230713,
+              "p99": 2.0136311054229736,
+              "max": 5.1310272216796875
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_wood01--T_wood01_normal_opengl--source-mip0.rgba.zst",
+              "sha256": "28d4ee2e94a224b8a96c8271cbc3445052d8a5b009aa293e13ddd2e5ad765b26"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_wood01--T_wood01_normal_opengl--mip0.rgba.zst",
+              "sha256": "7d3ad95cc83d6870e60b4bb6e8f5037f038901cfb51d1db94355b04e68ddcca3"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_wood01--T_wood01_normal_opengl--mip0.rgba.zst",
+              "sha256": "80b291a9e6c48a9c7a600cb395995db2637f394ca81eae65834c266ac3a2e195"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.5774739384651184,
+            "p50": 0.0,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 6.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.82989501953125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "G_roughness": {
+              "mean": 0.79736328125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 2.0,
+              "max": 5.0
+            },
+            "B": {
+              "mean": 0.10516357421875,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 2.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 86.1368408203125,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.06549072265625,
+              "p50": 2.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 4.0
+            },
+            "G_roughness": {
+              "mean": 1.4656982421875,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 254.87933349609375,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.80533599853516,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.4300537109375,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "G_roughness": {
+              "mean": 1.05078125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "B": {
+              "mean": 254.9351806640625,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.5983314514160156,
+              "p50": 0.6351981163024902,
+              "p95": 1.0075538158416748,
+              "p99": 1.4214770793914795,
+              "max": 2.84248423576355
+            },
+            "candidate_vs_source": {
+              "mean": 1.2079999446868896,
+              "p50": 1.2711857557296753,
+              "p95": 1.8544418811798096,
+              "p99": 2.009934186935425,
+              "max": 2.54368257522583
+            },
+            "candidate_vs_baseline": {
+              "mean": 0.8761787414550781,
+              "p50": 0.8991812467575073,
+              "p95": 1.422577977180481,
+              "p99": 1.625380516052246,
+              "max": 2.4309964179992676
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_wood01--T_wood01_normal_opengl--source-mip3.rgba.zst",
+              "sha256": "b839671ac26f0ad0b647e4c59c6b7ee942c6d078a810df3fd27ec9957ad2063e"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_wood01--T_wood01_normal_opengl--mip3.rgba.zst",
+              "sha256": "912834673ba0cbd23534278d6ae216c639a62b1ad901cdcb3c8ca390e0fa971a"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_wood01--T_wood01_normal_opengl--mip3.rgba.zst",
+              "sha256": "d3e97be5552f371815cfd1917b1b8f2cb1c3edd7cfb6b43a2441022249dd12e8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.44009271264076233,
+            "p50": 0.0,
+            "p95": 1.0,
+            "p99": 2.0,
+            "max": 5.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.44008731842041016,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 5.0
+            },
+            "G_roughness": {
+              "mean": 0.44008731842041016,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 5.0
+            },
+            "B": {
+              "mean": 0.44010353088378906,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 5.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 4.275012969970703,
+            "p50": 3.0,
+            "p95": 11.0,
+            "p99": 15.0,
+            "max": 30.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 4.623709678649902,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 16.0,
+              "max": 30.0
+            },
+            "G_roughness": {
+              "mean": 3.5776195526123047,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 28.0
+            },
+            "B": {
+              "mean": 4.623709678649902,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 16.0,
+              "max": 30.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 4.283133029937744,
+            "p50": 4.0,
+            "p95": 11.0,
+            "p99": 15.0,
+            "max": 30.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 4.627950668334961,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 16.0,
+              "max": 30.0
+            },
+            "G_roughness": {
+              "mean": 3.5934972763061523,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 14.0,
+              "max": 27.0
+            },
+            "B": {
+              "mean": 4.627951622009277,
+              "p50": 4.0,
+              "p95": 12.0,
+              "p99": 16.0,
+              "max": 30.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_wood01--T_wood01_ao--source-mip0.rgba.zst",
+              "sha256": "76dfa7332dc226b7f6ed2f9054dc645a3ca5d924a5d3407389026305ca630dcb"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_wood01--T_wood01_ao--mip0.rgba.zst",
+              "sha256": "c5038060da68792ce6d5690f3f5a7f3a89b19ebcdc3d45daa73394f1e54a3852"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_wood01--T_wood01_ao--mip0.rgba.zst",
+              "sha256": "c94693b6ffc0b12d4dee153c484afd697c878598e8b307e580e7234a642caeb0"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.27410888671875,
+            "p50": 0.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 2.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.27410888671875,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 2.0
+            },
+            "G_roughness": {
+              "mean": 0.27410888671875,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 2.0
+            },
+            "B": {
+              "mean": 0.27410888671875,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 2.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.5262248516082764,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 21.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.89495849609375,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 21.0
+            },
+            "G_roughness": {
+              "mean": 2.78875732421875,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 17.0
+            },
+            "B": {
+              "mean": 3.89495849609375,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 21.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.5333659648895264,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 21.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.895263671875,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 21.0
+            },
+            "G_roughness": {
+              "mean": 2.8095703125,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 17.0
+            },
+            "B": {
+              "mean": 3.895263671875,
+              "p50": 3.0,
+              "p95": 10.0,
+              "p99": 13.0,
+              "max": 21.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/T_wood01--T_wood01_ao--source-mip3.rgba.zst",
+              "sha256": "79ff8e69824ec177954c7124394284eac1687ae5d8b50754f8ffffd5ff49116c"
+            },
+            "baseline": {
+              "path": "baseline-rgba/T_wood01--T_wood01_ao--mip3.rgba.zst",
+              "sha256": "514f619bfcdb6247840de05ddbf410500b8b917c3d88850175f49a3e99f5bc8c"
+            },
+            "candidate": {
+              "path": "candidate-migration/T_wood01--T_wood01_ao--mip3.rgba.zst",
+              "sha256": "354250818f2f67312be142a5ec693ae531e14477e1efa00767b571fd6c354b3c"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/derived/grass_albedo.png",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 1.5530732870101929,
+            "p50": 1.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 16.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.8786449432373047,
+              "p50": 2.0,
+              "p95": 5.0,
+              "p99": 7.0,
+              "max": 16.0
+            },
+            "G_roughness": {
+              "mean": 1.082453727722168,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 8.0
+            },
+            "B": {
+              "mean": 1.6981210708618164,
+              "p50": 1.0,
+              "p95": 4.0,
+              "p99": 7.0,
+              "max": 14.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 5.738147735595703,
+            "p50": 5.0,
+            "p95": 14.0,
+            "p99": 19.0,
+            "max": 39.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 6.233266830444336,
+              "p50": 5.0,
+              "p95": 16.0,
+              "p99": 20.0,
+              "max": 39.0
+            },
+            "G_roughness": {
+              "mean": 5.703619003295898,
+              "p50": 5.0,
+              "p95": 14.0,
+              "p99": 19.0,
+              "max": 37.0
+            },
+            "B": {
+              "mean": 5.277557373046875,
+              "p50": 4.0,
+              "p95": 13.0,
+              "p99": 17.0,
+              "max": 31.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 5.829076766967773,
+            "p50": 5.0,
+            "p95": 15.0,
+            "p99": 19.0,
+            "max": 42.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 6.318138122558594,
+              "p50": 5.0,
+              "p95": 16.0,
+              "p99": 21.0,
+              "max": 42.0
+            },
+            "G_roughness": {
+              "mean": 5.799288749694824,
+              "p50": 5.0,
+              "p95": 14.0,
+              "p99": 19.0,
+              "max": 38.0
+            },
+            "B": {
+              "mean": 5.369803428649902,
+              "p50": 5.0,
+              "p95": 13.0,
+              "p99": 17.0,
+              "max": 34.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/derived--grass_albedo--source-mip0.rgba.zst",
+              "sha256": "a61aa670fa0995bacdded8ac9c9786a506510f6f49010801651544f7a4c2040c"
+            },
+            "baseline": {
+              "path": "baseline-rgba/derived--grass_albedo--mip0.rgba.zst",
+              "sha256": "91ab4916e4b27061e58118ccbbfa465de95c3305167afd6e502c336fc9c47303"
+            },
+            "candidate": {
+              "path": "candidate-migration/derived--grass_albedo--mip0.rgba.zst",
+              "sha256": "07d3da7181129e9cdbf9107b69aed2af020623766493ee04fd61120cc3604764"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.792724609375,
+            "p50": 1.0,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 5.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.01568603515625,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "G_roughness": {
+              "mean": 0.3553466796875,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 1.0,
+              "max": 2.0
+            },
+            "B": {
+              "mean": 1.00714111328125,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 5.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.2818603515625,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 17.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.600830078125,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 17.0
+            },
+            "G_roughness": {
+              "mean": 2.77423095703125,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 9.0,
+              "max": 14.0
+            },
+            "B": {
+              "mean": 3.47052001953125,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 15.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.3210856914520264,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 18.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.69549560546875,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 11.0,
+              "max": 18.0
+            },
+            "G_roughness": {
+              "mean": 2.82733154296875,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 9.0,
+              "max": 14.0
+            },
+            "B": {
+              "mean": 3.4404296875,
+              "p50": 3.0,
+              "p95": 8.0,
+              "p99": 11.0,
+              "max": 16.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/derived--grass_albedo--source-mip3.rgba.zst",
+              "sha256": "1d7f850be11ceea2932df08baa2f2fdf2f6a45861e826061ee2c050ab6c35448"
+            },
+            "baseline": {
+              "path": "baseline-rgba/derived--grass_albedo--mip3.rgba.zst",
+              "sha256": "9563d0fc559662872e96a377c44ae44d4e0be2572189d845e0d1031afc6d72ba"
+            },
+            "candidate": {
+              "path": "candidate-migration/derived--grass_albedo--mip3.rgba.zst",
+              "sha256": "056518bceb87d9f73c553b41c9f95953214ae39fe1cb084cac34b2249cd0d1ac"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+      "active": true,
+      "normal": true,
+      "baseline_format": 22,
+      "candidate_format": 21,
+      "candidate_payload_bytes": 1398128,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.6382182240486145,
+            "p50": 1.0,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 6.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.55401611328125,
+              "p50": 0.0,
+              "p95": 2.0,
+              "p99": 2.0,
+              "max": 5.0
+            },
+            "G_roughness": {
+              "mean": 0.6581201553344727,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 0.7025184631347656,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 2.0,
+              "max": 5.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.30268096923828,
+            "p50": 1.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.8233394622802734,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 2.0,
+              "max": 3.0
+            },
+            "G_roughness": {
+              "mean": 0.8708934783935547,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 2.0,
+              "max": 3.0
+            },
+            "B": {
+              "mean": 254.21380615234375,
+              "p50": 254.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.6276626586914,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.0226421356201172,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "G_roughness": {
+              "mean": 1.1068239212036133,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 254.7535400390625,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.46592795848846436,
+              "p50": 0.44936954975128174,
+              "p95": 1.0052205324172974,
+              "p99": 1.4214770793914795,
+              "max": 2.7424538135528564
+            },
+            "candidate_vs_source": {
+              "mean": 0.6072703003883362,
+              "p50": 0.6355060935020447,
+              "p95": 1.0056097507476807,
+              "p99": 1.2713396549224854,
+              "max": 1.9210153818130493
+            },
+            "candidate_vs_baseline": {
+              "mean": 0.7677901387214661,
+              "p50": 0.6361216306686401,
+              "p95": 1.4213392734527588,
+              "p99": 1.6238939762115479,
+              "max": 3.015127182006836
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/derived--grass_normal_opengl--source-mip0.rgba.zst",
+              "sha256": "bff796b17d431e318516bd9350ad045a61d718687eb7f717e71fee205e68099e"
+            },
+            "baseline": {
+              "path": "baseline-rgba/derived--grass_normal_opengl--mip0.rgba.zst",
+              "sha256": "e7de35b6ccc83a59172ed866626e253bc45e009d7ce9ea17d1d9686ce4b28816"
+            },
+            "candidate": {
+              "path": "candidate-migration/derived--grass_normal_opengl--mip0.rgba.zst",
+              "sha256": "bb8a819650b77015e980578196f17e7e89bfda8001dfafeb7c60e53db247be11"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.2844034731388092,
+            "p50": 0.0,
+            "p95": 1.0,
+            "p99": 2.0,
+            "max": 4.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.4034423828125,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 4.0
+            },
+            "G_roughness": {
+              "mean": 0.43463134765625,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 0.01513671875,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 1.0,
+              "max": 1.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 85.92000579833984,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.4051513671875,
+              "p50": 2.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 3.0
+            },
+            "G_roughness": {
+              "mean": 1.355224609375,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 3.0
+            },
+            "B": {
+              "mean": 254.9996337890625,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 85.9391098022461,
+            "p50": 2.0,
+            "p95": 255.0,
+            "p99": 255.0,
+            "max": 255.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 1.4332275390625,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 5.0
+            },
+            "G_roughness": {
+              "mean": 1.39886474609375,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 4.0
+            },
+            "B": {
+              "mean": 254.9852294921875,
+              "p50": 255.0,
+              "p95": 255.0,
+              "p99": 255.0,
+              "max": 255.0
+            }
+          },
+          "normal_angle_degrees": {
+            "baseline_vs_source": {
+              "mean": 0.33925652503967285,
+              "p50": 0.4489338994026184,
+              "p95": 0.8987458944320679,
+              "p99": 1.0054150819778442,
+              "max": 1.855829119682312
+            },
+            "candidate_vs_source": {
+              "mean": 0.9453994035720825,
+              "p50": 1.004831075668335,
+              "p95": 1.3482812643051147,
+              "p99": 1.6206369400024414,
+              "max": 1.9074175357818604
+            },
+            "candidate_vs_baseline": {
+              "mean": 0.9718549251556396,
+              "p50": 1.004831075668335,
+              "p95": 1.620395541191101,
+              "p99": 1.6216027736663818,
+              "max": 2.291576623916626
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/derived--grass_normal_opengl--source-mip3.rgba.zst",
+              "sha256": "28ebc50a7f35edb4ee4586cc4096d90fb5dc27476e7c76e423bd11858e4c60e1"
+            },
+            "baseline": {
+              "path": "baseline-rgba/derived--grass_normal_opengl--mip3.rgba.zst",
+              "sha256": "29625ea831808d791ae56a6cb1f01ff64f65f76f879a5f7fd32a33430973954c"
+            },
+            "candidate": {
+              "path": "candidate-migration/derived--grass_normal_opengl--mip3.rgba.zst",
+              "sha256": "8857eb8cf460eca74fb253d04a4229e0869feb9c369e545d71ff6f4ba689c5e1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 699064,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.014440536499023438,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 1.0,
+            "max": 1.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.014440536499023438,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 1.0,
+              "max": 1.0
+            },
+            "G_roughness": {
+              "mean": 0.014440536499023438,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 1.0,
+              "max": 1.0
+            },
+            "B": {
+              "mean": 0.014440536499023438,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 1.0,
+              "max": 1.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 2.4625051021575928,
+            "p50": 2.0,
+            "p95": 6.0,
+            "p99": 7.0,
+            "max": 13.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.759610176086426,
+              "p50": 3.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 13.0
+            },
+            "G_roughness": {
+              "mean": 1.8682947158813477,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 8.0
+            },
+            "B": {
+              "mean": 2.759610176086426,
+              "p50": 3.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 13.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 2.461493492126465,
+            "p50": 2.0,
+            "p95": 6.0,
+            "p99": 7.0,
+            "max": 13.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 2.757697105407715,
+              "p50": 3.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 13.0
+            },
+            "G_roughness": {
+              "mean": 1.8690862655639648,
+              "p50": 2.0,
+              "p95": 4.0,
+              "p99": 6.0,
+              "max": 8.0
+            },
+            "B": {
+              "mean": 2.757697105407715,
+              "p50": 3.0,
+              "p95": 6.0,
+              "p99": 8.0,
+              "max": 13.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/derived--grass_ambient_occlusion--source-mip0.rgba.zst",
+              "sha256": "c0c04d9591d910b3685a605f89975cdca2d1e7181bf74b67a1be768a91988131"
+            },
+            "baseline": {
+              "path": "baseline-rgba/derived--grass_ambient_occlusion--mip0.rgba.zst",
+              "sha256": "a0f33b32415ed6cb05fb5923213e9dc56947abacec1c07f88a2e02336c2926a9"
+            },
+            "candidate": {
+              "path": "candidate-migration/derived--grass_ambient_occlusion--mip0.rgba.zst",
+              "sha256": "3fe29bc20d860056dc21ba7b4d2fd10f266601554e2620886a76d3ba4d7a8831"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "G_roughness": {
+              "mean": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            },
+            "B": {
+              "mean": 0.0,
+              "p50": 0.0,
+              "p95": 0.0,
+              "p99": 0.0,
+              "max": 0.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 2.2742717266082764,
+            "p50": 2.0,
+            "p95": 5.0,
+            "p99": 6.0,
+            "max": 8.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 2.73797607421875,
+              "p50": 3.0,
+              "p95": 6.0,
+              "p99": 6.0,
+              "max": 8.0
+            },
+            "G_roughness": {
+              "mean": 1.34686279296875,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 2.73797607421875,
+              "p50": 3.0,
+              "p95": 6.0,
+              "p99": 6.0,
+              "max": 8.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 2.2742717266082764,
+            "p50": 2.0,
+            "p95": 5.0,
+            "p99": 6.0,
+            "max": 8.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 2.73797607421875,
+              "p50": 3.0,
+              "p95": 6.0,
+              "p99": 6.0,
+              "max": 8.0
+            },
+            "G_roughness": {
+              "mean": 1.34686279296875,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 3.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 2.73797607421875,
+              "p50": 3.0,
+              "p95": 6.0,
+              "p99": 6.0,
+              "max": 8.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/derived--grass_ambient_occlusion--source-mip3.rgba.zst",
+              "sha256": "54817213f731c847f2542b62c29a1bfa71dd89f1ed805b1c30c6f9d4719635ce"
+            },
+            "baseline": {
+              "path": "baseline-rgba/derived--grass_ambient_occlusion--mip3.rgba.zst",
+              "sha256": "54817213f731c847f2542b62c29a1bfa71dd89f1ed805b1c30c6f9d4719635ce"
+            },
+            "candidate": {
+              "path": "candidate-migration/derived--grass_ambient_occlusion--mip3.rgba.zst",
+              "sha256": "5254deba60e84f531018d3eb8f1d77dd40ace6ea1f48f197750bb4a2413d06a3"
+            }
+          }
+        }
+      }
+    },
+    {
+      "resource": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+      "active": true,
+      "normal": false,
+      "baseline_format": 22,
+      "candidate_format": 17,
+      "candidate_payload_bytes": 2796216,
+      "levels": {
+        "0": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.7829976081848145,
+            "p50": 1.0,
+            "p95": 2.0,
+            "p99": 3.0,
+            "max": 23.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 0.9233417510986328,
+              "p50": 1.0,
+              "p95": 2.0,
+              "p99": 3.0,
+              "max": 13.0
+            },
+            "G_roughness": {
+              "mean": 0.3416290283203125,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 6.0
+            },
+            "B": {
+              "mean": 1.084022045135498,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 23.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.3049938678741455,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 40.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.5227794647216797,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 35.0
+            },
+            "G_roughness": {
+              "mean": 2.806959390640259,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 28.0
+            },
+            "B": {
+              "mean": 3.5852432250976562,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 40.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.3712825775146484,
+            "p50": 3.0,
+            "p95": 8.0,
+            "p99": 12.0,
+            "max": 41.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.608293056488037,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 41.0
+            },
+            "G_roughness": {
+              "mean": 2.8534820079803467,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 32.0
+            },
+            "B": {
+              "mean": 3.652071952819824,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 37.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/derived--pavement_albedo--source-mip0.rgba.zst",
+              "sha256": "49fe341d7bae493b819e298722e57c6bf22435d9e23c21ce89b73c44f84ba882"
+            },
+            "baseline": {
+              "path": "baseline-rgba/derived--pavement_albedo--mip0.rgba.zst",
+              "sha256": "b0679591bf700a418ee4fa62027da6dd3a9ea9bd084b1a5659051c5a017800d5"
+            },
+            "candidate": {
+              "path": "candidate-migration/derived--pavement_albedo--mip0.rgba.zst",
+              "sha256": "a5f74d692a50ee660e42aefdd2e499dec9ef2adccf5bdfc3385310dfa12ac645"
+            }
+          }
+        },
+        "3": {
+          "baseline_vs_source_RGB8_absolute": {
+            "mean": 0.860076904296875,
+            "p50": 1.0,
+            "p95": 3.0,
+            "p99": 4.0,
+            "max": 12.0
+          },
+          "baseline_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 1.028289794921875,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 9.0
+            },
+            "G_roughness": {
+              "mean": 0.32061767578125,
+              "p50": 0.0,
+              "p95": 1.0,
+              "p99": 2.0,
+              "max": 3.0
+            },
+            "B": {
+              "mean": 1.2313232421875,
+              "p50": 1.0,
+              "p95": 3.0,
+              "p99": 4.0,
+              "max": 12.0
+            }
+          },
+          "candidate_vs_source_RGB8_absolute": {
+            "mean": 3.3817138671875,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 28.0
+          },
+          "candidate_vs_source_channel_absolute": {
+            "R_AO": {
+              "mean": 3.697540283203125,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 28.0
+            },
+            "G_roughness": {
+              "mean": 2.7421722412109375,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 9.0,
+              "max": 21.0
+            },
+            "B": {
+              "mean": 3.7054290771484375,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 13.0,
+              "max": 25.0
+            }
+          },
+          "candidate_vs_baseline_RGB8_absolute": {
+            "mean": 3.410888671875,
+            "p50": 3.0,
+            "p95": 9.0,
+            "p99": 12.0,
+            "max": 30.0
+          },
+          "candidate_vs_baseline_channel_absolute": {
+            "R_AO": {
+              "mean": 3.75946044921875,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 30.0
+            },
+            "G_roughness": {
+              "mean": 2.7849273681640625,
+              "p50": 2.0,
+              "p95": 7.0,
+              "p99": 10.0,
+              "max": 24.0
+            },
+            "B": {
+              "mean": 3.6882781982421875,
+              "p50": 3.0,
+              "p95": 9.0,
+              "p99": 12.0,
+              "max": 30.0
+            }
+          },
+          "files": {
+            "source": {
+              "path": "baseline-rgba/derived--pavement_albedo--source-mip3.rgba.zst",
+              "sha256": "021f78d072808e4372ca1c4af905905fc8ad186d9855d1747dc06afb70b98c43"
+            },
+            "baseline": {
+              "path": "baseline-rgba/derived--pavement_albedo--mip3.rgba.zst",
+              "sha256": "a59531393852ac8db6fd9d7f6d0944d34442d95297278f542bb94b732fab0f0f"
+            },
+            "candidate": {
+              "path": "candidate-migration/derived--pavement_albedo--mip3.rgba.zst",
+              "sha256": "807db9925f7de844c09c5282bc75b4e87019352fd7eeba0a7b4226da1c870306"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
