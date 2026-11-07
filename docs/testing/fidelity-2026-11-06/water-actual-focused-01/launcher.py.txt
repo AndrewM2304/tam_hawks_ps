@@ -1,0 +1,34 @@
+import datetime, hashlib, json, os, pathlib, re, signal, subprocess, time
+root=pathlib.Path(__file__).resolve().parents[1]
+packet=root/'docs/testing/fidelity-2026-11-06/water-actual-focused-01'
+packet.mkdir(parents=True,exist_ok=False)
+def inputs():
+    files=[root/'project.godot',root/'export_presets.cfg',root/'docs/PLAYER-GUIDE.md']
+    files += [p for base in ['game','tests','tools','docs/licences'] for p in (root/base).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+    files += [root/'.local/root_water_current.gd', pathlib.Path(__file__).resolve()]
+    return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)}
+before=inputs()
+(packet/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+cmd=['./tools/run.sh','--headless','--fixed-fps','60','--script','.local/root_water_current.gd']
+start_utc=datetime.datetime.now(datetime.timezone.utc).isoformat()
+started=time.monotonic(); timed_out=False
+with (packet/'native.log').open('w') as log:
+    env=dict(os.environ,TAM_ROOT_FOCUS_OUTPUT=str(packet/'modules.json'))
+    process=subprocess.Popen(cmd,cwd=root,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+    try:code=process.wait(timeout=120)
+    except subprocess.TimeoutExpired:
+        timed_out=True
+        os.killpg(process.pid,signal.SIGTERM)
+        try:code=process.wait(timeout=3)
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid,signal.SIGKILL);code=process.wait()
+elapsed=time.monotonic()-started
+ended_utc=datetime.datetime.now(datetime.timezone.utc).isoformat()
+after=inputs();(packet/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+text=(packet/'native.log').read_text()
+match=re.search(r'ROOT WATER CURRENT: (\d+) passed, (\d+) failed',text)
+errors=[s for s in ['SCRIPT ERROR:','Parse Error:','ERROR:'] if s in text]
+receipt={'start_utc':start_utc,'end_utc':ended_utc,'seconds':elapsed,'pid':process.pid,'command':cmd,'deadline_seconds':120,'timed_out':timed_out,'exit_code':code,'result':{'passed':int(match[1]),'failed':int(match[2])} if match else None,'error_markers':errors,'source_count':len(before),'source_unchanged':before==after,'scope':'Actual-source registered water policy/native basin cohorts plus complete fountain/city support; default Main and Music/profile isolation. Known private qualitative graphics may overlap; no exclusivity/timing/Mac/whole-game claim. Exact observer/launcher included before/after.'}
+(packet/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps(receipt,indent=2))
+raise SystemExit(0 if code==0 and not timed_out and match and int(match[2])==0 and before==after and not errors else 1)

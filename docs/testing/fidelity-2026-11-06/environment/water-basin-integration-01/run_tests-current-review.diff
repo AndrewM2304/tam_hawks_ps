@@ -1,0 +1,20 @@
+--- a/tests/run_tests.gd
++++ b/tests/run_tests.gd
+@@ -18,6 +18,8 @@
+ const ARCADE_RESPONSE_TESTS = preload("res://tests/arcade_response_integration_tests.gd")
+ const ENVIRONMENT_TEXT_TESTS = preload("res://tests/environment_text_tests.gd")
+ const STATIC_BATCHES_TESTS = preload("res://tests/static_batches_tests.gd")
++const WATER_SHADOW_POLICY_TESTS = preload("res://tests/water_shadow_policy_tests.gd")
++const FOUNTAIN_BASIN_MESH_TESTS = preload("res://tests/fountain_basin_mesh_tests.gd")
+ const PHYSICS_INTERPOLATION_TESTS = preload("res://tests/physics_interpolation_tests.gd")
+ const HUD_EFFICIENCY_TESTS = preload("res://tests/hud_efficiency_tests.gd")
+ const HUD_TRICK_LABEL_CACHE_TESTS = preload("res://tests/hud_trick_label_cache_tests.gd")
+@@ -164,6 +166,8 @@
+ 	SKATE_RESPONSE_TESTS.run(_check)
+ 	RENDER_BUDGET_TESTS.run(_check)
+ 	await STATIC_BATCHES_TESTS.run(self, _check)
++	await WATER_SHADOW_POLICY_TESTS.run(self, _check)
++	await FOUNTAIN_BASIN_MESH_TESTS.run(self, _check)
+ 	CITY_VISIBILITY_TESTS.run(self, _check)
+ 	await FACADE_BAY_TESTS.run(self, _check)
+ 	await CLYDE_SURFACE_TESTS.run(self, _check)

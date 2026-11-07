@@ -1,0 +1,31 @@
+extends SceneTree
+const Basin = preload("res://game/levels/art/fountain_basin_mesh.gd")
+const Finish = preload("res://tests/fountain_finish_tests.gd")
+func _initialize() -> void:
+ var original := CylinderMesh.new()
+ original.top_radius=6.2
+ original.bottom_radius=6.2
+ original.height=.55
+ original.radial_segments=64
+ original.rings=0
+ var mesh:=Basin.create(original,5.96)
+ var info:=Finish._basin_surface_info(mesh)
+ print("COMPONENT_ACTUAL_BASIN_INFO ",info)
+ var arrays:=mesh.surface_get_arrays(0)
+ var native:=RenderingServer.mesh_surface_get_arrays(mesh.get_rid(),0)
+ var record: Dictionary={"engine":Engine.get_version_info(),"helper_sha256":FileAccess.get_sha256("res://game/levels/art/fountain_basin_mesh.gd"),"test_sha256":FileAccess.get_sha256("res://tests/fountain_finish_tests.gd"),"info":info,"streams":{},"native_streams":{},"original_streams":{},"original_native_streams":{}}
+ for pair: Array in [["streams",arrays],["native_streams",native],["original_streams",original.surface_get_arrays(0)],["original_native_streams",RenderingServer.mesh_surface_get_arrays(original.get_rid(),0)]]:
+  for channel: Array in [["vertices",Mesh.ARRAY_VERTEX],["normals",Mesh.ARRAY_NORMAL],["uv",Mesh.ARRAY_TEX_UV],["tangents",Mesh.ARRAY_TANGENT],["indices",Mesh.ARRAY_INDEX]]:
+   var values: Array=[]
+   for value in pair[1][channel[1]]:
+    if value is Vector3:values.append([value.x,value.y,value.z])
+    elif value is Vector2:values.append([value.x,value.y])
+    else:values.append(value)
+   record[pair[0]][channel[0]]=values
+ var faces: Array=[]
+ for value: Vector3 in mesh.get_faces():faces.append([value.x,value.y,value.z])
+ record.faces=faces
+ var file:=FileAccess.open("res://.local/component-basin-metadata.json",FileAccess.WRITE)
+ file.store_string(JSON.stringify(record,"  ")+"\n")
+ file.close()
+ quit()

@@ -40,13 +40,15 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		"PT24 support: height-limited lower station passage and suspended route remain distinct")
 	var basin: MeshInstance3D = world.get_node("ExchangeFountain/FountainBasin")
 	var water: MeshInstance3D = world.get_node("ExchangeFountain/FountainWater")
-	var basin_mesh := basin.mesh as CylinderMesh
+	var basin_mesh: Mesh = basin.mesh
+	var basin_info: Dictionary=preload("res://tests/fountain_finish_tests.gd")._basin_surface_info(basin_mesh)
+	var basin_radius: float=basin_mesh.get_aabb().size.x*.5
 	var water_mesh := water.mesh as CylinderMesh
-	check.call(basin_mesh.radial_segments==64 and water_mesh.radial_segments==64 \
-		and absf(basin_mesh.top_radius-water_mesh.top_radius-.24)<.00001 \
+	check.call(basin_mesh is ArrayMesh and basin_info.outer_boundary_vertices==64 and basin_info.inner_boundary_vertices==64 and basin_info.top_triangles==128 and water_mesh.radial_segments==64 \
+		and absf(basin_radius-water_mesh.top_radius-.24)<.00001 \
 		and absf(water.position.y+water_mesh.height*.5-.555)<.00001,
 		"PT24-26: circular water shares the basin's 64 segments and fits inside a 24cm rim")
 	var contained := true
 	for vertex: Vector3 in water_mesh.get_faces():
-		contained = contained and Vector2(vertex.x,vertex.z).length()<=basin_mesh.top_radius-.2399
+		contained = contained and Vector2(vertex.x,vertex.z).length()<=basin_radius-.2399
 	check.call(contained,"PT24-26: every actual water vertex remains inside the basin coping")

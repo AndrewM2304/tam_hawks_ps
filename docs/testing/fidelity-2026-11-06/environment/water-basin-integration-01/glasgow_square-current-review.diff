@@ -1,0 +1,30 @@
+--- a/game/levels/glasgow_square.gd
++++ b/game/levels/glasgow_square.gd
+@@ -1,5 +1,7 @@
+ extends Node3D
+ const StaticBatches = preload("res://game/levels/static_batches.gd")
++const WaterShadowPolicy = preload("res://game/levels/water_shadow_policy.gd")
++const FountainBasinMesh = preload("res://game/levels/art/fountain_basin_mesh.gd")
+ const FacadeBay = preload("res://game/levels/art/facade_bay.gd")
+ const CityVisibility = preload("res://game/levels/city_visibility.gd")
+ const GlasgowMurals = preload("res://game/levels/glasgow_murals.gd")
+@@ -131,6 +133,8 @@
+ 		# measured candidate added close-park draw calls without saving geometry.
+ 		render_budget_report = RenderBudget.apply_static_decor(self)
+ 		static_batch_report = StaticBatches.finalize(self)
++	# Opaque water receives real scene shadows; its own casting creates acne.
++	WaterShadowPolicy.apply(self)
+ 
+ 
+ func get_transition_features() -> Array:
+@@ -1180,6 +1184,10 @@
+ 	# Water and basin share their angular tessellation. Leave a deliberate
+ 	# 24cm coping rim rather than two coarse, differently sized decagons.
+ 	_cylinder(body, "FountainWater", Vector3(0, 0.55, 0), radius - 0.24, radius - 0.24, 0.01, "glass", 64, 0)
++	# Keep the exterior and authoritative support; close the real visual cavity.
++	var basin: MeshInstance3D = body.get_node("FountainBasin")
++	var water: MeshInstance3D = body.get_node("FountainWater")
++	basin.mesh = FountainBasinMesh.create(basin.mesh as CylinderMesh, (water.mesh as CylinderMesh).top_radius)
+ 	# Keep the original display slots/transforms/materials and all physical data.
+ 	# Reallocate redundant straight height rings into a hollow, turned profile.
+ 	for part: Array in [["FountainPedestal",Vector3(0,1.2,0),"stone_light"],

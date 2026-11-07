@@ -1,0 +1,127 @@
+from pathlib import Path
+import json,hashlib,math,re
+import numpy as np
+from PIL import Image
+
+R=Path(__file__).resolve().parents[5]
+P=R/'docs/testing/fidelity-2026-11-06/environment/closed-basin-main-02'
+G=P.parent/'closed-basin-geometry-01'
+B=P.parent/'closed-basin-buffer-01'
+checks=[]
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+def j(path):return json.loads(path.read_text())
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def pixels(path):return np.asarray(Image.open(path).convert('RGBA'))
+def preserve(base,index):
+ for path,digest in index.items():ck(str(base.name)+' preservation '+path,sha(base/path)==digest)
+preserve(P,j(P/'preserved-files.json'))
+preserve(B,j(B/'preservation.json').get('preserved_files_sha256',{}))
+preserve(G,j(G/'preservation.json')['preserved_files_sha256'])
+report=j(P/'actual-main-water-report.json');receipt=j(P/'receipt.json');before=j(P/'source-before.json');after=j(P/'source-after.json')
+ck('Main799 inputs byte-stable',before==after and len(before)==799 and receipt['source_stable'] and not receipt['changed_inputs'])
+ck('Main native88/0 complete clean eligible',report['checks']==88 and report['failures']==0 and report['complete'] and receipt['eligible'] and receipt['engine_exit']==0 and not receipt['engine_errors'])
+ck('Main raw log clean',not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(P/'engine.log').read_text()))
+for path in (P/'executed-source').rglob('*.txt'):
+ relative=str(path.relative_to(P/'executed-source'))[:-4]
+ if relative in before:ck('before-bound source '+relative,sha(path)==before[relative])
+policy=report['fixed_water_policy'];ck('exact three water shader instances fixed castingOFF',policy['matched_count']==policy['changed_count']==3 and policy['unsupported']==[] and {v['path'] for v in policy['water_instances']}=={'ExchangeFountain/FountainWater','OutdoorRoutes/ClydeWater','KelvingrovePond/PondWater'} and all(v['before_cast_shadow']==1 and v['after_cast_shadow']==0 for v in policy['water_instances']))
+inv=report['mode_inventories'];original=inv['before-b']
+for mode,row in inv.items():
+ ck(mode+' exact all1755 collider resources/transforms and sun/water states',len(row['collisions'])==1755 and row['collisions']==original['collisions'] and row['sun']==original['sun'] and row['water']==original['water'])
+ a={v['path']:v for v in original['nonwater']};b={v['path']:v for v in row['nonwater']}
+ ck(mode+' exact1809 nonwater geometry owners',a.keys()==b.keys() and len(a)==1809)
+ diffs=[]
+ for path in a:
+  if a[path]!=b[path]:
+   aa=dict(a[path]);bb=dict(b[path]);aa.pop('mesh_id');bb.pop('mesh_id');diffs.append(path)
+   ck(mode+' only basin mesh identity differs '+path,path=='ExchangeFountain/FountainBasin' and aa==bb)
+ ck(mode+' at most sole basin mesh delta',diffs in [[],['ExchangeFountain/FountainBasin']])
+for mode,m in report['basin_mesh_modes'].items():
+ ck(mode+' unchanged material/maps/casting/receiving',all(m[k]==report['basin_mesh_modes']['before-b'][k] for k in ['material_id','normal_texture_id','albedo_texture_id','cast_shadow','receives_shadows']) and m['cast_shadow']==1 and m['receives_shadows'])
+ ck(mode+' expected triangles',m['triangles']==(512 if mode=='closed-basin' else 256))
+frames=report['images']+report['synchronization_proofs'];ck('all12 native frames retained',len(frames)==12)
+projection_errors=[];centroid_errors=[]
+for frame in frames:
+ name=frame['file'];a=pixels(P/name);ck(name+' exact native RGBA',a.shape==(800,1280,4) and hashlib.sha256(a.tobytes()).hexdigest()==frame['pixels']['rgba8_sha256'])
+ ck(name+' original encoded PNG hash',sha(P/name)==receipt['images'][name])
+ if 'pixel_proofs' not in frame:
+  ck(name+' native startup swatch',a[frame['canvas_pixel'][1],frame['canvas_pixel'][0]].tolist()==frame['canvas_expected'] and frame['same_native_frame'])
+  continue
+ ck(name+' same actual physics/process bracket',frame['physics_before']==frame['physics_after'] and frame['process_before']==frame['process_after'])
+ proof=frame['pixel_proofs'];xy=proof['canvas_sample_xy'];color=a[xy[1],xy[0],:3]/255
+ ck(name+' actual Canvas stamp',max(abs(color-np.array(proof['canvas_expected_rgb'])))<2/255+1e-7)
+ basis=np.array(frame['camera_basis']).T;proj=np.array(frame['projection_columns']).T;origin=np.array(frame['camera_position'])
+ ck(name+' finite actual camera/projection',np.isfinite(basis).all() and np.isfinite(proj).all() and abs(np.linalg.det(basis)-1)<1e-5 and np.linalg.norm(np.array(frame['camera_forward'])+basis[:,2])<1e-6)
+ for marker in proof['markers']:
+  local=np.linalg.solve(basis,np.array(marker['world_position'])-origin);clip=proj@np.r_[local,1];ndc=clip[:3]/clip[3];actual=np.array([(ndc[0]+1)*640,(1-ndc[1])*400]);error=np.linalg.norm(actual-np.array(marker['projected_xy']));projection_errors.append(float(error))
+  ck(name+' independently projected '+marker['color'],error<.002)
+  x,y=map(int,marker['projected_xy']);region=a[max(0,y-10):min(800,y+11),max(0,x-10):min(1280,x+11),:3].astype(float)/255;idx=0 if marker['color']=='red' else 1;other=[v for v in range(3) if v!=idx];mask=(region[:,:,idx]>.75)&(region[:,:,idx]-region[:,:,other[0]]>.20)&(region[:,:,idx]-region[:,:,other[1]]>.20);yy,xx=np.where(mask);centroid=np.array([xx.mean()+max(0,x-10)+.5,yy.mean()+max(0,y-10)+.5]);centroid_errors.append(float(np.linalg.norm(centroid-actual)))
+  ck(name+' independently found native '+marker['color'],len(xx)==marker['pixel_count'] and np.linalg.norm(centroid-np.array(marker['centroid_xy']))<.001 and np.linalg.norm(centroid-actual)<2)
+regions={}
+a=pixels(P/'closed-basin-exterior-shadow.png');b=pixels(P/'before-b-exterior-shadow.png')
+for name,box in {'contact_crescent':[1010,355,1120,415],'lower_ground':[0,440,1280,800]}.items():
+ x0,y0,x1,y1=box;delta=np.abs(a[y0:y1,x0:x1,:3].astype(int)-b[y0:y1,x0:x1,:3].astype(int));regions[name]={'box_xyxy':box,'changed_pixels':int(np.any(delta,axis=2).sum()),'maximum_rgb8':int(delta.max())};ck(name+' shadow pixels exact restored solid',not np.any(delta))
+allocation=j(B/'basin-buffer-report.json');br=j(B/'receipt.json');ck('buffer799 source-stable',j(B/'source-before.json')==j(B/'source-after.json') and len(j(B/'source-before.json'))==799 and br['source_stable'])
+ck('fresh allocation clean complete and old WeakRef released',br['eligible'] and br['engine_exit']==0 and not br['engine_errors'] and allocation['complete'] and allocation['failures']==0 and allocation['original_resource_released'])
+old=allocation['before'];new=allocation['after'];delta=new['buffer_bytes']-old['buffer_bytes'];ck('independent exact10580 additional native buffers under64KiB',delta==allocation['additional_native_buffer_bytes']==10580 and delta<=65536)
+ck('one draw/surface/material texture exact in allocation',old['draws']==new['draws']==old['surface_count']==new['surface_count']==1 and old['material_id']==new['material_id'] and old['texture_bytes']==new['texture_bytes'] and old['triangles']==256 and new['triangles']==512)
+ck('buffer raw log clean',not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(B/'engine.log').read_text()))
+g=j(G/'native-geometry-report.json');surface=g['closed_surface'];ck('native reported geometry17/0 partitions/Euler independently consistent',g['checks']==17 and g['failures']==0 and sum(surface['parts'].values())==surface['faces']==512 and surface['welded_vertices']-surface['edges']+surface['faces']==surface['euler']==2 and surface['nonmanifold_edges']==0)
+ck('native reported preserved outer streams and bounded repack',g['retained_side_bottom']==192 and g['removed_hidden_top']==64 and g['maximum_preserved_position_delta_m']==g['maximum_preserved_uv_delta']==0 and g['maximum_preserved_normal_delta_degrees']<.005 and g['maximum_preserved_tangent_delta_degrees']<.005)
+ck('native reported actual water seam bounded and no top footprint overlap',g['maximum_seam_error_m']<2e-6 and g['top_water_footprint_overlap_square_m']==0)
+ck('one exact helper across geometry/Main/buffer epochs',sha(G/'fountain_basin_mesh.gd.txt')==sha(P/'executed-source/game/levels/art/fountain_basin_mesh.gd.txt')==sha(B/'executed-source/game/levels/art/fountain_basin_mesh.gd.txt'))
+E=P.parent/'closed-basin-component-arrays-02';export=j(E/'native-arrays.json');er=j(E/'receipt.json')
+preserve(E,j(E/'preserved-files.json'))
+ck('export801 sources stable clean',j(E/'source-before.json')==j(E/'source-after.json') and len(j(E/'source-before.json'))==801 and er['source_stable'] and er['exit']==0 and not er['engine_errors'])
+ck('export exact basin helper identity',export['helper_sha256']==sha(G/'fountain_basin_mesh.gd.txt'))
+native=export['native_streams'];vertices=np.array(native['vertices']);normals=np.array(native['normals']);uv=np.array(native['uv']);tangent=np.array(native['tangents']).reshape(-1,4);triangles=np.array(native['indices']).reshape(-1,3)
+ck('all native arrays finite exact585vertices512triangles',vertices.shape==normals.shape==(585,3) and uv.shape==(585,2) and tangent.shape==(585,4) and triangles.shape==(512,3) and np.isfinite(vertices).all() and np.isfinite(normals).all() and np.isfinite(uv).all() and np.isfinite(tangent).all() and triangles.min()>=0 and triangles.max()<585)
+ck('resource and actual RenderingServer indexed streams agree',native==export['streams'])
+original_native=export['original_native_streams'];old_count=len(original_native['vertices']);old_indices=original_native['indices'];kept=[];removed=[]
+for offset in range(0,len(old_indices),3):
+ tri=old_indices[offset:offset+3]
+ if all(original_native['normals'][i][1]>.9999 for i in tri):removed.extend(tri)
+ else:kept.extend(tri)
+ck('independent original256faces retains exact192sidebottom indices',len(old_indices)==256*3 and len(kept)==192*3 and len(removed)==64*3 and native['indices'][:len(kept)]==kept)
+ck('all original native position/UV prefix exactly retained',native['vertices'][:old_count]==original_native['vertices'] and native['uv'][:old_count]==original_native['uv'])
+normal_delta=np.linalg.norm(normals[:old_count]-np.array(original_native['normals']),axis=1);old_t=np.array(original_native['tangents']).reshape(-1,4);tangent_delta=np.linalg.norm(tangent[:old_count,:3]-old_t[:,:3],axis=1)
+ck('native repacked frame deviation retains original handedness',float(normal_delta.max())<2*math.sin(math.radians(.005)/2) and float(tangent_delta.max())<2*math.sin(math.radians(.005)/2) and np.array_equal(tangent[:old_count,3],old_t[:,3]))
+welded=[];mapping={};referenced=sorted(set(int(i) for i in triangles.ravel()))
+for vertex in referenced:
+ point=vertices[vertex]
+ matches=[i for i,v in enumerate(welded) if np.linalg.norm(v-point)<=2e-6]
+ if not matches:welded.append(point);matches=[len(welded)-1]
+ mapping[vertex]=matches[0]
+faces=np.array([[mapping[int(i)]for i in tri]for tri in triangles]);edges={};adj={i:set() for i in range(len(welded))};volume=0.;areas=[];winding=[];parts={k:0 for k in ['annulus','bottom','floor','inner_wall','outer_side']};frames=[]
+for tri,ids in zip(triangles,faces):
+ a,b,c=vertices[tri];n=normals[tri];cross=np.cross(b-a,c-a);areas.append(np.linalg.norm(cross)*.5);winding.append(float(cross@n.sum(axis=0)));volume+=float(a@np.cross(b,c))/6
+ for start,end in zip(ids,np.roll(ids,-1)):
+  key=tuple(sorted((int(start),int(end))));edges.setdefault(key,[]).append((int(start),int(end)));adj[int(start)].add(int(end));adj[int(end)].add(int(start))
+ if min(n[:,1])>.9999:kind='annulus' if min(vertices[tri,1])>.27 else 'floor'
+ elif max(n[:,1])<-.9999:kind='bottom'
+ elif n[0]@np.r_[a[0],0,a[2]]<0:kind='inner_wall'
+ else:kind='outer_side'
+ parts[kind]+=1
+ if kind in ['annulus','inner_wall','floor']:
+  duv1,duv2=uv[tri[1]]-uv[tri[0]],uv[tri[2]]-uv[tri[0]];det=duv1[0]*duv2[1]-duv1[1]*duv2[0]
+  dv=((c-a)*duv1[0]-(b-a)*duv2[0])/det;bitangent=np.cross(n[0],tangent[tri[0],:3])*tangent[tri[0],3];frames.append(float(dv@bitangent)/(np.linalg.norm(dv)*np.linalg.norm(bitangent)))
+visited={0};pending=[0]
+while pending:
+ at=pending.pop()
+ for neighbor in adj[at]-visited:visited.add(neighbor);pending.append(neighbor)
+ck('independent native weld258/E768/F512/Euler2',len(welded)==258 and len(edges)==768 and len(faces)==512 and len(welded)-len(edges)+len(faces)==2)
+ck('every independent welded edge exactly twice with opposite direction',all(len(v)==2 and v[0]==v[1][::-1] for v in edges.values()))
+ck('one connected native surface no degenerate faces',len(visited)==len(welded) and min(areas)>1e-5 and all(len(set(v))==3 for v in faces))
+ck('all native faces clockwise outward and volume agrees',max(winding)<0 and abs(volume-surface['signed_volume_m3'])<1e-5)
+ck('independent exact native geometric partitions',parts==surface['parts'])
+ck('added annulus walls floor correct native UV bitangent direction',len(frames)==320 and min(frames)>.99)
+top=[v for v in welded if abs(v[1]-.275)<1e-6];radii=[float(np.linalg.norm(v[[0,2]])) for v in top]
+ck('actual indexed top64outer64inner rings',len(top)==128 and sum(abs(v-6.2)<1e-5 for v in radii)==sum(abs(v-5.96)<1e-5 for v in radii)==64)
+array_math={'welded_vertices':len(welded),'edges':len(edges),'faces':len(faces),'connected_vertices':len(visited),'euler':len(welded)-len(edges)+len(faces),'parts':parts,'signed_volume_m3':volume,'minimum_triangle_area_m2':min(areas),'maximum_clockwise_cross_dot_normal':max(winding),'minimum_added_uv_bitangent_dot':min(frames),'top_native_indexed_inner_vertices':sum(abs(v-5.96)<1e-5 for v in radii),'top_native_indexed_outer_vertices':sum(abs(v-6.2)<1e-5 for v in radii),'maximum_preserved_native_normal_vector_delta':float(normal_delta.max()),'maximum_preserved_native_tangent_vector_delta':float(tangent_delta.max()),'unused_native_vertex_storage':len(vertices)-len(referenced),'get_faces_limit':'Exported get_faces representation quantizes coordinates; epoch01 inherited classifier12inner/20outer is not authority. Indexed native arrays independently prove64/64, correctly reported in export02.'}
+out={'passed':sum(c['pass'] for c in checks),'failed':sum(not c['pass'] for c in checks),'checks':checks,'independent_projection_max_error_px':max(projection_errors),'independent_marker_centroid_max_error_px':max(centroid_errors),'exterior_shadow_pixel_regions':regions,'additional_native_buffer_bytes':delta,'personally_viewed_originals':['before-b-fountain-wide.png','closed-basin-fountain-wide.png','before-b-water-rim-close.png','closed-basin-water-rim-close.png','before-b-exterior-shadow.png','closed-basin-exterior-shadow.png'],'visual_finding':'Fine radial shadow bands disappear in both original water views; exterior contact shadow remains visible. The declared prior crescent ROI and all lower ground pixels exactly match restored solid control. Water remains a broad quiet reflective surface; this is a scoped shadow/topology repair, not final realistic water.','verdict':'Supports guarded integration of this exact512-triangle visual basin with separately admitted exact-shader water casting policy and fresh combined tests. No global, moving-shadow, target-Mac, frame-time or AAA acceptance.','geometry_scope':'Independent source/guard cold-read and arithmetic consistency of native17/0 report. No full native vertex/index arrays are retained; no claim of independent numerical mesh reconstruction. That direct unit epoch has no whole-project before/after freeze. Main799 source-stable inventory preserves actual authoritative1755colliders.','allocation_scope':'Fresh native renderer process-local buffer delta; candidate created after old and old WeakRef released. No targetGPU VRAM or frame cost. Main visual bracket retains both mesh resources and cannot independently admit allocation.','water_policy_scope':'Three exact shared-shader water instances fixed castingOFF throughout all topology comparisons. Baseline here is original solid basin under that fixed water policy, not unmodified production. Basin keeps castingON/receiving shadows and exact materials/maps.','limits':'Authored static views with actors frozen and shader TIME active. InitialA draw warmup/culling transient excludes full A/B timing inference; no sole-engine or hardware performance claim. Original rim/collision under water remains solid native gameplay cylinder by design.'}
+(P/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n')
+out['native_array_independent_math']=array_math
+out['geometry_scope']='Independent numerical reconstruction of separately exported actual RenderingServer indexed native arrays: finite topology,2micrometre weld,opposite-directed edges,connectivity,Euler,clockwise normals,volume,UV handedness and64/64rings. The original17/0 direct unit epoch itself lacks whole-project before/after freeze; new export has801stable inputs and exact same helper. Main799 source-stable inventory preserves all1755 actual authoritative colliders. No independent re-execution or get_faces-based geometry authority.'
+(P/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n')
+print(json.dumps({'passed':out['passed'],'failed':out['failed'],'output':str(P/'independent-review.json')},indent=2))
+raise SystemExit(bool(out['failed']))

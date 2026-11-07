@@ -17,12 +17,16 @@ ClydeSurface/BowlContact/FeatureTransition/Connected190/0 gate; moving support
 and complete regression stay open. Short finite bank forecast, native name-first
 Skin resolver and recessed architecture are now integrated with the actual
 392/0 combined focused gate (808 unchanged inputs, executed launcher/observer
-included). Continuous fitted assets/coherent pose clock, exact per-leg shoe
-cache and fountain/water/paving successors remain private until their admission.
+included). Hollow closed-basin geometry and selective water casting are now
+integrated with an actual-source49/0 gate on816 unchanged inputs. Continuous
+fitted assets/coherent pose clock and exact per-leg shoe cache remain private
+pending final composite checks. Paving replacements are not integrated; native
+default sun bias removes the diagnosed curved bands in the causal diagnostic,
+with full-resolution contact-shadow review underway before actual installation.
 Inspect Git and exact source receipts before continuing;
 do not infer global success from these focused checks. Commit/push is a checkpoint,
 then continue the accepted independent queue.
-The first checkpoint is **`9b91dbc`**, pushed to origin/main; newer changes may
+The latest checkpoint is **`4a7ae8e`**, pushed to origin/main; newer changes may
 still be in progress. Native fitted export/resource acceptance remains pending.
 
 Continue the owner's realism/line-design programme, including the explicit

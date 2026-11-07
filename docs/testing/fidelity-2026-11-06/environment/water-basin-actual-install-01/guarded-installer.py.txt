@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+"""Root-authorized bounded water/basin install; dry-run unless --apply.
+
+Only seven explicitly assigned files can change. No Git, editor, import,
+lighting, paving, shader or tests/run_tests.gd mutation is performed.
+"""
+from pathlib import Path
+import argparse,datetime,hashlib,json,os,shutil
+ROOT=Path('/workspace/tam_hawks_ps')
+SOURCE=ROOT/'.local/environment-phase2/integration-source'
+BACKUP=ROOT/'.local/environment-phase2/actual-install-backup-01'
+BASELINE={
+ 'game/levels/glasgow_square.gd':'b4c14e92a3c91b9ae86e25c0ebfa0342ecb0054f2df01332a536171803dedc6d',
+ 'tests/fountain_finish_tests.gd':'b85fb57c54ebef382e89558850363fb5b000411fb92b5804e4d1488c526ba3b7',
+ 'tests/pt24_city_repairs_tests.gd':'3c02091729833cf0972b870271f94c22287e71131b5cda0b2f5f1565ae077f54',
+}
+CANDIDATE={
+ 'game/levels/art/fountain_basin_mesh.gd':'f569accb1a2fa3443005f6d51edcfb0ef67110cfaa9837456b972da64a1d6f02',
+ 'game/levels/water_shadow_policy.gd':'5eb47aae515824b26637cec1b388db9b7c2038647037ae1a75705a146197f696',
+ 'tests/fountain_basin_mesh_tests.gd':'506bb2dc4051a3fa3fc34a8d88fb439350a090b16302ea3459184c37b2f3d464',
+ 'tests/water_shadow_policy_tests.gd':'2e070e16730d2449c06166eea032ffc30620c57d03bdff1c18e78ff054860d6a',
+ 'tests/fountain_finish_tests.gd':'29ad70830366ddea4e7dbf72b117bd1a81e2348123b9b95bd15480c4ae95d47d',
+ 'tests/pt24_city_repairs_tests.gd':'6d64e9d82bf961517f0403a114691afef93ecdc11d32b24cb80f528cbb840d05',
+}
+def sha(data):return hashlib.sha256(data).hexdigest()
+def identity():
+ paths=[ROOT/'project.godot']
+ for name in ['game','tests','tools']:paths.extend(p for p in (ROOT/name).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
+ return {str(p.relative_to(ROOT)):sha(p.read_bytes()) for p in sorted(paths)}
+def replace_once(text,old,new):
+ assert text.count(old)==1, 'Bounded hook context must occur exactly once: '+old
+ return text.replace(old,new)
+def main():
+ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--apply',action='store_true');args=parser.parse_args()
+ assert not BACKUP.exists(),'Install backup already exists; inspect its receipt rather than rerun.'
+ for rel,digest in BASELINE.items():assert sha((ROOT/rel).read_bytes())==digest,'Actual baseline guard failed: '+rel
+ for rel,digest in CANDIDATE.items():
+  assert sha((SOURCE/rel).read_bytes())==digest,'Exact49/0 tested candidate guard failed: '+rel
+  if rel not in BASELINE:assert not (ROOT/rel).exists(),'Unexpected pre-existing new helper/cohort: '+rel
+ text=(ROOT/'game/levels/glasgow_square.gd').read_text()
+ anchor='const StaticBatches = preload("res://game/levels/static_batches.gd")'
+ text=replace_once(text,anchor,anchor+'\nconst WaterShadowPolicy = preload("res://game/levels/water_shadow_policy.gd")\nconst FountainBasinMesh = preload("res://game/levels/art/fountain_basin_mesh.gd")')
+ anchor='\t\tstatic_batch_report = StaticBatches.finalize(self)'
+ text=replace_once(text,anchor,anchor+'\n\t# Opaque water receives real scene shadows; its own casting creates acne.\n\tWaterShadowPolicy.apply(self)')
+ anchor='\t_cylinder(body, "FountainWater", Vector3(0, 0.55, 0), radius - 0.24, radius - 0.24, 0.01, "glass", 64, 0)'
+ text=replace_once(text,anchor,anchor+'\n\t# Keep the exterior and authoritative support; close the real visual cavity.\n\tvar basin: MeshInstance3D = body.get_node("FountainBasin")\n\tvar water: MeshInstance3D = body.get_node("FountainWater")\n\tbasin.mesh = FountainBasinMesh.create(basin.mesh as CylinderMesh, (water.mesh as CylinderMesh).top_radius)')
+ assert text.encode()==(SOURCE/'game/levels/glasgow_square.gd').read_bytes(),'Bounded result differs from exact tested world source.'
+ payload={rel:(SOURCE/rel).read_bytes() for rel in CANDIDATE};payload['game/levels/glasgow_square.gd']=text.encode()
+ manifest={'baseline_sha256':BASELINE,'candidate_sha256':{rel:sha(data) for rel,data in sorted(payload.items())},'registered_runner_sha256_unchanged':sha((ROOT/'tests/run_tests.gd').read_bytes()),'authority':'Root explicit guarded actual install; no lighting/paving/shader/runner/Git/import changes','private_tests':'49/0 ordinary native; QA204/0 independent geometry/pixel/buffer review','applied':args.apply}
+ print(json.dumps(manifest,indent=2))
+ if not args.apply:return
+ before=identity();started=datetime.datetime.now(datetime.timezone.utc).isoformat();BACKUP.mkdir(parents=True)
+ (BACKUP/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+ for rel in payload:
+  path=ROOT/rel
+  if path.exists():
+   backup=BACKUP/'original'/rel;backup.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,backup)
+ changed=[]
+ try:
+  for rel,data in payload.items():
+   path=ROOT/rel;temporary=path.with_name(path.name+'.environment-install-temp');assert not temporary.exists()
+   temporary.write_bytes(data)
+   if path.exists():temporary.chmod(path.stat().st_mode&0o777)
+   os.replace(temporary,path);changed.append(rel)
+  after=identity();actual={rel for rel in before.keys()|after.keys() if before.get(rel)!=after.get(rel)}
+  assert actual==set(payload),'Unexpected actual source mutation set: '+repr(actual.symmetric_difference(payload))
+  for rel,data in payload.items():assert sha((ROOT/rel).read_bytes())==sha(data)
+  assert sha((ROOT/'tests/run_tests.gd').read_bytes())==manifest['registered_runner_sha256_unchanged']
+  manifest.update({'started_utc':started,'finished_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'changed_inputs':sorted(actual),'all_other_source_bytes_preserved':True,'new_uids':'Root owns subsequent controlled editor import; none generated here','receipt':'Successful guarded install; actual fresh focused/full checks and moving/M5 finish still pending'})
+  (BACKUP/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');(BACKUP/'receipt.json').write_text(json.dumps(manifest,indent=2)+'\n')
+ except BaseException:
+  for rel in reversed(changed):
+   path=ROOT/rel;old=BACKUP/'original'/rel
+   if old.exists():shutil.copy2(old,path)
+   elif path.exists() and sha(path.read_bytes())==sha(payload[rel]):path.unlink()
+  raise
+ print('ACTUAL_WATER_BASIN_INSTALL '+str(BACKUP/'receipt.json'))
+if __name__=='__main__':main()

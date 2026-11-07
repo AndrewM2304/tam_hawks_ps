@@ -1,0 +1,34 @@
+extends SceneTree
+const Main = preload("res://game/main.gd")
+const Policy = preload("res://tests/water_shadow_policy_tests.gd")
+const Basin = preload("res://tests/fountain_basin_mesh_tests.gd")
+const Finish = preload("res://tests/fountain_finish_tests.gd")
+const City = preload("res://tests/pt24_city_repairs_tests.gd")
+var checks := 0
+var failures := 0
+func _initialize() -> void:
+ call_deferred("_run")
+func _check(ok: bool, message: String) -> void:
+ checks += 1
+ if not ok:
+  failures += 1
+  print("FAIL ", message)
+func _run() -> void:
+ await Policy.run(self,_check)
+ await Basin.run(self,_check)
+ var game := Main.new()
+ game.persistence_enabled = false
+ root.add_child(game)
+ _check(not game.music._can_control and not game.music._persist,"scripted Main isolates personal Music/profile writes")
+ game.start_mode(true)
+ for tick: int in 8: await physics_frame
+ print("ACTUAL_BASIN_INFO ",Finish._basin_surface_info(game.world.get_node("ExchangeFountain/FountainBasin").mesh))
+ await Finish.run(self,game,_check)
+ await City.run(self,game,_check)
+ print("ENVIRONMENT_INTEGRATION checks=",checks," failures=",failures)
+ var report := {"checks":checks,"failures":failures,"limits":"Focused ordinary Main native support/cohort contracts; no graphics/performance claims."}
+ var f:=FileAccess.open("res://.local/integration-report.json",FileAccess.WRITE)
+ f.store_string(JSON.stringify(report,"  ")+"\n")
+ game.queue_free()
+ await process_frame
+ quit(1 if failures else 0)

@@ -1,0 +1,99 @@
+extends "res://tools/environment_main_water_shadow_capture.gd"
+const BasinMesh = preload("res://game/levels/art/fountain_basin_mesh.gd")
+var _original_basin_mesh: CylinderMesh
+var _closed_basin_mesh: ArrayMesh
+var _mesh_modes: Dictionary = {}
+
+func _run() -> void:
+	if not await _start_actual_main():return
+	_basin=game.world.get_node("ExchangeFountain/FountainBasin")
+	_basin_path=str(game.world.get_path_to(_basin))
+	_original_basin_mesh=_basin.mesh as CylinderMesh
+	var water: MeshInstance3D=game.world.get_node("ExchangeFountain/FountainWater")
+	_check(_original_basin_mesh!=null and water.mesh is CylinderMesh,"actual Main retains original native basin/water cylinders before trial")
+	if _original_basin_mesh==null:quit(1);return
+	_closed_basin_mesh=BasinMesh.create(_original_basin_mesh,water.mesh.top_radius)
+	_candidate_policy=Policy.apply(game.world)
+	_check(_candidate_policy.matched_count==3 and _candidate_policy.unsupported.is_empty(),"water casting is fixedOFF for all topology controls")
+	_water_before=_inventory()
+	_measure_native_layers()
+	_create_pixel_proofs()
+	for mode: String in ["before-a","closed-basin","before-b"]:
+		_basin.mesh=_closed_basin_mesh if mode=="closed-basin" else _original_basin_mesh
+		var inventory:=_inventory()
+		_check(_without_basin(inventory.nonwater)==_without_basin(_water_before.nonwater),"all other non-water geometry/material/render states remain exact")
+		_check(inventory.water==_water_before.water and inventory.collisions==_water_before.collisions and inventory.sun==_water_before.sun,"water mesh/material/flags, all collisions and sun settings remain exact")
+		var current: Dictionary={}
+		var original: Dictionary={}
+		for row: Dictionary in inventory.nonwater:
+			if row.path==_basin_path:current=row.duplicate(true)
+		for row: Dictionary in _water_before.nonwater:
+			if row.path==_basin_path:original=row.duplicate(true)
+		current.erase("mesh_id")
+		original.erase("mesh_id")
+		_check(current==original,"basin only changes mesh resource; exterior bounds/material/node/transform/casting/visibility stay exact")
+		_check(_basin.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_ON,"actual basin keeps casting in every frame")
+		_mode_inventories[mode]=inventory
+		_mesh_modes[mode]=_actual_mesh_metadata()
+		var mode_index: int=["before-a","closed-basin","before-b"].find(mode)
+		var view_index:=0
+		for view: Dictionary in _topology_views():
+			_inspection.global_position=view.at
+			_inspection.look_at(view.target)
+			_inspection.current=true
+			_position_proofs(mode_index,view_index)
+			await process_frame
+			await create_timer(0.0,true).timeout
+			var physics_before:=Engine.get_physics_frames()
+			var process_before:=Engine.get_process_frames()
+			var image: Image=await _render_current_frame()
+			var proof:=_verify_pixel_proofs(image)
+			var projection: Projection=_inspection.get_camera_projection()
+			var filename: String=mode+"-"+str(view.id)+".png"
+			var stored:=_store_frame(image,filename)
+			_water_frames.append({"file":filename,"mode":mode,"view":view.id,"pixels":stored,
+				"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"pixel_proofs":proof,
+				"camera_basis":[_v(_inspection.global_basis.x),_v(_inspection.global_basis.y),_v(_inspection.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],
+				"keep_aspect":_inspection.keep_aspect,"near":_inspection.near,"far":_inspection.far,"viewport_size":[root.size.x,root.size.y],
+				"camera_position":_v(_inspection.global_position),"camera_target":_v(view.target),"camera_forward":_v(-_inspection.global_basis.z),"fov":_inspection.fov,
+				"basin_mesh_mode":mode,"basin_cast_flag":_basin.cast_shadow,"counters":_native_counters()})
+			_write_water_report(false,"native-topology-trial")
+			view_index+=1
+	_check(_water_frames.size()==9,"nine matched actual Main basin topology originals completed")
+	_write_water_report(true,"complete")
+	print("ACTUAL_MAIN_BASIN_TOPOLOGY checks=",checks," failures=",failures," images=",_water_frames.size())
+	quit(1 if failures else 0)
+
+func _topology_views() -> Array[Dictionary]:
+	var centre: Vector3=game.world.get_node("ExchangeFountain").global_position
+	return [{"id":"fountain-wide","at":centre+Vector3(5,2.5,6),"target":centre+Vector3(0,0.55,0)},
+		{"id":"water-rim-close","at":centre+Vector3(4,1.5,5),"target":centre+Vector3(2.5,0.555,1)},
+		{"id":"exterior-shadow","at":centre+Vector3(9,1.4,7),"target":centre+Vector3(4.8,0.3,3.8)}]
+
+func _actual_mesh_metadata() -> Dictionary:
+	var mesh: Mesh=_basin.mesh
+	var bounds:=mesh.get_aabb()
+	var custom: AABB=mesh.custom_aabb if mesh is ArrayMesh else AABB()
+	var material: StandardMaterial3D=_basin.material_override
+	return {"mesh_id":mesh.get_instance_id(),"class":mesh.get_class(),"triangles":mesh.get_faces().size()/3,"surface_count":mesh.get_surface_count(),"interior_floor_world_y":_actual_floor_y(mesh),
+		"computed_bounds_position":_v(bounds.position),"computed_bounds_size":_v(bounds.size),"custom_render_bounds_position":_v(custom.position),"custom_render_bounds_size":_v(custom.size),
+		"material_id":material.get_instance_id(),"receives_shadows":not material.disable_receive_shadows,"cast_shadow":_basin.cast_shadow,
+		"normal_texture_id":material.normal_texture.get_instance_id() if material.normal_texture else 0,"albedo_texture_id":material.albedo_texture.get_instance_id() if material.albedo_texture else 0}
+
+func _write_water_report(complete: bool,phase: String) -> void:
+	var report: Dictionary={"schema":3,"complete":complete,"phase":phase,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),
+		"images":_water_frames,"synchronization_proofs":_sync_proofs,"inventory_before":_water_before,"mode_inventories":_mode_inventories,"basin_mesh_modes":_mesh_modes,
+		"original_fountain_layers":_layers,"fixed_water_policy":_candidate_policy,"budget":{"new_triangles":256,"added_native_buffer_ceiling_bytes":65536,"new_textures":0,"new_materials":0,"new_surfaces":0,"new_lights":0,"collision_changes":0},"timing_measured":false,
+		"limits":"Actual Main visual topology A/B/A. All water casting fixedOFF; basin castingON and receiving shadows in all modes. Only native basin mesh resource changes256to512triangles:192outer side/bottom triangles retain exact positions/UV/indices;64hidden cap triangles replaced by128annular top,128inwardwall and64upwardfloor triangles. Documented custom render bounds exactly retained; native repacked normal/tangent deviation0.00336degree in separate geometry guard. Actual authoritative colliders unchanged. Every9view has current independent worldmarker/Canvas, fullprojection/basis/tick proofs;3startup sync originals separate. Actors frozen, shaderTIME active. Existing water upperface remains5mmabove hidden annular cap plane; raised decorative/grindcoping unchanged. New interiorfloor≈0.05mworld is0.505m belowwater; closednative512surface has Euler2/zero nonmanifoldedges and64sector seam≈0.477micrometres. Bothmeshes remainretained in this visualprocess; separate freshbefore-create/releaseallocationcontrol owns64KiBbufferbudget. No timing, cold, finalwaterrealism, moving-shadow orM5 acceptance."}
+	var file:=FileAccess.open(output.path_join("actual-main-water-report.json"),FileAccess.WRITE)
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	else:_check(false,"basin topology report writable")
+
+func _actual_floor_y(mesh: Mesh) -> Variant:
+	var arrays:=mesh.surface_get_arrays(0)
+	var vertices: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+	var normals: PackedVector3Array=arrays[Mesh.ARRAY_NORMAL]
+	var result:=INF
+	for index: int in vertices.size():
+		if normals[index].y>0.9999 and vertices[index].y<0.0:result=minf(result,(_basin.global_transform*vertices[index]).y)
+	return result if is_finite(result) else null

@@ -1,0 +1,56 @@
+--- a/tests/fountain_finish_tests.gd
++++ b/tests/fountain_finish_tests.gd
+@@ -13,12 +13,22 @@
+ 		and water.material_override == pond.material_override,
+ 		"PT24 fountain finish: fountain, pond and river share one existing water material")
+ 	var water_mesh := water.mesh as CylinderMesh
+-	var basin_mesh := basin.mesh as CylinderMesh
++	var basin_mesh: Mesh = basin.mesh
++	var basin_info:=_basin_surface_info(basin_mesh)
+ 	check.call(body.position == Vector3(0,0,10) and water.position == Vector3(0,.55,0)
+ 		and water_mesh.radial_segments == 64 and water_mesh.rings == 0
+ 		and is_equal_approx(water_mesh.top_radius,5.96) and is_equal_approx(water_mesh.bottom_radius,5.96)
+-		and is_equal_approx(water_mesh.height,.01) and is_equal_approx(basin_mesh.top_radius,6.2),
++		and is_equal_approx(water_mesh.height,.01) and basin_mesh is ArrayMesh and is_equal_approx(basin_mesh.get_aabb().size.x*.5,6.2),
+ 		"PT24 fountain finish: existing circular water mesh, height and coping margin remain exact")
++	check.call(basin_info.source_triangles==512 and basin_info.top_triangles==128 and basin_info.floor_triangles==64
++		and basin_info.outer_boundary_vertices==64 and basin_info.inner_boundary_vertices==64 and basin_info.annulus_radii_valid,
++		"fountain finish: actual512triangle hollow basin has64sector annulus and upwardfloor instead of a hidden top disk")
++	check.call(water.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
++		and river.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF and pond.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
++		and basin.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_ON
++		and not (basin.material_override as StandardMaterial3D).disable_receive_shadows
++		and not (water.material_override as ShaderMaterial).shader.code.contains("shadows_disabled"),
++		"fountain finish: all exact water casters areoff while stone casting and real shadow reception remain")
+ 	var contained := true
+ 	var vertices := 0
+ 	for p: Vector3 in water_mesh.get_faces():
+@@ -54,3 +64,28 @@
+ 		for point: Vector3 in line.points:
+ 			guide_ok = guide_ok and absf(point.y-.92)<.00001 and absf(Vector2(point.x,point.z-10).length()-6.2)<.00001
+ 	check.call(guide_ok,"PT24 fountain finish: original closed coping ID and all 65 authored guide points remain")
++
++static func _basin_surface_info(mesh: Mesh) -> Dictionary:
++	var arrays:=mesh.surface_get_arrays(0)
++	var positions: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
++	var indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
++	var top:=0
++	var floor_count:=0
++	var outer: Dictionary={}
++	var inner: Dictionary={}
++	var annulus_radii_valid:=true
++	for offset: int in range(0,indices.size(),3):
++		# Mesh.get_faces() snaps coordinates; inspect the exact referenced streams.
++		var a:=positions[indices[offset]]
++		var b:=positions[indices[offset+1]]
++		var c:=positions[indices[offset+2]]
++		if absf(a.y-.275)<.00001 and absf(b.y-.275)<.00001 and absf(c.y-.275)<.00001:
++			top+=1
++			for point: Vector3 in [a,b,c]:
++				var radius:=Vector2(point.x,point.z).length()
++				var key:=Vector2i(roundi(point.x*10000.0),roundi(point.z*10000.0))
++				annulus_radii_valid=annulus_radii_valid and radius>=5.9599 and radius<=6.2001
++				if absf(radius-6.2)<.00001:outer[key]=true
++				elif absf(radius-5.96)<.00001:inner[key]=true
++		elif absf(a.y+.225)<.00001 and absf(b.y+.225)<.00001 and absf(c.y+.225)<.00001:floor_count+=1
++	return {"source_triangles":indices.size()/3,"top_triangles":top,"floor_triangles":floor_count,"outer_boundary_vertices":outer.size(),"inner_boundary_vertices":inner.size(),"annulus_radii_valid":annulus_radii_valid}

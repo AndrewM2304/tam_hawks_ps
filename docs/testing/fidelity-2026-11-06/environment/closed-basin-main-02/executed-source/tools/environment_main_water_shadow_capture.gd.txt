@@ -1,0 +1,178 @@
+extends "res://tools/environment_main_water_base.gd"
+## Two independent controls: river toggles only water casting; fountain fixes
+## water casting OFF and toggles only the exact native basin caster. No correction.
+var _basin: MeshInstance3D
+var _basin_before := 1
+var _basin_path := ""
+var _bridges: Array[Dictionary] = []
+var _layers: Dictionary = {}
+var _proof_markers: Array[MeshInstance3D] = []
+var _proof_swatch: ColorRect
+
+func _run() -> void:
+	if not await _start_actual_main(): return
+	_basin=game.world.get_node("ExchangeFountain/FountainBasin")
+	_basin_before=_basin.cast_shadow
+	_basin_path=str(game.world.get_path_to(_basin))
+	_water_before=_inventory()
+	for row: Dictionary in _water_before.water: _original_flags[row.path]=row.cast_shadow
+	_check(_original_flags.size()==3,"all three exact shared water instances are resident")
+	_measure_native_layers()
+	_measure_bridge_bounds()
+	_create_pixel_proofs()
+	for mode: String in ["before-a","candidate","before-b"]:
+		var mode_index: int=["before-a","candidate","before-b"].find(mode)
+		var view_index:=0
+		for view: Dictionary in _diagnostic_views():
+			for path: String in _original_flags: game.world.get_node(NodePath(path)).cast_shadow=_original_flags[path]
+			_basin.cast_shadow=_basin_before
+			var state := "water-on-basin-on"
+			if view.id!="river-unobstructed" or mode=="candidate":
+				_candidate_policy=Policy.apply(game.world)
+				_check(_candidate_policy.matched_count==3 and _candidate_policy.unsupported.is_empty(),"exact shared water policy retains expected three pure instances")
+				state="water-off-basin-on"
+			if view.id!="river-unobstructed" and mode=="candidate":
+				_basin.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				state="water-off-basin-off"
+			var inventory:=_inventory()
+			_check(_without_basin(inventory.nonwater)==_without_basin(_water_before.nonwater),"all non-basin non-water geometry/material/render states remain exact")
+			_check(inventory.collisions==_water_before.collisions and inventory.sun==_water_before.sun,"all actual collision resources and sunlight settings remain exact")
+			_check(inventory.water.size()==3,"all three water geometries remain resident")
+			var basin_row: Dictionary={}
+			for row: Dictionary in inventory.nonwater:
+				if row.path==_basin_path: basin_row=row.duplicate(true)
+			var original_basin: Dictionary={}
+			for row: Dictionary in _water_before.nonwater:
+				if row.path==_basin_path: original_basin=row.duplicate(true)
+			basin_row.erase("cast_shadow")
+			original_basin.erase("cast_shadow")
+			_check(basin_row==original_basin,"basin changes no native geometry/material/bounds/transform/visibility state")
+			_mode_inventories[state]=inventory
+			_inspection.global_position=view.at
+			_inspection.look_at(view.target)
+			_inspection.current=true
+			_position_proofs(mode_index,view_index)
+			if view.id=="river-unobstructed":
+				for bridge: Dictionary in _bridges:
+					var bounds:=AABB(Vector3(bridge.position[0],bridge.position[1],bridge.position[2]),Vector3(bridge.size[0],bridge.size[1],bridge.size[2]))
+					_check(bounds.intersects_segment(view.at,view.target)==null,"actual river centre sightline clears native bridge bounds: "+str(bridge.path))
+			await process_frame
+			await create_timer(0.0,true).timeout
+			var physics_before:=Engine.get_physics_frames()
+			var process_before:=Engine.get_process_frames()
+			var image: Image=await _render_current_frame()
+			var proof:=_verify_pixel_proofs(image)
+			var projection: Projection=_inspection.get_camera_projection()
+			var filename: String=mode+"-"+str(view.id)+".png"
+			var stored:=_store_frame(image,filename)
+			_water_frames.append({"file":filename,"mode":mode,"view":view.id,"pixels":stored,"state":state,
+				"controlled_variable":"water casting only" if view.id=="river-unobstructed" else "basin casting only; water casting OFF in all three controls",
+				"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"pixel_proofs":proof,
+				"camera_basis":[_v(_inspection.global_basis.x),_v(_inspection.global_basis.y),_v(_inspection.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],
+				"keep_aspect":_inspection.keep_aspect,"near":_inspection.near,"far":_inspection.far,"viewport_size":[root.size.x,root.size.y],
+				"camera_position":_v(_inspection.global_position),"camera_target":_v(view.target),"camera_forward":_v(-_inspection.global_basis.z),"fov":_inspection.fov,
+				"water_cast_flags":inventory.water.map(func(row):return row.cast_shadow),"basin_cast_flag":_basin.cast_shadow,"counters":_native_counters()})
+			_write_water_report(false,"controlled-native-main")
+			view_index+=1
+	_check(_water_frames.size()==9,"nine actual Main diagnosis originals completed")
+	_write_water_report(true,"complete")
+	print("ACTUAL_MAIN_DIAGNOSIS_RESULT checks=",checks," failures=",failures," images=",_water_frames.size())
+	quit(1 if failures else 0)
+
+func _diagnostic_views() -> Array[Dictionary]:
+	var centre: Vector3=game.world.get_node("ExchangeFountain").global_position
+	return [{"id":"river-unobstructed","at":Vector3(-5,4,77),"target":Vector3(-5,-2,99)},
+		{"id":"fountain-wide","at":centre+Vector3(5,2.5,6),"target":centre+Vector3(0,0.55,0)},
+		{"id":"fountain-close","at":centre+Vector3(4,1.5,5),"target":centre+Vector3(2.5,0.555,1)}]
+
+func _without_basin(rows: Array) -> Array:
+	return rows.filter(func(row):return row.path!=_basin_path)
+
+func _measure_native_layers() -> void:
+	var water: MeshInstance3D=game.world.get_node("ExchangeFountain/FountainWater")
+	var stone_bounds: AABB=_basin.global_transform*_basin.mesh.get_aabb()
+	var water_bounds: AABB=water.global_transform*water.mesh.get_aabb()
+	var shapes: Array[Dictionary]=[]
+	for shape: CollisionShape3D in game.world.get_node("ExchangeFountain").find_children("*","CollisionShape3D",true,false):
+		shapes.append({"path":str(game.world.get_path_to(shape)),"shape_id":shape.shape.get_instance_id(),"class":shape.shape.get_class(),"height":shape.shape.height if shape.shape is CylinderShape3D else -1.0,"radius":shape.shape.radius if shape.shape is CylinderShape3D else -1.0,"global_position":_v(shape.global_position)})
+	_layers={"basin_world_position":_v(stone_bounds.position),"basin_world_size":_v(stone_bounds.size),"water_world_position":_v(water_bounds.position),"water_world_size":_v(water_bounds.size),
+		"upper_water_above_basin_top_m":water_bounds.end.y-stone_bounds.end.y,"lower_water_below_basin_top_m":stone_bounds.end.y-water_bounds.position.y,
+		"basin_triangles":_basin.mesh.get_faces().size()/3,"water_triangles":water.mesh.get_faces().size()/3,"native_shapes":shapes,
+		"design":"Existing basin is a solid visual CylinderMesh/plinth, not a hollow pool. Existing authoritative cylinder shape and sculpture contacts are retained exactly. No visual or physical correction is installed in this diagnostic."}
+	_check(is_equal_approx(float(_layers.upper_water_above_basin_top_m),0.005) and is_equal_approx(float(_layers.lower_water_below_basin_top_m),0.005),"native world bounds confirm5mm overlap and5mm top separation")
+
+func _measure_bridge_bounds() -> void:
+	for id: String in ["ClydeSafeBridge","ClydeBridgeNorthDeck","ClydeBridgeSouthDeck"]:
+		var body: Node3D=game.world.get_node("OutdoorRoutes/"+id)
+		for mesh: MeshInstance3D in body.find_children("*","MeshInstance3D",true,false):
+			var bounds: AABB=mesh.global_transform*mesh.mesh.get_aabb()
+			_bridges.append({"path":str(game.world.get_path_to(mesh)),"mesh_id":mesh.mesh.get_instance_id(),"position":_v(bounds.position),"size":_v(bounds.size)})
+	_check(_bridges.size()==3,"all three actual bridge deck world bounds are inventoried")
+
+func _write_water_report(complete: bool,phase: String) -> void:
+	var report: Dictionary={"schema":2,"complete":complete,"phase":phase,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),
+		"images":_water_frames,"synchronization_proofs":_sync_proofs,"inventory_before":_water_before,"state_inventories":_mode_inventories,"water_policy":_candidate_policy,
+		"actual_bridge_bounds":_bridges,"actual_fountain_layers":_layers,"timing_measured":false,
+		"limits":"Two separate controlled variables. RiverA/B/A changes only three exact water caster flags and clears actual native bridge AABBs. FountainA/B/A fixes water castingOFF and toggles only the exact existing basin caster; all other nonwater/sun/receiving shadows remain. No geometry/material/collision correction installed. Same default-enabled actual Main; inherited3natural camera/Canvas proofs plus two independentlyprojectedworldmarkers andCanvas per each9actualview. Fullprojectioncolumns/basis andprocess/physicsbefore/after preserved. Actors/processes frozen, shaderTIME active; not normal-speed motion, frame-time, cold-cache, sole-engine orM5 evidence. Independent cache copied from completed Main water epoch, including renderer shader cache, before run."}
+	var file:=FileAccess.open(output.path_join("actual-main-water-report.json"),FileAccess.WRITE)
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	else:_check(false,"diagnostic report writable")
+
+func _create_pixel_proofs() -> void:
+	for color: Color in [Color.RED,Color.GREEN]:
+		var mesh := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.055
+		sphere.height = 0.11
+		sphere.radial_segments = 12
+		sphere.rings = 6
+		mesh.mesh = sphere
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.albedo_color = color
+		material.no_depth_test = true
+		mesh.material_override = material
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		root.add_child(mesh)
+		_proof_markers.append(mesh)
+	var canvas := CanvasLayer.new()
+	root.add_child(canvas)
+	_proof_swatch = ColorRect.new()
+	_proof_swatch.position = Vector2(4,4)
+	_proof_swatch.size = Vector2(18,18)
+	canvas.add_child(_proof_swatch)
+
+
+func _position_proofs(mode: int,view: int) -> void:
+	# Independent world nodes, deliberately changing projected position between
+	# views/modes. A fully stale camera+marker frame cannot pass the next target.
+	_proof_markers[0].global_position = _inspection.to_global(Vector3(-1.6+view*0.35+mode*0.10,1.2,-5))
+	_proof_markers[1].global_position = _inspection.to_global(Vector3(1.5-view*0.25,0.8+mode*0.12,-5))
+	_proof_swatch.color = Color8(30+70*mode,40+70*view,190-30*mode)
+
+
+func _verify_pixel_proofs(image: Image) -> Dictionary:
+	var records: Array[Dictionary] = []
+	for index: int in _proof_markers.size():
+		var point := _proof_markers[index].global_position
+		var projected := _inspection.unproject_position(point)
+		var center := Vector2.ZERO
+		var count := 0
+		for y: int in range(maxi(0,int(projected.y)-10),mini(image.get_height(),int(projected.y)+11)):
+			for x: int in range(maxi(0,int(projected.x)-10),mini(image.get_width(),int(projected.x)+11)):
+				var color := image.get_pixel(x,y)
+				var found := color.r>0.75 and color.r-color.g>0.20 and color.r-color.b>0.20 if index==0 else color.g>0.75 and color.g-color.r>0.20 and color.g-color.b>0.20
+				if found: center+=Vector2(x+0.5,y+0.5);count+=1
+		if count: center/=float(count)
+		var error := center.distance_to(projected)
+		_check(count>=8 and error<=2.0,"projected independent3D marker matches actual pixels")
+		records.append({"color":"red" if index==0 else "green","world_position":_v(point),"projected_xy":[projected.x,projected.y],"pixel_count":count,"centroid_xy":[center.x,center.y],"error_pixels":error})
+	var expected := _proof_swatch.color
+	var actual := image.get_pixel(10,10)
+	var swatch_error := maxf(absf(expected.r-actual.r),maxf(absf(expected.g-actual.g),absf(expected.b-actual.b)))
+	_check(swatch_error<=2.0/255.0,"current Canvas material/view swatch agrees with native pixels")
+	return {"markers":records,"canvas_expected_rgb":[expected.r,expected.g,expected.b],"canvas_actual_rgb":[actual.r,actual.g,actual.b],"canvas_error":swatch_error,"canvas_sample_xy":[10,10]}
+
+
+func _v4(value: Vector4) -> Array:
+	return [value.x,value.y,value.z,value.w]

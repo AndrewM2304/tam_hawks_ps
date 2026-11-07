@@ -11,7 +11,7 @@ preserved, origin fetched and main fast-forwarded to `0b62035` before accepting
 production changes. Obsolete cross-bank/interpolation patches were discarded.
 Work remains directly on main, with non-force integration, no hosted CI, no
 spending and no release publication. October evidence below keeps its own scope.
-The in-progress November checkpoint **`9b91dbc` is pushed to origin/main**.
+The latest in-progress November checkpoint **`4a7ae8e` is pushed to origin/main**.
 It is available for ordinary trial while the remaining implementation continues.
 
 Start with [STUDIO](planning/STUDIO.md), [persistent roles/skills](../.agents/agents/README.md),
@@ -23,6 +23,14 @@ workers or published remote issues.
 
 ## Implemented candidate and source-bound results
 
+- The fountain now has a genuinely hollow, closed visual basin, and eligible
+  water surfaces stop casting spurious shadows while retaining shadow reception.
+  Existing physical support remains unchanged. The [actual-source focused gate](testing/fidelity-2026-11-06/water-actual-focused-01/README.md)
+  passes **49/0** on816 unchanged inputs, including its executed entrypoints;
+  the independently reviewed matched images retain their separate scope.
+  The paving's curved bands were traced to the added low sun-bias settings;
+  full-resolution native-default contact-shadow review is in progress before
+  changing production lighting. Replacement paving is not integrated.
 - Recessed windows, panelled shop joinery/displays and smoother gallery columns
   are now integrated. [Independent native review](testing/fidelity-2026-11-06/architecture/main-graphics-03/README.md)
   verifies21 matched originals, unchanged canonical collision/routes, at most+4

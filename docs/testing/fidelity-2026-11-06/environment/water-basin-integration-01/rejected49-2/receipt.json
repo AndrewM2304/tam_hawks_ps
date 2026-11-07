@@ -1,0 +1,32 @@
+{
+  "started_utc": "2026-11-07T05:44:28.919889+00:00",
+  "finished_utc": "2026-11-07T05:44:51.083566+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--headless",
+      "--check-only",
+      "--script",
+      "tests/run_tests.gd"
+    ],
+    [
+      "./tools/run.sh",
+      "--headless",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "tools/environment_integration_probe.gd"
+    ]
+  ],
+  "exit_codes": [
+    0,
+    1
+  ],
+  "engine_errors": false,
+  "source_stable": true,
+  "source_inputs": 800,
+  "changed_inputs": [],
+  "timing_measured": false,
+  "overlap": "Known qualitative Concrete02 Main graphics PID71215 allowed; no sole-engine/performance claim.",
+  "eligible": false
+}

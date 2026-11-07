@@ -1,0 +1,7 @@
+# Water policy and proper basin — ordinary Main integration
+
+The private current-source proposal passes **49/0 native checks**, clean with801byte-stable inputs, after the corrected test inspects indexed native surface arrays. It exercises the two new policy/mesh cohorts and both adapted existing Main finish/city-support cohorts. All32native .55m basin contacts, both original colliders,768water face vertices,65authored coping points, water dimensions/height and no-new-recovery checks remain. Policy negatives preserve native override precedence, mixed/overlay/extra-pass/shadow-only/lookalike cases and idempotence.
+
+Exact source/helper/test/registered-runner bytes are preserved. Source changes are two preload/helper references, one post-assembly water policy call and one fountain visual-mesh replacement; root must apply bounded hunks to the current source, preserving parallel architecture/level work. [Independent geometry/Main/buffer review](../closed-basin-main-02/independent-review.json) already verifies204/0 within its stated static/resource scope.
+
+The earlier49/2 assertion epoch and30s metadata timeout remain rejected and retained. The false boundary assertions came from snapped `Mesh.get_faces()` positions; no basin geometry was changed to repair them. Accepted headless work overlaps declared qualitative Ground graphics. This is native contract/support proof, not frame rate, moving-water finish or M5 acceptance. Actual install/import/full regression remain root-owned.
