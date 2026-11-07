@@ -1,0 +1,442 @@
+{
+  "reviewed_utc": "2026-11-07T09:28:31.185993+00:00",
+  "source_pins": {
+    "tools/run.sh": "4664ef92aeb2fb01e330b1413791e1f4e199a77aa9a05a2272259c09f98037a9",
+    "tools/prepare_source_assets.sh": "c4cb9c295907498ff4bd382bf2a5e2db3991158222ac6164b672c4ac80652eee",
+    "tools/source_launch_smoke.py": "c6e73fae1e928bef9ac632ab6d3a7dd85b70fb31b65bec716a958a05829c95f1"
+  },
+  "source_unchanged": true,
+  "scope": "Synthetic protocol subprocesses only; no Godot, import, gameplay or Mac execution. Every QA-owned fake process group explicitly cleaned.",
+  "result": {
+    "pass": 17,
+    "fail": 0
+  },
+  "findings": [
+    {
+      "id": "SOURCE-LAUNCH-QA-01",
+      "severity": "blocking-test-harness",
+      "finding": "Cold-copy inputs reject pre-existing ignored Python caches. Direct inputs(ROOT) already raises; skip/prune generated cache descendants while preserving source/symlink/race guards."
+    },
+    {
+      "id": "SOURCE-LAUNCH-QA-02",
+      "severity": "bounded-cleanup-gap",
+      "finding": "Timeout kills only importer PID. A worker forked by that importer survived its timeout; QA killed its owned group after recording. This demonstrates process-tree cleanup is not bounded by the current helper; actual Godot worker behavior was not tested.",
+      "surviving_fake_worker_pids": [
+        106896
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "label": "success preserves args and imports before game",
+      "pass": true
+    },
+    {
+      "label": "import explicitly Dummy audio",
+      "pass": true
+    },
+    {
+      "label": "complete and unterminated log displayed once",
+      "pass": true
+    },
+    {
+      "label": "friendly preparation and ready message",
+      "pass": true
+    },
+    {
+      "label": "script-error refuses game with correct exit",
+      "pass": true
+    },
+    {
+      "label": "exit-seven refuses game with correct exit",
+      "pass": true
+    },
+    {
+      "label": "invalid limit 0 rejected before import",
+      "pass": true
+    },
+    {
+      "label": "invalid limit 3601 rejected before import",
+      "pass": true
+    },
+    {
+      "label": "invalid limit -1 rejected before import",
+      "pass": true
+    },
+    {
+      "label": "invalid limit 1x rejected before import",
+      "pass": true
+    },
+    {
+      "label": "invalid limit 00000 rejected before import",
+      "pass": true
+    },
+    {
+      "label": "base10 valid limit 08",
+      "pass": true
+    },
+    {
+      "label": "base10 valid limit 0009",
+      "pass": true
+    },
+    {
+      "label": "base10 valid limit 3600",
+      "pass": true
+    },
+    {
+      "label": "hung root importer times out/refuses game",
+      "pass": true
+    },
+    {
+      "label": "script launch bypasses import helper",
+      "pass": true
+    },
+    {
+      "label": "fork-root timeout correctly refuses game",
+      "pass": true
+    }
+  ],
+  "cases": [
+    {
+      "name": "success-spaced-path",
+      "mode": "success",
+      "limit": "3",
+      "args": [],
+      "exit": 0,
+      "seconds": 1.117660355004773,
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 106742,
+          "ppid": 106740,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "game",
+          "pid": 106735,
+          "ppid": 106730,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "8fcb7c4d5a5e838540fcae081f5fe8740574147a67aa7ff594e16091fa7442fd"
+    },
+    {
+      "name": "script-error",
+      "mode": "script-error",
+      "limit": "3",
+      "args": [],
+      "exit": 1,
+      "seconds": 1.1179980989982141,
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 106758,
+          "ppid": 106756,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "d0c2b944316df511d95b42f4f12650107e940892ef63280ba6182957bfab8c80"
+    },
+    {
+      "name": "exit-seven",
+      "mode": "exit-seven",
+      "limit": "3",
+      "args": [],
+      "exit": 7,
+      "seconds": 1.1184857779953745,
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 106774,
+          "ppid": 106772,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "ff64bf9b0adb539ccb46989ceff85975f5f70c2b70b363f903609e41e68356a6"
+    },
+    {
+      "name": "invalid-0",
+      "mode": "success",
+      "limit": "0",
+      "args": [],
+      "exit": 2,
+      "seconds": 0.0644764539974858,
+      "calls": [],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "bc28c61f76115b54223cdf3c1ea2fb357bdda2121af1c048ed39a98f04a7739d"
+    },
+    {
+      "name": "invalid-3601",
+      "mode": "success",
+      "limit": "3601",
+      "args": [],
+      "exit": 2,
+      "seconds": 0.06421051600045757,
+      "calls": [],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "bc28c61f76115b54223cdf3c1ea2fb357bdda2121af1c048ed39a98f04a7739d"
+    },
+    {
+      "name": "invalid-minus1",
+      "mode": "success",
+      "limit": "-1",
+      "args": [],
+      "exit": 2,
+      "seconds": 0.0645831689980696,
+      "calls": [],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "df772e07f468f4eb2c343fc1b9f9f835da89f122244721797a0d730708aa7de7"
+    },
+    {
+      "name": "invalid-1x",
+      "mode": "success",
+      "limit": "1x",
+      "args": [],
+      "exit": 2,
+      "seconds": 0.06477140000060899,
+      "calls": [],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "df772e07f468f4eb2c343fc1b9f9f835da89f122244721797a0d730708aa7de7"
+    },
+    {
+      "name": "invalid-00000",
+      "mode": "success",
+      "limit": "00000",
+      "args": [],
+      "exit": 2,
+      "seconds": 0.0643990919998032,
+      "calls": [],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "bc28c61f76115b54223cdf3c1ea2fb357bdda2121af1c048ed39a98f04a7739d"
+    },
+    {
+      "name": "valid-08",
+      "mode": "success",
+      "limit": "08",
+      "args": [],
+      "exit": 0,
+      "seconds": 1.119806303999212,
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 106819,
+          "ppid": 106817,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "game",
+          "pid": 106812,
+          "ppid": 106730,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "3e62d0749de609aaab4ef961b19b2e0934d78d30cb20caea277d8bee4bf0f885"
+    },
+    {
+      "name": "valid-0009",
+      "mode": "success",
+      "limit": "0009",
+      "args": [],
+      "exit": 0,
+      "seconds": 1.1361548990025767,
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 106835,
+          "ppid": 106833,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "game",
+          "pid": 106828,
+          "ppid": 106730,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "3f03ba8e07c503eb59e4da10a24862cf87e553446f5c85fffca945c5340057be"
+    },
+    {
+      "name": "valid-3600",
+      "mode": "success",
+      "limit": "3600",
+      "args": [],
+      "exit": 0,
+      "seconds": 1.1176430490013445,
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 106851,
+          "ppid": 106849,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "game",
+          "pid": 106844,
+          "ppid": 106730,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "7568348ab5985af7bf8116f8de62dfc2b3b281fc5f3b35de6f73ffc6e4895ad9"
+    },
+    {
+      "name": "hang-timeout",
+      "mode": "hang",
+      "limit": "1",
+      "args": [],
+      "exit": 124,
+      "seconds": 3.0950852669993765,
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 106867,
+          "ppid": 106865,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "dbb2f02625f7e90b77d630efbea4b2744819555f3ca7c630b64d9b943a6e1fa7"
+    },
+    {
+      "name": "script-bypass",
+      "mode": "success",
+      "limit": "0",
+      "args": [
+        "--script",
+        "res://fixture.gd"
+      ],
+      "exit": 0,
+      "seconds": 0.06434811299550347,
+      "calls": [
+        {
+          "kind": "game",
+          "pid": 106881,
+          "ppid": 106730,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--script",
+            "res://fixture.gd"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [],
+      "log_sha256": "21cd268dbac40c680b281a62778cc1e25d342b95cba23d419c8f401d2b8baca6"
+    },
+    {
+      "name": "fork-worker-timeout",
+      "mode": "fork-hang",
+      "limit": "1",
+      "args": [],
+      "exit": 124,
+      "seconds": 3.12313617500331,
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 106892,
+          "ppid": 106890,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "worker",
+          "pid": 106896,
+          "ppid": 106892,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-01/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        }
+      ],
+      "surviving_workers_before_qa_cleanup": [
+        106896
+      ],
+      "log_sha256": "dbb2f02625f7e90b77d630efbea4b2744819555f3ca7c630b64d9b943a6e1fa7"
+    }
+  ]
+}

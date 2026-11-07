@@ -1,0 +1,62 @@
+from pathlib import Path
+import hashlib,json,os,shutil,signal,subprocess,time,datetime
+R=Path('/workspace/tam_hawks_ps');O=R/'.local/qa-fidelity/launch-protocol-independent-01';P=O/'project with spaces';(P/'tools').mkdir(parents=True,exist_ok=True)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+pins={}
+for f in ['tools/run.sh','tools/prepare_source_assets.sh','tools/source_launch_smoke.py']:
+ p=R/f;pins[f]=sha(p);q=P/f;q.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,q)
+fake=O/'fake importer.py';fake.write_text('''#!/usr/bin/env python3
+import os,sys,time,json,signal
+from pathlib import Path
+log=Path(os.environ['FAKE_RECORD']);mode=os.environ.get('FAKE_MODE','success')
+def record(kind):
+ with log.open('a') as f:f.write(json.dumps({'kind':kind,'pid':os.getpid(),'ppid':os.getppid(),'args':sys.argv[1:]})+'\\n')
+if '--version' in sys.argv:
+ print('4.6.3.stable.official.synthetic');sys.exit(0)
+if '--import' not in sys.argv:
+ record('game');print('FAKE GAME START');sys.exit(0)
+record('import')
+if mode=='script-error':print('SCRIPT ERROR: synthetic parse failure');sys.exit(0)
+if mode=='exit-seven':print('synthetic native exit');sys.exit(7)
+if mode=='fork-hang':
+ child=os.fork()
+ if child==0:
+  record('worker');signal.signal(signal.SIGTERM,signal.SIG_IGN)
+  while True:time.sleep(.1)
+if mode in ['hang','fork-hang']:
+ print('import started',flush=True)
+ while True:time.sleep(.1)
+print('native progress line',flush=True);time.sleep(.03);print('last unterminated line',end='',flush=True)
+''');fake.chmod(0o755)
+cases=[]
+def case(name,mode='success',limit='3',args=()):
+ rec=O/(name+'.jsonl');rec.write_text('');log=O/(name+'.log');env=os.environ|{'GODOT_BIN':str(fake),'FAKE_MODE':mode,'FAKE_RECORD':str(rec),'TAM_ASSET_IMPORT_TIMEOUT_SECONDS':limit,'PYTHONDONTWRITEBYTECODE':'1'}
+ start=time.monotonic()
+ with log.open('wb') as out:
+  p=subprocess.Popen(['bash',str(P/'tools/run.sh'),*args],stdout=out,stderr=subprocess.STDOUT,env=env,start_new_session=True)
+  try:code=p.wait(timeout=9)
+  except BaseException:
+   os.killpg(p.pid,signal.SIGKILL);p.wait();raise
+ rows=[json.loads(x) for x in rec.read_text().splitlines()];survivors=[]
+ for x in rows:
+  if x['kind']=='worker':
+   try:os.kill(x['pid'],0);survivors.append(x['pid'])
+   except ProcessLookupError:pass
+ # The fake-worker survival control must leave no worker behind after diagnosis.
+ try:os.killpg(p.pid,signal.SIGKILL)
+ except ProcessLookupError:pass
+ text=log.read_text();d={'name':name,'mode':mode,'limit':limit,'args':args,'exit':code,'seconds':time.monotonic()-start,'calls':rows,'surviving_workers_before_qa_cleanup':survivors,'log_sha256':sha(log)};cases.append(d);return d,text
+checks=[]
+def ck(label,ok):checks.append({'label':label,'pass':bool(ok)})
+d,t=case('success-spaced-path');ck('success preserves args and imports before game',d['exit']==0 and [x['kind'] for x in d['calls']]==['import','game']);ck('import explicitly Dummy audio',d['calls'][0]['args']==['--path',str(P),'--headless','--audio-driver','Dummy','--editor','--import']);ck('complete and unterminated log displayed once',t.count('native progress line')==1 and t.count('last unterminated line')==1);ck('friendly preparation and ready message','first launch can take a few minutes' in t and 'Game assets ready' in t)
+for mode,exitcode in [('script-error',1),('exit-seven',7)]:
+ d,t=case(mode,mode);ck(mode+' refuses game with correct exit',d['exit']==exitcode and [x['kind'] for x in d['calls']]==['import'] and 'game was not started' in t)
+for value in ['0','3601','-1','1x','00000']:
+ d,t=case('invalid-'+value.replace('-','minus'),'success',value);ck('invalid limit '+value+' rejected before import',d['exit']==2 and not d['calls'])
+for value in ['08','0009','3600']:
+ d,t=case('valid-'+value,'success',value);ck('base10 valid limit '+value,d['exit']==0)
+d,t=case('hang-timeout','hang','1');ck('hung root importer times out/refuses game',d['exit']==124 and [x['kind'] for x in d['calls']]==['import'] and d['seconds']<6)
+d,t=case('script-bypass','success','0',('--script','res://fixture.gd'));ck('script launch bypasses import helper',d['exit']==0 and [x['kind'] for x in d['calls']]==['game'])
+d,t=case('fork-worker-timeout','fork-hang','1');worker_gap=d['surviving_workers_before_qa_cleanup'];ck('fork-root timeout correctly refuses game',d['exit']==124 and not any(x['kind']=='game' for x in d['calls']))
+report={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source_pins':pins,'source_unchanged':all(sha(R/p)==h for p,h in pins.items()),'scope':'Synthetic protocol subprocesses only; no Godot, import, gameplay or Mac execution. Every QA-owned fake process group explicitly cleaned.','result':{'pass':sum(x['pass'] for x in checks),'fail':sum(not x['pass'] for x in checks)},'findings':[{'id':'SOURCE-LAUNCH-QA-01','severity':'blocking-test-harness','finding':'Cold-copy inputs reject pre-existing ignored Python caches. Direct inputs(ROOT) already raises; skip/prune generated cache descendants while preserving source/symlink/race guards.'},{'id':'SOURCE-LAUNCH-QA-02','severity':'bounded-cleanup-gap','finding':'Timeout kills only importer PID. A worker forked by that importer survived its timeout; QA killed its owned group after recording. This demonstrates process-tree cleanup is not bounded by the current helper; actual Godot worker behavior was not tested.','surviving_fake_worker_pids':worker_gap}], 'checks':checks,'cases':cases}
+(O/'review.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({'result':report['result'],'worker_survival':worker_gap,'source_unchanged':report['source_unchanged']},indent=2))

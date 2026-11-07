@@ -1,0 +1,318 @@
+{
+  "reviewed_utc": "2026-11-07T09:32:11.759547+00:00",
+  "source_pins": {
+    "tools/run.sh": "4664ef92aeb2fb01e330b1413791e1f4e199a77aa9a05a2272259c09f98037a9",
+    "tools/prepare_source_assets.sh": "9712ac474d7f10528bea5461af94cd06576c1ca69f8aab3de8dd80828efbf74e",
+    "tools/source_launch_smoke.py": "49cd74fd3d0e288415c30fd5b9bb6411d4f9abbeb21d4d8d359d4c3a22e373ff"
+  },
+  "source_unchanged": true,
+  "scope": "Synthetic Linux subprocess protocol + exact source-selector/copy checks, no Godot/native Mac/import/gameplay execution. Bash job-control source portability reviewed; installed macOS behavior remains unmeasured.",
+  "result": {
+    "pass": 22,
+    "fail": 0
+  },
+  "fixes": "Prior cache refusal and same-group fork-worker timeout survival are corrected for these source pins. No remaining review blocker for Root cold native gate.",
+  "limits": [
+    "Killed workers may remain recorded zombie entries; none remains live.",
+    "Owned same-process-group workers are covered, not an arbitrary daemon that escapes its group/session.",
+    "First epoch17/0 retained separately; no counts transferred to this changed source."
+  ],
+  "cases": [
+    {
+      "name": "timeout",
+      "exit": 124,
+      "command": [
+        "bash",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces/tools/run.sh"
+      ],
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 107979,
+          "ppid": 107977,
+          "pgid": 107979,
+          "sid": 107970,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "worker",
+          "pid": 107983,
+          "ppid": 107979,
+          "pgid": 107979,
+          "sid": 107970,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        }
+      ],
+      "final_importer_worker_states": {
+        "107979": "absent",
+        "107983": "Z"
+      },
+      "seconds": 3.293097255998873,
+      "log_sha256": "ac193896886dfedd4037ac53bfa5aa74c3508259257ad35e1158b0985d549f64"
+    },
+    {
+      "name": "normal-success",
+      "exit": 0,
+      "command": [
+        "bash",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces/tools/run.sh"
+      ],
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 108064,
+          "ppid": 108062,
+          "pgid": 108064,
+          "sid": 108057,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "worker",
+          "pid": 108068,
+          "ppid": 108064,
+          "pgid": 108064,
+          "sid": 108057,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "game",
+          "pid": 108057,
+          "ppid": 107957,
+          "pgid": 108057,
+          "sid": 108057,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces"
+          ]
+        }
+      ],
+      "final_importer_worker_states": {
+        "108064": "absent",
+        "108068": "Z"
+      },
+      "seconds": 1.5420203329995275,
+      "log_sha256": "4ac3d9a9e66d753986771d008107cd9b36458b23545bafed067aa3f1232f66d1"
+    },
+    {
+      "name": "helper-TERM",
+      "exit": 143,
+      "command": [
+        "bash",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces/tools/prepare_source_assets.sh",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/fake importer.py",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces"
+      ],
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 108080,
+          "ppid": 108078,
+          "pgid": 108080,
+          "sid": 108078,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "worker",
+          "pid": 108084,
+          "ppid": 108080,
+          "pgid": 108080,
+          "sid": 108078,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        }
+      ],
+      "final_importer_worker_states": {
+        "108080": "absent",
+        "108084": "Z"
+      },
+      "seconds": 1.1984930969993002,
+      "log_sha256": "1ba8509e13ca19b90cfcef544fd70402a209ebe732d416af656ab31334246bec"
+    },
+    {
+      "name": "caller-group-TERM",
+      "exit": -15,
+      "command": [
+        "bash",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces/tools/run.sh"
+      ],
+      "calls": [
+        {
+          "kind": "import",
+          "pid": 108100,
+          "ppid": 108098,
+          "pgid": 108100,
+          "sid": 108093,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        },
+        {
+          "kind": "worker",
+          "pid": 108104,
+          "ppid": 108100,
+          "pgid": 108100,
+          "sid": 108093,
+          "args": [
+            "--path",
+            "/workspace/tam_hawks_ps/.local/qa-fidelity/launch-protocol-independent-02/project with spaces",
+            "--headless",
+            "--audio-driver",
+            "Dummy",
+            "--editor",
+            "--import"
+          ]
+        }
+      ],
+      "final_importer_worker_states": {
+        "108100": "absent",
+        "108104": "Z"
+      },
+      "seconds": 0.34561504099838203,
+      "log_sha256": "ddd9ca9fdeed6edd6dad4543978d1e1acedcd6900e05c855317ed7f4a65b65bb"
+    }
+  ],
+  "checks": [
+    {
+      "label": "timeout exit",
+      "pass": true
+    },
+    {
+      "label": "timeout owns isolated native group",
+      "pass": true
+    },
+    {
+      "label": "timeout no live importer or worker",
+      "pass": true
+    },
+    {
+      "label": "timeout game start iff success",
+      "pass": true
+    },
+    {
+      "label": "normal-success exit",
+      "pass": true
+    },
+    {
+      "label": "normal-success owns isolated native group",
+      "pass": true
+    },
+    {
+      "label": "normal-success no live importer or worker",
+      "pass": true
+    },
+    {
+      "label": "normal-success game start iff success",
+      "pass": true
+    },
+    {
+      "label": "helper-TERM exit",
+      "pass": true
+    },
+    {
+      "label": "helper-TERM owns isolated native group",
+      "pass": true
+    },
+    {
+      "label": "helper-TERM no live importer or worker",
+      "pass": true
+    },
+    {
+      "label": "helper-TERM game start iff success",
+      "pass": true
+    },
+    {
+      "label": "caller-group-TERM exit",
+      "pass": true
+    },
+    {
+      "label": "caller-group-TERM owns isolated native group",
+      "pass": true
+    },
+    {
+      "label": "caller-group-TERM no live importer or worker",
+      "pass": true
+    },
+    {
+      "label": "caller-group-TERM game start iff success",
+      "pass": true
+    },
+    {
+      "label": "all ordinary sources kept while all three cache kinds skipped",
+      "pass": true
+    },
+    {
+      "label": "source symlink still refused",
+      "pass": true
+    },
+    {
+      "label": "actual source selector now succeeds with required editor tools",
+      "pass": true
+    },
+    {
+      "label": "no generated paths selected from actual tree",
+      "pass": true
+    },
+    {
+      "label": "copy exact bytes/modes/keys",
+      "pass": true
+    },
+    {
+      "label": "required Bash source syntax parses",
+      "pass": true
+    }
+  ],
+  "actual_selected_count": 876
+}

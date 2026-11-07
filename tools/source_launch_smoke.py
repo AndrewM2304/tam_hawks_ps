@@ -37,12 +37,17 @@ def sha(path: Path) -> str:
 
 
 def inputs(root: Path) -> dict:
-    paths = [root / "project.godot", root / "tools/run.sh"]
-    for name in ("game", "tests"):
+    paths = [root / "project.godot"]
+    # Source scenes now require the editor-only board post-import scripts.
+    # Copy the same tools tree as a real checkout, including the launcher helper.
+    for name in ("game", "tests", "tools"):
         directory = root / name
         if not directory.is_dir() or directory.is_symlink():
             raise RuntimeError(f"Missing or symlinked input directory: {directory}")
         for path in directory.rglob("*"):
+            if any(part in (".godot", ".local", "__pycache__")
+                   for part in path.relative_to(directory).parts):
+                continue
             if path.is_symlink():
                 raise RuntimeError(f"Input symlinks are not copied: {path}")
             if path.is_file():

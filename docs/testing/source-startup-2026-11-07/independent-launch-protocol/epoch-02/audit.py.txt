@@ -1,0 +1,91 @@
+from pathlib import Path
+import ast,hashlib,json,os,shutil,signal,subprocess,time,datetime,types
+R=Path('/workspace/tam_hawks_ps');O=R/'.local/qa-fidelity/launch-protocol-independent-02';P=O/'project with spaces';(P/'tools').mkdir(parents=True,exist_ok=True)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+pins={}
+for f in ['tools/run.sh','tools/prepare_source_assets.sh','tools/source_launch_smoke.py']:
+ p=R/f;pins[f]=sha(p);q=P/f;q.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,q)
+fake=O/'fake importer.py';fake.write_text('''#!/usr/bin/env python3
+import os,sys,time,json,signal
+from pathlib import Path
+log=Path(os.environ['FAKE_RECORD']);mode=os.environ.get('FAKE_MODE','success')
+def record(kind):
+ with log.open('a') as f:f.write(json.dumps({'kind':kind,'pid':os.getpid(),'ppid':os.getppid(),'pgid':os.getpgid(0),'sid':os.getsid(0),'args':sys.argv[1:]})+'\\n')
+if '--version' in sys.argv:print('4.6.3.stable.official.synthetic');sys.exit(0)
+if '--import' not in sys.argv:record('game');print('FAKE GAME START');sys.exit(0)
+record('import')
+if mode.startswith('fork'):
+ child=os.fork()
+ if child==0:
+  record('worker');signal.signal(signal.SIGTERM,signal.SIG_IGN)
+  while True:time.sleep(.02)
+ time.sleep(.05)
+if mode in ['hang','fork-hang']:
+ print('import started',flush=True)
+ while True:time.sleep(.02)
+print('native progress line',flush=True);print('last unterminated line',end='',flush=True)
+''');fake.chmod(0o755)
+def state(pid):
+ try:return Path('/proc',str(pid),'stat').read_text().rsplit(')',1)[1].strip().split()[0]
+ except FileNotFoundError:return 'absent'
+def live(pid):return state(pid) not in ['absent','Z','X']
+checks=[];cases=[]
+def ck(label,ok):
+ checks.append({'label':label,'pass':bool(ok)})
+ if not ok:raise AssertionError(label)
+def run(name,mode,limit='3',cancel=None,helper=False):
+ rec=O/(name+'.jsonl');rec.write_text('');log=O/(name+'.log');env=os.environ|{'GODOT_BIN':str(fake),'FAKE_MODE':mode,'FAKE_RECORD':str(rec),'TAM_ASSET_IMPORT_TIMEOUT_SECONDS':limit,'PYTHONDONTWRITEBYTECODE':'1'}
+ command=['bash',str(P/'tools/prepare_source_assets.sh'),str(fake),str(P)] if helper else ['bash',str(P/'tools/run.sh')]
+ start=time.monotonic()
+ with log.open('wb') as out:
+  p=subprocess.Popen(command,stdout=out,stderr=subprocess.STDOUT,env=env,start_new_session=True)
+  try:
+   if cancel:
+    until=time.monotonic()+3
+    while time.monotonic()<until:
+     rows=[json.loads(x) for x in rec.read_text().splitlines()]
+     if any(x['kind']=='worker' for x in rows):break
+     time.sleep(.02)
+    else:raise AssertionError('worker startup handshake missing')
+    (os.kill if cancel=='pid' else os.killpg)(p.pid,signal.SIGTERM)
+   code=p.wait(timeout=8)
+   time.sleep(.15)
+   rows=[json.loads(x) for x in rec.read_text().splitlines()]
+   states={str(x['pid']):state(x['pid']) for x in rows if x['kind'] in ['import','worker']}
+   until=time.monotonic()+2
+   while any(live(int(x)) for x in states) and time.monotonic()<until:
+    time.sleep(.03);states={x:state(int(x)) for x in states}
+   d={'name':name,'exit':code,'command':command,'calls':rows,'final_importer_worker_states':states,'seconds':time.monotonic()-start,'log_sha256':sha(log)};cases.append(d)
+   return d,log.read_text()
+  finally:
+   try:os.killpg(p.pid,signal.SIGKILL)
+   except ProcessLookupError:pass
+   if p.poll() is None:p.wait(timeout=2)
+   for x in [json.loads(x) for x in rec.read_text().splitlines()]:
+    if x['kind']=='import':
+     try:os.killpg(x['pgid'],signal.SIGKILL)
+     except ProcessLookupError:pass
+for name,mode,kwargs,expected in [('timeout','fork-hang',{'limit':'1'},124),('normal-success','fork-success',{},0),('helper-TERM','fork-hang',{'cancel':'pid','helper':True},143),('caller-group-TERM','fork-hang',{'cancel':'group'},-signal.SIGTERM)]:
+ d,t=run(name,mode,**kwargs);ck(name+' exit',d['exit']==expected);ck(name+' owns isolated native group',all(x['pgid']==next(y['pid'] for y in d['calls'] if y['kind']=='import') for x in d['calls'] if x['kind'] in ['import','worker']));ck(name+' no live importer or worker',all(x in ['absent','Z','X'] for x in d['final_importer_worker_states'].values()));ck(name+' game start iff success',sum(x['kind']=='game' for x in d['calls'])==int(expected==0))
+# Execute the held exact input selector without bytecode or launching its main().
+source=(P/'tools/source_launch_smoke.py').read_text();mod=types.ModuleType('qa_source_launch');mod.__file__=str(P/'tools/source_launch_smoke.py');exec(compile(ast.parse(source),str(P/'tools/source_launch_smoke.py'),'exec'),mod.__dict__)
+fix=O/'copy-fixture';fix.mkdir(exist_ok=True);(fix/'project.godot').write_text('fixture')
+for folder in ['game','tests','tools']:
+ (fix/folder).mkdir(exist_ok=True);(fix/folder/'actual-source.txt').write_text(folder)
+ for cache in ['__pycache__','.local','.godot']:
+  q=fix/folder/cache;q.mkdir(exist_ok=True);(q/'ignored.txt').write_text('generated')
+selected=mod.inputs(fix);ck('all ordinary sources kept while all three cache kinds skipped',set(selected)=={'project.godot','game/actual-source.txt','tests/actual-source.txt','tools/actual-source.txt'})
+link=fix/'tools/link';link.symlink_to(fix/'game/actual-source.txt')
+try:mod.inputs(fix);refused=False
+except RuntimeError:refused=True
+finally:link.unlink()
+ck('source symlink still refused',refused)
+actual=mod.inputs(R);ck('actual source selector now succeeds with required editor tools',all(x in actual for x in ['tools/run.sh','tools/prepare_source_assets.sh','tools/source_launch_smoke.py','tools/art/import_board_wood.gd','tools/art/board_wood_source.gd']))
+ck('no generated paths selected from actual tree',not any(any(v in p.split('/') for v in ['.godot','.local','__pycache__']) for p in actual))
+copy=O/'selected-copy'
+for p in selected:
+ q=copy/p;q.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(fix/p,q)
+ck('copy exact bytes/modes/keys',mod.inputs(copy)==selected)
+ck('required Bash source syntax parses',subprocess.run(['bash','-n',str(P/'tools/run.sh'),str(P/'tools/prepare_source_assets.sh')]).returncode==0)
+report={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source_pins':pins,'source_unchanged':all(sha(R/p)==h for p,h in pins.items()),'scope':'Synthetic Linux subprocess protocol + exact source-selector/copy checks, no Godot/native Mac/import/gameplay execution. Bash job-control source portability reviewed; installed macOS behavior remains unmeasured.','result':{'pass':len(checks),'fail':0},'fixes':'Prior cache refusal and same-group fork-worker timeout survival are corrected for these source pins. No remaining review blocker for Root cold native gate.','limits':['Killed workers may remain recorded zombie entries; none remains live.','Owned same-process-group workers are covered, not an arbitrary daemon that escapes its group/session.','First epoch17/0 retained separately; no counts transferred to this changed source.'],'cases':cases,'checks':checks,'actual_selected_count':len(actual)}
+(O/'review.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({'result':report['result'],'source_unchanged':report['source_unchanged'],'selected_actual':len(actual),'worker_states':[x['final_importer_worker_states'] for x in cases]},indent=2))
