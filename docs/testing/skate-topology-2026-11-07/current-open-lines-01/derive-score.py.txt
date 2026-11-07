@@ -1,0 +1,34 @@
+raw=json.loads((S/'line-result.json').read_text());analysis=[]
+for run in raw['runs']:
+    base=0;multi=0;repeats={};total=0;banks=[];awards=[]
+    for index,event in enumerate(run['score_events']):
+        kind=event['kind'];before=event['before'];after=event['after']
+        # The observer emits continue_combo nested inside bank_combo. Its nested
+        # before/after still describes the same live base and multiplier.
+        assert before['base']==base and before['multiplier']==multi,(run['label'],kind)
+        if kind=='add_trick':
+            key=event['identity']or event['label'];count=repeats.get(key,0)
+            award=max(1,int(event['points']/(2**min(count,30))));repeats[key]=count+1
+            assert event['awarded']==award;base+=award;multi+=1;awards.append(award)
+        elif kind=='add_hold_points':
+            assert multi>0 and event['awarded']==event['points'];base+=event['points']
+        elif kind=='bank_combo':
+            value=base*multi;assert event['banked']==value and before['value']==value
+            total+=value;banks.append(value);base=0;multi=0
+        elif kind=='reset':assert total==0 and base==0 and multi==0
+        else:assert kind in ['begin_landing','continue_combo'],kind
+        assert after['base']==base and after['multiplier']==multi
+        if kind in ['begin_landing','continue_combo']:
+            assert after['total']==before['total']
+            if before['total']!=total:
+                following=run['score_events'][index+1]
+                assert kind=='continue_combo' and following['kind']=='bank_combo' and following['physics']==event['physics']
+                assert before['total']==total+base*multi
+        else:assert after['total']==total
+    captures=[e for e in run['events']if e['kind']=='capture']
+    assert len(captures)==2 and all(e['native_contact_valid']and e['contact_verified']for e in captures)
+    assert captures[0]['guide']=='Grind_MD_Market_Seats_-19.0'and captures[1]['guide']=='MD_Market_Steps_Handrail'
+    assert not any(t['bail']for t in run['trace'])and banks==[4459]
+    assert any(t['manual']for t in run['trace'])
+    analysis.append({'label':run['label'],'derived_entry_awards':awards,'derived_banks':banks,'hold_points':50,'guides':[e['guide']for e in captures],'trace_rows':len(run['trace']),'returned_line':False,'closed_circuit':False})
+(D/'root-score-derivation.json').write_text(json.dumps({'scope':'Root offline derivation from the specialist-authored immutable event ledgers, not a new native or independent BA run. No source/state writes.','runs':analysis},indent=2)+'\n')

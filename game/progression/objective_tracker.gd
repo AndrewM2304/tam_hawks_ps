@@ -43,7 +43,9 @@ func poll(position: Vector3, interact: bool) -> Array[Dictionary]:
 			continue
 		_collected[entry.key] = true
 		entry.node.visible = false
-		events.append({"kind": entry.kind, "id": entry.id})
+		var event: Dictionary = {"kind": entry.kind, "id": entry.id}
+		if entry.has("label"): event["label"] = str(entry.label)
+		events.append(event)
 	return events
 
 func nearby_prompt(position: Vector3) -> String:
@@ -102,7 +104,7 @@ func _make_marker(entry: Dictionary) -> Node3D:
 	label.outline_modulate = Color("14252a")
 	label.outline_size = 10
 	match String(entry.kind):
-		"letter": label.text = str(entry.id)
+		"letter": label.text = str(entry.get("label", entry.id))
 		"market_item": label.text = "+"
 		"interaction": label.text = "CONE"
 		"collectible": label.text = "REC"

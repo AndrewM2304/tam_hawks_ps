@@ -68,6 +68,7 @@ func _run() -> void:
 	RenderingServer.set_render_loop_enabled(false)
 	DirAccess.make_dir_recursive_absolute(output)
 	game = Main.new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	root.add_child(game)
 	game.start_mode(true)

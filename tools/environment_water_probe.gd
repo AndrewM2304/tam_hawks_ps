@@ -30,6 +30,7 @@ func _run() -> void:
 	root.content_scale_size = root.size
 	RenderingServer.set_render_loop_enabled(false)
 	game = Main.new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	root.add_child(game)
 	_check(not game.music._can_control and not game.music._persist, "probe isolates personal Music")

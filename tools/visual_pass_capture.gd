@@ -13,6 +13,7 @@ func run() -> void:
 	DirAccess.make_dir_recursive_absolute("res://.local/visual-pass")
 	root.size = Vector2i(1280, 800)
 	var game = load("res://game/main.gd").new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	root.add_child(game)
 	await frames(12)

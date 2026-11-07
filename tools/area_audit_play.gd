@@ -69,6 +69,7 @@ func _run() -> void:
 	Engine.max_fps = 0
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	game = MainScene.instantiate()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	root.add_child(game)
 	game.apply_settings({"graphics_quality":"performance"},false)

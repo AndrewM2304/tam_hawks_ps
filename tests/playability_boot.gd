@@ -19,6 +19,7 @@ func _process(_delta:float) -> void:
 
 func _run() -> void:
 	var game:Node = MainScene.instantiate()
+	game.level_id = "glasgow_legacy_v1"
 	game.persistence_enabled = false
 	add_child(game)
 	await get_tree().process_frame

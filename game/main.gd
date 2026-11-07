@@ -5,9 +5,9 @@ const InputSetup = preload("res://game/core/input_setup.gd")
 const InputProfile = preload("res://game/core/input_profile.gd")
 const ScoreSession = preload("res://game/scoring/score_session.gd")
 const Skater = preload("res://game/player/skater.gd")
-const GlasgowSquare = preload("res://game/levels/glasgow_square.gd")
+const LevelCatalog = preload("res://game/progression/level_catalog.gd")
 const Hud = preload("res://game/ui/hud.gd")
-const CareerProgressSource = preload("res://game/progression/career_progress.gd")
+const CareerProgressSource = preload("res://game/progression/level_career_book.gd")
 const ObjectiveTrackerSource = preload("res://game/progression/objective_tracker.gd")
 const GapTrackerSource = preload("res://game/tricks/gap_tracker.gd")
 const NativeGapFinishSource=preload("res://game/tricks/native_gap_finish.gd")
@@ -25,6 +25,8 @@ const RUN_SECONDS := 120.0
 var playtest_recorder: CanvasLayer
 var score := ScoreSession.new()
 var career = CareerProgressSource.new()
+var level_id: String = "merchant_neighbourhood_v1"
+var _level_name := "Merchant District"
 var gaps = GapTrackerSource.new()
 var native_gap_finish=NativeGapFinishSource.new()
 var special_meter = SpecialMeterSource.new()
@@ -39,7 +41,8 @@ var audio: Node
 var music: Node
 # Developer/script runners never write the player's profile by default.
 var persistence_enabled: bool = not AppleMusicSource.is_scripted_launch(OS.get_cmdline_args())
-var profile_path := "user://career.json"
+var profile_path := "user://career-v2.json"
+var legacy_profile_path := "user://career.json"
 var save_status := ""
 var save_warning := ""
 var _caption := ""
@@ -75,14 +78,62 @@ func _ready() -> void:
 	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	InputSetup.register_actions()
 	Input.joy_connection_changed.connect(_on_controller_connection)
+	if not LevelCatalog.ids().has(level_id):
+		level_id = "merchant_neighbourhood_v1"
+	career.select_level(level_id)
 	if persistence_enabled:
-		var loaded: Error = career.load_profile(profile_path)
+		var loaded: Error = career.load_profile(profile_path, legacy_profile_path)
 		if loaded != OK and loaded != ERR_FILE_NOT_FOUND:
 			save_warning = "Saved progress could not be loaded. Existing files are safe; this session will not be saved."
 			save_status = save_warning
 	career.begin_run(free_skate_mode)
-	world = GlasgowSquare.new()
-	world.name = "GlasgowSquare"
+	_construct_level_world()
+	audio = SkateAudioSource.new()
+	add_child(audio)
+	music = AppleMusicSource.new()
+	music.name = "AppleMusic"
+	music.configure(persistence_enabled)
+	add_child(music)
+	music.changed.connect(_on_music_changed)
+	if audio.has_signal("caption"):
+		audio.connect("caption", _on_caption)
+	_construct_level_skater()
+	hud = Hud.new()
+	hud.name = "HUD"
+	add_child(hud)
+	hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions() + feature_hub.get_route_definitions())
+	hud.level_requested.connect(change_level)
+	hud.restart_requested.connect(restart_run)
+	hud.pause_requested.connect(toggle_pause)
+	hud.free_skate_requested.connect(toggle_free_skate)
+	hud.music_requested.connect(_on_music_requested)
+	if hud.has_signal("settings_changed"):
+		hud.connect("settings_changed", apply_settings)
+	if hud.has_signal("start_requested"):
+		hud.connect("start_requested", start_mode)
+	if hud.has_signal("ui_feedback"):
+		hud.connect("ui_feedback", func(): audio.play_event("ui"))
+	if hud.has_signal("cosmetic_selected"):
+		hud.connect("cosmetic_selected", select_cosmetic)
+	apply_settings(career.settings, false)
+	playtest_recorder=PlaytestRecorder.new()
+	playtest_recorder.name="PlaytestRecorder"
+	add_child(playtest_recorder)
+	playtest_recorder.configure(self)
+	hud.debug_requested.connect(playtest_recorder.show_menu)
+	_refresh_hud()
+	if not AppleMusicSource.is_scripted_launch(OS.get_cmdline_args()) and hud.has_method("show_title"):
+		paused = true
+		get_tree().paused = true
+		audio.set_paused(true)
+		hud.show_title()
+
+func _construct_level_world() -> void:
+	var definition: Dictionary = LevelCatalog.definition(level_id)
+	_level_name = str(definition.label)
+	var world_source: Variant = load(str(definition.world_path))
+	world = world_source.new()
+	world.name = "GlasgowSquare" if level_id == "glasgow_legacy_v1" else "MerchantDistrict"
 	# Main is the owner's playable trial: completed design additions are on by
 	# default. An explicit false remains available to historical geometry tests.
 	if not has_meta("pt24_design_preview"):
@@ -117,15 +168,9 @@ func _ready() -> void:
 	add_child(market_encounter)
 	market_encounter.configure(world.get_encounter_definitions())
 	market_encounter.feedback.connect(_on_encounter_feedback)
-	audio = SkateAudioSource.new()
-	add_child(audio)
-	music = AppleMusicSource.new()
-	music.name = "AppleMusic"
-	music.configure(persistence_enabled)
-	add_child(music)
-	music.changed.connect(_on_music_changed)
-	if audio.has_signal("caption"):
-		audio.connect("caption", _on_caption)
+
+
+func _construct_level_skater() -> void:
 	skater = Skater.new()
 	skater.name = "Skater"
 	skater.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -154,34 +199,40 @@ func _ready() -> void:
 	feature_hub.configure(world, skater)
 	feature_hub.feedback.connect(_on_encounter_feedback)
 	feature_hub.routes_changed.connect(_refresh_map_routes)
-	hud = Hud.new()
-	hud.name = "HUD"
-	add_child(hud)
-	hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions() + feature_hub.get_route_definitions())
-	hud.restart_requested.connect(restart_run)
-	hud.pause_requested.connect(toggle_pause)
-	hud.free_skate_requested.connect(toggle_free_skate)
-	hud.music_requested.connect(_on_music_requested)
-	if hud.has_signal("settings_changed"):
-		hud.connect("settings_changed", apply_settings)
-	if hud.has_signal("start_requested"):
-		hud.connect("start_requested", start_mode)
-	if hud.has_signal("ui_feedback"):
-		hud.connect("ui_feedback", func(): audio.play_event("ui"))
-	if hud.has_signal("cosmetic_selected"):
-		hud.connect("cosmetic_selected", select_cosmetic)
-	apply_settings(career.settings, false)
-	playtest_recorder=PlaytestRecorder.new()
-	playtest_recorder.name="PlaytestRecorder"
-	add_child(playtest_recorder)
-	playtest_recorder.configure(self)
-	hud.debug_requested.connect(playtest_recorder.show_menu)
-	_refresh_hud()
-	if not AppleMusicSource.is_scripted_launch(OS.get_cmdline_args()) and hud.has_method("show_title"):
-		paused = true
-		get_tree().paused = true
-		audio.set_paused(true)
+
+
+func change_level(requested: String) -> void:
+	if not LevelCatalog.ids().has(requested): return
+	if requested == level_id:
 		hud.show_title()
+		return
+	_save_profile()
+	paused = true
+	get_tree().paused = true
+	audio.set_paused(true)
+	native_gap_finish.invalidate()
+	# Replace only level-owned actors. The existing Music session and audio
+	# controller remain alive; level selection never configures an account.
+	for owned: Node in [feature_hub, encounters, cat_encounter, market_encounter, objectives, skater, world]:
+		if is_instance_valid(owned): owned.free()
+	# Child constructors search Main for the rider. A freed Object must not
+	# remain visible through those fields while the next world is constructed.
+	for field: String in ["feature_hub", "encounters", "cat_encounter", "market_encounter", "objectives", "skater", "world"]:
+		set(field, null)
+	level_id = requested
+	career.select_level(level_id)
+	_hud_career_source = null
+	_construct_level_world()
+	_construct_level_skater()
+	hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions() + feature_hub.get_route_definitions())
+	apply_settings(career.settings, false)
+	restart_run()
+	paused = true
+	get_tree().paused = true
+	audio.set_paused(true)
+	_refresh_hud()
+	hud.show_title()
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_instance_valid(playtest_recorder) and (playtest_recorder.editing or playtest_recorder.busy):return
@@ -490,7 +541,7 @@ func _update_objectives(delta: float, district: String) -> void:
 		_feedback = _pickup_message(event)
 		_feedback_timer = 2.0
 		audio.play_event("ui")
-		if event.kind == "interaction" and event.id == "cone" and world.has_method("activate_cone"):
+		if event.kind == "interaction" and event.id in ["cone", "md_cone"] and world.has_method("activate_cone"):
 			world.activate_cone()
 		if event.kind == "interaction" and audio.has_method("play_bark"):
 			audio.play_bark("cone")
@@ -524,7 +575,7 @@ func _notify_goals(ids: Array) -> void:
 func _pickup_message(event: Dictionary) -> String:
 	match str(event.kind):
 		"letter":
-			return "LETTER %s  /  %d OF 5" % [event.id, objectives.collected_count("letter")]
+			return "LETTER %s  /  %d OF 5" % [event.get("label", event.id), objectives.collected_count("letter")]
 		"market_item":
 			return "MARKET PICKUP  /  %d OF 3" % objectives.collected_count("market_item")
 		"collectible":
@@ -743,6 +794,7 @@ func _refresh_hud() -> void:
 		_hud_manual_name = _read_hud_trick_name(_hud_manual_name_id, "Manual")
 	var statuses := _encounter_snapshots()
 	hud.update_display({
+		"level_id": level_id, "level_name": _level_name,
 		"time": time_remaining, "score": score.total_score,
 		"combo": score.get_combo_value(), "multiplier": score.combo_multiplier,
 		"combo_base": score.combo_base,

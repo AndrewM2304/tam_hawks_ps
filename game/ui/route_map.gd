@@ -2,6 +2,8 @@ extends Control
 ## Original route diagram from the same world points used to author skating lines.
 
 const LABELS := {
+	"md_upper_steps": "UPPER STEPS", "md_market_cross": "MARKET CROSS",
+	"md_warehouse_row": "WAREHOUSE ROW", "md_foundry_basin": "FOUNDRY BASIN",
 	"royal_exchange": "EXCHANGE", "george_square": "GEORGE SQUARE",
 	"central_station": "CENTRAL", "barras": "BARRAS",
 	"clyde": "RIVER CLYDE", "clyde_quay": "RIVER CLYDE",

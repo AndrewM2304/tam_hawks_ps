@@ -45,6 +45,7 @@ func _run() -> void:
 	# HUD already scales itself from the actual viewport, as in ui_feedback_capture.gd.
 	root.content_scale_size = _requested_size
 	game = Main.new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	root.add_child(game)
 	game.apply_settings({"graphics_quality":_quality},false)

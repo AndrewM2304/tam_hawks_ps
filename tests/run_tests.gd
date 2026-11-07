@@ -91,6 +91,7 @@ const TRANSITION_RIDE_TESTS = preload("res://tests/transition_ride_tests.gd")
 const TRANSITION_GEOMETRY_TESTS = preload("res://tests/transition_geometry_tests.gd")
 const CLASSIC_TRICKS_TESTS = preload("res://tests/classic_tricks_integration_tests.gd")
 const CAMERA_TURN_REVIEW_TESTS = preload("res://tests/camera_turn_review_tests.gd")
+const CAMERA_CADENCE_TESTS = preload("res://tests/camera_cadence_tests.gd")
 const CAMERA_RAY_REUSE_TESTS = preload("res://tests/camera_ray_reuse_tests.gd")
 const ARCADE_ECONOMY_TESTS = preload("res://tests/arcade_economy_tests.gd")
 const TRICK_LANGUAGE_TESTS = preload("res://tests/trick_language_tests.gd")
@@ -219,6 +220,7 @@ func _run() -> void:
 	await TRANSITION_RIDE_TESTS.run(self, _check)
 	await TRANSITION_GEOMETRY_TESTS.run(self, _check)
 	await CAMERA_TURN_REVIEW_TESTS.run(self, _check)
+	await CAMERA_CADENCE_TESTS.run(self, _check)
 	await CAMERA_RAY_REUSE_TESTS.run(self, _check)
 	await BOARD_FLOOR_RAY_REUSE_TESTS.run(self, _check)
 	await CLASSIC_TRICKS_TESTS.run(self, _check)
@@ -257,6 +259,7 @@ func _run() -> void:
 	await ROUTE_AVAILABILITY_TESTS.run_ui(self, _check)
 	await SKATEPARK_NAVIGATION_TESTS.run_ui(self, _check)
 	game = MAIN_SCRIPT.new()
+	game.level_id = "glasgow_legacy_v1"
 	game.persistence_enabled = false
 	# Historical inventory/A-B control, not the owner's normal launch. Keep
 	# exact established counts; design integration and the no-script boot scene
@@ -347,6 +350,7 @@ func _run() -> void:
 	# the railway/pond/green/civic content enabled and personal Music isolated by
 	# the ordinary script-launch guard. No legacy inventory count is redefined.
 	game = MAIN_SCRIPT.new()
+	game.level_id = "glasgow_legacy_v1"
 	game.persistence_enabled = false
 	root.add_child(game)
 	await _physics_frames(40)

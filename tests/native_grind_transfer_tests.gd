@@ -79,6 +79,7 @@ class Sampler extends Node:
 
 static func run(tree: SceneTree, check: Callable) -> void:
 	var game = Main.new()
+	game.level_id = "glasgow_legacy_v1"
 	game.persistence_enabled = false
 	tree.root.add_child(game)
 	for frame in 20:

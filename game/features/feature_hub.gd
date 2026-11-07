@@ -29,6 +29,9 @@ func configure(world: Node3D, skater: CharacterBody3D) -> void:
 	_world = world
 	_skater = skater
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	if world.has_method("get_activity_layout"):
+		_configure_layout(world.get_activity_layout())
+		return
 	gate = Gate.new()
 	gate.name = "ServiceShortcut"
 	add_child(gate)
@@ -62,6 +65,55 @@ func configure(world: Node3D, skater: CharacterBody3D) -> void:
 	vehicle.configure(_ground_points(PackedVector3Array([Vector3(-78,2,70.5),Vector3(-28,2,70.5)])))
 	reduced_motion = reduced_motion
 
+func _configure_layout(layout: Dictionary) -> void:
+	# A world declaring an empty layout has no old coordinate-based activities.
+	# Legacy worlds keep the original construction path above.
+	_built = false
+	var data: Dictionary = layout.get("service_gate", {})
+	if data.has_all(["position", "route_points"]) and data.position is Vector3 and data.position.is_finite() and _valid_points(data.route_points):
+		gate = Gate.new()
+		gate.name = "ServiceShortcut"
+		add_child(gate)
+		gate.configure(data.position, data.route_points, clampf(float(data.get("width", 2.3)), 0.5, 8.0))
+		gate.changed.connect(func(): routes_changed.emit())
+	data = layout.get("cone_stunt", {})
+	if data.has_all(["start", "approach", "launch", "splash"]) and _valid_vector_fields(data, ["start", "approach", "launch", "splash"]):
+		cone_stunt = Cone.new()
+		cone_stunt.name = "ConeOnACruise"
+		add_child(cone_stunt)
+		cone_stunt.configure(data.start, data.approach, data.launch, data.splash)
+		cone_stunt.feedback.connect(func(text: String): feedback.emit(text))
+	data = layout.get("park_lap", {})
+	if data.has_all(["start", "routes", "bounds"]) and data.start is Vector3 and data.start.is_finite() and data.routes is Array and data.bounds is Rect2:
+		park_lap = Lap.new()
+		park_lap.name = "OneMoreLap"
+		add_child(park_lap)
+		park_lap.configure(data.start, data.routes, data.bounds)
+		park_lap.set_attempt_regions(data.get("attempt_regions", []))
+		park_lap.feedback.connect(func(text: String): feedback.emit(text))
+	data = layout.get("vehicle", {})
+	if _valid_points(data.get("route_points")):
+		vehicle = Vehicle.new()
+		vehicle.name = "CrewElectricCart"
+		add_child(vehicle)
+		vehicle.configure(data.route_points)
+	_built = is_instance_valid(gate) or is_instance_valid(cone_stunt) or is_instance_valid(park_lap) or is_instance_valid(vehicle)
+	reduced_motion = reduced_motion
+
+
+func _valid_points(raw: Variant) -> bool:
+	if not raw is PackedVector3Array or raw.size() < 2 or raw.size() > 256: return false
+	for point: Vector3 in raw:
+		if not point.is_finite(): return false
+	return true
+
+
+func _valid_vector_fields(data: Dictionary, keys: Array) -> bool:
+	for key: String in keys:
+		if not data.get(key) is Vector3 or not Vector3(data[key]).is_finite(): return false
+	return true
+
+
 func challenges() -> Array[Node3D]:
 	var result: Array[Node3D] = []
 	if is_instance_valid(cone_stunt): result.append(cone_stunt)
@@ -72,20 +124,20 @@ func poll(at: Vector3, interact: bool, delta: float, combo_value: int = 0,
 		_audience_visible: bool = false, selected_id: String = "") -> void:
 	if not _built or not at.is_finite(): return
 	_last_position = at
-	gate.tick(delta)
+	if is_instance_valid(gate): gate.tick(delta)
 	var chosen := selected_id
 	if interact and chosen.is_empty(): chosen = nearby_id(at)
-	if interact and chosen == "service_gate":
+	if interact and chosen == "service_gate" and is_instance_valid(gate):
 		if gate.request_toggle():
 			feedback.emit("SERVICE CUT-THROUGH · " + ("OPENING" if gate.requested_open else "CLOSING"))
 		else:
 			feedback.emit("GATE SENSOR · Clear the doorway before closing.")
-	if interact and chosen == "cone_on_a_cruise" and combo_value == 0 and cone_stunt.status_snapshot().state != "active":
-		park_lap.cancel_attempt()
-	if interact and chosen == "one_more_lap" and combo_value == 0 and park_lap.status_snapshot().state != "active":
-		cone_stunt.cancel_attempt()
-	cone_stunt.poll(at, interact and chosen == "cone_on_a_cruise", delta, combo_value, _skater)
-	park_lap.poll(at, interact and chosen == "one_more_lap", delta, combo_value)
+	if interact and chosen == "cone_on_a_cruise" and is_instance_valid(cone_stunt) and combo_value == 0 and cone_stunt.status_snapshot().state != "active":
+		if is_instance_valid(park_lap): park_lap.cancel_attempt()
+	if interact and chosen == "one_more_lap" and is_instance_valid(park_lap) and combo_value == 0 and park_lap.status_snapshot().state != "active":
+		if is_instance_valid(cone_stunt): cone_stunt.cancel_attempt()
+	if is_instance_valid(cone_stunt): cone_stunt.poll(at, interact and chosen == "cone_on_a_cruise", delta, combo_value, _skater)
+	if is_instance_valid(park_lap): park_lap.poll(at, interact and chosen == "one_more_lap", delta, combo_value)
 
 func nearby_id(at: Vector3) -> String:
 	var closest := INF
@@ -119,16 +171,16 @@ func _near_gate(at: Vector3) -> bool:
 		and Vector2(at.x-gate.global_position.x,at.z-gate.global_position.z).length()<3.2
 
 func on_trick(_name: String, points: int, at: Vector3, identity: String = "") -> void:
-	if points > 0 and str(Catalog.definition(identity).get("family", "")) == "launch":
+	if is_instance_valid(park_lap) and points > 0 and str(Catalog.definition(identity).get("family", "")) == "launch":
 		park_lap.on_launch(at)
 
 func on_landed(clean: bool) -> void:
 	if not _built: return
-	park_lap.on_landed(clean)
-	cone_stunt.on_landed(clean)
+	if is_instance_valid(park_lap): park_lap.on_landed(clean)
+	if is_instance_valid(cone_stunt): cone_stunt.on_landed(clean)
 
 func on_bank(points: int, at: Vector3) -> void:
-	if _built: cone_stunt.on_bank(points, at)
+	if is_instance_valid(cone_stunt): cone_stunt.on_bank(points, at)
 
 func on_bail() -> void:
 	for challenge: Node3D in challenges(): challenge.on_bail()
@@ -163,8 +215,11 @@ func status_snapshot() -> Dictionary:
 		"payoff_position":Vector3.INF, "hud_text":"", "gate":gate.status_snapshot() if is_instance_valid(gate) else {}}
 
 func definitions_snapshot() -> Dictionary:
-	return {"service_gate":gate.status_snapshot(), "service_route":gate.route_definition(),
-		"cone":cone_stunt.status_snapshot(), "lap":park_lap.status_snapshot(), "vehicle":vehicle.status_snapshot()}
+	return {"service_gate":gate.status_snapshot() if is_instance_valid(gate) else {},
+		"service_route":gate.route_definition() if is_instance_valid(gate) else {},
+		"cone":cone_stunt.status_snapshot() if is_instance_valid(cone_stunt) else {},
+		"lap":park_lap.status_snapshot() if is_instance_valid(park_lap) else {},
+		"vehicle":vehicle.status_snapshot() if is_instance_valid(vehicle) else {}}
 
 func _ground(at: Vector3) -> Vector3:
 	var result := at

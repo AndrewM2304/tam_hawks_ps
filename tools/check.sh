@@ -30,3 +30,16 @@ if grep -Eq 'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:' .local/script-launch.log; 
   exit 1
 fi
 grep -Eq 'SCRIPT LAUNCH: [1-9][0-9]* passed, 0 failed' .local/script-launch.log
+# The persistence fault fixtures deliberately poison default user:// paths.
+# Always use their separate-app launcher, including on macOS where XDG does
+# not isolate Godot's user data. Never run this script in the game namespace.
+python3 tools/testing/check_level_book.py 2>&1 | tee .local/level-book.log
+for TASK_FIXTURE in neighbourhood_integration_smoke neighbourhood_level_input_probe; do
+  ./tools/run.sh --headless --fixed-fps 60 --script "tests/$TASK_FIXTURE.gd" 2>&1 | tee ".local/$TASK_FIXTURE.log"
+  if grep -Eq 'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:' ".local/$TASK_FIXTURE.log"; then
+    echo "Selected-world checks failed; inspect .local/$TASK_FIXTURE.log." >&2
+    exit 1
+  fi
+done
+grep -Eq 'NEIGHBOURHOOD RESULT: [1-9][0-9]* passed, 0 failed' .local/neighbourhood_integration_smoke.log
+grep -Eq 'LEVEL INPUT RESULT: [1-9][0-9]* passed, 0 failed' .local/neighbourhood_level_input_probe.log

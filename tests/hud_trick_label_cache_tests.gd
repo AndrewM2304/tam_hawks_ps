@@ -17,7 +17,7 @@ static func run(_tree: SceneTree,game: Node,check: Callable) -> void:
 	# This unparented Main references existing scene dependencies without owning
 	# them. Only declared label IDs change in this synchronous metadata fixture;
 	# they are restored before any next frame. No motion/input/score is injected.
-	for key: String in ["score","career","special_meter","objectives","encounters","cat_encounter",
+	for key: String in ["level_id","_level_name","score","career","special_meter","objectives","encounters","cat_encounter",
 		"market_encounter","feature_hub","music","world","skater","hud","time_remaining",
 		"run_finished","paused","free_skate_mode","_focused_encounter","_feedback","_feedback_timer",
 		"_caption","_caption_time","_landings","_flips","_grabs","save_status","save_warning"]:

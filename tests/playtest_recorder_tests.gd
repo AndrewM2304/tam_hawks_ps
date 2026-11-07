@@ -51,7 +51,8 @@ static func run(tree:SceneTree,game:Node,check:Callable)->void:
 	check.call(recorder.editing and game.paused and tree.paused and recorder.reports.size()==1,
 		"debug recorder: capture freezes the live game before opening note entry")
 	var report:Dictionary=recorder.reports[0]
-	check.call(report.position==[position.x,position.y,position.z] and report.camera.position==[camera.x,camera.y,camera.z]
+	check.call(report.level_id==game.level_id and report.level_name==game._level_name
+		and report.position==[position.x,position.y,position.z] and report.camera.position==[camera.x,camera.y,camera.z]
 		and report.rig.bones.has("left_thigh") and report.source_sha256["res://game/player/skater.gd"]==FileAccess.get_sha256("res://game/player/skater.gd"),
 		"debug recorder: report round-trips exact player/camera coordinates, anatomical bones and source fingerprint")
 	check.call(report.capture.physics_frame==report.physics_frame

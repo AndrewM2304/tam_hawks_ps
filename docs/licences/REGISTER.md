@@ -57,3 +57,17 @@ ART-001 also covers `game/art/assets/horizon/`: a4096×2048 RGB composite hills/
 ## Original Clyde water shader
 
 ART-001 covers `game/art/assets/horizon/clyde_water.gdshader`: original analytic advection/ripple equations, derivative filtering and colour/normal response. No imported water asset, texture, external code/API or paid dependency. Existing sky/scene lighting is reused. Source, captures and measured cost are tracked in ADR-020 and PLAY-05.
+
+
+## Merchant District photographic surfaces
+
+The original Merchant District uses two additional inspected Poly Haven CC0 sets:
+`concrete_floor_worn_001` by Dimitrios Savva/Rico Cilliers (3 m repeat) and
+`granite_tile` by Charlotte Baglioni (2.3 m repeat). Six unedited photographic
+JPEG sources, provider identities, SHA256 hashes and import policy are pinned in
+`game/art/assets/merchant_pbr/manifest.json`. Albedo imports retain 2K; normal/ARM
+imports use 1K and full mipmaps with Mac-compatible S3TC formats.
+[MERCHANT-SURFACES.md](MERCHANT-SURFACES.md) records sources, authors and licences.
+The local fetch/verify tool is original project code; no paid service is used.
+These rights do not grant a public licence for the game or certify final art,
+performance or the target MacBook Air M5.

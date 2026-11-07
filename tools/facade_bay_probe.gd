@@ -41,6 +41,7 @@ func _run() -> void:
 	root.size = _size
 	root.content_scale_size = _size
 	game = Main.new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	game.set_meta(&"facade_bay_enabled", _enabled)
 	root.add_child(game)

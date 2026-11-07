@@ -12,6 +12,7 @@ static func probe_idle_support(tree: SceneTree) -> void:
 	Setup.register_actions()
 	_release()
 	var game: Node=MainScene.instantiate()
+	game.level_id="glasgow_legacy_v1" # Historical City Tour contact fixtures.
 	game.persistence_enabled=false
 	tree.root.add_child(game)
 	game.skater.spawn_position=Vector3(-31.28,0.8,11.15)
@@ -58,6 +59,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Setup.register_actions()
 	_release()
 	var game: Node=MainScene.instantiate()
+	game.level_id="glasgow_legacy_v1" # Historical City Tour contact fixtures.
 	game.persistence_enabled=false
 	tree.root.add_child(game)
 	game.start_mode(true)

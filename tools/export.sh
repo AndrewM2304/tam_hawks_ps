@@ -139,6 +139,16 @@ for material in environment_manifest['materials'].values():
         relative = resource.removeprefix('res://')
         if not relative.startswith('game/art/assets/environment_pbr/') or entries.get(relative) != material['file_sha256'][channel]:
             raise SystemExit('Fidelity material differs from reviewed provenance: ' + relative)
+merchant_manifest = json.loads((root / 'game/art/assets/merchant_pbr/manifest.json').read_text())
+if merchant_manifest.get('licence') != 'CC0-1.0' or len(merchant_manifest.get('materials', {})) != 2:
+    raise SystemExit('Merchant material provenance is missing its two reviewed CC0 sets.')
+for material in merchant_manifest['materials'].values():
+    for channel, resource in material['files'].items():
+        relative = resource.removeprefix('res://')
+        if not relative.startswith('game/art/assets/merchant_pbr/') or entries.get(relative) != material['file_sha256'][channel]:
+            raise SystemExit('Merchant source image differs from its reviewed provenance: ' + relative)
+if not entries.get('docs/licences/MERCHANT-SURFACES.md'):
+    raise SystemExit('Merchant material source/licence appendix is missing.')
 derived_manifest = json.loads((root / 'game/art/assets/environment_pbr/derived/manifest.json').read_text())
 for name, image in derived_manifest['files'].items():
     if pathlib.Path(name).name != name or entries.get('game/art/assets/environment_pbr/derived/' + name) != image['sha256']:
@@ -320,6 +330,31 @@ func _initialize() -> void:
 			if not _fidelity_texture(str(material.files[channel]), cap, report):
 				quit(1)
 				return
+	var merchant_manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://game/art/assets/merchant_pbr/manifest.json"))
+	if not merchant_manifest is Dictionary or merchant_manifest.get("licence", "") != "CC0-1.0":
+		push_error("Pack is missing Merchant material provenance.")
+		quit(1)
+		return
+	for material: Dictionary in merchant_manifest.materials.values():
+		for channel: String in material.files:
+			var cap: int = 2048 if channel == "albedo" else 1024
+			var path: String = str(material.files[channel])
+			if not _fidelity_texture(path, cap, report):
+				quit(1)
+				return
+			var texture: Texture2D = load(path) as Texture2D
+			var image: Image = texture.get_image()
+			var expected_format: int = Image.FORMAT_RGTC_RG if channel == "normal_opengl" else Image.FORMAT_DXT1
+			if image.get_format() != expected_format or texture.get_width() != cap or texture.get_height() != cap:
+				push_error("Packed Merchant map changed its Mac-compatible format/size: " + path)
+				quit(1)
+				return
+			report.textures[path]["format"] = image.get_format()
+	for data_path: String in ["res://game/levels/merchant_layout.json", "res://game/levels/art/merchant_surface_zones.json"]:
+		if not JSON.parse_string(FileAccess.get_file_as_string(data_path)) is Dictionary:
+			push_error("Pack is missing selected-world runtime data: " + data_path)
+			quit(1)
+			return
 	for name: String in rider_manifest.maps:
 		if not _fidelity_texture("res://game/art/rider/" + name, 2048, report):
 			quit(1)

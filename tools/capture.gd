@@ -13,6 +13,7 @@ func _run() -> void:
 		quit(1)
 		return
 	game = Main.new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	root.add_child(game)
 	var original_spawn: Vector3 = game.world.get_spawn_position()

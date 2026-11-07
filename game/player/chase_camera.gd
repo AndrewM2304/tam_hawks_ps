@@ -235,6 +235,9 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	# Bound a delayed render update to one simulation step so a scheduling
 	# stall cannot spend its entire elapsed time on an apex camera turn.
 	var step := clampf(delta, 0.0, 1.0 / 60.0) if is_finite(delta) else 0.0
+	# Position must keep pace with the unchanged60Hz rider at lower render
+	# rates. Only orbit/roll/heading use the short anti-stall angular step.
+	var travel_step := clampf(delta, 0.0, 0.25) if is_finite(delta) else 0.0
 	var response := clampf(sensitivity, 0.5, 2.0) if is_finite(sensitivity) else 1.0
 	var speed := clampf(Vector2(_travel_velocity.x, _travel_velocity.z).length(), 0.0, 15.0)
 	var distance := 4.9 if reduced_motion else 4.9 + speed * 0.02
@@ -308,7 +311,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 			# movement cap still admit every intermediate camera position.
 			blend=maxf(blend,1.0-smoothstep(0.20,0.45,_ramp_lift))
 		var direction := old_offset.normalized().slerp(new_offset.normalized(),blend)
-		var radius := lerpf(old_offset.length(),new_offset.length(),blend)
+		var radius := lerpf(old_offset.length(),new_offset.length(),1.0-exp(-follow_rate*response*travel_step))
 		var proposed := anchor+direction*radius
 		resolved = _sweep(space, anchor, proposed)
 		# Check the moving camera volume as well as the final arm. This catches
@@ -320,11 +323,11 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 			# A newly blocked arm can already be too short to show the body. Use
 			# the independently clear orbit endpoint immediately, rather than
 			# easing through first person or through a wall for several frames.
-			resolved = _advance_clear(space, board, anchor, camera.global_position, desired, excluded, MAX_CAMERA_SPEED * step)
+			resolved = _advance_clear(space, board, anchor, camera.global_position, desired, excluded, MAX_CAMERA_SPEED * travel_step)
 		elif not _clear_volume(space, resolved):
 			resolved = desired
-	if _ready and camera.global_position.distance_to(resolved) > MAX_CAMERA_SPEED * step:
-		resolved = _advance_clear(space, board, anchor, camera.global_position, resolved, excluded, MAX_CAMERA_SPEED * step)
+	if _ready and camera.global_position.distance_to(resolved) > MAX_CAMERA_SPEED * travel_step:
+		resolved = _advance_clear(space, board, anchor, camera.global_position, resolved, excluded, MAX_CAMERA_SPEED * travel_step)
 	# Every chosen endpoint has a clear camera volume and body landmarks.
 	camera.global_position = resolved
 	var actual_arm := anchor.distance_to(resolved)

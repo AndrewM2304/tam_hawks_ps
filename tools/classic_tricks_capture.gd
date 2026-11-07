@@ -22,6 +22,7 @@ func _run() -> void:
 		return
 	DirAccess.make_dir_recursive_absolute(OUTPUT)
 	game = Main.new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	root.add_child(game)
 	game.start_mode(true)

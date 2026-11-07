@@ -77,6 +77,7 @@ static func _phase(fixture: Dictionary,data: Dictionary,state: Dictionary,count:
 
 static func _native(tree: SceneTree,check: Callable) -> void:
 	var game:=Main.new()
+	game.level_id = "glasgow_legacy_v1"
 	game.persistence_enabled=false
 	tree.root.add_child(game)
 	var report: Dictionary={"samples":0,"tow_samples":0,"maximum_seam":0.0,"maximum_joint":0.0,"maximum_neck":0.0,"finite":true}

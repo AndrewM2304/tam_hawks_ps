@@ -1,0 +1,1 @@
+Offline derivation assertion failed at after-total comparison. ScoreSession.bank_combo increments total before _clear_combo emits nested continue_combo. This was an observer ordering mistake, not a new native failure. Raw native payloads remain unchanged.

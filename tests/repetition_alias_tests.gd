@@ -19,6 +19,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	var fixture := Node3D.new()
 	tree.root.add_child(fixture)
 	var game := Main.new()
+	game.level_id = "glasgow_legacy_v1"
 	game.persistence_enabled = false
 	game.skater = ReceiptSkater.new()
 	game.encounters = EncounterProbe.new()

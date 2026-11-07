@@ -67,6 +67,7 @@ func _run() -> void:
 	root.size = _size
 	root.content_scale_size = _size
 	game = Main.new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	root.add_child(game)
 	game.apply_settings({"graphics_quality":_quality},false)

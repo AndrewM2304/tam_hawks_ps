@@ -28,7 +28,7 @@ var _badge: Label
 var _badge_extent := Vector2.ZERO
 var _badge_scale := -1.0
 const ACTIONS := ["push","brake","steer_left","steer_right","ollie","flip","grab","grind","manual","revert","spin_left","spin_right"]
-const SOURCES := ["res://project.godot","res://game/main.gd","res://game/core/playtest_recorder.gd","res://game/levels/outdoors/surface_builder.gd","res://game/player/skater.gd","res://game/player/skater_visual.gd","res://game/player/skater_garments.gd","res://game/levels/outdoor_routes.gd","res://game/levels/kelvingrove_skatepark.gd","res://game/levels/sunken_bowl_feature.gd"]
+const SOURCES := ["res://project.godot","res://game/main.gd","res://game/core/playtest_recorder.gd","res://game/levels/merchant_neighbourhood.gd","res://game/levels/merchant_layout.json","res://game/levels/art/merchant_architecture.gd","res://game/levels/art/merchant_surfaces.gd","res://game/levels/art/merchant_surface_zones.json","res://game/art/assets/merchant_pbr/manifest.json","res://game/progression/level_catalog.gd","res://game/progression/level_career_book.gd","res://game/levels/outdoors/surface_builder.gd","res://game/player/skater.gd","res://game/player/skater_visual.gd","res://game/player/skater_garments.gd","res://game/levels/outdoor_routes.gd","res://game/levels/kelvingrove_skatepark.gd","res://game/levels/sunken_bowl_feature.gd"]
 
 func _ready() -> void:
 	layer=100
@@ -99,7 +99,7 @@ func _input(event:InputEvent)->void:
 	if not active or editing or busy:return
 	for action:String in ACTIONS:
 		if event.is_action(action):
-			inputs.append({"milliseconds":Time.get_ticks_msec(),"physics_frame":Engine.get_physics_frames(),
+			inputs.append({"level_id":game.level_id,"milliseconds":Time.get_ticks_msec(),"physics_frame":Engine.get_physics_frames(),
 				"process_frame":Engine.get_process_frames(),"action":action,
 				"pressed":event.is_action_pressed(action),"released":event.is_action_released(action),
 				"event_strength":event.get_action_strength(action),"strength":Input.get_action_strength(action),
@@ -252,7 +252,8 @@ func snapshot(detailed:bool)->Dictionary:
 	var rider:CharacterBody3D=game.skater
 	var camera:Camera3D=rider._camera
 	var ground:float=game.world.get_ground_height(rider.global_position)
-	var state:={"utc":Time.get_datetime_string_from_system(true),"milliseconds":Time.get_ticks_msec(),
+	var state:={"level_id":game.level_id,"level_name":game._level_name,
+		"utc":Time.get_datetime_string_from_system(true),"milliseconds":Time.get_ticks_msec(),
 		"physics_frame":Engine.get_physics_frames(),"process_frame":Engine.get_process_frames(),
 		"last_player_physics_frame":rider.last_physics_frame,
 		"position":vec(rider.global_position),"velocity":vec(rider.velocity),"forward":vec(-rider.global_basis.z),"basis":frame(rider.global_transform),

@@ -1,0 +1,21 @@
+from pathlib import Path
+import datetime,hashlib,json,os,signal,subprocess,time,re
+root=Path.cwd();project=root/'.local/neighbourhood-integration/project';out=root/'.local/neighbourhood-integration/final-import-02';out.mkdir(exist_ok=False)
+def inv():
+ paths=[project/'project.godot',project/'export_presets.cfg',Path(__file__).resolve()]
+ paths += [p for n in ['game','tests','tools']for p in(project/n).rglob('*')if p.is_file()and'__pycache__'not in p.parts]
+ return {str(p.relative_to(root)):{'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'bytes':p.stat().st_size}for p in paths}
+before=inv();(out/'before.json').write_text(json.dumps(before,indent=2)+'\n');env=os.environ.copy()
+for name in ['data','config','cache']:
+ p=out/'xdg'/name;p.mkdir(parents=True);env['XDG_'+name.upper()+'_HOME']=str(p)
+started=datetime.datetime.now(datetime.timezone.utc).isoformat();t=time.monotonic();cmd=['godot','--headless','--audio-driver','Dummy','--path',str(project),'--editor','--import']
+with(out/'native.log').open('w')as stream:
+ p=subprocess.Popen(cmd,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
+ try:code=p.wait(timeout=90)
+ except subprocess.TimeoutExpired:
+  os.killpg(p.pid,signal.SIGTERM)
+  try:p.wait(timeout=2)
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait(timeout=2)
+  code=124
+after=inv();(out/'after.json').write_text(json.dumps(after,indent=2)+'\n');log=(out/'native.log').read_text(errors='replace');errors=[line for line in log.splitlines()if re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:',line)]
+receipt={'started_utc':started,'finished_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'pid':p.pid,'bound_seconds':90,'elapsed_seconds':time.monotonic()-t,'exit_code':code,'errors':errors,'before_inputs':len(before),'after_inputs':len(after),'changed_inputs':[p for p in before.keys()|after.keys()if before.get(p)!=after.get(p)],'scope':'Preparatory private editorimport BEFORE finalsourcefreeze. NewUIDsidecars remainexplicit; not gameplay/Mac/visual acceptance.'};(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));raise SystemExit(0 if code==0 and not errors else 1)

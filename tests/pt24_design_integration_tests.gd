@@ -24,6 +24,7 @@ const FountainOrnament = preload("res://tests/fountain_ornament_tests.gd")
 static func run(tree: SceneTree,check: Callable) -> void:
 	for action: String in InputMap.get_actions(): Input.action_release(action)
 	var game := Main.new()
+	game.level_id = "glasgow_legacy_v1"
 	game.persistence_enabled = false
 	check.call(not game.has_meta("pt24_design_preview"),
 		"PT24 default integration: fixture assigns no content opt-in")

@@ -92,6 +92,7 @@ func _new_game(preview: bool) -> void:
 	paused = false
 	_preview = preview
 	game = Main.new()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	if not _ordinary_trial: game.set_meta("pt24_design_preview", preview)
 	else: _check(not game.has_meta("pt24_design_preview"),"ordinary Main has no assigned design override")

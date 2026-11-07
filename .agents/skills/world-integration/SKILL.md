@@ -43,6 +43,14 @@ an interface; do not build a second movement, score or Music system.
 
 ## Verification
 
+Default-profile fault fixtures must use
+`tools/testing/check_level_book.py`, which creates a separate project with a
+unique application name before engine startup and disables custom user directories.
+The fixture must verify the resolved native `user://` identity before touching
+sentinel files. macOS does not isolate Godot user data through XDG alone. Never
+run the poisoned-default Book fixture directly in the ordinary game project.
+Preserve cancellation controls for both waiting and child-creation boundaries.
+
 Test real transitions: old profile migration without source changes, independent
 level goals/records, global unlock and cosmetic retention, save/reload, invalid
 and future-version refusal, primary/backup recovery and malformed event rejection.
@@ -57,6 +65,13 @@ them. Full existing City Tour regressions stay explicitly scoped to that world;
 the new default receives its own real-play checks rather than false old-map passes.
 
 ## Handoff
+
+Immutable shared geometry descriptors can contain stale copies of another
+owner's proposals. Consume only the geometry owner's canonical world/layout
+entries; resolve Main/HUD/Book against their current owner-qualified sources.
+For example, shared03/03a's old Book67 snapshot is superseded by its companion
+qualification and the corrected late-file guard. Do not overwrite a corrected
+career implementation merely because a complete descriptor contains an older copy.
 
 Provide exact changed files/preimages, public API, versioned schema, migration
 policy, native results, failure cases and remaining integration/hardware gates.

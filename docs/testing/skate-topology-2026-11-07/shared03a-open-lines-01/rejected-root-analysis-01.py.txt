@@ -1,0 +1,58 @@
+from pathlib import Path
+import gzip,hashlib,json,subprocess
+R=Path(__file__).resolve().parents[1];S=R/'.local/skate-topology-review'
+D=R/'docs/testing/skate-topology-2026-11-07/shared03a-open-lines-01';D.mkdir(exist_ok=False)
+def sha(b):return hashlib.sha256(b).hexdigest()
+manifest={}
+for name in ['shared03a-clone-01','shared03a-native-01','shared03a-short-line-01']:
+    for p in sorted((S/name).iterdir()):
+        if not p.is_file():continue
+        dest=D/name/(p.name+'.gz');dest.parent.mkdir(exist_ok=True);b=p.read_bytes();dest.write_bytes(gzip.compress(b,mtime=0))
+        manifest[str(dest.relative_to(D))]={'sha256':sha(dest.read_bytes()),'original_sha256':sha(b),'original_bytes':len(b)}
+raw=json.loads((S/'shared03a-short-line-01/line-result.json').read_text());analysis=[]
+for run in raw['runs']:
+    base=0;multi=0;repeats={};total=0;banks=[];awards=[]
+    for event in run['score_events']:
+        kind=event['kind'];before=event['before'];after=event['after']
+        # The observer emits continue_combo nested inside bank_combo. Its nested
+        # before/after still describes the same live base and multiplier.
+        assert before['base']==base and before['multiplier']==multi,(run['label'],kind)
+        if kind=='add_trick':
+            key=event['identity']or event['label'];count=repeats.get(key,0)
+            award=max(1,int(event['points']/(2**min(count,30))));repeats[key]=count+1
+            assert event['awarded']==award;base+=award;multi+=1;awards.append(award)
+        elif kind=='add_hold_points':
+            assert multi>0 and event['awarded']==event['points'];base+=event['points']
+        elif kind=='bank_combo':
+            value=base*multi;assert event['banked']==value and before['value']==value
+            total+=value;banks.append(value);base=0;multi=0
+        elif kind=='reset':assert total==0 and base==0 and multi==0
+        else:assert kind in ['begin_landing','continue_combo'],kind
+        assert after['base']==base and after['multiplier']==multi and after['total']==total
+    captures=[e for e in run['events']if e['kind']=='capture']
+    assert len(captures)==2 and all(e['native_contact_valid']and e['contact_verified']for e in captures)
+    assert captures[0]['guide']=='Grind_MD_Market_Seats_-19.0'and captures[1]['guide']=='MD_Market_Steps_Handrail'
+    assert not any(t['bail']for t in run['trace'])and banks==[4459]
+    assert any(t['manual']for t in run['trace'])
+    analysis.append({'label':run['label'],'derived_entry_awards':awards,'derived_banks':banks,'hold_points':50,'guides':[e['guide']for e in captures],'trace_rows':len(run['trace']),'returned_line':False,'closed_circuit':False})
+(D/'root-score-derivation.json').write_text(json.dumps({'scope':'Root offline derivation from the specialist-authored immutable event ledgers, not a new native or independent BA run. No source/state writes.','runs':analysis},indent=2)+'\n')
+inputs=json.loads((S/'shared03a-short-line-01/source-before.json').read_text());P=S/'shared03a-project'
+tree={}
+for row in subprocess.check_output(['git','ls-tree','-rz','7737f9e'],cwd=R).split(b'\0'):
+    if row:
+        head,name=row.split(b'\t',1);tree[name.decode()]=head.decode().split()[2]
+objects=D/'source-objects';objects.mkdir();closure={};cache={}
+for name,expected in inputs.items():
+    p=P/name;b=p.read_bytes();assert sha(b)==expected,name
+    if name.startswith('.godot/'):
+        cache[name]={'sha256':expected,'bytes':len(b),'scope':'Historical generated cache hash only; native cache is not committed and cannot be reconstructed byte-for-byte from this packet.'};continue
+    oid=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest();record={'sha256':expected,'bytes':len(b)}
+    if tree.get(name)==oid:record.update(kind='git_blob',oid=oid,base_commit='7737f9e')
+    else:
+        q=objects/(expected+'.gz')
+        if not q.exists():q.write_bytes(gzip.compress(b,mtime=0))
+        record.update(kind='gzip_object',path=str(q.relative_to(D)))
+    closure[name]=record
+for name,data in [('source-closure.json',closure),('generated-cache-scope.json',cache),('payload-manifest.json',manifest)]:
+    (D/name).write_text(json.dumps(data,indent=2)+'\n')
+print(json.dumps({'raw_payloads':len(manifest),'source_files':len(closure),'generated_cache_hashes_only':len(cache),'new_objects':len(list(objects.iterdir())),'derived_banks':[r['derived_banks']for r in analysis]}))

@@ -43,6 +43,7 @@ func _run() -> void:
 	get_tree().root.size = SIZE
 	get_tree().root.content_scale_size = SIZE
 	game = MainScene.instantiate()
+	game.level_id = "glasgow_legacy_v1" # Historical City Tour coordinates/workload.
 	game.persistence_enabled = false
 	add_child(game)
 	await _frames(4)

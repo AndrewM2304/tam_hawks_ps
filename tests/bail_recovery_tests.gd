@@ -20,7 +20,7 @@ class Probe extends Node:
 		if rider.bailing and (phases.is_empty() or phases[-1]!=rider.bail_phase):phases.append(rider.bail_phase)
 static func run(tree:SceneTree,check:Callable)->void:
 	Classic._release()
-	var game=MainScene.instantiate();game.persistence_enabled=false;tree.root.add_child(game)
+	var game=MainScene.instantiate();game.level_id="glasgow_legacy_v1";game.persistence_enabled=false;tree.root.add_child(game)
 	game.start_mode(true);await _frames(tree,60)
 	var bails:Array=[];var ready:Array=[];var awards:Array[String]=[]
 	game.skater.bailed.connect(func():bails.append({'at':game.skater.global_position,'tick':Engine.get_physics_frames()}))

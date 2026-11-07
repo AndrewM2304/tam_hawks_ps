@@ -1,0 +1,34 @@
+extends Node
+const Main = preload("res://game/main.gd")
+var passed := 0
+var failed := 0
+var game: Node
+func check(ok: bool, label: String) -> void:
+    if ok: passed+=1;print("PASS: ",label)
+    else: failed+=1;push_error("FAIL: "+label)
+func frames(n: int) -> void:
+    for i in n: await get_tree().physics_frame;await get_tree().process_frame
+func key(code: Key, down: bool) -> void:
+    var event:=InputEventKey.new();event.keycode=code;event.physical_keycode=code;event.pressed=down
+    Input.parse_input_event(event);Input.flush_buffered_events()
+func tap(code: Key) -> void:
+    key(code,true);await frames(1);key(code,false);await frames(4)
+func _ready() -> void:
+    process_mode=Node.PROCESS_MODE_ALWAYS;run.call_deferred()
+func run() -> void:
+    game=Main.new();game.persistence_enabled=false;game.profile_path="user://merchant-cold-fixture.json";game.legacy_profile_path=""
+    add_child(game);await frames(8)
+    check(game.level_id=="merchant_neighbourhood_v1" and game.world.name=="MerchantDistrict","cold ordinary scene constructs the new default")
+    check(game.paused and game.hud._page=="title" and game.hud.is_menu_ready(),"cold title is ready")
+    check(not game.music._persist and not game.music._can_control,"cold fixture disables personal Music before tree entry")
+    check(game.world.get_node("MerchantArchitecture").report.errors.is_empty(),"cold imported street architecture builds cleanly")
+    check(game.world.get_meta("merchant_surface_report").source_triangles==59920,"cold source resolves exact photographic ground data")
+    await tap(KEY_DOWN);await tap(KEY_ENTER);await frames(30)
+    check(not game.paused and game.free_skate_mode and game.skater.is_on_floor() and not game.skater.bailing,"parsed cold title starts supported Free Skate")
+    var start:Vector3=game.skater.global_position;key(KEY_W,true);await frames(24);key(KEY_W,false)
+    check(game.skater.global_position.distance_to(start)>.1 and not game.skater.bailing,"cold imported rider actually pushes across native paving")
+    check(not FileAccess.file_exists(game.profile_path) and not game.music._can_control,"cold play preserves profile and account isolation")
+    var out:=FileAccess.open(OS.get_cmdline_user_args()[0],FileAccess.WRITE)
+    out.store_string(JSON.stringify({"passed":passed,"failed":failed,"level":game.level_id,"position":game.skater.global_position},"\t")+"\n");out.close()
+    get_tree().paused=false;game.free();await get_tree().process_frame
+    print("MERCHANT_COLD_BOOT: ",passed," passed, ",failed," failed");get_tree().quit(1 if failed else 0)

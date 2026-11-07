@@ -1,6 +1,7 @@
 extends CanvasLayer
 ## Controller-first presentation. Main owns all gameplay, persistence and audio state.
 
+signal level_requested(level_id: String)
 signal restart_requested
 signal debug_requested
 var debug_input_blocked := false
@@ -11,6 +12,8 @@ signal cosmetic_selected(id: String)
 signal start_requested(free_skate: bool)
 signal ui_feedback
 signal music_requested(action: String, value: String)
+
+const LevelCatalog = preload("res://game/progression/level_catalog.gd")
 
 const GraphicsQuality = preload("res://game/core/graphics_quality.gd")
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
@@ -348,6 +351,10 @@ func _detached_display_state(incoming: Dictionary) -> Dictionary:
 	return detached
 
 
+func show_levels() -> void:
+	_open_subpage("levels")
+
+
 func show_title() -> void:
 	_navigation.clear()
 	_show_page("title")
@@ -548,6 +555,7 @@ func _show_page(page: String, focus_token: String = "", scroll_position: int = 0
 	_scroll.add_child(content)
 	match page:
 		"title": _build_title(content)
+		"levels": _build_levels(content)
 		"pause": _build_pause(content, false)
 		"results": _build_pause(content, true)
 		"goals": _build_goals(content)
@@ -573,7 +581,7 @@ func _build_title(content: VBoxContainer) -> void:
 	_modal_title.text = "Your city. Your line."
 	_modal_title.add_theme_font_size_override("font_size", 45)
 	_modal_title.custom_minimum_size.y = 59
-	_modal_details.text = "City terraces. Riverside transfers. Park descents. Find your line."
+	_modal_details.text = str(_state.get("level_name", "Merchant District")) + "  ·  Find your line."
 	var art := PanelContainer.new()
 	var art_style := _style(Color("243e3f"), 10)
 	art_style.content_margin_left = 18
@@ -588,11 +596,27 @@ func _build_title(content: VBoxContainer) -> void:
 	_label(intro, "Link tricks, explore the city and work through ten career goals.", 17, PAPER).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_button(content, "START CAREER RUN", func(): _start_mode(false))
 	_button(content, "FREE SKATE", func(): _start_mode(true))
+	_button(content, "CHOOSE LEVEL", show_levels)
 	_button(content, "SOUNDTRACK", show_soundtrack)
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
 	_button(content, "CONTROLS", func(): _open_subpage("controls"))
 	_button(content, "PLAYTEST RECORDER  ·  2", func(): debug_requested.emit())
 	_label(content, "Play with a controller or keyboard. Your city is ready.", 14, MUTED).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+
+func _build_levels(content: VBoxContainer) -> void:
+	_modal_title.text = "Choose your spot."
+	_modal_details.text = "Goals and records belong to each level. Settings and earned unlocks travel with you."
+	for id: String in LevelCatalog.ids():
+		var definition: Dictionary = LevelCatalog.definition(id)
+		var selected: bool = id == str(_state.get("level_id", "merchant_neighbourhood_v1"))
+		_button(content, str(definition.label) + ("  ·  CURRENT" if selected else ""), _choose_level.bind(id))
+		_label(content, str(definition.get("description", "")), 15, MUTED).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_label(content, "Changing level starts a fresh run.", 14, MUTED)
+
+
+func _choose_level(id: String) -> void:
+	_queue_gameplay_transition("level", false, id)
 
 
 func _build_pause(content: VBoxContainer, finished: bool) -> void:
@@ -611,6 +635,7 @@ func _build_pause(content: VBoxContainer, finished: bool) -> void:
 	_button(content, "SOUNDTRACK", show_soundtrack)
 	_restart = _button(content, "ONE MORE RUN" if finished else "RESTART RUN", _restart_run)
 	if finished: _focus_first = _restart
+	_button(content, "CHOOSE LEVEL", show_levels)
 	_button(content, "CITY MAP & ROUTES", show_map)
 	_button(content, "GOALS & UNLOCKS", toggle_goals)
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
@@ -1026,11 +1051,11 @@ func _start_mode(free: bool) -> void:
 	_queue_gameplay_transition("start", free)
 
 
-func _queue_gameplay_transition(kind: String, free: bool = false) -> void:
+func _queue_gameplay_transition(kind: String, free: bool = false, requested_level: String = "") -> void:
 	if debug_input_blocked or _page.is_empty() or not _pending_gameplay_transition.is_empty(): return
 	_gameplay_transition_serial += 1
 	_pending_gameplay_transition = {"serial": _gameplay_transition_serial, "page": _page,
-		"revision": _page_revision, "kind": kind, "free": free,
+		"revision": _page_revision, "kind": kind, "free": free, "level": requested_level,
 		"input_revision": 0, "settling": false,
 		"paused": bool(_state.get("paused", false)), "finished": bool(_state.get("finished", false))}
 	_arm_gameplay_transition()
@@ -1096,6 +1121,7 @@ func _finish_gameplay_transition(serial: int, input_revision: int) -> void:
 		"restart": restart_requested.emit()
 		"switch": free_skate_requested.emit()
 		"start": start_requested.emit(bool(transition.free))
+		"level": level_requested.emit(str(transition.level))
 
 
 func _hide_modal() -> void:

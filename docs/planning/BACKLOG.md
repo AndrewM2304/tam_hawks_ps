@@ -14,6 +14,15 @@ authorised if demonstrated necessary. Main integration is required. All newer
 receipts remain source-bound; the historical results below do not verify these
 November changes. Final visual/hardware/human acceptance remains open.
 
+The current Merchant default now has the complete required06 gate:6,709/0 game,
+2/0 CLI,65/0 Book,22/0 lifecycle and31/0 parsed-menu checks on941 unchanged
+inputs. Cold source8/0, final static8/0/rendered65/0 and a current two-rail open
+link18/0 have separate source-bound receipts. See [current STATUS](../STATUS.md)
+and [Merchant tickets](MERCHANT-IMPLEMENTATION-TICKETS.md). Zero returned lines/
+circuits, final AAA art/motion and actual M5 performance remain accepted work,
+not passed gates. Specialist usage exhaustion prevents new independent reviews;
+root's available implementation/verification continues.
+
 ---
 
 # Steering and wallride source verified — 28 October 2026

@@ -1,0 +1,50 @@
+extends "res://graphics_base.gd"
+## Final source, then explicitly restored blockout control. Static art only.
+func counters() -> Dictionary:
+	return {"buffer_bytes":Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED),"texture_bytes":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)}
+func _run() -> void:
+	output=OS.get_cmdline_user_args()[0];DirAccess.make_dir_recursive_absolute(output)
+	root.size=_native_size;root.content_scale_size=_native_size
+	RenderingServer.set_render_loop_enabled(false)
+	world=World.new();root.add_child(world);await physics_frame
+	var layer:Node=world.get_node("MerchantArchitecture")
+	_check(layer.report.errors.is_empty(),"final native-bound architecture constructs cleanly")
+	before_native=_native(world)
+	_active_proof_camera=Camera3D.new();_active_proof_camera.near=.1;_active_proof_camera.far=250;_active_proof_camera.fov=70
+	root.add_child(_active_proof_camera);_active_proof_camera.current=true;_create_pixel_proofs()
+	var views:Array[Dictionary]=[
+		{"id":"high_street_west","at":Vector3(-66,12,-42),"to":Vector3(-48,10,-44)},
+		{"id":"market_south","at":Vector3(-14,5.5,20),"to":Vector3(-12,3,44)},
+		{"id":"depot_front","at":Vector3(39,7,-15),"to":Vector3(26,7,-40)},
+		{"id":"foundry_east","at":Vector3(71,7,39),"to":Vector3(56,5,38)},
+		{"id":"foundry_concrete_close","at":Vector3(44,6,53),"to":Vector3(44,1.6,41)}]
+	var readings:Dictionary={}
+	for mode:int in 2:
+		var label:String="final"if mode==0 else"restored-native-masses"
+		if mode==1:
+			for visual:MeshInstance3D in layer._retired_unit_visuals:visual.visible=true
+			layer.free()
+			await process_frame
+		_check(_native(world)==before_native,"restoration preserves all native bodies/shapes/properties "+label)
+		var rows:Array=[]
+		for i:int in views.size():
+			var view:Dictionary=views[i];_active_proof_camera.position=view.at;_active_proof_camera.look_at(view.to)
+			_proof_markers[0].global_position=_active_proof_camera.to_global(Vector3(-2.0+i*.20,1.3,-5))
+			_proof_markers[1].global_position=_active_proof_camera.to_global(Vector3(2.0-i*.10,1.0,-5))
+			_proof_swatch.color=Color8(20+55*mode,35+35*i,190-25*mode)
+			await process_frame;await create_timer(0.0,true).timeout
+			var image:Image=await _render_current_frame();var proof:Dictionary=_verify_pixel_proofs(image)
+			var file_name:String=label+"-"+str(view.id)+".png"
+			var projection:Projection=_active_proof_camera.get_camera_projection()
+			var row:Dictionary={"file":file_name,"mode":label,"view":view.id,"pixels":_store_frame(image,file_name),"proofs":proof,"camera_position":_v(_active_proof_camera.position),"camera_basis":[_v(_active_proof_camera.global_basis.x),_v(_active_proof_camera.global_basis.y),_v(_active_proof_camera.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],"native_counters":counters()}
+			images.append(row);rows.append(row.native_counters)
+		readings[label]=rows
+	var final_values:Dictionary=readings.final[-1]
+	var base_values:Dictionary=readings["restored-native-masses"][-1]
+	var buffer_delta:float=final_values.buffer_bytes-base_values.buffer_bytes
+	var texture_delta:float=final_values.texture_bytes-base_values.texture_bytes
+	_check(buffer_delta<=4*1024*1024,"final architecture stays within4MiB actual native buffer increase")
+	_check(texture_delta==0,"final architecture adds no texture allocation against the same ground/light control")
+	var f:=FileAccess.open(output.path_join("views.json"),FileAccess.WRITE)
+	f.store_string(JSON.stringify({"complete":true,"checks":checks,"failures":failures,"images":images,"buffer_delta_bytes":buffer_delta,"texture_delta_bytes":texture_delta,"native_counters":readings,"scope":"Full06 final production world from by-value copy; then restore retired native mass visuals and free architecture, leaving identical ground/material/light/collisions. Both compositions use five fixed native views and current pixel witnesses. Native API resource delta only; no moving/Main/M5/frame-time/human or final art acceptance."},"\t")+"\n");f.close()
+	print("CURRENT_MERCHANT_VIEWS: ",checks-failures," passed, ",failures," failed");quit(1 if failures else 0)

@@ -10,12 +10,12 @@ own current contracts. These are repository tickets, not published remote issues
 
 | Ticket / priority | Implementation owner | Independent verifier | Current state |
 | --- | --- | --- | --- |
-| MD-101 / P0 — Four adjoining skating spaces | Level designer | Skate topology reviewer / BA | Private revision 02 native 50/0: supported Market and south underpass lanes; unified massing revision 03 underway |
-| MD-102 / P0 — Selected world and compatible progress | Root + world integration engineer | Technical QE | Corrected book native 65/0; lifecycle 20/0, level-aware recorder successor 22/0; parsed keyboard/pad GUI 31/0; separate-app Book launcher and refusal controls pass; actual installation/full regression pending |
-| MD-103 / P0 — Recognisable Glasgow architecture | Environment architect | Technical QE + BA | Cost-bounded six-view prototype captured; appearance still too flat/repetitive; stepped Glasgow massing and ground zoning underway |
-| MD-104 / P0 — Eight returned lines and three circuits | Level designer + combo engineer | Skate topology reviewer / BA | First open grind–Ollie–manual link native 15/0, one 2,000-point bank at each of three offsets; endpoint capture discontinuity open; zero returned lines/circuits accepted |
-| MD-105 / P0 — Believable rider and continuous contact | Rider artist + motion engineer; board artist as needed | Rigging/technical QE + BA | Forward-push film verified technically; knee, arm recovery and ground transitions remain open |
-| MD-106 / P0 — Ordinary launch, cooked delivery and M5 cost | Root + rendering engineer | Technical QE; owner for actual Mac | Source Mac compression fix pushed; new-world packages and target cost unmeasured |
+| MD-101 / P0 — Four adjoining skating spaces | Level designer | Skate topology reviewer / BA | Installed four-space03a default; canonical native50/0 bypass cohort and actual required06 pass; moving grade/whole-map line acceptance remains open |
+| MD-102 / P0 — Selected world and compatible progress | Root + world integration engineer | Technical QE | Actual required06: Book65/0, lifecycle/recorder22/0, parsed keyboard/pad31/0 and full6,709/0; ordinary rendered13/0 and cold8/0; actual Mac save/relaunch unmeasured |
+| MD-103 / P0 — Recognisable Glasgow architecture | Environment architect | Technical QE + BA | Installed stepped sandstone/bays/closes/shops and photographic ground; final static8/0/rendered65/0 within declared geometry/buffer cost; repetitive facades/plain ground/landmarks and independent final review remain open |
+| MD-104 / P0 — Eight returned lines and three circuits | Level designer + combo engineer | Skate topology reviewer / BA | Current two-rail Market open link18/0: one root-derived4,459-point bank per run; capture discontinuity open; zero returned lines/circuits accepted |
+| MD-105 / P0 — Believable rider and continuous contact | Rider artist + motion engineer; board artist as needed | Rigging/technical QE + BA | Forward-push film technically verified; arm carrier installed with independent176/0 and full regression; knee, capture and ground-transition fidelity remain open |
+| MD-106 / P0 — Ordinary launch, cooked delivery and M5 cost | Root + rendering engineer | Technical QE; owner for actual Mac | Current source cold8/0; unsigned Linux/universal-Mac exports and native PCK resource checks pass; ordinary release headless startup passes; rendered title/Free Skate observed but full timing/exit/pushing trial rejected; actual M5 cost/play unmeasured |
 
 ## MD-101 — Build the spaces around the runs
 
