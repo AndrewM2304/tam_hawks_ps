@@ -1,0 +1,9 @@
+# Separate-application Book fixture isolation
+
+The source-identical proposed launcher passes the native Book cohort **65/0** in a fresh application. Independent missing-argument and wrong-application controls both exit **1** at the early guard, before fixture creation. All four sentinel profile files and all pre-bound files remain unchanged in each negative. These runs never use the ordinary game namespace.
+
+The launcher copies only seven GDScript dependencies by value, writes a unique application name and explicit `use_custom_user_dir=false` before starting Godot, and passes that identity as an argument. Before any fixture directory or poisoned profile write, the native script requires the expected prefix, exact application name, noncustom namespace and matching resolved user-data final component. The launcher verifies the emitted native identity. This is an accidental-execution guard, not a security boundary against arbitrary forged launcher arguments.
+
+The [independent review](independent-review.json), [outer receipt](receipt.json), exact source copies and positive/negative logs are preserved. All **17 outer inputs**—eight original files, their copies and the outer wrapper—were bound before and after, unchanged. The public helper remains SHA `7068bfe944175960bca57af9a48928f6dc56d03a91df7d8cb0d8ce424337c71c`; the guarded fixture is `e710e5d81dde6203695ae7715eb4075f9941bd61c4b03afc0be1c78dc4d998cd`; runtime Book remains `4ef227e9…7164c`.
+
+The secondary flock was held for the Linux cohort, 13:38:16.406–13:38:18.136 UTC. Positive native PID137090 ran within the helper's predeclared60-second bound; missing/wrong controls PID137100/137110 each had15-second bounds. Their single expected error and exit1 are retained. No engine remains. Other authorized primary/qualitative jobs may overlap; no exclusivity or performance inference is made. Generated caches are not certified byte-stable. **Real Mac filesystem behaviour remains unmeasured.**

@@ -1,0 +1,7 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: FAIL: every referenced packed position and normal/tangent byte preserved exactly through public buffer updates
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://surface_probe.gd:12)
+       [1] _run (res://surface_probe.gd:58)

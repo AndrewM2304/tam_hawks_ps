@@ -1,0 +1,29 @@
+{
+  "scope": "PRIVATE proposal after the knee-history gate; no implementation or actual source changes yet.",
+  "cost_ceiling": {
+    "new_float_state_properties": 1,
+    "new_gpu_geometry_material_surfaces_textures": 0,
+    "new_physics_queries": 0,
+    "new_per_frame_collections": 0,
+    "work": "one existing exponential presentation blend per animate call"
+  },
+  "preserved_authority": [
+    "distance-matched planted foot phase and clamp0.60",
+    "0.32second foot recovery",
+    "body-facing weights, hip/torso targets and physical path",
+    "fullgrab/handplant end targets and actual shoe/hand contact hulls",
+    "source hand mesh coordinates, UVs and cached GripCurl target"
+  ],
+  "target_evidence": {
+    "case": "immutable current11 actualMain push_from_rest, frames69to70",
+    "phase": [
+      0.372989879510342,
+      0.55499670077593
+    ],
+    "raw_local_hand_z_target_delta_m": -0.17929741817043188,
+    "QA_observed_hand0_relativebody_step_m": 0.193
+  },
+  "candidate_presentation_rate_per_second": 8.0,
+  "provisional_60Hz_max_local_z_step_for_opposite_targets_m": 0.04244107152539786,
+  "validation": "Matched actual ordinaryMain push cycles including loaded-to-recovery boundaries and45release ticks; per-tick native wrist+foot/body matrices, physical path parity, both fullgrab/handplant endpoints; final native observedwristmotion is authoritative. No inference of body/hand smoothness from filtered target math alone."
+}

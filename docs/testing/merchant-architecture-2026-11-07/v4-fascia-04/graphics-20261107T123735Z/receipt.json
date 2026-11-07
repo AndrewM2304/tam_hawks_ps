@@ -1,0 +1,30 @@
+{
+  "events": [
+    {
+      "command": [
+        "./tools/run.sh",
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1280x800",
+        "--script",
+        "probe.gd",
+        "--",
+        "--render-six",
+        "--arch-views=depot_front,depot_underpass"
+      ],
+      "start_utc": "2026-11-07T12:37:35.285854+00:00",
+      "xorg_pid": 132075,
+      "godot_pid": 132079,
+      "exit": 0,
+      "finish_utc": "2026-11-07T12:38:05.380476+00:00"
+    }
+  ],
+  "requested_view_ids": "depot_front,depot_underpass",
+  "finished_utc": "2026-11-07T12:38:05.501894+00:00",
+  "elapsed_seconds": 30.452264029998332,
+  "source_changed": [],
+  "accepted": true,
+  "error": null,
+  "scope": "Private selected-world requested matched cameras, clean+proof perphase. Per-process resource/nativepixel diagnostics; known full04/authorizedMEheadless overlap, no timing/M5/pacing/fullgameplay claim. Two observer-only debug materials/markers retained identically in A/B, excluded from art inventories."
+}

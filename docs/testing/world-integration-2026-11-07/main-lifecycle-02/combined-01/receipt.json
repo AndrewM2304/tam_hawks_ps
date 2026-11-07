@@ -1,0 +1,57 @@
+{
+  "started_utc": "2026-11-07T12:34:38.505803+00:00",
+  "deadline_seconds": 195,
+  "scope": "PRIVATE combined Main/world/Book/HUD/activity lifecycle. Score-consumer fixtures are explicit, not natural trick/closed-line evidence. Current world startup/selection, not final art, Mac, physical controller or frame-time acceptance.",
+  "stages": [
+    {
+      "name": "parser",
+      "pid": 131905,
+      "started_utc": "2026-11-07T12:34:38.506583+00:00",
+      "bound_seconds": 15,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_integration_smoke.gd",
+        "--check-only"
+      ],
+      "exit_code": 0,
+      "raw_errors": [],
+      "finished_utc": "2026-11-07T12:34:40.791545+00:00"
+    },
+    {
+      "name": "native",
+      "pid": 131915,
+      "started_utc": "2026-11-07T12:34:40.792884+00:00",
+      "bound_seconds": 180,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_integration_smoke.gd",
+        "--fixed-fps",
+        "60"
+      ],
+      "exit_code": 0,
+      "raw_errors": [
+        "SCRIPT ERROR: Left operand of 'is' is a previously freed instance.",
+        "SCRIPT ERROR: Left operand of 'is' is a previously freed instance.",
+        "SCRIPT ERROR: Left operand of 'is' is a previously freed instance."
+      ],
+      "finished_utc": "2026-11-07T12:35:02.391502+00:00"
+    }
+  ],
+  "finished_utc": "2026-11-07T12:35:02.768419+00:00",
+  "elapsed_seconds": 24.262620408000657,
+  "source_count": 896,
+  "changed_inputs": [],
+  "eligible": false
+}

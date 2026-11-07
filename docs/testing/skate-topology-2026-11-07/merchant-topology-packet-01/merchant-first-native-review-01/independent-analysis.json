@@ -1,0 +1,284 @@
+{
+  "utc": "2026-11-07T11:57:49.898854+00:00",
+  "role": "Independent topology/BA; author did not implement geometry",
+  "checks": [
+    {
+      "label": "Original native02 rejected26/1 remains unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Native04 separately passes27/0 component/smoke assertions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Native02/04 all192 shared trace records exactly equal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "02 consecutive exact frame coverage",
+      "passed": true,
+      "detail": {
+        "count": 192,
+        "range": [
+          5,
+          196
+        ]
+      }
+    },
+    {
+      "label": "04 consecutive exact frame coverage",
+      "passed": true,
+      "detail": {
+        "count": 197,
+        "range": [
+          5,
+          201
+        ]
+      }
+    },
+    {
+      "label": "Native04 contains exactly one admitted Ollie event84",
+      "passed": true,
+      "detail": [
+        {
+          "base": 100,
+          "id": "ollie",
+          "label": "Ollie",
+          "physics": 84
+        }
+      ]
+    },
+    {
+      "label": "No native04 Ollie input after83",
+      "passed": true,
+      "detail": [
+        {
+          "input": "ollie_press",
+          "physics": 75,
+          "position": "(-14.00006, 4.014208, 26.39959)"
+        },
+        {
+          "input": "ollie_release",
+          "physics": 83,
+          "position": "(-14.00006, 4.014208, 25.03183)"
+        }
+      ]
+    },
+    {
+      "label": "Mapped Ollie truly launches84 and lands117",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Later support-loss episode is separate195\u2192196\u2192201",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "No recorded bail in either trace",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Executed source has original east bank matching witness",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed": 11,
+  "failed": 0,
+  "late_episode": {
+    "physics195": {
+      "airborne": false,
+      "bail": false,
+      "floor": true,
+      "grinding": false,
+      "manual": false,
+      "physics": 195,
+      "position": "(-14.00006, 4.750182, -0.159584)",
+      "velocity": "(0.0, 1.410219, -14.09943)"
+    },
+    "physics196": {
+      "airborne": true,
+      "bail": false,
+      "floor": false,
+      "grinding": false,
+      "manual": false,
+      "physics": 196,
+      "position": "(-14.00006, 4.647438, -0.306082)",
+      "velocity": "(0.0, -6.166913, -8.793161)"
+    },
+    "physics201": {
+      "airborne": false,
+      "bail": false,
+      "floor": true,
+      "grinding": false,
+      "manual": false,
+      "physics": 201,
+      "position": "(-14.00013, 4.005682, -1.039385)",
+      "velocity": "(0.0, 0.0, -8.793161)"
+    },
+    "planar_speed_drop_mps": 5.306269,
+    "vertical_velocity_change_mps": -7.577132,
+    "source_witness": {
+      "bank_bounds_xz": [
+        -14,
+        0,
+        -10,
+        8
+      ],
+      "north_lip_y": 4.8,
+      "outside_north_ground_y": 4,
+      "lateral_gap_to_stair_landing_m": 1,
+      "classification": "True unjoined upper bank/beginner-bypass support discontinuity; clean mapped Ollie is a separate successful84\u2192117 event.201 landing proves later recovery only. Native floor/slide RID/intshape/normal needed for exact velocity-correction attribution."
+    }
+  },
+  "source_arithmetic_only": {
+    "manual_min_speed_mps": 2,
+    "manual_drag_mps2": 0.75,
+    "manual_ranges": [
+      {
+        "entry_speed": 4,
+        "flat_m_to2mps": 8.0,
+        "10percent_uphill_m_to2mps": 4.402238684859298
+      },
+      {
+        "entry_speed": 6,
+        "flat_m_to2mps": 21.333333333333332,
+        "10percent_uphill_m_to2mps": 11.739303159624795
+      },
+      {
+        "entry_speed": 7,
+        "flat_m_to2mps": 30.0,
+        "10percent_uphill_m_to2mps": 16.508395068222367
+      },
+      {
+        "entry_speed": 8,
+        "flat_m_to2mps": 40.0,
+        "10percent_uphill_m_to2mps": 22.01119342429649
+      },
+      {
+        "entry_speed": 9,
+        "flat_m_to2mps": 51.333333333333336,
+        "10percent_uphill_m_to2mps": 28.24769822784716
+      },
+      {
+        "entry_speed": 10,
+        "flat_m_to2mps": 64.0,
+        "10percent_uphill_m_to2mps": 35.21790947887438
+      },
+      {
+        "entry_speed": 12,
+        "flat_m_to2mps": 93.33333333333333,
+        "10percent_uphill_m_to2mps": 51.35945132335848
+      }
+    ],
+    "flat16m_min_entry_speed_mps": 5.291502622129181,
+    "steady_ground_turns": [
+      {
+        "speed": 4,
+        "full_steady_yaw_rate": 2.6399999999999997,
+        "steady_radius_m": 1.5151515151515154,
+        "diameter_plus_capsule_width_m": 3.5903030303030308,
+        "note": "Design arithmetic only; response transient, actual braking, bank, model/camera and native corner checks remain."
+      },
+      {
+        "speed": 6,
+        "full_steady_yaw_rate": 2.56,
+        "steady_radius_m": 2.34375,
+        "diameter_plus_capsule_width_m": 5.2475000000000005,
+        "note": "Design arithmetic only; response transient, actual braking, bank, model/camera and native corner checks remain."
+      },
+      {
+        "speed": 7,
+        "full_steady_yaw_rate": 2.5199999999999996,
+        "steady_radius_m": 2.777777777777778,
+        "diameter_plus_capsule_width_m": 6.115555555555556,
+        "note": "Design arithmetic only; response transient, actual braking, bank, model/camera and native corner checks remain."
+      },
+      {
+        "speed": 8,
+        "full_steady_yaw_rate": 2.48,
+        "steady_radius_m": 3.2258064516129035,
+        "diameter_plus_capsule_width_m": 7.0116129032258065,
+        "note": "Design arithmetic only; response transient, actual braking, bank, model/camera and native corner checks remain."
+      },
+      {
+        "speed": 9,
+        "full_steady_yaw_rate": 2.44,
+        "steady_radius_m": 3.6885245901639343,
+        "diameter_plus_capsule_width_m": 7.937049180327868,
+        "note": "Design arithmetic only; response transient, actual braking, bank, model/camera and native corner checks remain."
+      },
+      {
+        "speed": 10,
+        "full_steady_yaw_rate": 2.4,
+        "steady_radius_m": 4.166666666666667,
+        "diameter_plus_capsule_width_m": 8.893333333333334,
+        "note": "Design arithmetic only; response transient, actual braking, bank, model/camera and native corner checks remain."
+      },
+      {
+        "speed": 12,
+        "full_steady_yaw_rate": 2.32,
+        "steady_radius_m": 5.172413793103448,
+        "diameter_plus_capsule_width_m": 10.904827586206897,
+        "note": "Design arithmetic only; response transient, actual braking, bank, model/camera and native corner checks remain."
+      }
+    ],
+    "macro_loop_closure": [
+      {
+        "id": "ground_street_loop",
+        "start": [
+          -64,
+          12,
+          -56
+        ],
+        "end": [
+          -64,
+          12,
+          -56
+        ],
+        "endpoint_distance_m": 0.0,
+        "geometrically_closed": true,
+        "native_combo_proved": false
+      },
+      {
+        "id": "depot_roof_loop",
+        "start": [
+          -24,
+          8,
+          -38
+        ],
+        "end": [
+          -6,
+          4,
+          10
+        ],
+        "endpoint_distance_m": 51.419840528729765,
+        "geometrically_closed": false,
+        "native_combo_proved": false
+      },
+      {
+        "id": "foundry_market_loop",
+        "start": [
+          -6,
+          4,
+          30
+        ],
+        "end": [
+          -6,
+          4,
+          30
+        ],
+        "endpoint_distance_m": 0.0,
+        "geometrically_closed": true,
+        "native_combo_proved": false
+      }
+    ]
+  },
+  "recommendation": "LD proposes moving optional access to west crosswise bank, joining actual stair upper landing, with original east lane restored to true datum-level4m bypass. Check full middle/lower grade patches, both shoulders, no-jump arrival and high apron. Do not change physics/deadlines or use extended tail to close bypass acceptance.",
+  "scope": "Independent offline source+raw-trace review. No new engine or spatial queries, no actual game/tests/tools/Git writes. Native author counts and budget remain component/smoke results, not full topology, body/board clearance, fun or M5 acceptance."
+}

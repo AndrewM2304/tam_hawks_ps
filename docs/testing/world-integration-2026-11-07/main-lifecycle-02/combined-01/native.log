@@ -1,0 +1,59 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: new Main defaults to Merchant with explicit profile isolation before tree entry
+PASS: default creates exactly one Merchant world without the legacy city
+PASS: actual Main begins the Merchant career domain with ten namespaced goals
+PASS: default scene keeps personal Music and profile writes isolated
+PASS: ordinary Merchant spawn settles on its actual paving without a bail
+PASS: empty activity layout constructs no old cart, gate, lap or cone actors
+PASS: all omitted-activity callbacks and snapshots are safe
+PASS: namespaced objective identity displays the human letter H
+PASS: actual Main bank callback credits only the current Merchant record
+PASS: ordinary HUD opens its level-selection page
+PASS: level callback waits for the existing menu transition boundary
+SCRIPT ERROR: Left operand of 'is' is a previously freed instance.
+          at: _find_skater (res://game/features/activity_actor.gd:152)
+          GDScript backtrace (most recent call first):
+              [0] _find_skater (res://game/features/activity_actor.gd:152)
+              [1] _ready (res://game/features/activity_actor.gd:72)
+              [2] _npc (res://game/levels/city_art.gd:284)
+              [3] dress_world (res://game/levels/city_art.gd:175)
+              [4] _ready (res://game/levels/glasgow_square.gd:115)
+              [5] _construct_level_world (res://game/main.gd:148)
+              [6] change_level (res://game/main.gd:221)
+              [7] _finish_gameplay_transition (res://game/ui/hud.gd:1124)
+              [8] <anonymous lambda> (res://game/ui/hud.gd:1103)
+SCRIPT ERROR: Left operand of 'is' is a previously freed instance.
+          at: _find_skater (res://game/features/activity_actor.gd:152)
+          GDScript backtrace (most recent call first):
+              [0] _find_skater (res://game/features/activity_actor.gd:152)
+              [1] _ready (res://game/features/activity_actor.gd:72)
+              [2] _npc (res://game/levels/city_art.gd:284)
+              [3] dress_world (res://game/levels/city_art.gd:176)
+              [4] _ready (res://game/levels/glasgow_square.gd:115)
+              [5] _construct_level_world (res://game/main.gd:148)
+              [6] change_level (res://game/main.gd:221)
+              [7] _finish_gameplay_transition (res://game/ui/hud.gd:1124)
+              [8] <anonymous lambda> (res://game/ui/hud.gd:1103)
+SCRIPT ERROR: Left operand of 'is' is a previously freed instance.
+          at: _find_skater (res://game/features/activity_actor.gd:152)
+          GDScript backtrace (most recent call first):
+              [0] _find_skater (res://game/features/activity_actor.gd:152)
+              [1] _ready (res://game/features/activity_actor.gd:72)
+              [2] _npc (res://game/levels/city_art.gd:284)
+              [3] dress_world (res://game/levels/city_art.gd:177)
+              [4] _ready (res://game/levels/glasgow_square.gd:115)
+              [5] _construct_level_world (res://game/main.gd:148)
+              [6] change_level (res://game/main.gd:221)
+              [7] _finish_gameplay_transition (res://game/ui/hud.gd:1124)
+              [8] <anonymous lambda> (res://game/ui/hud.gd:1103)
+PASS: HUD selection lazily creates one City Tour world
+PASS: switch releases the previous world and skater instead of hiding them
+PASS: world selection preserves existing Music and audio objects
+PASS: City Tour starts independently while genuine global unlocks and settings travel
+PASS: selected level returns to title with a clean score chain
+PASS: City Tour retains the existing career event semantics
+PASS: switching back restores Merchant progress without borrowing old goal clears
+PASS: returned Merchant skater receives only the current world's grind registry
+PASS: the full lifecycle never writes the isolated or ordinary profile
+NEIGHBOURHOOD RESULT: 20 passed, 0 failed

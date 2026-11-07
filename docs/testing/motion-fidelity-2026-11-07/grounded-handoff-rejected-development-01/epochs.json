@@ -1,0 +1,760 @@
+[
+  {
+    "name": "d022-component-tiny-01",
+    "raw_eligible": null,
+    "result": null,
+    "epochs": [
+      {
+        "label": "parser",
+        "pid": 130800,
+        "start": "2026-11-07T12:20:34.561625+00:00",
+        "end": "2026-11-07T12:20:35.737537+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false
+      },
+      {
+        "label": "native",
+        "pid": 130813,
+        "start": "2026-11-07T12:20:35.737833+00:00",
+        "end": "2026-11-07T12:20:38.884897+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": null
+  },
+  {
+    "name": "d022-component-tiny-02",
+    "raw_eligible": false,
+    "result": null,
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/component_tiny02.gd"
+        ],
+        "start": "2026-11-07T12:24:48.706823+00:00",
+        "cap_seconds": 5,
+        "pid": 131164,
+        "end": "2026-11-07T12:24:49.662742+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/component_tiny02.gd"
+        ],
+        "start": "2026-11-07T12:24:49.662973+00:00",
+        "cap_seconds": 15,
+        "pid": 131177,
+        "end": "2026-11-07T12:24:52.389220+00:00",
+        "exit": -15,
+        "stop": "first raw error",
+        "raw_errors": true,
+        "log_sha256": "c423ab54fd060cdeb802fe3058690b3c3fdefb668853aa0d0df4793c60b7b320"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-component-tiny-03",
+    "raw_eligible": true,
+    "result": {
+      "passed": 1,
+      "failed": 0,
+      "ground_trace_rows": 0
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/component_tiny03.gd"
+        ],
+        "start": "2026-11-07T12:27:48.820616+00:00",
+        "cap_seconds": 5,
+        "pid": 131621,
+        "end": "2026-11-07T12:27:49.879429+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/component_tiny03.gd"
+        ],
+        "start": "2026-11-07T12:27:49.879763+00:00",
+        "cap_seconds": 15,
+        "pid": 131634,
+        "end": "2026-11-07T12:27:52.806924+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "9d4fcd1a83ec978dbbbe9c6e78899f30f7786b6a4c13e6f01ea00cf0196d91f7"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-01",
+    "raw_eligible": true,
+    "result": {
+      "passed": 134,
+      "failed": 0,
+      "ground_trace_rows": 74
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T11:30:35.583578+00:00",
+        "cap_seconds": 15,
+        "pid": 125779,
+        "end": "2026-11-07T11:30:38.355187+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T11:30:38.355471+00:00",
+        "cap_seconds": 105,
+        "pid": 125803,
+        "end": "2026-11-07T11:31:24.550499+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "83cba6e5cd04c7895c877f189bd16227ac9e72d05fdaecd33470aa97182d861b"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-02",
+    "raw_eligible": true,
+    "result": {
+      "passed": 140,
+      "failed": 0,
+      "ground_trace_rows": 83
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T11:46:18.233915+00:00",
+        "cap_seconds": 15,
+        "pid": 127882,
+        "end": "2026-11-07T11:46:21.302644+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T11:46:21.302951+00:00",
+        "cap_seconds": 105,
+        "pid": 127895,
+        "end": "2026-11-07T11:47:08.241176+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a40586313f3715c8bbe9bb7310b87d4cb17629fff669fee1c60d5115b1d2fad6"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-03",
+    "raw_eligible": true,
+    "result": {
+      "passed": 140,
+      "failed": 0,
+      "ground_trace_rows": 94
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T11:54:12.946233+00:00",
+        "cap_seconds": 15,
+        "pid": 128602,
+        "end": "2026-11-07T11:54:16.323556+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T11:54:16.323828+00:00",
+        "cap_seconds": 105,
+        "pid": 128619,
+        "end": "2026-11-07T11:55:08.718947+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "d2b927fdb7c6d5fb0ac2fd6ad07a3e885258aaa67d14e5dec6aa5fe33162b8ba"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-04",
+    "raw_eligible": true,
+    "result": {
+      "passed": 140,
+      "failed": 0,
+      "ground_trace_rows": 97
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T12:12:06.611559+00:00",
+        "cap_seconds": 15,
+        "pid": 130154,
+        "end": "2026-11-07T12:12:10.452199+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T12:12:10.452493+00:00",
+        "cap_seconds": 105,
+        "pid": 130167,
+        "end": "2026-11-07T12:13:14.863327+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "b490cbd8ad5971affdcf08eb2fb70d1256b4440ef70450bcf183bdbe57a5113e"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-05",
+    "raw_eligible": false,
+    "result": null,
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T12:51:00.862944+00:00",
+        "cap_seconds": 15,
+        "pid": 132761,
+        "end": "2026-11-07T12:51:01.733814+00:00",
+        "exit": -15,
+        "stop": "first raw error",
+        "raw_errors": true,
+        "log_sha256": "f11d9860208ea749842a3d7b6dff747c40ac56c852ff7c91c434b9b463f89881"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-06",
+    "raw_eligible": false,
+    "result": {
+      "passed": 146,
+      "failed": 1,
+      "ground_trace_rows": 95
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T12:51:36.449910+00:00",
+        "cap_seconds": 15,
+        "pid": 132836,
+        "end": "2026-11-07T12:51:39.533963+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T12:51:39.535289+00:00",
+        "cap_seconds": 105,
+        "pid": 132849,
+        "end": "2026-11-07T12:52:30.815513+00:00",
+        "exit": 1,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "35ec22fb61e2d5207fc172d3cb31063d490d47251eb645e2004cfcdf617abbb8"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-07",
+    "raw_eligible": false,
+    "result": {
+      "passed": 159,
+      "failed": 1,
+      "ground_trace_rows": 103
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:01:25.353521+00:00",
+        "cap_seconds": 15,
+        "pid": 133459,
+        "end": "2026-11-07T13:01:28.586677+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:01:28.587581+00:00",
+        "cap_seconds": 105,
+        "pid": 133472,
+        "end": "2026-11-07T13:02:20.709884+00:00",
+        "exit": 1,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "b09dc7ea4ab7ae7b8b379749ab46c76ded4015654d05a5bd781f2b7c19615fc7"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-08",
+    "raw_eligible": false,
+    "result": {
+      "passed": 159,
+      "failed": 2,
+      "ground_trace_rows": 142
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:03:53.447763+00:00",
+        "cap_seconds": 15,
+        "pid": 133579,
+        "end": "2026-11-07T13:03:56.113520+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:03:56.113762+00:00",
+        "cap_seconds": 105,
+        "pid": 133592,
+        "end": "2026-11-07T13:04:48.227356+00:00",
+        "exit": 1,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "0280705cdab12cd151133af4e610beb1b5cc235937940b0d987e05a1f0c879cf"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-09",
+    "raw_eligible": false,
+    "result": {
+      "passed": 159,
+      "failed": 2,
+      "ground_trace_rows": 144
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:07:26.223888+00:00",
+        "cap_seconds": 15,
+        "pid": 134041,
+        "end": "2026-11-07T13:07:28.820252+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:07:28.820489+00:00",
+        "cap_seconds": 105,
+        "pid": 134054,
+        "end": "2026-11-07T13:08:17.197559+00:00",
+        "exit": 1,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "26022a32444f84ab65c1cb8502e49ab331e3f00f704f3e9fe0171151c86cd077"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-10",
+    "raw_eligible": false,
+    "result": {
+      "passed": 164,
+      "failed": 3,
+      "ground_trace_rows": 147
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:10:58.384611+00:00",
+        "cap_seconds": 15,
+        "pid": 134212,
+        "end": "2026-11-07T13:11:01.664075+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:11:01.664854+00:00",
+        "cap_seconds": 105,
+        "pid": 134225,
+        "end": "2026-11-07T13:11:50.640450+00:00",
+        "exit": 1,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "7094b1f8705629ff1ee380b82b34caaa75f45739b401e91e9e8e55f307d32b01"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-ground-11",
+    "raw_eligible": false,
+    "result": {
+      "passed": 166,
+      "failed": 5,
+      "ground_trace_rows": 147
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:20:35.428020+00:00",
+        "cap_seconds": 15,
+        "pid": 135393,
+        "end": "2026-11-07T13:20:38.098467+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/probe.gd"
+        ],
+        "start": "2026-11-07T13:20:38.099596+00:00",
+        "cap_seconds": 105,
+        "pid": 135433,
+        "end": "2026-11-07T13:21:35.747618+00:00",
+        "exit": 1,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "30fe9f736962181e488d20c86498c1f6ea8ab8b9ac6e5ccaa8c33d637a0e6a05"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-sweep-tiny-12",
+    "raw_eligible": false,
+    "result": {
+      "passed": 9,
+      "failed": 2,
+      "ground_trace_rows": 0
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/sweep_tiny12.gd"
+        ],
+        "start": "2026-11-07T13:32:46.018282+00:00",
+        "cap_seconds": 5,
+        "pid": 136296,
+        "end": "2026-11-07T13:32:48.540003+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/sweep_tiny12.gd"
+        ],
+        "start": "2026-11-07T13:32:48.540393+00:00",
+        "cap_seconds": 25,
+        "pid": 136309,
+        "end": "2026-11-07T13:33:02.441390+00:00",
+        "exit": -15,
+        "stop": "first raw error",
+        "raw_errors": true,
+        "log_sha256": "df0a3a963c0cacfcd5db3a79af38e1150bab9fdf6f09d522f306143a2655479e"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-sweep-tiny-13",
+    "raw_eligible": false,
+    "result": {
+      "passed": 9,
+      "failed": 2,
+      "ground_trace_rows": 0
+    },
+    "epochs": [
+      {
+        "label": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/sweep_tiny13.gd"
+        ],
+        "start": "2026-11-07T13:34:57.565964+00:00",
+        "cap_seconds": 5,
+        "pid": 136570,
+        "end": "2026-11-07T13:34:59.837088+00:00",
+        "exit": 0,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+      },
+      {
+        "label": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/.local/d022-ground-source/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/sweep_tiny13.gd"
+        ],
+        "start": "2026-11-07T13:34:59.837392+00:00",
+        "cap_seconds": 25,
+        "pid": 136583,
+        "end": "2026-11-07T13:35:14.239463+00:00",
+        "exit": 1,
+        "stop": null,
+        "raw_errors": false,
+        "log_sha256": "818f11dd54a87be8fca40d6e294f52665d17780361c80a4e1e2f524d739020de"
+      }
+    ],
+    "source_stable": true,
+    "cache_stable": true
+  },
+  {
+    "name": "d022-union-proof-02",
+    "raw_eligible": null,
+    "result": null,
+    "epochs": null,
+    "source_stable": null,
+    "cache_stable": null
+  }
+]

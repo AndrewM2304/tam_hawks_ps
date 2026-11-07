@@ -1,0 +1,117 @@
+extends SceneTree
+## PRIVATE immutable-Main capture timing diagnostic. Original open-link epoch is retained separately.
+const Main=preload("res://game/main.gd")
+const InputSetup=preload("res://game/core/input_setup.gd")
+const ScoreObserver=preload("/workspace/tam_hawks_ps/.local/skate-topology-review/main_score_observer.gd")
+const GapObserver=preload("/workspace/tam_hawks_ps/.local/skate-topology-review/main_gap_observer.gd")
+var passes:=0
+var failures:Array=[]
+var runs:Array=[]
+var game:Node
+var score_probe:RefCounted
+var gap_probe:RefCounted
+var label:=""
+var stage:=""
+var rows:Array=[]
+var events:Array=[]
+var _prior_frame:=-1
+
+class Recorder extends Node:
+ var owner_tree
+ func _physics_process(_dt:float)->void:owner_tree.observe()
+
+func _initialize()->void:run.call_deferred()
+func check(ok:bool,message:String,details:Dictionary={})->void:
+ if ok:passes+=1
+ else:failures.append(message)
+ print("PASS: "if ok else"FAIL: ",message," ",JSON.stringify(encode(details)))
+func encode(v:Variant)->Variant:
+ if v is Vector3:return [v.x,v.y,v.z]
+ if v is RID:return v.get_id()
+ if v is NodePath:return str(v)
+ if v is Basis:return [encode(v.x),encode(v.y),encode(v.z)]
+ if v is Transform3D:return {"origin":encode(v.origin),"basis":encode(v.basis)}
+ if v is Array:
+  var a:Array=[]
+  for x:Variant in v:a.append(encode(x))
+  return a
+ if v is Dictionary:
+  var d:Dictionary={}
+  for k:Variant in v:d[str(k)]=encode(v[k])
+  return d
+ return v
+func release()->void:
+ for key:String in ["push","brake","steer_left","steer_right","ollie","grind","manual","flip","grab","spin_left","spin_right","revert"]:Input.action_release(key)
+func observe()->void:
+ if not is_instance_valid(game)or Engine.get_physics_frames()==_prior_frame:return
+ _prior_frame=Engine.get_physics_frames()
+ var rider:CharacterBody3D=game.skater
+ var line:Variant=rider._grind.line if rider.grinding else null
+ var contacts:Array=[]
+ for i:int in rider.get_slide_collision_count():
+  var c:KinematicCollision3D=rider.get_slide_collision(i)
+  var collider:Variant=c.get_collider()
+  contacts.append({"rid":c.get_collider_rid().get_id(),"shape":c.get_collider_shape_index(),"owner":str(collider.get_path())if collider is Node else str(collider),"position":c.get_position(),"normal":c.get_normal(),"depth":c.get_depth()})
+ rows.append({"run":label,"stage":stage,"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames(),"position":rider.global_position,"velocity":rider.velocity,"speed":rider.speed,"airborne":rider.airborne,"floor":rider.is_on_floor(),"manual":rider.manual_active,"manual_balance":rider.manual_balance,"grinding":rider.grinding,"guide":str(line.id)if line!=null else"","style":rider.grind_style_id,"bail":rider.bail_active,"bail_reason":rider.bail_reason,"capture_rejection":rider._grind_clearance.last_rejection,"capture_obstruction":rider._grind_clearance.last_obstruction.duplicate(true),"contacts":contacts,"head":rider._visual_rig._head.global_position,"visual":rider._visual.global_transform,"grind_visual_offset":rider._grind_visual_offset,"native_contact_valid":rider._grind_contact.valid,"grind_distance":rider._grind.distance if rider.grinding else -1.0,"board":rider._board_visual.global_transform,"total":game.score.total_score,"combo":game.score.get_combo_value(),"base":game.score.combo_base,"multiplier":game.score.combo_multiplier,"pending":game.score.pending_landing,"landing_remaining":game.score.landing_remaining,"push":Input.get_action_strength("push"),"brake":Input.get_action_strength("brake"),"ollie":Input.is_action_pressed("ollie"),"grind":Input.is_action_pressed("grind"),"manual_input":Input.is_action_pressed("manual")})
+func captured(id:String)->void:
+ var r:CharacterBody3D=game.skater
+ var owners:Array=[]
+ for native_rid:RID in r._grind.line.native_support_rids:owners.append(native_rid.get_id())
+ events.append({"run":label,"kind":"capture","physics":Engine.get_physics_frames(),"guide":id,"style":r.grind_style_id,"position":r.global_position,"owners":owners,"contact_verified":r._grind.line.contact_verified,"edge":r._grind.line.contact_edge_outward,"native_contact_valid":r._grind_contact.valid})
+func trick(name:String,points:int)->void:events.append({"run":label,"kind":"trick","physics":Engine.get_physics_frames(),"name":name,"id":game.skater.last_trick_id,"points":points})
+func bailed()->void:events.append({"run":label,"kind":"bail","physics":Engine.get_physics_frames(),"reason":game.skater.bail_reason})
+func frames(count:int,phase:String)->void:
+ stage=phase
+ for i:int in count:await physics_frame;await process_frame
+func run()->void:
+ InputSetup.register_actions()
+ for mode:String in ["baseline","interior_rising","interior_descending","grounded_no_ollie"]:await capture_case(mode)
+ var out:=FileAccess.open(OS.get_environment("TOPOLOGY_OUTPUT"),FileAccess.WRITE)
+ if out==null:push_error("Cannot write capture timing receipt");quit(2);return
+ out.store_string(JSON.stringify(encode({"passed":passes,"failed":failures.size(),"failures":failures,"runs":runs,"scope":"Private real Main native capture timing diagnostic; same initial spawn/heading and ordinary inputs, no actor writes after initial fixture. Original genuine entry Ollie baseline vs delayed interior rising/descending held Grind; grounded no-Ollie refusal control. Observer queries/draws0. No route/combo/fidelity/performance acceptance."}),"\t",true,true)+"\n");out.close()
+ print("CAPTURE_TIMING_RESULT: ",passes," passed, ",failures.size()," failed")
+ quit(0 if failures.is_empty()else 1)
+func capture_case(mode:String)->void:
+ release();rows=[];events=[];_prior_frame=-1
+ label="market_seats_"+mode
+ game=Main.new();game.persistence_enabled=false;game.profile_path="user://no-capture-timing-save.json";game.legacy_profile_path=""
+ score_probe=ScoreObserver.new();score_probe.run_label=label;game.score=score_probe
+ gap_probe=GapObserver.new();gap_probe.run_label=label;game.gaps=gap_probe
+ check(not game.persistence_enabled,"before-tree profile isolation "+label)
+ root.add_child(game)
+ check(game.level_id=="merchant_neighbourhood_v1"and not game.music._persist and not game.music._can_control,"real Main selects Merchant and keeps Music inert "+label)
+ # Exactly original first fixture; no assignment to actor state after this line.
+ game.skater.spawn_position=Vector3(-18.7,4.08,36)
+ game.start_mode(true);game.skater.rotation.y=0.0
+ game.skater.grind_captured.connect(captured);game.skater.trick_performed.connect(trick);game.skater.bailed.connect(bailed)
+ var recorder:=Recorder.new();recorder.owner_tree=self;recorder.process_physics_priority=10000;game.add_child(recorder)
+ await frames(10,"settle")
+ Input.action_press("push");await frames(48,"mapped_approach")
+ if mode!="grounded_no_ollie":Input.action_press("ollie")
+ await frames(16,"charge_onto_ledge"if mode!="grounded_no_ollie"else"grounded_same_timing")
+ Input.action_release("push");Input.action_release("ollie")
+ var requested:=false
+ var request:Dictionary={}
+ var caught:=false
+ for i:int in 110:
+  var r:CharacterBody3D=game.skater
+  var eligible:bool=mode in ["baseline","grounded_no_ollie"]
+  if mode=="interior_rising":eligible=r.airborne and r.velocity.y>0 and r.global_position.z<=28.4 and r.global_position.z>=20.0
+  if mode=="interior_descending":eligible=r.airborne and r.velocity.y<0 and r.global_position.y<=5.015 and r.global_position.z<=28.4 and r.global_position.z>=20.0
+  if not requested and eligible:
+   request={"physics":Engine.get_physics_frames(),"position":r.global_position,"velocity":r.velocity,"airborne":r.airborne,"floor":r.is_on_floor()}
+   Input.action_press("grind");requested=true
+  await frames(1,"ordinary_capture_request"if requested else"waiting_for_authored_interior")
+  if r.grinding:caught=true;break
+  if r.bail_active:break
+ var named:bool=caught and str(game.skater._grind.line.id)=="Grind_MD_Market_Seats_-19.0" and game.skater.grind_style_id=="grind_50_50"
+ if caught:await frames(12,"native_capture_followthrough")
+ var ollies:int=0
+ for e:Dictionary in events:
+  if e.kind=="trick"and e.id=="ollie":ollies+=1
+ if mode=="grounded_no_ollie":
+  check(requested and not caught and ollies==0 and not game.skater.bail_active,"grounded no-Ollie request refuses finite ledge "+label,{"caught":caught,"ollies":ollies,"rejection":game.skater._grind_clearance.last_rejection})
+ else:
+  check(requested and named and ollies==1 and not game.skater.bail_active,"genuine Ollie named native capture "+label,{"requested":requested,"caught":caught,"named":named,"ollies":ollies,"request":request})
+ runs.append({"label":label,"mode":mode,"initial_spawn":Vector3(-18.7,4.08,36),"initial_heading":0.0,"initial_only_fixture":true,"request":request,"requested":requested,"named_capture":named,"events":events,"trace":rows,"score_events":score_probe.events,"gap_updates":gap_probe.rows,"end_position":game.skater.global_position,"scope":"Capture timing diagnostic only; no completed combo or route acceptance"})
+ release();game.queue_free();await process_frame;await physics_frame

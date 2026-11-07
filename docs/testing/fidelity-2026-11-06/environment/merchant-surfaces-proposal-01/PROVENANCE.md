@@ -1,0 +1,20 @@
+# Private Merchant District material proposal
+
+No actual game/import/cache/licence files are changed by this proposal. Runtime photography comes from two inspected Poly Haven assets under its CC0 policy: <https://polyhaven.com/license>. Public-domain terms: <https://creativecommons.org/publicdomain/zero/1.0/>. The photographs are generic material sources, not claimed photographs of Glasgow.
+
+| Source | Creator | Published physical width | Proposed use |
+| --- | --- | --- | --- |
+| [Concrete Floor Worn001](https://polyhaven.com/a/concrete_floor_worn_001) | Dimitrios Savva, photography; Rico Cilliers, processing | API/page3000mm (other axis3000.000238mm), nominal3m | Smooth cast skate concrete and industrial slabs; no paving joints on curves |
+| [Granite Tile](https://polyhaven.com/a/granite_tile) | Charlotte Baglioni | API/page2299.999952mm, nominal2.3m | Quiet civic granite flags, roughly575mm per visible flag |
+
+Official pages, files/info API responses, licence HTML and deterministic thumbnail inspection sheets are retained under research/. Eleven source candidates were inspected; coarse aggregate, strong checkerboards, interlocking pavers and red slate were rejected for this task. Six retained original provider JPEGs are pinned by SHA256, providerMD5, byte size and source dimensions in project/game/art/assets/merchant_pbr/manifest.json. Source pixels are unmodified; import compression/resizing changes decoded runtime pixels.
+
+The private fetcher reuses the existing admitted Mac-compatible import writer. It retains2K albedo,1K OpenGL normals and1K packed AO/roughness, full mip chains, anisotropic filtering, normal-map enabled only for normals, high-quality compression false, S3TC/BC5 desktop targets and ETC2 mobile targets. Albedo is source_colour/sRGB; normal and ARM are linear. A trapped verify-only execution rejects network and file writes and passes all6 exact source maps/schema/import contracts.
+
+The existing ZC mineral-concrete source is a coarse aggregate texture; new-world curved features instead currently use256px procedural NoiseTexture. Neither should substitute for smooth poured concrete merely because resident. The new concrete photography is a smoother cast floor with fine wear/scuffs; photographic granite distinguishes Market Cross from existing small worn footway setts. Existing practical asphalt remains only road corridors. No displacement or texture-derived height changes are used.
+
+Before acquisition, the declared maximum new texture payload was9,786,816B (two2K/1K/1K sets). Separate fresh GL allocation measured exactly9,786,816B with8draws/96primitives unchanged, giving29,273,123B/27.917026MiB cumulative added over the admitted retired-map control, below32MiB. This is Linux Compatibility native allocation, not M5 performance. Native source readbacks are4DXT1+2RGTC_RG with11/10 mip levels and exact payload hashes. Benchmark scales are concrete683/341texels per metre (albedo/normal), granite890/445.
+
+The standalone surface helper classifies the original terrain triangles using runtime street corridor points/widths and a data file for the Market/depot masks. It deduplicates only referenced vertices per zone. It derives the original terrain factory's normal inputs from unchanged float32 grid heights so the server can pack them once, then verifies every native position/normal/tangent/UV byte before assigning the new mesh. Canonical03a passes24/0, including all59,920 triangle IDs/winding, unchanged collision/guide/support-RID data and exact restoration. Its ground buffer payload decreases9,212B; four opaque surfaces add at most three ground draws. Earlier parser and packed-normal failures remain rejected.
+
+Material masks retain the native1m triangulation. Their diagonal boundary fidelity needs actual camera review; no extra geometric kerb or coplanar overlay is added. Final style/lighting/moving/M5 admission remains open until the same shared03a plus ARv5 is rendered and independently reviewed. The lighting control changes only existing sun energy1.3→.86 and ambient energy.5→.36 before any material tint compensation; no new lights are added.

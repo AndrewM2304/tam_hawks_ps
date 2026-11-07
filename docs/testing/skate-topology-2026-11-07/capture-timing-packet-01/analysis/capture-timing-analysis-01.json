@@ -1,0 +1,1418 @@
+{
+  "scope": "Natural mapped-input capture diagnosis, no controller/geometry/score changes or fidelity/route acceptance.",
+  "source_inputs": {
+    "original_count": 1187,
+    "current_count": 1188,
+    "added_uninvoked_root_fixture": {
+      "tests/neighbourhood_level_input_probe.gd": "96bb41d3e550d077fd130af77ca8af7373a9258ae1f608c1cb24fd21047acb3d"
+    },
+    "old_inputs_changed": []
+  },
+  "offline_review": {
+    "passed": 24,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "original native result12/0",
+        "passed": true
+      },
+      {
+        "name": "all source/cache/actual/observer manifests stable",
+        "passed": true
+      },
+      {
+        "name": "parser/native clean exit0",
+        "passed": true
+      },
+      {
+        "name": "all original1187 project inputs unchanged",
+        "passed": true
+      },
+      {
+        "name": "only addition is Root's uninvoked input probe",
+        "passed": true
+      },
+      {
+        "name": "original baseline first91 physics/state/presentation/input/score samples exact",
+        "passed": true
+      },
+      {
+        "name": "baseline: consecutive recorded physics",
+        "passed": true
+      },
+      {
+        "name": "baseline: fixed original native initial fixture",
+        "passed": true
+      },
+      {
+        "name": "baseline: exactly one authenticated intended named50_50 capture",
+        "passed": true
+      },
+      {
+        "name": "baseline: actual airborne pre-entry with realOllie",
+        "passed": true
+      },
+      {
+        "name": "interior_rising: consecutive recorded physics",
+        "passed": true
+      },
+      {
+        "name": "interior_rising: fixed original native initial fixture",
+        "passed": true
+      },
+      {
+        "name": "interior_rising: exactly one authenticated intended named50_50 capture",
+        "passed": true
+      },
+      {
+        "name": "interior_rising: actual airborne pre-entry with realOllie",
+        "passed": true
+      },
+      {
+        "name": "rising point lies strictly inside finiteguide",
+        "passed": true
+      },
+      {
+        "name": "interior_descending: consecutive recorded physics",
+        "passed": true
+      },
+      {
+        "name": "interior_descending: fixed original native initial fixture",
+        "passed": true
+      },
+      {
+        "name": "interior_descending: exactly one authenticated intended named50_50 capture",
+        "passed": true
+      },
+      {
+        "name": "interior_descending: actual airborne pre-entry with realOllie",
+        "passed": true
+      },
+      {
+        "name": "descending point lies strictly inside finiteguide",
+        "passed": true
+      },
+      {
+        "name": "grounded_no_ollie: consecutive recorded physics",
+        "passed": true
+      },
+      {
+        "name": "grounded_no_ollie: fixed original native initial fixture",
+        "passed": true
+      },
+      {
+        "name": "grounded ordinary request refuses withoutOllie",
+        "passed": true
+      },
+      {
+        "name": "grounded actual request-to-end remains supported/no bail",
+        "passed": true
+      }
+    ]
+  },
+  "baseline_parity": {
+    "rows": 91,
+    "keys": [
+      "physics",
+      "position",
+      "velocity",
+      "speed",
+      "airborne",
+      "floor",
+      "manual",
+      "manual_balance",
+      "grinding",
+      "guide",
+      "style",
+      "bail",
+      "head",
+      "board",
+      "push",
+      "brake",
+      "ollie",
+      "grind",
+      "manual_input",
+      "total",
+      "base",
+      "multiplier",
+      "pending",
+      "landing_remaining"
+    ],
+    "differences": []
+  },
+  "runs": [
+    {
+      "label": "market_seats_baseline",
+      "mode": "baseline",
+      "initial_spawn": [
+        -18.700000762939453,
+        4.079999923706055,
+        36.0
+      ],
+      "initial_heading": 0.0,
+      "initial_only_fixture": true,
+      "request": {
+        "airborne": false,
+        "floor": true,
+        "physics": 75,
+        "position": [
+          -18.700000762939453,
+          4.013708114624023,
+          30.206899642944336
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          -10.680009841918945
+        ]
+      },
+      "named_capture": true,
+      "frame_range": [
+        2,
+        92
+      ],
+      "recorded_frames": 91,
+      "capture_count": 1,
+      "captures": [
+        {
+          "contact_verified": true,
+          "edge": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "kind": "capture",
+          "native_contact_valid": true,
+          "owners": [
+            1413044240441
+          ],
+          "physics": 80,
+          "position": [
+            -19.0,
+            4.464999675750732,
+            28.700000762939453
+          ],
+          "run": "market_seats_baseline",
+          "style": "grind_50_50"
+        }
+      ],
+      "capture_measurement": {
+        "physics": [
+          79,
+          80
+        ],
+        "body_displacement_m": 0.8527730526938329,
+        "body_delta": [
+          -0.2999992370605469,
+          -0.012967586517333984,
+          -0.79815673828125
+        ],
+        "head_world_displacement_m": 1.0826171044232005,
+        "head_relative_to_body_displacement_m": 0.39743784216438144,
+        "board_world_displacement_m": 1.0916784028588862,
+        "airborne_before": true,
+        "floor_before": false,
+        "vertical_velocity_before": 6.361512184143066,
+        "finite_guide_distance_after": 9.400001525878906,
+        "body_y_correction_m": -0.012967586517333984,
+        "body_x_correction_m": -0.2999992370605469,
+        "body_z_correction_m": -0.79815673828125,
+        "basis": "Actual consecutive native after-physics values, dt1/60. Marker changes are not interpolated render/pixel measurements. Body and relative-head are separate vectors, not additive scalar distances."
+      },
+      "before_capture_after_native_witness": [
+        {
+          "physics": 79,
+          "stage": "ordinary_capture_request",
+          "position": [
+            -18.700000762939453,
+            4.477967262268066,
+            29.498157501220703
+          ],
+          "velocity": [
+            0.0,
+            6.361512184143066,
+            -10.627789497375488
+          ],
+          "airborne": true,
+          "floor": false,
+          "grinding": false,
+          "guide": "",
+          "style": "",
+          "head": [
+            -18.47365951538086,
+            5.959641456604004,
+            29.386398315429688
+          ],
+          "board": {
+            "basis": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.938736081123352,
+                0.34463679790496826
+              ],
+              [
+                0.0,
+                -0.34463679790496826,
+                0.938736081123352
+              ]
+            ],
+            "origin": [
+              -18.700000762939453,
+              4.597967147827148,
+              29.498157501220703
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.700000762939453,
+              4.477967262268066,
+              29.498157501220703
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": false,
+          "grind_distance": -1.0,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 80,
+          "stage": "ordinary_capture_request",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            28.700000762939453
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.627789497375488
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.574310302734375,
+            5.711503028869629,
+            28.337419509887695
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              28.44499969482422
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              28.44499969482422
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 9.400001525878906,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 81,
+          "stage": "native_capture_followthrough",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            28.522953033447266
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.617789268493652
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.578693389892578,
+            5.66990852355957,
+            28.340534210205078
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              28.44499969482422
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              28.44499969482422
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 9.222955034255982,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 82,
+          "stage": "native_capture_followthrough",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            28.346073150634766
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.607789039611816
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.58195686340332,
+            5.640414714813232,
+            28.24421501159668
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              28.346073150634766
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              28.346073150634766
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 9.046075209299724,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        }
+      ]
+    },
+    {
+      "label": "market_seats_interior_rising",
+      "mode": "interior_rising",
+      "initial_spawn": [
+        -18.700000762939453,
+        4.079999923706055,
+        36.0
+      ],
+      "initial_heading": 0.0,
+      "initial_only_fixture": true,
+      "request": {
+        "airborne": true,
+        "floor": false,
+        "physics": 179,
+        "position": [
+          -18.700000762939453,
+          5.033477306365967,
+          28.258249282836914
+        ],
+        "velocity": [
+          0.0,
+          3.561511516571045,
+          -10.627789497375488
+        ]
+      },
+      "named_capture": true,
+      "frame_range": [
+        94,
+        192
+      ],
+      "recorded_frames": 99,
+      "capture_count": 1,
+      "captures": [
+        {
+          "contact_verified": true,
+          "edge": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "kind": "capture",
+          "native_contact_valid": true,
+          "owners": [
+            9002251452473
+          ],
+          "physics": 180,
+          "position": [
+            -19.0,
+            4.464999675750732,
+            28.258249282836914
+          ],
+          "run": "market_seats_interior_rising",
+          "style": "grind_50_50"
+        }
+      ],
+      "capture_measurement": {
+        "physics": [
+          179,
+          180
+        ],
+        "body_displacement_m": 0.6427801791801152,
+        "body_delta": [
+          -0.2999992370605469,
+          -0.5684776306152344,
+          0.0
+        ],
+        "head_world_displacement_m": 0.7893291512048777,
+        "head_relative_to_body_displacement_m": 0.29916311468719753,
+        "board_world_displacement_m": 0.6652934554420414,
+        "airborne_before": true,
+        "floor_before": false,
+        "vertical_velocity_before": 3.561511516571045,
+        "finite_guide_distance_after": 8.958250045776367,
+        "body_y_correction_m": -0.5684776306152344,
+        "body_x_correction_m": -0.2999992370605469,
+        "body_z_correction_m": 0.0,
+        "basis": "Actual consecutive native after-physics values, dt1/60. Marker changes are not interpolated render/pixel measurements. Body and relative-head are separate vectors, not additive scalar distances."
+      },
+      "before_capture_after_native_witness": [
+        {
+          "physics": 179,
+          "stage": "waiting_for_authored_interior",
+          "position": [
+            -18.700000762939453,
+            5.033477306365967,
+            28.258249282836914
+          ],
+          "velocity": [
+            0.0,
+            3.561511516571045,
+            -10.627789497375488
+          ],
+          "airborne": true,
+          "floor": false,
+          "grinding": false,
+          "guide": "",
+          "style": "",
+          "head": [
+            -18.513093948364258,
+            6.490591049194336,
+            28.16168975830078
+          ],
+          "board": {
+            "basis": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.9882172346115112,
+                0.1530577391386032
+              ],
+              [
+                0.0,
+                -0.1530577391386032,
+                0.9882172346115112
+              ]
+            ],
+            "origin": [
+              -18.700000762939453,
+              5.153477191925049,
+              28.258249282836914
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.700000762939453,
+              5.033477306365967,
+              28.258249282836914
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": false,
+          "grind_distance": -1.0,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 180,
+          "stage": "ordinary_capture_request",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            28.258249282836914
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.627789497375488
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.60550880432129,
+            5.706690788269043,
+            28.162309646606445
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              28.258249282836914
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              28.258249282836914
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 8.958250045776367,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 181,
+          "stage": "native_capture_followthrough",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            28.08120346069336
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.617789268493652
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.603166580200195,
+            5.665695667266846,
+            27.986051559448242
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              28.08120346069336
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              28.08120346069336
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 8.781203554153443,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 182,
+          "stage": "native_capture_followthrough",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            27.90432357788086
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.607789039611816
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.60120964050293,
+            5.636656761169434,
+            27.809900283813477
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              27.90432357788086
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              27.90432357788086
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 8.604323729197185,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        }
+      ]
+    },
+    {
+      "label": "market_seats_interior_descending",
+      "mode": "interior_descending",
+      "initial_spawn": [
+        -18.700000762939453,
+        4.079999923706055,
+        36.0
+      ],
+      "initial_heading": 0.0,
+      "initial_only_fixture": true,
+      "request": {
+        "airborne": true,
+        "floor": false,
+        "physics": 297,
+        "position": [
+          -18.700000762939453,
+          4.961933135986328,
+          25.069913864135742
+        ],
+        "velocity": [
+          0.0,
+          -3.638489007949829,
+          -10.627789497375488
+        ]
+      },
+      "named_capture": true,
+      "frame_range": [
+        194,
+        310
+      ],
+      "recorded_frames": 117,
+      "capture_count": 1,
+      "captures": [
+        {
+          "contact_verified": true,
+          "edge": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "kind": "capture",
+          "native_contact_valid": true,
+          "owners": [
+            16578573762617
+          ],
+          "physics": 298,
+          "position": [
+            -19.0,
+            4.464999675750732,
+            25.069913864135742
+          ],
+          "run": "market_seats_interior_descending",
+          "style": "grind_50_50"
+        }
+      ],
+      "capture_measurement": {
+        "physics": [
+          297,
+          298
+        ],
+        "body_displacement_m": 0.5804674031663041,
+        "body_delta": [
+          -0.2999992370605469,
+          -0.4969334602355957,
+          0.0
+        ],
+        "head_world_displacement_m": 0.6640986959995897,
+        "head_relative_to_body_displacement_m": 0.27742614513863345,
+        "board_world_displacement_m": 0.6013540278025239,
+        "airborne_before": true,
+        "floor_before": false,
+        "vertical_velocity_before": -3.638489007949829,
+        "finite_guide_distance_after": 5.769914627075195,
+        "body_y_correction_m": -0.4969334602355957,
+        "body_x_correction_m": -0.2999992370605469,
+        "body_z_correction_m": 0.0,
+        "basis": "Actual consecutive native after-physics values, dt1/60. Marker changes are not interpolated render/pixel measurements. Body and relative-head are separate vectors, not additive scalar distances."
+      },
+      "before_capture_after_native_witness": [
+        {
+          "physics": 297,
+          "stage": "waiting_for_authored_interior",
+          "position": [
+            -18.700000762939453,
+            4.961933135986328,
+            25.069913864135742
+          ],
+          "velocity": [
+            0.0,
+            -3.638489007949829,
+            -10.627789497375488
+          ],
+          "airborne": true,
+          "floor": false,
+          "grinding": false,
+          "guide": "",
+          "style": "",
+          "head": [
+            -18.521093368530273,
+            6.428839206695557,
+            24.97602081298828
+          ],
+          "board": {
+            "basis": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.700000762939453,
+              5.08193302154541,
+              25.069913864135742
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.700000762939453,
+              4.961933135986328,
+              25.069913864135742
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": false,
+          "grind_distance": -1.0,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 298,
+          "stage": "ordinary_capture_request",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            25.069913864135742
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.627789497375488
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.59650993347168,
+            5.769038200378418,
+            24.97458839416504
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              25.069913864135742
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              25.069913864135742
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 5.769914627075195,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 299,
+          "stage": "native_capture_followthrough",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            24.892868041992188
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.617789268493652
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.596071243286133,
+            5.714600086212158,
+            24.798311233520508
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              24.892868041992188
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              24.892868041992188
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 5.592868135452271,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        },
+        {
+          "physics": 300,
+          "stage": "native_capture_followthrough",
+          "position": [
+            -19.0,
+            4.464999675750732,
+            24.715988159179688
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -10.607789039611816
+          ],
+          "airborne": false,
+          "floor": false,
+          "grinding": true,
+          "guide": "Grind_MD_Market_Seats_-19.0",
+          "style": "grind_50_50",
+          "head": [
+            -18.595664978027344,
+            5.674905300140381,
+            24.62211036682129
+          ],
+          "board": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -18.98369026184082,
+              4.551700115203857,
+              24.715988159179688
+            ]
+          },
+          "visual": {
+            "basis": [
+              [
+                0.9873824715614319,
+                -0.1583537608385086,
+                0.0
+              ],
+              [
+                0.1583537608385086,
+                0.9873824715614319,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "origin": [
+              -19.00269317626953,
+              4.43321418762207,
+              24.715988159179688
+            ]
+          },
+          "grind_visual_offset": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "native_contact_valid": true,
+          "grind_distance": 5.4159883104960125,
+          "contacts": [],
+          "capture_rejection": "",
+          "capture_obstruction": {}
+        }
+      ]
+    },
+    {
+      "label": "market_seats_grounded_no_ollie",
+      "mode": "grounded_no_ollie",
+      "initial_spawn": [
+        -18.700000762939453,
+        4.079999923706055,
+        36.0
+      ],
+      "initial_heading": 0.0,
+      "initial_only_fixture": true,
+      "request": {
+        "airborne": false,
+        "floor": true,
+        "physics": 386,
+        "position": [
+          -18.700000762939453,
+          4.013708114624023,
+          30.206899642944336
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          -10.680009841918945
+        ]
+      },
+      "named_capture": false,
+      "frame_range": [
+        312,
+        496
+      ],
+      "recorded_frames": 185,
+      "capture_count": 0,
+      "captures": [],
+      "scope": "Negative acceptance/refusal only; not a combo bank or topology result."
+    }
+  ],
+  "finding": "Endpoint entry adds a longitudinal correction, but substantial body correction and rig-relative handoff also occur during both rising and descending interior catches. A grounded no-Ollie approach correctly refuses. This is not solely an endpoint or grounded shortcut issue.",
+  "source_hypothesis": "Skater2126 seeds _grind_visual_offset with physical correction, while exact native-contact display2750..2757 immediately replaces the visual frame and clears that offset. Bearing must stay authenticated in any eventual repair; this observation does not authorize broad clearance changes or cosmetic interpolation through steel.",
+  "open": [
+    "Root/ME repair design and adversarial native bearing guards",
+    "Actual interpolated/pixel presentation and full displayed model contacts",
+    "Mapped returned local lines and closed cross-area single-bank circuits",
+    "MacBook Air M5 hardware/fidelity/performance"
+  ]
+}

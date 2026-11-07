@@ -1,0 +1,250 @@
+extends SceneTree
+## Independent PRIVATE topology diagnostics; standalone actual Skater, no Main score.
+const World=preload("res://game/levels/merchant_neighbourhood.gd")
+const Rider=preload("res://game/player/skater.gd")
+const InputSetup=preload("res://game/core/input_setup.gd")
+var passes:=0
+var failures:Array=[]
+var assertions:Array=[]
+var static_rows:Array=[]
+var runs:Array=[]
+var world:Node3D
+var holder:Node3D
+var _ray:=PhysicsRayQueryParameters3D.new()
+var _shape:=PhysicsShapeQueryParameters3D.new()
+var _box:=BoxShape3D.new()
+
+class Recorder extends Node:
+ var actor:CharacterBody3D
+ var rows:Array=[]
+ var events:Array=[]
+ var phase:="settle"
+ func _physics_process(_dt:float)->void:
+  if not is_instance_valid(actor):return
+  var contacts:Array=[]
+  for i:int in actor.get_slide_collision_count():
+   var c:KinematicCollision3D=actor.get_slide_collision(i)
+   var owner:Variant=c.get_collider()
+   contacts.append({"rid":c.get_collider_rid().get_id(),"shape":c.get_collider_shape_index(),"owner":str(owner.get_path())if owner is Node else str(owner),"normal":c.get_normal(),"position":c.get_position(),"depth":c.get_depth()})
+  rows.append({"physics":Engine.get_physics_frames(),"phase":phase,"position":actor.global_position,"velocity":actor.velocity,"speed":actor.speed,"airborne":actor.airborne,"floor":actor.is_on_floor(),"floor_normal":actor.get_floor_normal(),"native_floor_valid":actor._native_floor_valid,"native_platform_rid":actor._native_platform_floor.get_id(),"bail":actor.bail_active,"reason":actor.bail_reason,"head":actor._visual_rig._head.global_position,"visual_frame":actor._visual.global_transform,"contacts":contacts,"push":Input.get_action_strength("push"),"brake":Input.get_action_strength("brake")})
+ func trick(label:String,points:int)->void:events.append({"physics":Engine.get_physics_frames(),"label":label,"points":points})
+
+func _initialize()->void:run.call_deferred()
+func check(ok:bool,label:String,detail:Dictionary={})->void:
+ if ok:passes+=1
+ else:failures.append(label)
+ assertions.append({"passed":ok,"label":label,"detail":detail})
+ print("PASS: "if ok else"FAIL: ",label," ",JSON.stringify(encode(detail)))
+func encode(v:Variant)->Variant:
+ if v is Vector3:return [v.x,v.y,v.z]
+ if v is PackedVector3Array:
+  var packed:Array=[]
+  for point:Vector3 in v:packed.append(encode(point))
+  return packed
+ if v is NodePath:return str(v)
+ if v is RID:return v.get_id()
+ if v is Basis:return [encode(v.x),encode(v.y),encode(v.z)]
+ if v is Transform3D:return {"origin":encode(v.origin),"basis":encode(v.basis)}
+ if v is Array:
+  var a:Array=[]
+  for x:Variant in v:a.append(encode(x))
+  return a
+ if v is Dictionary:
+  var d:Dictionary={}
+  for k:Variant in v:d[str(k)]=encode(v[k])
+  return d
+ return v
+func ray(at:Vector3,up:=.2,down:=.4)->Dictionary:
+ _ray.from=at+Vector3.UP*up;_ray.to=at-Vector3.UP*down;_ray.collision_mask=1
+ var hit:Dictionary=world.get_world_3d().direct_space_state.intersect_ray(_ray)
+ if hit.is_empty():return {}
+ return {"position":hit.position,"normal":hit.normal,"rid":hit.rid.get_id(),"shape":hit.shape,"owner":str(hit.collider.get_path())}
+func clear_strip(at:Vector3,along_x:bool=false)->Dictionary:
+ _box.size=Vector3(.08,1.7,4)if along_x else Vector3(4,1.7,.08)
+ _shape.shape=_box;_shape.margin=0.0;_shape.collision_mask=1;_shape.motion=Vector3.ZERO
+ _shape.transform=Transform3D(Basis.IDENTITY,at+Vector3.UP*.90)
+ var hits:Array=world.get_world_3d().direct_space_state.intersect_shape(_shape,32)
+ var rows:Array=[]
+ for h:Dictionary in hits:rows.append({"rid":h.rid.get_id(),"shape":h.shape,"owner":str(h.collider.get_path())})
+ return {"clear":hits.is_empty(),"at":at,"hits":rows,"shape_size":_box.size,"bottom_above_expected_floor":.05}
+func cast_strip(a:Vector3,b:Vector3,along_x:bool=false)->Dictionary:
+ var initial:Dictionary=clear_strip(a,along_x)
+ _shape.motion=b-a
+ var fractions:PackedFloat32Array=world.get_world_3d().direct_space_state.cast_motion(_shape)
+ _shape.motion=Vector3.ZERO
+ return {"from":a,"to":b,"initial":initial,"safe_fraction":fractions[0],"unsafe_fraction":fractions[1],"clear":initial.clear and fractions[0]==1.0 and fractions[1]==1.0,"shape_size":_box.size}
+func registry()->Dictionary:
+ var rows:Array=[]
+ for line in world.get_grind_lines():
+  var owners:Array=[]
+  for native_rid:RID in line.native_support_rids:owners.append(native_rid.get_id())
+  rows.append({"id":line.id,"kind":line.kind,"length":line.length,"points":line.points,"valid":line.is_valid,"loop":line.is_loop,"contact_verified":line.contact_verified,"contact_source":line.contact_source,"vertical_offset":line.contact_vertical_offset,"normal_offset":line.contact_normal_offset,"outward":line.contact_edge_outward,"native_owner_rids":owners,"round_declared":line.contact_round_declared})
+ return {"gaps":world.get_gap_definitions(),"routes":world.get_route_definitions(),"features":world.get_skate_feature_definitions(),"lines":rows,"scope":"Read-only getter export from the same already-instantiated world. Registry/metadata is not native capture, clearance, choice cadence or returned-combo evidence."}
+func release()->void:
+ for action:String in ["push","brake","ollie","steer_left","steer_right","grind","manual","spin_left","spin_right","flip","grab"]:Input.action_release(action)
+func run()->void:
+ InputSetup.register_actions();release()
+ holder=Node3D.new();root.add_child(holder);world=World.new();holder.add_child(world)
+ await physics_frame;await physics_frame;await process_frame
+ var api_ok:bool=world.get_level_manifest().id=="merchant_neighbourhood_v1"and world.get_gap_grind_destinations()is Dictionary
+ check(api_ok,"selected Merchant world/API only")
+ var bad:Array=[]
+ # Exact4m continuous strip corridor, centres every0.5m including both ends.
+ for i:int in 31:
+  var z:float=12.0-float(i)*.5
+  var at:=Vector3(-12.95,4,z)
+  var row:Dictionary=clear_strip(at)
+  var support:Array=[]
+  for x:float in [-14.95,-12.95,-10.95]:
+   var h:Dictionary=ray(Vector3(x,4,z))
+   var y:float=world.get_support_height(Vector3(x,4,z),.05)
+   var ok:bool=not h.is_empty()and absf(h.position.y-4.0)<=.002 and is_finite(y)and absf(y-4.0)<=.002
+   support.append({"point":Vector3(x,4,z),"native":h,"api":y,"ok":ok})
+   if not ok:bad.append({"kind":"support","row":support[-1]})
+  row["support"]=support;static_rows.append(row)
+  if not row.clear:bad.append({"kind":"body_volume","row":row})
+ check(bad.is_empty(),"full4m market bypass strip has native support and clear upright1.7m volume",{"failures":bad,"samples":31,"scope":"Static strip volume; not full deformed body/board or loaded contact tolerance admission"})
+ var swept_market:Dictionary=cast_strip(Vector3(-12.95,4,12),Vector3(-12.95,4,-3))
+ check(swept_market.clear,"continuous4m-wide market bypass body volume",swept_market)
+ for row:Dictionary in [{"id":"west access toe","p":Vector3(-26.9,4.0+.8*.1/7,2)},{"id":"west access upper edge","p":Vector3(-20.1,4.8-.8*.1/7,2)},{"id":"stair upper landing","p":Vector3(-19.9,4.8,2)}]:
+  var p:Vector3=row.p;var h:Dictionary=ray(p);var q:float=world.get_support_height(p,.05)
+  check(not h.is_empty()and absf(h.position.y-p.y)<=.002 and absf(q-p.y)<=.002,"native joined "+row.id,{"point":p,"native":h,"api":q,"threshold_scope":"Inherited2mm world-support diagnostic, not100um board-bearing acceptance"})
+ var under_bad:Array=[]
+ for i:int in 97:
+  var p:=Vector3(28+float(i)*.5,4,-2.5)
+  var row:Dictionary=clear_strip(p,true)
+  var supports:Array=[]
+  for side_z:float in [-4.5,-2.5,-.5]:
+   var h:Dictionary=ray(Vector3(p.x,4,side_z))
+   var q:float=world.get_support_height(Vector3(p.x,4,side_z),.05)
+   var supported:bool=not h.is_empty()and absf(h.position.y-4)<=.002 and is_finite(q)and absf(q-4)<=.002
+   supports.append({"point":Vector3(p.x,4,side_z),"native":h,"api":q,"ok":supported})
+   if not supported:under_bad.append({"support":supports[-1]})
+  row["support"]=supports;static_rows.append(row)
+  if not row.clear:under_bad.append(row)
+ check(under_bad.is_empty(),"offset underpass side lane has real clear4m upright volume",{"failures":under_bad,"centre_z":-2.5,"scope":"Rail remains intentionally outside this bypass; published street-centreline alone is not4m clearance"})
+ var swept_underpass:Dictionary=cast_strip(Vector3(28,4,-2.5),Vector3(76,4,-2.5),true)
+ check(swept_underpass.clear,"continuous4m-wide south underpass body volume",swept_underpass)
+ var roof_void:Dictionary=ray(Vector3(53,10,-37),.2,1)
+ check(roof_void.is_empty(),"real two-metre roof channel refuses false roof support",{"native":roof_void})
+ var blocked:Dictionary=clear_strip(Vector3(0,4,-50))
+ check(not blocked.clear,"negative control: solid building refuses a floor-centre-only clearance claim",blocked)
+ var wall:=StaticBody3D.new();wall.name="IndependentNegativeObstacle";wall.position=Vector3(-12.95,4.9,2);world.add_child(wall)
+ var collision:=CollisionShape3D.new();var native_box:=BoxShape3D.new();native_box.size=Vector3(.5,1.7,.5);collision.shape=native_box;wall.add_child(collision)
+ await physics_frame
+ var control:Dictionary=clear_strip(Vector3(-12.95,4,2))
+ check(not control.clear,"negative control: inserted actual native obstruction is detected",control)
+ var negative_sweep:Dictionary=cast_strip(Vector3(-12.95,4,12),Vector3(-12.95,4,-3))
+ check(not negative_sweep.clear,"negative control: continuous sweep detects an actual obstruction between stations",negative_sweep)
+ wall.queue_free();await process_frame;await physics_frame
+ check(clear_strip(Vector3(-12.95,4,2)).clear,"negative fixture removal restores actual clear corridor")
+ check(cast_strip(Vector3(-12.95,4,12),Vector3(-12.95,4,-3)).clear,"negative fixture removal restores continuous cast")
+ for target:float in [4.0,8.0,12.0]:
+  var xs:Array=[-14.65,-12.95,-11.25]if target==4.0 else[-12.95]
+  for x:float in xs:
+   for direction:float in [-1.0,1.0]:await input_case(x,direction,target)
+ for direction:float in [-1.0,1.0]:await underpass_case(direction,4.0)
+ release()
+ var output:=FileAccess.open(OS.get_environment("TOPOLOGY_OUTPUT"),FileAccess.WRITE)
+ if output==null:push_error("Cannot write independent topology result");quit(2);return
+ output.store_string(JSON.stringify(encode({"registry":registry(),"passed":passes,"failed":failures.size(),"failures":failures,"assertions":assertions,"static_rows":static_rows,"runs":runs,"scope":"Independent private topology. Static support/body strips plus continuous casts and real standalone Skater no-jump market/underpass bypass. Ordinary mapped actions regulate speed; only initial spawn/heading/reset. No Main/score chain, closed combo, deformed body/board clearance, final art, targetM5 or performance acceptance. Counterfactual inserted obstruction is removed before every real-player trial."}),"\t",true,true)+"\n");output.close()
+ holder.queue_free();await process_frame
+ print("TOPOLOGY_RESULT: ",passes," passed, ",failures.size()," failed")
+ quit(0 if failures.is_empty()else 1)
+func input_case(x:float,direction:float,target:float)->void:
+ release()
+ var rider:=Rider.new();var start_z:float=24.0 if direction<0 else -16.0
+ var ground:float=world.get_ground_height(Vector3(x,4,start_z))
+ rider.spawn_position=Vector3(x,ground+.08,start_z)
+ rider.rotation.y=0.0 if direction<0 else PI
+ holder.add_child(rider);rider.reset_skater()
+ rider.rotation.y=0.0 if direction<0 else PI # initial fixture orientation only
+ rider.set_grind_lines(world.get_grind_lines());rider.set_transition_features(world.get_transition_features())
+ var recorder:=Recorder.new();recorder.actor=rider;recorder.process_physics_priority=10000;holder.add_child(recorder)
+ rider.trick_performed.connect(recorder.trick)
+ var settled:=0
+ for tick:int in 45:
+  await physics_frame;await process_frame
+  settled=settled+1 if rider.is_on_floor()and not rider.airborne else 0
+  if settled>=6:break
+ recorder.phase="mapped_speed"
+ var finished:=false
+ for tick:int in 600:
+  var magnitude:float=absf(rider.speed)
+  if magnitude<target-.10:Input.action_press("push")
+  else:Input.action_release("push")
+  if magnitude>target+.40:Input.action_press("brake",.25)
+  else:Input.action_release("brake")
+  await physics_frame;await process_frame
+  if rider.bail_active:break
+  if (direction<0 and rider.global_position.z<=-3)or(direction>0 and rider.global_position.z>=12):finished=true;break
+ release()
+ var selected:Array=[];var air:=0;var bails:=0;var lo:=INF;var hi:=0.0;var head_relative:=0.0;var head_world:=0.0
+ var previous:Dictionary={}
+ for row:Dictionary in recorder.rows:
+  var p:Vector3=row.position
+  if row.phase!="mapped_speed"or p.z< -3 or p.z>12:continue
+  selected.append(row)
+  if row.airborne or not row.floor:air+=1
+  if row.bail:bails+=1
+  lo=minf(lo,absf(row.speed));hi=maxf(hi,absf(row.speed))
+  if not previous.is_empty():
+   var body_step:Vector3=row.position-previous.position
+   head_relative=maxf(head_relative,(Vector3(row.head)-Vector3(previous.head)-body_step).length())
+   head_world=maxf(head_world,Vector3(row.head).distance_to(previous.head))
+  previous=row
+ var label:String="x="+str(x)+" dir="+str(direction)+" target="+str(target)
+ check(finished and selected.size()>=30 and air==0 and bails==0 and recorder.events.is_empty(),"no-jump native bypass remains grounded "+label,{"finished":finished,"frames":selected.size(),"air_frames":air,"bail_frames":bails,"tricks":recorder.events})
+ check(selected.size()>=30 and lo>=target-.35 and hi<=target+.45,"actual speed family through bypass "+label,{"observed_min":lo,"observed_max":hi,"scope":"Mapped push/coast/brake only; no direct speed/velocity writes"})
+ check(head_relative<=.220,"existing220mm relative-head-step ceiling "+label,{"relative_head_step_m":head_relative,"world_head_step_m":head_world,"scope":"Raw physics rig-head marker metric; not pixel/full-deformation acceptance"})
+ runs.append({"x":x,"direction":direction,"target_speed":target,"initial_spawn":rider.spawn_position,"initial_heading":0.0 if direction<0 else PI,"finished":finished,"roi_frames":selected.size(),"air_frames":air,"bail_frames":bails,"min_speed":lo,"max_speed":hi,"head_relative_step":head_relative,"head_world_step":head_world,"events":recorder.events,"trace":recorder.rows})
+ recorder.queue_free();rider.queue_free();await process_frame;await physics_frame
+
+func underpass_case(direction:float,target:float)->void:
+ release()
+ var rider:=Rider.new();var start_x:float=18.0 if direction>0 else 86.0
+ var ground:float=world.get_ground_height(Vector3(start_x,4,-2.5))
+ rider.spawn_position=Vector3(start_x,ground+.08,-2.5)
+ rider.rotation.y=-PI*.5 if direction>0 else PI*.5
+ holder.add_child(rider);rider.reset_skater()
+ rider.rotation.y=-PI*.5 if direction>0 else PI*.5 # initial fixture orientation only
+ rider.set_grind_lines(world.get_grind_lines());rider.set_transition_features(world.get_transition_features())
+ var recorder:=Recorder.new();recorder.actor=rider;recorder.process_physics_priority=10000;holder.add_child(recorder)
+ rider.trick_performed.connect(recorder.trick)
+ var settled:=0
+ for tick:int in 45:
+  await physics_frame;await process_frame
+  settled=settled+1 if rider.is_on_floor()and not rider.airborne else 0
+  if settled>=6:break
+ recorder.phase="mapped_speed"
+ var finished:=false
+ for tick:int in 1200:
+  var magnitude:float=absf(rider.speed)
+  if magnitude<target-.10:Input.action_press("push")
+  else:Input.action_release("push")
+  if magnitude>target+.40:Input.action_press("brake",.25)
+  else:Input.action_release("brake")
+  await physics_frame;await process_frame
+  if rider.bail_active:break
+  if (direction<0 and rider.global_position.x<=24)or(direction>0 and rider.global_position.x>=80):finished=true;break
+ release()
+ var selected:Array=[];var air:=0;var bails:=0;var lo:=INF;var hi:=0.0;var head_relative:=0.0;var head_world:=0.0
+ var previous:Dictionary={}
+ for row:Dictionary in recorder.rows:
+  var p:Vector3=row.position
+  if row.phase!="mapped_speed"or p.x<28 or p.x>76:continue
+  selected.append(row)
+  if row.airborne or not row.floor:air+=1
+  if row.bail:bails+=1
+  lo=minf(lo,absf(row.speed));hi=maxf(hi,absf(row.speed))
+  if not previous.is_empty():
+   var body_step:Vector3=row.position-previous.position
+   head_relative=maxf(head_relative,(Vector3(row.head)-Vector3(previous.head)-body_step).length())
+   head_world=maxf(head_world,Vector3(row.head).distance_to(previous.head))
+  previous=row
+ var label:String="underpass z=-2.5 dir="+str(direction)+" target="+str(target)
+ check(finished and selected.size()>=30 and air==0 and bails==0 and recorder.events.is_empty(),"no-jump native bypass remains grounded "+label,{"finished":finished,"frames":selected.size(),"air_frames":air,"bail_frames":bails,"tricks":recorder.events})
+ check(selected.size()>=30 and lo>=target-.35 and hi<=target+.45,"actual speed family through bypass "+label,{"observed_min":lo,"observed_max":hi,"scope":"Mapped push/coast/brake only; no direct speed/velocity writes"})
+ check(head_relative<=.220,"existing220mm relative-head-step ceiling "+label,{"relative_head_step_m":head_relative,"world_head_step_m":head_world,"scope":"Raw physics rig-head marker metric; not pixel/full-deformation acceptance"})
+ runs.append({"route":"south_underpass","z":-2.5,"direction":direction,"target_speed":target,"initial_spawn":rider.spawn_position,"initial_heading":-PI*.5 if direction>0 else PI*.5,"finished":finished,"roi_frames":selected.size(),"air_frames":air,"bail_frames":bails,"min_speed":lo,"max_speed":hi,"head_relative_step":head_relative,"head_world_step":head_world,"events":recorder.events,"trace":recorder.rows})
+ recorder.queue_free();rider.queue_free();await process_frame;await physics_frame

@@ -30,6 +30,7 @@ var _arms: Array[Dictionary] = []
 var _sphere: SphereMesh
 var _cylinder: CylinderMesh
 var _push_phase := 0.0
+var _push_arm_swing := 0.0
 var _push_blend := 0.0
 var _last_travel_direction := 1.0
 var _travel_direction := 1.0
@@ -139,6 +140,7 @@ func reset() -> void:
 	if is_instance_valid(_board):
 		_board.position = _board_rest_position
 	_push_phase = 0.0
+	_push_arm_swing = 0.0
 	_push_blend = 0.0
 	_last_travel_direction = 1.0
 	_travel_direction = 1.0
@@ -442,6 +444,9 @@ func animate(delta: float, state: Dictionary) -> void:
 			_push_phase = minf(0.60, _push_phase + delta * ride_speed * 0.60 / 0.65)
 		else:
 			_push_phase = fmod(_push_phase + delta * 0.40 / 0.32, 1.0)
+	# Arms counterbalance at a readable pace while the sole keeps its exact
+	# distance-matched stroke. Fast foot phases must not snap a wrist target.
+	_push_arm_swing = _blend(_push_arm_swing, sin(TAU * _push_phase), delta, 8.0)
 	# Absorb impact promptly, then recover with the shoes still planted.
 	# The old symmetric sine waited 150 ms after contact for full weight.
 	var landing_age := 0.36 - _landing
@@ -774,7 +779,7 @@ func animate(delta: float, state: Dictionary) -> void:
 		var shoulder: Vector3 = _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
 		var spread := 0.33 + 0.12 * _air_blend + 0.13 * _grind_blend + 0.07 * _manual_blend + 0.08 * _slide_blend + 0.055 * _lip_blend
 		var hand := Vector3(side * spread, hips_y + 0.015 + 0.12 * _air_blend + 0.10 * _grind_blend, -0.14 + side * 0.09)
-		hand.z += side * 0.17 * sin(TAU * _push_phase) * _push_blend
+		hand.z += side * 0.17 * _push_arm_swing * _push_blend
 		var push_hand := hips_origin + Basis(Vector3.UP, push_facing_yaw) * (hand - hips_origin)
 		hand = hand.lerp(push_hand, push_pose_weight)
 		hand.y += side * (grind_balance * _grind_blend * 0.13 + manual_balance * _manual_blend * 0.08 * manual_sign)

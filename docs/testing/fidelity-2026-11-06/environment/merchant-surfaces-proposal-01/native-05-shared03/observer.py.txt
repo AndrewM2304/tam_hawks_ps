@@ -1,0 +1,22 @@
+from pathlib import Path
+import subprocess,os,time,json,datetime,hashlib,re,signal,sys
+R=Path('/workspace/tam_hawks_ps');O=R/'.local/merchant-environment';P=O/'project';label=sys.argv[1];D=O/label;D.mkdir(exist_ok=False);events=[]
+def inv():return {str(p.relative_to(P)):hashlib.sha256(p.read_bytes()).hexdigest() for p in P.rglob('*') if p.is_file() and '.godot' not in p.parts and '.local' not in p.parts[len(P.parts):]}
+before=inv();env=os.environ.copy()
+for k,l in [('XDG_DATA_HOME','data'),('XDG_CONFIG_HOME','config'),('XDG_CACHE_HOME','cache')]:
+ p=P/'.local'/l;p.mkdir(parents=True,exist_ok=True);env[k]=str(p)
+commands=[('native',60,['godot','--headless','--path',str(P),'--script',str(P/'surface_probe.gd'),'--',str(D/'native-result.json')])]
+error=None
+for name,bound,cmd in commands:
+ start=datetime.datetime.now(datetime.timezone.utc);mono=time.monotonic()
+ with (D/(name+'.log')).open('w') as log:
+  p=subprocess.Popen(cmd,cwd=P,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);e={'name':name,'pid':p.pid,'start':start.isoformat(),'deadline':(start+datetime.timedelta(seconds=bound)).isoformat(),'command':cmd};print(json.dumps(e),flush=True)
+  while p.poll() is None:
+   if re.search(r'SCRIPT ERROR:|ERROR:|FAIL:',(D/(name+'.log')).read_text(errors='replace')):error='Nativeerror '+name
+   if time.monotonic()-mono>bound:error='Timeout '+name
+   if error:
+    os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=5);break
+   time.sleep(.1)
+  e.update(end=datetime.datetime.now(datetime.timezone.utc).isoformat(),exit_code=p.returncode);events.append(e)
+ if error or p.returncode:break
+after=inv();(D/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(D/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');(D/'observer.py.txt').write_bytes(Path(__file__).read_bytes());(D/'receipt.json').write_text(json.dumps({'events':events,'error':error,'source_changes':[n for n in before.keys()|after.keys() if before.get(n)!=after.get(n)],'scope':'Private import/native; import may author6cache remaps/UIDs. Secondaryflock held externally; no actual/sourcecache mutation, no GPU/FPS/M5 claim.'},indent=2)+'\n');print('EA_NATIVE_DONE',error,flush=True);sys.exit(1 if error or any(e['exit_code'] for e in events) else 0)

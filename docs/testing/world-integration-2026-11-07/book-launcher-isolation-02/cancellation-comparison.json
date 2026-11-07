@@ -1,0 +1,63 @@
+{
+  "scope": "Synthetic process protocol, not native Godot scheduling/physics. Both fake parent/grandchild ignore TERM; successor must forceKILL after2s. Linux zombie states are recorded as non-live, not absence.",
+  "cases": {
+    "book-cancel-01": [
+      {
+        "case": "waiting",
+        "helper_exit": 143,
+        "sources_unchanged": true,
+        "no_live_owned_after_helper": true,
+        "qa_cleanup_required": false,
+        "no_live_owned_final": true,
+        "elapsed_cleanup_seconds": 2.020785906999663
+      },
+      {
+        "case": "creation-boundary",
+        "helper_exit": 143,
+        "sources_unchanged": true,
+        "no_live_owned_after_helper": false,
+        "qa_cleanup_required": true,
+        "no_live_owned_final": true,
+        "elapsed_cleanup_seconds": 0.015433209999173414
+      }
+    ],
+    "book-cancel-02": [
+      {
+        "case": "waiting-term",
+        "helper_exit": 143,
+        "sources_unchanged": true,
+        "no_live_owned_after_helper": true,
+        "qa_cleanup_required": false,
+        "no_live_owned_final": true,
+        "elapsed_cleanup_seconds": 2.019762187002925
+      },
+      {
+        "case": "creation-boundary-term",
+        "helper_exit": 143,
+        "sources_unchanged": true,
+        "no_live_owned_after_helper": true,
+        "qa_cleanup_required": false,
+        "no_live_owned_final": true,
+        "elapsed_cleanup_seconds": 2.0233678279982996
+      },
+      {
+        "case": "waiting-int",
+        "helper_exit": 130,
+        "sources_unchanged": true,
+        "no_live_owned_after_helper": true,
+        "qa_cleanup_required": false,
+        "no_live_owned_final": true,
+        "elapsed_cleanup_seconds": 2.020769681999809
+      },
+      {
+        "case": "creation-boundary-int",
+        "helper_exit": 130,
+        "sources_unchanged": true,
+        "no_live_owned_after_helper": true,
+        "qa_cleanup_required": false,
+        "no_live_owned_final": true,
+        "elapsed_cleanup_seconds": 2.023072278003383
+      }
+    ]
+  }
+}

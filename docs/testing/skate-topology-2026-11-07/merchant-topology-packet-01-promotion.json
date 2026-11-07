@@ -1,0 +1,389 @@
+{
+  "utc": "2026-11-07T13:42:26.345596+00:00",
+  "source": ".local/skate-topology-review/merchant-topology-packet-01",
+  "destination": "docs/testing/skate-topology-2026-11-07/merchant-topology-packet-01",
+  "payloads": {
+    "summary.json": {
+      "sha256": "5f64cd5a47cfb5fcf07face8ff76a856e0dabdaa91ada6b3cce70529cbe3983d",
+      "bytes": 1775
+    },
+    "README.md": {
+      "sha256": "f0f403737895b600a78afc6c197576a07532166817b6a4d520e509b71e2b2b2a",
+      "bytes": 2956
+    },
+    "preservation.json": {
+      "sha256": "abc34df8b6e7995666290df2fd332e87f88c69f5bf616ce4012e47dc49dfecb8",
+      "bytes": 39745
+    },
+    "merchant-ba-contracts-01/matrix.json": {
+      "sha256": "fa660d7d22354f75fe718f4775879280a25741225ba0527fba2bd3dde47ce1e2",
+      "bytes": 5840
+    },
+    "bypass-native-01/source-before.json.gz": {
+      "sha256": "87dc0e0fb5240c8ace5f76624506854fc97647198f0eb05aa800adf8eb11c045",
+      "bytes": 34833
+    },
+    "bypass-native-01/actual-before.json.gz": {
+      "sha256": "171153862b7fb2a5515b3c37158da34c4eacdf91a3c11f52a7888ce31f57ddbf",
+      "bytes": 42176
+    },
+    "bypass-native-01/parser.log": {
+      "sha256": "b998da283f463b4479191ef30d06c18b4990d1c84a85e472fc46c99455833fb6",
+      "bytes": 416
+    },
+    "bypass-native-01/source-after.json.gz": {
+      "sha256": "87dc0e0fb5240c8ace5f76624506854fc97647198f0eb05aa800adf8eb11c045",
+      "bytes": 34833
+    },
+    "bypass-native-01/wrapper.py.txt": {
+      "sha256": "1b0ed926e095e911fa01841fad841d65637a129a4e5079f573ea1f92dd429339",
+      "bytes": 5367
+    },
+    "bypass-native-01/receipt.json": {
+      "sha256": "e40de9ef373c64b1d7f5f144a9296d44c57d7cc2c4980e79fdb57425bf6f8e7c",
+      "bytes": 2175
+    },
+    "bypass-native-01/probe.gd.txt": {
+      "sha256": "50e8d1ef2d1d4cbacfb2e48893961240a6afc4618b709334907a8ebe6038e245",
+      "bytes": 11339
+    },
+    "bypass-native-01/actual-after.json.gz": {
+      "sha256": "171153862b7fb2a5515b3c37158da34c4eacdf91a3c11f52a7888ce31f57ddbf",
+      "bytes": 42176
+    },
+    "merchant-source-01/manifest.json": {
+      "sha256": "d6684dbb3a4f2a7a8324075aa0d4d20c16d2e075675f9915d57336c0c250b095",
+      "bytes": 3982
+    },
+    "method/analyse_first_native.py.txt": {
+      "sha256": "704b13554bfa008b7a6e08c739d659a9179e8ddcc4a004335628a15c2c0c1339",
+      "bytes": 8297
+    },
+    "method/analyse_bypass03.py.txt": {
+      "sha256": "bf512e98dbbc95707eff1c392248e1b19afd6e7242e617c91494dcbdd6675205",
+      "bytes": 9241
+    },
+    "method/run_bypass03.py.txt": {
+      "sha256": "090fe1244632e0f6f755d660129c63e052e6faa768c1251eb01a331e84e0d91a",
+      "bytes": 5421
+    },
+    "method/analyse_bypass02.py.txt": {
+      "sha256": "0a8fad5f570af3a7af69d402a9b846bdcb8bf7a911b8ee2e0de7ba925c957c39",
+      "bytes": 8443
+    },
+    "method/bypass_probe03.gd.txt": {
+      "sha256": "41ed7dc196ad0489f9242af7d2e966bd317f17e21a39478f236bdfda4ffb0597",
+      "bytes": 17567
+    },
+    "bypass-native-03/independent-analysis.json": {
+      "sha256": "a947d210b552db6cbb9d5344802cbd9db5bd42716e3df2ea529f606d272d59f8",
+      "bytes": 13339
+    },
+    "bypass-native-03/source-before.json.gz": {
+      "sha256": "17f95db0224c7a556289b113dbf133a69c37ce824dff6304224b30c7bae4df42",
+      "bytes": 34832
+    },
+    "bypass-native-03/actual-before.json.gz": {
+      "sha256": "171153862b7fb2a5515b3c37158da34c4eacdf91a3c11f52a7888ce31f57ddbf",
+      "bytes": 42176
+    },
+    "bypass-native-03/parser.log": {
+      "sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "bytes": 73
+    },
+    "bypass-native-03/entrypoint-after.json": {
+      "sha256": "389e96e2331ab61718f978140c05783778367861180e36b16b14a531fc9e26f1",
+      "bytes": 370
+    },
+    "bypass-native-03/source-after.json.gz": {
+      "sha256": "17f95db0224c7a556289b113dbf133a69c37ce824dff6304224b30c7bae4df42",
+      "bytes": 34832
+    },
+    "bypass-native-03/README.md": {
+      "sha256": "8a643b57c76d71e1c97fd91ff689b7e98085ecabddebacf368f7e1502c681c9b",
+      "bytes": 3278
+    },
+    "bypass-native-03/wrapper.py.txt": {
+      "sha256": "090fe1244632e0f6f755d660129c63e052e6faa768c1251eb01a331e84e0d91a",
+      "bytes": 5421
+    },
+    "bypass-native-03/native-result.json.gz": {
+      "sha256": "3b534b3223ead6df40e93cf8e548b07f8357fd537c9099461b8292e5c4717e98",
+      "bytes": 500848
+    },
+    "bypass-native-03/receipt.json": {
+      "sha256": "9929953b03668a94ce93072340577e78853f1b3f6f578708fc05481926697e58",
+      "bytes": 2919
+    },
+    "bypass-native-03/probe.gd.txt": {
+      "sha256": "41ed7dc196ad0489f9242af7d2e966bd317f17e21a39478f236bdfda4ffb0597",
+      "bytes": 17567
+    },
+    "bypass-native-03/actual-after.json.gz": {
+      "sha256": "171153862b7fb2a5515b3c37158da34c4eacdf91a3c11f52a7888ce31f57ddbf",
+      "bytes": 42176
+    },
+    "bypass-native-03/native.log": {
+      "sha256": "0577df853cf17ba94b32b88f61ee06870dd1dbbb7a6ad3fed2215e754b39c1d3",
+      "bytes": 11049
+    },
+    "bypass-native-03/README-with-compressed-links.md": {
+      "sha256": "1cb111c97a4974cbabab59be78e75030c5c010b36234c41f026d7ac51bd65c51",
+      "bytes": 3281
+    },
+    "merchant-first-native-review-01/independent-analysis.json": {
+      "sha256": "325bcebb123d8a754e97b01806d608b8f0c15f38f0f73aa644585810440add78",
+      "bytes": 8393
+    },
+    "merchant-first-native-review-01/README.md": {
+      "sha256": "413900ecddf907c22c07c86c8b9434844845fea2c83ad252ecf7ea8549a45625",
+      "bytes": 3082
+    },
+    "merchant-first-native-review-01/preservation.json": {
+      "sha256": "b2fddb761d5e8d78dbc232a793f68bae33c3d4ecbeec1078a4be88d9a7a05c93",
+      "bytes": 3788
+    },
+    "bypass-native-02/independent-analysis.json": {
+      "sha256": "97616ff056232281d12ad61dcb8f6edefff0cb6139c3bc7d348b9a22b0c598f3",
+      "bytes": 11206
+    },
+    "bypass-native-02/source-before.json.gz": {
+      "sha256": "87dc0e0fb5240c8ace5f76624506854fc97647198f0eb05aa800adf8eb11c045",
+      "bytes": 34833
+    },
+    "bypass-native-02/actual-before.json.gz": {
+      "sha256": "171153862b7fb2a5515b3c37158da34c4eacdf91a3c11f52a7888ce31f57ddbf",
+      "bytes": 42176
+    },
+    "bypass-native-02/parser.log": {
+      "sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "bytes": 73
+    },
+    "bypass-native-02/source-after.json.gz": {
+      "sha256": "87dc0e0fb5240c8ace5f76624506854fc97647198f0eb05aa800adf8eb11c045",
+      "bytes": 34833
+    },
+    "bypass-native-02/README.md": {
+      "sha256": "5562c71bfd8b09767a700f83162d63755d2395323d0505e61e018a574187ac1d",
+      "bytes": 3401
+    },
+    "bypass-native-02/wrapper.py.txt": {
+      "sha256": "3c97b6384fe553b0e5c255872b586e02c4e0b2182a80883aa97c765353a08336",
+      "bytes": 5367
+    },
+    "bypass-native-02/native-result.json.gz": {
+      "sha256": "9e8331d19177efd96c62dd32bae4661e9ca8b02744f53652c55f7f68488d2a69",
+      "bytes": 318991
+    },
+    "bypass-native-02/receipt.json": {
+      "sha256": "53c7d063e628b30a36242a1c1fafe5403d3b082bf24ed9ada6a2514e6909f974",
+      "bytes": 2986
+    },
+    "bypass-native-02/probe.gd.txt": {
+      "sha256": "9391437950b5ce722f5162273bdca244efd812ac121e6a1c7db2b1fb81834afb",
+      "bytes": 11354
+    },
+    "bypass-native-02/actual-after.json.gz": {
+      "sha256": "171153862b7fb2a5515b3c37158da34c4eacdf91a3c11f52a7888ce31f57ddbf",
+      "bytes": 42176
+    },
+    "bypass-native-02/preservation.json": {
+      "sha256": "4c416885f8ac38c6d42475ed2a6856e48032e7324b9d9c4546ae1df534756cc9",
+      "bytes": 2481
+    },
+    "bypass-native-02/native.log": {
+      "sha256": "537d1d002d9b19d7f6e6ec3078a0f2d29a716d2acf5f3b401836b245e5f4e039",
+      "bytes": 11417
+    },
+    "probe03-install/source-before.json.gz": {
+      "sha256": "87dc0e0fb5240c8ace5f76624506854fc97647198f0eb05aa800adf8eb11c045",
+      "bytes": 34833
+    },
+    "probe03-install/source-after.json.gz": {
+      "sha256": "17f95db0224c7a556289b113dbf133a69c37ce824dff6304224b30c7bae4df42",
+      "bytes": 34832
+    },
+    "probe03-install/receipt.json": {
+      "sha256": "cefe387d2ffc7dfb9ccb773fa9820f9ad158b796b9bde5defe86a4689178e912",
+      "bytes": 215
+    },
+    "bypass-native-01/executed-source/game/levels/merchant_layout.json.txt": {
+      "sha256": "50c1d09dc6fa8f33d34eea08658d8755a80303ac559170f8982a01abc2db7e7e",
+      "bytes": 53690
+    },
+    "bypass-native-01/executed-source/game/levels/merchant_neighbourhood.gd.txt": {
+      "sha256": "5e4024ba75e7c497eac761b7dd064407af3292b623e9c083897c68668edbd49a",
+      "bytes": 25466
+    },
+    "bypass-native-01/executed-source/game/progression/level_catalog.gd.txt": {
+      "sha256": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+      "bytes": 4301
+    },
+    "merchant-source-01/source/game/tricks/grind_line.gd.txt": {
+      "sha256": "8a3b80d6f40aaaac4d0eb93c8be72f3bc27bc856acff4ac6253e584d6757afeb",
+      "bytes": 17325
+    },
+    "merchant-source-01/source/game/tricks/trick_catalog.gd.txt": {
+      "sha256": "9cb1bdce05dc7ab20abc7731b862e90039df4709fa8b6c4fc24b01f243cb1f99",
+      "bytes": 39082
+    },
+    "merchant-source-01/source/game/levels/sunken_bowl_feature.gd.txt": {
+      "sha256": "cb935ac891c0335543cdc26d64b913b55598d09808f2c6f86e2f00ba1715dcea",
+      "bytes": 9230
+    },
+    "merchant-source-01/source/game/levels/transition_feature.gd.txt": {
+      "sha256": "718c7e56a964a73c45412f19f2a9309f452c0728f694c54eb6af0f6526b4bfc9",
+      "bytes": 12219
+    },
+    "merchant-source-01/source/game/levels/core_terrain.gd.txt": {
+      "sha256": "7ac4a31c5b1c2e50e31851ee884aa1e0560a306eaedff733b4054b58570655ce",
+      "bytes": 10825
+    },
+    "merchant-source-01/source/game/levels/spine_feature.gd.txt": {
+      "sha256": "3fffba9727980fb4c85955c6775864a80d32a439455d18d2ac0b61c813448656",
+      "bytes": 1614
+    },
+    "merchant-source-01/source/game/player/skater.gd.txt": {
+      "sha256": "1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84",
+      "bytes": 245029
+    },
+    "merchant-source-01/source/game/player/skate_response.gd.txt": {
+      "sha256": "42ced8a499cca0d30ccaadd2977b56a82884fef88febfb9f3352aca77130d1f7",
+      "bytes": 3266
+    },
+    "merchant-source-01/source/game/levels/outdoors/surface_builder.gd.txt": {
+      "sha256": "a8ad494855590515f71e16e679a5500c325d3d22628f72daef7be0e90b468745",
+      "bytes": 18233
+    },
+    "merchant-source-01/source/.local/world-integration/proposal/game/progression/level_catalog.gd.txt": {
+      "sha256": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+      "bytes": 4301
+    },
+    "merchant-source-01/source/.local/compact-level-replan/graybox/compact_world.gd.txt": {
+      "sha256": "fbd457d766a6810e8544e7f4e3a04ff08867ccca556e0569e3c93263a5e5e641",
+      "bytes": 24631
+    },
+    "merchant-source-01/source/.local/compact-level-replan/graybox/layout.json.gz": {
+      "sha256": "f0b8896477d150baa110881a5c61bbbb8468983e6747107abd44bb7af8555858",
+      "bytes": 11261
+    },
+    "merchant-source-01/source/docs/planning/COMPACT-LEVEL-REPLAN-2026-11-07.md": {
+      "sha256": "e2e75897c23ba14cdfc2696c0dede63c162b24ef7d1dafa5e9f5f019b3f8c48c",
+      "bytes": 15670
+    },
+    "merchant-source-01/source/docs/architecture/decisions/ADR-035-san-francisco-scale-neighbourhood.md": {
+      "sha256": "f6dc38d5cce733db022e381bc4c53ea71ea1a282e32a92bf6c268da00b0a7c3a",
+      "bytes": 3963
+    },
+    "bypass-native-03/executed-source/game/levels/merchant_layout.json.txt": {
+      "sha256": "3d3986eec8ce53097307723fe58fd77ebb502f49570dae297fe506603cb660ac",
+      "bytes": 8023
+    },
+    "bypass-native-03/executed-source/game/levels/merchant_neighbourhood.gd.txt": {
+      "sha256": "06a005386c5f917afaee366f88599370beb2759e10cc22410ba0c96293a6edd7",
+      "bytes": 27392
+    },
+    "bypass-native-03/executed-source/game/progression/level_catalog.gd.txt": {
+      "sha256": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+      "bytes": 4301
+    },
+    "merchant-first-native-review-01/native-02/source-before.json.gz": {
+      "sha256": "d475c2b93723d1345847362f53ec87dd65177c178ddc534c888ca6a781631a46",
+      "bytes": 34831
+    },
+    "merchant-first-native-review-01/native-02/parser.log": {
+      "sha256": "2d85f65ba5135e37b4b9a98d74a7db698918652dcbb29c4166ba0fd8781aeb40",
+      "bytes": 121
+    },
+    "merchant-first-native-review-01/native-02/source-after.json.gz": {
+      "sha256": "d475c2b93723d1345847362f53ec87dd65177c178ddc534c888ca6a781631a46",
+      "bytes": 34831
+    },
+    "merchant-first-native-review-01/native-02/live.json": {
+      "sha256": "e95dc6d65a3d848692195754843b61991fb7c3bf6451f511a3dd11b035edf7ef",
+      "bytes": 332
+    },
+    "merchant-first-native-review-01/native-02/native-result.json.gz": {
+      "sha256": "59dc16be778e91a3711c0d2720a47996b7a7e9b38232295bfa49315eee705c9f",
+      "bytes": 4316
+    },
+    "merchant-first-native-review-01/native-02/receipt.json": {
+      "sha256": "ce5e4596ba1eee149aa4c4de595b72888fb739b1a4bf020b3de361f16a996627",
+      "bytes": 2523
+    },
+    "merchant-first-native-review-01/native-02/native.log": {
+      "sha256": "404e950320140e7fb34a9a9dbfb0ca54cc1c84e25499233e92f29e7bbd664797",
+      "bytes": 3789
+    },
+    "merchant-first-native-review-01/native-04/source-before.json.gz": {
+      "sha256": "2da21d4c062d07722bb6756c550b12c4d2f774c41d9a083ed78889d2617ed05f",
+      "bytes": 34831
+    },
+    "merchant-first-native-review-01/native-04/parser.log": {
+      "sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "bytes": 73
+    },
+    "merchant-first-native-review-01/native-04/source-after.json.gz": {
+      "sha256": "2da21d4c062d07722bb6756c550b12c4d2f774c41d9a083ed78889d2617ed05f",
+      "bytes": 34831
+    },
+    "merchant-first-native-review-01/native-04/live.json": {
+      "sha256": "d9c359ae241f7f1e737b5d6d153d0b682c283e47ff5c24ccaa8489756d919be9",
+      "bytes": 332
+    },
+    "merchant-first-native-review-01/native-04/native-result.json.gz": {
+      "sha256": "c940d96d5a0293a4ca0f8472cc0261555c1614efde22ea80ed897d18d6df0d78",
+      "bytes": 4541
+    },
+    "merchant-first-native-review-01/native-04/receipt.json": {
+      "sha256": "ae4236a75fcb55be06a951ec0497f8c2ee55adab141d6d005935d697db365517",
+      "bytes": 2522
+    },
+    "merchant-first-native-review-01/native-04/native.log": {
+      "sha256": "c01f6564dcad75e87363357f92f9459448dc87c87755330bb473fc5111daad7a",
+      "bytes": 3786
+    },
+    "merchant-first-native-review-01/native-02/executed-matching-source/game/levels/merchant_layout.json.gz": {
+      "sha256": "f0b8896477d150baa110881a5c61bbbb8468983e6747107abd44bb7af8555858",
+      "bytes": 11261
+    },
+    "merchant-first-native-review-01/native-02/executed-matching-source/game/levels/merchant_neighbourhood.gd.txt": {
+      "sha256": "6be7accd1e6b541fc91a514a5eb0b755c6f3aa8a0bf950b58215263253c099f7",
+      "bytes": 25131
+    },
+    "merchant-first-native-review-01/native-02/executed-matching-source/game/progression/level_catalog.gd.txt": {
+      "sha256": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+      "bytes": 4301
+    },
+    "merchant-first-native-review-01/native-04/executed-matching-source/probe.gd.txt": {
+      "sha256": "225be5a206256bcf8ac99fa9bcb88a11ba877c7455a584c5c0c2b0e8864c2e3f",
+      "bytes": 8668
+    },
+    "merchant-first-native-review-01/native-04/executed-matching-source/game/levels/merchant_layout.json.gz": {
+      "sha256": "f0b8896477d150baa110881a5c61bbbb8468983e6747107abd44bb7af8555858",
+      "bytes": 11261
+    },
+    "merchant-first-native-review-01/native-04/executed-matching-source/game/levels/merchant_neighbourhood.gd.txt": {
+      "sha256": "6be7accd1e6b541fc91a514a5eb0b755c6f3aa8a0bf950b58215263253c099f7",
+      "bytes": 25131
+    },
+    "merchant-first-native-review-01/native-04/executed-matching-source/game/progression/level_catalog.gd.txt": {
+      "sha256": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+      "bytes": 4301
+    },
+    "bypass-native-02/executed-source/game/levels/merchant_layout.json.txt": {
+      "sha256": "50c1d09dc6fa8f33d34eea08658d8755a80303ac559170f8982a01abc2db7e7e",
+      "bytes": 53690
+    },
+    "bypass-native-02/executed-source/game/levels/merchant_neighbourhood.gd.txt": {
+      "sha256": "5e4024ba75e7c497eac761b7dd064407af3292b623e9c083897c68668edbd49a",
+      "bytes": 25466
+    },
+    "bypass-native-02/executed-source/game/progression/level_catalog.gd.txt": {
+      "sha256": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+      "bytes": 4301
+    }
+  },
+  "all_bytes_identical": true,
+  "scope": "Promotion only; original source, rejected epochs, native counts and limitations retained. No new engine or production change."
+}

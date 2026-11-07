@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-07T13:59:56.776881+00:00",
+  "status": "ACTUAL one-file guarded install; focused/full checks pending",
+  "git_head": "0a87d2c66d51d72309920d5fa802650c02db2e77",
+  "changed": {
+    "game/player/skater_visual.gd": {
+      "before": {
+        "sha256": "1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05",
+        "bytes": 75400
+      },
+      "after": {
+        "sha256": "4342841751f254c91ae70d9f49ec88fb586d4036011a69739592cdca5b64ca4e",
+        "bytes": 75670
+      }
+    }
+  },
+  "unchanged_other_inputs": 898,
+  "independent_review": "QA176/0, exact physical/foot/body/non-arm endpoint parity; root viewed8 original push/popcatch PNGs. Sparse current-pose replay, not human cadence orM5.",
+  "cost": "One float and existing8/s exponential presentation blend, no newgeometry/materials/maps/physics queries/collections. Original footclock/pushenvelope unchanged.",
+  "next": "Actual original Body/Gait/Flat/C04 focused checks, then required complete tools/check.sh with sourcefreeze. New Merchant world remains private."
+}

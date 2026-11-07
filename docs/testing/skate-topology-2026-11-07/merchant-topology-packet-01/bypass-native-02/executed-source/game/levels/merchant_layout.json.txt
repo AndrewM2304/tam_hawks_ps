@@ -1,0 +1,1981 @@
+{
+  "schema_version": 3,
+  "status": "APPROVED CONCEPT DIRECTION translated to private native construction datums; geometry and mapped-input acceptance pending.",
+  "recorded_utc": "2026-11-07T12:01:46.098993+00:00",
+  "owner_steering": {
+    "latest": "Sketch each section and the whole city from desired skating; draw organisation lessons from Streets, San Francisco, Los Angeles and London. Do not preserve the old long skatepark climb or depend on existing modules.",
+    "interpretation": "Medium dense Glasgowneighbourhood inspiredbyTHPS1Streets/THPS4SF organisation, notSFsetting/copyorWarehouse roomscale",
+    "superseded": "112×88three-court footprint AND oldsix-sprawling-default requirement",
+    "old_benchmark": "Both the old six-arena default and tiny three-court sketch are superseded without being passed. Current target: two genuinely distinct returnable lines per High Street, Market Cross, Depot and Foundry, plus three closed neighbourhood circuits; actual native/score/moving proof required.",
+    "parts_library_only": true
+  },
+  "variant": {
+    "default_id": "merchant_neighbourhood_v1",
+    "default_player_label": "Merchant District",
+    "retained_id": "glasgow_legacy_v1",
+    "retained_player_label": "City Tour",
+    "instantiate_only_active_world": true,
+    "uniform_scaling": false
+  },
+  "footprint": {
+    "selected_bounds_xz": [
+      -100,
+      -80,
+      100,
+      80
+    ],
+    "width_m": 200,
+    "depth_m": 160,
+    "area_m2": 32000,
+    "reason": "3.25×112×88draft;200m cross-at8m/s≈25s; reference only, notfranchise measurement. Smallerthanold~385×376boundingcity, builtaroundsolidblocks/shortaffordance-richstreets."
+  },
+  "ground_grade": {
+    "datum_function": "Y4 street with a local High Street grade only; native triangle queries use the same sampled datum.",
+    "top_y": 12,
+    "bottom_y": 4,
+    "scenic_global_climb": false,
+    "status": "Construction target from approved concept direction; no old 96 m hill approach."
+  },
+  "anchor_rooms": [
+    {
+      "id": "upper_steps",
+      "label": "High Street Steps",
+      "bounds_xz": [
+        -78,
+        -62,
+        -18,
+        8
+      ],
+      "datum": "Y4–12 through three playable terraces",
+      "role": "Stairs, graded handrails, banked shop pavement and retaining-wall returns share adjoining landings."
+    },
+    {
+      "id": "market_cross",
+      "label": "Market Cross",
+      "bounds_xz": [
+        -30,
+        -6,
+        22,
+        40
+      ],
+      "datum": "Y4 street; low pads and stair landings",
+      "role": "Three immediate spawn choices; short stair rail, seating ledges, manual pad, corner bank and active streets."
+    },
+    {
+      "id": "warehouse_row",
+      "label": "Depot and Roofs",
+      "bounds_xz": [
+        22,
+        -58,
+        82,
+        16
+      ],
+      "datum": "Y4 ground, Y6 dock, Y9 bridge, Y10 roof",
+      "role": "Roof and ground routes genuinely cross. East–west underpass has 4.5 m vertical clearance; upper lines open sky.",
+      "playable_floor_bounds_xz": [
+        22,
+        -22,
+        82,
+        16
+      ],
+      "solid_warehouse_bounds_xz": [
+        30,
+        -52,
+        76,
+        -22
+      ],
+      "roof_y": 10
+    },
+    {
+      "id": "foundry_basin",
+      "label": "Foundry Bowls",
+      "bounds_xz": [
+        28,
+        18,
+        80,
+        62
+      ],
+      "datum": "Y4 rim; Y2.5 entry street; Y1/2.5 bowl floors",
+      "role": "Custom arrangement of two transition parts, a hip and two street exits; no old facility retained."
+    }
+  ],
+  "building_masses": [
+    {
+      "id": "street_block_1",
+      "bounds_xz": [
+        -100,
+        -80,
+        100,
+        -68
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_2",
+      "bounds_xz": [
+        -100,
+        -68,
+        -80,
+        -64
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_3",
+      "bounds_xz": [
+        -48,
+        -68,
+        100,
+        -64
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_4",
+      "bounds_xz": [
+        -100,
+        -64,
+        -84,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_5",
+      "bounds_xz": [
+        -16,
+        -64,
+        100,
+        -60
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_6",
+      "bounds_xz": [
+        -16,
+        -60,
+        20,
+        -32
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_7",
+      "bounds_xz": [
+        84,
+        -60,
+        100,
+        -12
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_8",
+      "bounds_xz": [
+        -12,
+        -32,
+        20,
+        -28
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_9",
+      "bounds_xz": [
+        -8,
+        -28,
+        20,
+        -24
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_10",
+      "bounds_xz": [
+        -4,
+        -24,
+        20,
+        -16
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_11",
+      "bounds_xz": [
+        -84,
+        -16,
+        -80,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_12",
+      "bounds_xz": [
+        0,
+        -16,
+        8,
+        -12
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_13",
+      "bounds_xz": [
+        0,
+        -12,
+        4,
+        -8
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_14",
+      "bounds_xz": [
+        88,
+        -12,
+        100,
+        0
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_15",
+      "bounds_xz": [
+        92,
+        0,
+        100,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_16",
+      "bounds_xz": [
+        -80,
+        12,
+        -68,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_17",
+      "bounds_xz": [
+        -44,
+        12,
+        -32,
+        16
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_18",
+      "bounds_xz": [
+        -68,
+        16,
+        -64,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_19",
+      "bounds_xz": [
+        -40,
+        16,
+        -32,
+        20
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_20",
+      "bounds_xz": [
+        -64,
+        20,
+        -60,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_21",
+      "bounds_xz": [
+        -36,
+        20,
+        -32,
+        24
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_22",
+      "bounds_xz": [
+        -60,
+        28,
+        -56,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_23",
+      "bounds_xz": [
+        -56,
+        32,
+        -52,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_24",
+      "bounds_xz": [
+        -52,
+        36,
+        -44,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_25",
+      "bounds_xz": [
+        -44,
+        40,
+        -32,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_26",
+      "bounds_xz": [
+        -32,
+        44,
+        0,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_27",
+      "bounds_xz": [
+        0,
+        48,
+        8,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_28",
+      "bounds_xz": [
+        88,
+        48,
+        92,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_29",
+      "bounds_xz": [
+        8,
+        52,
+        12,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_30",
+      "bounds_xz": [
+        12,
+        56,
+        16,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_31",
+      "bounds_xz": [
+        16,
+        60,
+        24,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_32",
+      "bounds_xz": [
+        24,
+        64,
+        32,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_33",
+      "bounds_xz": [
+        84,
+        64,
+        88,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_34",
+      "bounds_xz": [
+        32,
+        68,
+        36,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_35",
+      "bounds_xz": [
+        76,
+        68,
+        84,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_36",
+      "bounds_xz": [
+        36,
+        72,
+        56,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_37",
+      "bounds_xz": [
+        64,
+        72,
+        76,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    },
+    {
+      "id": "street_block_38",
+      "bounds_xz": [
+        56,
+        76,
+        64,
+        80
+      ],
+      "height_above_local_ground": 10,
+      "role": "Solid Glasgow street architecture framing the selected playing spaces; detailed facades follow topology."
+    }
+  ],
+  "street_corridors": [
+    {
+      "id": "high_street_ground",
+      "label": "Banked High Street bypass",
+      "width": 8,
+      "points": [
+        [
+          -75,
+          4,
+          -60
+        ],
+        [
+          -75,
+          4,
+          -40
+        ],
+        [
+          -75,
+          4,
+          -20
+        ],
+        [
+          -68,
+          4,
+          0
+        ],
+        [
+          -54,
+          4,
+          18
+        ]
+      ],
+      "status": "Native construction target; no mapped-input acceptance."
+    },
+    {
+      "id": "market_west_return",
+      "label": "Market and west corner return",
+      "width": 10,
+      "points": [
+        [
+          -54,
+          4,
+          18
+        ],
+        [
+          -42,
+          4,
+          30
+        ],
+        [
+          -24,
+          4,
+          34
+        ],
+        [
+          -6,
+          4,
+          32
+        ],
+        [
+          16,
+          4,
+          28
+        ],
+        [
+          30,
+          4,
+          27
+        ]
+      ],
+      "status": "Native construction target; no mapped-input acceptance."
+    },
+    {
+      "id": "market_depot",
+      "label": "Market to real depot underpass",
+      "width": 10,
+      "points": [
+        [
+          -6,
+          4,
+          6
+        ],
+        [
+          12,
+          4,
+          -6
+        ],
+        [
+          30,
+          4,
+          -6
+        ],
+        [
+          48,
+          4,
+          -6
+        ],
+        [
+          64,
+          4,
+          -6
+        ],
+        [
+          80,
+          4,
+          -6
+        ]
+      ],
+      "status": "Native construction target; no mapped-input acceptance."
+    },
+    {
+      "id": "depot_bowls",
+      "label": "Depot to Foundry street",
+      "width": 10,
+      "points": [
+        [
+          80,
+          4,
+          -6
+        ],
+        [
+          84,
+          4,
+          14
+        ],
+        [
+          84,
+          4,
+          36
+        ],
+        [
+          78,
+          4,
+          60
+        ],
+        [
+          62,
+          4,
+          66
+        ],
+        [
+          44,
+          4,
+          64
+        ],
+        [
+          24,
+          4,
+          52
+        ],
+        [
+          8,
+          4,
+          40
+        ],
+        [
+          -6,
+          4,
+          32
+        ]
+      ],
+      "status": "Native construction target; no mapped-input acceptance."
+    },
+    {
+      "id": "high_street_top",
+      "label": "High Street upper landing",
+      "width": 8,
+      "points": [
+        [
+          -75,
+          4,
+          -60
+        ],
+        [
+          -62,
+          4,
+          -60
+        ],
+        [
+          -44,
+          4,
+          -58
+        ],
+        [
+          -24,
+          4,
+          -54
+        ]
+      ],
+      "status": "Native construction target; no mapped-input acceptance."
+    },
+    {
+      "id": "middle_close",
+      "label": "Terrace-to-market close",
+      "width": 8,
+      "points": [
+        [
+          -24,
+          4,
+          -30
+        ],
+        [
+          -14,
+          4,
+          -22
+        ],
+        [
+          -8,
+          4,
+          -10
+        ],
+        [
+          -6,
+          4,
+          6
+        ]
+      ],
+      "status": "Native construction target; no mapped-input acceptance."
+    },
+    {
+      "id": "foundry_west",
+      "label": "Market to Foundry west bank",
+      "width": 6,
+      "points": [
+        [
+          16,
+          4,
+          27
+        ],
+        [
+          22,
+          4,
+          27
+        ],
+        [
+          30,
+          4,
+          27
+        ]
+      ],
+      "status": "Native construction target; no mapped-input acceptance."
+    }
+  ],
+  "feature_slots": [
+    {
+      "id": "spawn",
+      "kind": "spawn",
+      "position": [
+        -14,
+        4.8,
+        31
+      ],
+      "intent": "Clear Market paving; native ordinary Push/Ollie smoke measured, three exact view choices still need framing review.",
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "market_island",
+      "kind": "ledge_manual_pad",
+      "bounds_xz": [
+        -7,
+        13,
+        1,
+        25
+      ],
+      "top_y": 4.45,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "market_seats",
+      "kind": "ledge",
+      "bounds_xz": [
+        -21,
+        19,
+        -19,
+        29
+      ],
+      "top_y": 4.45,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "market_stair",
+      "kind": "stairs",
+      "position": [
+        -17.5,
+        4,
+        4
+      ],
+      "rise_m": 0.8,
+      "run_m": 4,
+      "count": 4,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "market_bank",
+      "kind": "bank",
+      "bounds_xz": [
+        12,
+        0,
+        20,
+        10
+      ],
+      "y_range": [
+        4,
+        5.2
+      ],
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "high_stair",
+      "kind": "stairs_handrail",
+      "position": [
+        -55,
+        10,
+        -48
+      ],
+      "rise_m": 2,
+      "run_m": 8,
+      "count": 10,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "middle_stair",
+      "kind": "stairs_handrail",
+      "position": [
+        -45,
+        7,
+        -27
+      ],
+      "rise_m": 2,
+      "run_m": 8,
+      "count": 10,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "lower_stair",
+      "kind": "stairs_handrail",
+      "position": [
+        -33,
+        4,
+        -7
+      ],
+      "rise_m": 1.5,
+      "run_m": 6,
+      "count": 6,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "high_quarter",
+      "kind": "quarter_return",
+      "position": [
+        -66,
+        12,
+        -57
+      ],
+      "radius_m": 2.2,
+      "width_m": 8,
+      "apron_bounds_xz": [
+        -74,
+        -66,
+        -46,
+        -52
+      ],
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "hill_rails",
+      "kind": "graded_rails",
+      "positions": [
+        [
+          -73,
+          10,
+          -44
+        ],
+        [
+          -70,
+          8,
+          -23
+        ]
+      ],
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "middle_retaining_wall",
+      "kind": "finite_wallride",
+      "bounds_xz": [
+        -31.2,
+        -31,
+        -30.8,
+        -19
+      ],
+      "y_range": [
+        7,
+        10
+      ],
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "upper_close",
+      "kind": "elevated_crossing",
+      "bounds_xz": [
+        -24,
+        -40,
+        30,
+        -34
+      ],
+      "top_y": 10,
+      "underside_y": 9.5,
+      "lower_opening": true,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "depot_roof_gap",
+      "kind": "gap",
+      "bounds_xz": [
+        52,
+        -52,
+        54,
+        -22
+      ],
+      "roof_y": 10,
+      "gap_width_m": 2,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "depot_loading",
+      "kind": "dock",
+      "bounds_xz": [
+        30,
+        -22,
+        76,
+        -16
+      ],
+      "top_y": 6,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "depot_bridge",
+      "kind": "real_underpass",
+      "bounds_xz": [
+        28,
+        -12,
+        76,
+        0
+      ],
+      "top_y": 9,
+      "underside_y": 8.5,
+      "floor_y": 4,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "depot_loading_stair",
+      "kind": "stairs_handrail",
+      "position": [
+        39,
+        4,
+        -16
+      ],
+      "rise_m": 2,
+      "run_m": 6,
+      "count": 10,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "foundry_entry_street",
+      "kind": "lower_street",
+      "bounds_xz": [
+        30,
+        24,
+        78,
+        30
+      ],
+      "floor_y": 2.5,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "foundry_north_bank",
+      "kind": "bank_entry",
+      "bounds_xz": [
+        48,
+        14,
+        58,
+        24
+      ],
+      "y_range": [
+        4,
+        2.5
+      ],
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "foundry_west_bank",
+      "kind": "bank_entry",
+      "bounds_xz": [
+        20,
+        24,
+        30,
+        30
+      ],
+      "y_range": [
+        4,
+        2.5
+      ],
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "foundry_deep",
+      "kind": "bowl",
+      "position": [
+        44,
+        1,
+        41
+      ],
+      "radius_m": 3,
+      "floor_radius_m": 3,
+      "rim_y": 4,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "foundry_shallow",
+      "kind": "bowl",
+      "position": [
+        65,
+        2.5,
+        40
+      ],
+      "radius_m": 1.5,
+      "floor_radius_m": 3,
+      "rim_y": 4,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "foundry_hip",
+      "kind": "spine_hip",
+      "position": [
+        57,
+        4,
+        54
+      ],
+      "radius_m": 1.5,
+      "width_m": 7,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    },
+    {
+      "id": "lower_arcade_wall",
+      "kind": "finite_wallride",
+      "position": [
+        43,
+        5.5,
+        68
+      ],
+      "length_m": 18,
+      "height_m": 3,
+      "native_verified": false,
+      "status": "Construction source only unless explicitly covered by the component evidence below; repaired bypass source not yet native-tested."
+    }
+  ],
+  "macro_loops": [
+    {
+      "id": "ground_street_loop",
+      "label": "High Street → Market → depot ground → west return",
+      "color": "#67d8ff",
+      "points": [
+        [
+          -64,
+          12,
+          -56
+        ],
+        [
+          -54,
+          10,
+          -40
+        ],
+        [
+          -42,
+          8,
+          -24
+        ],
+        [
+          -18,
+          4,
+          10
+        ],
+        [
+          -6,
+          4,
+          30
+        ],
+        [
+          24,
+          4,
+          27
+        ],
+        [
+          48,
+          2.5,
+          27
+        ],
+        [
+          78,
+          4,
+          44
+        ],
+        [
+          62,
+          4,
+          66
+        ],
+        [
+          24,
+          4,
+          52
+        ],
+        [
+          -24,
+          4,
+          34
+        ],
+        [
+          -54,
+          4,
+          18
+        ],
+        [
+          -75,
+          8,
+          -20
+        ],
+        [
+          -64,
+          12,
+          -56
+        ]
+      ],
+      "families": [
+        "graded handrail",
+        "stair gap",
+        "seating ledge",
+        "bank",
+        "street return"
+      ],
+      "status": "Target only; no native whole-loop or one-bank evidence.",
+      "plan_polyline_length_m": 427.33658271708435,
+      "reference8mps_seconds": 53.417072839635544,
+      "warning": "Concept flow only; every support, landing, opportunity interval and score segment remains to be tested."
+    },
+    {
+      "id": "depot_roof_loop",
+      "label": "Terrace cut → depot roof → bridge → loading return",
+      "color": "#ffcc75",
+      "points": [
+        [
+          -24,
+          8,
+          -38
+        ],
+        [
+          18,
+          8,
+          -38
+        ],
+        [
+          30,
+          10,
+          -38
+        ],
+        [
+          52,
+          10,
+          -38
+        ],
+        [
+          64,
+          10,
+          -24
+        ],
+        [
+          60,
+          9,
+          -10
+        ],
+        [
+          46,
+          9,
+          -6
+        ],
+        [
+          30,
+          6,
+          -18
+        ],
+        [
+          20,
+          4,
+          -6
+        ],
+        [
+          -6,
+          4,
+          10
+        ]
+      ],
+      "families": [
+        "banked roof access",
+        "roof ledge",
+        "short gap",
+        "bridge",
+        "loading stair/wall return"
+      ],
+      "status": "Target only; actual supports/flight/native input and score needed.",
+      "plan_polyline_length_m": 190.25979248219747,
+      "reference8mps_seconds": 23.782474060274684,
+      "warning": "Concept flow only; every support, landing, opportunity interval and score segment remains to be tested."
+    },
+    {
+      "id": "foundry_market_loop",
+      "label": "Market → Foundry → underpass → Market",
+      "color": "#b59aff",
+      "points": [
+        [
+          -6,
+          4,
+          30
+        ],
+        [
+          20,
+          4,
+          27
+        ],
+        [
+          30,
+          2.5,
+          27
+        ],
+        [
+          44,
+          2.5,
+          30
+        ],
+        [
+          44,
+          1,
+          41
+        ],
+        [
+          64,
+          2.5,
+          40
+        ],
+        [
+          58,
+          2.5,
+          27
+        ],
+        [
+          54,
+          4,
+          14
+        ],
+        [
+          48,
+          4,
+          -6
+        ],
+        [
+          20,
+          4,
+          -6
+        ],
+        [
+          -6,
+          4,
+          10
+        ],
+        [
+          -6,
+          4,
+          30
+        ]
+      ],
+      "families": [
+        "low rail",
+        "bank",
+        "bowl/hip",
+        "coping",
+        "underpass ledge"
+      ],
+      "status": "Target only; no old basin route implied and no native circuit acceptance.",
+      "plan_polyline_length_m": 209.19612852101892,
+      "reference8mps_seconds": 26.149516065127365,
+      "warning": "Concept flow only; every support, landing, opportunity interval and score segment remains to be tested."
+    }
+  ],
+  "basin_module": {
+    "reuse_required": false,
+    "old_facility_instantiated": false,
+    "design": "Custom Foundry Court with individual shared transition parts, clipped native deck, lower entry street and two supported openings.",
+    "bounds_xz": [
+      30,
+      20,
+      78,
+      60
+    ],
+    "rim_y": 4,
+    "lower_street_y": 2.5,
+    "deep_floor_y": 1,
+    "shallow_floor_y": 2.5,
+    "status": "Private construction target; port/support/clearance/input checks pending."
+  },
+  "cadence": {
+    "meaningful_choice_target_s": [
+      1.5,
+      2
+    ],
+    "reference_speed_mps": 8,
+    "reference_distance_m": [
+      12,
+      16
+    ],
+    "macro_streets_not_empty_intervals": "Everylongstreet/edge requirescontinuousrideablefrontage plus authenticgap/ramp/crossstreet choice every12–16m. Macrovertices areNOTfeature-eventproof.",
+    "maximum_blank_ground_target_m": 16,
+    "safe_bypass_m": 4,
+    "speed_families_mps": [
+      [
+        4,
+        6
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        10,
+        12
+      ]
+    ],
+    "native_proof_required": true
+  },
+  "core_world_public_methods": [
+    "get_transition_features",
+    "get_spawn_position",
+    "get_npc_positions",
+    "get_encounter_definitions",
+    "activate_cone",
+    "reset_interactions",
+    "get_district_id",
+    "get_district_checkpoints",
+    "get_gap_definitions",
+    "get_location_name",
+    "get_ground_height",
+    "get_support_height",
+    "get_recovery_position",
+    "get_recovery_message",
+    "get_route_definitions",
+    "get_goal_markers",
+    "get_grind_lines",
+    "get_surface_audit",
+    "get_park_skatepark_definition",
+    "get_skate_feature_definitions",
+    "get_level_density_audit"
+  ],
+  "core_public_method_count": 21,
+  "proposed_additional_methods": [
+    "get_level_manifest",
+    "get_activity_layout"
+  ],
+  "source_contract_note": "21actualcustompublicmethods +2proposed data getters; retainallgettersasdata-level contract, notoldcoordinatecoupling.",
+  "career_save": {
+    "old_progress": "Preservev1CityTourcareer completions/bests/backup; no oldrecord deletion orautomaticcompactclear.",
+    "new_progress": "Level-scoped MerchantDistrictgoals/bests; stablecollectionidentifiersscopedbylevel, explicitnewzonegoal insteadofrelabellingoldfourgeographicvisits.",
+    "settings_unlocks": "Globalsettings/cosmetics/earnedunlocks preserved; personalMusicbehaviorunchanged.",
+    "world_loading": "Lazyload ONEvariant; no backgroundlegacyworld cost."
+  },
+  "keep_move_cut": {
+    "reuse": [
+      "Unscaled40×30basinmodule",
+      "selectedstairs,handrails/fountaincoping/hallcurve/onequarter",
+      "currentcharacter/contact/scoring/audio/materialmodules"
+    ],
+    "cut_default": [
+      "156memptyquayapproach",
+      "103mpromenadeandscenicuphillaccess",
+      "river-water/bridges/railway/pond spread",
+      "isolatedbank/benchrepeats",
+      "outerlandscape/remote genericfacaderows",
+      "legacyvehicle/sceniclap/conewateractivities"
+    ],
+    "city_tour": [
+      "Fulloldworld/oldgapandrouteIDs/oldmissiongeography",
+      "Legacyfixed-coordinateregression fixtures"
+    ],
+    "no_uniform_scaling": true
+  },
+  "references": [
+    {
+      "game": "THPS1 Streets (1999)",
+      "url": "https://db.hfsplay.fr/files/2020/06/20/Tony_Hawks_Pro_Skater_-_1999_-_Activision_igSnFrK.pdf",
+      "kind": "originalpublisher manual hosted byarchive; search indexedpassage/pdf opened",
+      "observation": "Urban skating landmarks, hills and longrails; no metre dimensions supplied.",
+      "inference": "One urban neighbourhood can have distinct localspots while maintaining a continuouscity loop."
+    },
+    {
+      "game": "THPS1 Streets /1+2 remake",
+      "url": "https://www.pushsquare.com/guides/tony-hawks-pro-skater-1-plus-2-streets-all-park-goals-gaps-and-challenges",
+      "kind": "publishedplayer guide, opened7Nov2026",
+      "observation": "Describes slopedstreets,plaza/fountain,raisedledges,buildingentry,rooftop progression andwallrideaccess.",
+      "inference": "Makeground/upperroutes cross andreturn insideadjacentblocks; no copyingoflayout orlandmarks."
+    },
+    {
+      "game": "THPS4 SanFrancisco (2002)",
+      "url": "https://www.tonyhawkguide.com/pro-skater-4/san-francisco.html",
+      "kind": "originalgame walkthrough, opened7Nov2026",
+      "observation": "Describes courtyardcurvedsteps,warehousequarter→roof→roofgap→wire andwallgrindsacrossintersections withManualrecovery.",
+      "inference": "Align intersections, buildingfronts andhigh/low paths as onecombosystem, notisolated courts."
+    },
+    {
+      "game": "THPS1 originalStreets",
+      "url": "https://planettonyhawk.gamespy.com/View3650.html?id=9&view=thps_faqs_guides.Detail",
+      "kind": "originalfan guide, opened7Nov2026",
+      "observation": "Describes a largeurbanlevel,centralstreetspots andmulti-step roofroute; no trustworthyphysicaldimensions.",
+      "inference": "Medium-city scope shouldretainexploration but avoidgeographicvoids between eachspot."
+    }
+  ],
+  "references_scope": "Text/sourcesopenedbyLD; rootownsactualmap/video frameinspection. No claimedwatchedSFframes ormeasuredfranchisemetres; nofranchisefilescommitted.",
+  "source_sha256": {
+    "game/main.gd": "379233f0cab192c395c19d05b98311434a1ab008c345655b9f8925d3f0e10686",
+    "game/levels/glasgow_square.gd": "153b0d15d05cc749ada0ecbb5894c9fe37fe57ba2c709629163c617ab6f29f50",
+    "game/levels/core_terrain.gd": "7ac4a31c5b1c2e50e31851ee884aa1e0560a306eaedff733b4054b58570655ce",
+    "game/levels/kelvingrove_skatepark.gd": "8e721aec746421a250e24e86e09f5a7f676f8df1afe7804688eb91d765122262",
+    "game/levels/sunken_bowl_feature.gd": "cb935ac891c0335543cdc26d64b913b55598d09808f2c6f86e2f00ba1715dcea",
+    "game/levels/transition_feature.gd": "718c7e56a964a73c45412f19f2a9309f452c0728f694c54eb6af0f6526b4bfc9",
+    "game/features/feature_hub.gd": "efc208777c12718e5bac79323d6f5757070a8509af1961ada55245628d29acd1",
+    "game/progression/career_progress.gd": "4ee0765bb9603c2c983577c4468718f466b27bbc3f21f49b0dfcf6395ab3ebee",
+    "game/player/skater.gd": "1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84",
+    "game/scoring/score_session.gd": "1ce3d210665306a93ff7af0d8383f58f979568a3c4a94810a2e67753476f1ccd",
+    "game/audio/apple_music.gd": "f14eb31e725977e398f69c372fa3e47282223777f494180425ace7a4b3257890"
+  },
+  "native_currentness": "134/0focusednewsourceisboundedcurrentevidence; full03ongoingfrozen. No newcompactgeometrynativeproof yet.",
+  "budget": {
+    "new_texture_bytes": 0,
+    "new_shader_types": 0,
+    "targets_not_measured": {
+      "static_bodies_max": 280,
+      "shape_slots_max": 800,
+      "static_triangles_max": 200000
+    },
+    "rule": "Oneactiveworld; selectedbuildings/materials only,lazyloadCityTour. Exactnative/draw/memory/timing/M5gate remainsrequired."
+  },
+  "private_graybox_next": {
+    "directory": ".local/compact-level-replan/graybox",
+    "scope": "PlayableactualSkater +nativegradedstreets/solidblocks +unscaledBasin +selectedramp/rail/steps; noMain/profile/sourceedit.",
+    "required": "Source/cachecopy,explicitboundedlease,positive/negativeactualmappedrunfirst; geometrysupport/layering/nativebody/model/camera proofs.",
+    "not_yet_built": true
+  },
+  "career_manifest": {
+    "schema_version": 1,
+    "level_id": "merchant_neighbourhood_v1",
+    "goals": [
+      {
+        "id": "md_first_shift",
+        "title": "First shift",
+        "kind": "score",
+        "target": 1000,
+        "detail": "Bank 1,000 points in one Merchant District run."
+      },
+      {
+        "id": "md_good_shift",
+        "title": "Good shift",
+        "kind": "score",
+        "target": 5000,
+        "detail": "Bank 5,000 points in one Merchant District run."
+      },
+      {
+        "id": "md_some_shift",
+        "title": "Some shift",
+        "kind": "score",
+        "target": 15000,
+        "detail": "Bank 15,000 points in one Merchant District run."
+      },
+      {
+        "id": "md_one_long_line",
+        "title": "One long line",
+        "kind": "combo",
+        "target": 3000,
+        "detail": "Bank one combo worth 3,000 points."
+      },
+      {
+        "id": "md_letters",
+        "title": "Letters through the district",
+        "kind": "letter",
+        "target": 5,
+        "detail": "Collect the five letters through the district in one run."
+      },
+      {
+        "id": "md_cone_duty",
+        "title": "Cone duty",
+        "kind": "interaction",
+        "target": 1,
+        "detail": "Knock the marked sign cone loose."
+      },
+      {
+        "id": "md_roof_gap",
+        "title": "Across the roofs",
+        "kind": "gap",
+        "target": 1,
+        "detail": "Clear the high roof channel gap."
+      },
+      {
+        "id": "md_market_sweep",
+        "title": "Market sweep",
+        "kind": "market_item",
+        "target": 3,
+        "detail": "Collect three market items in one run."
+      },
+      {
+        "id": "md_four_corners",
+        "title": "Four corners",
+        "kind": "district",
+        "target": 4,
+        "detail": "Visit the four local zones in one run."
+      },
+      {
+        "id": "md_lost_recording",
+        "title": "Lost recording",
+        "kind": "collectible",
+        "target": 1,
+        "detail": "Find the hidden recording."
+      }
+    ],
+    "accepted_events": {
+      "letter": [
+        "md_letter_h",
+        "md_letter_a",
+        "md_letter_w",
+        "md_letter_k",
+        "md_letter_s"
+      ],
+      "interaction": [
+        "md_cone"
+      ],
+      "gap": [
+        "md_roof_channel"
+      ],
+      "market_item": [
+        "md_market_1",
+        "md_market_2",
+        "md_market_3"
+      ],
+      "district": [
+        "md_upper_steps",
+        "md_market_cross",
+        "md_warehouse_row",
+        "md_foundry_basin"
+      ],
+      "collectible": [
+        "md_secret_recording"
+      ]
+    },
+    "global_unlocks": {
+      "md_first_shift": [
+        "color_orange",
+        "special_clyde_carousel"
+      ],
+      "md_some_shift": [
+        "color_purple"
+      ],
+      "md_one_long_line": [
+        "special_tenement_tumble"
+      ]
+    },
+    "old_domain": "glasgow_legacy_v1",
+    "old_goal_ids_reused": false,
+    "old_profile_not_overwritten": true,
+    "canonical_runtime_source": "game/progression/level_catalog.gd (world-integration specialist owns; JSON is design record)"
+  },
+  "area_partition": {
+    "method": "Conservative four-metre planning grid reserved around concept rooms and real connecting streets; native topology still unmeasured.",
+    "total_m2": 32000,
+    "solid_architecture_m2": 14432,
+    "reserved_play_and_shoulders_m2": 17568,
+    "unassigned_m2": 0,
+    "solid_rectangles": 38,
+    "native_geometry_verified": false
+  },
+  "roof_paths": [
+    {
+      "id": "depot_upper_route",
+      "points": [
+        [
+          -24,
+          10,
+          -37
+        ],
+        [
+          15,
+          10,
+          -37
+        ],
+        [
+          36,
+          10,
+          -37
+        ],
+        [
+          51,
+          10,
+          -37
+        ],
+        [
+          55,
+          10,
+          -37
+        ],
+        [
+          64,
+          10,
+          -22
+        ],
+        [
+          64,
+          9,
+          -12
+        ],
+        [
+          48,
+          9,
+          -5
+        ]
+      ],
+      "note": "Actual slab/roof datums in private code; source geometry still needs native contacts/flight and return proof."
+    }
+  ],
+  "visual_scope": "OriginalGlasgowmediumurbanplan, scaledmetres; solidbuildingmasses versusreservedplayableground areexplicit. Colouredmacroloopslieoverplanonly, notactualtraces.",
+  "proposed_public_method_count_after_gap_merge": 24,
+  "pending_additional_existing_method": "get_gap_grind_destinations",
+  "section_concepts": [
+    {
+      "id": "market_cross",
+      "label": "Market Cross",
+      "experience": "A legible four-way skating intersection, viewed from clear spawn paving. Three materially different options are visible immediately.",
+      "visual_purpose": "Warm stone shops frame a raised civic island; a loading opening and upper street remain visible across the square.",
+      "footprint_target_m": [
+        38,
+        34
+      ],
+      "height_range_m": [
+        2,
+        4
+      ],
+      "primary_line": [
+        "short approach bank",
+        "curved civic ledge",
+        "four-step gap",
+        "Manual to loading frontage"
+      ],
+      "alternative_line": [
+        "outer kerb grind",
+        "finite shop wallride",
+        "Wallie into cross street"
+      ],
+      "returns": [
+        "banked west corner re-enters the island",
+        "east loading edge faces the square"
+      ],
+      "next_choice_target_m": [
+        8,
+        14
+      ],
+      "bypass_width_m": 4,
+      "status": "Concept; native geometry, timing and score unmeasured"
+    },
+    {
+      "id": "terraced_high_street",
+      "label": "High Street Steps",
+      "experience": "The hill is a sequence of overlapping trick rooms. Climbing is itself a choice of banks, rails and small roof cuts; there is no long promenade leading to a destination.",
+      "visual_purpose": "A compressed tenement street steps up through three landings. Each landing reveals the next two choices rather than a distant empty slope.",
+      "footprint_target_m": [
+        54,
+        44
+      ],
+      "height_range_m": [
+        4,
+        12
+      ],
+      "primary_line": [
+        "graded handrail",
+        "small stair gap",
+        "retaining-wall ride",
+        "upper landing rail"
+      ],
+      "alternative_line": [
+        "bank up to side terrace",
+        "low roof transfer",
+        "ledge descent back to Market"
+      ],
+      "returns": [
+        "quarter at the upper corner faces a different downhill line",
+        "side alley rejoins the middle landing without circling the map"
+      ],
+      "next_choice_target_m": [
+        10,
+        16
+      ],
+      "bypass_width_m": 4,
+      "status": "Concept; old 96 m global hill is not a required layout"
+    },
+    {
+      "id": "loading_works",
+      "label": "Depot and Roofs",
+      "experience": "Industrial skating around one solid block with an upper delivery deck, ground passage and a roof route crossing them.",
+      "visual_purpose": "Brick loading bays, open shutters and a service bridge explain each deck; ramp and rail arrivals share the chase view.",
+      "footprint_target_m": [
+        42,
+        36
+      ],
+      "height_range_m": [
+        3,
+        10
+      ],
+      "primary_line": [
+        "loading bank",
+        "bent deck ledge",
+        "two-metre channel gap",
+        "finite wallride return"
+      ],
+      "alternative_line": [
+        "ground handrail",
+        "stair set",
+        "underpass Manual",
+        "street corner bank"
+      ],
+      "returns": [
+        "upper ledge exits toward Market",
+        "ground passage returns to the bank toe"
+      ],
+      "next_choice_target_m": [
+        8,
+        15
+      ],
+      "clearance": "Ground passage is a grounded route with explicit clearance; upper tricks are open sky, not a two-metre-high mezzanine.",
+      "status": "Concept; no old hall or factory footprint is obligatory",
+      "roof_and_arcade_cuts": "Short high/low shortcuts and visible intermediate landings belong to this section, not a fifth distant district."
+    },
+    {
+      "id": "foundry_transition_court",
+      "label": "Foundry Bowls",
+      "experience": "A transition space is cut directly into the lower street so a street line can enter, change direction and leave on another side. It is not a park reached after a scenic climb.",
+      "visual_purpose": "Two opposing concrete faces and a broad hip make an urban service court; overlook decks expose the next street choice.",
+      "footprint_target_m": [
+        30,
+        26
+      ],
+      "height_range_m": [
+        -1,
+        3
+      ],
+      "primary_line": [
+        "street rail",
+        "entry bank",
+        "hip transfer",
+        "opposing lip",
+        "exit ledge to arcade"
+      ],
+      "alternative_line": [
+        "low wallride",
+        "corner quarter return",
+        "flat ledge",
+        "second street opening"
+      ],
+      "returns": [
+        "two supported street openings on different sides",
+        "opposing transition points at the exit, not a dead boundary"
+      ],
+      "next_choice_target_m": [
+        7,
+        14
+      ],
+      "bypass_width_m": 4,
+      "parts_policy": "Choose shared constructors only after this shape is agreed; no duty to carry both old bowls or the 40 by 30 m footprint.",
+      "status": "Concept; current private source still contains an explicitly paused basin experiment"
+    }
+  ],
+  "concept_alignment_gate": {
+    "required_before_native_layout": "Inspect the original masterplan/section board with Root, select actual anchors, street/terrace elevations and portals, then build the native graybox to that selection.",
+    "parts_reuse_not_constraint": true,
+    "global_scening_climb_removed": true,
+    "reference_levels": [
+      "THPS1 Streets",
+      "THPS4 San Francisco",
+      "THPS3 Los Angeles",
+      "THPS4 London"
+    ],
+    "franchise_dimensions_inferred": false
+  },
+  "additional_city_references": [
+    {
+      "game": "THPS3 Los Angeles",
+      "version_scope": "Original-game guide, not GBA/PS1 or the 2025 remake",
+      "url": "https://www.tonyhawkguide.com/pro-skater-3/los-angeles.html",
+      "observed_text": "Quarter-to-roof access, a slope/roof/elevated-road progression, an ascending-rail jump to a descending rail, and wallride-to-ledge access.",
+      "design_inference": "A street obstacle can open a higher route and share its arrival with a different ground line. Put the landing and the next choice in view together.",
+      "scope": "Text opened 2026-11-07; no footage watched by LD; no franchise geometry measured."
+    },
+    {
+      "game": "THPS4 London",
+      "version_scope": "Original PS2/GC/Xbox guide, not the differently built PS1 version or 2025 remake",
+      "url": "https://planettonyhawk.gamespy.com/Viewd033.html?id=6&view=thps4_faqs_guides.Detail",
+      "observed_text": "A COMBO route joins ledge, Manual, quarter, upper ledge and wire; the high returning light line has two breaks, and the Southbank pocket combines ledges, rails and quarters.",
+      "design_inference": "Give the main street both a lower branching obstacle pocket and a broken upper return. A short Manual joins different features instead of filling long travel.",
+      "scope": "Text opened 2026-11-07; no footage watched by LD; guide instructions are not native evidence for this game."
+    }
+  ],
+  "construction_datums": {
+    "street_y": 4,
+    "high_street_top_y": 12,
+    "depot_dock_y": 6,
+    "depot_roof_y": 10,
+    "bridge_top_y": 9,
+    "bridge_underside_y": 8.5,
+    "ground_underpass_y": 4,
+    "underpass_clear_height_m": 4.5,
+    "upper_tricks_open_sky": true,
+    "old_basin_used": false,
+    "world_api_public_methods": 24
+  },
+  "native_prototype_evidence": {
+    "source": ".local/compact-level-replan/graybox/compact_world.gd",
+    "current_sha256": "5e4024ba75e7c497eac761b7dd064407af3292b623e9c083897c68668edbd49a",
+    "first_geometry_epoch": ".local/compact-level-replan/epochs/native-02",
+    "first_scope": "26 passed/1 failed: sampled support, floors, voids, headroom, identities and first mapped Ollie; final smoke caught genuine unsupported bypass rim. Rejected.",
+    "extended_observer_epoch": ".local/compact-level-replan/epochs/native-04",
+    "extended_scope": "27/0 limited component/smoke,722 stable source/cache inputs; coast tail records later landing and does not admit the flawed bypass.",
+    "retained_problem": "Market east stair bank terminated0.8m above paving at Z0; actual departure195–196.",
+    "repair_status": "Private bank moved west crosswise, east4m floor kept clear; full stair terrain envelopes expanded;1m terrain retained. Awaiting fresh no-jump/edge/native/moving proof.",
+    "whole_native_circuits": 0,
+    "same_combo_circuits": 0,
+    "performance_admitted": false
+  },
+  "line_targets": [
+    {
+      "section": "High Street Steps",
+      "id": "md_target_high_rail",
+      "events": [
+        "graded rail",
+        "upper stair handrail",
+        "stair gap",
+        "middle retaining wall",
+        "Market ledge"
+      ],
+      "return": "west banked street/quarter or shorter middle close; intermediate uphill contacts still need actual authoring/proof",
+      "status": "Unmeasured target"
+    },
+    {
+      "section": "High Street Steps",
+      "id": "md_target_high_roof",
+      "events": [
+        "terrace bank",
+        "upper close rail",
+        "roof channel",
+        "depot bridge rail"
+      ],
+      "return": "Depot ground/Market/High Street link remains to be authored and physically proved",
+      "status": "Unmeasured target"
+    },
+    {
+      "section": "Market Cross",
+      "id": "md_target_market_civic",
+      "events": [
+        "seating ledge",
+        "Manual pad",
+        "short stair rail",
+        "corner bank"
+      ],
+      "return": "bank returns to a different civic-island edge",
+      "status": "Unmeasured target"
+    },
+    {
+      "section": "Market Cross",
+      "id": "md_target_market_depot",
+      "events": [
+        "corner bank",
+        "depot ground rail",
+        "loading stair gap",
+        "dock ledge"
+      ],
+      "return": "underpass/Market exit",
+      "status": "Unmeasured target"
+    },
+    {
+      "section": "Depot and Roofs",
+      "id": "md_target_depot_roof",
+      "events": [
+        "upper-close rail",
+        "roof channel",
+        "bridge rail",
+        "roof-to-ground wallride"
+      ],
+      "return": "loading bank; final wall/drop/runout not yet native authored/proved",
+      "status": "Unmeasured target"
+    },
+    {
+      "section": "Depot and Roofs",
+      "id": "md_target_depot_ground",
+      "events": [
+        "loading dock ledge",
+        "stair rail",
+        "underpass Manual/rail",
+        "Foundry bank"
+      ],
+      "return": "west Foundry exit to Market/Depot",
+      "status": "Unmeasured target"
+    },
+    {
+      "section": "Foundry Bowls",
+      "id": "md_target_foundry_transition",
+      "events": [
+        "north bank",
+        "deep bowl lip",
+        "hip transfer",
+        "street-deck ledge"
+      ],
+      "return": "west bank to Market",
+      "status": "Unmeasured target"
+    },
+    {
+      "section": "Foundry Bowls",
+      "id": "md_target_foundry_street",
+      "events": [
+        "west entry",
+        "lower rail",
+        "shallow bowl turn",
+        "north bank",
+        "underpass rail"
+      ],
+      "return": "Market bank to west Foundry opening",
+      "status": "Unmeasured target"
+    }
+  ]
+}

@@ -1,0 +1,444 @@
+{
+  "started_utc": "2026-11-07T13:38:16.405690+00:00",
+  "scope": "Independent source-identical separate-app helper and missing/wrong-argument native controls. Copied by value; no ordinary game user namespace or actual source/cache modifications. Root-authorized secondary flock, concurrent primaryLD/qualitativeRA possible; no performance/Mac claim.",
+  "input_count": 17,
+  "lock": "/workspace/tam_hawks_ps/.local/headless-secondary.lock",
+  "events": [
+    {
+      "label": "helper-positive",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/subject/tools/testing/check_level_book.py"
+      ],
+      "started_utc": "2026-11-07T13:38:16.405850+00:00",
+      "bound_seconds": 70,
+      "pid": 137089,
+      "process_group": 137089,
+      "exit_code": 0,
+      "finished_utc": "2026-11-07T13:38:17.239894+00:00",
+      "log_sha256": "02884ca9e7238ab9aa00b6ca7cf22c7ed2e4ff73fa90f316a36d58f39c407655"
+    },
+    {
+      "label": "negative-missing",
+      "command": [
+        "/usr/local/bin/godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/negative-missing",
+        "--script",
+        "res://tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T13:38:17.244618+00:00",
+      "bound_seconds": 15,
+      "pid": 137100,
+      "process_group": 137100,
+      "exit_code": 1,
+      "finished_utc": "2026-11-07T13:38:17.609645+00:00",
+      "log_sha256": "5b39b7e6097fcb58cf4c023532cff3bb579af99b0cf22c0e5c682ae75519b429"
+    },
+    {
+      "label": "negative-wrong",
+      "command": [
+        "/usr/local/bin/godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/negative-wrong",
+        "--script",
+        "res://tests/level_career_book_tests.gd",
+        "--",
+        "--book-fixture-app=TamHawksBookFixtures-book-check-qa-wrong-1794058697612789119-foreign"
+      ],
+      "started_utc": "2026-11-07T13:38:17.615852+00:00",
+      "bound_seconds": 15,
+      "pid": 137110,
+      "process_group": 137110,
+      "exit_code": 1,
+      "finished_utc": "2026-11-07T13:38:18.131938+00:00",
+      "log_sha256": "5b39b7e6097fcb58cf4c023532cff3bb579af99b0cf22c0e5c682ae75519b429"
+    }
+  ],
+  "lock_acquired_utc": "2026-11-07T13:38:16.405776+00:00",
+  "positive_project": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/subject/.local/book-check-1qnljfxs",
+  "positive_receipt": {
+    "application_name": "TamHawksBookFixtures-book-check-1qnljfxs",
+    "project": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/subject/.local/book-check-1qnljfxs",
+    "pid": 137090,
+    "deadline_seconds": 60,
+    "timed_out": false,
+    "exit_code": 0,
+    "elapsed_seconds": 0.7274555930052884,
+    "source_inputs": {
+      "tests/level_career_book_tests.gd": {
+        "sha256": "e710e5d81dde6203695ae7715eb4075f9941bd61c4b03afc0be1c78dc4d998cd",
+        "bytes": 22122
+      },
+      "game/progression/level_career_book.gd": {
+        "sha256": "4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c",
+        "bytes": 21257
+      },
+      "game/progression/level_catalog.gd": {
+        "sha256": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+        "bytes": 4301
+      },
+      "game/progression/career_progress.gd": {
+        "sha256": "4ee0765bb9603c2c983577c4468718f466b27bbc3f21f49b0dfcf6395ab3ebee",
+        "bytes": 16315
+      },
+      "game/core/input_profile.gd": {
+        "sha256": "fe24e851029db42408bb2e46ca79bc43f939b149478958f659d897a0f890e0f3",
+        "bytes": 12238
+      },
+      "game/core/input_setup.gd": {
+        "sha256": "870217125d680ffe9b588b1026227ebcbe817f6b295d71646a0347de5e6eb532",
+        "bytes": 3545
+      },
+      "game/core/graphics_quality.gd": {
+        "sha256": "6e0cd00637e5f81e755c716ec7a315679ee8d807917112a646a051e8fe53854b",
+        "bytes": 1963
+      }
+    },
+    "changed_sources": [],
+    "errors": [],
+    "native_namespace": {
+      "application_name": "TamHawksBookFixtures-book-check-1qnljfxs",
+      "custom_user_dir": false,
+      "user_data_dir": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/subject/.local/book-check-1qnljfxs/xdg/data/godot/app_userdata/TamHawksBookFixtures-book-check-1qnljfxs"
+    },
+    "eligible": true,
+    "isolation": "Seven source scripts copied by value into a unique application namespace before launch; no Main/world/Music or ordinary game profile namespace."
+  },
+  "positive_result": {
+    "cases": [
+      {
+        "message": "scripted/default constructor is inert: no profile application, scene/Music creation or user-file writes",
+        "pass": true
+      },
+      {
+        "message": "explicit isolated no-migration CLI flow ignores poisoned ordinary defaults and only writes its fixture",
+        "pass": true
+      },
+      {
+        "message": "metadata copies cannot change canonical goals; world paths are strings without world construction",
+        "pass": true
+      },
+      {
+        "message": "canonical registration accepts exact manifest and rejects mutated threshold",
+        "pass": true
+      },
+      {
+        "message": "inactive events cannot manufacture progress",
+        "pass": true
+      },
+      {
+        "message": "Merchant score threshold is banked once with its own namespaced ID",
+        "pass": true
+      },
+      {
+        "message": "repeated score cannot duplicate a completed goal",
+        "pass": true
+      },
+      {
+        "message": "duplicate, malformed and other-level IDs cannot inflate or cross-credit collections",
+        "pass": true
+      },
+      {
+        "message": "starting another run clears unfinished collections",
+        "pass": true
+      },
+      {
+        "message": "all ten Merchant goals are reachable from exactly the manifest's genuine accepted events",
+        "pass": true
+      },
+      {
+        "message": "finished runs cannot extend records or accept late events",
+        "pass": true
+      },
+      {
+        "message": "switching domains keeps every City Tour goal/record unearned",
+        "pass": true
+      },
+      {
+        "message": "selection changes presentation and genuine Merchant achievements grant global rewards without fake City Tour IDs",
+        "pass": true
+      },
+      {
+        "message": "City Tour retains original IDs and rejects Merchant events",
+        "pass": true
+      },
+      {
+        "message": "returning to Merchant restores its own records and the same global settings",
+        "pass": true
+      },
+      {
+        "message": "free skate cannot create Merchant progress, collections or rewards",
+        "pass": true
+      },
+      {
+        "message": "empty-to-empty domain changes still invalidate cached goal presentation",
+        "pass": true
+      },
+      {
+        "message": "City Tour delegate matches existing goal/record behavior through a full run including direct writable fixture assignments",
+        "pass": true
+      },
+      {
+        "message": "legacy graphics/settings snapshot stays exact v1 while persistence is v2",
+        "pass": true
+      },
+      {
+        "message": "City Tour achievements remain globally earned without completing Merchant goals",
+        "pass": true
+      },
+      {
+        "message": "validated legacy v0 migrates only to City Tour and retains caller-selected Merchant",
+        "pass": true
+      },
+      {
+        "message": "legacy global cosmetics/settings/unlocks survive v0 migration",
+        "pass": true
+      },
+      {
+        "message": "legacy v0 records are copied into the exact preserved domain",
+        "pass": true
+      },
+      {
+        "message": "migration is memory-only and preserves every legacy primary/backup/temp byte",
+        "pass": true
+      },
+      {
+        "message": "saving the new book never mutates old legacy files",
+        "pass": true
+      },
+      {
+        "message": "v2 reload keeps explicit selected legacy level and does not migrate twice",
+        "pass": true
+      },
+      {
+        "message": "the migrated source path cannot be overwritten by the new book",
+        "pass": true
+      },
+      {
+        "message": "validated legacy v1 migrates only to City Tour and retains caller-selected Merchant",
+        "pass": true
+      },
+      {
+        "message": "legacy global cosmetics/settings/unlocks survive v1 migration",
+        "pass": true
+      },
+      {
+        "message": "legacy v1 records are copied into the exact preserved domain",
+        "pass": true
+      },
+      {
+        "message": "migration is memory-only and preserves every legacy primary/backup/temp byte",
+        "pass": true
+      },
+      {
+        "message": "saving the new book never mutates old legacy files",
+        "pass": true
+      },
+      {
+        "message": "v2 reload keeps explicit selected legacy level and does not migrate twice",
+        "pass": true
+      },
+      {
+        "message": "the migrated source path cannot be overwritten by the new book",
+        "pass": true
+      },
+      {
+        "message": "missing isolated book stays first-run without a save lock",
+        "pass": true
+      },
+      {
+        "message": "global earned cosmetic and separately writable domains save as one validated v2 book",
+        "pass": true
+      },
+      {
+        "message": "serialized domains retain genuine IDs without synthetic reward witnesses",
+        "pass": true
+      },
+      {
+        "message": "reload preserves the selected domain and reuses existing bounded global settings validator",
+        "pass": true
+      },
+      {
+        "message": "healthy atomic save keeps the previous entire book as a validated backup",
+        "pass": true
+      },
+      {
+        "message": "a stale loaded instance cannot overwrite another writer's newer valid book",
+        "pass": true
+      },
+      {
+        "message": "future primary/backup/temp blocks both fallback and overwrite, suffix=",
+        "pass": true
+      },
+      {
+        "message": "future primary/backup/temp blocks both fallback and overwrite, suffix=.bak",
+        "pass": true
+      },
+      {
+        "message": "future primary/backup/temp blocks both fallback and overwrite, suffix=.tmp",
+        "pass": true
+      },
+      {
+        "message": "future primary/backup/temp blocks both fallback and overwrite, suffix=.bak.tmp",
+        "pass": true
+      },
+      {
+        "message": "valid backup can be read while damaged primary bytes stay protected from autosave",
+        "pass": true
+      },
+      {
+        "message": "explicit selected recovery archives damaged primary before creating a fresh v2 book",
+        "pass": true
+      },
+      {
+        "message": "validated orphan backup can create a primary without replacing its recovery source",
+        "pass": true
+      },
+      {
+        "message": "valid primary remains readable while damaged sibling blocks overwrite, suffix=.bak",
+        "pass": true
+      },
+      {
+        "message": "valid primary remains readable while damaged sibling blocks overwrite, suffix=.tmp",
+        "pass": true
+      },
+      {
+        "message": "valid primary remains readable while damaged sibling blocks overwrite, suffix=.bak.tmp",
+        "pass": true
+      },
+      {
+        "message": "a valid interrupted-only candidate prevents fallback to older legacy progress",
+        "pass": true
+      },
+      {
+        "message": "an unearned global cosmetic is sanitized rather than fabricated through City Tour IDs",
+        "pass": true
+      },
+      {
+        "message": "malformed/fractional/out-of-range records, cross-domain/duplicate IDs and invalid bindings all preserve exact source bytes",
+        "pass": true
+      },
+      {
+        "message": "oversized input rejects before unbounded parsing and remains intact",
+        "pass": true
+      },
+      {
+        "message": "a combo larger than its score cannot enter the book",
+        "pass": true
+      },
+      {
+        "message": "unknown future level records are preserved instead of discarded",
+        "pass": true
+      },
+      {
+        "message": "late-file fixture begins with genuine valid primary and backup: future_backup",
+        "pass": true
+      },
+      {
+        "message": "late future_backup is refused before any backup/primary replacement; exact foreign bytes survive",
+        "pass": true
+      },
+      {
+        "message": "refused late-file save preserves its recovery candidate: future_backup",
+        "pass": true
+      },
+      {
+        "message": "late-file fixture begins with genuine valid primary and backup: corrupt_backup",
+        "pass": true
+      },
+      {
+        "message": "late corrupt_backup is refused before any backup/primary replacement; exact foreign bytes survive",
+        "pass": true
+      },
+      {
+        "message": "refused late-file save preserves its recovery candidate: corrupt_backup",
+        "pass": true
+      },
+      {
+        "message": "late-file fixture begins with genuine valid primary and backup: foreign_candidate",
+        "pass": true
+      },
+      {
+        "message": "late foreign_candidate is refused before any backup/primary replacement; exact foreign bytes survive",
+        "pass": true
+      },
+      {
+        "message": "refused late-file save preserves its recovery candidate: foreign_candidate",
+        "pass": true
+      }
+    ],
+    "checks": 65,
+    "engine": {
+      "build": "official",
+      "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+      "hex": 263683,
+      "major": 4,
+      "minor": 6,
+      "patch": 3,
+      "status": "stable",
+      "string": "4.6.3-stable (official)",
+      "timestamp": 0
+    },
+    "failures": 0,
+    "fixture_root": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/subject/.local/book-check-1qnljfxs/xdg/data/godot/app_userdata/TamHawksBookFixtures-book-check-1qnljfxs/fixtures-377081",
+    "scope": "Native isolated progress/profile transition tests; no Main/world/Music instantiated, no ordinary user profile path opened. Failed fixture files retained."
+  },
+  "negative_projects": [
+    {
+      "mode": "missing",
+      "application_name": "TamHawksBookFixtures-book-check-qa-missing-1794058697240700371",
+      "project": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/negative-missing",
+      "user_data_expected_linux": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/negative-missing/xdg/data/godot/app_userdata/TamHawksBookFixtures-book-check-qa-missing-1794058697240700371",
+      "sentinels": {
+        "career.json": "a3ae5aa14b08f7939b9f5b22d084c57909a3a05cbe5a27e8e07d494dfc165ab4",
+        "career.json.bak": "bfb12b2e26541fec60576aeb14ac37cdfa2e72d6ea95d4dd36086cbe3c5ffc22",
+        "career-v2.json": "3ec905424c89a5412dd4a33557c1f0677ec5b2d8ab706e6d685a9a8c4198e05a",
+        "career-v2.json.tmp": "4b651f738aeadd1fb47c36c971cee62b27f31cb1af79286594cab9660fb09f34"
+      },
+      "sentinels_unchanged": true,
+      "all_prebound_files_unchanged": true,
+      "native_profile_JSONs": [
+        "career-v2.json",
+        "career.json"
+      ],
+      "fixture_directories": [],
+      "native_namespace_emitted": false,
+      "result_file_created": false,
+      "refusal": true
+    },
+    {
+      "mode": "wrong",
+      "application_name": "TamHawksBookFixtures-book-check-qa-wrong-1794058697612789119",
+      "project": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/negative-wrong",
+      "user_data_expected_linux": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/negative-wrong/xdg/data/godot/app_userdata/TamHawksBookFixtures-book-check-qa-wrong-1794058697612789119",
+      "sentinels": {
+        "career.json": "a3ae5aa14b08f7939b9f5b22d084c57909a3a05cbe5a27e8e07d494dfc165ab4",
+        "career.json.bak": "bfb12b2e26541fec60576aeb14ac37cdfa2e72d6ea95d4dd36086cbe3c5ffc22",
+        "career-v2.json": "3ec905424c89a5412dd4a33557c1f0677ec5b2d8ab706e6d685a9a8c4198e05a",
+        "career-v2.json.tmp": "4b651f738aeadd1fb47c36c971cee62b27f31cb1af79286594cab9660fb09f34"
+      },
+      "sentinels_unchanged": true,
+      "all_prebound_files_unchanged": true,
+      "native_profile_JSONs": [
+        "career-v2.json",
+        "career.json"
+      ],
+      "fixture_directories": [],
+      "native_namespace_emitted": false,
+      "result_file_created": false,
+      "refusal": true
+    }
+  ],
+  "changed_inputs": [],
+  "finished_utc": "2026-11-07T13:38:18.135660+00:00",
+  "elapsed_seconds": 1.72997,
+  "scope_not_Mac": "Native runs are Linux; unique app/user-dir guard implementation is portable source, not realMac filesystem evidence.",
+  "eligible": true
+}

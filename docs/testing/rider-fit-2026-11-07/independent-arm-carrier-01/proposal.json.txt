@@ -1,0 +1,81 @@
+{
+  "files": [
+    {
+      "path": "game/player/skater_visual.gd",
+      "before_sha256": "1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05",
+      "after_sha256": "4342841751f254c91ae70d9f49ec88fb586d4036011a69739592cdca5b64ca4e",
+      "candidate": "skater_visual_candidate.gd",
+      "diff": "candidate.patch"
+    }
+  ],
+  "actual_source_matches_guard_now": true,
+  "changed_methods": [
+    "reset",
+    "animate"
+  ],
+  "all_other_methods_byte_identical": [
+    "build",
+    "setup_foot_offset",
+    "boneless_grab_target",
+    "pogo_hand_target",
+    "begin_bail",
+    "_native_grab_pose",
+    "_surface_basis",
+    "_native_foot_ground",
+    "_drag_foot_contact",
+    "_cache_support_geometry",
+    "sole_contact_points",
+    "shoe_support_points",
+    "_cache_shoe_support_points",
+    "_indexed_shoe_points",
+    "_cache_deck_surface_grid",
+    "_deck_top_height_at",
+    "_cache_hang_ten_support",
+    "_hang_ten_limits",
+    "pogo_foot_contact",
+    "_grip_wrist",
+    "_palm_surface_basis",
+    "_apply_handplant",
+    "_snapshot_pose",
+    "_blend_pose_snapshot",
+    "_grind_support",
+    "_hand_basis",
+    "_locomotion_direction",
+    "_blend",
+    "_joint",
+    "_reachable",
+    "_build_board",
+    "_collect_board_meshes",
+    "board_contact_geometry",
+    "_grip_height_at",
+    "_surface_height_at",
+    "_loft",
+    "_build_collar",
+    "_build_zipper",
+    "_material",
+    "_ellipsoid",
+    "_segment",
+    "_pose_segment",
+    "_instance",
+    "_triangle"
+  ],
+  "hunks": 4,
+  "production_cost_delta": "One float state and one existing exponential presentation blend; zero geometry/materials/textures/physics queries orcollections. Original push envelope retained outside dampedphase carrier.",
+  "native_evidence": {
+    "physical_checks_per_variant": 684,
+    "paired_assertions": 1323,
+    "paired_failures": 0,
+    "observations_per_variant": 657,
+    "replay_checks": 1044,
+    "replay_failures": 0,
+    "replayed_poses": 16,
+    "native_replay_input_pins": 1020
+  },
+  "known_limits": [
+    "Sparse current-pose replay, not city/input re-simulation ornormal-speed cadence.",
+    "Popcatch peakhandstep increases83.45to86.58mm whilefromrest decreases192.95to81.17mm.",
+    "Otherhead/body jumps fromMarketSeats/Clyde andallM5 performance/cadence/art acceptance stayopen.",
+    "Fullproduction check remainsrequired afterany actualGDScript install."
+  ],
+  "actual_install_authority": "Root only, guardedfile/hash or exactfourhunk merge; no actualfilewritten byRider."
+}

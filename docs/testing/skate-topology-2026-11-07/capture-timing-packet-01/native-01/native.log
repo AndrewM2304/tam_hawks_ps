@@ -1,0 +1,15 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: before-tree profile isolation market_seats_baseline {}
+PASS: real Main selects Merchant and keeps Music inert market_seats_baseline {}
+PASS: genuine Ollie named native capture market_seats_baseline {"caught":true,"named":true,"ollies":1,"request":{"airborne":false,"floor":true,"physics":75,"position":[-18.7000007629395,4.01370811462402,30.2068996429443],"velocity":[0.0,0.0,-10.6800098419189]},"requested":true}
+PASS: before-tree profile isolation market_seats_interior_rising {}
+PASS: real Main selects Merchant and keeps Music inert market_seats_interior_rising {}
+PASS: genuine Ollie named native capture market_seats_interior_rising {"caught":true,"named":true,"ollies":1,"request":{"airborne":true,"floor":false,"physics":179,"position":[-18.7000007629395,5.03347730636597,28.2582492828369],"velocity":[0.0,3.56151151657104,-10.6277894973755]},"requested":true}
+PASS: before-tree profile isolation market_seats_interior_descending {}
+PASS: real Main selects Merchant and keeps Music inert market_seats_interior_descending {}
+PASS: genuine Ollie named native capture market_seats_interior_descending {"caught":true,"named":true,"ollies":1,"request":{"airborne":true,"floor":false,"physics":297,"position":[-18.7000007629395,4.96193313598633,25.0699138641357],"velocity":[0.0,-3.63848900794983,-10.6277894973755]},"requested":true}
+PASS: before-tree profile isolation market_seats_grounded_no_ollie {}
+PASS: real Main selects Merchant and keeps Music inert market_seats_grounded_no_ollie {}
+PASS: grounded no-Ollie request refuses finite ledge market_seats_grounded_no_ollie {"caught":false,"ollies":0,"rejection":""}
+CAPTURE_TIMING_RESULT: 12 passed, 0 failed

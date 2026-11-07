@@ -24,7 +24,12 @@ Use for planning, delegating, integrating or resuming work on this game. This is
   `flock -n /workspace/tam_hawks_ps/.local/headless-secondary.lock <bounded-wrapper>`
   in this Linux workspace. Hold the lock for the whole import/parser/native cohort,
   preserve each existing deadline, and report a busy lease without starting an
-  engine. Qualitative GL has a separately assigned owner. This task-local scheduler
+  engine. Qualitative GL has a separately assigned owner and may overlap bounded
+  functional headless cohorts when root explicitly classifies that overlap.
+  Such overlaps cannot establish uncontended frame timing or target performance.
+  Do not reject an already-authorised qualitative overlap as a new user-approval
+  requirement; preserve a mistaken prelaunch refusal and correct its classification.
+  This task-local scheduler
   adds no dependency to production Mac launch scripts.
 - Use original or compatible free licensed assets. Inspect licences separately from code permissions. No purchases, billing, paid APIs, hosted CI, infrastructure or background agent loops. No copied franchise level layouts/branding/assets.
 

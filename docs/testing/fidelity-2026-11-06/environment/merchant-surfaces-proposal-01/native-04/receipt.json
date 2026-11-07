@@ -1,0 +1,25 @@
+{
+  "events": [
+    {
+      "name": "native",
+      "pid": 135846,
+      "start": "2026-11-07T13:25:52.342760+00:00",
+      "deadline": "2026-11-07T13:26:52.342760+00:00",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/project",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/project/surface_probe.gd",
+        "--",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/native-04/native-result.json"
+      ],
+      "end": "2026-11-07T13:25:55.559702+00:00",
+      "exit_code": 0
+    }
+  ],
+  "error": null,
+  "source_changes": [],
+  "scope": "Private import/native; import may author6cache remaps/UIDs. Secondaryflock held externally; no actual/sourcecache mutation, no GPU/FPS/M5 claim."
+}

@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "world": "merchant_neighbourhood_v1",
+  "court_xz": [-24, 6, 16, 36],
+  "depot_xz": [24, -22, 80, 14],
+  "maximum_road_width_m": 5.5,
+  "terrain_grid": {"bounds_xz": [-100, -80, 100, 80], "spacing_m": 1.0},
+  "priority": ["pedestrian_market", "street_corridor_road", "street_corridor_shoulders", "industrial_depot", "footway"],
+  "notes": "Material selection only. Grid vertices, native collision, route/guide points and support data remain unchanged. Market paths are skating routes, not traffic lanes through the civic court."
+}

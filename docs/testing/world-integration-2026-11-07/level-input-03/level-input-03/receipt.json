@@ -1,0 +1,53 @@
+{
+  "started_utc": "2026-11-07T13:21:59.994235+00:00",
+  "deadline_seconds": 180,
+  "scope": "PRIVATE actual native parsed keyboard/pad GUI navigation, cancellation, held accept release and world replacement. No physical device, natural lines, final art, Mac or frame-time acceptance.",
+  "stages": [
+    {
+      "name": "parser",
+      "pid": 135564,
+      "started_utc": "2026-11-07T13:21:59.995426+00:00",
+      "bound_seconds": 15,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_level_input_probe.gd",
+        "--check-only"
+      ],
+      "exit_code": 0,
+      "raw_errors": [],
+      "finished_utc": "2026-11-07T13:22:02.018854+00:00"
+    },
+    {
+      "name": "native",
+      "pid": 135583,
+      "started_utc": "2026-11-07T13:22:02.019981+00:00",
+      "bound_seconds": 165,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_level_input_probe.gd",
+        "--fixed-fps",
+        "60"
+      ],
+      "exit_code": 0,
+      "raw_errors": [],
+      "finished_utc": "2026-11-07T13:22:42.054395+00:00"
+    }
+  ],
+  "finished_utc": "2026-11-07T13:22:42.343231+00:00",
+  "elapsed_seconds": 42.34901109299972,
+  "source_count": 897,
+  "changed_inputs": [],
+  "eligible": true
+}

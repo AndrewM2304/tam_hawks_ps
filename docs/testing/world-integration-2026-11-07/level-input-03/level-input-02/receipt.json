@@ -1,0 +1,58 @@
+{
+  "started_utc": "2026-11-07T13:20:34.197813+00:00",
+  "deadline_seconds": 180,
+  "scope": "PRIVATE actual native parsed keyboard/pad GUI navigation, cancellation, held accept release and world replacement. No physical device, natural lines, final art, Mac or frame-time acceptance.",
+  "stages": [
+    {
+      "name": "parser",
+      "pid": 135375,
+      "started_utc": "2026-11-07T13:20:34.199375+00:00",
+      "bound_seconds": 15,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_level_input_probe.gd",
+        "--check-only"
+      ],
+      "exit_code": 0,
+      "raw_errors": [],
+      "finished_utc": "2026-11-07T13:20:36.426564+00:00"
+    },
+    {
+      "name": "native",
+      "pid": 135412,
+      "started_utc": "2026-11-07T13:20:36.429701+00:00",
+      "bound_seconds": 165,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_level_input_probe.gd",
+        "--fixed-fps",
+        "60"
+      ],
+      "exit_code": 1,
+      "raw_errors": [
+        "ERROR: FAIL: keyboard reaches level selection from pause",
+        "ERROR: FAIL: keyboard cancelling the pause level list preserves run and focus",
+        "ERROR: FAIL: pad reaches level selection from pause",
+        "ERROR: FAIL: pad cancelling the pause level list preserves run and focus"
+      ],
+      "finished_utc": "2026-11-07T13:21:18.304674+00:00"
+    }
+  ],
+  "finished_utc": "2026-11-07T13:21:18.500238+00:00",
+  "elapsed_seconds": 44.30242410200299,
+  "source_count": 897,
+  "changed_inputs": [],
+  "eligible": false
+}

@@ -1,0 +1,97 @@
+extends SceneTree
+const World=preload("res://game/levels/merchant_neighbourhood.gd")
+const Art=preload("res://game/levels/art/merchant_architecture.gd")
+const Look=preload("res://game/levels/art/merchant_surfaces.gd")
+var world: Node3D
+var checks:=0
+var failures:=0
+var rows: Array[Dictionary]=[]
+func _initialize() -> void:_run.call_deferred()
+func _check(ok: bool,label: String) -> void:
+	checks+=1;rows.append({"pass":ok,"label":label})
+	if not ok:failures+=1;push_error("FAIL: "+label)
+func _run() -> void:
+	world=World.new();root.add_child(world)
+	await physics_frame
+	var layout: Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://architecture-layout.json"))
+	# World-only03 guard: architecture is validated separately with ARv5.
+	var ground: MeshInstance3D=world.get_node("NeighbourhoodGround").get_child(0)
+	var original: ArrayMesh=ground.mesh
+	var source:=original.surface_get_arrays(0)
+	var before:=_native(world)
+	var before_guides:=_guides()
+	var nodes:=_visuals(world)
+	var before_materials: Dictionary=world._materials.duplicate()
+	var state:=Look.apply(world,world._materials,world._layout)
+	_check(_native(world)==before,"all original native shape/body/property/transform/layer data remain identical")
+	_check(_guides()==before_guides,"all guide point/contact/support RID data remain identical")
+	_check(world._materials==before_materials,"shared material dictionary and original material objects remain identical")
+	_check(_visuals(world)==nodes,"every visual node/transform/casting/visibility identity remains; no added overlay geometry")
+	_check(ground.mesh.get_surface_count()==4,"exact four opaque ground material surfaces")
+	_check(state.report.source_triangles==state.report.output_triangles,"all ground source triangle counts retained")
+	var seen: Dictionary={};var source_indices: PackedInt32Array=source[Mesh.ARRAY_INDEX]
+	var packed_ok:=true;var attributes_ok:=true;var indices_ok:=true
+	var original_native: Dictionary=RenderingServer.mesh_get_surface(original.get_rid(),0)
+	var source_count:=original.surface_get_array_len(0)
+	var stride:=RenderingServer.mesh_surface_get_format_vertex_stride(original_native.format,source_count)
+	var nstride:=RenderingServer.mesh_surface_get_format_normal_tangent_stride(original_native.format,source_count)
+	var astride:=RenderingServer.mesh_surface_get_format_attribute_stride(original_native.format,source_count)
+	var source_bytes: PackedByteArray=original_native.vertex_data
+	var source_attributes: PackedByteArray=original_native.attribute_data
+	var output_bytes:=0
+	for mapping: Dictionary in state.mappings:
+		var arrays: Array=ground.mesh.surface_get_arrays(mapping.surface)
+		var native: Dictionary=RenderingServer.mesh_get_surface(ground.mesh.get_rid(),mapping.surface)
+		var used: PackedInt32Array=mapping.original_vertices
+		var actual: PackedByteArray=native.vertex_data;var attribute: PackedByteArray=native.attribute_data
+		output_bytes+=actual.size()+attribute.size()+native.index_data.size()
+		for local: int in used.size():
+			var old:=used[local]
+			packed_ok=packed_ok and actual.slice(local*stride,(local+1)*stride)==source_bytes.slice(old*stride,(old+1)*stride)
+			packed_ok=packed_ok and actual.slice(used.size()*stride+local*nstride,used.size()*stride+(local+1)*nstride)==source_bytes.slice(source_count*stride+old*nstride,source_count*stride+(old+1)*nstride)
+			attributes_ok=attributes_ok and attribute.slice(local*astride,(local+1)*astride)==source_attributes.slice(old*astride,(old+1)*astride)
+		var result_indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+		for i: int in mapping.original_triangles.size():
+			var triangle: int=mapping.original_triangles[i]
+			indices_ok=indices_ok and not seen.has(triangle);seen[triangle]=true
+			for corner: int in 3:indices_ok=indices_ok and used[result_indices[i*3+corner]]==source_indices[triangle*3+corner]
+	_check(packed_ok,"every referenced packed position and normal/tangent byte preserved exactly through public buffer updates")
+	_check(attributes_ok,"every referenced UV/attribute byte preserved exactly")
+	_check(indices_ok and seen.size()==source_indices.size()/3,"original triangle indices/winding partition once with no missing/duplicate face")
+	var before_bytes: int=original_native.vertex_data.size()+original_native.attribute_data.size()+original_native.index_data.size()
+	_check(output_bytes-before_bytes<=256*1024,"ground native buffer payload delta remains within declared256KiB cap")
+	_check(state.report.concrete_visuals>0,"real curved concrete placeholder consumers receive photographic concrete")
+	var map_records: Array[Dictionary]=[]
+	var manifest: Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://game/art/assets/merchant_pbr/manifest.json"))
+	for entry: Dictionary in manifest.materials.values():
+		for channel: String in entry.files:
+			var texture: Texture2D=load(entry.files[channel]);var image: Image=texture.get_image()
+			_check(image.get_format()==(Image.FORMAT_RGTC_RG if channel=="normal_opengl" else Image.FORMAT_DXT1),"Mac compatible native format "+str(entry.files[channel]))
+			_check(image.get_width()==(2048 if channel=="albedo" else 1024) and image.has_mipmaps(),"declared physical-map resolution/mips "+str(entry.files[channel]))
+			map_records.append({"resource":entry.files[channel],"format":image.get_format(),"width":image.get_width(),"height":image.get_height(),"mips":image.get_mipmap_count(),"payload_bytes":image.get_data().size(),"payload_sha256":_hash(image.get_data())})
+	Look.restore(state)
+	_check(ground.mesh==original and _native(world)==before and _guides()==before_guides,"restoration recovers exact source mesh/collision/guide identities")
+	var result: Dictionary={"checks":checks,"failures":failures,"cases":rows,"surface_report":state.report,"before_buffer_bytes":before_bytes,"candidate_buffer_bytes":output_bytes,"buffer_payload_delta_bytes":output_bytes-before_bytes,"maps":map_records,"source_world_sha256":FileAccess.get_sha256("res://game/levels/merchant_neighbourhood.gd"),"architecture_instantiated":false,"runtime_layout_sha256":FileAccess.get_sha256("res://game/levels/merchant_layout.json"),"scope":"Private source-bound indexed ground repartition/attribute byte/physics identity and Mac format proof. No GPU allocation/timing/routeplay/M5/finished art claim."}
+	var args:=OS.get_cmdline_user_args();var file:=FileAccess.open(args[0],FileAccess.WRITE);file.store_string(JSON.stringify(result,"\t")+"\n");file.close()
+	print("MERCHANT_SURFACES ",checks-failures,"/",failures);quit(1 if failures else 0)
+func _native(node: Node) -> Array:
+	var data: Array=[]
+	if node is CollisionObject3D:data.append([str(node.get_path()),node.get_class(),node.transform,node.collision_layer,node.collision_mask])
+	if node is CollisionShape3D:
+		var props: Dictionary={}
+		for property: Dictionary in node.shape.get_property_list():
+			if int(property.usage)&PROPERTY_USAGE_STORAGE and property.name not in ["resource_name","resource_local_to_scene","script"]:props[property.name]=node.shape.get(property.name)
+		data.append([str(node.get_path()),node.transform,node.disabled,node.shape.get_class(),props])
+	for child: Node in node.get_children():data.append_array(_native(child))
+	return data
+func _guides() -> Array:
+	var data: Array=[]
+	for line in world.get_grind_lines():data.append([line.id,line.points,line.contact_vertical_offset,line.contact_normal_offset,line.contact_verified,line.native_support_rids.duplicate()])
+	return data
+func _visuals(node: Node) -> Array:
+	var out: Array=[]
+	if node is GeometryInstance3D:out.append([node.get_instance_id(),node.transform,node.visible,node.cast_shadow,node.layers,node.material_overlay])
+	for child: Node in node.get_children():out.append_array(_visuals(child))
+	return out
+func _hash(bytes: PackedByteArray) -> String:
+	var hash:=HashingContext.new();hash.start(HashingContext.HASH_SHA256);hash.update(bytes);return hash.finish().hex_encode()

@@ -1,0 +1,60 @@
+from pathlib import Path
+import datetime,hashlib,json,os,signal,subprocess,sys,time
+R=Path('/workspace/tam_hawks_ps');S=R/'.local/neighbourhood-integration/project';O=R/'.local/qa-fidelity/book-cancel-02';O.mkdir(exist_ok=False)
+FILES=['tools/testing/check_level_book.py','tests/level_career_book_tests.gd','game/progression/level_career_book.gd','game/progression/level_catalog.gd','game/progression/career_progress.gd','game/core/input_profile.gd','game/core/input_setup.gd','game/core/graphics_quality.gd'];H=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();record={'scope':'Synthetic process cancellation only: labelled fake Godot plus fake grandchild, no real engine or ordinary user namespace. Creation-boundary signal injection is an adversarial wrapper, not observed native scheduling.','started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'cases':[]}
+FAKE='''#!/usr/bin/env python3
+import json,os,signal,subprocess,sys,time
+from pathlib import Path
+signal.signal(signal.SIGTERM,signal.SIG_IGN)
+if len(sys.argv)>1 and sys.argv[1]=='worker':
+ Path(os.environ['FAKE_WORKER_READY']).write_text(str(os.getpid()))
+ while True:time.sleep(.05)
+worker=subprocess.Popen([sys.executable,__file__,'worker'])
+while not Path(os.environ['FAKE_WORKER_READY']).is_file():time.sleep(.01)
+Path(os.environ['FAKE_READY']).write_text(json.dumps({'parent':os.getpid(),'worker':worker.pid,'group':os.getpgrp(),'helper':os.getppid()}))
+while True:time.sleep(.05)
+'''
+INJECT='''import os,runpy,signal,subprocess,time
+from pathlib import Path
+original=subprocess.Popen
+def inject(*args,**kwargs):
+ child=original(*args,**kwargs)
+ limit=time.monotonic()+5
+ while not Path(os.environ['FAKE_READY']).is_file()and time.monotonic()<limit:time.sleep(.01)
+ os.kill(os.getpid(),int(os.environ['QA_SIGNAL']))
+ return child
+subprocess.Popen=inject
+runpy.run_path(os.environ['QA_HELPER'],run_name='__main__')
+'''
+def state(pid):
+ try:return Path('/proc') .joinpath(str(pid),'stat').read_text().rsplit(') ',1)[1].split()[0]
+ except FileNotFoundError:return 'absent'
+def live(pid):return state(pid)not in ['absent','Z','X']
+for mode,signum in [('waiting-term',signal.SIGTERM),('creation-boundary-term',signal.SIGTERM),('waiting-int',signal.SIGINT),('creation-boundary-int',signal.SIGINT)]:
+ P=O/mode;P.mkdir()
+ for n in FILES:q=P/n;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes((S/n).read_bytes())
+ stub=P/'fake-godot.py';stub.write_text(FAKE);stub.chmod(0o755);harness=P/'inject.py';harness.write_text(INJECT)
+ before={n:H(P/n)for n in FILES};before['fake-godot.py']=H(stub);before['inject.py']=H(harness);before['outer-wrapper']=H(Path(__file__));(P/'before.json').write_text(json.dumps(before,indent=2)+'\n')
+ env=dict(os.environ,GODOT_BIN=str(stub),FAKE_READY=str(P/'ready.json'),FAKE_WORKER_READY=str(P/'worker.ready'),QA_HELPER=str(P/'tools/testing/check_level_book.py'),PYTHONDONTWRITEBYTECODE='1',QA_SIGNAL=str(signum))
+ command=[sys.executable,str(P/'tools/testing/check_level_book.py')]if mode.startswith('waiting')else[sys.executable,str(harness)]
+ c={'mode':mode,'command':command,'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':before};record['cases'].append(c)
+ with(P/'helper.log').open('wb')as stream:
+  helper=subprocess.Popen(command,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True);c['helper_pid']=helper.pid
+  deadline=time.monotonic()+6
+  while not(P/'ready.json').is_file()and time.monotonic()<deadline:time.sleep(.02)
+  if not(P/'ready.json').is_file():helper.kill();helper.wait();raise RuntimeError('No fake readiness')
+  owned=json.loads((P/'ready.json').read_text());c['owned']=owned
+  if mode.startswith('waiting'):os.kill(helper.pid,signum)
+  sent=time.monotonic()
+  try:c['helper_exit']=helper.wait(timeout=6)
+  except subprocess.TimeoutExpired:helper.kill();helper.wait();c['helper_exit']=helper.returncode;c['timeout']=True
+  c['elapsed_after_term']=time.monotonic()-sent;c['states_after_helper']={str(pid):state(pid)for pid in [owned['parent'],owned['worker']]};c['no_owned_live_after_helper']=all(not live(pid)for pid in [owned['parent'],owned['worker']])
+  c['qa_cleanup_required']=not c['no_owned_live_after_helper']
+  if c['qa_cleanup_required']:
+   os.killpg(owned['group'],signal.SIGKILL)
+   for i in range(100):
+    if all(not live(pid)for pid in [owned['parent'],owned['worker']]):break
+    time.sleep(.01)
+  c['no_owned_live_after_QA_cleanup']=all(not live(pid)for pid in [owned['parent'],owned['worker']]);c['states_final']={str(pid):state(pid)for pid in [owned['parent'],owned['worker']]}
+ after={n:H(P/n)for n in FILES};c['sources_unchanged']=all(after[n]==before[n]for n in FILES);(P/'after.json').write_text(json.dumps(after,indent=2)+'\n');c['finished_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat()
+record['finished_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();(O/'receipt.json').write_text(json.dumps(record,indent=2)+'\n');(O/'outer-wrapper.py.txt').write_bytes(Path(__file__).read_bytes());print(json.dumps(record,indent=2))

@@ -1,0 +1,132 @@
+extends SceneTree
+## PRIVATE real Main input diagnostic. No score/state forcing; not a returned loop.
+const Main=preload("res://game/main.gd")
+const InputSetup=preload("res://game/core/input_setup.gd")
+const ScoreObserver=preload("/workspace/tam_hawks_ps/.local/skate-topology-review/main_score_observer.gd")
+const GapObserver=preload("/workspace/tam_hawks_ps/.local/skate-topology-review/main_gap_observer.gd")
+var passes:=0
+var failures:Array=[]
+var runs:Array=[]
+var game:Node
+var score_probe:RefCounted
+var gap_probe:RefCounted
+var label:=""
+var stage:=""
+var rows:Array=[]
+var events:Array=[]
+var _prior_frame:=-1
+
+class Recorder extends Node:
+ var owner_tree
+ func _physics_process(_dt:float)->void:owner_tree.observe()
+
+func _initialize()->void:run.call_deferred()
+func check(ok:bool,message:String,details:Dictionary={})->void:
+ if ok:passes+=1
+ else:failures.append(message)
+ print("PASS: "if ok else"FAIL: ",message," ",JSON.stringify(encode(details)))
+func encode(v:Variant)->Variant:
+ if v is Vector3:return [v.x,v.y,v.z]
+ if v is RID:return v.get_id()
+ if v is NodePath:return str(v)
+ if v is Basis:return [encode(v.x),encode(v.y),encode(v.z)]
+ if v is Transform3D:return {"origin":encode(v.origin),"basis":encode(v.basis)}
+ if v is Array:
+  var a:Array=[]
+  for x:Variant in v:a.append(encode(x))
+  return a
+ if v is Dictionary:
+  var d:Dictionary={}
+  for k:Variant in v:d[str(k)]=encode(v[k])
+  return d
+ return v
+func release()->void:
+ for key:String in ["push","brake","steer_left","steer_right","ollie","grind","manual","flip","grab","spin_left","spin_right","revert"]:Input.action_release(key)
+func observe()->void:
+ if not is_instance_valid(game)or Engine.get_physics_frames()==_prior_frame:return
+ _prior_frame=Engine.get_physics_frames()
+ var rider:CharacterBody3D=game.skater
+ var line:Variant=rider._grind.line if rider.grinding else null
+ var contacts:Array=[]
+ for i:int in rider.get_slide_collision_count():
+  var c:KinematicCollision3D=rider.get_slide_collision(i)
+  var collider:Variant=c.get_collider()
+  contacts.append({"rid":c.get_collider_rid().get_id(),"shape":c.get_collider_shape_index(),"owner":str(collider.get_path())if collider is Node else str(collider),"position":c.get_position(),"normal":c.get_normal(),"depth":c.get_depth()})
+ rows.append({"run":label,"stage":stage,"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames(),"position":rider.global_position,"velocity":rider.velocity,"speed":rider.speed,"airborne":rider.airborne,"floor":rider.is_on_floor(),"manual":rider.manual_active,"manual_balance":rider.manual_balance,"grinding":rider.grinding,"guide":str(line.id)if line!=null else"","style":rider.grind_style_id,"bail":rider.bail_active,"bail_reason":rider.bail_reason,"capture_rejection":rider._grind_clearance.last_rejection,"capture_obstruction":rider._grind_clearance.last_obstruction.duplicate(true),"contacts":contacts,"head":rider._visual_rig._head.global_position,"board":rider._board_visual.global_transform,"total":game.score.total_score,"combo":game.score.get_combo_value(),"base":game.score.combo_base,"multiplier":game.score.combo_multiplier,"pending":game.score.pending_landing,"landing_remaining":game.score.landing_remaining,"push":Input.get_action_strength("push"),"brake":Input.get_action_strength("brake"),"ollie":Input.is_action_pressed("ollie"),"grind":Input.is_action_pressed("grind"),"manual_input":Input.is_action_pressed("manual")})
+func captured(id:String)->void:
+ var r:CharacterBody3D=game.skater
+ var owners:Array=[]
+ for native_rid:RID in r._grind.line.native_support_rids:owners.append(native_rid.get_id())
+ events.append({"run":label,"kind":"capture","physics":Engine.get_physics_frames(),"guide":id,"style":r.grind_style_id,"position":r.global_position,"owners":owners,"contact_verified":r._grind.line.contact_verified,"edge":r._grind.line.contact_edge_outward,"native_contact_valid":r._grind_contact.valid})
+func trick(name:String,points:int)->void:events.append({"run":label,"kind":"trick","physics":Engine.get_physics_frames(),"name":name,"id":game.skater.last_trick_id,"points":points})
+func bailed()->void:events.append({"run":label,"kind":"bail","physics":Engine.get_physics_frames(),"reason":game.skater.bail_reason})
+func frames(count:int,phase:String)->void:
+ stage=phase
+ for i:int in count:await physics_frame;await process_frame
+func run()->void:
+ InputSetup.register_actions()
+ for offset:float in [.30,.50,.70]:await line_case(offset)
+ var out:=FileAccess.open(OS.get_environment("TOPOLOGY_OUTPUT"),FileAccess.WRITE)
+ if out==null:push_error("Cannot write real Main line receipt");quit(2);return
+ out.store_string(JSON.stringify(encode({"passed":passes,"failed":failures.size(),"failures":failures,"runs":runs,"scope":"Private real Main/Skater mapped-input prerequisite: MarketSeats ledge→exit→buffered Manual→one bank. This is not spatially returned, cross-area or a closed circuit. Score/Gap observers installed before tree, super methods feed game exactly once; no score points/state, pose/yaw/speed/velocity/balance assignments after each declared initial fixture. No new physics queries/draws from observer. Full displayed model/visual/M5 acceptance remains separate."}),"\t",true,true)+"\n");out.close()
+ print("MAIN_LINE_RESULT: ",passes," passed, ",failures.size()," failed")
+ quit(0 if failures.is_empty()else 1)
+func line_case(offset:float)->void:
+ release();rows=[];events=[];_prior_frame=-1
+ label="market_seats_offset_"+str(offset)
+ game=Main.new();game.persistence_enabled=false;game.profile_path="user://no-real-line-save.json";game.legacy_profile_path=""
+ score_probe=ScoreObserver.new();score_probe.run_label=label;game.score=score_probe
+ gap_probe=GapObserver.new();gap_probe.run_label=label;game.gaps=gap_probe
+ check(not game.persistence_enabled,"before-tree profile isolation "+label)
+ root.add_child(game)
+ check(game.level_id=="merchant_neighbourhood_v1"and not game.music._persist and not game.music._can_control,"real Main selects Merchant and keeps Music inert "+label)
+ # One initial declared spawn/facing before any movement frame. No later pose writes.
+ game.skater.spawn_position=Vector3(-19.0+offset,4.08,36)
+ game.start_mode(true);game.skater.rotation.y=0.0
+ game.skater.grind_captured.connect(captured);game.skater.trick_performed.connect(trick);game.skater.bailed.connect(bailed)
+ var recorder:=Recorder.new();recorder.owner_tree=self;recorder.process_physics_priority=10000;game.add_child(recorder)
+ await frames(10,"settle")
+ Input.action_press("push");await frames(48,"mapped_approach")
+ Input.action_press("ollie");await frames(16,"charge_onto_ledge")
+ Input.action_release("push");Input.action_release("ollie");Input.action_press("grind")
+ var caught:=false
+ for i:int in 100:
+  await frames(1,"native_ledge_request")
+  if game.skater.grinding:caught=true;break
+  if game.skater.bail_active:break
+ var target_guide:String="Grind_MD_Market_Seats_-19.0"
+ var named:bool=caught and str(game.skater._grind.line.id)==target_guide and game.skater.grind_style_id=="grind_50_50"
+ check(named,"real named finite ledge capture "+label,{"caught":caught,"guide":str(game.skater._grind.line.id)if caught else"","style":game.skater.grind_style_id,"rejection":game.skater._grind_clearance.last_rejection})
+ var manual_seen:=false
+ if named:
+  for i:int in 100:
+   if game.skater.global_position.z<=24.5:break
+   await frames(1,"native_ledge_run")
+   if not game.skater.grinding or game.skater.bail_active:break
+  Input.action_press("ollie");await frames(16,"charge_ledge_exit")
+  Input.action_release("ollie");Input.action_release("grind")
+  await frames(18,"real_ledge_exit_air")
+  Input.action_press("manual")
+  for i:int in 90:
+   await frames(1,"buffered_manual_landing")
+   if game.skater.manual_active:manual_seen=true;break
+   if game.skater.bail_active:break
+  if manual_seen:
+   for i:int in 18:
+    Input.action_release("push");Input.action_release("brake")
+    var sign_input:float=game.skater._manual_balance_input_sign()
+    var axis:float=-game.skater.manual_balance*1.2/sign_input if absf(sign_input)>.5 else 0.0
+    if axis>0:Input.action_press("push",clampf(axis,0,1))
+    elif axis<0:Input.action_press("brake",clampf(-axis,0,1))
+    await frames(1,"native_manual_hold")
+  Input.action_release("manual");Input.action_release("push");Input.action_release("brake");Input.action_press("brake")
+  await frames(75,"controlled_bank")
+ check(manual_seen,"actual buffered Manual links after ledge exit "+label)
+ release()
+ var banks:Array=[];var drops:Array=[]
+ for event:Dictionary in score_probe.events:
+  if event.kind=="bank_combo"and event.banked>0:banks.append(event)
+  if event.kind=="drop_combo"and event.before.value>0:drops.append(event)
+ check(named and manual_seen and banks.size()==1 and drops.is_empty()and game.score.total_score>0 and not game.skater.bail_active,"single real combo bank with no previous split "+label,{"banks":banks.size(),"drops":drops.size(),"total":game.score.total_score})
+ runs.append({"label":label,"initial_spawn":game.skater.spawn_position,"initial_heading":0.0,"initial_only_fixture":true,"named_capture":named,"manual_seen":manual_seen,"events":events,"trace":rows,"score_events":score_probe.events,"gap_updates":gap_probe.rows,"end_position":game.skater.global_position,"banks":banks.size(),"scope":"Individual local linkage diagnostic; no spatial return or crossarea/circuit claim"})
+ game.queue_free();await process_frame;await physics_frame

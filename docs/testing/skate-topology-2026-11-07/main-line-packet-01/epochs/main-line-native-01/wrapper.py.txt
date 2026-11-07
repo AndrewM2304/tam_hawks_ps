@@ -1,0 +1,55 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+O=Path(__file__).resolve().parent;R=O.parents[1];P=R/'.local/neighbourhood-integration/project';D=O/'main-line-native-01';D.mkdir(exist_ok=False)
+SCRIPT=O/'main_line_probe.gd';OWNED=None
+
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def native_snapshot():return {str(p.relative_to(P)):sha(p)for p in sorted(P.rglob('*'))if p.is_file()and not any(v in p.parts for v in ['logs','shader_cache'])and p.name!='native-result.json'}
+def actual_snapshot():
+ files=[R/'project.godot',R/'export_presets.cfg',R/'docs/PLAYER-GUIDE.md']+[p for n in ['game','tests','tools','docs/licences']for p in(R/n).rglob('*')if p.is_file()and'__pycache__'not in p.parts]
+ return {str(p.relative_to(R)):sha(p)for p in sorted(set(files))}
+def processes():
+ raw=subprocess.run(['ps','-C','godot','-o','pid=,pgid=,stat=,args='],capture_output=True,text=True).stdout
+ return [dict(zip(['pid','pgid','state','command'],r.split(None,3)))for r in raw.splitlines()if len(r.split(None,3))==4]
+def interrupt(_sig,_frame):
+ if OWNED and OWNED.poll()is None:
+  os.killpg(OWNED.pid,signal.SIGTERM)
+ raise KeyboardInterrupt
+signal.signal(signal.SIGINT,interrupt);signal.signal(signal.SIGTERM,interrupt)
+before=native_snapshot();actual_before=actual_snapshot();recorded=json.loads((R/'.local/neighbourhood-integration/combined-02/before.json').read_text());freeze={str((R/k).relative_to(P)):v['sha256']for k,v in recorded.items()if str(R/k).startswith(str(P)+'/')};assert all(before.get(k)==v for k,v in freeze.items()),'Held combined02 source changed before independent launch'
+(D/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(D/'actual-before.json').write_text(json.dumps(actual_before,indent=2)+'\n');(D/'probe.gd.txt').write_bytes(SCRIPT.read_bytes());(D/'wrapper.py.txt').write_bytes(Path(__file__).read_bytes())
+for name in ['game/main.gd','game/features/feature_hub.gd','game/levels/merchant_neighbourhood.gd','game/levels/merchant_layout.json','game/progression/level_catalog.gd','game/progression/level_career_book.gd','game/progression/career_progress.gd','game/scoring/score_session.gd','game/tricks/gap_tracker.gd']:
+ p=D/'executed-source'/Path(name+'.txt');p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((P/name).read_bytes())
+owned_before={n:sha(O/n)for n in['main_line_probe.gd','main_score_observer.gd','main_gap_observer.gd']};(D/'owned-before.json').write_text(json.dumps(owned_before,indent=2)+'\n')
+for n in owned_before:(D/(n+'.txt')).write_bytes((O/n).read_bytes())
+pre=processes();live=[p for p in pre if'Z'not in p['state']];assert len(live)<=1,live
+assert len(live)<=1,live
+env=dict(os.environ,TOPOLOGY_OUTPUT=str(D/'native-result.json'),XDG_DATA_HOME=str(D/'user-data'),XDG_CONFIG_HOME=str(D/'config'),XDG_CACHE_HOME=str(D/'cache'))
+for n in ['user-data','config','cache']:(D/n).mkdir()
+record={'start_utc':utc(),'source_count':len(before),'source_matches_combined02':all(before.get(k)==v for k,v in freeze.items()),'project':str(P),'observer_sha256':sha(SCRIPT),'wrapper_sha256':sha(Path(__file__)),'pre_processes':pre,'explicit_overlap':'Root-authorized combined Main/world/Book primary only, up to195s; independent secondary topology untimed, no FPS/M5 claim','stages':[],'aggregate_bound_seconds':120}
+t0=time.monotonic()
+try:
+ for label,args,cap in [('parser',['--check-only'],15),('native',['--fixed-fps','60'],105)]:
+  command=['godot','--headless','--path',str(P),'--audio-driver','Dummy',*args,'--script',str(SCRIPT)];log=D/(label+'.log');stage={'label':label,'command':command,'start_utc':utc(),'bound_seconds':cap};stop=None
+  with log.open('wb')as stream:
+   OWNED=subprocess.Popen(command,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True);stage.update(pid=OWNED.pid,process_group=OWNED.pid);deadline=min(t0+120,time.monotonic()+cap);stage['deadline_utc']=datetime.datetime.fromtimestamp(time.time()+deadline-time.monotonic(),datetime.timezone.utc).isoformat();print(json.dumps(stage),flush=True)
+   while OWNED.poll()is None:
+    if re.search(rb'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',log.read_bytes()):stop='first raw engine error';break
+    if time.monotonic()>=deadline:stop='automatic deadline';break
+    time.sleep(.05)
+   if OWNED.poll()is None:
+    os.killpg(OWNED.pid,signal.SIGTERM)
+    try:OWNED.wait(timeout=2)
+    except subprocess.TimeoutExpired:os.killpg(OWNED.pid,signal.SIGKILL);OWNED.wait(timeout=2)
+  stage.update(end_utc=utc(),exit_code=OWNED.returncode,stop=stop,raw_error=bool(re.search(rb'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',log.read_bytes())),log_sha256=sha(log));record['stages'].append(stage)
+  if OWNED.returncode!=0 or stop or stage['raw_error']:break
+finally:
+ if OWNED and OWNED.poll()is None:
+  os.killpg(OWNED.pid,signal.SIGTERM)
+  try:OWNED.wait(timeout=2)
+  except subprocess.TimeoutExpired:os.killpg(OWNED.pid,signal.SIGKILL);OWNED.wait(timeout=2)
+after=native_snapshot();actual_after=actual_snapshot();(D/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');(D/'actual-after.json').write_text(json.dumps(actual_after,indent=2)+'\n');result=json.loads((D/'native-result.json').read_text())if(D/'native-result.json').is_file()else None
+record.update(end_utc=utc(),source_stable=before==after,actual_source_inputs=len(actual_before),actual_source_stable=actual_before==actual_after,post_processes=processes(),result={'passed':result['passed'],'failed':result['failed'],'runs':len(result['runs'])}if result else None,owned_after={n:sha(O/n)for n in owned_before})
+record['owned_entrypoints_stable']=owned_before==record['owned_after'];record['eligible']=record['owned_entrypoints_stable']and before==after and actual_before==actual_after and len(record['stages'])==2 and all(s['exit_code']==0 and not s['raw_error']and not s['stop']for s in record['stages'])and result and result['failed']==0
+(D/'receipt.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps(record,indent=2),flush=True);raise SystemExit(0 if record['eligible']else 1)

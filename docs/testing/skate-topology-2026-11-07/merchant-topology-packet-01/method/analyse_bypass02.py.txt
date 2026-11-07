@@ -1,0 +1,52 @@
+from pathlib import Path
+import datetime,hashlib,json,math
+O=Path(__file__).resolve().parent;D=O/'bypass-native-02';r=json.loads((D/'native-result.json').read_text());receipt=json.loads((D/'receipt.json').read_text())
+checks=[]
+def check(label,ok,detail=None):checks.append({'label':label,'passed':bool(ok),'detail':detail})
+check('Overall39/1 rejection retained',r['passed']==39 and r['failed']==1 and receipt['eligible']==False)
+check('Sole failing class is proposed north underpass strip',r['failures']==['offset underpass side lane has real clear4m upright volume'])
+check('Clean parser/native with deliberate assertion exit1',receipt['stages'][0]['exit_code']==0 and receipt['stages'][1]['exit_code']==1 and all(not s['raw_error']and s['stop']==None for s in receipt['stages']))
+check('All722 producer inputs and899 actual inputs unchanged',receipt['source_stable']and receipt['actual_source_stable']and receipt['source_count']==722 and receipt['actual_source_inputs']==899)
+check('Ten distinct speed/direction cases',len(r['runs'])==10)
+summary=[];roi_total=0;full_total=0;max_head=0.0
+for run in r['runs']:
+ trace=run['trace'];frames=[p['physics']for p in trace]
+ check('Consecutive full trace '+str((run['x'],run['direction'],run['target_speed'])),frames==list(range(frames[0],frames[-1]+1)))
+ selected=[p for p in trace if p['phase']=='mapped_speed'and -3<=p['position'][2]<=12]
+ check('Actual grounded/no-trick path '+str((run['x'],run['direction'],run['target_speed'])),run['finished']and len(selected)==run['roi_frames']and run['air_frames']==0 and run['bail_frames']==0 and not run['events']and all(p['floor']and not p['airborne']and not p['bail']for p in selected))
+ roi_total+=len(selected);full_total+=len(trace);max_head=max(max_head,run['head_relative_step'])
+ supports={}
+ for p in selected:
+  for contact in p['contacts']:
+   key=(contact['owner'],contact['rid'],contact['shape']);supports[str(key)]=contact['normal']
+ summary.append({k:run[k]for k in ['x','direction','target_speed','roi_frames','air_frames','bail_frames','min_speed','max_speed','head_relative_step','head_world_step']})
+ summary[-1]['native_contact_classes']=supports
+check('Exact1738 corridor samples and3464 full trial rows',roi_total==1738 and full_total==3464)
+fail=next(q for q in r['assertions']if not q['passed'])
+obstructions={}
+for q in fail['detail']['failures']:
+ for h in q['hits']:
+  key=h['owner'].split('/')[-1]
+  row=obstructions.setdefault(key,{'rid':h['rid'],'shape':h['shape'],'stations':[]});row['stations'].append(q['at'])
+check('Real native stairs7..9 plus kicker explain blocked side-lane samples',set(obstructions)=={'MD_Loading_Stairs_Step_7','MD_Loading_Stairs_Step_8','MD_Loading_Stairs_Step_9','MD_Dock_Kicker'})
+result={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'checks':checks,'offline_passed':sum(q['passed']for q in checks),'offline_failed':sum(not q['passed']for q in checks),'overall_native_status':'REJECTED39/1; scoped market bypass success separate from failed underpass hypothesis','source_world_sha256':receipt.get('world_sha256',json.loads((D/'source-before.json').read_text())['game/levels/merchant_neighbourhood.gd']),'runs':summary,'roi_samples':roi_total,'total_trace_samples':full_total,'maximum_head_relative_step_m':max_head,'underpass_failure':obstructions,'static_precision':'31 market and61 underpass four-metre-wide upright-volume crosssections at0.5m intervals. They do not by themselves certify the entire swept strip between stations or full displayed body/board clearance; next revision should add continuous casts. Ten real-player longitudinal traces supplement sampled sections without covering every lateral point.','correction_proposal':'Keep all native geometry unchanged initially; test the actual reserved south lane centreZ−2.5,width4,betweenZ−4.5 and−.5 acrossX28..76. The railZ−5/stairs/kicker are north, pier feetZ≥.2 south. Source-only candidate pending native continuous-cast/no-jump validation.','admission':'Market no-jump bypass input/continuity subset on source5e4024ba; no whole map/circuit/Main score/full deformed body/final art/M5 cost admission.'}
+(D/'independent-analysis.json').write_text(json.dumps(result,indent=2)+'\n')
+(D/'README.md').write_text('''# Independent repaired-Market bypass and underpass review
+
+**Overall native result39/1 remains rejected.** The repaired Market bypass passes the scoped real-player tests; the proposed north underpass lane fails an actual native volume query. The first parser-only epoch is separately retained at `../bypass-native-01` (reserved local identifier corrected before native execution).
+
+The copied world is5e4024ba, layout50c1d09d, Catalogbf5e3c35. All722 producer source/cache inputs (323 imported files) and899 actual source guard inputs remain unchanged. Parser129779 exits0, native129797 runs12:08:26.806→12:08:57.229 then exits1 for the one assertion, with no raw engine errors. Bounds15/105/aggregate120; shared secondary flock is released. Actual full04 overlaps untimed. This specialist edited no producer or actual gameplay source.
+
+Ten real standalone Skater trials use exactly one initial spawn/heading/reset each and ordinary mapped Push/coast/Brake to obtain speed; no subsequent pose, yaw, speed, velocity or balance assignment occurs. At4m/s the centre and both shoulders run in both directions;8/12m/s centre runs both directions. All1738 in-corridor samples over3464 total trial frames remain grounded, with no bail or trick event. Observed speed ranges match the declared families. Worst rig-head step relative to native body travel is35.849mm, below the existing220mm diagnostic ceiling. Every frame retains current native floor normal and slide RID/intshape/position/depth. [Independent analysis](independent-analysis.json).
+
+The Market static checks cover31 full4m crosssections at0.5m stations, with support rays at centre/outer edges. The new west crosswise access toe/top join also matches native support/query observations. The sampled upright volume is1.7m high, starting50mm above expected floor to keep a body-clearance test separate from loaded-floor contact. **These samples are not a continuous swept-volume or full rendered body/board certificate.** Next retest should use continuous native box casts too. The real-player paths do not fill every lateral point.
+
+The north underpass hypothesis at centreZ−9.5,width4 (Z−11.5…−7.5) fails at X40…42 against Loading Stairs native steps7/8/9 and atX69…70 against Dock Kicker. Exact current RID/intshape0 and sample positions are retained; no metadata/RID was excluded. This rejects that straight lane, not every underpass route. The native solid-building and inserted-real-obstacle controls both reject clearance; removing the counterfactual obstacle restores it before every player trial. The roof channel correctly refuses a false roof support.
+
+LD proposes keeping geometry while defining the south lane at centreZ−2.5,width4 (Z−4.5…−.5), X28…76. The rail, stairs and kicker lie north; the piers lie south. This is a source-feasible candidate requiring fresh native full-width/cast and east/west no-jump proof. It must not be silently substituted into this rejected epoch.
+
+Standalone players have no Main score chain here. No closed combo, opportunity cadence, two distinct lines per four spaces, three neighbourhood circuits, full deformation, camera/rendered quality, art budget, target-M5 performance or owner fun acceptance follows. The earlier old bank defect and successful Ollie84→117 remain in `../merchant-first-native-review-01`; the source conflict epoch stays at `../merchant-source-01`.
+''')
+files={str(p.relative_to(D)):{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}for p in sorted(D.rglob('*'))if p.is_file()and not any(n in p.parts for n in ['user-data','config','cache'])}
+(D/'preservation.json').write_text(json.dumps({'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'files':files,'analysis_script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'scope':'Private raw originals immutable; newly authored analysis distinguishes sampled widths, scoped input success and overall failed hypothesis.'},indent=2)+'\n')
+print(json.dumps({'offline_passed':result['offline_passed'],'offline_failed':result['offline_failed'],'roi':roi_total,'full':full_total,'max_head':max_head,'obstructions':obstructions},indent=2))

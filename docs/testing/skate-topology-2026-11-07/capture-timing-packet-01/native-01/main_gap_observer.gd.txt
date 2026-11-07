@@ -1,0 +1,11 @@
+extends "res://game/tricks/gap_tracker.gd"
+## Read-only record surrounding the actual inherited update. Awards feed Main once.
+var rows:Array=[]
+var run_label:="setup"
+func update(position:Vector3,airborne:bool,delta:float,native_finish:Callable=Callable())->Array[Dictionary]:
+ var previous:Vector3=_previous
+ var before:Array=_states.duplicate(true)
+ var stamp:int=_previous_physics_frame
+ var awards:Array[Dictionary]=super.update(position,airborne,delta,native_finish)
+ rows.append({"run":run_label,"physics":Engine.get_physics_frames(),"previous_sample":stamp,"previous":previous,"position":position,"airborne":airborne,"delta":delta,"before":before,"after":_states.duplicate(true),"awards":awards.duplicate(true)})
+ return awards

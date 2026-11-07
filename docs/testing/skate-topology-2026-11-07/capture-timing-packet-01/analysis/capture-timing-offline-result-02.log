@@ -1,0 +1,192 @@
+{
+  "checks": {
+    "passed": 24,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "original native result12/0",
+        "passed": true
+      },
+      {
+        "name": "all source/cache/actual/observer manifests stable",
+        "passed": true
+      },
+      {
+        "name": "parser/native clean exit0",
+        "passed": true
+      },
+      {
+        "name": "all original1187 project inputs unchanged",
+        "passed": true
+      },
+      {
+        "name": "only addition is Root's uninvoked input probe",
+        "passed": true
+      },
+      {
+        "name": "original baseline first91 physics/state/presentation/input/score samples exact",
+        "passed": true
+      },
+      {
+        "name": "baseline: consecutive recorded physics",
+        "passed": true
+      },
+      {
+        "name": "baseline: fixed original native initial fixture",
+        "passed": true
+      },
+      {
+        "name": "baseline: exactly one authenticated intended named50_50 capture",
+        "passed": true
+      },
+      {
+        "name": "baseline: actual airborne pre-entry with realOllie",
+        "passed": true
+      },
+      {
+        "name": "interior_rising: consecutive recorded physics",
+        "passed": true
+      },
+      {
+        "name": "interior_rising: fixed original native initial fixture",
+        "passed": true
+      },
+      {
+        "name": "interior_rising: exactly one authenticated intended named50_50 capture",
+        "passed": true
+      },
+      {
+        "name": "interior_rising: actual airborne pre-entry with realOllie",
+        "passed": true
+      },
+      {
+        "name": "rising point lies strictly inside finiteguide",
+        "passed": true
+      },
+      {
+        "name": "interior_descending: consecutive recorded physics",
+        "passed": true
+      },
+      {
+        "name": "interior_descending: fixed original native initial fixture",
+        "passed": true
+      },
+      {
+        "name": "interior_descending: exactly one authenticated intended named50_50 capture",
+        "passed": true
+      },
+      {
+        "name": "interior_descending: actual airborne pre-entry with realOllie",
+        "passed": true
+      },
+      {
+        "name": "descending point lies strictly inside finiteguide",
+        "passed": true
+      },
+      {
+        "name": "grounded_no_ollie: consecutive recorded physics",
+        "passed": true
+      },
+      {
+        "name": "grounded_no_ollie: fixed original native initial fixture",
+        "passed": true
+      },
+      {
+        "name": "grounded ordinary request refuses withoutOllie",
+        "passed": true
+      },
+      {
+        "name": "grounded actual request-to-end remains supported/no bail",
+        "passed": true
+      }
+    ]
+  },
+  "runs": [
+    {
+      "mode": "baseline",
+      "capture": {
+        "physics": [
+          79,
+          80
+        ],
+        "body_displacement_m": 0.8527730526938329,
+        "body_delta": [
+          -0.2999992370605469,
+          -0.012967586517333984,
+          -0.79815673828125
+        ],
+        "head_world_displacement_m": 1.0826171044232005,
+        "head_relative_to_body_displacement_m": 0.39743784216438144,
+        "board_world_displacement_m": 1.0916784028588862,
+        "airborne_before": true,
+        "floor_before": false,
+        "vertical_velocity_before": 6.361512184143066,
+        "finite_guide_distance_after": 9.400001525878906,
+        "body_y_correction_m": -0.012967586517333984,
+        "body_x_correction_m": -0.2999992370605469,
+        "body_z_correction_m": -0.79815673828125,
+        "basis": "Actual consecutive native after-physics values, dt1/60. Marker changes are not interpolated render/pixel measurements. Body and relative-head are separate vectors, not additive scalar distances."
+      },
+      "capture_count": 1
+    },
+    {
+      "mode": "interior_rising",
+      "capture": {
+        "physics": [
+          179,
+          180
+        ],
+        "body_displacement_m": 0.6427801791801152,
+        "body_delta": [
+          -0.2999992370605469,
+          -0.5684776306152344,
+          0.0
+        ],
+        "head_world_displacement_m": 0.7893291512048777,
+        "head_relative_to_body_displacement_m": 0.29916311468719753,
+        "board_world_displacement_m": 0.6652934554420414,
+        "airborne_before": true,
+        "floor_before": false,
+        "vertical_velocity_before": 3.561511516571045,
+        "finite_guide_distance_after": 8.958250045776367,
+        "body_y_correction_m": -0.5684776306152344,
+        "body_x_correction_m": -0.2999992370605469,
+        "body_z_correction_m": 0.0,
+        "basis": "Actual consecutive native after-physics values, dt1/60. Marker changes are not interpolated render/pixel measurements. Body and relative-head are separate vectors, not additive scalar distances."
+      },
+      "capture_count": 1
+    },
+    {
+      "mode": "interior_descending",
+      "capture": {
+        "physics": [
+          297,
+          298
+        ],
+        "body_displacement_m": 0.5804674031663041,
+        "body_delta": [
+          -0.2999992370605469,
+          -0.4969334602355957,
+          0.0
+        ],
+        "head_world_displacement_m": 0.6640986959995897,
+        "head_relative_to_body_displacement_m": 0.27742614513863345,
+        "board_world_displacement_m": 0.6013540278025239,
+        "airborne_before": true,
+        "floor_before": false,
+        "vertical_velocity_before": -3.638489007949829,
+        "finite_guide_distance_after": 5.769914627075195,
+        "body_y_correction_m": -0.4969334602355957,
+        "body_x_correction_m": -0.2999992370605469,
+        "body_z_correction_m": 0.0,
+        "basis": "Actual consecutive native after-physics values, dt1/60. Marker changes are not interpolated render/pixel measurements. Body and relative-head are separate vectors, not additive scalar distances."
+      },
+      "capture_count": 1
+    },
+    {
+      "mode": "grounded_no_ollie",
+      "capture": null,
+      "capture_count": 0
+    }
+  ]
+}

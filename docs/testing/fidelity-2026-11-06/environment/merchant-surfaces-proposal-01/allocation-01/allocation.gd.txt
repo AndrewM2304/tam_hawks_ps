@@ -1,0 +1,31 @@
+extends SceneTree
+const Library=preload("res://game/levels/art/material_library.gd")
+const Look=preload("res://game/levels/art/merchant_surfaces.gd")
+const KEYS: Array[String]=["stone","stone_light","sandstone","paving","path","asphalt","wood","grass"]
+func _initialize() -> void:_run.call_deferred()
+func _run() -> void:
+	var shared: Dictionary={}
+	for key: String in KEYS+["glass","facade_glass","window_dull","window_lit","shop_glass","iron"]:shared[key]=StandardMaterial3D.new()
+	Library.apply(shared)
+	var camera:=Camera3D.new();camera.position=Vector3(0,5,12);root.add_child(camera);camera.look_at(Vector3.ZERO);camera.current=true
+	var sun:=DirectionalLight3D.new();sun.rotation_degrees=Vector3(-45,-30,0);root.add_child(sun)
+	var meshes: Array[MeshInstance3D]=[]
+	for i: int in KEYS.size():
+		var mesh:=MeshInstance3D.new();mesh.mesh=BoxMesh.new();mesh.position=Vector3((i%4-1.5)*2,0,(i/4-.5)*2.5);mesh.material_override=shared[KEYS[i]];root.add_child(mesh);meshes.append(mesh)
+	for frame: int in 12:await RenderingServer.frame_post_draw
+	var before:=_counters()
+	var look:=Look.materials(shared)
+	meshes[0].material_override=look.market;meshes[1].material_override=look.industrial;meshes[2].material_override=look.bowl
+	for frame: int in 12:await RenderingServer.frame_post_draw
+	var after:=_counters();var delta: int=after.texture-before.texture
+	var maps: Array[Dictionary]=[]
+	var manifest: Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://game/art/assets/merchant_pbr/manifest.json"))
+	for entry: Dictionary in manifest.materials.values():
+		for channel: String in entry.files:
+			var texture: Texture2D=load(entry.files[channel]);var image: Image=texture.get_image();var hash:=HashingContext.new();hash.start(HashingContext.HASH_SHA256);hash.update(image.get_data())
+			maps.append({"resource":entry.files[channel],"format":image.get_format(),"width":image.get_width(),"height":image.get_height(),"mips":image.get_mipmap_count(),"bytes":image.get_data().size(),"payload_sha256":hash.finish().hex_encode(),"physical_width_m":entry.tile_size_m})
+	var ok: bool=delta==9786816 and before.draws==after.draws and before.primitives==after.primitives and 19486307+delta<=33554432
+	var file:=FileAccess.open(OS.get_cmdline_user_args()[0],FileAccess.WRITE)
+	file.store_string(JSON.stringify({"pass":ok,"before":before,"after":after,"extra_texture_bytes":delta,"base_admitted_added_bytes":19486307,"cumulative_added_bytes":19486307+delta,"ceiling_bytes":33554432,"maps":maps,"engine":Engine.get_version_info(),"scope":"SeparatefreshnativeGLprocess;same8cubes/light/camera/12naturalwarmframes before/after,base15boundPBRmapsretained,new6mapsboundwithoutretiringresources. Actual API texturememory delta, no wholeworld/FPS/M5 claim."},"\t")+"\n");file.close()
+	print("MERCHANT_ALLOCATION delta=",delta," pass=",ok);quit(0 if ok else 1)
+func _counters() -> Dictionary:return {"texture":int(Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED)),"buffer":int(Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED)),"draws":int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)),"primitives":int(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))}

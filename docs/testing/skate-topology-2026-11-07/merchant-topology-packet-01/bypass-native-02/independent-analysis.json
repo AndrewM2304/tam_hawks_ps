@@ -1,0 +1,452 @@
+{
+  "utc": "2026-11-07T12:14:55.343092+00:00",
+  "checks": [
+    {
+      "label": "Overall39/1 rejection retained",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Sole failing class is proposed north underpass strip",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Clean parser/native with deliberate assertion exit1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "All722 producer inputs and899 actual inputs unchanged",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Ten distinct speed/direction cases",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-14.65, -1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-14.65, -1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-14.65, 1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-14.65, 1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-12.95, -1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-12.95, -1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-12.95, 1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-12.95, 1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-11.25, -1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-11.25, -1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-11.25, 1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-11.25, 1.0, 4.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-12.95, -1.0, 8.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-12.95, -1.0, 8.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-12.95, 1.0, 8.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-12.95, 1.0, 8.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-12.95, -1.0, 12.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-12.95, -1.0, 12.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Consecutive full trace (-12.95, 1.0, 12.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Actual grounded/no-trick path (-12.95, 1.0, 12.0)",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Exact1738 corridor samples and3464 full trial rows",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "label": "Real native stairs7..9 plus kicker explain blocked side-lane samples",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "offline_passed": 27,
+  "offline_failed": 0,
+  "overall_native_status": "REJECTED39/1; scoped market bypass success separate from failed underpass hypothesis",
+  "source_world_sha256": "5e4024ba75e7c497eac761b7dd064407af3292b623e9c083897c68668edbd49a",
+  "runs": [
+    {
+      "x": -14.65,
+      "direction": -1.0,
+      "target_speed": 4.0,
+      "roi_frames": 227,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 3.870391607284546,
+      "max_speed": 4.066257476806641,
+      "head_relative_step": 0.028052084147930145,
+      "head_world_step": 0.080498605966568,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "x": -14.65,
+      "direction": 1.0,
+      "target_speed": 4.0,
+      "roi_frames": 227,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 3.8708207607269287,
+      "max_speed": 4.066611289978027,
+      "head_relative_step": 0.028136003762483597,
+      "head_world_step": 0.08051739633083344,
+      "native_contact_classes": {}
+    },
+    {
+      "x": -12.95,
+      "direction": -1.0,
+      "target_speed": 4.0,
+      "roi_frames": 227,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 3.870640277862549,
+      "max_speed": 4.066329002380371,
+      "head_relative_step": 0.027057703584432602,
+      "head_world_step": 0.07994996011257172,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "x": -12.95,
+      "direction": 1.0,
+      "target_speed": 4.0,
+      "roi_frames": 227,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 3.87078857421875,
+      "max_speed": 4.066028594970703,
+      "head_relative_step": 0.027054527774453163,
+      "head_world_step": 0.07991766929626465,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "x": -11.25,
+      "direction": -1.0,
+      "target_speed": 4.0,
+      "roi_frames": 227,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 3.8708136081695557,
+      "max_speed": 4.066600799560547,
+      "head_relative_step": 0.028050724416971207,
+      "head_world_step": 0.08049363642930984,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "x": -11.25,
+      "direction": 1.0,
+      "target_speed": 4.0,
+      "roi_frames": 227,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 3.8705060482025146,
+      "max_speed": 4.066028594970703,
+      "head_relative_step": 0.028118161484599113,
+      "head_world_step": 0.08058676868677139,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "x": -12.95,
+      "direction": -1.0,
+      "target_speed": 8.0,
+      "roi_frames": 113,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 7.857799053192139,
+      "max_speed": 8.062172889709473,
+      "head_relative_step": 0.029614731669425964,
+      "head_world_step": 0.14511775970458984,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "x": -12.95,
+      "direction": 1.0,
+      "target_speed": 8.0,
+      "roi_frames": 113,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 7.861144065856934,
+      "max_speed": 8.06488037109375,
+      "head_relative_step": 0.028235608711838722,
+      "head_world_step": 0.14469777047634125,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "x": -12.95,
+      "direction": -1.0,
+      "target_speed": 12.0,
+      "roi_frames": 75,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 11.845377922058105,
+      "max_speed": 12.065648078918457,
+      "head_relative_step": 0.03584890440106392,
+      "head_world_step": 0.2111901044845581,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "x": -12.95,
+      "direction": 1.0,
+      "target_speed": 12.0,
+      "roi_frames": 75,
+      "air_frames": 0,
+      "bail_frames": 0,
+      "min_speed": 11.84595012664795,
+      "max_speed": 12.066306114196777,
+      "head_relative_step": 0.035753119736909866,
+      "head_world_step": 0.2107519507408142,
+      "native_contact_classes": {
+        "('/root/@Node3D@2/MerchantDistrict/NeighbourhoodGround', 408021893120, 0)": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "roi_samples": 1738,
+  "total_trace_samples": 3464,
+  "maximum_head_relative_step_m": 0.03584890440106392,
+  "underpass_failure": {
+    "MD_Loading_Stairs_Step_9": {
+      "rid": 3131031158922,
+      "shape": 0,
+      "stations": [
+        [
+          40.0,
+          4.0,
+          -9.5
+        ],
+        [
+          40.5,
+          4.0,
+          -9.5
+        ],
+        [
+          41.0,
+          4.0,
+          -9.5
+        ],
+        [
+          41.5,
+          4.0,
+          -9.5
+        ],
+        [
+          42.0,
+          4.0,
+          -9.5
+        ]
+      ]
+    },
+    "MD_Loading_Stairs_Step_8": {
+      "rid": 3113851289737,
+      "shape": 0,
+      "stations": [
+        [
+          40.0,
+          4.0,
+          -9.5
+        ],
+        [
+          40.5,
+          4.0,
+          -9.5
+        ],
+        [
+          41.0,
+          4.0,
+          -9.5
+        ],
+        [
+          41.5,
+          4.0,
+          -9.5
+        ],
+        [
+          42.0,
+          4.0,
+          -9.5
+        ]
+      ]
+    },
+    "MD_Loading_Stairs_Step_7": {
+      "rid": 3096671420552,
+      "shape": 0,
+      "stations": [
+        [
+          40.0,
+          4.0,
+          -9.5
+        ],
+        [
+          40.5,
+          4.0,
+          -9.5
+        ],
+        [
+          41.0,
+          4.0,
+          -9.5
+        ],
+        [
+          41.5,
+          4.0,
+          -9.5
+        ],
+        [
+          42.0,
+          4.0,
+          -9.5
+        ]
+      ]
+    },
+    "MD_Dock_Kicker": {
+      "rid": 3474628542622,
+      "shape": 0,
+      "stations": [
+        [
+          69.0,
+          4.0,
+          -9.5
+        ],
+        [
+          69.5,
+          4.0,
+          -9.5
+        ],
+        [
+          70.0,
+          4.0,
+          -9.5
+        ]
+      ]
+    }
+  },
+  "static_precision": "31 market and61 underpass four-metre-wide upright-volume crosssections at0.5m intervals. They do not by themselves certify the entire swept strip between stations or full displayed body/board clearance; next revision should add continuous casts. Ten real-player longitudinal traces supplement sampled sections without covering every lateral point.",
+  "correction_proposal": "Keep all native geometry unchanged initially; test the actual reserved south lane centreZ\u22122.5,width4,betweenZ\u22124.5 and\u2212.5 acrossX28..76. The railZ\u22125/stairs/kicker are north, pier feetZ\u2265.2 south. Source-only candidate pending native continuous-cast/no-jump validation.",
+  "admission": "Market no-jump bypass input/continuity subset on source5e4024ba; no whole map/circuit/Main score/full deformed body/final art/M5 cost admission."
+}

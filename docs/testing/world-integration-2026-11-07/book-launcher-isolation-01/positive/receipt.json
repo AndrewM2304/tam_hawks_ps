@@ -1,0 +1,48 @@
+{
+  "application_name": "TamHawksBookFixtures-book-check-1qnljfxs",
+  "project": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/subject/.local/book-check-1qnljfxs",
+  "pid": 137090,
+  "deadline_seconds": 60,
+  "timed_out": false,
+  "exit_code": 0,
+  "elapsed_seconds": 0.7274555930052884,
+  "source_inputs": {
+    "tests/level_career_book_tests.gd": {
+      "sha256": "e710e5d81dde6203695ae7715eb4075f9941bd61c4b03afc0be1c78dc4d998cd",
+      "bytes": 22122
+    },
+    "game/progression/level_career_book.gd": {
+      "sha256": "4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c",
+      "bytes": 21257
+    },
+    "game/progression/level_catalog.gd": {
+      "sha256": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+      "bytes": 4301
+    },
+    "game/progression/career_progress.gd": {
+      "sha256": "4ee0765bb9603c2c983577c4468718f466b27bbc3f21f49b0dfcf6395ab3ebee",
+      "bytes": 16315
+    },
+    "game/core/input_profile.gd": {
+      "sha256": "fe24e851029db42408bb2e46ca79bc43f939b149478958f659d897a0f890e0f3",
+      "bytes": 12238
+    },
+    "game/core/input_setup.gd": {
+      "sha256": "870217125d680ffe9b588b1026227ebcbe817f6b295d71646a0347de5e6eb532",
+      "bytes": 3545
+    },
+    "game/core/graphics_quality.gd": {
+      "sha256": "6e0cd00637e5f81e755c716ec7a315679ee8d807917112a646a051e8fe53854b",
+      "bytes": 1963
+    }
+  },
+  "changed_sources": [],
+  "errors": [],
+  "native_namespace": {
+    "application_name": "TamHawksBookFixtures-book-check-1qnljfxs",
+    "custom_user_dir": false,
+    "user_data_dir": "/workspace/tam_hawks_ps/.local/qa-fidelity/book-launcher-isolation-01/subject/.local/book-check-1qnljfxs/xdg/data/godot/app_userdata/TamHawksBookFixtures-book-check-1qnljfxs"
+  },
+  "eligible": true,
+  "isolation": "Seven source scripts copied by value into a unique application namespace before launch; no Main/world/Music or ordinary game profile namespace."
+}

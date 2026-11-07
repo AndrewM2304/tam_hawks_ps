@@ -1,0 +1,48 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,shutil,signal,subprocess,time
+MAX_SECONDS=float(os.environ.get('ARCHITECTURE_GRAPHICS_SECONDS','180'))
+ROOT=Path(__file__).resolve().parent/'proposal';OUT=ROOT.parent/('graphics-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'));OUT.mkdir();START=time.monotonic();events=[]
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def inv():
+ paths=[ROOT/'project.godot',ROOT/'probe.gd',ROOT/'architecture-layout.json',ROOT/'tools/run.sh',ROOT/'tools/xorg-dummy.conf'];paths.extend(p for p in (ROOT/'game').rglob('*') if p.is_file());return {**{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)},"../run_graphics.py":hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+def stop(p):
+ if p is not None and p.poll() is None:
+  os.killpg(p.pid,signal.SIGTERM)
+  try:p.wait(timeout=2)
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait(timeout=1)
+before=inv();(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+for rel in ('probe.gd','architecture-layout.json','game/levels/art/merchant_architecture.gd','game/levels/merchant_neighbourhood.gd','game/levels/merchant_layout.json','game/progression/level_catalog.gd'):
+ dest=OUT/'executed-source'/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/rel,dest)
+xorg=process=None;error=None
+try:
+ with (OUT/'display').open('w') as display_file,(OUT/'xorg-console.log').open('w') as log:
+  xorg=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(display_file.fileno()),'-config',str(ROOT/'tools/xorg-dummy.conf'),'-logfile',str(OUT/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=(display_file.fileno(),),stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+ for _ in range(50):
+  display=(OUT/'display').read_text().strip()
+  if display:break
+  if xorg.poll() is not None:raise RuntimeError('Xorg exited before display')
+  time.sleep(.1)
+ if not display:raise RuntimeError('No owned Xorg display')
+ env=dict(os.environ,DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1',LP_NUM_THREADS='4')
+ command=['./tools/run.sh','--audio-driver','Dummy','--resolution','1280x800','--script','probe.gd','--','--render-six'];event={'command':command,'start_utc':utc(),'xorg_pid':xorg.pid};events.append(event)
+ with (OUT/'native.log').open('w') as log:
+  process=subprocess.Popen(command,cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);event['godot_pid']=process.pid;print('GRAPHICS Godot',process.pid,'Xorg',xorg.pid,'start',event['start_utc'],'aggregate',MAX_SECONDS,'seconds',flush=True)
+  while process.poll() is None:
+   time.sleep(.2)
+   text=(OUT/'native.log').read_text()
+   if re.search(r'SCRIPT ERROR:|Parse Error:',text):raise RuntimeError('Native script error; stopped promptly')
+   if time.monotonic()-START>MAX_SECONDS-5 or time.time()>float(os.environ.get('ARCHITECTURE_GRAPHICS_ABSOLUTE_DEADLINE','99999999999'))-5:raise RuntimeError('Aggregate graphics cleanup deadline')
+  event.update(exit=process.returncode,finish_utc=utc())
+ if process.returncode or re.search(r'ERROR:|FAIL:',(OUT/'native.log').read_text()):raise RuntimeError('Native graphics exit/log rejection')
+ report=json.loads((ROOT/'native-result.json').read_text())
+ if report['failures'] or len(report.get('baseline_views',[]))!=6 or len(report.get('candidate_views',[]))!=6:raise RuntimeError('Incomplete/failing matched six views')
+ (OUT/'native-result.json').write_text(json.dumps(report,indent=2)+'\n')
+except Exception as failure:error=str(failure)
+finally:
+ stop(process);stop(xorg)
+ for pattern in ('baseline-*.png','candidate-*.png','*-partial.json'):
+  for p in ROOT.glob(pattern):shutil.copy2(p,OUT/p.name)
+ after=inv();(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');changed=[p for p in before.keys()|after.keys() if before.get(p)!=after.get(p)]
+ receipt={'events':events,'finished_utc':utc(),'elapsed_seconds':time.monotonic()-START,'source_changed':changed,'accepted':error is None and not changed,'error':error,'scope':'Private selected-world matched6camera locations/12frames. Per-process resource/nativepixel diagnostics; known full04/authorizedMEheadless overlap, no timing/M5/pacing/fullgameplay claim. Two observer-only debug materials/markers retained identically in A/B, excluded from art inventories.'}
+ (OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));print('OUTPUT',OUT)
+ if error:raise SystemExit(1)

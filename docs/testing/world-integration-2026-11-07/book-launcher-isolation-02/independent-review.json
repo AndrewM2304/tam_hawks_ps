@@ -1,0 +1,75 @@
+{
+  "reviewer": "/root/independent_qa",
+  "passed": 11,
+  "failed": 0,
+  "checks": [
+    {
+      "check": "17before-bound original/copy/wrapper inputs unchanged",
+      "pass": true
+    },
+    {
+      "check": "native Book65/0 and helper0",
+      "pass": true
+    },
+    {
+      "check": "native identity matches unique prelaunch app/explicit noncustom namespace",
+      "pass": true
+    },
+    {
+      "check": "only seven source scripts,unchanged Book4ef",
+      "pass": true
+    },
+    {
+      "check": "missingarg refused with expected exit1 before fixture body",
+      "pass": true
+    },
+    {
+      "check": "missingarg retains every prebound file/all four sentinel profiles",
+      "pass": true
+    },
+    {
+      "check": "wrongarg refused with expected exit1 before fixture body",
+      "pass": true
+    },
+    {
+      "check": "wrongarg retains every prebound file/all four sentinel profiles",
+      "pass": true
+    },
+    {
+      "check": "helper60second bound and outer stages no timeout",
+      "pass": true
+    },
+    {
+      "check": "source helper creates explicit unique app before spawn and copies by value",
+      "pass": true
+    },
+    {
+      "check": "early native guard precedes any fixture-directory or profile-write call",
+      "pass": true
+    }
+  ],
+  "native_positive": [
+    65,
+    0
+  ],
+  "native_negative_exit_codes": [
+    1,
+    1
+  ],
+  "native_positive_pid": 138707,
+  "outer_window": {
+    "start": "2026-11-07T13:45:50.852304+00:00",
+    "end": "2026-11-07T13:45:52.312939+00:00"
+  },
+  "helper_sha256": "9016c301925ce2845d9fa7db63865d26fc3678c8df702e7268bd3706f2e0eb2b",
+  "fixture_sha256": "e710e5d81dde6203695ae7715eb4075f9941bd61c4b03afc0be1c78dc4d998cd",
+  "verdict": "No source/native isolation blocker for root guarded integration. Actual native Mac behaviour remains unmeasured.",
+  "limits": [
+    "Linux native65/0 plus isolated missing/wrong-argument controls; no Mac/physical controller/performance claim.",
+    "Native identity is checked before fixture writes; command-line identity is an intentional guard against accidental ordinary-suite execution, not a security boundary against arbitrary forged launcher arguments.",
+    "No Main/world/Music source or production game namespace is loaded; each separate application has a unique identity.",
+    "Imported/generated caches are not frozen; the helper checks7source bodies+freshconfig, and outer observer binds original+copy+helper+itself.",
+    "Negative expectedERROR and exit1 are retained, not mislabelled raw-clean positive runs.",
+    "Root-authorized secondary lock; primaryLD/qualitativeRA could overlap, without exact other-process census or exclusivity/timing claim."
+  ]
+}

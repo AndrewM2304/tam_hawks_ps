@@ -12,8 +12,10 @@ production changes. Obsolete cross-bank/interpolation patches were discarded.
 Work remains directly on main, with non-force integration, no hosted CI, no
 spending and no release publication. October evidence below keeps its own scope.
 Main remains the ordinary trial build while implementation continues. The latest
-pushed runtime checkpoint is **`305d037`**, including compatible Mac texture
-imports; the earlier launcher-specific checkpoint was `65f045e`. The preceding
+earlier pushed checkpoint is **`0a87d2c`**, including the original Glasgow concepts,
+persistent studio roles and implementation tickets. Its latest runtime change is
+**`221aeef`**, crediting authenticated cable return gaps; **`305d037`** supplies
+compatible Mac texture imports. The earlier launcher-specific checkpoint was `65f045e`. The preceding
 integrated gameplay checkpoint passes the complete required check: **6,600/0 game assertions and
 2/0 CLI launch checks**, exit0, with all890 recorded inputs unchanged. The
 [preserved run](testing/fidelity-2026-11-06/integrated-required-03/README.md) and
@@ -30,17 +32,62 @@ keeps that exception separate from the positive native result. A separately
 before-bound native15/0 probe confirms the five canonical source/UID registry
 bindings on902 stable inputs. No gameplay code changed to resolve the metadata.
 
+The actual four-hunk arm carrier now passes the complete
+[required05 regression](testing/fidelity-2026-11-06/required05-arm-complete/README.md):
+**6,697/0 plus CLI2/0**, exit0, all900 source inputs unchanged and raw eligibility
+true. Native14:08:02–14:41:50UTC took2,027.932s within the declared3,600s.
+Original Body/Gait/Flat/Clyde focused checks pass75/0. Source/pixel review176/0
+retains exact physical/foot/head/nonarm endpoints while reducing the abrupt wrist
+recovery. Human cadence, knee shape and whole-game contact fidelity stay open.
+
+The private current Merchant composition passes22/0 lifecycle and31/0 parsed
+keyboard/pad checks on923 unchanged inputs, plus126/0 five-view material/light
+checks. A normal rendered source launch passes12 functional checks but exposes
+an unusably distant chase camera at low render rates. A private camera repair
+keeps angular anti-stall limits while using elapsed time for radial following
+and translation. Native before10/2 versus after12/0 shows camera arms24.3/53.0m
+at15/7.5Hz reduced to7.1/6.7m. Rider physics strings remain equal in all1,440
+recorded rows and60Hz camera strings remain exact. Current rendered recheck,
+actual new-default installation, full regression and packages are still pending.
+
+All active specialists hit the provider's included-usage limit after their sealed
+handoffs; none was restarted with purchased usage or a different model. Root
+continues available integration/verification. New independent specialist review
+and actual M5/human acceptance remain unavailable, not passed.
+
 The owner has rejected both the existing sparse city and the proposed
 Warehouse-sized replacement. **San Francisco-scale urban skating is the new
 design reference**, joined by Los Angeles and London for city-line lessons.
 The owner liked the [overall and section sketches](levels/MERCHANT-DISTRICT-CONCEPTS-2026-11-07/README.md)
 and explicitly retains Glasgow identity. The112×88m draft, mandatory old40×30m
 facility and long Kelvingrove approach are superseded. The concept-led private
-layout has four adjoining primary spaces. Its repaired market bypass passes ten
-no-jump input cases; a proposed underpass lane still clips optional features and
-is being rerouted. No new dense default map has been integrated. Eight returned
+layout has four adjoining primary spaces. Revision 02 passes native **50/0**,
+including ten no-jump Market approaches and two supported south-underpass runs;
+the blocked north-lane attempt remains rejected. A unified revision 03 adds stepped
+street massing, corrects exposed frontage directions and roof-ramp clearance, and
+joins the shallow channel landing. These new bytes are not covered by the 50/0.
+No new dense default map has been integrated. Eight returned
 lines and three closed circuits remain unproved; see the [implementation tickets](planning/MERCHANT-IMPLEMENTATION-TICKETS.md).
 The current all-gap inventory is evidence about the old city, not good pacing.
+
+The private selected-world integration passes native **20/0** on 896 unchanged
+inputs, with a portable **4,452/0** source/log verification. The
+[packet](testing/world-integration-2026-11-07/main-lifecycle-02/README.md) preserves
+the earlier freed-instance failure. Direct HUD callbacks and declared scoring
+fixtures establish lifecycle and record isolation. A
+[parsed keyboard/pad cohort](testing/world-integration-2026-11-07/level-input-03/README.md)
+passes31/0; cancelling title/pause, held-accept release and ordinary start/resume
+work without unintended tricks. The recorder's level-aware successor passes22/0;
+the separate-app Book fault launcher passes65/0 plus early missing/wrong-argument
+refusal controls, preserving poisoned fixture files outside the game namespace.
+These remain private Linux results. The first real Main open-link fixture genuinely
+captures a ledge, Ollies into a buffered Manual and banks one 2,000-point combo at
+three starting offsets (15/0). It also exposes a roughly 0.85 m body jump at an
+airborne endpoint capture. A delayed-interior diagnostic passes12 functional
+checks but still measures0.58–0.64m body corrections and0.28–0.30m relative-head
+jumps. The [source-bound packets](testing/skate-topology-2026-11-07/main-line-packet-01/README.md)
+retain these defects. A physical approach design is being reviewed; no motion
+pass or returned-line acceptance follows from the positive score ledger.
 
 A source-frozen native351-frame forward-push film completed with3×117 consecutive
 60Hz frames at640×400, full decoding and3,772/0 observer checks. The

@@ -1,0 +1,297 @@
+extends RefCounted
+## Original ride state around the attributed MIT geometry helper. World units are metres.
+## Capture and balance patterns were reviewed in docs/research/SKATING_REUSE.md.
+## The caller owns collision sweeps, input edges, cooldowns, scoring and player transitions.
+
+const GrindLine = preload("res://game/tricks/grind_line.gd")
+const CAPTURE_RADIUS: float = 0.85
+const VERTICAL_REACH: float = 0.60
+const BELOW_ALLOWANCE: float = 0.14
+const APPROACH_COS: float = 0.0871557427 # cos(85 degrees); held grind tolerates rough horizontal aim.
+# A sideways boardslide needs an actual close crossing, not the full magnetic
+# radius. Twenty-two centimetres covers the ordinary board/steel half-widths.
+const CROSSING_RADIUS: float = 0.22
+const DIRECTION_EPSILON: float = 0.001
+const ENTRY_SPEED: float = 2.0
+const MAX_SPEED: float = 18.0
+const RELEASE_SPEED: float = 1.0
+const GRAVITY: float = 22.0
+const FRICTION: float = 0.6 # Linear speed loss in metres/second squared.
+const END_EPSILON: float = 0.001
+const CAPTURE_SWEEP_STEP: float = 0.10
+const MAX_CAPTURE_SWEEP: float = 1.0
+const MAX_CAPTURE_CORRECTION: float = 0.85
+const MAX_CAPTURE_TICK_DISPLACEMENT: float = 0.99
+
+# The controller supplies its upright capsule radius once. Pure geometry users
+# retain zero, so model-specific clearance never changes their public guide.
+var body_radius: float = 0.0
+var body_base_offset: float = 0.0
+# Body-only native safety-shell clearance; the support crown stays exact.
+var body_clearance: float = 0.0
+# Supplied once from the actual cached board vertices. Zero keeps unknown
+# callers on the original nearest-contact path.
+var capture_model_radius: float = 0.0
+var active: bool = false
+var line: GrindLine = null
+var distance: float = 0.0
+var direction: float = 1.0
+var speed: float = 0.0
+var balance: float = 0.0
+var elapsed: float = 0.0
+var _position: Vector3 = Vector3.ZERO
+var _velocity: Vector3 = Vector3.ZERO
+var _result: String = "slow"
+
+
+## Capture the nearest eligible line. Optional clearance receives world-space from/to.
+## A failed attempt leaves no active ride. A request during an active ride is ignored.
+func start(lines: Array, from: Vector3, velocity: Vector3,
+		clearance: Callable = Callable(), candidate_filter: Callable = Callable(),
+		target_clearance: Callable = Callable()) -> bool:
+	if active:
+		return false
+	if not from.is_finite() or not velocity.is_finite() or not is_finite(body_radius) or body_radius<0.0 or body_radius>0.5 or not is_finite(body_base_offset) or absf(body_base_offset)>0.25 or not is_finite(body_clearance) or body_clearance<0.0 or body_clearance>0.05 \
+			or not is_finite(capture_model_radius) or capture_model_radius<0.0 or capture_model_radius>CAPTURE_RADIUS:
+		return false
+	var horizontal := Vector3(velocity.x, 0.0, velocity.z)
+	if horizontal.length_squared() < 0.000001:
+		return false
+	var best: GrindLine = null
+	var best_distance: float = 0.0
+	var best_direction: float = 1.0
+	var best_speed: float = 0.0
+	var best_gap: float = INF
+	for candidate in lines:
+		if not candidate is GrindLine or not candidate.is_valid:
+			continue
+		if not is_finite(candidate.length) or candidate.length <= END_EPSILON:
+			continue
+		var near: Dictionary = candidate.closest(from)
+		if not near.has_all(["point", "dist", "gap"]):
+			continue
+		# Verified bars may publish a centre guide plus an independent crown.
+		# Locate the physical body path rather than snapping into that centre.
+		if candidate.contact_verified or candidate.body_profile_radius > 0.0:
+			var shift: Vector3=_body_point(candidate,float(near.dist))-candidate.point_at(float(near.dist))
+			near=candidate.closest(from-shift)
+			if not near.has_all(["point", "dist", "gap"]):continue
+		var offset: float = near.dist
+		var retry_offset := INF
+		for attempt: int in 2:
+			if attempt==1:
+				if not is_finite(retry_offset):break
+				offset=retry_offset
+			var at: Vector3 = _body_point(candidate,offset)
+			var gap: float = from.distance_to(at)
+			if not at.is_finite() or not is_finite(offset) or not is_finite(gap):
+				continue
+			var height: float = from.y - at.y
+			if absf(height) > VERTICAL_REACH or height < -BELOW_ALLOWANCE:
+				continue
+			# A held Ollie can meet the rail on its way up. The body must already
+			# clear its travel datum; never pull an ascending rider through steel.
+			if velocity.y > 0.0 and height < 0.0 and not (candidate.contact_verified and target_clearance.is_valid()):
+				continue
+			if gap > CAPTURE_RADIUS or gap >= best_gap:
+				continue
+			var tangent: Vector3 = candidate.dir_at(offset)
+			var horizontal_tangent := Vector3(tangent.x, 0.0, tangent.z)
+			if not tangent.is_finite() or horizontal_tangent.length_squared() < 0.000001:
+				continue
+			var alignment: float = horizontal.normalized().dot(horizontal_tangent.normalized())
+			if absf(alignment) < APPROACH_COS and not _close_crossing(from, at, horizontal, horizontal_tangent):
+				continue
+			var signed_direction: float = _capture_direction(alignment, candidate, offset)
+			var projected_speed: float = velocity.dot(tangent) * signed_direction
+			# A deliberate angled catch redirects momentum without discarding most
+			# of its speed. Never convert falling velocity into a horizontal boost.
+			projected_speed = maxf(projected_speed, horizontal.length() * lerpf(0.9, 1.0, absf(alignment)))
+			if not is_finite(projected_speed) or projected_speed < ENTRY_SPEED or projected_speed > MAX_SPEED:
+				continue
+			if not candidate.is_loop and (offset <= END_EPSILON and signed_direction < 0.0
+					or offset >= candidate.length - END_EPSILON and signed_direction > 0.0):
+				continue
+			if attempt==0 and target_clearance.is_valid() and candidate_filter.is_valid():
+				# Only a failed, otherwise eligible finite entry may try one
+				# geometry-derived inboard point. All admission below runs again.
+				retry_offset=_endpoint_alternate_offset(candidate,offset,signed_direction)
+			if target_clearance.is_valid():
+				# A target-aware caller proves any small up-then-across correction
+				# against the actual capsule and authenticated finite support body.
+				if target_clearance.call(candidate,from,at,offset,signed_direction)!=true:continue
+			elif clearance.is_valid() and clearance.call(from, at) != true:
+				continue
+			if candidate_filter.is_valid() and candidate_filter.call(candidate, offset, signed_direction) != true:
+				continue
+			best = candidate
+			best_distance = offset
+			best_direction = signed_direction
+			best_speed = projected_speed
+			best_gap = gap
+			break
+	if best == null:
+		return false
+	line = best
+	distance = best_distance
+	direction = best_direction
+	speed = best_speed
+	balance = 0.0
+	elapsed = 0.0
+	active = true
+	_result = "riding"
+	_sample()
+	return true
+
+
+func _endpoint_alternate_offset(candidate: GrindLine, offset: float, signed_direction: float) -> float:
+	if capture_model_radius<=0.0 or not candidate.contact_verified or candidate.is_loop:
+		return INF
+	# A full actual-model bound plus the inspected radial bearing covers the
+	# neighbouring end cap. It proposes a point, never certifies clearance.
+	if not is_finite(candidate.contact_normal_offset) or not is_finite(candidate.body_profile_radius):return INF
+	var bearing_radius := maxf(0.0,maxf(candidate.contact_normal_offset,candidate.body_profile_radius))
+	if not is_finite(bearing_radius):return INF
+	var inset := minf(candidate.length*.5,capture_model_radius+bearing_radius)
+	if not is_finite(inset) or inset<=END_EPSILON:return INF
+	# Preserve an outgoing finite-end refusal; no loop or middle-rail search.
+	if signed_direction>0.0 and offset<inset:return inset
+	if signed_direction<0.0 and offset>candidate.length-inset:return candidate.length-inset
+	return INF
+
+
+static func _close_crossing(from: Vector3, at: Vector3, horizontal: Vector3, tangent: Vector3) -> bool:
+	var lateral := Vector3(from.x-at.x,0.0,from.z-at.z).slide(tangent.normalized())
+	if lateral.length_squared() > CROSSING_RADIUS*CROSSING_RADIUS:
+		return false
+	# At the actual crossing a near-zero longitudinal dot is legitimate.
+	# On either side, require travel towards the rail rather than away from it.
+	return lateral.length_squared() <= 0.000001 or lateral.dot(horizontal) < 0.0
+
+
+static func _capture_direction(alignment: float, candidate: GrindLine, offset: float) -> float:
+	if absf(alignment) >= DIRECTION_EPSILON:
+		return signf(alignment)
+	# Exact perpendicular input has no signed tangent component. Pick a stable
+	# inward run instead of letting floating-point cosine choose either end.
+	return 1.0 if candidate.is_loop or offset <= candidate.length*0.5 else -1.0
+
+
+## Recover a capture window crossed during one completed physics move. `to` is
+## the body's actual current origin, never a predicted position. Keep the same
+## admission envelope as point capture; do not widen it with speed or frame time.
+## Clearance always starts at that actual origin, including for earlier samples.
+func start_swept(lines: Array, from: Vector3, to: Vector3, velocity: Vector3,
+		clearance: Callable = Callable(), candidate_filter: Callable = Callable(),
+		target_clearance: Callable = Callable()) -> bool:
+	if active or not from.is_finite() or not to.is_finite() or not velocity.is_finite():
+		return false
+	var travel: float = from.distance_to(to)
+	if not is_finite(travel) or travel > MAX_CAPTURE_SWEEP:
+		return false
+	var sample_count: int = maxi(1, ceili(travel / CAPTURE_SWEEP_STEP))
+	var actual_origin_clearance := func(_sample_origin: Vector3, at: Vector3) -> bool:
+		# Historical eligibility never authorizes an oversized present-body
+		# correction or a >1m step from the preceding native sample.
+		if to.distance_to(at) > MAX_CAPTURE_CORRECTION or from.distance_to(at) > MAX_CAPTURE_TICK_DISPLACEMENT:
+			return false
+		# A past sample cannot waive the current body's point-height envelope.
+		var current_height: float = to.y - at.y
+		if current_height > VERTICAL_REACH or current_height < -BELOW_ALLOWANCE:
+			return false
+		return not clearance.is_valid() or clearance.call(to, at) == true
+	var actual_target_clearance: Callable
+	if target_clearance.is_valid():
+		actual_target_clearance=func(candidate,_sample_origin: Vector3,at: Vector3,offset: float,signed_direction: float)->bool:
+			if to.distance_to(at)>MAX_CAPTURE_CORRECTION or from.distance_to(at)>MAX_CAPTURE_TICK_DISPLACEMENT:return false
+			var current_height: float = to.y - at.y
+			if current_height > VERTICAL_REACH or current_height < -BELOW_ALLOWANCE:
+				return false
+			return target_clearance.call(candidate,to,at,offset,signed_direction)==true
+	for i in range(sample_count + 1):
+		var sample_origin: Vector3 = from.lerp(to, float(i) / sample_count)
+		if start(lines, sample_origin, velocity, actual_origin_clearance, candidate_filter,actual_target_clearance):
+			return true
+	return false
+
+
+## Positive input tips toward positive balance; counter that lean with negative input.
+## Released position and travel velocity remain available until the next capture.
+func step(delta: float, balance_input: float) -> String:
+	if not active:
+		return _result
+	if not is_finite(delta) or delta < 0.0 or not is_finite(balance_input):
+		return _release("bail")
+	if (line == null or not line.is_valid or not is_finite(distance)
+			or not is_finite(speed) or not is_finite(balance) or not is_finite(elapsed)
+			or absf(direction) != 1.0 or not is_finite(body_radius) or body_radius<0.0 or body_radius>0.5 or not is_finite(body_base_offset) or absf(body_base_offset)>0.25 or not is_finite(body_clearance) or body_clearance<0.0 or body_clearance>0.05):
+		return _release("bail")
+	if delta == 0.0:
+		return "riding"
+	var tangent: Vector3 = line.dir_at(distance) * direction
+	if not tangent.is_finite() or tangent.length_squared() < 0.5:
+		return _release("bail")
+	var next_speed: float = clampf(speed + (-tangent.y * GRAVITY - FRICTION) * delta, 0.0, MAX_SPEED)
+	var next_distance: float = distance + direction * (speed + next_speed) * 0.5 * delta
+	var next_elapsed: float = elapsed + delta
+	var next_balance: float = balance + (0.14 + balance * 0.75 * (1.0 + elapsed * 0.15)
+		+ clampf(balance_input, -1.0, 1.0)) * delta
+	if not is_finite(next_distance) or not is_finite(next_elapsed) or not is_finite(next_balance):
+		return _release("bail")
+	speed = next_speed
+	distance = fposmod(next_distance, line.length) if line.is_loop else clampf(next_distance, 0.0, line.length)
+	elapsed = next_elapsed
+	balance = next_balance
+	_sample()
+	if not _position.is_finite():return _release("bail")
+	if not line.is_loop and (next_distance <= 0.0 or next_distance >= line.length):
+		return _release("end")
+	if absf(balance) >= 1.0:
+		return _release("bail")
+	if speed < RELEASE_SPEED:
+		return _release("slow")
+	return "riding"
+
+
+func position() -> Vector3:
+	return _position
+
+
+func travel_velocity() -> Vector3:
+	return _velocity
+
+
+func stop() -> void:
+	_release("slow")
+
+
+func _body_point(candidate: GrindLine, offset: float) -> Vector3:
+	var at:=candidate.contact_at(offset)
+	at.y+=body_clearance
+	var up:=candidate.contact_up(offset)
+	if not candidate.contact_verified:
+		# Some inspected bent/graded beams publish their centreline without
+		# certifying named truck contact. Keep body clearance independent.
+		if candidate.body_profile_radius==0.0:return at
+		if not is_finite(candidate.body_profile_radius) or candidate.body_profile_radius<0.0 \
+				or candidate.body_profile_radius>GrindLine.MAX_CONTACT_OFFSET or candidate.body_profile_source.is_empty() \
+				or not up.is_finite() or up.y<=0.000001:return Vector3.INF
+		at+=up*candidate.body_profile_radius
+	at.y-=body_base_offset
+	if body_radius<=0.0:return at
+	# An upright capsule's lower hemisphere needs this additional rise on a
+	# sloped crown. Native caller clearance still decides whether it is legal.
+	if up.y>0.000001:
+		at.y+=clampf(body_radius*(1.0/up.y-1.0),0.0,body_radius)
+	return at
+
+
+func _sample() -> void:
+	_position = _body_point(line,distance)
+	_velocity = line.dir_at(distance) * direction * speed
+
+
+func _release(reason: String) -> String:
+	active = false
+	_result = reason
+	return reason

@@ -1,0 +1,37 @@
+{
+  "started_utc": "2026-11-07T13:20:16.945726+00:00",
+  "deadline_seconds": 180,
+  "scope": "PRIVATE actual native parsed keyboard/pad GUI navigation, cancellation, held accept release and world replacement. No physical device, natural lines, final art, Mac or frame-time acceptance.",
+  "stages": [
+    {
+      "name": "parser",
+      "pid": 135321,
+      "started_utc": "2026-11-07T13:20:16.946448+00:00",
+      "bound_seconds": 15,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_level_input_probe.gd",
+        "--check-only"
+      ],
+      "exit_code": 1,
+      "raw_errors": [
+        "SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)",
+        "SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)",
+        "SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)",
+        "ERROR: Failed to load script \"res://tests/neighbourhood_level_input_probe.gd\" with error \"Parse error\"."
+      ],
+      "finished_utc": "2026-11-07T13:20:17.260945+00:00"
+    }
+  ],
+  "finished_utc": "2026-11-07T13:20:17.383824+00:00",
+  "elapsed_seconds": 0.4380993170052534,
+  "source_count": 897,
+  "changed_inputs": [],
+  "eligible": false
+}

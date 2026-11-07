@@ -1,0 +1,70 @@
+{
+  "start_utc": "2026-11-07T12:07:51.430935+00:00",
+  "source_count": 722,
+  "source_matches_producer_freeze": true,
+  "project": "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+  "observer_sha256": "50e8d1ef2d1d4cbacfb2e48893961240a6afc4618b709334907a8ebe6038e245",
+  "wrapper_sha256": "1b0ed926e095e911fa01841fad841d65637a129a4e5079f573ea1f92dd429339",
+  "pre_processes": [
+    {
+      "pid": "82100",
+      "pgid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    },
+    {
+      "pid": "127119",
+      "pgid": "126872",
+      "state": "Rl",
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+    }
+  ],
+  "explicit_overlap": "Actual required04 primary127119 only; untimed private topology diagnostics, no FPS/M5 claim",
+  "stages": [
+    {
+      "label": "parser",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--check-only",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/skate-topology-review/bypass_probe.gd"
+      ],
+      "start_utc": "2026-11-07T12:07:51.431396+00:00",
+      "bound_seconds": 15,
+      "pid": 129673,
+      "process_group": 129673,
+      "deadline_utc": "2026-11-07T12:08:06.432597+00:00",
+      "end_utc": "2026-11-07T12:07:52.042758+00:00",
+      "exit_code": -15,
+      "stop": "first raw engine error",
+      "raw_error": true,
+      "log_sha256": "b998da283f463b4479191ef30d06c18b4990d1c84a85e472fc46c99455833fb6"
+    }
+  ],
+  "aggregate_bound_seconds": 120,
+  "end_utc": "2026-11-07T12:07:53.132659+00:00",
+  "source_stable": true,
+  "actual_source_inputs": 899,
+  "actual_source_stable": true,
+  "post_processes": [
+    {
+      "pid": "82100",
+      "pgid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    },
+    {
+      "pid": "127119",
+      "pgid": "126872",
+      "state": "Rl",
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+    }
+  ],
+  "result": null,
+  "eligible": false
+}

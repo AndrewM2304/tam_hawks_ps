@@ -10,10 +10,10 @@ own current contracts. These are repository tickets, not published remote issues
 
 | Ticket / priority | Implementation owner | Independent verifier | Current state |
 | --- | --- | --- | --- |
-| MD-101 / P0 — Four adjoining skating spaces | Level designer | Skate topology reviewer / BA | Private native prototype; bypass defect reproduced, repair under verification |
-| MD-102 / P0 — Selected world and compatible progress | Root + world integration engineer | Technical QE | Private Main/HUD/activity proposal and corrected career book; combined selection not yet run |
-| MD-103 / P0 — Recognisable Glasgow architecture | Environment architect | Technical QE + BA | Private six-frontage prototype; first cost gate rejected, revision underway |
-| MD-104 / P0 — Eight returned lines and three circuits | Level designer + combo engineer | Skate topology reviewer / BA | Targets unproved; initial roof macro is open and must be recomposed |
+| MD-101 / P0 — Four adjoining skating spaces | Level designer | Skate topology reviewer / BA | Private revision 02 native 50/0: supported Market and south underpass lanes; unified massing revision 03 underway |
+| MD-102 / P0 — Selected world and compatible progress | Root + world integration engineer | Technical QE | Corrected book native 65/0; lifecycle 20/0, level-aware recorder successor 22/0; parsed keyboard/pad GUI 31/0; separate-app Book launcher and refusal controls pass; actual installation/full regression pending |
+| MD-103 / P0 — Recognisable Glasgow architecture | Environment architect | Technical QE + BA | Cost-bounded six-view prototype captured; appearance still too flat/repetitive; stepped Glasgow massing and ground zoning underway |
+| MD-104 / P0 — Eight returned lines and three circuits | Level designer + combo engineer | Skate topology reviewer / BA | First open grind–Ollie–manual link native 15/0, one 2,000-point bank at each of three offsets; endpoint capture discontinuity open; zero returned lines/circuits accepted |
 | MD-105 / P0 — Believable rider and continuous contact | Rider artist + motion engineer; board artist as needed | Rigging/technical QE + BA | Forward-push film verified technically; knee, arm recovery and ground transitions remain open |
 | MD-106 / P0 — Ordinary launch, cooked delivery and M5 cost | Root + rendering engineer | Technical QE; owner for actual Mac | Source Mac compression fix pushed; new-world packages and target cost unmeasured |
 
@@ -83,9 +83,18 @@ Acceptance:
   plain repeated textured cuboids at the main skating viewpoints.
 - Keep openings, landings, sightlines, roof gaps and camera paths clear. Decorative
   recesses must not pretend to be traversable doors or create invisible obstacles.
-- Initial added-art budget:90k source triangles,48 submitted batches,4MiB native
-  mesh/instance buffers, zero added maps/material objects/lights/colliders. Declare
-  justified revisions before expansion. Measure rendered shadow/draw costs too.
+- Initial added-art budget:90k source triangles. Before full-detail expansion,
+  root approved145k for shared revision03's109 native units,170 exposed faces
+  and620 projected upper windows. Actual757-window construction exceeded that
+  forecast (207,877 art triangles), and the original gate remains rejected.
+  Root removed buried/back faces and simplified tiny stock detail, declaring
+  **155k net added triangles** before those edits while retaining the280k combined
+  static ceiling. The first revised pilot passes9/0,279,109 total/154,459 net added;
+  the later joined depot steel edge removes redundant duplicate factory labels.
+  Retain48 submitted batches,4MiB actual mesh/instance buffers and zero added
+  maps/material objects/lights/colliders. This is a declared private ceiling,
+  not target performance acceptance. Measure rendered shadow/draw costs and the combined
+  world total too; no target-Mac frame rate follows from these budgets.
 
 Verification: matched native approach/close views, exact geometry/collision
 invariants and actual resource counters. The first vector-sign trial exceeded

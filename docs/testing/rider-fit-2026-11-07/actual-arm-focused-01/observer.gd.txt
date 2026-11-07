@@ -1,0 +1,56 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+const Clyde=preload("res://tests/pt24_clyde_flagship_tests.gd")
+const Gait=preload("res://tests/skater_gait_direction_tests.gd")
+const Flat=preload("res://tests/flat_ollie_tests.gd")
+const Body=preload("res://tests/skater_body_attachment_tests.gd")
+var passes:=0
+var failures:Array[String]=[]
+var modules:Array[Dictionary]=[]
+var pose_trace:Array[Dictionary]=[]
+class PoseTrace extends Node:
+	var game:Node
+	var rows:Array[Dictionary]=[]
+	func _ready()->void:process_priority=1000
+	func matrix(t:Transform3D)->Array:
+		return [[t.basis.x.x,t.basis.y.x,t.basis.z.x,t.origin.x],[t.basis.x.y,t.basis.y.y,t.basis.z.y,t.origin.y],[t.basis.x.z,t.basis.y.z,t.basis.z.z,t.origin.z],[0,0,0,1]]
+	func vec(v:Vector3)->Array:return [v.x,v.y,v.z]
+	func _process(_delta:float)->void:
+		var active:=false
+		for sampler:Node in game.get_children():
+			if sampler.has_method("_contact_failure") and bool(sampler.get("active")) and int(sampler.get("warmup_frames"))<=0:active=true;break
+		if not active:return
+		var r:CharacterBody3D=game.skater
+		rows.append({"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames(),"camera_process":r.last_presentation_process_frame,"air":r.airborne,"floor":r.is_on_floor(),"native_valid":r._native_floor_valid,"velocity":vec(r.velocity),"body":matrix(r.global_transform),"visual":matrix(r._visual.global_transform),"board":matrix(r._board_visual.global_transform),"board_GTI":matrix(r._board_visual.get_global_transform_interpolated()),"head":matrix(r._visual_rig._head.global_transform),"fraction":Engine.get_physics_interpolation_fraction()})
+func _initialize()->void:run.call_deferred()
+func check(ok:bool,label:String)->void:
+	if ok:passes+=1
+	else:failures.append(label)
+	print("PASS " if ok else "FAIL ",label)
+func entry(name:String,before:int,failed:int)->void:
+	modules.append({"name":name,"passed":passes-before,"failed":failures.size()-failed})
+func run()->void:
+	var p:=passes;var f:=failures.size()
+	await Body.run(self,check);entry("OriginalBodyAttachment",p,f)
+	p=passes;f=failures.size()
+	await Gait.run(self,check);entry("OriginalGaitDirection",p,f)
+	p=passes;f=failures.size()
+	await Flat.run(self,check);entry("OriginalFlatOllie",p,f)
+	var game:=Main.new()
+	if game.persistence_enabled:
+		check(false,"scripted Main isolates personal Music/profile before entering tree");game.free();finish();return
+	game.persistence_enabled=false;root.add_child(game);game.start_mode(true)
+	check(not game.music._can_control and not game.music._persist,"scripted Main isolates personal Music/profile writes")
+	var trace:=PoseTrace.new();trace.game=game;root.add_child(trace)
+	p=passes;f=failures.size()
+	await Clyde.run(self,game,check);entry("OriginalClydeFullLocalPrefixAndBankReturn",p,f)
+	pose_trace=trace.rows;trace.queue_free()
+	game.queue_free();await process_frame
+	finish()
+func finish()->void:
+	var data:Dictionary={"passed":passes,"failed":failures.size(),"failures":failures,"modules":modules,"pose_trace":pose_trace,"pose_trace_scope":"Read-only lateprocess1000 postCamera current/GTI actualnodeframes, noqueries/posewrites; frame-to-frame steps only, not isolatedwithin-frame correction or GPU images.","scope":"Actual arm-smoothing source: original BodyAttachment/GaitDirection/FlatOllie and complete local C04 module plus Music/profile isolation; unchanged fixtures, inputs and thresholds. Actual full-suite global order, moving pixels and M5 remain separate."}
+	var file:=FileAccess.open(OS.get_environment("TAM_C04_ACTUAL_OUTPUT"),FileAccess.WRITE)
+	if file==null:push_error("Cannot write actual C04 focused output");quit(2);return
+	file.store_string(JSON.stringify(data,"\t",true,true));file.close()
+	print("ACTUAL ARM FOCUS: ",passes," passed, ",failures.size()," failed")
+	quit(0 if failures.is_empty() else 1)

@@ -1,0 +1,96 @@
+{
+  "start_utc": "2026-11-07T11:49:25.718531+00:00",
+  "project": "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+  "scope": "untimed private logical/component/input diagnostics; actual required04 overlap explicitly approved; no FPS claim",
+  "pre_processes": [
+    {
+      "pid": "82100",
+      "ppid": "1",
+      "pgid": "82062",
+      "sid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    },
+    {
+      "pid": "127119",
+      "ppid": "126872",
+      "pgid": "126872",
+      "sid": "126872",
+      "state": "Rl",
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+    }
+  ],
+  "known_actual_required04": [
+    {
+      "pid": "127119",
+      "ppid": "126872",
+      "pgid": "126872",
+      "sid": "126872",
+      "state": "Rl",
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+    }
+  ],
+  "unrelated_before": [],
+  "deadline_seconds": 120,
+  "stages": [
+    {
+      "label": "parser",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--check-only",
+        "--script",
+        "res://probe.gd"
+      ],
+      "start_utc": "2026-11-07T11:49:25.718571+00:00",
+      "pid": 128145,
+      "end_utc": "2026-11-07T11:49:27.237253+00:00",
+      "exit_code": 0
+    },
+    {
+      "label": "native",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://probe.gd"
+      ],
+      "start_utc": "2026-11-07T11:49:27.237568+00:00",
+      "pid": 128155,
+      "end_utc": "2026-11-07T11:49:31.911317+00:00",
+      "exit_code": 1
+    }
+  ],
+  "source_inputs": 722,
+  "source_stable": true,
+  "end_utc": "2026-11-07T11:49:32.555509+00:00",
+  "post_processes": [
+    {
+      "pid": "82100",
+      "ppid": "1",
+      "pgid": "82062",
+      "sid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    },
+    {
+      "pid": "127119",
+      "ppid": "126872",
+      "pgid": "126872",
+      "sid": "126872",
+      "state": "Rl",
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+    }
+  ],
+  "eligible_functional_subset": false
+}

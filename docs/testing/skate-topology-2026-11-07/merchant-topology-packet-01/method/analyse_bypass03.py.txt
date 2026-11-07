@@ -1,0 +1,50 @@
+from pathlib import Path
+import datetime,hashlib,json,math,re
+O=Path(__file__).resolve().parent;D=O/'bypass-native-03';r=json.loads((D/'native-result.json').read_text());rec=json.loads((D/'receipt.json').read_text());checks=[]
+def check(label,ok,detail=None):checks.append({'label':label,'passed':bool(ok),'detail':detail})
+check('Exact50/0 and eligible parser/native scope',r['passed']==50 and r['failed']==0 and rec['eligible'])
+check('Raw PASS count50 and no raw errors',len(re.findall(r'^PASS:',(D/'native.log').read_text(),re.M))==50 and not re.search(r'^FAIL:|SCRIPT ERROR:|Parse Error:|^ERROR:',(D/'native.log').read_text(),re.M))
+check('722 source/cache plus899 actual guards stable',rec['source_stable']and rec['actual_source_stable']and rec['source_count']==722 and rec['actual_source_inputs']==899)
+check('Parser/native clean and bounded',all(e['exit_code']==0 and not e['raw_error']and e['stop']==None for e in rec['stages']))
+post={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'observer_current_sha256':hashlib.sha256((O/'bypass_probe03.gd').read_bytes()).hexdigest(),'wrapper_current_sha256':hashlib.sha256((O/'run_bypass03.py').read_bytes()).hexdigest(),'qualification':'Post-run readback at sealing time; original receipt and copied executed entrypoint bytes remain immutable.'}
+check('Owned observer still matches pre-execution/copy hash',post['observer_current_sha256']==rec['observer_sha256']==hashlib.sha256((D/'probe.gd.txt').read_bytes()).hexdigest())
+check('Owned wrapper still matches pre-execution/copy hash',post['wrapper_current_sha256']==rec['wrapper_sha256']==hashlib.sha256((D/'wrapper.py.txt').read_bytes()).hexdigest())
+(D/'entrypoint-after.json').write_text(json.dumps(post,indent=2)+'\n')
+reg=r['registry'];ids=[p['id']for p in reg['lines']]
+check('All33 live exported IDs unique and geometrically valid',len(ids)==33 and len(set(ids))==33 and all(p['valid']for p in reg['lines']))
+check('One scored gap/nine navigation routes/37feature records',len(reg['gaps'])==1 and len(reg['routes'])==9 and len(reg['features'])==37)
+for prefix in ['Grind_MD_Dock_Edge_','Grind_MD_Lower_Arcade_']:
+ lines=[p for p in reg['lines']if p['id'].startswith(prefix)]
+ check('Correct actual long sides '+prefix,len(lines)==2 and all(abs(p['length']-13.4)<.0001 and p['points'][0][2]==p['points'][-1][2]and abs(p['outward'][2])==1 and p['vertical_offset']==-.02 and len(p['native_owner_rids'])==1 for p in lines))
+check('Continuous market/underpass casts admit full translation',all(a['passed']and a['detail']['safe_fraction']==1 and a['detail']['unsafe_fraction']==1 for a in r['assertions']if a['label'].startswith('continuous4m')))
+negative=next(a for a in r['assertions']if a['label'].startswith('negative control: continuous sweep'))
+check('Real obstruction rejects continuous cast',negative['passed']and not negative['detail']['clear']and negative['detail']['safe_fraction']<1)
+roi=full=0;head=0.0;runs=[]
+for q in r['runs']:
+ route=q.get('route','market');trace=q['trace'];frames=[p['physics']for p in trace]
+ check('Consecutive trace '+str((route,q.get('x',q.get('z')),q['direction'],q['target_speed'])),frames==list(range(frames[0],frames[-1]+1)))
+ key_index=0 if route=='south_underpass' else 2;low=28 if route=='south_underpass' else -3;high=76 if route=='south_underpass' else 12
+ selected=[p for p in trace if p['phase']=='mapped_speed'and low<=p['position'][key_index]<=high]
+ check('Grounded real-input traversal '+str((route,q.get('x',q.get('z')),q['direction'],q['target_speed'])),q['finished']and len(selected)==q['roi_frames']and not q['events']and all(p['floor']and not p['airborne']and not p['bail']for p in selected))
+ roi+=len(selected);full+=len(trace);head=max(head,q['head_relative_step'])
+ run={k:v for k,v in q.items()if k not in ['trace','events']};run['trace_range']=[frames[0],frames[-1]];run['route']=route;runs.append(run)
+check('3190 ROI samples/5380 total over12 actual trials',len(r['runs'])==12 and roi==3190 and full==5380)
+result={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'offline_passed':sum(a['passed']for a in checks),'offline_failed':sum(not a['passed']for a in checks),'checks':checks,'native_passed':50,'native_failed':0,'roi_samples':roi,'total_trial_samples':full,'maximum_head_relative_step_m':head,'source_hashes':{p:json.loads((D/'source-before.json').read_text())[p]for p in ['game/levels/merchant_neighbourhood.gd','game/levels/merchant_layout.json','game/progression/level_catalog.gd']},'runs':runs,'registry_counts':{'gaps':len(reg['gaps']),'routes':len(reg['routes']),'features':len(reg['features']),'lines':len(reg['lines'])},'native_contact_admission':'Registry metadata including contact_verified is authored declaration, not newly proven physical named-grind capture or exact rendered board/bearing clearance.','accepted_subset':'Continuous4m-wide upright1.7m body-volume market and south-underpass lanes plus real no-jump input traversal in declared cases. Query body begins50mm above expected floor to avoid conflating loaded floor with passage obstacles; this is not a complete displayed body/board or charged-trick headroom certificate.','open':['Actual Main score chains/goal events','8 distinct returned local lines across four primary spaces','3 closed one-bank neighbourhood circuits and measured opportunity cadence','HighStreet/Foundry full corridor and grade inputs','Named native grind/ledge/bowl catches with strict actual model contacts','Moving camera/final materials/cost/M5/human acceptance'],'earlier_epochs':'bypass-native01 parser reject and bypass-native02 north-lane39/1 immutable; current south-lane50/0 never relabels them.'}
+(D/'independent-analysis.json').write_text(json.dumps(result,indent=2)+'\n')
+(D/'README.md').write_text('''# Independent Merchant topology subset — native50/0
+
+The repaired Market lane and the south underpass lane pass their declared continuous-volume and ordinary-input checks. This is a scoped private topology result, not whole-map or combo acceptance.
+
+The exact copied source is world06a00538/runtime-layout3d3986ee/Catalogbf5e3c35. A guarded two-file replacement preserves every other native-project input. All722 project/cache inputs (323 imported files) and899 actual source inputs remain unchanged. Parser131935 exits0, native131945 runs12:35:01.417→12:35:35.545 and exits0 with50 PASS lines/no raw errors. Bounds15/105/aggregate120 under the secondary flock. Root's separately authorized combined Main/Book smoke overlaps; no performance result is inferred. Original receipt, entrypoint copies and [late post-run readback](entrypoint-after.json) are retained.
+
+Continuous native box casts return safe/unsafe fractions1/1 for Market X−12.95, Z12→−3 and underpass Z−2.5,X28→76, each4m wide and1.7m high. The volume starts50mm above expected floor, keeping passage clearance distinct from loaded floor contact. A real inserted obstacle changes the Market cast to0.64453125/0.6484375; removing it restores1/1. Static crosssections, native support/height queries, exact joined west-bank/landing samples, roof-void refusal and solid-building negatives also pass. These upright boxes do not certify the entire displayed rider/board or maximum charged-trick envelope.
+
+Twelve real Skater trials use one initial spawn/facing/reset per case, then ordinary mapped Push/coast/Brake only. Market centre/shoulders at4m/s and centre at8/12m/s run both directions; the underpass centre runs east/west at4m/s. All3190 corridor samples across5380 complete physics records stay grounded with no bail or trick. Worst rig-head step relative to native body travel is35.849mm, below the existing220mm diagnostic threshold. Every frame records native floor/slide IDs, integer shapes, normals, positions and depths. Individual reset fixtures are never combined into a score chain.
+
+A read-only export from this same instantiated world contains1 scored gap,9 navigation routes,37 feature records and33 unique valid grind IDs. Dock/Arcade long-side guides now span13.4m alongX with actualZ outward normals and native Box owner references. Authored `contact_verified` metadata is not physical named-capture/bearing acceptance. The full registry is in [native result](native-result.json); [independent checks](independent-analysis.json) verify counts, exact long-side corrections and all trace cases.
+
+The earlier north lane atZ−9.5 remains a genuine39/1 failed hypothesis against stairs/kicker; parser epoch01 remains rejected. Source-only footprint conflicts and the earlier bank's unsupported upper edge remain preserved in prior packets. The current south lane is an explicitly different, tested route. No actual gameplay/geometry/tools/Git changes were made by this review.
+
+Still open: real Main score/goal chains, two distinct returned lines per each of four spaces, three closed one-bank circuits, measured choice cadence, High Street/Foundry full-width grade arrivals, actual named rail/ledge/bowl model contacts, camera/moving art, resource/timing cost, M5 and human enjoyment.
+''')
+print(json.dumps({'offline_passed':result['offline_passed'],'offline_failed':result['offline_failed'],'native':'50/0','roi':roi,'full':full,'registry':result['registry_counts']},indent=2))

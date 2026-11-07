@@ -1,0 +1,50 @@
+from pathlib import Path
+import subprocess,os,signal,time,json,hashlib,datetime,shutil
+R=Path('/workspace/tam_hawks_ps');B=R/'.local/compact-level-replan';P=B/'native-project';E=B/'epochs/shared03a-component-01';E.mkdir(parents=True,exist_ok=True)
+for a,b in [('game/levels/merchant_neighbourhood.gd','game/levels/merchant_neighbourhood.gd'),('game/levels/merchant_layout.json','game/levels/merchant_layout.json')]:shutil.copy2(B/'combined-descriptor-03a'/a,P/b)
+shutil.copy2(B/'graybox/probe-03.gd',P/'probe.gd')
+def stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def manifest():
+ return {str(p.relative_to(P)):hashlib.sha256(p.read_bytes()).hexdigest()for p in sorted(P.rglob('*'))if p.is_file()and not any(k in p.parts for k in ['logs','shader_cache'])and p.name not in ['native-result.json']}
+def processes():
+ out=subprocess.run(['ps','-C','godot','-o','pid=,ppid=,pgid=,sid=,stat=,args='],capture_output=True,text=True).stdout
+ rows=[]
+ for line in out.splitlines():
+  v=line.split(None,5)
+  if len(v)==6:rows.append(dict(zip(['pid','ppid','pgid','sid','state','command'],v)))
+ return rows
+(P/'native-result.json').unlink(missing_ok=True)
+before=manifest();(E/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+pre=processes();allowed=[r for r in pre if 'Z' not in r['state'] and r['pid'] in ['136944','137120'] and '/.local/rider-fit-staging/arm-counterbalance/project' in r['command'] and '--script res://arm_replay.gd' in r['command'] and '--headless' not in r['command']];unknown=[r for r in pre if 'Z' not in r['state'] and r not in allowed]
+receipt={'start_utc':stamp(),'project':str(P),'scope':'untimed private logical/component/input diagnostics; primary-slot source-bound component; known secondary overlap only if explicitly recorded; no FPS claim','pre_processes':pre,'known_actual_required04':allowed,'unrelated_before':unknown,'deadline_seconds':90,'stages':[]}
+if unknown:
+ receipt['rejected']='Unexpected live Godot before launch';(E/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');raise SystemExit(2)
+start=time.monotonic()
+for label,args,limit in [('parser',['--check-only','--script','res://probe.gd'],12),('native',['--fixed-fps','60','--script','res://probe.gd'],78)]:
+ cmd=['godot','--headless','--path',str(P),'--audio-driver','Dummy']+args
+ stage={'label':label,'command':cmd,'start_utc':stamp()};env=os.environ.copy();env['XDG_DATA_HOME']=str(B/'private-user-data');env['XDG_CACHE_HOME']=str(B/'private-cache');proc=subprocess.Popen(cmd,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,start_new_session=True,bufsize=1);stage['pid']=proc.pid
+ (E/'live.json').write_text(json.dumps(stage,indent=2)+'\n');print(json.dumps(stage),flush=True)
+ with (E/(label+'.log')).open('w')as log:
+  import selectors
+  sel=selectors.DefaultSelector();sel.register(proc.stdout,selectors.EVENT_READ)
+  deadline=min(start+90,time.monotonic()+limit);bad=False
+  while proc.poll()is None:
+   if time.monotonic()>deadline:
+    stage['timeout']=True;os.killpg(proc.pid,signal.SIGTERM);break
+   for key,mask in sel.select(.2):
+    line=key.fileobj.readline()
+    if not line:continue
+    log.write(line);log.flush()
+    if 'SCRIPT ERROR:' in line or line.startswith('ERROR:'):
+     stage['first_engine_error']=line.rstrip();bad=True;os.killpg(proc.pid,signal.SIGTERM);break
+   if bad:break
+  try:tail=proc.communicate(timeout=5)[0]
+  except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);tail=proc.communicate()[0]
+  log.write(tail or '')
+ stage['end_utc']=stamp();stage['exit_code']=proc.returncode;receipt['stages'].append(stage)
+ print(json.dumps(stage),flush=True)
+ if proc.returncode!=0 or stage.get('timeout')or stage.get('first_engine_error'):break
+after=manifest();(E/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');receipt['source_inputs']=len(before);receipt['source_stable']=before==after;receipt['end_utc']=stamp();receipt['post_processes']=processes()
+if (P/'native-result.json').exists():shutil.copy2(P/'native-result.json',E/'native-result.json')
+receipt['eligible_functional_subset']=receipt['source_stable']and len(receipt['stages'])==2 and all(s['exit_code']==0 and not s.get('first_engine_error')for s in receipt['stages'])
+(E/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2),flush=True)

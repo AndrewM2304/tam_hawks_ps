@@ -1,0 +1,30 @@
+{
+  "event": {
+    "pid": 136625,
+    "xorg_pid": 136613,
+    "start": "2026-11-07T13:35:23.757302+00:00",
+    "deadline": "2026-11-07T13:36:21.118152+00:00",
+    "command": [
+      "godot",
+      "--path",
+      "/workspace/tam_hawks_ps/.local/merchant-environment/project",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "/workspace/tam_hawks_ps/.local/merchant-environment/project/allocation.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/merchant-environment/allocation-01/allocation.json"
+    ],
+    "exit_code": 0,
+    "end": "2026-11-07T13:35:42.466221+00:00"
+  },
+  "end": "2026-11-07T13:35:42.681780+00:00",
+  "error": null,
+  "source_changed": [],
+  "scope": "Private standalone nativeGL texture allocation only; original/currentworldnotinstantiated, RAconfirmedgraphicsidle, rootauthorized. Other brief headless/parser jobs may overlap; no timing/FPS/M5 claim."
+}

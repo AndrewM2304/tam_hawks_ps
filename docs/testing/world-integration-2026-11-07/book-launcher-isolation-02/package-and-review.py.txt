@@ -1,0 +1,27 @@
+from pathlib import Path
+import hashlib,json,shutil
+R=Path('/workspace/tam_hawks_ps');E=R/'.local/qa-fidelity/book-launcher-isolation-02';O=R/'docs/testing/world-integration-2026-11-07/book-launcher-isolation-02';O.mkdir(parents=True,exist_ok=True);r=json.loads((E/'receipt.json').read_text());J=Path(r['positive_project'])
+def copy(p,n):
+ q=O/n;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(p.read_bytes())
+for n in ['before.json','after.json','receipt.json','outer-wrapper.py.txt','helper-positive.log','negative-missing.log','negative-wrong.log','missing-before.json','missing-after.json','wrong-before.json','wrong-after.json']:copy(E/n,Path(n))
+for n in ['receipt.json','project.godot','native.log','.local/book-test-result.json']:copy(J/n,Path('positive')/n)
+for n in r['positive_receipt']['source_inputs']:copy(J/n,Path('source')/(n+'.txt'))
+copy(E/'subject/tools/testing/check_level_book.py',Path('source/tools/testing/check_level_book.py.txt'))
+for mode in ['missing','wrong']:
+ copy(E/('negative-'+mode)/'project.godot',Path('negative-'+mode)/'project.godot')
+ for n in ['career.json','career.json.bak','career-v2.json','career-v2.json.tmp']:
+  rec=next(v for v in r['negative_projects']if v['mode']==mode);copy(Path(rec['user_data_expected_linux'])/n,Path('negative-'+mode)/'sentinels'/n)
+checks=[]
+def ck(n,v):checks.append({'check':n,'pass':bool(v)})
+b=json.loads((E/'before.json').read_text());a=json.loads((E/'after.json').read_text());ck('17before-bound original/copy/wrapper inputs unchanged',len(b)==17 and b==a and not r['changed_inputs']);pr=r['positive_receipt'];d=r['positive_result'];ck('native Book65/0 and helper0',d['checks']==len(d['cases'])==65 and d['failures']==0 and all(v['pass']for v in d['cases'])and pr['exit_code']==0 and r['events'][0]['exit_code']==0)
+ck('native identity matches unique prelaunch app/explicit noncustom namespace',pr['native_namespace']['application_name']==pr['application_name']and pr['native_namespace']['custom_user_dir']is False and Path(pr['native_namespace']['user_data_dir']).name==pr['application_name']and pr['application_name'].startswith('TamHawksBookFixtures-book-check-'))
+ck('only seven source scripts,unchanged Book4ef',len(pr['source_inputs'])==7 and pr['source_inputs']['game/progression/level_career_book.gd']['sha256']=='4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c')
+for mode in ['missing','wrong']:
+ v=next(q for q in r['negative_projects']if q['mode']==mode);ev=next(q for q in r['events']if q['label']=='negative-'+mode)
+ ck(mode+'arg refused with expected exit1 before fixture body',ev['exit_code']==1 and v['refusal']and not v['native_namespace_emitted']and not v['result_file_created']and not v['fixture_directories'])
+ ck(mode+'arg retains every prebound file/all four sentinel profiles',v['all_prebound_files_unchanged']and v['sentinels_unchanged']and len(v['sentinels'])==4)
+ck('helper60second bound and outer stages no timeout',pr['deadline_seconds']==60 and not pr['timed_out']and not any(v.get('timeout',False)for v in r['events'])and r['eligible'])
+helper=(E/'subject/tools/testing/check_level_book.py').read_text();test=(E/'subject/tests/level_career_book_tests.gd').read_text();ck('source helper creates explicit unique app before spawn and copies by value',helper.index('config/use_custom_user_dir=false')<helper.index('subprocess.Popen')and helper.index('target.write_bytes(data)')<helper.index('subprocess.Popen')and'--book-fixture-app='in helper)
+ck('early native guard precedes any fixture-directory or profile-write call',test.index('Book fault fixtures require the isolated')<test.index('DirAccess.make_dir_recursive_absolute')<test.index('_test_inert_constructor()')and test.index('BOOK_FIXTURE_NAMESPACE')<test.index('DirAccess.make_dir_recursive_absolute'))
+report={'reviewer':'/root/independent_qa','passed':sum(v['pass']for v in checks),'failed':sum(not v['pass']for v in checks),'checks':checks,'native_positive':[65,0],'native_negative_exit_codes':[1,1],'native_positive_pid':pr['pid'],'outer_window':{'start':r['started_utc'],'end':r['finished_utc']},'helper_sha256':hashlib.sha256((E/'subject/tools/testing/check_level_book.py').read_bytes()).hexdigest(),'fixture_sha256':pr['source_inputs']['tests/level_career_book_tests.gd']['sha256'],'verdict':'No source/native isolation blocker for root guarded integration. Actual native Mac behaviour remains unmeasured.','limits':['Linux native65/0 plus isolated missing/wrong-argument controls; no Mac/physical controller/performance claim.','Native identity is checked before fixture writes; command-line identity is an intentional guard against accidental ordinary-suite execution, not a security boundary against arbitrary forged launcher arguments.','No Main/world/Music source or production game namespace is loaded; each separate application has a unique identity.','Imported/generated caches are not frozen; the helper checks7source bodies+freshconfig, and outer observer binds original+copy+helper+itself.','Negative expectedERROR and exit1 are retained, not mislabelled raw-clean positive runs.','Root-authorized secondary lock; primaryLD/qualitativeRA could overlap, without exact other-process census or exclusivity/timing claim.']}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');copy(Path(__file__),Path('package-and-review.py.txt'));print(json.dumps({'checks':report['passed'],'failed':report['failed'],'files':sum(q.is_file()for q in O.rglob('*'))}))

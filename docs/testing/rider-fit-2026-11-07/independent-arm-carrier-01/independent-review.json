@@ -1,0 +1,1143 @@
+{
+  "utc": "2026-11-07T13:58:07.952164+00:00",
+  "reviewer": "/root/independent_qa",
+  "passed": 176,
+  "failed": 0,
+  "checks": [
+    {
+      "check": "all original indexed payloads match hash/size",
+      "pass": true,
+      "actual": 45
+    },
+    {
+      "check": "exact original/candidate guarded hashes plus current preimage",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact four hunks; only one new float state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only reset/animate function bodies change",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "foot phase/envelope retained; damped carrier affects only hand sine",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "control1028 source/cache inputs stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "control684native assertions,no raw errors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "control657 original physical observations",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidate1028 source/cache inputs stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidate684native assertions,no raw errors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidate657 original physical observations",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "only Visual changes between two native source maps",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "observer exact before-bound in both native maps",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "four native processes exit0/rawclean/bounded",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all657 phases/input/physical/score fields exact",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all657 body/head/board/feet/footclock exact",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all657 seven nonarm native bones exact",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "grab/handplant exact endpoints after nonzero candidate prime",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "independent fromrest improvement and explicit popcatch tradeoff",
+      "pass": true,
+      "actual": {
+        "push_contact_regular": {
+          "control_hand": 0.1592376620247072,
+          "control_target": 0.1518448654092869,
+          "candidate_hand": 0.08981283570412259,
+          "candidate_target": 0.030139372111145528
+        },
+        "push_contact_fakie": {
+          "control_hand": 0.15641060629770928,
+          "control_target": 0.1518448654092869,
+          "candidate_hand": 0.07906655967480927,
+          "candidate_target": 0.030139372111145528
+        },
+        "push_contact_from_rest": {
+          "control_hand": 0.19294971583389903,
+          "control_target": 0.1792974181704313,
+          "candidate_hand": 0.08117286419631742,
+          "candidate_target": 0.0288007627753354
+        },
+        "push_contact_brake": {
+          "control_hand": 0.19294971583389903,
+          "control_target": 0.1792974181704313,
+          "candidate_hand": 0.07142593926823435,
+          "candidate_target": 0.0288007627753354
+        },
+        "push_contact_brake_return": {
+          "control_hand": 0.002183837081908997,
+          "control_target": 1.0417947001202988e-05,
+          "candidate_hand": 0.0021840577979276824,
+          "candidate_target": 1.0397584451742117e-05
+        },
+        "push_contact_pop_catch": {
+          "control_hand": 0.0834548226194193,
+          "control_target": 0.039250349319826794,
+          "candidate_hand": 0.08657919426825635,
+          "candidate_target": 0.019193147158000832
+        },
+        "push_contact_pop_early": {
+          "control_hand": 0.07450546658230094,
+          "control_target": 0.012661498639423039,
+          "candidate_hand": 0.07450549183520765,
+          "candidate_target": 0.0043230452638909605
+        }
+      }
+    },
+    {
+      "check": "32 original clean/proof PNGs retained",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "canonical bone-order reference exact in native inputs",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controleight completed source-stable current-pose replays",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-069exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-069all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-069real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-069all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.384185799897409e-07
+    },
+    {
+      "check": "controlpush_contact_from_rest-069actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 9.991075190785015e-08
+    },
+    {
+      "check": "controlpush_contact_from_rest-069current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "controlpush_contact_from_rest-069native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.000532090821447906,
+        "centroid_px": 0.13753387057575528
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-069native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0012119228419180243,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-069native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0012814132847077293,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-070exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-070all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-070real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-070all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.384185789905402e-07
+    },
+    {
+      "check": "controlpush_contact_from_rest-070actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 6.231220417429739e-08
+    },
+    {
+      "check": "controlpush_contact_from_rest-070current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.9073486008380769e-06
+    },
+    {
+      "check": "controlpush_contact_from_rest-070native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0006701357257074097,
+        "centroid_px": 9.999999997489795e-05
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-070native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0001504440996773528,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-070native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 9.138480245003736e-05,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-071exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-071all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-071real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-071all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.384185799897409e-07
+    },
+    {
+      "check": "controlpush_contact_from_rest-071actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 8.129162448744509e-08
+    },
+    {
+      "check": "controlpush_contact_from_rest-071current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "controlpush_contact_from_rest-071native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00043309397375393155,
+        "centroid_px": 0.09396187600048775
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-071native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00020883185110501037,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-071native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00032654503366987665,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-072exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-072all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-072real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-072all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 1.788139349923057e-07
+    },
+    {
+      "check": "controlpush_contact_from_rest-072actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 5.931744315179621e-08
+    },
+    {
+      "check": "controlpush_contact_from_rest-072current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "controlpush_contact_from_rest-072native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0006471611687220078,
+        "centroid_px": 9.999999997489795e-05
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-072native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0001376756166306003,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-072native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00011414150404880788,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-080exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-080all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-080real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-080all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 1.1920928999487046e-07
+    },
+    {
+      "check": "controlpush_contact_from_rest-080actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 4.133741896006349e-08
+    },
+    {
+      "check": "controlpush_contact_from_rest-080current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "controlpush_contact_from_rest-080native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0005720942673822852,
+        "centroid_px": 0.10044791724315102
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-080native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0012548221998736181,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-080native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0013211189498233203,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-116exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-116all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-116real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_from_rest-116all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.384185789905402e-07
+    },
+    {
+      "check": "controlpush_contact_from_rest-116actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 7.745079973198177e-08
+    },
+    {
+      "check": "controlpush_contact_from_rest-116current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "controlpush_contact_from_rest-116native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0006266638927944038,
+        "centroid_px": 0.0
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-116native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00012309289169394266,
+        "centroid_px": 0.070699999999988
+      }
+    },
+    {
+      "check": "controlpush_contact_from_rest-116native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 5.007544895646095e-05,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.9802322398797543e-07
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 5.863917129644847e-08
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017current source-to-native pose mapping",
+      "pass": true,
+      "actual": 3.814697297599423e-06
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0008364489731863228,
+        "centroid_px": 9.999999997489795e-05
+      }
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0006582327320042532,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "controlpush_contact_pop_catch-017native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0015833728767534283,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 1.1920928999487046e-07
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 4.3523058490535504e-08
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00020080566358842284,
+        "centroid_px": 0.13753387057575528
+      }
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00043765862140299124,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "controlpush_contact_pop_catch-018native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.000557897261439988,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "candidateeight completed source-stable current-pose replays",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.384185799897409e-07
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 9.991075190785015e-08
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.000532090821447906,
+        "centroid_px": 0.13753387057575528
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0012119228419180243,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-069native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0012814132847077293,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 1.4901161199398771e-07
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 6.231220417429739e-08
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.9073486008380769e-06
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0006701357257074097,
+        "centroid_px": 9.999999997489795e-05
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0001504440996773528,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-070native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 9.138480245003736e-05,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.384185789905402e-07
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 4.081555338153464e-08
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00043309397375393155,
+        "centroid_px": 0.09396187600048775
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00020883185110501037,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-071native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00032654503366987665,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 1.788139349923057e-07
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 6.200611091244923e-08
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0006471611687220078,
+        "centroid_px": 9.999999997489795e-05
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0001376756166306003,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-072native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00011414150404880788,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 1.1920928999487046e-07
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 4.347741922039461e-08
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.9073486008380769e-06
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0005720942673822852,
+        "centroid_px": 0.10044791724315102
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0012548221998736181,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-080native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0013211189498233203,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.384185789905402e-07
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 7.745079973198177e-08
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116current source-to-native pose mapping",
+      "pass": true,
+      "actual": 1.90734870031406e-06
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0006266638927944038,
+        "centroid_px": 0.0
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00012309289169394266,
+        "centroid_px": 0.070699999999988
+      }
+    },
+    {
+      "check": "candidatepush_contact_from_rest-116native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 5.007544895646095e-05,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 2.9802322398797543e-07
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 4.541795822765593e-08
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017current source-to-native pose mapping",
+      "pass": true,
+      "actual": 3.814697297599423e-06
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0008364489731863228,
+        "centroid_px": 9.999999997489795e-05
+      }
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0006582327320042532,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-017native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.0015833728767534283,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018exact32-bit PNG/nativeRGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018all four readback brackets stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018real sourcefile+global/local counters",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018all11 sourcebone matrices transferred",
+      "pass": true,
+      "actual": 1.78813935103328e-07
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018actual native SkinReference palettes match bone-bind",
+      "pass": true,
+      "actual": 4.49851889072761e-08
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018current source-to-native pose mapping",
+      "pass": true,
+      "actual": 3.81469719812344e-06
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018native world marker0",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00020080566358842284,
+        "centroid_px": 0.13753387057575528
+      }
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018native world marker1",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.00043765862140299124,
+        "centroid_px": 0.0706000000000131
+      }
+    },
+    {
+      "check": "candidatepush_contact_pop_catch-018native world marker2",
+      "pass": true,
+      "actual": {
+        "projection_px": 0.000557897261439988,
+        "centroid_px": 0.07060007082150728
+      }
+    },
+    {
+      "check": "push_contact_from_rest-069matched camera and original head/feet/board",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "push_contact_from_rest-070matched camera and original head/feet/board",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "push_contact_from_rest-071matched camera and original head/feet/board",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "push_contact_from_rest-072matched camera and original head/feet/board",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "push_contact_from_rest-080matched camera and original head/feet/board",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "push_contact_from_rest-116matched camera and original head/feet/board",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "push_contact_pop_catch-017matched camera and original head/feet/board",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "push_contact_pop_catch-018matched camera and original head/feet/board",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "copied-knee raw label corrected only by explicit addendum",
+      "pass": true,
+      "actual": null
+    }
+  ],
+  "peaks": {
+    "push_contact_regular": {
+      "control_hand": 0.1592376620247072,
+      "control_target": 0.1518448654092869,
+      "candidate_hand": 0.08981283570412259,
+      "candidate_target": 0.030139372111145528
+    },
+    "push_contact_fakie": {
+      "control_hand": 0.15641060629770928,
+      "control_target": 0.1518448654092869,
+      "candidate_hand": 0.07906655967480927,
+      "candidate_target": 0.030139372111145528
+    },
+    "push_contact_from_rest": {
+      "control_hand": 0.19294971583389903,
+      "control_target": 0.1792974181704313,
+      "candidate_hand": 0.08117286419631742,
+      "candidate_target": 0.0288007627753354
+    },
+    "push_contact_brake": {
+      "control_hand": 0.19294971583389903,
+      "control_target": 0.1792974181704313,
+      "candidate_hand": 0.07142593926823435,
+      "candidate_target": 0.0288007627753354
+    },
+    "push_contact_brake_return": {
+      "control_hand": 0.002183837081908997,
+      "control_target": 1.0417947001202988e-05,
+      "candidate_hand": 0.0021840577979276824,
+      "candidate_target": 1.0397584451742117e-05
+    },
+    "push_contact_pop_catch": {
+      "control_hand": 0.0834548226194193,
+      "control_target": 0.039250349319826794,
+      "candidate_hand": 0.08657919426825635,
+      "candidate_target": 0.019193147158000832
+    },
+    "push_contact_pop_early": {
+      "control_hand": 0.07450546658230094,
+      "control_target": 0.012661498639423039,
+      "candidate_hand": 0.07450549183520765,
+      "candidate_target": 0.0043230452638909605
+    }
+  },
+  "max_numeric_projection_px": 0.0015833728767534283,
+  "max_native_centroid_px": 0.13753387057575528,
+  "max_source_mapping_m": 3.814697297599423e-06,
+  "max_bone_mapping_m": 2.9802322398797543e-07,
+  "max_native_palette_component_error": 9.991075190785015e-08,
+  "verdict": "No source/data or inspected sparse-pose blocker to root guarded one-file trial integration; focused neighbors/full regression remain required. No real-time or complete action acceptance.",
+  "visual_scope": "All8 matched-pair sheets viewed (all16 clean images, viewer-rescaled to2048); candidatefromrest69 andpopcatch18 also opened as original1280x800PNG. The69to70 wristposition discontinuity visibly reduces; selectedrelease/popcatch poses show no obvious new separation. Clothing/cuffs stay connected at these sparseviews. Handspread/knee/material finish is not repaired.",
+  "source": {
+    "path": "game/player/skater_visual.gd",
+    "before_sha256": "1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05",
+    "after_sha256": "4342841751f254c91ae70d9f49ec88fb586d4036011a69739592cdca5b64ca4e",
+    "candidate": "skater_visual_candidate.gd",
+    "diff": "candidate.patch"
+  },
+  "limits": [
+    "Exact32PNG/nativeRGBA and3world-marker proofs are checked; this isolated observer has no Canvas/per-image unique-frame colour token. Naturalframe_post_draw+stable pose/counter brackets supply bounded static proof, not full Main capture protocol equivalence.",
+    "Actor/subtrees interpolationOFF is an explicit replay fixture; original city/input/interpolation is not rerun in these images.",
+    "Raw observer/receipts retain the wrong copied knee-study label; separate owner scope-addendum supersedes only that descriptive label, without altering rawsource/pixels.",
+    "Outer native/replay Python launchers are preserved but absent from native source maps; do not assert their before-bound identity. Observer and actual Visual are source-bound.",
+    "The old endpointprime used default spawn because the intended local/globalstep condition never occurred; both endpointfixtures remain controlled and exact,not extracted ordinaryrun endpointpositions.",
+    "Serial nativeMain657pair preserves measured physical fields and originalfullgrab/handplant endpoints; actual wall/arm/fullgame regressions are still required.",
+    "Fromrest handpeak improves192.95to81.17mm whilepopcatchpeak increases83.45to86.58mm. No new natural-cadence pass/fail threshold invented.",
+    "No normal-speed playback, humanfeel, complete self/worldcontact, newMerchantmap or M5/FPS/AAA acceptance."
+  ]
+}

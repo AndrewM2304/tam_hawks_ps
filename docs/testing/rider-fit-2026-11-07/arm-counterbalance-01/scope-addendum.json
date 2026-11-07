@@ -1,0 +1,40 @@
+{
+  "schema": "arm-replay-scope-addendum/v1",
+  "issued_utc": "2026-11-07T13:54:59.204724+00:00",
+  "supersedes_scope_label_only": true,
+  "raw_inputs_unchanged": {
+    "arm_replay.gd": {
+      "sha256": "cd4c65ea9a78bdb826d53b603c9f2637d09dc402a5a6b892d01a6b5587132c6c",
+      "bytes": 16558
+    },
+    "control-replay-receipt.json.gz": {
+      "sha256": "5ce1895aba7cbf174dcf38a4650cfdd09ae68253f85d353442f563a69ecc7c4e",
+      "bytes": 928360
+    },
+    "candidate-replay-receipt.json.gz": {
+      "sha256": "fbfd2d923b59e25250752da0239f5699c3808ac5ac5c27fb5759e208521f8615",
+      "bytes": 928445
+    },
+    "index.json": {
+      "sha256": "f3e34ffa42e9d5f66d69409655a370de0abed419effaa0bb1fdb141bafa0b98d",
+      "bytes": 6247
+    }
+  },
+  "incorrect_inherited_scope": "Privateauthored assetfixture, exactcontrol11transported03 vsderived11bonekneerefinement. No Main/input/moving/targetperformance/AAA acceptance.",
+  "correct_scope": "Eight matched pairs of isolated actual SkaterVisual current-pose replays compare the original arm phase carrier with the four-hunk damped arm carrier. Each pose comes from a recorded ordinary Main physical trace. Recorded actor, Board, Rider, torso, Head, hand, foot and eleven-bone matrices are applied directly; physics, animation integration, interpolation and the city are not re-simulated. Source physical counters are separate from replay engine counters. The original eleven-bone garment geometry and all materials are unchanged. These sparse stills support selected arm-pose inspection only, not normal-speed cadence, live Main, target performance or AAA acceptance.",
+  "copied_observer_labels": [
+    "The receipt scope string at arm_replay.gd line 153 was inherited from a knee study and does not describe the executed arm replay.",
+    "The source-change error text Knee private sourcechanged is also inherited; no such error occurred in the accepted run."
+  ],
+  "captured_labels": [
+    "from-rest-069",
+    "from-rest-070",
+    "from-rest-071",
+    "from-rest-072",
+    "from-rest-080",
+    "from-rest-116",
+    "pop-catch-017",
+    "pop-catch-018"
+  ],
+  "qualification": "The exact captured labels and clock metadata in the raw frame rows are authoritative if their formatting differs from these human-readable descriptions. The original source, raw receipts and pixels are retained byte-for-byte; this addendum corrects interpretation only."
+}

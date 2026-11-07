@@ -1,0 +1,58 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: keyboard starts at visible native title focus
+PASS: keyboard navigates to Choose Level
+PASS: keyboard opens level list with native focus
+PASS: keyboard cancels to title without replacing the world
+PASS: keyboard restores level-list opener focus
+PASS: keyboard focuses City Tour
+PASS: keyboard held accept waits for release before replacing the world
+PASS: keyboard released accept replaces one world without a skating award
+PASS: keyboard selection preserves isolated Music instance
+PASS: keyboard returns to Merchant through ordinary level selection
+PASS: keyboard starts native free skate after selection without an accidental ollie
+PASS: keyboard opens ordinary pause
+ERROR: FAIL: keyboard reaches level selection from pause
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/neighbourhood_level_input_probe.gd:18)
+       [1] _run (res://tests/neighbourhood_level_input_probe.gd:124)
+       [2] _tap (res://tests/neighbourhood_level_input_probe.gd:50)
+       [3] _frames (res://tests/neighbourhood_level_input_probe.gd:23)
+ERROR: FAIL: keyboard cancelling the pause level list preserves run and focus
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/neighbourhood_level_input_probe.gd:18)
+       [1] _run (res://tests/neighbourhood_level_input_probe.gd:127)
+       [2] _tap (res://tests/neighbourhood_level_input_probe.gd:50)
+       [3] _frames (res://tests/neighbourhood_level_input_probe.gd:23)
+PASS: keyboard resumes once with no accidental gameplay award
+PASS: pad starts at visible native title focus
+PASS: pad navigates to Choose Level
+PASS: pad opens level list with native focus
+PASS: pad cancels to title without replacing the world
+PASS: pad restores level-list opener focus
+PASS: pad focuses City Tour
+PASS: pad held accept waits for release before replacing the world
+PASS: pad released accept replaces one world without a skating award
+PASS: pad selection preserves isolated Music instance
+PASS: pad returns to Merchant through ordinary level selection
+PASS: pad starts native free skate after selection without an accidental ollie
+PASS: pad opens ordinary pause
+ERROR: FAIL: pad reaches level selection from pause
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/neighbourhood_level_input_probe.gd:18)
+       [1] _run (res://tests/neighbourhood_level_input_probe.gd:124)
+       [2] _tap (res://tests/neighbourhood_level_input_probe.gd:50)
+       [3] _frames (res://tests/neighbourhood_level_input_probe.gd:23)
+ERROR: FAIL: pad cancelling the pause level list preserves run and focus
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/neighbourhood_level_input_probe.gd:18)
+       [1] _run (res://tests/neighbourhood_level_input_probe.gd:127)
+       [2] _tap (res://tests/neighbourhood_level_input_probe.gd:50)
+       [3] _frames (res://tests/neighbourhood_level_input_probe.gd:23)
+PASS: pad resumes once with no accidental gameplay award
+PASS: both input cohorts preserve player profile isolation
+LEVEL INPUT RESULT: 27 passed, 4 failed

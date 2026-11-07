@@ -1,0 +1,126 @@
+"""Run destructive profile fault fixtures in a separate, uniquely named app."""
+from pathlib import Path
+import hashlib
+import json
+import os
+import signal
+import subprocess
+import tempfile
+import time
+
+ROOT = Path(__file__).resolve().parents[2]
+FILES = ["tests/level_career_book_tests.gd",
+         "game/progression/level_career_book.gd", "game/progression/level_catalog.gd",
+         "game/progression/career_progress.gd", "game/core/input_profile.gd",
+         "game/core/input_setup.gd", "game/core/graphics_quality.gd"]
+_spawning = False
+_pending_termination = 0
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def terminate(signum, _frame):
+    # Turn TERM into a Python exception so the owned engine group is cleaned
+    # up by the same path as Ctrl-C; default TERM would bypass that path.
+    global _pending_termination
+    if _spawning:
+        # Popen may have created its process before returning its ownership
+        # handle. Defer delivery until that handle can be cleaned up. Do not
+        # block the signal mask: an exec child would inherit that mask.
+        _pending_termination = signum
+        return
+    raise SystemExit(128 + signum)
+
+
+def main():
+    global _spawning
+    (ROOT / ".local").mkdir(exist_ok=True)
+    project = Path(tempfile.mkdtemp(prefix="book-check-", dir=ROOT / ".local"))
+    app_name = "TamHawksBookFixtures-" + project.name
+    before = {}
+    for name in FILES:
+        source = ROOT / name
+        target = project / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        data = source.read_bytes()
+        target.write_bytes(data)
+        before[name] = {"sha256": digest(data), "bytes": len(data)}
+    # macOS does not use XDG for Godot's user:// namespace. The unique
+    # application name is set BEFORE startup; no game project override,
+    # autoload or application name is copied into this fixture project.
+    config = ('config_version=5\n[application]\nconfig/use_custom_user_dir=false\nconfig/name=' + json.dumps(app_name) +
+              '\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n')
+    (project / "project.godot").write_text(config)
+    (project / ".local").mkdir()
+    for directory in ["data", "config", "cache"]:
+        (project / "xdg" / directory).mkdir(parents=True)
+    env = os.environ.copy()
+    env.update({"XDG_" + name.upper() + "_HOME": str(project / "xdg" / name)
+                for name in ["data", "config", "cache"]})
+    command = [os.environ.get("GODOT_BIN", "godot"), "--headless", "--audio-driver", "Dummy",
+               "--path", str(project), "--script", "res://tests/level_career_book_tests.gd",
+               "--", "--book-fixture-app=" + app_name]
+    started = time.monotonic()
+    timed_out = False
+    with (project / "native.log").open("w") as stream:
+        child = None
+        try:
+            _spawning = True
+            child = subprocess.Popen(command, env=env, stdout=stream, stderr=subprocess.STDOUT,
+                                     start_new_session=True)
+            _spawning = False
+            if _pending_termination:
+                terminate(_pending_termination, None)
+            code = child.wait(timeout=60)
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            os.killpg(child.pid, signal.SIGTERM)
+            try:
+                child.wait(timeout=2)
+            except subprocess.TimeoutExpired:
+                os.killpg(child.pid, signal.SIGKILL)
+                child.wait(timeout=2)
+            code = 124
+        except BaseException:
+            # Cancellation must not leave this owned engine running.
+            if child is not None and child.poll() is None:
+                os.killpg(child.pid, signal.SIGTERM)
+                try:
+                    child.wait(timeout=2)
+                except subprocess.TimeoutExpired:
+                    os.killpg(child.pid, signal.SIGKILL)
+                    child.wait(timeout=2)
+            raise
+        finally:
+            _spawning = False
+    text = (project / "native.log").read_text(errors="replace")
+    print(text, end="")
+    changed = [name for name, item in before.items()
+               if digest((ROOT / name).read_bytes()) != item["sha256"]
+               or digest((project / name).read_bytes()) != item["sha256"]]
+    if (project / "project.godot").read_text() != config:
+        changed.append("project.godot")
+    errors = [line for line in text.splitlines()
+              if any(token in line for token in ["SCRIPT ERROR:", "ERROR:", "FAIL:"])]
+    namespace_lines = [line.removeprefix("BOOK_FIXTURE_NAMESPACE ") for line in text.splitlines()
+                       if line.startswith("BOOK_FIXTURE_NAMESPACE ")]
+    namespace = json.loads(namespace_lines[0]) if len(namespace_lines) == 1 else {}
+    isolated = namespace.get("application_name") == app_name and namespace.get("custom_user_dir") is False \
+        and Path(namespace.get("user_data_dir", "")).name == app_name
+    valid = code == 0 and not errors and not changed and isolated and "LEVEL_CAREER_BOOK: 65 passed, 0 failed" in text
+    receipt = {"application_name": app_name, "project": str(project), "pid": child.pid,
+               "deadline_seconds": 60, "timed_out": timed_out, "exit_code": code,
+               "elapsed_seconds": time.monotonic() - started, "source_inputs": before,
+               "changed_sources": changed, "errors": errors, "native_namespace": namespace, "eligible": valid,
+               "isolation": "Seven source scripts copied by value into a unique application namespace before launch; no Main/world/Music or ordinary game profile namespace."}
+    (project / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
+    print("Book fixture evidence: " + str(project))
+    return 0 if valid else 1
+
+
+if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, terminate)
+    signal.signal(signal.SIGINT, terminate)
+    raise SystemExit(main())

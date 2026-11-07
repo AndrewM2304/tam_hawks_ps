@@ -1,0 +1,89 @@
+{
+  "start_utc": "2026-11-07T12:59:18.700508+00:00",
+  "source_count": 1187,
+  "source_matches_combined02": true,
+  "project": "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+  "observer_sha256": "47a71858a37b94861605e5141b37983fd92f348088ca10297973ccebb87553b2",
+  "wrapper_sha256": "ccb207246361da24c7d182170542ee45adeecd2e50e13afa53c79cf0c43b1956",
+  "pre_processes": [
+    {
+      "pid": "82100",
+      "pgid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    }
+  ],
+  "explicit_overlap": "Root-authorized combined Main/world/Book primary only, up to195s; independent secondary topology untimed, no FPS/M5 claim",
+  "stages": [
+    {
+      "label": "parser",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--audio-driver",
+        "Dummy",
+        "--check-only",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/skate-topology-review/main_line_probe.gd"
+      ],
+      "start_utc": "2026-11-07T12:59:18.700725+00:00",
+      "bound_seconds": 15,
+      "pid": 133258,
+      "process_group": 133258,
+      "deadline_utc": "2026-11-07T12:59:33.701546+00:00",
+      "end_utc": "2026-11-07T12:59:20.864712+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "label": "native",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--audio-driver",
+        "Dummy",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/skate-topology-review/main_line_probe.gd"
+      ],
+      "start_utc": "2026-11-07T12:59:20.864851+00:00",
+      "bound_seconds": 105,
+      "pid": 133278,
+      "process_group": 133278,
+      "deadline_utc": "2026-11-07T13:01:05.865472+00:00",
+      "end_utc": "2026-11-07T12:59:22.331744+00:00",
+      "exit_code": -15,
+      "stop": "first raw engine error",
+      "raw_error": true,
+      "log_sha256": "8566f0557176db4961b01e70ad932721cce11a616cf2d120cb14e2f8a8fee0b7"
+    }
+  ],
+  "aggregate_bound_seconds": 120,
+  "end_utc": "2026-11-07T12:59:22.928519+00:00",
+  "source_stable": true,
+  "actual_source_inputs": 899,
+  "actual_source_stable": true,
+  "post_processes": [
+    {
+      "pid": "82100",
+      "pgid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    }
+  ],
+  "result": null,
+  "owned_after": {
+    "main_line_probe.gd": "47a71858a37b94861605e5141b37983fd92f348088ca10297973ccebb87553b2",
+    "main_score_observer.gd": "7048904171cb4fe0472846f346f190f28a873d37f515b0a66acc0513cb46e090",
+    "main_gap_observer.gd": "2074cad9d714b085379f3bba672d5d6f8ad5d03d5ddca42bd70a61030654e959"
+  },
+  "owned_entrypoints_stable": true,
+  "eligible": false
+}

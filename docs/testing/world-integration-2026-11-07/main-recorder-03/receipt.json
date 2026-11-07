@@ -1,0 +1,53 @@
+{
+  "started_utc": "2026-11-07T13:29:24.288251+00:00",
+  "deadline_seconds": 195,
+  "scope": "PRIVATE combined Main/world/Book/HUD/activity lifecycle plus mixed-level debug report identity. Score-consumer fixtures are explicit, not natural trick/closed-line evidence. Current world startup/selection, not final art, Mac, physical controller or frame-time acceptance.",
+  "stages": [
+    {
+      "name": "parser",
+      "pid": 136087,
+      "started_utc": "2026-11-07T13:29:24.289180+00:00",
+      "bound_seconds": 15,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_integration_smoke.gd",
+        "--check-only"
+      ],
+      "exit_code": 0,
+      "raw_errors": [],
+      "finished_utc": "2026-11-07T13:29:26.008669+00:00"
+    },
+    {
+      "name": "native",
+      "pid": 136097,
+      "started_utc": "2026-11-07T13:29:26.009367+00:00",
+      "bound_seconds": 180,
+      "command": [
+        "godot",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/neighbourhood-integration/project",
+        "--script",
+        "res://tests/neighbourhood_integration_smoke.gd",
+        "--fixed-fps",
+        "60"
+      ],
+      "exit_code": 0,
+      "raw_errors": [],
+      "finished_utc": "2026-11-07T13:29:49.371721+00:00"
+    }
+  ],
+  "finished_utc": "2026-11-07T13:29:49.524339+00:00",
+  "elapsed_seconds": 25.23609071100509,
+  "source_count": 897,
+  "changed_inputs": [],
+  "eligible": true
+}

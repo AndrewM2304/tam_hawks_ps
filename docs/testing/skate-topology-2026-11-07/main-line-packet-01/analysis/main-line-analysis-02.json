@@ -1,0 +1,1669 @@
+{
+  "scope": "Real Main local OPEN linkage diagnostic only. Three separate one-bank runs, never one shared total. No local return, cross-area circuit, whole body/truck contact, rendered fidelity or M5 performance acceptance.",
+  "offline_checks": {
+    "passed": 25,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "native original result exactly 15/0",
+        "passed": true
+      },
+      {
+        "name": "source/cache and actual/observer inputs stable",
+        "passed": true
+      },
+      {
+        "name": "both parser/native exit0 with no raw error",
+        "passed": true
+      },
+      {
+        "name": "declared three initial fixture offsets only",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.3: independent point/identity integer replay",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.3: exactly one independent bank and no drops",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.3: derived500base x4=2000",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.3: all sampled physics frames consecutive",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.3: native named50_50 before bufferedManual",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.3: actual landing thencontinue thenManual samephysics",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.3: no early bank/drop or gap award",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.5: independent point/identity integer replay",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.5: exactly one independent bank and no drops",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.5: derived500base x4=2000",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.5: all sampled physics frames consecutive",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.5: native named50_50 before bufferedManual",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.5: actual landing thencontinue thenManual samephysics",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.5: no early bank/drop or gap award",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.7: independent point/identity integer replay",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.7: exactly one independent bank and no drops",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.7: derived500base x4=2000",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.7: all sampled physics frames consecutive",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.7: native named50_50 before bufferedManual",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.7: actual landing thencontinue thenManual samephysics",
+        "passed": true
+      },
+      {
+        "name": "market_seats_offset_0.7: no early bank/drop or gap award",
+        "passed": true
+      }
+    ]
+  },
+  "source_receipt": {
+    "path": "/workspace/tam_hawks_ps/.local/skate-topology-review/main-line-native-02/receipt.json",
+    "sha256": "00b2f086abbc9b7513ac7b80a2b3a4549493b75bd64ceae9dc665edf792b75aa",
+    "project_input_count": 1187,
+    "actual_input_count": 899
+  },
+  "integer_replay_method": {
+    "path": "/workspace/tam_hawks_ps/.local/gap-combo-validation/compare_matched.py",
+    "sha256": "f0f22edf662bdf6db0e200223246f080e2f8dfdc28565ca1c4649fd1a2de99d8",
+    "note": "Replays API input points/stable identities; observed returned awards/base are comparison outputs, never replay inputs. Nested nonmutating landing/continue events are excluded from arithmetic, retained for timing/order. No spin/upgrade/drop outcome newly exercised."
+  },
+  "results": [
+    {
+      "label": "market_seats_offset_0.3",
+      "initial_spawn": [
+        -18.700000762939453,
+        4.079999923706055,
+        36.0
+      ],
+      "end_position": [
+        -19.0,
+        4.0142388343811035,
+        10.730184555053711
+      ],
+      "spatial_return_distance_m": 25.27168171461393,
+      "physics_frames": [
+        2,
+        248
+      ],
+      "trace_rows": 247,
+      "score_event_order": [
+        {
+          "physics": 1,
+          "kind": "reset"
+        },
+        {
+          "physics": 76,
+          "kind": "add_trick",
+          "identity": "ollie",
+          "points": 100,
+          "awarded": 100
+        },
+        {
+          "physics": 80,
+          "kind": "add_trick",
+          "identity": "rail_grind",
+          "points": 200,
+          "awarded": 200
+        },
+        {
+          "physics": 95,
+          "kind": "add_hold_points",
+          "points": 25,
+          "awarded": 25
+        },
+        {
+          "physics": 110,
+          "kind": "add_hold_points",
+          "points": 25,
+          "awarded": 25
+        },
+        {
+          "physics": 121,
+          "kind": "add_trick",
+          "identity": "ollie",
+          "points": 100,
+          "awarded": 50
+        },
+        {
+          "physics": 155,
+          "kind": "begin_landing"
+        },
+        {
+          "physics": 155,
+          "kind": "continue_combo"
+        },
+        {
+          "physics": 155,
+          "kind": "add_trick",
+          "identity": "manual",
+          "points": 100,
+          "awarded": 100
+        },
+        {
+          "physics": 174,
+          "kind": "begin_landing"
+        },
+        {
+          "physics": 195,
+          "kind": "continue_combo"
+        },
+        {
+          "physics": 195,
+          "kind": "bank_combo",
+          "banked": 2000
+        }
+      ],
+      "independent_score_replay": {
+        "method": "Independent Python integer replay of source point inputs, stable IDs, repeated halving floor/saturation, bonuses, upgrades and score/multiplier caps. Skips nonmutating landing/continue events including nested callbacks; does not trust returned awards/bases as inputs. Resets and bank/drop boundaries remain independent.",
+        "mismatches": [],
+        "runs": {
+          "market_seats_offset_0.3": {
+            "mutating_calls": 8,
+            "positive_banks": [
+              {
+                "physics": 195,
+                "base": 500,
+                "multiplier": 4,
+                "value": 2000
+              }
+            ],
+            "drops": 0,
+            "entry_awards": [
+              {
+                "physics": 76,
+                "identity": "ollie",
+                "source_points": 100,
+                "repetitions_before": 0,
+                "award": 100
+              },
+              {
+                "physics": 80,
+                "identity": "rail_grind",
+                "source_points": 200,
+                "repetitions_before": 0,
+                "award": 200
+              },
+              {
+                "physics": 121,
+                "identity": "ollie",
+                "source_points": 100,
+                "repetitions_before": 1,
+                "award": 50
+              },
+              {
+                "physics": 155,
+                "identity": "manual",
+                "source_points": 100,
+                "repetitions_before": 0,
+                "award": 100
+              }
+            ],
+            "bonus_awards": [
+              {
+                "physics": 95,
+                "kind": "add_hold_points",
+                "source_points": 25,
+                "award": 25
+              },
+              {
+                "physics": 110,
+                "kind": "add_hold_points",
+                "source_points": 25,
+                "award": 25
+              }
+            ]
+          }
+        },
+        "ledger": [
+          {
+            "source_event_index": 0,
+            "run": "market_seats_offset_0.3",
+            "physics": 1,
+            "kind": "reset",
+            "before": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "after": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "independent_award": null
+          },
+          {
+            "source_event_index": 1,
+            "run": "market_seats_offset_0.3",
+            "physics": 76,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "after": {
+              "total": 0,
+              "base": 100,
+              "multiplier": 1,
+              "value": 100
+            },
+            "independent_award": 100
+          },
+          {
+            "source_event_index": 2,
+            "run": "market_seats_offset_0.3",
+            "physics": 80,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 100,
+              "multiplier": 1,
+              "value": 100
+            },
+            "after": {
+              "total": 0,
+              "base": 300,
+              "multiplier": 2,
+              "value": 600
+            },
+            "independent_award": 200
+          },
+          {
+            "source_event_index": 3,
+            "run": "market_seats_offset_0.3",
+            "physics": 95,
+            "kind": "add_hold_points",
+            "before": {
+              "total": 0,
+              "base": 300,
+              "multiplier": 2,
+              "value": 600
+            },
+            "after": {
+              "total": 0,
+              "base": 325,
+              "multiplier": 2,
+              "value": 650
+            },
+            "independent_award": 25
+          },
+          {
+            "source_event_index": 4,
+            "run": "market_seats_offset_0.3",
+            "physics": 110,
+            "kind": "add_hold_points",
+            "before": {
+              "total": 0,
+              "base": 325,
+              "multiplier": 2,
+              "value": 650
+            },
+            "after": {
+              "total": 0,
+              "base": 350,
+              "multiplier": 2,
+              "value": 700
+            },
+            "independent_award": 25
+          },
+          {
+            "source_event_index": 5,
+            "run": "market_seats_offset_0.3",
+            "physics": 121,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 350,
+              "multiplier": 2,
+              "value": 700
+            },
+            "after": {
+              "total": 0,
+              "base": 400,
+              "multiplier": 3,
+              "value": 1200
+            },
+            "independent_award": 50
+          },
+          {
+            "source_event_index": 8,
+            "run": "market_seats_offset_0.3",
+            "physics": 155,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 400,
+              "multiplier": 3,
+              "value": 1200
+            },
+            "after": {
+              "total": 0,
+              "base": 500,
+              "multiplier": 4,
+              "value": 2000
+            },
+            "independent_award": 100
+          },
+          {
+            "source_event_index": 11,
+            "run": "market_seats_offset_0.3",
+            "physics": 195,
+            "kind": "bank_combo",
+            "before": {
+              "total": 0,
+              "base": 500,
+              "multiplier": 4,
+              "value": 2000
+            },
+            "after": {
+              "total": 2000,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "independent_award": null
+          }
+        ]
+      },
+      "manual_landing_event_order": [
+        "begin_landing",
+        "continue_combo",
+        "add_trick"
+      ],
+      "capture": {
+        "contact_verified": true,
+        "edge": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "guide": "Grind_MD_Market_Seats_-19.0",
+        "kind": "capture",
+        "native_contact_valid": true,
+        "owners": [
+          1413044240441
+        ],
+        "physics": 80,
+        "position": [
+          -19.0,
+          4.464999675750732,
+          28.700000762939453
+        ],
+        "run": "market_seats_offset_0.3",
+        "style": "grind_50_50"
+      },
+      "capture_motion": {
+        "source": "Consecutive after-physics observer values of actual native actor and live rig markers; not pixels or interpolated render frames.",
+        "physics_dt_seconds": 0.016666666666666666,
+        "body_displacement_m": 0.8527730526938329,
+        "body_delta": [
+          -0.2999992370605469,
+          -0.012967586517333984,
+          -0.79815673828125
+        ],
+        "previous_velocity_times_dt_m": 0.2064372024971957,
+        "body_delta_minus_previous_velocity_dt_m": 0.6998808850686142,
+        "head_world_displacement_m": 1.0826171044232005,
+        "head_relative_to_actor_displacement_m": 0.39743784216438144,
+        "before_capture_after_native_samples": [
+          {
+            "physics": 79,
+            "stage": "native_ledge_request",
+            "position": [
+              -18.700000762939453,
+              4.477967262268066,
+              29.498157501220703
+            ],
+            "head": [
+              -18.47365951538086,
+              5.959641456604004,
+              29.386398315429688
+            ],
+            "board": {
+              "basis": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.938736081123352,
+                  0.34463679790496826
+                ],
+                [
+                  0.0,
+                  -0.34463679790496826,
+                  0.938736081123352
+                ]
+              ],
+              "origin": [
+                -18.700000762939453,
+                4.597967147827148,
+                29.498157501220703
+              ]
+            },
+            "velocity": [
+              0.0,
+              6.361512184143066,
+              -10.627789497375488
+            ],
+            "speed": 10.627789497375488,
+            "airborne": true,
+            "floor": false,
+            "grinding": false,
+            "guide": "",
+            "style": "",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          },
+          {
+            "physics": 80,
+            "stage": "native_ledge_request",
+            "position": [
+              -19.0,
+              4.464999675750732,
+              28.700000762939453
+            ],
+            "head": [
+              -18.574310302734375,
+              5.711503028869629,
+              28.337419509887695
+            ],
+            "board": {
+              "basis": [
+                [
+                  0.9873824715614319,
+                  -0.1583537608385086,
+                  0.0
+                ],
+                [
+                  0.1583537608385086,
+                  0.9873824715614319,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "origin": [
+                -18.98369026184082,
+                4.551700115203857,
+                28.44499969482422
+              ]
+            },
+            "velocity": [
+              0.0,
+              0.0,
+              -10.627789497375488
+            ],
+            "speed": 10.627789497375488,
+            "airborne": false,
+            "floor": false,
+            "grinding": true,
+            "guide": "Grind_MD_Market_Seats_-19.0",
+            "style": "grind_50_50",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          },
+          {
+            "physics": 81,
+            "stage": "native_ledge_run",
+            "position": [
+              -19.0,
+              4.464999675750732,
+              28.522953033447266
+            ],
+            "head": [
+              -18.578693389892578,
+              5.66990852355957,
+              28.340534210205078
+            ],
+            "board": {
+              "basis": [
+                [
+                  0.9873824715614319,
+                  -0.1583537608385086,
+                  0.0
+                ],
+                [
+                  0.1583537608385086,
+                  0.9873824715614319,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "origin": [
+                -18.98369026184082,
+                4.551700115203857,
+                28.44499969482422
+              ]
+            },
+            "velocity": [
+              0.0,
+              0.0,
+              -10.617789268493652
+            ],
+            "speed": 10.617789497375488,
+            "airborne": false,
+            "floor": false,
+            "grinding": true,
+            "guide": "Grind_MD_Market_Seats_-19.0",
+            "style": "grind_50_50",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          }
+        ],
+        "interpretation": "Actual capture maps all three approaches onto the same finite endpoint; substantial body correction and relative rig pose change coincide. This is a motion defect witness, not proof of its root cause or its rendered/interpolated size."
+      }
+    },
+    {
+      "label": "market_seats_offset_0.5",
+      "initial_spawn": [
+        -18.5,
+        4.079999923706055,
+        36.0
+      ],
+      "end_position": [
+        -19.000019073486328,
+        4.014237403869629,
+        10.724153518676758
+      ],
+      "spatial_return_distance_m": 25.280877340992063,
+      "physics_frames": [
+        250,
+        498
+      ],
+      "trace_rows": 249,
+      "score_event_order": [
+        {
+          "physics": 250,
+          "kind": "reset"
+        },
+        {
+          "physics": 325,
+          "kind": "add_trick",
+          "identity": "ollie",
+          "points": 100,
+          "awarded": 100
+        },
+        {
+          "physics": 330,
+          "kind": "add_trick",
+          "identity": "rail_grind",
+          "points": 200,
+          "awarded": 200
+        },
+        {
+          "physics": 345,
+          "kind": "add_hold_points",
+          "points": 25,
+          "awarded": 25
+        },
+        {
+          "physics": 360,
+          "kind": "add_hold_points",
+          "points": 25,
+          "awarded": 25
+        },
+        {
+          "physics": 371,
+          "kind": "add_trick",
+          "identity": "ollie",
+          "points": 100,
+          "awarded": 50
+        },
+        {
+          "physics": 405,
+          "kind": "begin_landing"
+        },
+        {
+          "physics": 405,
+          "kind": "continue_combo"
+        },
+        {
+          "physics": 405,
+          "kind": "add_trick",
+          "identity": "manual",
+          "points": 100,
+          "awarded": 100
+        },
+        {
+          "physics": 424,
+          "kind": "begin_landing"
+        },
+        {
+          "physics": 445,
+          "kind": "continue_combo"
+        },
+        {
+          "physics": 445,
+          "kind": "bank_combo",
+          "banked": 2000
+        }
+      ],
+      "independent_score_replay": {
+        "method": "Independent Python integer replay of source point inputs, stable IDs, repeated halving floor/saturation, bonuses, upgrades and score/multiplier caps. Skips nonmutating landing/continue events including nested callbacks; does not trust returned awards/bases as inputs. Resets and bank/drop boundaries remain independent.",
+        "mismatches": [],
+        "runs": {
+          "market_seats_offset_0.5": {
+            "mutating_calls": 8,
+            "positive_banks": [
+              {
+                "physics": 445,
+                "base": 500,
+                "multiplier": 4,
+                "value": 2000
+              }
+            ],
+            "drops": 0,
+            "entry_awards": [
+              {
+                "physics": 325,
+                "identity": "ollie",
+                "source_points": 100,
+                "repetitions_before": 0,
+                "award": 100
+              },
+              {
+                "physics": 330,
+                "identity": "rail_grind",
+                "source_points": 200,
+                "repetitions_before": 0,
+                "award": 200
+              },
+              {
+                "physics": 371,
+                "identity": "ollie",
+                "source_points": 100,
+                "repetitions_before": 1,
+                "award": 50
+              },
+              {
+                "physics": 405,
+                "identity": "manual",
+                "source_points": 100,
+                "repetitions_before": 0,
+                "award": 100
+              }
+            ],
+            "bonus_awards": [
+              {
+                "physics": 345,
+                "kind": "add_hold_points",
+                "source_points": 25,
+                "award": 25
+              },
+              {
+                "physics": 360,
+                "kind": "add_hold_points",
+                "source_points": 25,
+                "award": 25
+              }
+            ]
+          }
+        },
+        "ledger": [
+          {
+            "source_event_index": 0,
+            "run": "market_seats_offset_0.5",
+            "physics": 250,
+            "kind": "reset",
+            "before": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "after": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "independent_award": null
+          },
+          {
+            "source_event_index": 1,
+            "run": "market_seats_offset_0.5",
+            "physics": 325,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "after": {
+              "total": 0,
+              "base": 100,
+              "multiplier": 1,
+              "value": 100
+            },
+            "independent_award": 100
+          },
+          {
+            "source_event_index": 2,
+            "run": "market_seats_offset_0.5",
+            "physics": 330,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 100,
+              "multiplier": 1,
+              "value": 100
+            },
+            "after": {
+              "total": 0,
+              "base": 300,
+              "multiplier": 2,
+              "value": 600
+            },
+            "independent_award": 200
+          },
+          {
+            "source_event_index": 3,
+            "run": "market_seats_offset_0.5",
+            "physics": 345,
+            "kind": "add_hold_points",
+            "before": {
+              "total": 0,
+              "base": 300,
+              "multiplier": 2,
+              "value": 600
+            },
+            "after": {
+              "total": 0,
+              "base": 325,
+              "multiplier": 2,
+              "value": 650
+            },
+            "independent_award": 25
+          },
+          {
+            "source_event_index": 4,
+            "run": "market_seats_offset_0.5",
+            "physics": 360,
+            "kind": "add_hold_points",
+            "before": {
+              "total": 0,
+              "base": 325,
+              "multiplier": 2,
+              "value": 650
+            },
+            "after": {
+              "total": 0,
+              "base": 350,
+              "multiplier": 2,
+              "value": 700
+            },
+            "independent_award": 25
+          },
+          {
+            "source_event_index": 5,
+            "run": "market_seats_offset_0.5",
+            "physics": 371,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 350,
+              "multiplier": 2,
+              "value": 700
+            },
+            "after": {
+              "total": 0,
+              "base": 400,
+              "multiplier": 3,
+              "value": 1200
+            },
+            "independent_award": 50
+          },
+          {
+            "source_event_index": 8,
+            "run": "market_seats_offset_0.5",
+            "physics": 405,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 400,
+              "multiplier": 3,
+              "value": 1200
+            },
+            "after": {
+              "total": 0,
+              "base": 500,
+              "multiplier": 4,
+              "value": 2000
+            },
+            "independent_award": 100
+          },
+          {
+            "source_event_index": 11,
+            "run": "market_seats_offset_0.5",
+            "physics": 445,
+            "kind": "bank_combo",
+            "before": {
+              "total": 0,
+              "base": 500,
+              "multiplier": 4,
+              "value": 2000
+            },
+            "after": {
+              "total": 2000,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "independent_award": null
+          }
+        ]
+      },
+      "manual_landing_event_order": [
+        "begin_landing",
+        "continue_combo",
+        "add_trick"
+      ],
+      "capture": {
+        "contact_verified": true,
+        "edge": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "guide": "Grind_MD_Market_Seats_-19.0",
+        "kind": "capture",
+        "native_contact_valid": true,
+        "owners": [
+          10651518894137
+        ],
+        "physics": 330,
+        "position": [
+          -19.0,
+          4.464999675750732,
+          28.700000762939453
+        ],
+        "run": "market_seats_offset_0.5",
+        "style": "grind_50_50"
+      },
+      "capture_motion": {
+        "source": "Consecutive after-physics observer values of actual native actor and live rig markers; not pixels or interpolated render frames.",
+        "physics_dt_seconds": 0.016666666666666666,
+        "body_displacement_m": 0.8044726559197284,
+        "body_delta": [
+          -0.5,
+          -0.11232423782348633,
+          -0.6201286315917969
+        ],
+        "previous_velocity_times_dt_m": 0.20310872056219592,
+        "body_delta_minus_previous_velocity_dt_m": 0.7007441661385649,
+        "head_world_displacement_m": 0.9872312591083836,
+        "head_relative_to_actor_displacement_m": 0.4023847332584573,
+        "before_capture_after_native_samples": [
+          {
+            "physics": 329,
+            "stage": "native_ledge_request",
+            "position": [
+              -18.5,
+              4.577323913574219,
+              29.32012939453125
+            ],
+            "head": [
+              -18.282644271850586,
+              6.066025257110596,
+              29.212148666381836
+            ],
+            "board": {
+              "basis": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.9286646246910095,
+                  0.37092047929763794
+                ],
+                [
+                  0.0,
+                  -0.37092047929763794,
+                  0.9286646246910095
+                ]
+              ],
+              "origin": [
+                -18.5,
+                4.697323799133301,
+                29.32012939453125
+              ]
+            },
+            "velocity": [
+              0.0,
+              5.961512088775635,
+              -10.628815650939941
+            ],
+            "speed": 10.628815650939941,
+            "airborne": true,
+            "floor": false,
+            "grinding": false,
+            "guide": "",
+            "style": "",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          },
+          {
+            "physics": 330,
+            "stage": "native_ledge_request",
+            "position": [
+              -19.0,
+              4.464999675750732,
+              28.700000762939453
+            ],
+            "head": [
+              -18.58197784423828,
+              5.712043285369873,
+              28.34052848815918
+            ],
+            "board": {
+              "basis": [
+                [
+                  0.9873824715614319,
+                  -0.1583537608385086,
+                  0.0
+                ],
+                [
+                  0.1583537608385086,
+                  0.9873824715614319,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "origin": [
+                -18.98369026184082,
+                4.551700115203857,
+                28.44499969482422
+              ]
+            },
+            "velocity": [
+              0.0,
+              0.0,
+              -10.628815650939941
+            ],
+            "speed": 10.628815650939941,
+            "airborne": false,
+            "floor": false,
+            "grinding": true,
+            "guide": "Grind_MD_Market_Seats_-19.0",
+            "style": "grind_50_50",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          },
+          {
+            "physics": 331,
+            "stage": "native_ledge_run",
+            "position": [
+              -19.0,
+              4.464999675750732,
+              28.522937774658203
+            ],
+            "head": [
+              -18.584716796875,
+              5.670211315155029,
+              28.342998504638672
+            ],
+            "board": {
+              "basis": [
+                [
+                  0.9873824715614319,
+                  -0.1583537608385086,
+                  0.0
+                ],
+                [
+                  0.1583537608385086,
+                  0.9873824715614319,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "origin": [
+                -18.98369026184082,
+                4.551700115203857,
+                28.44499969482422
+              ]
+            },
+            "velocity": [
+              0.0,
+              0.0,
+              -10.618815422058105
+            ],
+            "speed": 10.618815650939942,
+            "airborne": false,
+            "floor": false,
+            "grinding": true,
+            "guide": "Grind_MD_Market_Seats_-19.0",
+            "style": "grind_50_50",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          }
+        ],
+        "interpretation": "Actual capture maps all three approaches onto the same finite endpoint; substantial body correction and relative rig pose change coincide. This is a motion defect witness, not proof of its root cause or its rendered/interpolated size."
+      }
+    },
+    {
+      "label": "market_seats_offset_0.7",
+      "initial_spawn": [
+        -18.299999237060547,
+        4.079999923706055,
+        36.0
+      ],
+      "end_position": [
+        -19.0,
+        4.0142388343811035,
+        10.729564666748047
+      ],
+      "spatial_return_distance_m": 25.280214151012522,
+      "physics_frames": [
+        500,
+        749
+      ],
+      "trace_rows": 250,
+      "score_event_order": [
+        {
+          "physics": 500,
+          "kind": "reset"
+        },
+        {
+          "physics": 575,
+          "kind": "add_trick",
+          "identity": "ollie",
+          "points": 100,
+          "awarded": 100
+        },
+        {
+          "physics": 581,
+          "kind": "add_trick",
+          "identity": "rail_grind",
+          "points": 200,
+          "awarded": 200
+        },
+        {
+          "physics": 596,
+          "kind": "add_hold_points",
+          "points": 25,
+          "awarded": 25
+        },
+        {
+          "physics": 611,
+          "kind": "add_hold_points",
+          "points": 25,
+          "awarded": 25
+        },
+        {
+          "physics": 622,
+          "kind": "add_trick",
+          "identity": "ollie",
+          "points": 100,
+          "awarded": 50
+        },
+        {
+          "physics": 656,
+          "kind": "begin_landing"
+        },
+        {
+          "physics": 656,
+          "kind": "continue_combo"
+        },
+        {
+          "physics": 656,
+          "kind": "add_trick",
+          "identity": "manual",
+          "points": 100,
+          "awarded": 100
+        },
+        {
+          "physics": 675,
+          "kind": "begin_landing"
+        },
+        {
+          "physics": 696,
+          "kind": "continue_combo"
+        },
+        {
+          "physics": 696,
+          "kind": "bank_combo",
+          "banked": 2000
+        }
+      ],
+      "independent_score_replay": {
+        "method": "Independent Python integer replay of source point inputs, stable IDs, repeated halving floor/saturation, bonuses, upgrades and score/multiplier caps. Skips nonmutating landing/continue events including nested callbacks; does not trust returned awards/bases as inputs. Resets and bank/drop boundaries remain independent.",
+        "mismatches": [],
+        "runs": {
+          "market_seats_offset_0.7": {
+            "mutating_calls": 8,
+            "positive_banks": [
+              {
+                "physics": 696,
+                "base": 500,
+                "multiplier": 4,
+                "value": 2000
+              }
+            ],
+            "drops": 0,
+            "entry_awards": [
+              {
+                "physics": 575,
+                "identity": "ollie",
+                "source_points": 100,
+                "repetitions_before": 0,
+                "award": 100
+              },
+              {
+                "physics": 581,
+                "identity": "rail_grind",
+                "source_points": 200,
+                "repetitions_before": 0,
+                "award": 200
+              },
+              {
+                "physics": 622,
+                "identity": "ollie",
+                "source_points": 100,
+                "repetitions_before": 1,
+                "award": 50
+              },
+              {
+                "physics": 656,
+                "identity": "manual",
+                "source_points": 100,
+                "repetitions_before": 0,
+                "award": 100
+              }
+            ],
+            "bonus_awards": [
+              {
+                "physics": 596,
+                "kind": "add_hold_points",
+                "source_points": 25,
+                "award": 25
+              },
+              {
+                "physics": 611,
+                "kind": "add_hold_points",
+                "source_points": 25,
+                "award": 25
+              }
+            ]
+          }
+        },
+        "ledger": [
+          {
+            "source_event_index": 0,
+            "run": "market_seats_offset_0.7",
+            "physics": 500,
+            "kind": "reset",
+            "before": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "after": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "independent_award": null
+          },
+          {
+            "source_event_index": 1,
+            "run": "market_seats_offset_0.7",
+            "physics": 575,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "after": {
+              "total": 0,
+              "base": 100,
+              "multiplier": 1,
+              "value": 100
+            },
+            "independent_award": 100
+          },
+          {
+            "source_event_index": 2,
+            "run": "market_seats_offset_0.7",
+            "physics": 581,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 100,
+              "multiplier": 1,
+              "value": 100
+            },
+            "after": {
+              "total": 0,
+              "base": 300,
+              "multiplier": 2,
+              "value": 600
+            },
+            "independent_award": 200
+          },
+          {
+            "source_event_index": 3,
+            "run": "market_seats_offset_0.7",
+            "physics": 596,
+            "kind": "add_hold_points",
+            "before": {
+              "total": 0,
+              "base": 300,
+              "multiplier": 2,
+              "value": 600
+            },
+            "after": {
+              "total": 0,
+              "base": 325,
+              "multiplier": 2,
+              "value": 650
+            },
+            "independent_award": 25
+          },
+          {
+            "source_event_index": 4,
+            "run": "market_seats_offset_0.7",
+            "physics": 611,
+            "kind": "add_hold_points",
+            "before": {
+              "total": 0,
+              "base": 325,
+              "multiplier": 2,
+              "value": 650
+            },
+            "after": {
+              "total": 0,
+              "base": 350,
+              "multiplier": 2,
+              "value": 700
+            },
+            "independent_award": 25
+          },
+          {
+            "source_event_index": 5,
+            "run": "market_seats_offset_0.7",
+            "physics": 622,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 350,
+              "multiplier": 2,
+              "value": 700
+            },
+            "after": {
+              "total": 0,
+              "base": 400,
+              "multiplier": 3,
+              "value": 1200
+            },
+            "independent_award": 50
+          },
+          {
+            "source_event_index": 8,
+            "run": "market_seats_offset_0.7",
+            "physics": 656,
+            "kind": "add_trick",
+            "before": {
+              "total": 0,
+              "base": 400,
+              "multiplier": 3,
+              "value": 1200
+            },
+            "after": {
+              "total": 0,
+              "base": 500,
+              "multiplier": 4,
+              "value": 2000
+            },
+            "independent_award": 100
+          },
+          {
+            "source_event_index": 11,
+            "run": "market_seats_offset_0.7",
+            "physics": 696,
+            "kind": "bank_combo",
+            "before": {
+              "total": 0,
+              "base": 500,
+              "multiplier": 4,
+              "value": 2000
+            },
+            "after": {
+              "total": 2000,
+              "base": 0,
+              "multiplier": 0,
+              "value": 0
+            },
+            "independent_award": null
+          }
+        ]
+      },
+      "manual_landing_event_order": [
+        "begin_landing",
+        "continue_combo",
+        "add_trick"
+      ],
+      "capture": {
+        "contact_verified": true,
+        "edge": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "guide": "Grind_MD_Market_Seats_-19.0",
+        "kind": "capture",
+        "native_contact_valid": true,
+        "owners": [
+          19825569038393
+        ],
+        "physics": 581,
+        "position": [
+          -19.0,
+          4.464999675750732,
+          28.700000762939453
+        ],
+        "run": "market_seats_offset_0.7",
+        "style": "grind_50_50"
+      },
+      "capture_motion": {
+        "source": "Consecutive after-physics observer values of actual native actor and live rig markers; not pixels or interpolated render frames.",
+        "physics_dt_seconds": 0.016666666666666666,
+        "body_displacement_m": 0.8538459072171354,
+        "body_delta": [
+          -0.7000007629394531,
+          -0.2050180435180664,
+          -0.44386863708496094
+        ],
+        "previous_velocity_times_dt_m": 0.19991855112582702,
+        "body_delta_minus_previous_velocity_dt_m": 0.8060898482945892,
+        "head_world_displacement_m": 0.9667723635134678,
+        "head_relative_to_actor_displacement_m": 0.4049463039718906,
+        "before_capture_after_native_samples": [
+          {
+            "physics": 580,
+            "stage": "native_ledge_request",
+            "position": [
+              -18.299999237060547,
+              4.670017719268799,
+              29.143869400024414
+            ],
+            "head": [
+              -18.090084075927734,
+              6.160583972930908,
+              29.038888931274414
+            ],
+            "board": {
+              "basis": [
+                [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.9286646246910095,
+                  0.37092047929763794
+                ],
+                [
+                  0.0,
+                  -0.37092047929763794,
+                  0.9286646246910095
+                ]
+              ],
+              "origin": [
+                -18.299999237060547,
+                4.790017604827881,
+                29.143869400024414
+              ]
+            },
+            "velocity": [
+              0.0,
+              5.561511993408203,
+              -10.62790298461914
+            ],
+            "speed": 10.62790298461914,
+            "airborne": true,
+            "floor": false,
+            "grinding": false,
+            "guide": "",
+            "style": "",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          },
+          {
+            "physics": 581,
+            "stage": "native_ledge_request",
+            "position": [
+              -19.0,
+              4.464999675750732,
+              28.700000762939453
+            ],
+            "head": [
+              -18.588380813598633,
+              5.711097717285156,
+              28.34296417236328
+            ],
+            "board": {
+              "basis": [
+                [
+                  0.9873824715614319,
+                  -0.1583537608385086,
+                  0.0
+                ],
+                [
+                  0.1583537608385086,
+                  0.9873824715614319,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "origin": [
+                -18.98369026184082,
+                4.551700115203857,
+                28.44499969482422
+              ]
+            },
+            "velocity": [
+              0.0,
+              0.0,
+              -10.62790298461914
+            ],
+            "speed": 10.62790298461914,
+            "airborne": false,
+            "floor": false,
+            "grinding": true,
+            "guide": "Grind_MD_Market_Seats_-19.0",
+            "style": "grind_50_50",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          },
+          {
+            "physics": 582,
+            "stage": "native_ledge_run",
+            "position": [
+              -19.0,
+              4.464999675750732,
+              28.522953033447266
+            ],
+            "head": [
+              -18.58973503112793,
+              5.669390678405762,
+              28.344938278198242
+            ],
+            "board": {
+              "basis": [
+                [
+                  0.9873824715614319,
+                  -0.1583537608385086,
+                  0.0
+                ],
+                [
+                  0.1583537608385086,
+                  0.9873824715614319,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "origin": [
+                -18.98369026184082,
+                4.551700115203857,
+                28.44499969482422
+              ]
+            },
+            "velocity": [
+              0.0,
+              0.0,
+              -10.617902755737305
+            ],
+            "speed": 10.61790298461914,
+            "airborne": false,
+            "floor": false,
+            "grinding": true,
+            "guide": "Grind_MD_Market_Seats_-19.0",
+            "style": "grind_50_50",
+            "capture_rejection": "",
+            "capture_obstruction": {},
+            "contacts": []
+          }
+        ],
+        "interpretation": "Actual capture maps all three approaches onto the same finite endpoint; substantial body correction and relative rig pose change coincide. This is a motion defect witness, not proof of its root cause or its rendered/interpolated size."
+      }
+    }
+  ],
+  "registry_lookup": [
+    {
+      "contact_source": "merchant.native_box_top",
+      "contact_verified": true,
+      "id": "Grind_MD_Market_Seats_-19.0",
+      "kind": "ledge",
+      "length": 9.400001525878906,
+      "loop": false,
+      "native_owner_rids": [
+        1417339207737
+      ],
+      "normal_offset": 0.0,
+      "outward": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "points": [
+        [
+          -19.0,
+          4.46999979019165,
+          19.299999237060547
+        ],
+        [
+          -19.0,
+          4.46999979019165,
+          28.700000762939453
+        ]
+      ],
+      "round_declared": false,
+      "valid": true,
+      "vertical_offset": -0.02
+    }
+  ],
+  "open_acceptance": {
+    "returned_local_lines_accepted": 0,
+    "closed_crossarea_circuits_accepted": 0,
+    "capture_motion_accepted": false,
+    "displayed_model_contact_accepted": false,
+    "performance_accepted": false
+  }
+}

@@ -1,0 +1,49 @@
+from pathlib import Path
+import datetime,hashlib,json,math,re
+O=Path(__file__).resolve().parent;D=O/'merchant-first-native-review-01'
+a=json.loads((D/'native-02/native-result.json').read_text());b=json.loads((D/'native-04/native-result.json').read_text())
+def vec(v):return [float(x)for x in re.findall(r'[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?',v)]
+checks=[]
+def check(label,ok,detail=None):checks.append({'label':label,'passed':bool(ok),'detail':detail})
+check('Original native02 rejected26/1 remains unchanged',a['passed']==26 and a['failed']==1)
+check('Native04 separately passes27/0 component/smoke assertions',b['passed']==27 and b['failed']==0)
+check('Native02/04 all192 shared trace records exactly equal',a['trace']==b['trace'][:len(a['trace'])])
+for name,r,start,end in [('02',a,5,196),('04',b,5,201)]:
+ frames=[s['physics']for s in r['trace']];check(name+' consecutive exact frame coverage',frames==list(range(start,end+1)),{'count':len(frames),'range':[frames[0],frames[-1]]})
+check('Native04 contains exactly one admitted Ollie event84',len(b['trick_events'])==1 and b['trick_events'][0]['id']=='ollie'and b['trick_events'][0]['physics']==84,b['trick_events'])
+check('No native04 Ollie input after83',max(e['physics']for e in b['input_events'])==83,b['input_events'])
+frames={r['physics']:r for r in b['trace']}
+check('Mapped Ollie truly launches84 and lands117',not frames[83]['airborne']and frames[84]['airborne']and frames[116]['airborne']and frames[117]['floor'])
+check('Later support-loss episode is separate195→196→201',frames[195]['floor']and frames[196]['airborne']and frames[200]['airborne']and frames[201]['floor'])
+check('No recorded bail in either trace',not any(s['bail']for s in a['trace']+b['trace']))
+pre=frames[195];post=frames[196]
+source=(D/'native-04/executed-matching-source/game/levels/merchant_neighbourhood.gd.txt').read_text()
+check('Executed source has original east bank matching witness', 'Rect2(x+width+1,z-4,4,run+4)'in source and '_stairs("MD_Market_Steps",-20,4,5,4.0,0.8,4,4)'in source)
+manual=[];turns=[]
+for speed in [4,6,7,8,9,10,12]:
+ omega=2.8-.6*speed/15
+ manual.append({'entry_speed':speed,'flat_m_to2mps':(speed*speed-4)/(2*.75),'10percent_uphill_m_to2mps':(speed*speed-4)/(2*(.75+22*.28*math.sin(math.atan(.1))))})
+ turns.append({'speed':speed,'full_steady_yaw_rate':omega,'steady_radius_m':speed/omega,'diameter_plus_capsule_width_m':2*speed/omega+.56,'note':'Design arithmetic only; response transient, actual braking, bank, model/camera and native corner checks remain.'})
+layout=json.loads((O/'merchant-source-01/source/.local/compact-level-replan/graybox/layout.json').read_text())
+loops=[]
+for item in layout['macro_loops']:
+ p=item['points'];distance=math.dist(p[0],p[-1]);loops.append({'id':item['id'],'start':p[0],'end':p[-1],'endpoint_distance_m':distance,'geometrically_closed':distance<.001,'native_combo_proved':False})
+result={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'role':'Independent topology/BA; author did not implement geometry','checks':checks,'passed':sum(c['passed']for c in checks),'failed':sum(not c['passed']for c in checks),'late_episode':{'physics195':pre,'physics196':post,'physics201':frames[201],'planar_speed_drop_mps':abs(vec(pre['velocity'])[2])-abs(vec(post['velocity'])[2]),'vertical_velocity_change_mps':vec(post['velocity'])[1]-vec(pre['velocity'])[1],'source_witness':{'bank_bounds_xz':[-14,0,-10,8],'north_lip_y':4.8,'outside_north_ground_y':4,'lateral_gap_to_stair_landing_m':1,'classification':'True unjoined upper bank/beginner-bypass support discontinuity; clean mapped Ollie is a separate successful84→117 event.201 landing proves later recovery only. Native floor/slide RID/intshape/normal needed for exact velocity-correction attribution.'}},'source_arithmetic_only':{'manual_min_speed_mps':2,'manual_drag_mps2':.75,'manual_ranges':manual,'flat16m_min_entry_speed_mps':math.sqrt(4+2*.75*16),'steady_ground_turns':turns,'macro_loop_closure':loops},'recommendation':'LD proposes moving optional access to west crosswise bank, joining actual stair upper landing, with original east lane restored to true datum-level4m bypass. Check full middle/lower grade patches, both shoulders, no-jump arrival and high apron. Do not change physics/deadlines or use extended tail to close bypass acceptance.','scope':'Independent offline source+raw-trace review. No new engine or spatial queries, no actual game/tests/tools/Git writes. Native author counts and budget remain component/smoke results, not full topology, body/board clearance, fun or M5 acceptance.'}
+(D/'independent-analysis.json').write_text(json.dumps(result,indent=2)+'\n')
+(D/'README.md').write_text('''# Independent Merchant topology review: first native scene
+
+The mapped Ollie is successful, and the later bank edge exposes a genuine beginner-bypass defect. These are separate facts. The source/native prototype is not accepted as a joined map.
+
+Native02's original26/1 result and native04's27/0 component/smoke result are preserved. All192 records common to the two traces match exactly. The only admitted Ollie is physics84, landing117. At194 the rider reaches(-14.00006,4.807537,+0.075407) on the east bank;195 crosses its unjoined north edge,196 is airborne, and201 reaches lower ground. No second Ollie input/event occurs. Extending the tail shows recovery and does not repair the bypass. The bank isX−14..−10/Z0..8, rising4→4.8 towardZ0, followed by datum4 beyond the north end. Its high end also sits1m laterally from the stair's upper landing. Abrupt velocity loss at195→196 needs exact native floor/slide RID/shape/normal before assigning the entire response to controller behavior.
+
+The smallest coherent design is the author's proposed west crosswise optional access bank, joined to the actual upper landing, while leaving the east4m corridor at datum level. The full middle/lower bank/landing footprints must match their terrain patches. Before acceptance, independently run no-jump novice arrival, both shoulders, reverse travel, floor-normal/contact evidence and later flow/expert approaches. Never change score deadlines, physics or tolerance to make the line pass.
+
+Earlier fbd457d7 source review exposed a slab passing through a solid building, an undefined concrete material, an Array-vs-Dictionary world API mismatch, and a side-roll-in toe2m above ground. LD changed explicit building cutouts, reused existing concrete, corrected the getter and gave the full quarter/access envelope a matching apron. Native6be7accd component rays confirm the two exact corrected apron witnesses, ground/roof support and the4.5m underpass at selected points. Full-width body/camera clearance and no-jump arrivals remain unmeasured; a centre ray is not their substitute. No old40×30facility or long scenic climb is required by the selected sketches.
+
+Cadence still needs actual linked feature events. At novice4m/s, a flat Manual coasts8m before the unchanged2m/s minimum, whereas16m requires at least5.29m/s even flat. Uphill distance is shorter. Four-metre straight bypass width also does not establish a full-speed12m/s U-turn: the controller's steady full-steer radius is about5.17m before body/camera margin. These are source arithmetic, not native path results. The plan's roof macro starts and ends51.42m apart, so it is a through-route until its real return is supplied. The long west return must identify a reachable intermediate bearing; street vertices and decorative proximity do not count.
+
+[Machine analysis](independent-analysis.json) binds exact trace checks, witnesses, source estimates and open cases. All work is private and read-only against actual gameplay; no new engine was run. Root owns admission/integration and actual full04 remains untouched.
+''')
+manifest={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'files':{str(p.relative_to(D)):{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}for p in sorted(D.rglob('*'))if p.is_file()},'analysis_source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+(D/'preservation.json').write_text(json.dumps(manifest,indent=2)+'\n')
+print(json.dumps({'passed':result['passed'],'failed':result['failed'],'path':str(D),'late':result['late_episode'],'macro_closure':loops},indent=2))

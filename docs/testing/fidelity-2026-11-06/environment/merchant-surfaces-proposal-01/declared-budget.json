@@ -1,0 +1,44 @@
+{
+  "declared_utc": "2026-11-07T12:50:30.830734+00:00",
+  "before_new_bindings": true,
+  "current_admitted_added_bytes": 19486307,
+  "extra_sets": [
+    {
+      "asset": "concrete_floor_worn_001",
+      "physical_width_m": 3.0
+    },
+    {
+      "asset": "granite_tile",
+      "physical_width_m": 2.3
+    }
+  ],
+  "each_import_dimensions": {
+    "albedo": [
+      2048,
+      2048
+    ],
+    "normal_opengl": [
+      1024,
+      1024
+    ],
+    "arm": [
+      1024,
+      1024
+    ]
+  },
+  "formats": {
+    "albedo": "DXT1",
+    "normal_opengl": "RGTC_RG",
+    "arm": "DXT1"
+  },
+  "full_mips": true,
+  "each_extra_payload_bytes": 4893408,
+  "maximum_extra_payload_bytes": 9786816,
+  "predicted_cumulative_added_bytes": 29273123,
+  "overall_ceiling_bytes": 33554432,
+  "ground_extra_draw_ceiling": 3,
+  "extra_mesh_node_or_geometry_or_collision": 0,
+  "new_lights_shaders": 0,
+  "note": "Block+mip estimate only, actual nativeallocation to verify separately; optionalquietgraniteflagset selected because currentresidentpavingiswornsmallsetts andnewMarketneedsbroaderquieterflags.",
+  "prebinding_arithmetic_corrected_utc": "2026-11-07T12:51:09.884516+00:00"
+}

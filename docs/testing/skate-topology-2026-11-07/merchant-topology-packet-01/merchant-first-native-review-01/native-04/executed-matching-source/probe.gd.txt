@@ -1,0 +1,163 @@
+extends SceneTree
+const World = preload("res://game/levels/merchant_neighbourhood.gd")
+const InputSetup = preload("res://game/core/input_setup.gd")
+const Skater = preload("res://game/player/skater.gd")
+var passed := 0
+var failed := 0
+var observations: Array[Dictionary] = []
+var holder: Node3D
+var world: Node3D
+
+class NativeRecorder extends Node:
+	var actor: CharacterBody3D
+	var rows: Array[Dictionary] = []
+	var bails := 0
+	var events: Array[Dictionary] = []
+	func _physics_process(_delta: float) -> void:
+		if not is_instance_valid(actor):return
+		rows.append({"physics":Engine.get_physics_frames(),"position":actor.global_position,
+			"velocity":actor.velocity,"floor":actor.is_on_floor(),"airborne":actor.airborne,
+			"manual":actor.manual_active,"grinding":actor.grinding,"bail":actor.bail_active})
+	func trick(label: String,base: int) -> void:
+		events.append({"physics":Engine.get_physics_frames(),"id":actor.last_trick_id,"label":label,"base":base})
+
+func _initialize() -> void:
+	call_deferred("run")
+
+func check(ok: bool,label: String,detail: Dictionary={}) -> void:
+	if ok:passed+=1
+	else:failed+=1
+	observations.append({"pass":ok,"label":label,"detail":detail})
+	print("PASS " if ok else "FAIL ",label," ",JSON.stringify(detail))
+
+func _ray(at: Vector3,up:=0.3,down:=0.5) -> Dictionary:
+	var query := PhysicsRayQueryParameters3D.create(at+Vector3.UP*up,at-Vector3.UP*down,1)
+	return world.get_world_3d().direct_space_state.intersect_ray(query)
+
+func _count(node: Node,result: Dictionary) -> void:
+	if node is StaticBody3D:result.bodies+=1
+	if node is CollisionShape3D:result.shapes+=1
+	if node is MeshInstance3D and node.mesh!=null:
+		result.meshes+=1
+		result.triangles+=node.mesh.get_faces().size()/3
+	for child: Node in node.get_children():_count(child,result)
+
+func run() -> void:
+	InputSetup.register_actions()
+	holder = Node3D.new()
+	root.add_child(holder)
+	world = World.new()
+	holder.add_child(world)
+	for i: int in 4:await physics_frame
+	var methods := ["get_level_manifest","get_activity_layout","get_spawn_position","get_transition_features",
+		"get_npc_positions","get_encounter_definitions","activate_cone","reset_interactions","get_district_id",
+		"get_district_checkpoints","get_gap_definitions","get_gap_grind_destinations","get_location_name",
+		"get_ground_height","get_support_height","get_recovery_position","get_recovery_message","get_route_definitions",
+		"get_goal_markers","get_grind_lines","get_surface_audit","get_park_skatepark_definition",
+		"get_skate_feature_definitions","get_level_density_audit"]
+	var complete := true
+	for method: String in methods:complete=complete and world.has_method(method)
+	check(complete,"24-method world contract")
+	check(world.get_gap_grind_destinations() is Dictionary and world.get_gap_grind_destinations().is_empty(),"ordinary gaps retain strict policy dictionary")
+	check(world.get_level_manifest().id=="merchant_neighbourhood_v1" and world.get_level_manifest().career.goals.size()==10,"canonical new-level career manifest")
+	var legacy_facility := false
+	for child: Node in world.find_children("*","Node",true,false):
+		var source: Script = child.get_script()
+		if source!=null and source.resource_path=="res://game/levels/kelvingrove_skatepark.gd":legacy_facility=true
+	check(world.get_activity_layout().is_empty() and not legacy_facility,"no legacy facility or optional activities instantiated")
+	var inventory := {"bodies":0,"shapes":0,"meshes":0,"triangles":0}
+	_count(world,inventory)
+	check(inventory.bodies<=280 and inventory.shapes<=800 and inventory.triangles<=200000,"declared static geometry ceilings",inventory)
+	var samples := [
+		{"id":"spawn","p":Vector3(-14,4,31)},
+		{"id":"quarter full side-roll-in apron","p":Vector3(-60,12,-53)},
+		{"id":"upper stair landing approach","p":Vector3(-55,12,-52)},
+		{"id":"market clear paving","p":Vector3(-14,4,17)},
+		{"id":"underpass west","p":Vector3(40,4,-6)},
+		{"id":"underpass middle","p":Vector3(54,4,-6)},
+		{"id":"underpass east","p":Vector3(70,4,-6)},
+		{"id":"foundry north bank","p":Vector3(53,3.25,19)},
+		{"id":"foundry west bank","p":Vector3(25,3.25,27)},
+		{"id":"foundry entry street","p":Vector3(38,2.5,27)},
+		{"id":"deep real floor","p":Vector3(44,1,41)},
+		{"id":"shallow real floor","p":Vector3(65,2.5,40)},
+		{"id":"between bowl decks","p":Vector3(55,4,36)},
+		{"id":"real roof west","p":Vector3(40,10,-37)},
+		{"id":"real roof east","p":Vector3(64,10,-37)},
+		{"id":"upper close actual slab","p":Vector3(10,10,-37)}]
+	for sample: Dictionary in samples:
+		var at: Vector3 = sample.p
+		var hit := _ray(at)
+		var queried: float = world.get_support_height(at,.05)
+		check(not hit.is_empty() and absf(hit.position.y-at.y)<.002 and is_finite(queried) and absf(queried-at.y)<.002,
+			"native/display support: "+str(sample.id),{"point":at,"query":queried,"hit":hit.get("position",Vector3.INF),"collider":str(hit.get("collider",""))})
+	var gap := _ray(Vector3(53,10,-37),.3,1.5)
+	check(gap.is_empty() and world.get_support_height(Vector3(53,10,-37),.05)<5,"roof channel is actual void above ground, no hidden landing")
+	var ceiling_query := PhysicsRayQueryParameters3D.create(Vector3(54,4.05,-6),Vector3(54,9.5,-6),1)
+	var ceiling := world.get_world_3d().direct_space_state.intersect_ray(ceiling_query)
+	check(not ceiling.is_empty() and absf(ceiling.position.y-8.5)<.002,"underpass real 4.5m vertical clearance",{"ceiling":ceiling.get("position",Vector3.INF)})
+	check(world.get_support_height(Vector3(54,4,-6),.05)<4.01,"grounded query cannot promote rider onto overhead bridge")
+	var ids: Dictionary = {}
+	var unique := true
+	for line in world.get_grind_lines():
+		if ids.has(line.id) or not line.is_valid:unique=false
+		ids[line.id]=true
+	check(unique and ids.size()>=20,"finite unique authored grind identities",{"count":ids.size()})
+	var skater := Skater.new()
+	skater.spawn_position=world.get_spawn_position()
+	holder.add_child(skater)
+	skater.reset_skater()
+	skater.set_grind_lines(world.get_grind_lines())
+	skater.set_transition_features(world.get_transition_features())
+	var recorder := NativeRecorder.new()
+	recorder.actor=skater
+	recorder.process_physics_priority=10000
+	holder.add_child(recorder)
+	skater.trick_performed.connect(recorder.trick)
+	var input_events: Array[Dictionary] = []
+	# Exactly one initial spawn/reset; all travel below uses actual mapped input.
+	var start := skater.global_position
+	Input.action_press("push")
+	for tick: int in 180:
+		if tick==70:
+			input_events.append({"input":"ollie_press","physics":Engine.get_physics_frames(),"position":skater.global_position})
+			Input.action_press("ollie")
+		if tick==78:
+			input_events.append({"input":"ollie_release","physics":Engine.get_physics_frames(),"position":skater.global_position})
+			Input.action_release("ollie")
+		await physics_frame
+	Input.action_release("push")
+	Input.action_release("ollie")
+	for tick: int in 12:await physics_frame
+	# The path subsequently crosses the stair bypass. If its natural edge
+	# launches the actor, observe the real coast landing without another input.
+	for tick: int in 40:
+		if skater.is_on_floor():break
+		await physics_frame
+	var bails := 0
+	var airborne_frames := 0
+	for row: Dictionary in recorder.rows:
+		if bool(row.bail):bails+=1
+		if bool(row.airborne):airborne_frames+=1
+	check(start.distance_to(skater.global_position)>=6 and bails==0,"ordinary spawn Push/Ollie travel has no bail",{"start":start,"end":skater.global_position,"bail_frames":bails})
+	var ollie_physics := -1
+	for event: Dictionary in recorder.events:
+		if event.id=="ollie":ollie_physics=int(event.physics)
+	var mapped_air := false
+	var mapped_landed := false
+	for row: Dictionary in recorder.rows:
+		if int(row.physics)<ollie_physics or ollie_physics<0:continue
+		if bool(row.airborne):mapped_air=true
+		if mapped_air and bool(row.floor):mapped_landed=true
+	check(mapped_air and mapped_landed and skater.is_on_floor(),"mapped Ollie leaves and lands on actual paving",{"air_frames":airborne_frames,"ollie_physics":ollie_physics,"mapped_landed":mapped_landed,"final_landed":skater.is_on_floor()})
+	var result := {"passed":passed,"failed":failed,"inventory":inventory,"observations":observations,"trace":recorder.rows,
+		"input_events":input_events,"trick_events":recorder.events,
+		"scope":"Private geometry/support and ordinary single-spawn mapped-input smoke only; no whole combo/circuit, final art or performance acceptance."}
+	var output := FileAccess.open("res://native-result.json",FileAccess.WRITE)
+	output.store_string(JSON.stringify(result,"\t"))
+	output.close()
+	print("MERCHANT_PRIVATE ",passed," passed ",failed," failed")
+	holder.queue_free()
+	await process_frame
+	await process_frame
+	quit(0 if failed==0 else 1)

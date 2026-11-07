@@ -1,0 +1,179 @@
+{
+  "scope": "Synthetic process cancellation only: labelled fake Godot plus fake grandchild, no real engine or ordinary user namespace. Creation-boundary signal injection is an adversarial wrapper, not observed native scheduling.",
+  "started_utc": "2026-11-07T13:45:41.809556+00:00",
+  "cases": [
+    {
+      "mode": "waiting-term",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/book-cancel-02/waiting-term/tools/testing/check_level_book.py"
+      ],
+      "started_utc": "2026-11-07T13:45:41.812185+00:00",
+      "source": {
+        "tools/testing/check_level_book.py": "9016c301925ce2845d9fa7db63865d26fc3678c8df702e7268bd3706f2e0eb2b",
+        "tests/level_career_book_tests.gd": "e710e5d81dde6203695ae7715eb4075f9941bd61c4b03afc0be1c78dc4d998cd",
+        "game/progression/level_career_book.gd": "4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c",
+        "game/progression/level_catalog.gd": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+        "game/progression/career_progress.gd": "4ee0765bb9603c2c983577c4468718f466b27bbc3f21f49b0dfcf6395ab3ebee",
+        "game/core/input_profile.gd": "fe24e851029db42408bb2e46ca79bc43f939b149478958f659d897a0f890e0f3",
+        "game/core/input_setup.gd": "870217125d680ffe9b588b1026227ebcbe817f6b295d71646a0347de5e6eb532",
+        "game/core/graphics_quality.gd": "6e0cd00637e5f81e755c716ec7a315679ee8d807917112a646a051e8fe53854b",
+        "fake-godot.py": "206f47f8c642b1ce7f35ba016e6e3ac44b4a944057ab0ab1858617942d112709",
+        "inject.py": "47ccd135adadb6ac6e94982e78a808e5798d2837694f95afa748292ddfd9ea70",
+        "outer-wrapper": "3fede6ca1d7329efbef60d1d0a62c6f19cb2174ff6deb40d4062a0e398376577"
+      },
+      "helper_pid": 138671,
+      "owned": {
+        "parent": 138672,
+        "worker": 138673,
+        "group": 138672,
+        "helper": 138671
+      },
+      "helper_exit": 143,
+      "elapsed_after_term": 2.019762187002925,
+      "states_after_helper": {
+        "138672": "absent",
+        "138673": "Z"
+      },
+      "no_owned_live_after_helper": true,
+      "qa_cleanup_required": false,
+      "no_owned_live_after_QA_cleanup": true,
+      "states_final": {
+        "138672": "absent",
+        "138673": "Z"
+      },
+      "sources_unchanged": true,
+      "finished_utc": "2026-11-07T13:45:43.954913+00:00"
+    },
+    {
+      "mode": "creation-boundary-term",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/book-cancel-02/creation-boundary-term/inject.py"
+      ],
+      "started_utc": "2026-11-07T13:45:43.956320+00:00",
+      "source": {
+        "tools/testing/check_level_book.py": "9016c301925ce2845d9fa7db63865d26fc3678c8df702e7268bd3706f2e0eb2b",
+        "tests/level_career_book_tests.gd": "e710e5d81dde6203695ae7715eb4075f9941bd61c4b03afc0be1c78dc4d998cd",
+        "game/progression/level_career_book.gd": "4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c",
+        "game/progression/level_catalog.gd": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+        "game/progression/career_progress.gd": "4ee0765bb9603c2c983577c4468718f466b27bbc3f21f49b0dfcf6395ab3ebee",
+        "game/core/input_profile.gd": "fe24e851029db42408bb2e46ca79bc43f939b149478958f659d897a0f890e0f3",
+        "game/core/input_setup.gd": "870217125d680ffe9b588b1026227ebcbe817f6b295d71646a0347de5e6eb532",
+        "game/core/graphics_quality.gd": "6e0cd00637e5f81e755c716ec7a315679ee8d807917112a646a051e8fe53854b",
+        "fake-godot.py": "206f47f8c642b1ce7f35ba016e6e3ac44b4a944057ab0ab1858617942d112709",
+        "inject.py": "47ccd135adadb6ac6e94982e78a808e5798d2837694f95afa748292ddfd9ea70",
+        "outer-wrapper": "3fede6ca1d7329efbef60d1d0a62c6f19cb2174ff6deb40d4062a0e398376577"
+      },
+      "helper_pid": 138674,
+      "owned": {
+        "parent": 138675,
+        "worker": 138676,
+        "group": 138675,
+        "helper": 138674
+      },
+      "helper_exit": 143,
+      "elapsed_after_term": 2.0233678279982996,
+      "states_after_helper": {
+        "138675": "absent",
+        "138676": "Z"
+      },
+      "no_owned_live_after_helper": true,
+      "qa_cleanup_required": false,
+      "no_owned_live_after_QA_cleanup": true,
+      "states_final": {
+        "138675": "absent",
+        "138676": "Z"
+      },
+      "sources_unchanged": true,
+      "finished_utc": "2026-11-07T13:45:46.123280+00:00"
+    },
+    {
+      "mode": "waiting-int",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/book-cancel-02/waiting-int/tools/testing/check_level_book.py"
+      ],
+      "started_utc": "2026-11-07T13:45:46.124790+00:00",
+      "source": {
+        "tools/testing/check_level_book.py": "9016c301925ce2845d9fa7db63865d26fc3678c8df702e7268bd3706f2e0eb2b",
+        "tests/level_career_book_tests.gd": "e710e5d81dde6203695ae7715eb4075f9941bd61c4b03afc0be1c78dc4d998cd",
+        "game/progression/level_career_book.gd": "4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c",
+        "game/progression/level_catalog.gd": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+        "game/progression/career_progress.gd": "4ee0765bb9603c2c983577c4468718f466b27bbc3f21f49b0dfcf6395ab3ebee",
+        "game/core/input_profile.gd": "fe24e851029db42408bb2e46ca79bc43f939b149478958f659d897a0f890e0f3",
+        "game/core/input_setup.gd": "870217125d680ffe9b588b1026227ebcbe817f6b295d71646a0347de5e6eb532",
+        "game/core/graphics_quality.gd": "6e0cd00637e5f81e755c716ec7a315679ee8d807917112a646a051e8fe53854b",
+        "fake-godot.py": "206f47f8c642b1ce7f35ba016e6e3ac44b4a944057ab0ab1858617942d112709",
+        "inject.py": "47ccd135adadb6ac6e94982e78a808e5798d2837694f95afa748292ddfd9ea70",
+        "outer-wrapper": "3fede6ca1d7329efbef60d1d0a62c6f19cb2174ff6deb40d4062a0e398376577"
+      },
+      "helper_pid": 138685,
+      "owned": {
+        "parent": 138686,
+        "worker": 138687,
+        "group": 138686,
+        "helper": 138685
+      },
+      "helper_exit": 130,
+      "elapsed_after_term": 2.020769681999809,
+      "states_after_helper": {
+        "138686": "absent",
+        "138687": "Z"
+      },
+      "no_owned_live_after_helper": true,
+      "qa_cleanup_required": false,
+      "no_owned_live_after_QA_cleanup": true,
+      "states_final": {
+        "138686": "absent",
+        "138687": "Z"
+      },
+      "sources_unchanged": true,
+      "finished_utc": "2026-11-07T13:45:48.289073+00:00"
+    },
+    {
+      "mode": "creation-boundary-int",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/book-cancel-02/creation-boundary-int/inject.py"
+      ],
+      "started_utc": "2026-11-07T13:45:48.290415+00:00",
+      "source": {
+        "tools/testing/check_level_book.py": "9016c301925ce2845d9fa7db63865d26fc3678c8df702e7268bd3706f2e0eb2b",
+        "tests/level_career_book_tests.gd": "e710e5d81dde6203695ae7715eb4075f9941bd61c4b03afc0be1c78dc4d998cd",
+        "game/progression/level_career_book.gd": "4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c",
+        "game/progression/level_catalog.gd": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+        "game/progression/career_progress.gd": "4ee0765bb9603c2c983577c4468718f466b27bbc3f21f49b0dfcf6395ab3ebee",
+        "game/core/input_profile.gd": "fe24e851029db42408bb2e46ca79bc43f939b149478958f659d897a0f890e0f3",
+        "game/core/input_setup.gd": "870217125d680ffe9b588b1026227ebcbe817f6b295d71646a0347de5e6eb532",
+        "game/core/graphics_quality.gd": "6e0cd00637e5f81e755c716ec7a315679ee8d807917112a646a051e8fe53854b",
+        "fake-godot.py": "206f47f8c642b1ce7f35ba016e6e3ac44b4a944057ab0ab1858617942d112709",
+        "inject.py": "47ccd135adadb6ac6e94982e78a808e5798d2837694f95afa748292ddfd9ea70",
+        "outer-wrapper": "3fede6ca1d7329efbef60d1d0a62c6f19cb2174ff6deb40d4062a0e398376577"
+      },
+      "helper_pid": 138688,
+      "owned": {
+        "parent": 138689,
+        "worker": 138690,
+        "group": 138689,
+        "helper": 138688
+      },
+      "helper_exit": 130,
+      "elapsed_after_term": 2.023072278003383,
+      "states_after_helper": {
+        "138689": "absent",
+        "138690": "Z"
+      },
+      "no_owned_live_after_helper": true,
+      "qa_cleanup_required": false,
+      "no_owned_live_after_QA_cleanup": true,
+      "states_final": {
+        "138689": "absent",
+        "138690": "Z"
+      },
+      "sources_unchanged": true,
+      "finished_utc": "2026-11-07T13:45:50.457092+00:00"
+    }
+  ],
+  "finished_utc": "2026-11-07T13:45:50.457111+00:00"
+}

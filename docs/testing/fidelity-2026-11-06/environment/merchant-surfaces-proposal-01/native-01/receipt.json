@@ -1,0 +1,53 @@
+{
+  "events": [
+    {
+      "name": "import",
+      "pid": 133784,
+      "start": "2026-11-07T13:07:01.238193+00:00",
+      "deadline": "2026-11-07T13:07:46.238193+00:00",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/project",
+        "--editor",
+        "--import"
+      ],
+      "end": "2026-11-07T13:07:14.386005+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "native",
+      "pid": 134022,
+      "start": "2026-11-07T13:07:14.386179+00:00",
+      "deadline": "2026-11-07T13:08:14.386179+00:00",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/project",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/project/surface_probe.gd",
+        "--",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/native-01/native-result.json"
+      ],
+      "end": "2026-11-07T13:07:14.597150+00:00",
+      "exit_code": -15
+    }
+  ],
+  "error": "Nativeerror native",
+  "source_changes": [
+    "game/art/assets/merchant_pbr/concrete_floor_worn_001/concrete_floor_worn_001_diff_2k.jpg.import",
+    "game/levels/art/merchant_architecture.gd.uid",
+    "game/levels/art/merchant_surfaces.gd.uid",
+    "game/art/assets/merchant_pbr/granite_tile/granite_tile_nor_gl_2k.jpg.import",
+    "game/art/assets/merchant_pbr/concrete_floor_worn_001/concrete_floor_worn_001_arm_2k.jpg.import",
+    "game/art/assets/merchant_pbr/granite_tile/granite_tile_diff_2k.jpg.import",
+    "game/levels/merchant_neighbourhood.gd.uid",
+    "game/art/assets/merchant_pbr/granite_tile/granite_tile_arm_2k.jpg.import",
+    "surface_probe.gd.uid",
+    "game/art/assets/merchant_pbr/concrete_floor_worn_001/concrete_floor_worn_001_nor_gl_2k.jpg.import",
+    "game/progression/level_catalog.gd.uid"
+  ],
+  "scope": "Private import/native; import may author6cache remaps/UIDs. Secondaryflock held externally; no actual/sourcecache mutation, no GPU/FPS/M5 claim."
+}

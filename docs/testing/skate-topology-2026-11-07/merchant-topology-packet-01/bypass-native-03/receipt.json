@@ -1,0 +1,93 @@
+{
+  "start_utc": "2026-11-07T12:35:00.050534+00:00",
+  "source_count": 722,
+  "source_matches_producer_freeze": true,
+  "project": "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+  "observer_sha256": "41ed7dc196ad0489f9242af7d2e966bd317f17e21a39478f236bdfda4ffb0597",
+  "wrapper_sha256": "090fe1244632e0f6f755d660129c63e052e6faa768c1251eb01a331e84e0d91a",
+  "pre_processes": [
+    {
+      "pid": "82100",
+      "pgid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    },
+    {
+      "pid": "131915",
+      "pgid": "131915",
+      "state": "Rsl",
+      "command": "godot --headless --audio-driver Dummy --path /workspace/tam_hawks_ps/.local/neighbourhood-integration/project --script res://tests/neighbourhood_integration_smoke.gd --fixed-fps 60"
+    }
+  ],
+  "explicit_overlap": "Root-authorized combined Main/world/Book primary only, up to195s; independent secondary topology untimed, no FPS/M5 claim",
+  "stages": [
+    {
+      "label": "parser",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--check-only",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/skate-topology-review/bypass_probe03.gd"
+      ],
+      "start_utc": "2026-11-07T12:35:00.050860+00:00",
+      "bound_seconds": 15,
+      "pid": 131935,
+      "process_group": 131935,
+      "deadline_utc": "2026-11-07T12:35:15.052077+00:00",
+      "end_utc": "2026-11-07T12:35:01.414322+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "label": "native",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/skate-topology-review/bypass_probe03.gd"
+      ],
+      "start_utc": "2026-11-07T12:35:01.416929+00:00",
+      "bound_seconds": 105,
+      "pid": 131945,
+      "process_group": 131945,
+      "deadline_utc": "2026-11-07T12:36:46.419801+00:00",
+      "end_utc": "2026-11-07T12:35:35.545100+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "0577df853cf17ba94b32b88f61ee06870dd1dbbb7a6ad3fed2215e754b39c1d3"
+    }
+  ],
+  "aggregate_bound_seconds": 120,
+  "end_utc": "2026-11-07T12:35:36.575611+00:00",
+  "source_stable": true,
+  "actual_source_inputs": 899,
+  "actual_source_stable": true,
+  "post_processes": [
+    {
+      "pid": "82100",
+      "pgid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    }
+  ],
+  "result": {
+    "passed": 50,
+    "failed": 0,
+    "runs": 12
+  },
+  "eligible": true
+}

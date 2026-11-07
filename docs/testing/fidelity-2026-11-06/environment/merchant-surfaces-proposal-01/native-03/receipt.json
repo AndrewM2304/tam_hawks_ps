@@ -1,0 +1,41 @@
+{
+  "events": [
+    {
+      "name": "import",
+      "pid": 134908,
+      "start": "2026-11-07T13:17:37.704108+00:00",
+      "deadline": "2026-11-07T13:18:22.704108+00:00",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/project",
+        "--editor",
+        "--import"
+      ],
+      "end": "2026-11-07T13:17:45.050585+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "native",
+      "pid": 135145,
+      "start": "2026-11-07T13:17:45.050731+00:00",
+      "deadline": "2026-11-07T13:18:45.050731+00:00",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/project",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/project/surface_probe.gd",
+        "--",
+        "/workspace/tam_hawks_ps/.local/merchant-environment/native-03/native-result.json"
+      ],
+      "end": "2026-11-07T13:17:48.444274+00:00",
+      "exit_code": -15
+    }
+  ],
+  "error": "Nativeerror native",
+  "source_changes": [],
+  "scope": "Private import/native; import may author6cache remaps/UIDs. Secondaryflock held externally; no actual/sourcecache mutation, no GPU/FPS/M5 claim."
+}

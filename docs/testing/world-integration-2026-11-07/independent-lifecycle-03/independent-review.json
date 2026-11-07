@@ -1,0 +1,226 @@
+{
+  "utc": "2026-11-07T13:48:46.314378+00:00",
+  "reviewer": "/root/independent_qa",
+  "passed": 33,
+  "failed": 0,
+  "checks": [
+    {
+      "check": "lifecycle20exact native source map unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "lifecycle20raw assertion totals/unique summary clean",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "lifecycle20parser/native exits and predeclared deadline",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "lifecycle20outer launcher is before-bound",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "parsed31exact native source map unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "parsed31raw assertion totals/unique summary clean",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "parsed31parser/native exits and predeclared deadline",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "parsed31outer launcher is before-bound",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "recorder22exact native source map unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "recorder22raw assertion totals/unique summary clean",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "recorder22parser/native exits and predeclared deadline",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "recorder22outer launcher is before-bound",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all9 latest held runtime/metadata files exactly match native22",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "Main/HUD/FeatureHub/Book code is same in native20,parsed31,latest22",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "Book exactly retained corrected4ef source",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "12 existing Main scoring/contact/pause-reset/settings functions unchanged",
+      "pass": true,
+      "actual": []
+    },
+    {
+      "check": "lazy selected world is loaded once; Catalog does not instantiate worlds",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all7 level fields freed then cleared before world construction",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "level selection retains Music/audio/HUD/recorder objects",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "old capture invalidated before replacement; new registries reset on restart",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "profile save precedes switching record; selected domain applied before load",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "new selection stays paused and returns ordinary title",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "existing menu validation/release/settling functions unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "new level action uses existing pending transition boundary",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "empty activity layout returns before legacy coordinates",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "namespaced letters use labels without altering event identity",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "retained recorder snapshots and input rows carry current level",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "recorder draw/readback/report persistence mechanics unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "both export presets include Merchant JSON without changing all-resource policy",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "combined22 fixtures preserve original Score and declare score injection",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "parsed input31 uses real parsed events,release wait,cancel and bounded traversal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "latest22 adds only two recorder assertions to retained20 lifecycle fixture",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "older native geometry domain explicitly differs from unmeasured03a",
+      "pass": true,
+      "actual": {
+        "native22": {
+          "world": "06a005386c5f917afaee366f88599370beb2759e10cc22410ba0c96293a6edd7",
+          "layout": "3d3986eec8ce53097307723fe58fd77ebb502f49570dae297fe506603cb660ac"
+        },
+        "held03a": {
+          "world": "cd27467fe2c471ba85ab7e0dae776e1f98142270b49414aacc02b070774d7d9c",
+          "layout": "b6339c4722ed6a95e9223b4899d5c14a286a9d158ef5ff4e33e4cdaf74b60ecd"
+        }
+      }
+    }
+  ],
+  "runtime_pins": {
+    "game/main.gd": "bd32911d3ce13049cb5af4b62f064c1012480a67cab90e116e1b31da90dd32f0",
+    "game/ui/hud.gd": "478dc900852b85fd05af4b977e1d8b0ae5e6fcaea47c9c1348464c5f7d6419c6",
+    "game/features/feature_hub.gd": "30678a5cd3a6e43fd637d0470c4970f4f5dd490e7d1c7647e42ea63a79b47be4",
+    "game/progression/level_career_book.gd": "4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c",
+    "game/progression/level_catalog.gd": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+    "game/core/playtest_recorder.gd": "de1f5b8ed9a495a2064e7fbedef85fdc20b94f70db5cfa5511ae1ce3aac7c2ff",
+    "game/progression/objective_tracker.gd": "6c0860fa98db3c16cf86dacdc80f029dc551418a61205c24363c8b5f2e8aeb6d",
+    "game/ui/route_map.gd": "fe8e018b00840be29157ccc670856b1f510d0015c4aa525adda0eced63cf8951",
+    "export_presets.cfg": "623c5b61fc1ad1097a877b889eed093cde2c4a5365e4bf44bdbf030af2b363ae"
+  },
+  "native_results": {
+    "lifecycle02": [
+      20,
+      0
+    ],
+    "parsed_input03": [
+      31,
+      0
+    ],
+    "recorder03": [
+      22,
+      0
+    ]
+  },
+  "native_world_scope": {
+    "world": "06a005386c5f917afaee366f88599370beb2759e10cc22410ba0c96293a6edd7",
+    "layout": "3d3986eec8ce53097307723fe58fd77ebb502f49570dae297fe506603cb660ac"
+  },
+  "current_unmeasured_world_scope": {
+    "world": "cd27467fe2c471ba85ab7e0dae776e1f98142270b49414aacc02b070774d7d9c",
+    "layout": "b6339c4722ed6a95e9223b4899d5c14a286a9d158ef5ff4e33e4cdaf74b60ecd"
+  },
+  "verdict": "No remaining source/recorded-native lifecycle or recorder blocker found for guarded integration of these exact runtime files. New03a world, new public check hook and later full composition need their own native gates.",
+  "limits": [
+    "Source/persistence lifecycle and parsed synthetic input; no physical controller/human real-time/normal-speed/art/M5 outcome.",
+    "Lifecycle tests directly call HUD callbacks and inject explicit Score fixtures; parsed input uses actual events but declares initial title origin. Neither proves natural trick chains.",
+    "Native22 retains old02geometry06a/layout3d398; current shared03a overlay is not recertified.",
+    "Generated cache payloads were copied by value but not before-hashed by these native launchers.",
+    "New separate-app Book helper has its own exact native65/negative/cancellation successor packet; ordinary tools/check.sh hook itself remains unexecuted here.",
+    "Main score object is retained in combined22; older GAP134 tests swap their score recorder after tree entry, so that separate adversarial result is not complete score-callback wiring parity.",
+    "Recorder native22 checks direct snapshots before/after switching, not an actual mixed-level screenshot/ZIP session.",
+    "Old rejected freed-object20-with-errors and parsed27/4 fixtures remain retained."
+  ]
+}

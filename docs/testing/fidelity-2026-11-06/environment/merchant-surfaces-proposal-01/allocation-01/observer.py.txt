@@ -1,0 +1,36 @@
+from pathlib import Path
+import os,subprocess,time,datetime,hashlib,json,re,signal
+R=Path('/workspace/tam_hawks_ps');O=R/'.local/merchant-environment';P=O/'project';D=O/'allocation-01';D.mkdir(exist_ok=False)
+def inv():
+ files=[p for p in P.rglob('*') if p.is_file() and '.godot' not in p.parts and '.local' not in p.parts[len(P.parts):]]
+ for imp in (P/'game/art/assets/merchant_pbr').rglob('*.import'):
+  for resource in re.findall(r'^path\.s3tc="([^"]+)"$',imp.read_text(),re.M):files.append(P/resource.removeprefix('res://'))
+ return {str(p.relative_to(P)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(files))}
+def stop(p):
+ if p and p.poll() is None:
+  os.killpg(p.pid,signal.SIGTERM)
+  try:p.wait(timeout=3)
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
+before=inv();start=datetime.datetime.now(datetime.timezone.utc);deadline=time.monotonic()+60;xorg=p=None;error=None;event={}
+try:
+ with (D/'display').open('w') as display_file,(D/'xorg-console.log').open('w') as xlog:
+  xorg=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(display_file.fileno()),'-config',str(P/'tools/xorg-dummy.conf'),'-logfile',str(D/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=(display_file.fileno(),),stdout=xlog,stderr=subprocess.STDOUT,start_new_session=True)
+ for i in range(50):
+  display=(D/'display').read_text().strip()
+  if display:break
+  time.sleep(.1)
+ else:raise RuntimeError('No display')
+ env=os.environ.copy();env.update(DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1',LP_NUM_THREADS='4')
+ for k,l in [('XDG_DATA_HOME','data'),('XDG_CACHE_HOME','cache'),('XDG_CONFIG_HOME','config')]:env[k]=str(P/'.local'/l)
+ command=['godot','--path',str(P),'--rendering-method','gl_compatibility','--audio-driver','Dummy','--windowed','--resolution','1280x800','--script',str(P/'allocation.gd'),'--',str(D/'allocation.json')]
+ with (D/'engine.log').open('w') as log:
+  p=subprocess.Popen(command,cwd=P,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);event={'pid':p.pid,'xorg_pid':xorg.pid,'start':datetime.datetime.now(datetime.timezone.utc).isoformat(),'deadline':(start+datetime.timedelta(seconds=60)).isoformat(),'command':command};print(json.dumps(event),flush=True)
+  while p.poll() is None:
+   if re.search(r'SCRIPT ERROR:|ERROR:|FAIL:',(D/'engine.log').read_text(errors='replace')):raise RuntimeError('Native error')
+   if time.monotonic()>deadline:raise RuntimeError('60s deadline')
+   time.sleep(.1)
+  event.update(exit_code=p.returncode,end=datetime.datetime.now(datetime.timezone.utc).isoformat())
+  if p.returncode:raise RuntimeError('Native exit '+str(p.returncode))
+except Exception as e:error=str(e)
+finally:stop(p);stop(xorg)
+after=inv();(D/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(D/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');(D/'observer.py.txt').write_bytes(Path(__file__).read_bytes());(D/'allocation.gd.txt').write_bytes((P/'allocation.gd').read_bytes());changed=[n for n in before.keys()|after.keys() if before.get(n)!=after.get(n)];receipt={'event':event,'end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'error':error,'source_changed':changed,'scope':'Private standalone nativeGL texture allocation only; original/currentworldnotinstantiated, RAconfirmedgraphicsidle, rootauthorized. Other brief headless/parser jobs may overlap; no timing/FPS/M5 claim.'};(D/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt),flush=True);raise SystemExit(1 if error or changed else 0)

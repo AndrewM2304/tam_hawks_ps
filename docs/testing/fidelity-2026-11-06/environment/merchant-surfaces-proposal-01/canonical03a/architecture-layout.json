@@ -1,0 +1,356 @@
+{
+  "schema_version": 2,
+  "scope": "PRIVATE CONCEPT-LED GEOMETRY; source not yet parsed/native-tested; native bodies and openings belong to LD. Art must not add or move collision.",
+  "world_source": ".local/compact-level-replan/graybox/compact_world.gd",
+  "world_sha256": "cd27467fe2c471ba85ab7e0dae776e1f98142270b49414aacc02b070774d7d9c",
+  "materials": "build(parent:Node3D,materials:Dictionary,layout:Dictionary); use CityArt.make_materials shared dictionary supplied by world, no dress_world/full old world.",
+  "datums": {
+    "street_y": 4,
+    "high_street_top_y": 12,
+    "depot_dock_y": 6,
+    "depot_roof_y": 10,
+    "bridge_top_y": 9,
+    "bridge_underside_y": 8.5,
+    "ground_underpass_y": 4,
+    "underpass_clear_height_m": 4.5,
+    "upper_tricks_open_sky": true,
+    "old_basin_used": false,
+    "world_api_public_methods": 24
+  },
+  "mass_schema": {
+    "source": "layout.json building_masses",
+    "bounds_xz": "[minX,minZ,maxX,maxZ]",
+    "native_bottom": "min sampled corner ground minus0.5",
+    "native_top": "max sampled corner ground plus8",
+    "exceptions": "Depot replaces WAREHOUSE Rect2(30,-52,46,30) with two native roof blocks; all mass rectangles are additionally clipped by upper-close opening X-24..30/Z-40..-34. Native engine inventory will pin exact fragments."
+  },
+  "hero_frontages": [
+    {
+      "id": "high_street_west",
+      "type": "sandstone_tenement_shop",
+      "line_xz": [
+        [
+          -84,
+          -60
+        ],
+        [
+          -84,
+          -18
+        ]
+      ],
+      "face_into_street_xz": [
+        1,
+        0
+      ],
+      "ground": "local High Street grade, use world._ground for each sample; never one flat baseline",
+      "max_visual_depth_m": 0.16,
+      "purpose": "Sash windows, cornices, tall shop bays, stepped recessed tiled closes. No claimed precise real address.",
+      "view_from": [
+        -66,
+        12,
+        -42
+      ],
+      "view_to": [
+        -84,
+        10,
+        -40
+      ]
+    },
+    {
+      "id": "market_north_east",
+      "type": "sandstone_shop_corner",
+      "line_xz": [
+        [
+          -4,
+          -16
+        ],
+        [
+          20,
+          -16
+        ]
+      ],
+      "face_into_street_xz": [
+        0,
+        1
+      ],
+      "ground_y": 4,
+      "max_visual_depth_m": 0.12,
+      "purpose": "Barras-inspired original sign/awning rhythm and corner shop silhouette. Preserve the underpass arrival to east.",
+      "view_from": [
+        -14,
+        5.5,
+        25
+      ],
+      "view_to": [
+        12,
+        8,
+        -16
+      ]
+    },
+    {
+      "id": "market_south",
+      "type": "sandstone_retail",
+      "line_xz": [
+        [
+          -32,
+          44
+        ],
+        [
+          0,
+          44
+        ]
+      ],
+      "face_into_street_xz": [
+        0,
+        -1
+      ],
+      "ground_y": 4,
+      "max_visual_depth_m": 0.12,
+      "purpose": "Shop doors and cornices frame the square; avoid placing posts in the active return.",
+      "view_from": [
+        -14,
+        5.5,
+        20
+      ],
+      "view_to": [
+        -16,
+        8,
+        44
+      ]
+    },
+    {
+      "id": "depot_front",
+      "type": "brick_goods_depot",
+      "line_xz": [
+        [
+          30,
+          -22
+        ],
+        [
+          76,
+          -22
+        ]
+      ],
+      "face_into_street_xz": [
+        0,
+        1
+      ],
+      "ground_y": 4,
+      "dock_y": 6,
+      "roof_y": 10,
+      "gap_x": [
+        52,
+        54
+      ],
+      "max_visual_depth_m": 0.1,
+      "purpose": "Original Merchant Foundry depot lettering, brick pilasters, tall goods doors; roof gap stays open, dock edge/landing untouched.",
+      "view_from": [
+        48,
+        5,
+        10
+      ],
+      "view_to": [
+        54,
+        8,
+        -22
+      ]
+    },
+    {
+      "id": "depot_underpass",
+      "type": "brick_railway_arch",
+      "line_xz": [
+        [
+          28,
+          0
+        ],
+        [
+          76,
+          0
+        ]
+      ],
+      "face_into_street_xz": [
+        0,
+        1
+      ],
+      "ground_y": 4,
+      "underside_y": 8.5,
+      "roof_top_y": 9,
+      "reserved_clear_xz": [
+        28,
+        -12,
+        76,
+        0
+      ],
+      "max_visual_depth_m": 0.1,
+      "purpose": "Arch treatment must fit existing piers/soffit; no visual arch intrudes into the actual 4.5 m clear ground passage.",
+      "view_from": [
+        20,
+        5.5,
+        -6
+      ],
+      "view_to": [
+        64,
+        6,
+        -6
+      ]
+    },
+    {
+      "id": "foundry_east",
+      "type": "brick_industrial_edge",
+      "line_xz": [
+        [
+          92,
+          18
+        ],
+        [
+          92,
+          48
+        ]
+      ],
+      "face_into_street_xz": [
+        -1,
+        0
+      ],
+      "ground_y": 4,
+      "max_visual_depth_m": 0.12,
+      "purpose": "Brick warehouse/tall shop windows and restrained local original mural at a visible street edge, not a new sightseeing area.",
+      "view_from": [
+        66,
+        5.5,
+        34
+      ],
+      "view_to": [
+        92,
+        8,
+        34
+      ]
+    }
+  ],
+  "reserved_openings": [
+    {
+      "id": "ground_underpass",
+      "bounds_xz": [
+        28,
+        -12,
+        76,
+        0
+      ],
+      "floor_y": 4,
+      "clear_to_y": 8.5
+    },
+    {
+      "id": "upper_close_lower_opening",
+      "bounds_xz": [
+        -24,
+        -40,
+        30,
+        -34
+      ],
+      "floor_y": 4,
+      "clear_to_y": 9.5
+    },
+    {
+      "id": "depot_roof_gap",
+      "bounds_xz": [
+        52,
+        -52,
+        54,
+        -22
+      ],
+      "air_y_from": 10
+    },
+    {
+      "id": "foundry_north_bank",
+      "bounds_xz": [
+        48,
+        14,
+        58,
+        24
+      ],
+      "y_from": 4,
+      "y_to": 2.5
+    },
+    {
+      "id": "foundry_west_bank",
+      "bounds_xz": [
+        20,
+        24,
+        30,
+        30
+      ],
+      "y_from": 4,
+      "y_to": 2.5
+    }
+  ],
+  "budget": "Zero new texture bytes/shader types; reuse maps. Start six hero frontages only; count mesh/surface/triangle deltas. Keep roof/landing/runout and wallride native face visually legible.",
+  "revision_note": "Original contract retained. No facade datum/roof/portal change. Ground no-jump underpass lane is specifically the south4m strip; optional stairs/kicker/rail stay beside it. Native Box ledges replace the same visible low pads and sources.",
+  "ground_bypass_lane": {
+    "bounds_xz": [
+      28,
+      -4.5,
+      76,
+      -0.5
+    ],
+    "centre_z": -2.5,
+    "floor_y": 4,
+    "underside_y": 8.5
+  },
+  "status": "Shared03 nativeconstruction descriptor. Native source unparsed at freeze;actualunitframes/bayhulls exported after construction.",
+  "unit_source": "world.get_level_manifest().architecture_units: actualbody/path/RID, bounds, front_frames, floor_y/wall_bottom_y/eave_y/ridge_y,storeys,type,material_key,roofaxis andnative_bay_hulls.",
+  "projections": {
+    "native_bay_depth_m": 0.55,
+    "native_bay_lower_above_floor_m": 4.5,
+    "native_bay_upper_y": "unit.eave_y−.7",
+    "external_cornice_or_sill_waiver": false,
+    "rule": "Skin fits actualnativehulls/roof/wall. No externalprotrusion into protectedair or unbackedcontactspace."
+  },
+  "reserved_air": [
+    {
+      "id": "upper_close",
+      "bounds_xz": [
+        -24,
+        -40,
+        30,
+        -34
+      ],
+      "y": [
+        9.5,
+        17.5
+      ]
+    },
+    {
+      "id": "depot_roof_and_gap",
+      "bounds_xz": [
+        30,
+        -52,
+        76,
+        -22
+      ],
+      "y": [
+        9.7,
+        17.5
+      ]
+    },
+    {
+      "id": "depot_bridge_upper",
+      "bounds_xz": [
+        28,
+        -12,
+        76,
+        0
+      ],
+      "y": [
+        8.5,
+        16.5
+      ]
+    }
+  ],
+  "scope_changes": [
+    "109exposed-union frontageunits,29rear masses,4tighterMarketedge groups; no out-of-map/internalfacades.",
+    "Nativepitchedroof andcantedbayvolumes; indexedactualuppertriangle queries, notall-roof linear barycentricloops.",
+    "Bridge rampnowX30..38/Z−22..−12, Y10→9; DockEdgeX55..69 open sky.",
+    "Shallowportchannel endslocal10/worldZ30; deep11/worldZ30; explicitsupported1.5mdecks.",
+    "Cone andmarker movedtogether toX10.8 outside newEastMarketbuilding."
+  ],
+  "typed_only_correction": "03a only declares wanted:bool; frozen03geometry/layoutunchanged."
+}

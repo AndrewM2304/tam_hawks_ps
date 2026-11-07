@@ -1,0 +1,59 @@
+from pathlib import Path
+import datetime,fcntl,hashlib,json,os,re,signal,subprocess,sys,time
+R=Path('/workspace/tam_hawks_ps');S=R/'.local/neighbourhood-integration/project';BASE=R/'.local/qa-fidelity/book-launcher-isolation-02';BASE.mkdir(exist_ok=False);P=BASE/'subject';P.mkdir()
+FILES=['tools/testing/check_level_book.py','tests/level_career_book_tests.gd','game/progression/level_career_book.gd','game/progression/level_catalog.gd','game/progression/career_progress.gd','game/core/input_profile.gd','game/core/input_setup.gd','game/core/graphics_quality.gd']
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def inventory():return {**{'source/'+n:{'sha256':sha(S/n),'bytes':(S/n).stat().st_size}for n in FILES},**{'copied/'+n:{'sha256':sha(P/n),'bytes':(P/n).stat().st_size}for n in FILES},'outer-wrapper':{'sha256':sha(Path(__file__)),'bytes':Path(__file__).stat().st_size}}
+for n in FILES:
+ source=S/n
+ if not source.is_file()or source.is_symlink():raise RuntimeError('Invalid input '+n)
+ q=P/n;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(source.read_bytes())
+before=inventory();(BASE/'before.json').write_text(json.dumps(before,indent=2)+'\n');(BASE/'outer-wrapper.py.txt').write_bytes(Path(__file__).read_bytes());record={'started_utc':utc(),'scope':'Independent source-identical separate-app helper and missing/wrong-argument native controls. Copied by value; no ordinary game user namespace or actual source/cache modifications. Root-authorized secondary flock, concurrent primaryLD/qualitativeRA possible; no performance/Mac claim.','input_count':len(before),'lock':str(R/'.local/headless-secondary.lock'),'events':[]};children=[]
+def run(label,cmd,cwd,env,bound):
+ e={'label':label,'command':cmd,'started_utc':utc(),'bound_seconds':bound};record['events'].append(e);log=BASE/(label+'.log')
+ with log.open('wb')as stream:
+  p=subprocess.Popen(cmd,cwd=cwd,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True);children.append(p);e['pid']=p.pid;e['process_group']=p.pid
+  try:e['exit_code']=p.wait(timeout=bound)
+  except subprocess.TimeoutExpired:
+   e['timeout']=True;os.killpg(p.pid,signal.SIGTERM)
+   try:p.wait(timeout=2)
+   except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait(timeout=2)
+   e['exit_code']=p.returncode
+ e['finished_utc']=utc();e['log_sha256']=sha(log);return log.read_text(errors='replace')
+try:
+ with (R/'.local/headless-secondary.lock').open('a')as lock:
+  fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);record['lock_acquired_utc']=utc()
+  env=dict(os.environ,GODOT_BIN='/usr/local/bin/godot')
+  text=run('helper-positive',[sys.executable,str(P/'tools/testing/check_level_book.py')],P,env,70)
+  paths=re.findall(r'^Book fixture evidence: (.+)$',text,re.M)
+  if len(paths)!=1:raise RuntimeError('Positive helper did not expose one completed evidence directory')
+  generated=Path(paths[0]);record['positive_project']=str(generated);record['positive_receipt']=json.loads((generated/'receipt.json').read_text())
+  record['positive_result']=json.loads((generated/'.local/book-test-result.json').read_text())
+  record['negative_projects']=[]
+  for mode in ['missing','wrong']:
+   N=BASE/('negative-'+mode);N.mkdir();app='TamHawksBookFixtures-book-check-qa-'+mode+'-'+str(time.time_ns())
+   for n in FILES[1:]:q=N/n;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes((P/n).read_bytes())
+   (N/'.local').mkdir();config='config_version=5\n[application]\nconfig/use_custom_user_dir=false\nconfig/name='+json.dumps(app)+'\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n';(N/'project.godot').write_text(config)
+   for d in ['data','cache','config']:(N/'xdg'/d).mkdir(parents=True)
+   user=N/'xdg/data/godot/app_userdata'/app;user.mkdir(parents=True)
+   sentinels={}
+   for n in ['career.json','career.json.bak','career-v2.json','career-v2.json.tmp']:
+    b=json.dumps({'owner':'independent-negative-sentinel','name':n}).encode();(user/n).write_bytes(b);sentinels[n]=hashlib.sha256(b).hexdigest()
+   neg_before={str(p.relative_to(N)):sha(p)for p in N.rglob('*')if p.is_file()};(BASE/(mode+'-before.json')).write_text(json.dumps(neg_before,indent=2)+'\n')
+   nenv=dict(env,**{'XDG_'+d.upper()+'_HOME':str(N/'xdg'/d)for d in ['data','cache','config']})
+   cmd=['/usr/local/bin/godot','--headless','--audio-driver','Dummy','--path',str(N),'--script','res://tests/level_career_book_tests.gd']
+   if mode=='wrong':cmd+=['--','--book-fixture-app='+app+'-foreign']
+   log=run('negative-'+mode,cmd,N,nenv,15)
+   after={str(p.relative_to(N)):sha(p)for p in N.rglob('*')if p.is_file()and'.godot'not in p.parts};(BASE/(mode+'-after.json')).write_text(json.dumps(after,indent=2)+'\n')
+   record['negative_projects'].append({'mode':mode,'application_name':app,'project':str(N),'user_data_expected_linux':str(user),'sentinels':sentinels,'sentinels_unchanged':all(sha(user/n)==h for n,h in sentinels.items()),'all_prebound_files_unchanged':all(after.get(n)==h for n,h in neg_before.items()),'native_profile_JSONs':sorted(str(p.relative_to(user))for p in user.rglob('*.json')),'fixture_directories':list(str(p.relative_to(user))for p in user.glob('fixtures-*')),'native_namespace_emitted':'BOOK_FIXTURE_NAMESPACE'in log,'result_file_created':(N/'.local/book-test-result.json').exists(),'refusal':log.count('Book fault fixtures require the isolated tools/testing/check_level_book.py launcher.')==1})
+except BaseException as e:
+ record['error']=repr(e)
+ for p in children:
+  if p.poll()is None:
+   os.killpg(p.pid,signal.SIGTERM)
+   try:p.wait(timeout=2)
+   except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait(timeout=2)
+finally:
+ after=inventory();(BASE/'after.json').write_text(json.dumps(after,indent=2)+'\n');record['changed_inputs']=[n for n in before.keys()|after.keys()if before.get(n)!=after.get(n)];record['finished_utc']=utc();record['elapsed_seconds']=(datetime.datetime.fromisoformat(record['finished_utc'])-datetime.datetime.fromisoformat(record['started_utc'])).total_seconds();record['scope_not_Mac']='Native runs are Linux; unique app/user-dir guard implementation is portable source, not realMac filesystem evidence.';record['eligible']=not record.get('error')and not record['changed_inputs']and len(record['events'])==3 and [e['exit_code']for e in record['events']]==[0,1,1]and record['positive_receipt']['eligible']and all(n['sentinels_unchanged']and n['all_prebound_files_unchanged']and not n['fixture_directories']and not n['native_namespace_emitted']and not n['result_file_created']and n['refusal']for n in record.get('negative_projects',[]));(BASE/'receipt.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps({'eligible':record['eligible'],'events':record['events'],'error':record.get('error'),'changed':record['changed_inputs'],'seconds':record['elapsed_seconds']},indent=2))
+raise SystemExit(0 if record['eligible']else 1)

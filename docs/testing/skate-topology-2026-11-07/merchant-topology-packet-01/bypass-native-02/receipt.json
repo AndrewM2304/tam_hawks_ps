@@ -1,0 +1,99 @@
+{
+  "start_utc": "2026-11-07T12:08:24.937311+00:00",
+  "source_count": 722,
+  "source_matches_producer_freeze": true,
+  "project": "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+  "observer_sha256": "9391437950b5ce722f5162273bdca244efd812ac121e6a1c7db2b1fb81834afb",
+  "wrapper_sha256": "3c97b6384fe553b0e5c255872b586e02c4e0b2182a80883aa97c765353a08336",
+  "pre_processes": [
+    {
+      "pid": "82100",
+      "pgid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    },
+    {
+      "pid": "127119",
+      "pgid": "126872",
+      "state": "Rl",
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+    }
+  ],
+  "explicit_overlap": "Actual required04 primary127119 only; untimed private topology diagnostics, no FPS/M5 claim",
+  "stages": [
+    {
+      "label": "parser",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--check-only",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/skate-topology-review/bypass_probe.gd"
+      ],
+      "start_utc": "2026-11-07T12:08:24.937614+00:00",
+      "bound_seconds": 15,
+      "pid": 129779,
+      "process_group": 129779,
+      "deadline_utc": "2026-11-07T12:08:39.938472+00:00",
+      "end_utc": "2026-11-07T12:08:26.805255+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "label": "native",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/compact-level-replan/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/skate-topology-review/bypass_probe.gd"
+      ],
+      "start_utc": "2026-11-07T12:08:26.805606+00:00",
+      "bound_seconds": 105,
+      "pid": 129797,
+      "process_group": 129797,
+      "deadline_utc": "2026-11-07T12:10:11.807504+00:00",
+      "end_utc": "2026-11-07T12:08:57.229191+00:00",
+      "exit_code": 1,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "537d1d002d9b19d7f6e6ec3078a0f2d29a716d2acf5f3b401836b245e5f4e039"
+    }
+  ],
+  "aggregate_bound_seconds": 120,
+  "end_utc": "2026-11-07T12:08:59.040708+00:00",
+  "source_stable": true,
+  "actual_source_inputs": 899,
+  "actual_source_stable": true,
+  "post_processes": [
+    {
+      "pid": "82100",
+      "pgid": "82062",
+      "state": "Z",
+      "command": "[godot] <defunct>"
+    },
+    {
+      "pid": "127119",
+      "pgid": "126872",
+      "state": "Rl",
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+    }
+  ],
+  "result": {
+    "passed": 39,
+    "failed": 1,
+    "runs": 10
+  },
+  "eligible": false
+}

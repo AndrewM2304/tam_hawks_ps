@@ -1,0 +1,117 @@
+{
+	"phase": "candidate",
+	"views": [
+		{
+			"basis": "[X: (0.982872, 0.0, 0.184289), Y: (-0.01691, 0.995782, 0.090184), Z: (-0.183511, -0.091756, 0.978726)]",
+			"buffer_memory": 13655688.0,
+			"clean_api": {
+				"buffer_memory": 13655688.0,
+				"draw_calls": 373.0,
+				"primitives": 470438.0,
+				"scope": "Per-process native API; warm source baseline includes identical observer markers/Canvas, no timing claim.",
+				"texture_memory": 57111334.0
+			},
+			"clean_png": "res://candidate-depot_front-clean.png",
+			"clean_png_sha256": "bcf0b7a782a9cb1e8d46f012d8ba73eb598eab0e765e3a4fda04f96d8b999c98",
+			"draw_calls": 375.0,
+			"far": 250.0,
+			"fov": 70.0,
+			"id": "depot_front",
+			"near": 0.100000001490116,
+			"physics_frames": 80,
+			"png": "res://candidate-depot_front.png",
+			"png_sha256": "53a1317dc7eefd9ad323334007b519177730a6cd214c66e2606dfd0a5ead36e2",
+			"position": "(48.0, 5.0, 10.0)",
+			"primitives": 470598.0,
+			"process_frames": 9,
+			"projection": "[X: (0.892592, 0.0, 0.0, 0.0), Y: (0.0, 1.428148, 0.0, 0.0), Z: (0.0, 0.0, -1.0008, -1.0), W: (0.0, 0.0, -0.20008, 0.0)]",
+			"raw_rgba_sha256": "8c2d414b9d90392a52949df25100a156c752afc0ea8139c0b80912c0ea7c1ad9",
+			"size": [
+				1280,
+				800
+			],
+			"synchronization": {
+				"canvas_pass": true,
+				"canvas_pixel": "(14, 14)",
+				"canvas_rgba8": "20df60ff",
+				"logical_viewport_size": "(1440.0, 900.0)",
+				"scope": "Proven rider_asset_inspect clean/proof changed-pixel dominance+centroid helper, independent fixed world points, natural frame_post_draw, no forced draw/pure-RGB assumption.",
+				"world_markers": [
+					{
+						"centroid_error": 0.107343211770058,
+						"color_channel": "red",
+						"count": 14,
+						"pass": true,
+						"projected_pixel": "(378.075, 395.1375)",
+						"world": "(40.0, 8.0, -21.8)"
+					},
+					{
+						"centroid_error": 0.360233098268509,
+						"color_channel": "green",
+						"count": 8,
+						"pass": true,
+						"projected_pixel": "(834.7658, 403.0434)",
+						"world": "(66.0, 8.0, -21.8)"
+					}
+				]
+			},
+			"texture_memory": 57111334.0
+		},
+		{
+			"basis": "[X: (-0.0, 0.0, 1.0), Y: (-0.011363, 0.999935, -0.0), Z: (-0.999935, -0.011363, -0.0)]",
+			"buffer_memory": 13655688.0,
+			"clean_api": {
+				"buffer_memory": 13655688.0,
+				"draw_calls": 513.0,
+				"primitives": 563284.0,
+				"scope": "Per-process native API; warm source baseline includes identical observer markers/Canvas, no timing claim.",
+				"texture_memory": 57111334.0
+			},
+			"clean_png": "res://candidate-depot_underpass-clean.png",
+			"clean_png_sha256": "a9e1a1d296b6da9630b9f0e0cd09b0d8a721ba1d1d4f4eee92d97c7f5fc2441e",
+			"draw_calls": 515.0,
+			"far": 250.0,
+			"fov": 70.0,
+			"id": "depot_underpass",
+			"near": 0.100000001490116,
+			"physics_frames": 96,
+			"png": "res://candidate-depot_underpass.png",
+			"png_sha256": "88e607e580cc114d05b57b6a8b411d561b47cca409ce9fe927e7b25cd6cdf352",
+			"position": "(20.0, 5.5, -6.0)",
+			"primitives": 563444.0,
+			"process_frames": 11,
+			"projection": "[X: (0.892592, 0.0, 0.0, 0.0), Y: (0.0, 1.428148, 0.0, 0.0), Z: (0.0, 0.0, -1.0008, -1.0), W: (0.0, 0.0, -0.20008, 0.0)]",
+			"raw_rgba_sha256": "a6895d9450391b82d35afce6e97948a209a6c87d761ed2411f0955c23da294a5",
+			"size": [
+				1280,
+				800
+			],
+			"synchronization": {
+				"canvas_pass": true,
+				"canvas_pixel": "(14, 14)",
+				"canvas_rgba8": "20df60ff",
+				"logical_viewport_size": "(1440.0, 900.0)",
+				"scope": "Proven rider_asset_inspect clean/proof changed-pixel dominance+centroid helper, independent fixed world points, natural frame_post_draw, no forced draw/pure-RGB assumption.",
+				"world_markers": [
+					{
+						"centroid_error": 0.158625543117523,
+						"color_channel": "red",
+						"count": 165,
+						"pass": true,
+						"projected_pixel": "(292.7327, 230.0)",
+						"world": "(30.0, 8.6, -12.1)"
+					},
+					{
+						"centroid_error": 0.134833410382271,
+						"color_channel": "green",
+						"count": 13,
+						"pass": true,
+						"projected_pixel": "(748.7835, 351.2046)",
+						"world": "(52.0, 8.6, 0.1)"
+					}
+				]
+			},
+			"texture_memory": 57111334.0
+		}
+	]
+}

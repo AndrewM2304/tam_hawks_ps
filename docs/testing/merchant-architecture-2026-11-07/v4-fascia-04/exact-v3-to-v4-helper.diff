@@ -1,0 +1,11 @@
+--- V3/merchant_architecture.gd
++++ V4/merchant_architecture.gd
+@@ -281,7 +281,7 @@
+ 	# A thin floating decorative curve was rejected in native views. Joined
+ 	# girder webs/flanges instead meet that exact existing slab edge; no new
+ 	# component enters the4.5m clear ground passage or published9m roof.
+-	for x: float in [28.05,75.95]:
++	for x: float in [27.95,76.05]:
+ 		_box("iron",Vector3(.09,.40,11.94),Vector3(x,8.74,-6),Transform3D.IDENTITY)
+ 		for y: float in [8.55,8.93]:
+ 			_box("iron",Vector3(.10,.06,11.96),Vector3(x,y,-6),Transform3D.IDENTITY)
