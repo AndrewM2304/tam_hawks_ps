@@ -1,0 +1,211 @@
+extends SceneTree
+const World=preload("res://game/levels/merchant_neighbourhood.gd")
+const Art=preload("res://game/levels/art/merchant_architecture.gd")
+const Look=preload("res://game/levels/art/merchant_surfaces.gd")
+var output: String
+var _native_size:=Vector2i(1280,800)
+var _raw_spool:=false
+var checks:=0
+var failures:=0
+var _proof_markers: Array[MeshInstance3D]=[]
+var _proof_swatch: ColorRect
+var _active_proof_camera: Camera3D
+var images: Array[Dictionary]=[]
+var modes: Dictionary={}
+var world: Node3D
+var candidate: Dictionary={}
+var light: DirectionalLight3D
+var environment: Environment
+var original_energy: float
+var original_ambient: float
+var before_native: Array=[]
+func _initialize() -> void:_run.call_deferred()
+func _run() -> void:
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=1 or DisplayServer.get_name()=="headless":quit(2);return
+	output=args[0];DirAccess.make_dir_recursive_absolute(output)
+	root.size=_native_size;root.content_scale_size=_native_size
+	RenderingServer.set_render_loop_enabled(false)
+	world=World.new();root.add_child(world)
+	await physics_frame
+	var architecture: Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://architecture-layout.json"))
+	var architecture_root: Node3D=Art.build(world,world._materials,architecture)
+	_check(architecture_root.report.errors.is_empty(),"ARv5 accepts the same canonical03a native frontage bindings")
+	before_native=_native(world)
+	light=world.find_children("*","DirectionalLight3D",true,false)[0]
+	environment=world.find_children("*","WorldEnvironment",true,false)[0].environment
+	original_energy=light.light_energy;original_ambient=environment.ambient_light_energy
+	_active_proof_camera=Camera3D.new();_active_proof_camera.near=.1;_active_proof_camera.far=250;_active_proof_camera.fov=70
+	root.add_child(_active_proof_camera);_active_proof_camera.current=true
+	_create_pixel_proofs()
+	var views: Array[Dictionary]=[]
+	for entry: Dictionary in architecture.hero_frontages:
+		if str(entry.id) in ["high_street_west","market_south","depot_front","foundry_east"]:
+			views.append({"id":entry.id,"at":Vector3(entry.view_from[0],entry.view_from[1],entry.view_from[2]),"to":Vector3(entry.view_to[0],entry.view_to[1],entry.view_to[2])})
+	views.append({"id":"foundry_concrete_close","at":Vector3(44,6,53),"to":Vector3(44,1.6,41)})
+	var noise: Texture2D=world._materials.skate_concrete.albedo_texture
+	if noise.get_image()==null:await noise.changed
+	for mode: int in 4:
+		var label: String=["original-a","balance-only","balance-and-surfaces","original-b"][mode]
+		light.light_energy=.86 if mode in [1,2] else original_energy
+		environment.ambient_light_energy=.36 if mode in [1,2] else original_ambient
+		if mode==2:
+			candidate=Look.apply(world,world._materials,world._layout)
+			_export_geometry(candidate)
+		if mode==3:Look.restore(candidate)
+		_check(_native(world)==before_native,"all native bodies/shapes/properties/datums remain identical in "+label)
+		modes[label]={"energy":light.light_energy,"ambient":environment.ambient_light_energy,"sun_name":light.name,"sun_colour":[light.light_color.r,light.light_color.g,light.light_color.b],"sun_rotation":_v(light.rotation_degrees),"shadow_mode":light.directional_shadow_mode,"shadow_max_distance":light.directional_shadow_max_distance,"bias":light.shadow_bias,"normal_bias":light.shadow_normal_bias,"changed_light_fields_only":["light_energy","ambient_light_energy"],"surface_report":candidate.get("report",{}) if mode==2 else {}}
+		for i: int in views.size():
+			var view: Dictionary=views[i]
+			_active_proof_camera.position=view.at;_active_proof_camera.look_at(view.to)
+			_proof_markers[0].global_position=_active_proof_camera.to_global(Vector3(-2.0+i*.20+mode*.10,1.3,-5))
+			_proof_markers[1].global_position=_active_proof_camera.to_global(Vector3(2.0-i*.10,1.0+mode*.05,-5))
+			_proof_swatch.color=Color8(20+55*mode,35+35*i,190-25*mode)
+			await process_frame;await create_timer(0.0,true).timeout
+			var physics_before:=Engine.get_physics_frames();var process_before:=Engine.get_process_frames()
+			var image: Image=await _render_current_frame()
+			var proof:=_verify_pixel_proofs(image)
+			var projection:=_active_proof_camera.get_camera_projection()
+			var filename:=label+"-"+str(view.id)+".png"
+			images.append({"file":filename,"mode":label,"view":view.id,"pixels":_store_frame(image,filename),"proofs":proof,"camera_position":_v(_active_proof_camera.position),"camera_basis":[_v(_active_proof_camera.global_basis.x),_v(_active_proof_camera.global_basis.y),_v(_active_proof_camera.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],"near":_active_proof_camera.near,"far":_active_proof_camera.far,"fov":_active_proof_camera.fov,"keep_aspect":_active_proof_camera.keep_aspect,"viewport":[root.size.x,root.size.y],"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"draws":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)})
+			_write(false)
+	_check(images.size()==20,"all20fivevieworiginal/lightonly/surfaces/restore images complete")
+	_write(true);print("MERCHANT_MATERIAL_VIEWS ",checks-failures,"/",failures);quit(1 if failures else 0)
+func _write(complete: bool) -> void:
+	var file:=FileAccess.open(output.path_join("views.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify({"complete":complete,"checks":checks,"failures":failures,"images":images,"modes":modes,"world_sha256":FileAccess.get_sha256("res://game/levels/merchant_neighbourhood.gd"),"engine":Engine.get_version_info(),"scope":"Private selected-world source-bound fiveviewstillcontrol: originalsun1.3/ambient.5, ONLYtwofieldlegacybalance.86/.36, samebalance+exacttrianglematerialzones/photographicconcrete, restoredsource. No new light/collision/geometry/guide. Full nativeframe/Canvas/worldmarker/camera/RGBAproofs; not actualMain/M5/moving/FPS/finalart acceptance. Bothold/newresourcesheldforrestoration, resourcecostmeasuredinseparateprocess."},"\t")+"\n");file.close()
+
+func _render_current_frame() -> Image:
+	# Let the engine flush current Node3D, Skeleton and Canvas notifications in
+	# its normal render pass. Manual force_draw immediately after changing the
+	# camera can read the previous camera, even when metadata is already current.
+	var native_tick := Engine.get_physics_frames()
+	var process_tick := Engine.get_process_frames()
+	var started := Time.get_ticks_usec()
+	RenderingServer.set_render_loop_enabled(true)
+	await RenderingServer.frame_post_draw
+	RenderingServer.set_render_loop_enabled(false)
+	_check(Engine.get_physics_frames() == native_tick and Engine.get_process_frames() == process_tick,
+		"natural readback completes the current frame without another physics/process tick")
+	var image := root.get_texture().get_image()
+	image.convert(Image.FORMAT_RGBA8)
+	_check(image.get_width() == _native_size.x and image.get_height() == _native_size.y,
+		"native capture retains every pixel of its declared "+str(_native_size)+" viewport")
+	image.set_meta("draw_and_read_microseconds", Time.get_ticks_usec() - started)
+	return image
+
+func _store_frame(image: Image, relative: String) -> Dictionary:
+	var started := Time.get_ticks_usec()
+	var bytes := image.get_data()
+	var hash := HashingContext.new()
+	hash.start(HashingContext.HASH_SHA256)
+	hash.update(bytes)
+	var pixel_hash := hash.finish().hex_encode()
+	if _raw_spool:
+		var raw_path := output.path_join(relative.get_basename() + ".rgba")
+		var file := FileAccess.open(raw_path + ".tmp", FileAccess.WRITE)
+		_check(file != null, "raw pixel spool opened " + relative)
+		if file != null:
+			file.store_buffer(bytes)
+			file.close()
+			_check(DirAccess.rename_absolute(raw_path + ".tmp", raw_path) == OK,
+				"complete native pixel spool published atomically " + relative)
+	else:
+		_check(image.save_png(output.path_join(relative)) == OK, "lossless frame saved " + relative)
+	return {"format":"RGBA8", "rgba8_sha256":pixel_hash, "bytes":bytes.size(),
+		"draw_and_read_microseconds":image.get_meta("draw_and_read_microseconds", 0),
+		"hash_and_store_microseconds":Time.get_ticks_usec() - started,
+		"encoding":"atomic raw spool to standard-library lossless PNG" if _raw_spool else "Godot lossless PNG"}
+
+func _v(point: Vector3) -> Array:
+	return [point.x, point.y, point.z]
+
+func _v4(value: Vector4) -> Array:
+	return [value.x,value.y,value.z,value.w]
+
+func _check(ok: bool, label: String) -> void:
+	checks += 1
+	if not ok:
+		failures += 1
+		push_error("FAIL: " + label)
+
+func _create_pixel_proofs() -> void:
+	for color: Color in [Color.RED,Color.GREEN]:
+		var mesh := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.055
+		sphere.height = 0.11
+		sphere.radial_segments = 12
+		sphere.rings = 6
+		mesh.mesh = sphere
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.albedo_color = color
+		material.no_depth_test = true
+		mesh.material_override = material
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		root.add_child(mesh)
+		_proof_markers.append(mesh)
+	var canvas := CanvasLayer.new()
+	root.add_child(canvas)
+	_proof_swatch = ColorRect.new()
+	_proof_swatch.position = Vector2(4,4)
+	_proof_swatch.size = Vector2(18,18)
+	canvas.add_child(_proof_swatch)
+
+func _verify_pixel_proofs(image: Image) -> Dictionary:
+	var records: Array[Dictionary] = []
+	for index: int in _proof_markers.size():
+		var point := _proof_markers[index].global_position
+		var projected := _active_proof_camera.unproject_position(point)
+		var center := Vector2.ZERO
+		var count := 0
+		for y: int in range(maxi(0,int(projected.y)-10),mini(image.get_height(),int(projected.y)+11)):
+			for x: int in range(maxi(0,int(projected.x)-10),mini(image.get_width(),int(projected.x)+11)):
+				var color := image.get_pixel(x,y)
+				var found := color.r>0.75 and color.r-color.g>0.20 and color.r-color.b>0.20 if index==0 else color.g>0.75 and color.g-color.r>0.20 and color.g-color.b>0.20
+				if found: center+=Vector2(x+0.5,y+0.5);count+=1
+		if count: center/=float(count)
+		var error := center.distance_to(projected)
+		_check(count>=8 and error<=2.0,"projected independent3D marker matches actual pixels")
+		records.append({"color":"red" if index==0 else "green","world_position":_v(point),"projected_xy":[projected.x,projected.y],"pixel_count":count,"centroid_xy":[center.x,center.y],"error_pixels":error})
+	var expected := _proof_swatch.color
+	var actual := image.get_pixel(10,10)
+	var swatch_error := maxf(absf(expected.r-actual.r),maxf(absf(expected.g-actual.g),absf(expected.b-actual.b)))
+	_check(swatch_error<=2.0/255.0,"current Canvas material/view swatch agrees with native pixels")
+	return {"markers":records,"canvas_expected_rgb":[expected.r,expected.g,expected.b],"canvas_actual_rgb":[actual.r,actual.g,actual.b],"canvas_error":swatch_error,"canvas_sample_xy":[10,10]}
+
+func _native(node: Node) -> Array:
+	var data: Array=[]
+	if node is CollisionObject3D:data.append([str(node.get_path()),node.get_class(),node.transform,node.collision_layer,node.collision_mask])
+	if node is CollisionShape3D:
+		var props: Dictionary={}
+		for property: Dictionary in node.shape.get_property_list():
+			if int(property.usage)&PROPERTY_USAGE_STORAGE and property.name not in ["resource_name","resource_local_to_scene","script"]:props[property.name]=node.shape.get(property.name)
+		data.append([str(node.get_path()),node.transform,node.disabled,node.shape.get_class(),props])
+	for child: Node in node.get_children():data.append_array(_native(child))
+	return data
+
+func _export_geometry(state: Dictionary) -> void:
+	var ground: MeshInstance3D=state.meshes[0].node
+	var original: ArrayMesh=state.meshes[0].mesh
+	var entries: Array[Dictionary]=[]
+	var source: Dictionary=RenderingServer.mesh_get_surface(original.get_rid(),0)
+	entries.append(_export_surface(source,"original",original.surface_get_array_len(0)))
+	for mapping: Dictionary in state.mappings:
+		var data: Dictionary=RenderingServer.mesh_get_surface(ground.mesh.get_rid(),mapping.surface)
+		var entry:=_export_surface(data,str(mapping.zone),ground.mesh.surface_get_array_len(mapping.surface))
+		entry["original_vertices"]=mapping.original_vertices
+		entry["original_triangles"]=mapping.original_triangles
+		entries.append(entry)
+	var file:=FileAccess.open(output.path_join("ground-native-arrays.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify({"surfaces":entries,"scope":"Actual native packed vertex/normal/tangent/UV/index buffers read under GL, with original referenced-vertex/triangle mappings for independent byte-exact reconstruction. No CPU normal decoding assumed."},"\t")+"\n");file.close()
+func _export_surface(data: Dictionary,id: String,count: int) -> Dictionary:
+	var entry: Dictionary={"id":id,"vertex_count":count,"format":data.format,"vertex_stride":RenderingServer.mesh_surface_get_format_vertex_stride(data.format,count),"normal_tangent_stride":RenderingServer.mesh_surface_get_format_normal_tangent_stride(data.format,count),"attribute_stride":RenderingServer.mesh_surface_get_format_attribute_stride(data.format,count),"index_stride":RenderingServer.mesh_surface_get_format_index_stride(data.format,count)}
+	for key: String in ["vertex_data","attribute_data","index_data"]:
+		var bytes: PackedByteArray=data[key]
+		var name:=id+"-"+key+".bin"
+		var file:=FileAccess.open(output.path_join(name),FileAccess.WRITE);file.store_buffer(bytes);file.close()
+		var hash:=HashingContext.new();hash.start(HashingContext.HASH_SHA256);hash.update(bytes)
+		entry[key]={"file":name,"bytes":bytes.size(),"sha256":hash.finish().hex_encode()}
+	return entry

@@ -1,0 +1,29 @@
+extends SceneTree
+const Art=preload("res://game/levels/art/merchant_architecture.gd")
+var results:Array=[]
+var passed:=0
+var failed:=0
+func check(ok:bool,label:String)->void:
+	if ok:passed+=1;print("PASS: ",label)
+	else:failed+=1;print("FAIL: ",label)
+func hash_variant(value:Variant)->String:
+	var h:=HashingContext.new();h.start(HashingContext.HASH_SHA256);h.update(var_to_bytes(value));return h.finish().hex_encode()
+func _initialize()->void:
+	for size:Vector2 in [Vector2(1.4,2.0),Vector2(.8,1.6),Vector2(2.0,2.5)]:
+		var kit:Dictionary=Art.make_window_kit(size.x,size.y)
+		var mesh:ArrayMesh=kit.glazing
+		var arrays:Array=mesh.surface_get_arrays(0)
+		var uv:PackedVector2Array=arrays[Mesh.ARRAY_TEX_UV]
+		var lo:=Vector2(INF,INF);var hi:=Vector2(-INF,-INF)
+		for point:Vector2 in uv:lo=lo.min(point);hi=hi.max(point)
+		var room_span:Vector2=(hi-lo)*Vector2(3,2)
+		check(room_span.distance_to(Vector2.ONE)<.000001,"one complete shader room per actual pane "+str(size))
+		var record:Dictionary={"size":size,"room_span":room_span,"glazing_arrays":{},"glazing_format":mesh.surface_get_format(0),"stone":hash_variant(kit.stone.surface_get_arrays(0)),"timber":hash_variant(kit.timber.surface_get_arrays(0))}
+		for index:int in range(Mesh.ARRAY_MAX):
+			if arrays[index]!=null:record.glazing_arrays[str(index)]={"sha256":hash_variant(arrays[index]),"data":arrays[index]}
+		results.append(record)
+	var f:=FileAccess.open(OS.get_cmdline_user_args()[0],FileAccess.WRITE)
+	f.store_var({"passed":passed,"failed":failed,"results":results},true);f.close()
+	var json_file:=FileAccess.open(OS.get_cmdline_user_args()[0]+".json",FileAccess.WRITE)
+	json_file.store_string(JSON.stringify({"passed":passed,"failed":failed,"rooms":results},"\t")+"\n");json_file.close()
+	print("WINDOW_ROOM_UV: ",passed," passed, ",failed," failed");quit(1 if failed else 0)

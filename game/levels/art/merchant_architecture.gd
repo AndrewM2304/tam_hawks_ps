@@ -402,7 +402,7 @@ static func make_window_kit(width: float = 1.4,height: float = 2.0) -> Dictionar
 		Vector3(0,(mullion_top+mullion_bottom)*.5,-.1925))
 	var glazing := SurfaceTool.new();glazing.begin(Mesh.PRIMITIVE_TRIANGLES)
 	_kit_quad(glazing,Vector3(-width*.5,-height*.5,-.245),Vector3(width*.5,-height*.5,-.245),
-		Vector3(width*.5,height*.5,-.245),Vector3(-width*.5,height*.5,-.245),Vector3.BACK)
+		Vector3(width*.5,height*.5,-.245),Vector3(-width*.5,height*.5,-.245),Vector3.BACK,Vector2(width,height))
 	var result := {"stone":_kit_finish(stone),"timber":_kit_finish(timber),"glazing":_kit_finish(glazing),
 		"width_m":width,"height_m":height,"sash_recess_m":.16,"glazing_recess_m":.245,
 		"sill_projection_m":.09,"stone_section":stone_section,"timber_section":timber_section,
@@ -461,7 +461,7 @@ static func _kit_box(surface: SurfaceTool,size: Vector3,at: Vector3) -> void:
 		_kit_quad(surface,a,e,j,d,Vector3.LEFT)
 		_kit_quad(surface,b,c,g,f,Vector3.RIGHT)
 
-static func _kit_quad(surface: SurfaceTool,a: Vector3,b: Vector3,c: Vector3,d: Vector3,normal: Vector3) -> void:
+static func _kit_quad(surface: SurfaceTool,a: Vector3,b: Vector3,c: Vector3,d: Vector3,normal: Vector3,glazing_size: Vector2 = Vector2.ZERO) -> void:
 	for triangle: Array in [[a,b,c],[a,c,d]]:
 		# Godot's visible winding is clockwise viewed from the supplied normal.
 		if (triangle[1]-triangle[0]).cross(triangle[2]-triangle[0]).dot(normal)>0: triangle.reverse()
@@ -470,6 +470,10 @@ static func _kit_quad(surface: SurfaceTool,a: Vector3,b: Vector3,c: Vector3,d: V
 			var uv := Vector2(vertex.x,vertex.y)
 			if absf(normal.z)<.5:
 				uv = Vector2(vertex.z,vertex.y) if absf(normal.x)>absf(normal.y) else Vector2(vertex.x,vertex.z)
+			if glazing_size != Vector2.ZERO:
+				# SharedGlazing expects a BoxMesh front atlas cell. One complete
+				# opening spans U1/3..2/3,V0..1/2 before its shader multiplies3x2.
+				uv = Vector2(.5+vertex.x/(3.0*glazing_size.x),.25+vertex.y/(2.0*glazing_size.y))
 			surface.set_uv(uv)
 			surface.add_vertex(vertex)
 

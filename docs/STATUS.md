@@ -16,6 +16,15 @@ pushed checkpoint is **7737f9e**, covering the natural push arm carrier and its
 complete6,697/0 regression. The new Merchant integration installs85 source/data
 files over that base, with853 other recorded inputs preserved during installation.
 
+The pushed Merchant checkpoint is **d5498ab**, confirmed equal to origin/main.
+The subsequent window-UV fix now passes the complete
+[required07 check](testing/merchant-district-2026-11-07/required07-window-complete/README.md):
+6,709/0 game,2/0 CLI,65/0 Book,22/0 lifecycle and31/0 parsed-menu checks, all941
+inputs exact, raw eligibletrue,1,815.650159s. Native3/0 and matched26/0+26/0
+views retain exact geometry/tangents/counters while removing repeated room-grid
+fragments from the panes. Only the glazing UV assignment changes production.
+Full-Main timing, M5 and final independent art review remain open.
+
 The new default is **Merchant District**: High Street terraces, Market Cross,
 Depot/Roofs and Foundry Court. **City Tour** is separately selectable; only one
 world is live. Old progress migrates into City Tour, goals/records remain per
