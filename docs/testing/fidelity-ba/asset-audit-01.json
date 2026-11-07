@@ -1,0 +1,281 @@
+{
+  "schema": 1,
+  "observed_utc": "2026-11-06T23:32:02.201367+00:00",
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "scope": "Raw environment-map identity, decoded dimensions and import-policy consistency only; no visual/runtime/hardware claim",
+  "working_tree_candidate": true,
+  "relevant_inputs_stable_during_audit": true,
+  "inputs_before": {
+    "docs/testing/fidelity-ba/asset_contract_audit.py": "aa4b61a3abfdaf636672244706fa266311357fb139780947eff8bfbfaaf59bf0",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg": "a226e00dadc773be187d652c41683dcd61720ca40eeeff5220436ff211940275",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import": "fc273a3d629d2c46015a1cf01a8b5d5d44098eaf260148244b0436e29c498655",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg": "c04821991fefccfb1feb5508660e28c0c2b86bc85ee9bdf9202f8bc2ad57d7ca",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import": "b353cd11ca4c41e081036993589f0d7dba88c154f74798bdb23de5367b430d18",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg": "7453f91ad36757c559e438169e77549eab16519978c303469543f896b7887ec7",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import": "28f100bb9ba9ed28e0c1ffe20ae1b14389419c8df41159618ca5f48ace911008",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg": "c80c2faa87c9466c0b26a90e7193dd544ec261502c440b0198f90d789eda4abb",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import": "d64e0bd8751fcf3af9344dea7cf5788b0bbaa339db91afe4a4a89315903a8321",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg": "3f66a04aeb698f98467c8c71ce3c0239710944909e712f6e0dc0e4edbae872ea",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import": "faa9d3787e47e6f8f0d37ee3ab8841f8a2c1eee2eb2a2abaa8fa69a9f923e3b1",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg": "4075c2a997e51b46d9f95e871dd533297ba9c21ac7171caa379f456078efb5b8",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import": "869db3c7c41859cd4161fd914a6b31e16827ed4c0139d89c22fae396493b7ad5",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg": "ed70e88640e4ed51cf1c3e57cb20db26983599b20b867c2526439e3a2c849fea",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import": "7509ab8dadefb889c5a1eac81913ac065415274ed94d064a3e9d743f8b47b552",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg": "28f5ba8690553f192c0e5e1a5ff40f34765b4b93f4cc7059b1a3e9c795b6c28c",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import": "000eb3971009ce45f4f50b6a9fb460da394592b73de3ba5288098a4e3cc08ed2",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg": "ffe49db71a0fd34c1e259625df66a302a237597d6ef655307987ec4e45bc6f21",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import": "102875443ffb21f570ce2eab57422188f47667419fec6b04bf18baa5f3422bb3",
+    "game/art/assets/environment_pbr/manifest.json": "9783abfbf1f4080b1c529c2e3056baf8255a045395f10d6d64875f28c979c422",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg": "f519dd2077b2eaaf9d1708f303b5bae5317867a6ac78e0aed1d4f41b9291adcc",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import": "f40e889892a940ee45c8f6abf5170ab6f2674294e370b6925a4182b61d3201a4",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg": "af8c79f49ca34a0996c0a5581eb721ee1622404bde2a6214f48c900ac71c25dc",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import": "31c53a7ecc455cd6a3b8da543bd91f34ece7098c1f33ab2c581be9387039442c",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg": "90f63249f6e7323fc659644956deffebbe68cf814163b4e75edd351948879646",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import": "bce1b577c4ab6a325e41c53da81486d0b03147f676cd2a9345f7b19598bc4b50",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg": "69530a3f6ca25cea7d4b42066d4d7191cfee4c237b2719d0cffcc8f859218fac",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import": "9f9c2626a0ea47f152e620046673f7855dce02fcfffb48e6f6ce7e4fd26f9f8a",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg": "4571ff357e041bacb75ab06ad1958e74a0b396e0f3d8b9dc9d4717f704996304",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import": "abfc6e142e9988960ea514bb5d2df6faa8c486c3900a5120214dc003ed3de376",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg": "b367bdae7a75df039f3425a6eb9d395cd390a7a67b581bec89a44d2a31a8dbdc",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import": "cf0c40305e2aece13de716ab20137405f3a67f5b1eca4403bec2a568c8cb184a",
+    "tools/fetch_environment_materials.py": "26c15c907f83767d526dbca98d6a68dbf962349705cffc69c9804dcb870c5f95"
+  },
+  "inputs_after": {
+    "docs/testing/fidelity-ba/asset_contract_audit.py": "aa4b61a3abfdaf636672244706fa266311357fb139780947eff8bfbfaaf59bf0",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg": "a226e00dadc773be187d652c41683dcd61720ca40eeeff5220436ff211940275",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import": "fc273a3d629d2c46015a1cf01a8b5d5d44098eaf260148244b0436e29c498655",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg": "c04821991fefccfb1feb5508660e28c0c2b86bc85ee9bdf9202f8bc2ad57d7ca",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import": "b353cd11ca4c41e081036993589f0d7dba88c154f74798bdb23de5367b430d18",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg": "7453f91ad36757c559e438169e77549eab16519978c303469543f896b7887ec7",
+    "game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import": "28f100bb9ba9ed28e0c1ffe20ae1b14389419c8df41159618ca5f48ace911008",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg": "c80c2faa87c9466c0b26a90e7193dd544ec261502c440b0198f90d789eda4abb",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import": "d64e0bd8751fcf3af9344dea7cf5788b0bbaa339db91afe4a4a89315903a8321",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg": "3f66a04aeb698f98467c8c71ce3c0239710944909e712f6e0dc0e4edbae872ea",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import": "faa9d3787e47e6f8f0d37ee3ab8841f8a2c1eee2eb2a2abaa8fa69a9f923e3b1",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg": "4075c2a997e51b46d9f95e871dd533297ba9c21ac7171caa379f456078efb5b8",
+    "game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import": "869db3c7c41859cd4161fd914a6b31e16827ed4c0139d89c22fae396493b7ad5",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg": "ed70e88640e4ed51cf1c3e57cb20db26983599b20b867c2526439e3a2c849fea",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import": "7509ab8dadefb889c5a1eac81913ac065415274ed94d064a3e9d743f8b47b552",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg": "28f5ba8690553f192c0e5e1a5ff40f34765b4b93f4cc7059b1a3e9c795b6c28c",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import": "000eb3971009ce45f4f50b6a9fb460da394592b73de3ba5288098a4e3cc08ed2",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg": "ffe49db71a0fd34c1e259625df66a302a237597d6ef655307987ec4e45bc6f21",
+    "game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import": "102875443ffb21f570ce2eab57422188f47667419fec6b04bf18baa5f3422bb3",
+    "game/art/assets/environment_pbr/manifest.json": "9783abfbf1f4080b1c529c2e3056baf8255a045395f10d6d64875f28c979c422",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg": "f519dd2077b2eaaf9d1708f303b5bae5317867a6ac78e0aed1d4f41b9291adcc",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import": "f40e889892a940ee45c8f6abf5170ab6f2674294e370b6925a4182b61d3201a4",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg": "af8c79f49ca34a0996c0a5581eb721ee1622404bde2a6214f48c900ac71c25dc",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import": "31c53a7ecc455cd6a3b8da543bd91f34ece7098c1f33ab2c581be9387039442c",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg": "90f63249f6e7323fc659644956deffebbe68cf814163b4e75edd351948879646",
+    "game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import": "bce1b577c4ab6a325e41c53da81486d0b03147f676cd2a9345f7b19598bc4b50",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg": "69530a3f6ca25cea7d4b42066d4d7191cfee4c237b2719d0cffcc8f859218fac",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import": "9f9c2626a0ea47f152e620046673f7855dce02fcfffb48e6f6ce7e4fd26f9f8a",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg": "4571ff357e041bacb75ab06ad1958e74a0b396e0f3d8b9dc9d4717f704996304",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import": "abfc6e142e9988960ea514bb5d2df6faa8c486c3900a5120214dc003ed3de376",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg": "b367bdae7a75df039f3425a6eb9d395cd390a7a67b581bec89a44d2a31a8dbdc",
+    "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import": "cf0c40305e2aece13de716ab20137405f3a67f5b1eca4403bec2a568c8cb184a",
+    "tools/fetch_environment_materials.py": "26c15c907f83767d526dbca98d6a68dbf962349705cffc69c9804dcb870c5f95"
+  },
+  "files_checked": 15,
+  "identity_errors": [],
+  "policy_errors": [
+    "asphalt_02/arm: import cap 2048 differs from declared 1024"
+  ],
+  "findings": [
+    {
+      "material": "pavement_01",
+      "channel": "albedo",
+      "file": "game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+      "sha256": "af8c79f49ca34a0996c0a5581eb721ee1622404bde2a6214f48c900ac71c25dc",
+      "bytes": 1782516,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 2048,
+      "actual_import_cap": 2048
+    },
+    {
+      "material": "pavement_01",
+      "channel": "normal_opengl",
+      "file": "game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+      "sha256": "90f63249f6e7323fc659644956deffebbe68cf814163b4e75edd351948879646",
+      "bytes": 1834002,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 2048,
+      "actual_import_cap": 2048
+    },
+    {
+      "material": "pavement_01",
+      "channel": "arm",
+      "file": "game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+      "sha256": "f519dd2077b2eaaf9d1708f303b5bae5317867a6ac78e0aed1d4f41b9291adcc",
+      "bytes": 799069,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 1024
+    },
+    {
+      "material": "sandstone_blocks_04",
+      "channel": "albedo",
+      "file": "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+      "sha256": "4571ff357e041bacb75ab06ad1958e74a0b396e0f3d8b9dc9d4717f704996304",
+      "bytes": 2066659,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 2048,
+      "actual_import_cap": 2048
+    },
+    {
+      "material": "sandstone_blocks_04",
+      "channel": "normal_opengl",
+      "file": "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+      "sha256": "b367bdae7a75df039f3425a6eb9d395cd390a7a67b581bec89a44d2a31a8dbdc",
+      "bytes": 2182355,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 2048,
+      "actual_import_cap": 2048
+    },
+    {
+      "material": "sandstone_blocks_04",
+      "channel": "arm",
+      "file": "game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+      "sha256": "69530a3f6ca25cea7d4b42066d4d7191cfee4c237b2719d0cffcc8f859218fac",
+      "bytes": 833744,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 1024
+    },
+    {
+      "material": "asphalt_02",
+      "channel": "albedo",
+      "file": "game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+      "sha256": "28f5ba8690553f192c0e5e1a5ff40f34765b4b93f4cc7059b1a3e9c795b6c28c",
+      "bytes": 3075676,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 2048,
+      "actual_import_cap": 2048
+    },
+    {
+      "material": "asphalt_02",
+      "channel": "normal_opengl",
+      "file": "game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+      "sha256": "ffe49db71a0fd34c1e259625df66a302a237597d6ef655307987ec4e45bc6f21",
+      "bytes": 4943950,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 2048,
+      "actual_import_cap": 2048
+    },
+    {
+      "material": "asphalt_02",
+      "channel": "arm",
+      "file": "game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+      "sha256": "ed70e88640e4ed51cf1c3e57cb20db26983599b20b867c2526439e3a2c849fea",
+      "bytes": 1299186,
+      "decoded_dimensions_px": [
+        2048,
+        2048
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 2048
+    },
+    {
+      "material": "T_grass01",
+      "channel": "albedo",
+      "file": "game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+      "sha256": "a226e00dadc773be187d652c41683dcd61720ca40eeeff5220436ff211940275",
+      "bytes": 1300412,
+      "decoded_dimensions_px": [
+        3024,
+        3024
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 1024
+    },
+    {
+      "material": "T_grass01",
+      "channel": "normal_opengl",
+      "file": "game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+      "sha256": "7453f91ad36757c559e438169e77549eab16519978c303469543f896b7887ec7",
+      "bytes": 782759,
+      "decoded_dimensions_px": [
+        3024,
+        3024
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 1024
+    },
+    {
+      "material": "T_grass01",
+      "channel": "ambient_occlusion",
+      "file": "game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg",
+      "sha256": "c04821991fefccfb1feb5508660e28c0c2b86bc85ee9bdf9202f8bc2ad57d7ca",
+      "bytes": 409154,
+      "decoded_dimensions_px": [
+        3024,
+        3024
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 1024
+    },
+    {
+      "material": "T_wood01",
+      "channel": "albedo",
+      "file": "game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+      "sha256": "c80c2faa87c9466c0b26a90e7193dd544ec261502c440b0198f90d789eda4abb",
+      "bytes": 959303,
+      "decoded_dimensions_px": [
+        3000,
+        3000
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 1024
+    },
+    {
+      "material": "T_wood01",
+      "channel": "normal_opengl",
+      "file": "game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+      "sha256": "4075c2a997e51b46d9f95e871dd533297ba9c21ac7171caa379f456078efb5b8",
+      "bytes": 615707,
+      "decoded_dimensions_px": [
+        3000,
+        3000
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 1024
+    },
+    {
+      "material": "T_wood01",
+      "channel": "ambient_occlusion",
+      "file": "game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+      "sha256": "3f66a04aeb698f98467c8c71ce3c0239710944909e712f6e0dc0e4edbae872ea",
+      "bytes": 1005411,
+      "decoded_dimensions_px": [
+        3000,
+        3000
+      ],
+      "declared_import_cap": 1024,
+      "actual_import_cap": 1024
+    }
+  ],
+  "result": "fail"
+}

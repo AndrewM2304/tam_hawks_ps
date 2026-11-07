@@ -1,0 +1,69 @@
+{
+  "checks_passed": 10,
+  "checks_failed": 0,
+  "contact_physics_samples": 7,
+  "first_physics": 179,
+  "last_physics": 185,
+  "per_frame_classification": [
+    {
+      "physics": 179,
+      "loaded": 4,
+      "unloaded": 0,
+      "no_native_hit_in_bounded_rays": 0
+    },
+    {
+      "physics": 180,
+      "loaded": 4,
+      "unloaded": 0,
+      "no_native_hit_in_bounded_rays": 0
+    },
+    {
+      "physics": 181,
+      "loaded": 4,
+      "unloaded": 0,
+      "no_native_hit_in_bounded_rays": 0
+    },
+    {
+      "physics": 182,
+      "loaded": 3,
+      "unloaded": 0,
+      "no_native_hit_in_bounded_rays": 1
+    },
+    {
+      "physics": 183,
+      "loaded": 3,
+      "unloaded": 0,
+      "no_native_hit_in_bounded_rays": 1
+    },
+    {
+      "physics": 184,
+      "loaded": 0,
+      "unloaded": 1,
+      "no_native_hit_in_bounded_rays": 3
+    },
+    {
+      "physics": 185,
+      "loaded": 1,
+      "unloaded": 0,
+      "no_native_hit_in_bounded_rays": 3
+    }
+  ],
+  "loaded_gap_range_m": [
+    0.00732041150331497,
+    0.0208654999732971
+  ],
+  "all_native_components_four_tyre_volumes_clear": true,
+  "independent_rim_gaps_safe": true,
+  "old_bad_pose_rejected": true,
+  "observer_read_only": true,
+  "same_geometry_original_route_trace_rows": 503,
+  "trajectory_exact_vs_preceding_researched_profile_main": true,
+  "native_support_owner_sample_counts": {
+    "/root/@Node3D@2/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround": 17,
+    "/root/@Node3D@2/GlasgowSquare/ClydeEastBowl/NativeBowlSteelCoping": 3
+  },
+  "coverage": "Every actual physics tick in original defect envelope, before authored feature attachment. Later bowl traversal has original completed-frame camera/support checks, not this full-model observer. No native ray hit is not a proved lower support or a loaded wheel.",
+  "Mac_M5_performance": false,
+  "visual_acceptance": false,
+  "classification_semantics": "Raw observer loaded means signed native-ray gap4\u201330mm only: geometric near-contact, not measured wheel forces or physical weight-bearing. Steel normalY can be0.194653. Missing bounded rays confer no support."
+}

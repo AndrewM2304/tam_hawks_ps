@@ -1,0 +1,43 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source/.local/profile_geometry.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+  "started_utc": "2026-11-07T03:36:24.902136+00:00",
+  "os_deadline_seconds": 45,
+  "source_inputs": 806,
+  "engine_pid": 51652,
+  "engine_exit": 0,
+  "eligible": true,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "authorized_overlap": "Root-authorized private manual-body-axis Main and Rider V10 fixtures may overlap; untimed geometry diagnostic only",
+  "preflight_processes": [],
+  "finished_utc": "2026-11-07T03:36:26.087740+00:00",
+  "wall_seconds": 1.1856027729991183,
+  "changed_inputs": [],
+  "errors": [],
+  "result": [
+    24,
+    0
+  ],
+  "other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "5ceae4407eb25d8af8ee520931333028fa476f251b493405f805c323cd093887",
+    "source-before.json": "0b1e3cf161cd4b7a1905dadaaeaff0ba589d043f2ce47293b35d3defcfec558a",
+    "observer.gd": "430c8d3217a3371f805c55849c3bb8973bd5d3277e5e914f63e1ab6bd3bef0f3",
+    "wrapper.py.txt": "a4964538b7d7a199c12a931d03a1b74832de7e4535fca365a3a5e7db7f03c9b9",
+    "native.log": "feb572713a83b3740ddcb06e701301c4961d03ba670449bf5b76ad795475952a",
+    "source-after.json": "0b1e3cf161cd4b7a1905dadaaeaff0ba589d043f2ce47293b35d3defcfec558a"
+  }
+}

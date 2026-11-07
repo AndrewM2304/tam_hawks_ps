@@ -1,0 +1,64 @@
+{
+  "utc": "2026-11-07T01:26:31.765156+00:00",
+  "kind": "offline-private-installer-rehearsal",
+  "target": "/workspace/tam_hawks_ps/.local/architectural-fidelity/installer-rehearsal-20261107T012631.691288Z",
+  "engines_invoked": 0,
+  "checks": [
+    {
+      "pass": true,
+      "message": "Exact original pair and absent helpers pass rehearsal preflight"
+    },
+    {
+      "pass": true,
+      "message": "All four installed bytes match source-stable native component"
+    },
+    {
+      "pass": true,
+      "message": "Revert restores exact original pair and removes both exact new helpers"
+    },
+    {
+      "pass": true,
+      "message": "A later contributor edit rejects the entire revert"
+    },
+    {
+      "pass": true,
+      "message": "Later-edit refusal restores no file and removes no helper"
+    },
+    {
+      "pass": true,
+      "message": "Rehearsal restores only its own simulated edit"
+    },
+    {
+      "pass": true,
+      "message": "Corrupt original backup rejects the entire revert"
+    },
+    {
+      "pass": true,
+      "message": "Backup refusal restores no file and removes no helper"
+    },
+    {
+      "pass": true,
+      "message": "Revert succeeds exactly after private refusal controls are removed"
+    },
+    {
+      "pass": true,
+      "message": "An occupied new-helper path rejects stale installation"
+    },
+    {
+      "pass": true,
+      "message": "Occupied-helper refusal changes no source file"
+    },
+    {
+      "pass": true,
+      "message": "Production mutation without explicit root release flag is refused"
+    },
+    {
+      "pass": true,
+      "message": "Every rehearsal and negative control leaves all four production paths untouched"
+    }
+  ],
+  "passed": 13,
+  "failed": 0,
+  "production_unchanged": true,
+  "installer_sha256": "f02c51e063ddcccccb45dccea262710c73b18c8bcae1c0402ac70bf5acd053ed"
+}

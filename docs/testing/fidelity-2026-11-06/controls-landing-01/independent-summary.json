@@ -1,0 +1,157 @@
+{
+  "source_stable": true,
+  "checks": 47,
+  "failures": 0,
+  "cases": [
+    {
+      "case": "calibration",
+      "queued_observations": 0,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": -1,
+      "bank_ticks": [
+        52
+      ],
+      "score": 800
+    },
+    {
+      "case": "held_100ms_before",
+      "queued_observations": 6,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 31,
+      "bank_ticks": [],
+      "score": 0
+    },
+    {
+      "case": "held_200ms_before",
+      "queued_observations": 12,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 31,
+      "bank_ticks": [],
+      "score": 0
+    },
+    {
+      "case": "held_300ms_before",
+      "queued_observations": 18,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 31,
+      "bank_ticks": [],
+      "score": 0
+    },
+    {
+      "case": "held_333ms_before",
+      "queued_observations": 20,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 31,
+      "bank_ticks": [],
+      "score": 0
+    },
+    {
+      "case": "held_350ms_before",
+      "queued_observations": 21,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": -1,
+      "bank_ticks": [
+        52
+      ],
+      "score": 800
+    },
+    {
+      "case": "held_367ms_before",
+      "queued_observations": 21,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": -1,
+      "bank_ticks": [
+        52
+      ],
+      "score": 800
+    },
+    {
+      "case": "held_450ms_before",
+      "queued_observations": 21,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": -1,
+      "bank_ticks": [
+        52
+      ],
+      "score": 800
+    },
+    {
+      "case": "held_0ms_after",
+      "queued_observations": 0,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 31,
+      "bank_ticks": [],
+      "score": 0
+    },
+    {
+      "case": "held_50ms_after",
+      "queued_observations": 0,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 34,
+      "bank_ticks": [],
+      "score": 0
+    },
+    {
+      "case": "held_200ms_after",
+      "queued_observations": 0,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 43,
+      "bank_ticks": [],
+      "score": 0
+    },
+    {
+      "case": "held_400ms_after",
+      "queued_observations": 0,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 55,
+      "bank_ticks": [
+        52
+      ],
+      "score": 800
+    },
+    {
+      "case": "released_200ms_before",
+      "queued_observations": 4,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": -1,
+      "bank_ticks": [
+        52
+      ],
+      "score": 800
+    },
+    {
+      "case": "stale_held_since_takeoff",
+      "queued_observations": 21,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": -1,
+      "bank_ticks": [
+        52
+      ],
+      "score": 800
+    },
+    {
+      "case": "two_tap_gesture_200ms_before",
+      "queued_observations": 10,
+      "queued_airborne_supported_false": true,
+      "landing": 31,
+      "manual_entry": 31,
+      "bank_ticks": [],
+      "score": 0
+    }
+  ],
+  "limits": "Native input/contact/events only, no normal-speed rendered or target-device acceptance."
+}

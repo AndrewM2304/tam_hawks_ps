@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T01:49:04.423995+00:00",
+  "finished_utc": "2026-11-07T01:49:20.893856+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "640x400",
+      "--script",
+      "tools/environment_water_visual_controls.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/water-controls-source/.local/environment-water/visual-controls-02"
+    ]
+  ],
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_water_visual_controls.gd",
+  "process_timeout_seconds": 120,
+  "workload": "visual-water-controls-640x400",
+  "concurrent_headless_authorised_pid": 33416,
+  "other_godot_at_start": [
+    "33416 godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+  ],
+  "timing_measured": false,
+  "source_inventory_sha256": "173da92ee2a6fb631f2cc3f3c636fdb005d672e805aac6b580c49e6f97f08bb3",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "constant-normal-grazing.png": "5d10762f83f82d7428842aca1abf15beef58b29851442c2915181f244abe1081",
+    "constant-normal-high-coverage.png": "5986692b20c10e6edb547c23e70e388d67bcdb90ffa7c3cde84e520c673e3faf",
+    "constant-normal-river-oblique.png": "706ecd374dc72acccca4b79e846bfb6b30192c1dcd861cd1cb006be23391f750",
+    "native-standard-grazing.png": "94fe9944045ee2deac2b088ea234fb2f7e97d275ad79cc73a5e36da2a7a2908a",
+    "native-standard-high-coverage.png": "480d1ca13dd1db03fae7da50300c179baa6faa363a1810e04e740b153c8ecc46",
+    "native-standard-river-oblique.png": "ab5e4dfb4666504b9f62cffe594571f7bf192742ed58babcd2efc66e814a7667",
+    "production-wave-grazing.png": "a8986a137d534769ed2f4d02435b4834290177f57334d8b8b8fdef6b83f996d0",
+    "production-wave-high-coverage.png": "0731a9d28fb25dc251dc9f3420f874b50d371105eeca7306dc69da1a523cb794",
+    "production-wave-river-oblique.png": "6210b073e381ad97e17701c04c0aa12be13f94adc5d95ef156a8c77872bf110a"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

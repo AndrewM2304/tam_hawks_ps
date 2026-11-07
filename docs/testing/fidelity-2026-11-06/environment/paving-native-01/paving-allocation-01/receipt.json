@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T02:31:46.116952+00:00",
+  "finished_utc": "2026-11-07T02:32:02.616434+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "tools/environment_texture_probe.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/paving-source/.local/environment-water/paving-allocation-01"
+    ]
+  ],
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_texture_probe.gd",
+  "process_timeout_seconds": 120,
+  "workload": "fresh-native-allocation-only",
+  "concurrent_headless_authorised_pid": 41988,
+  "other_godot_at_start": [
+    "41988 godot --headless --path /workspace/tam_hawks_ps --fixed-fps 60 --script .local/ld_audit_career_tail.gd"
+  ],
+  "timing_measured": false,
+  "source_inventory_sha256": "eaa6e4f0c5e5aafe0a1b8339eeaf6855581565512494eeb56128ba21b3b3f738",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {},
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

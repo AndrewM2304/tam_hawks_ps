@@ -1,0 +1,133 @@
+#!/usr/bin/env python3
+"""Independent, read-only PNG/camera/source audit of native water controls."""
+import hashlib
+import json
+import math
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+ROOT = Path('/workspace/tam_hawks_ps')
+EVIDENCE = ROOT / '.local/environment-phase2/evidence/visual-controls-02'
+SOURCE = ROOT / '.local/environment-phase2/water-controls-source'
+checks = []
+
+
+def check(name, condition, actual=None):
+    checks.append({'name': name, 'pass': bool(condition), 'actual': actual})
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def read(name):
+    return json.loads((EVIDENCE / name).read_text())
+
+
+analysis = read('analysis.json')
+receipt = read('receipt.json')
+report = read('visual-water-report.json')
+before = read('source-before.json')
+after = read('source-after.json')
+check('all author-preserved bytes match supplied index', all(sha(EVIDENCE / k) == v for k, v in analysis['files'].items()), len(analysis['files']))
+check('source inventories match exactly', before == after, len(before))
+source_mismatch = [k for k, v in before.items() if not (SOURCE / k).is_file() or sha(SOURCE / k) != v]
+check('executed private source still matches every recorded input', not source_mismatch, source_mismatch)
+check('receipt binds exact before and after inventory bytes', sha(EVIDENCE / 'source-before.json') == sha(EVIDENCE / 'source-after.json') == receipt['source_inventory_sha256'])
+check('completed clean native capture', receipt['engine_exit'] == 0 and not receipt['engine_errors'] and receipt['source_stable'] and receipt['eligible'] and report['complete'] and report['checks'] == 58 and report['failures'] == 0)
+log = (EVIDENCE / 'engine.log').read_text()
+check('raw engine log contains no error or exception', all(s not in log for s in ['SCRIPT ERROR:', 'ERROR:', 'Traceback', 'Parse Error']))
+check('diagnostic explicitly excludes timing and full Main', report['timing_measured'] is False and report['cost_brackets'] == [] and receipt['timing_measured'] is False)
+check('concurrent untimed root suite disclosed', receipt['concurrent_headless_authorised_pid'] == 33416 and any('33416 ' in p for p in receipt['other_godot_at_start']))
+check('production shader byte identity', sha(EVIDENCE / 'production-shader.gdshader.txt') == report['production_shader_sha256'] == before['game/art/assets/horizon/clyde_water.gdshader'])
+check('flat shader byte identity', sha(EVIDENCE / 'flat-shader.gdshader.txt') == report['flat_shader_sha256'] == before['tools/fixtures/environment/water_flat_normal.gdshader'])
+check('executed observers preserved exactly', sha(EVIDENCE / 'observer.gd.txt') == before['tools/environment_water_visual_controls.gd'] and sha(EVIDENCE / 'base-observer.gd.txt') == before['tools/environment_water_isolated_probe.gd'])
+
+images = {}
+image_results = []
+max_projection_error = 0
+max_centroid_metadata_error = 0
+max_canvas_error = 0
+for item in report['images']:
+    path = EVIDENCE / item['file']
+    array = np.asarray(Image.open(path).convert('RGBA'))
+    images[item['file']] = array
+    check(item['file'] + ': native dimensions and RGBA hash', array.shape == (400, 640, 4) and hashlib.sha256(array.tobytes()).hexdigest() == item['rgba8_sha256'])
+    check(item['file'] + ': PNG receipt hash', sha(path) == receipt['images'][item['file']])
+    check(item['file'] + ': no process or physics tick changes at readback', item['physics_before'] == item['physics_after'] and item['process_before'] == item['process_after'])
+    check(item['file'] + ': declared perspective camera', item['keep_aspect'] == 1 and item['fov'] == 68 and item['far'] == 1000 and abs(item['near'] - .05) < 1e-7)
+    basis = np.array(item['camera_basis'], dtype=float).T
+    position = np.array(item['camera_position'], dtype=float)
+    check(item['file'] + ': finite orthonormal camera basis and forward', np.isfinite(basis).all() and np.isfinite(position).all() and np.max(np.abs(basis.T @ basis - np.eye(3))) < 1e-6 and np.max(np.abs(np.array(item['camera_forward']) + basis[:, 2])) < 1e-8)
+    focal = 200 / math.tan(math.radians(item['fov']) / 2)
+    markers = []
+    for marker in item['pixel_proofs']['markers']:
+        local = np.linalg.solve(basis, np.array(marker['world_position']) - position)
+        projected = np.array([320 + focal * local[0] / -local[2], 200 - focal * local[1] / -local[2]])
+        projection_error = float(np.linalg.norm(projected - marker['projected_xy']))
+        max_projection_error = max(max_projection_error, projection_error)
+        px, py = marker['projected_xy']
+        x0, x1 = max(0, int(px) - 10), min(640, int(px) + 11)
+        y0, y1 = max(0, int(py) - 10), min(400, int(py) + 11)
+        window = array[y0:y1, x0:x1, :3].astype(float) / 255
+        channel = 0 if marker['color'] == 'red' else 1
+        others = [i for i in range(3) if i != channel]
+        mask = (window[:, :, channel] > .75) & (window[:, :, channel] - window[:, :, others[0]] > .20) & (window[:, :, channel] - window[:, :, others[1]] > .20)
+        yy, xx = np.nonzero(mask)
+        centroid = np.array([float(xx.mean() + x0 + .5), float(yy.mean() + y0 + .5)])
+        centroid_metadata_error = float(np.linalg.norm(centroid - marker['centroid_xy']))
+        native_error = float(np.linalg.norm(centroid - projected))
+        max_centroid_metadata_error = max(max_centroid_metadata_error, centroid_metadata_error)
+        check(item['file'] + ': independently projected ' + marker['color'] + ' marker matches native pixels', projection_error < .001 and len(xx) == marker['pixel_count'] and centroid_metadata_error < .001 and len(xx) >= 8 and native_error <= 2, {'projection_metadata_error_px': projection_error, 'centroid_metadata_error_px': centroid_metadata_error, 'native_error_px': native_error, 'pixel_count': len(xx)})
+        markers.append({'color': marker['color'], 'projected_xy': projected.tolist(), 'centroid_xy': centroid.tolist(), 'native_error_px': native_error})
+    proof = item['pixel_proofs']
+    cx, cy = proof['canvas_sample_xy']
+    canvas = array[cy, cx, :3].astype(float) / 255
+    canvas_error = float(np.max(np.abs(canvas - proof['canvas_expected_rgb'])))
+    max_canvas_error = max(max_canvas_error, canvas_error)
+    check(item['file'] + ': Canvas sample matches independent decoded pixel', canvas_error <= 2 / 255 and np.max(np.abs(canvas - proof['canvas_actual_rgb'])) < 1e-6)
+    image_results.append({'file': item['file'], 'markers': markers, 'canvas_error': canvas_error})
+
+check('nine mode/view pairs cover all controls', len(report['images']) == 9 and {(i['mode'], i['view']) for i in report['images']} == {(m, v) for m in ['production-wave', 'constant-normal', 'native-standard'] for v in ['river-oblique', 'high-coverage', 'grazing']})
+roi_results = []
+for expected in analysis['roi_comparison']:
+    view = expected['view']
+    x0, y0, x1, y1 = expected['roi_xyxy']
+    constant = images['constant-normal-' + view + '.png'][y0:y1, x0:x1, :3].astype(np.int16)
+    native = images['native-standard-' + view + '.png'][y0:y1, x0:x1, :3].astype(np.int16)
+    diff = np.abs(constant - native)
+    observed = {'view': view, 'roi_xyxy': [x0, y0, x1, y1], 'mean_absolute_rgb8': float(diff.mean()), 'maximum_rgb8': int(diff.max()), 'different_pixels': int(np.any(diff != 0, axis=2).sum())}
+    check(view + ': independent clear-water ROI agrees', observed == expected, observed)
+    roi_results.append(observed)
+
+disclosure = read('freezewrite-disclosure.json')
+check('all nine disclosed rewritten files have original byte hashes', len(disclosure['files']) == 9 and all(i['identical'] and i['current_sha256'] == i['frozen_copy_sha256'] == before[i['file']] for i in disclosure['files']))
+
+out = {
+    'schema': 1,
+    'reviewer': 'independent_qa',
+    'mode': 'read-only independent QE and bounded BA',
+    'checks': len(checks),
+    'failures': sum(not i['pass'] for i in checks),
+    'source_inputs': len(before),
+    'native_images': len(report['images']),
+    'native_markers': 18,
+    'native_canvas_proofs': 9,
+    'max_projection_metadata_error_px': max_projection_error,
+    'max_centroid_metadata_error_px': max_centroid_metadata_error,
+    'max_canvas_error': max_canvas_error,
+    'roi_comparison': roi_results,
+    'image_proofs': image_results,
+    'observed': 'All nine original frames opened independently. Broad wave bands diminish in the constant-normal and native-standard controls. Fine regular curved/parallel striation remains conspicuous in the grazing controls and visible in high coverage. The selected clear-water control ROIs match within one RGB8 level. Custom wave-gradient normal assignment is not necessary for that residual artifact; this does not establish its exact renderer, lighting, BRDF, tone-mapping or output-precision cause.',
+    'verdict': 'Capture integrity and the bounded static control finding pass. Water finish, temporal shimmer, three-wave cost admission, full Main and MacBook Air M5 performance remain open. No production replacement or cost admission follows from this diagnostic.',
+    'concurrency': 'Root untimed fixed-fps headless suite PID33416 explicitly overlapped. No sole-process, frame-time, FPS or performance claim. Wrapper start observation is not a continuous host-process observer.',
+    'write_activity': 'After capture, nine root production derivative/import/manifest files were accidentally rewritten byte-identically. Their mtime changed; SHA-byte stability is verified, filesystem write freedom is not claimed. Original disclosure retained.',
+    'prior_rejection': 'Cyan-mask visual-controls-01 remains rejected; its failed receipt is not superseded or relabelled as a passing proof.',
+    'checks_detail': checks,
+}
+target = ROOT / '.local/qa-fidelity/water-controls-independent-review.json'
+target.write_text(json.dumps(out, indent=2) + '\n')
+print(json.dumps({k: v for k, v in out.items() if k not in ['checks_detail', 'image_proofs']}, indent=2))
+raise SystemExit(1 if out['failures'] else 0)

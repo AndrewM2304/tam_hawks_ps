@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Independent encounter rules and actual production input/bank/bail integration.
 ## Pure callback fixtures are separate from the physical successful performances.
 const EncounterSource = preload("res://game/characters/glasgow_encounters.gd")
@@ -151,8 +152,9 @@ static func _physical_failure_and_reset(tree: SceneTree, game: Node, check: Call
 	await _frames(tree, 2)
 	var entered: bool = game.skater.manual_active
 	# Deliberately push balance towards its limit before ordinary rolling drag
-	# ends this short court approach cleanly. This remains native control input.
-	Input.action_press("steer_right")
+	# ends this short court approach cleanly. FID-304 uses fore/aft input;
+	# preserve the original imbalance rather than steering away from the court.
+	ManualBalance.correct(game.skater, 1.0)
 	for frame in range(280):
 		await _frames(tree, 1)
 		if game.encounters.status_snapshot().state == "failed": break

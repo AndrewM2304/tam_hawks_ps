@@ -1,0 +1,54 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: Failed loading resource: res://game/art/assets/environment_pbr/derived/pavement_albedo.png.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply (res://game/levels/art/material_library.gd:60)
+       [1] apply (res://game/levels/art/material_library.gd:26)
+       [2] make_materials (res://game/levels/city_art.gd:74)
+       [3] _make_materials (res://game/levels/glasgow_square.gd:250)
+       [4] _ready (res://game/levels/glasgow_square.gd:74)
+       [5] _ready (res://game/main.gd:95)
+       [6] _run (res://.local/bench_edge_standing.gd:9)
+ERROR: Failed loading resource: res://game/art/assets/environment_pbr/derived/pavement_albedo.png.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply (res://game/levels/art/material_library.gd:60)
+       [1] apply (res://game/levels/art/material_library.gd:27)
+       [2] make_materials (res://game/levels/city_art.gd:74)
+       [3] _make_materials (res://game/levels/glasgow_square.gd:250)
+       [4] _ready (res://game/levels/glasgow_square.gd:74)
+       [5] _ready (res://game/main.gd:95)
+       [6] _run (res://.local/bench_edge_standing.gd:9)
+ERROR: Failed loading resource: res://game/art/assets/environment_pbr/derived/grass_albedo.png.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply (res://game/levels/art/material_library.gd:60)
+       [1] apply (res://game/levels/art/material_library.gd:36)
+       [2] make_materials (res://game/levels/city_art.gd:74)
+       [3] _make_materials (res://game/levels/glasgow_square.gd:250)
+       [4] _ready (res://game/levels/glasgow_square.gd:74)
+       [5] _ready (res://game/main.gd:95)
+       [6] _run (res://.local/bench_edge_standing.gd:9)
+ERROR: Failed loading resource: res://game/art/assets/environment_pbr/derived/grass_normal_opengl.png.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply (res://game/levels/art/material_library.gd:63)
+       [1] apply (res://game/levels/art/material_library.gd:36)
+       [2] make_materials (res://game/levels/city_art.gd:74)
+       [3] _make_materials (res://game/levels/glasgow_square.gd:250)
+       [4] _ready (res://game/levels/glasgow_square.gd:74)
+       [5] _ready (res://game/main.gd:95)
+       [6] _run (res://.local/bench_edge_standing.gd:9)
+ERROR: Failed loading resource: res://game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply (res://game/levels/art/material_library.gd:82)
+       [1] apply (res://game/levels/art/material_library.gd:36)
+       [2] make_materials (res://game/levels/city_art.gd:74)
+       [3] _make_materials (res://game/levels/glasgow_square.gd:250)
+       [4] _ready (res://game/levels/glasgow_square.gd:74)
+       [5] _ready (res://game/main.gd:95)
+       [6] _run (res://.local/bench_edge_standing.gd:9)
+EDGE_STAND z=63.75 body=(64.58057, 2.490339, 63.75) board=(64.58057, 2.618, 63.75) floor=true valid=true native={ "position": (64.58057, 2.49, 63.75), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 141415158927, "collider": @StaticBody3D@1515:<StaticBody3D#141415158927>, "shape": 0, "rid": RID(13739600380206) } contacts=[{ "point": (64.58057, 2.49, 63.75), "normal": (0.0, 1.0, 0.0), "collider": "@StaticBody3D@1515:<StaticBody3D#141415158927>" }] wheels=[{ "low": 2.49799990653992, "support": (64.79712, 2.49, 63.57291), "collider": "@StaticBody3D@1515:<StaticBody3D#141415158927>", "gap": 0.00799989700317 }, { "low": 2.49799990653992, "support": (64.85664, 2.49, 63.79507), "collider": "@StaticBody3D@1515:<StaticBody3D#141415158927>", "gap": 0.00799989700317 }, { "low": 2.49799990653992, "support": (64.30449, 2.49, 63.70491), "collider": "@StaticBody3D@1515:<StaticBody3D#141415158927>", "gap": 0.00799989700317 }, { "low": 2.49799990653992, "support": (64.36402, 2.49, 63.92707), "collider": "@StaticBody3D@1515:<StaticBody3D#141415158927>", "gap": 0.00799989700317 }]
+EDGE_STAND z=63.55468 body=(64.58057, 2.490339, 63.55468) board=(64.58057, 2.128, 63.55468) floor=true valid=true native={ "position": (64.58057, 2.0, 63.55468), "normal": (0.0, 1.0, 0.0), "face_index": 127, "collider_id": 133462758086, "collider": ClydeNorthQuay:<StaticBody3D#133462758086>, "shape": 0, "rid": RID(12348030976269) } contacts=[{ "point": (64.58184, 2.49, 63.55944), "normal": (0.0, 1.0, 0.0), "collider": "@StaticBody3D@1515:<StaticBody3D#141415158927>" }] wheels=[{ "low": 2.00799989700317, "support": (64.79711, 2.0, 63.3776), "collider": "ClydeNorthQuay:<StaticBody3D#133462758086>", "gap": 0.00799989700317 }, { "low": 2.00799989700317, "support": (64.85664, 2.49, 63.59976), "collider": "@StaticBody3D@1515:<StaticBody3D#141415158927>", "gap": -0.48200011253357 }, { "low": 2.00799989700317, "support": (64.30449, 2.0, 63.5096), "collider": "ClydeNorthQuay:<StaticBody3D#133462758086>", "gap": 0.00799989700317 }, { "low": 2.00799989700317, "support": (64.36402, 2.49, 63.73176), "collider": "@StaticBody3D@1515:<StaticBody3D#141415158927>", "gap": -0.48200011253357 }]

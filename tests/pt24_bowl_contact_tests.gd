@@ -62,6 +62,7 @@ static func run(tree: SceneTree,check: Callable) -> void:
 			"misses":contact.misses})
 	check.call(negative==3,"PT24 native bowl: all three recorded old-frame controls independently reproduce real tyre penetration")
 	_native_footprint_phase_controls(fixture,check)
+	_native_footprint_authentication_controls(fixture,check)
 	await _controls(tree,fixture,check)
 	await _buried_air_landing_controls(tree,fixture,check)
 	await _air_landing_controls(tree,fixture,check)
@@ -168,14 +169,34 @@ static func _state(body: CharacterBody3D) -> Dictionary:
 
 static func _native_footprint_phase_controls(fixture:Dictionary,check:Callable) -> void:
 	var rider:CharacterBody3D=fixture.rider
-	for x:float in [-10.63339,-10.639068]:
+	for x:float in [-10.63339,-10.639068,-10.647394,-10.62713]:
 		rider.global_transform=Transform3D(Basis(Vector3.UP,-PI*0.5),Vector3(x,2.014172,139.5004))
 		var before:=_state(rider)
 		var fit:Dictionary=rider._native_board_floor()
 		var clear:=false
 		if not fit.is_empty():clear=rider._native_rim_frame_clear(_presentation_pose(rider,fit),0.0)
 		check.call(not fit.is_empty() and clear and _state(rider)==before,
-			"PT24 native footprint: exact full/standalone Clyde5.68mm phase pair supplies finite tyres/model clearance without changing physical state "+str(x))
+			"PT24 native footprint: exact Clyde phase and steep coping-tangent witnesses supply finite tyres/model clearance without changing physical state "+str(x))
+		if x!=-10.62713 or fit.is_empty():continue
+		var pose:=_presentation_pose(rider,fit)
+		var loaded:=0
+		var unloaded:=0
+		var native:=true
+		for wheel:Dictionary in rider._visual_rig.board_contact_geometry().wheels:
+			var gap:=INF
+			for vertex:Vector3 in wheel.points:
+				var at:Vector3=pose*vertex
+				var hit:=rider.get_world_3d().direct_space_state.intersect_ray(
+					PhysicsRayQueryParameters3D.create(at+Vector3.UP*.15,at-Vector3.UP*.35,1|8,[rider.get_rid()]))
+				if hit.is_empty() or not fixture.bowl.owns_native_wheel_support(hit.collider):
+					native=false
+					continue
+				gap=minf(gap,(at-Vector3(hit.position)).dot(hit.normal))
+			if gap>=.004 and gap<=.030:loaded+=1
+			elif gap>.030 and gap<=.10:unloaded+=1
+		check.call(native and loaded==2 and unloaded==2 and _volumes_clear(rider,pose)
+			and rider._manual_model_frame_clear(pose) and Vector3(fit.position).y-2.0<=.10,
+			"PT24 native coping: twisted rim/deck patch retains two actual loaded and two unloaded tyres, clear whole GLB and original100mm fit budget")
 
 
 static func _controls(tree: SceneTree,fixture: Dictionary,check: Callable) -> void:
@@ -527,3 +548,58 @@ static func _fixture(tree: SceneTree) -> Dictionary:
 	await tree.physics_frame
 	await tree.process_frame
 	return {"viewport":viewport,"root":root,"bowl":bowl,"rider":rider,"control":control}
+
+
+static func _native_footprint_authentication_controls(fixture:Dictionary,check:Callable)->void:
+	var rider:CharacterBody3D=fixture.rider
+	var bowl:Node3D=fixture.bowl
+	var space:=rider.get_world_3d().direct_space_state
+	var native:=space.intersect_ray(PhysicsRayQueryParameters3D.create(
+		Vector3(-10.38,2.2,139.3764),Vector3(-10.38,1.9,139.3764),1|8,[rider.get_rid()]))
+	check.call(not native.is_empty() and native.collider==bowl._native_steel_coping,
+		"PT24 footprint authentication: positive control begins on an independently ray-confirmed real native coping face")
+	if native.is_empty():return
+	var before:=_state(rider)
+	var query:=PhysicsShapeQueryParameters3D.new()
+	query.shape=rider._floor_wheel_shapes[0]
+	query.transform=Transform3D(Basis(Vector3.UP,-PI*.5),Vector3(-10.647394,2.128,139.5004))
+	query.collision_mask=1|2|8
+	query.exclude=[rider.get_rid()]
+	query.margin=.008
+	var rest:Dictionary={"point":native.position,"normal":native.normal,"rid":native.rid,"shape":native.shape}
+	var positive:Dictionary=rider._native_footprint_contact(space,query,rest)
+	check.call(not positive.is_empty() and positive.rid==native.rid and positive.shape==native.shape,
+		"PT24 footprint authentication: a real native top face supplies a finite same-owner support")
+	var virtual:=rest.duplicate()
+	virtual.point=Vector3(-10.40756,2.120990,139.2645)
+	var recovered:Dictionary=rider._native_footprint_contact(space,query,virtual)
+	check.call(not recovered.is_empty() and Vector3(recovered.position).y<=2.07001,
+		"PT24 footprint authentication: the recorded virtual concave point cannot replace recovered actual native coping geometry")
+	var clear_query:=PhysicsShapeQueryParameters3D.new()
+	clear_query.shape=query.shape
+	clear_query.transform=query.transform
+	clear_query.transform.origin.y+=1.0
+	clear_query.collision_mask=query.collision_mask
+	clear_query.exclude=query.exclude
+	clear_query.margin=query.margin
+	check.call(rider._native_footprint_contact(space,clear_query,virtual).is_empty(),
+		"PT24 footprint authentication: virtual point above the finite30mm ray reach cannot supply a plane without live contacts")
+	var underside:=rest.duplicate()
+	underside.point=Vector3(native.position.x,1.98,native.position.z)
+	underside.normal=Vector3.DOWN
+	check.call(rider._native_footprint_contact(space,clear_query,underside).is_empty(),
+		"PT24 footprint authentication: an underside-only contact cannot supply an upward support")
+	var wrong_owner:=rest.duplicate()
+	wrong_owner.rid=rider.get_rid()
+	var wrong_shape:=rest.duplicate()
+	wrong_shape.shape=99
+	check.call(rider._native_footprint_contact(space,query,wrong_owner).is_empty()
+		and rider._native_footprint_contact(space,query,wrong_shape).is_empty(),
+		"PT24 footprint authentication: wrong native RID and shape cannot reuse genuine coping contacts")
+	var malformed:=rest.duplicate()
+	malformed.normal=Vector3.UP*100
+	var nonfinite:=rest.duplicate()
+	nonfinite.point=Vector3.INF
+	check.call(rider._native_footprint_contact(space,clear_query,malformed).is_empty()
+		and rider._native_footprint_contact(space,clear_query,nonfinite).is_empty() and _state(rider)==before,
+		"PT24 footprint authentication: malformed/nonfinite points cannot expand the30mm ray and leave physical state unchanged")

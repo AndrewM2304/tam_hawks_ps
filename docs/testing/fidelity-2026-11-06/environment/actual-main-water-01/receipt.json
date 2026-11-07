@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T03:22:34.883671+00:00",
+  "finished_utc": "2026-11-07T03:25:58.643224+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "tools/environment_main_water_shadow_capture.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/main-water-source/.local/environment-water/actual-main-water-01"
+    ]
+  ],
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_main_water_shadow_capture.gd",
+  "process_timeout_seconds": 360,
+  "workload": "actual-main-water-caster-ABA-1280x800",
+  "concurrent_headless_authorised_pid": 49517,
+  "other_godot_at_start": [
+    "49517 godot --headless --path /workspace/tam_hawks_ps/.local/motion-sweep-source --fixed-fps 60 --script .local/motion_air_sweep_runner.gd"
+  ],
+  "timing_measured": false,
+  "source_inventory_sha256": "5d9d8a84067a204e3ebe79d8b8f83ced9b038576ed7bec61d724a88bdb908b4b",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "before-a-fountain.png": "3df72a8078cd5573521a5c0366c8286caab103dcca4afdec6524303c570507c6",
+    "before-a-pond.png": "57c0592d98c08061b3fd1d9eb8273b75a701a3ffe9e278ce48f6775454cbaaa2",
+    "before-a-river.png": "e24722c236673e46aaaaedff94fb4f3ca595e0d85318adef7c494692e18d82ea",
+    "before-b-fountain.png": "b33986beb64439a9f5b2c88e26ca82939c84cd5172e2823aabef0b27582afc45",
+    "before-b-pond.png": "7ea025416d6ab002ea6971b1ecd81197dfde4d1563c2fe09841ce28c51252c7f",
+    "before-b-river.png": "a2d531597e5c39e2c0e6b6cb5410743ff97bd177701d2bb95415e5fe86d7684e",
+    "caster-off-fountain.png": "7442ee37399d5615dce800edd4e747af93ed11efc5abb778a9a2949ad8cbc77d",
+    "caster-off-pond.png": "ab148140c5b035cc894640d83aba585a79e5fa7541902399dae93e418448d972",
+    "caster-off-river.png": "a7efc29b2cc8bf8e8327e08ec09f9cafee86129ee322abfadccf6aa7527747d0",
+    "synchronization/first_contact_inspection.png": "0c8974b53ae46f98908750c0fd69bcdf38a6a521fe43fd92513f3069b8864554",
+    "synchronization/overview_before_contact.png": "b9881c70a83a587f5fc8691aa8ec89a0013ae2d8625d6f6fd81fb876ac212fda",
+    "synchronization/return_to_production_chase.png": "ab328316673fef3c481578f850bf668963ed300ea8efde4e0a6ae36cab051e50"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

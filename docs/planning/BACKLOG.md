@@ -1,3 +1,21 @@
+# Fidelity programme — 6 November 2026
+
+The owner requests a substantial realism upgrade and original compact skating
+lines, with persistent specialist agents/skills and independent BA verification.
+The active overlay is [FIDELITY_TICKETS](FIDELITY_TICKETS.md), governed by
+[AAA_BENCHMARK](../product/AAA_BENCHMARK.md) and [STUDIO](STUDIO.md).
+It extends the existing art, motion and level-acceptance work rather than
+recreating current native contacts or hiding existing trial features.
+
+Additional explicit requirements: forward-facing natural pushing; after fidelity,
+verify manual-based trick chains and balance meters/inputs that correspond to
+actual fore/aft versus lateral balance. Target MacBook Air M5; engine rewrite
+authorised if demonstrated necessary. Main integration is required. All newer
+receipts remain source-bound; the historical results below do not verify these
+November changes. Final visual/hardware/human acceptance remains open.
+
+---
+
 # Steering and wallride source verified — 28 October 2026
 
 The owner-priority C03 repair is pushed on main as **`40a6615`**. The complete

@@ -1,3 +1,69 @@
+## Fidelity and combo continuation — 6–7 November 2026
+
+Current base is main `0b62035`, with November changes governed by
+[ADR-034](decisions/ADR-034-fidelity-studio-and-m5-rendering.md) and the
+[fidelity ledger](../planning/FIDELITY_TICKETS.md). Independent source-bound
+results, incomplete visual work and target-Mac limitations belong in STATUS;
+older accepted contacts and trial availability remain intact.
+
+### Manual requests and balance presentation
+
+Fresh airborne dedicated Manual or valid Up/neutral/Down gestures are queued for
+less than 350 ms; grounded recovery requests keep 120 ms. The existing 350 ms
+re-entry cooldown, native floor, speed, held/latch, clean-trick and entry-eligibility
+guards still apply. Released, expired, stale-held and paused requests cannot
+manufacture a link or extend the score deadline. `manual_request_pending()` exposes
+only a currently live airborne request for the short queued-input cue.
+
+Manual correction uses Forward/Back (mapped `push`/`brake`) without accelerating
+or braking the manual. Left/Right steers; shoulders retain a steering alias.
+Recent balance input cannot accidentally turn a manual-linked pop into a prepared
+Boneless/No Comply/Nollie. Pose and scoring still depend on actual supported motion.
+
+`balance_axis()`, `balance_value()` and `balance_action(positive)` expose the active
+physical presentation. The manual sign derives from the actual board/parent frame,
+pitch response and signed travel, including nose, reverse, pivot, Pogo and Casper
+poses. The private `_manual_balance_input_sign()` is also used by native-input test
+drivers; production physics uses its scalar result without a new balance dictionary.
+Main supplies `balance_axis`, `balance_value`, `balance_negative_action`,
+`balance_positive_action` and `manual_queued` to HUD. Manual uses a vertical meter;
+rail/lip/skitch uses lateral balance. Labels/corrective prompts follow the real
+mapped controls. Technical direction evidence is separate from visual torso/hip
+review and controller comfort.
+
+### Rider and authenticated support
+
+Push presentation turns pelvis, torso, arms and the planted lead shoe toward signed
+travel. Planted stroke timing follows distance; recovery remains visibly lifted.
+Collision, acceleration, coasting and trick timing retain their existing authority.
+Native grade, interruption, Main and rendered motion checks are separate evidence.
+
+If a capsule has genuine current floor contact on a raised edge while its centre
+ray hits a lower floor, `_native_floor_hit` may retain the higher native contact
+plane. The live collider/RID/integer shape and finite contact are freshly verified;
+normal compatibility, actual floor state and reset invalidation remain required.
+The actual board/shoe/tyre fits still check finite support and clearance. This
+prevents visual burial without inventing a catch slab or certifying an unsupported
+wheel pair.
+
+### Shared environment surfaces
+
+`game/levels/art/material_library.gd` applies verified photographic materials once
+to the shared city dictionary. It adds `grass` (native StandardMaterial3D) and
+`facade_glass` (the specific opaque room shader). Moving train glass retains its
+native material. Static batch admission recognises only that exact audited shader
+in a direct override; unrelated, transparent, duplicate or multipass/overlay shader
+materials retain conservative rejection. Public batching and world/collision
+interfaces are unchanged.
+
+Source/derived maps, physical repeat widths and import policy are in the environment
+manifests/provenance appendix. Current 1K normal imports retain 2K primary colour;
+the native isolated surface allocation check is separate from Main timing and
+target-Mac memory. Conditional Forward+ SSAO/SSIL remains renderer-specific;
+Compatibility is the current default and neither Linux path certifies Mac frame rate.
+
+---
+
 ## Directional steering landings and wallride presentation — 28 October 2026
 
 The owner's left/right steering clarification distinguishes ordinary airborne
@@ -728,7 +794,7 @@ Native physics interpolation is enabled project-wide at the existing 60Hz simula
 Ground motion projects onto the current floor. Slope acceleration precedes deliberate braking so a stopped brake holds a hill; disabled controls retain zero horizontal speed. Air carries collision-adjusted horizontal velocity without stick-induced curvature; the same left/right input now rotates the visible skater. Ground speed uses capped actual travel velocity to avoid artificial downhill braking. The 56° floor classification supports ordinary banks; eligible near-vertical faces use the separate finite transition state below.
 
 - `set_grind_lines(lines)` snapshots world-space authored tracks. Fresh buffered or first-held-seek eligible air capture uses `GrindRide`; capsule sweeps reject scenery obstruction. Point capture precedes movement; `start_swept` also samples the completed actual move at intervals no greater than 0.10m, rejecting travel over 1m. Historical samples retain the same admission envelope and check clearance from the actual current origin, using actual collision-adjusted velocity. A released press is buffered for 140ms; one held seek remains armed until its first capture. Capture consumes both. The ride locks after release and a second fresh press drops; hold/release Ollie pops out. Held input cannot recapture indefinitely. Entry awards 200 once and resolves prior spin without a landing. Release preserves signed tangent momentum, and recapture waits 0.35 seconds.
-- Fresh flip/grab requests have a consumable 0.12-second buffer into eligible airtime. Reset, disable, overtime and capture flush requests; landing clears unused air requests. A held input cannot repeat an award. Manual accepts a fresh eligible supported press, a held request within 0.12 seconds before landing, or a neutral-separated Up/Down gesture within 0.22 seconds, speed magnitude at least 2 m/s and a 0.35-second exit cooldown. An at-rest rejected press cannot become eligible merely by holding it while accelerating. Reverse manual travel is supported. Up+Manual selects Nose Manual; gesture manuals stay latched until a dedicated manual press, ollie, low speed or bail. Existing gesture holds survive entry-disable while new entries are refused. It coasts while Left/Right correct balance; shoulders carve independently during manuals. A real neutral release between physics ticks counts; opposing held directions and direct stick reversals refuse. Pause/reset/entry-disable flush pending gesture edges while preserving an existing overtime manual hold. Entry awards 100 once and emits link-start before scoring. Release/insufficient speed emits link-end once; an actual ollie emits link-start and continues airtime. Losing support clears manual without a false ground-end. Absolute balance 1 bails.
+- Fresh flip/grab requests have a consumable 0.12-second buffer into eligible airtime. Reset, disable, overtime and capture flush requests; landing clears unused air requests. A held input cannot repeat an award. Manual accepts a fresh eligible supported press, a fresh held request less than 0.35 seconds before landing (ground recovery requests retain 0.12 seconds), or a neutral-separated Up/Down gesture within 0.22 seconds, speed magnitude at least 2 m/s and a 0.35-second exit cooldown. An at-rest rejected press cannot become eligible merely by holding it while accelerating. Reverse manual travel is supported. Up+Manual selects Nose Manual; gesture manuals stay latched until a dedicated manual press, ollie, low speed or bail. Existing gesture holds survive entry-disable while new entries are refused. It coasts while Forward/Back (W/S, Up/Down or the mapped vertical axis) correct physical fore/aft balance. Left/Right steers independently; shoulders remain a steering alias. The manual meter is vertical, with signed travel/board-aware value and corrective prompts; rail/lip/skitch balance remains lateral. A real neutral release between physics ticks counts; opposing held directions and direct stick reversals refuse. Pause/reset/entry-disable flush pending gesture edges while preserving an existing overtime manual hold. Entry awards 100 once and emits link-start before scoring. Release/insufficient speed emits link-end once; an actual ollie emits link-start and continues airtime. Losing support clears manual without a false ground-end. Absolute balance 1 bails.
 - Revert requires fresh grounded input within `revert_remaining` after actual air landing, cannot occur during a manual/rail, and is once per landing. It costs 15% speed, awards 150 and animates a cosmetic 180° stance change over 0.18 seconds. It emits no continuation event and never resets the score deadline. `revert_remaining` is input eligibility; it is not the authoritative banking timer.
 - `try_special(id) -> bool` accepts only the two catalog specials during eligible unpaused airtime, once per actual air segment. It emits the catalog award only on success. Main checks career unlock and meter first, and consumes the meter only after `true`. Original 0.65-second board-spin/body-tuck animations do not rotate the collision shape or change travel velocity.
 
@@ -881,12 +947,12 @@ All candidates use one shared opaque unshaded vertex-colour material with startu
 
 ### Manual recovery request margin — ADR-017
 
-A fresh dedicated Manual or valid neutral-separated gesture can arm the existing 120 ms request buffer during the final 120 ms of the unchanged 350 ms re-entry cooldown. Entry requires expired cooldown, actual eligible floor/speed and a still-held dedicated button or valid gesture latch. Release, request expiry, disabled trick entries and reset retain their refusal/flush behavior. An early rejected hold is not resampled. Cooldown arithmetic snaps only residue ≤1e−12 seconds to zero; score deadlines and physics-stage ordering stay unchanged. See the current ordinary and focused evidence before treating this as accepted.
+During grounded recovery, a fresh dedicated Manual or valid neutral-separated gesture can arm the existing 120 ms request buffer during the final 120 ms of the unchanged 350 ms re-entry cooldown. Airborne requests use the separate exclusive 350 ms lifetime documented above. Entry requires expired cooldown, actual eligible floor/speed and a still-held dedicated button or valid gesture latch. Release, request expiry, disabled trick entries and reset retain their refusal/flush behavior. An early rejected hold is not resampled. Cooldown arithmetic snaps only residue ≤1e−12 seconds to zero; score deadlines and physics-stage ordering stay unchanged. See the current ordinary and focused evidence before treating this as accepted.
 
 
 ### Directional pad and river material — ADR-020
 
-Face buttons retain Cross/Square/Circle/Triangle for Ollie/flip/grab/grind-lip. D-pad and left stick share directional inputs. Specials use right-stick up/down with an event excursion latch so jitter/held axis events cannot repeatedly request a special; centre releases it. Interact uses L3. Manual/rail/lip balance is horizontal; manual carving uses the shoulder/spin actions. The existing220ms gesture,120ms buffer and350ms re-entry gates remain. Pending direction history clears on actual SceneTree pause; an already active manual, motion, pose and timers freeze normally. Saved custom profiles retain validation/warnings.
+Face buttons retain Cross/Square/Circle/Triangle for Ollie/flip/grab/grind-lip. D-pad and left stick share directional inputs. Specials use right-stick up/down with an event excursion latch so jitter/held axis events cannot repeatedly request a special; centre releases it. Interact uses L3. Manual balance is fore/aft with a vertical meter; rail/lip balance stays lateral. Left/Right steers a manual and shoulder/spin actions remain an alias. The 220ms gesture and 350ms re-entry gates remain; fresh airborne manual requests have an exclusive 350ms margin while grounded recovery requests keep 120ms. Pending direction history clears on actual SceneTree pause; an already active manual, motion, pose and timers freeze normally. Saved custom profiles retain validation/warnings.
 
 `OutdoorRoutes.ClydeWater` retains its original physical/hazard contract and current18-triangle single displayed surface. The original `clyde_water.gdshader` interpolates affine phases from existing vertices and uses two cosine evaluations for derivative-filtered world normals, constant blue-green depth colour, cheaper Lambert diffuse and broad native specular highlights. No texture, screen/refraction pass, geometry displacement, collision, light or frame callback is added. The shader is shared across central river and both scenic bends. Performance and temporal evidence belongs to the current PLAY tasks, not historical panorama results.
 

@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+"""Source-only independent triangle/UV Jacobian check; no engine or install."""
+import hashlib
+import json
+import math
+import re
+from pathlib import Path
+
+import numpy as np
+
+ROOT = Path('/workspace/tam_hawks_ps')
+PACKET = ROOT / 'docs/testing/fidelity-2026-11-06/architecture/tangent-v2-ready'
+V1 = PACKET.parent / 'native-author-component'
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+new = (PACKET / 'gallery_column.gd.txt').read_text()
+old = (V1 / 'gallery_column.gd.txt').read_text()
+expected = old.replace('PackedFloat32Array([-sin(angle),0,cos(angle),1])', 'PackedFloat32Array([-sin(angle),0,cos(angle),-1])').replace('PackedFloat32Array([1,0,0,1])', 'PackedFloat32Array([1,0,0,1 if cap == 0 else -1])')
+assert new == expected
+manifest = json.loads((PACKET / 'candidate-v2.json').read_text())
+assert all(sha(PACKET / (name + '.txt') if name == 'gallery_column.gd' else V1 / (name + '.txt')) == wanted for name, wanted in manifest['files'].items())
+preserved = json.loads((PACKET / 'preservation.json').read_text())['files']
+assert all(sha(PACKET / name) == wanted for name, wanted in preserved.items())
+segments = int(re.search(r'const SEGMENTS := (\d+)', new).group(1))
+section = new.split('var profile := PackedVector2Array([', 1)[1].split('])', 1)[0]
+profile = np.array([(float(a), float(b)) for a, b in re.findall(r'Vector2\(([0-9.]+),([0-9.]+)\)', section)])
+vertices, normals, tangents, uvs, new_w, triangles = [], [], [], [], [], []
+for ring, (radius, height) in enumerate(profile):
+    derivative = profile[min(len(profile)-1, ring+1)] - profile[max(0, ring-1)]
+    for j in range(segments+1):
+        angle = math.tau*j/segments
+        radial = np.array([math.cos(angle), 0., math.sin(angle)])
+        vertices.append(radial*radius + [0, height, 0])
+        normal = radial*derivative[1] - np.array([0, derivative[0], 0])
+        normals.append(normal/np.linalg.norm(normal))
+        tangents.append([-math.sin(angle), 0, math.cos(angle)])
+        uvs.append([j/segments, height])
+        new_w.append(-1)
+        if ring < len(profile)-1 and j < segments:
+            a = ring*(segments+1)+j
+            triangles.extend([[a, a+1, a+segments+2], [a, a+segments+2, a+segments+1]])
+for cap in [0, len(profile)-1]:
+    radius, height = profile[cap]
+    center = len(vertices)
+    normal = [0, -1 if cap == 0 else 1, 0]
+    sign = 1 if cap == 0 else -1
+    vertices.append([0, height, 0]); normals.append(normal); tangents.append([1, 0, 0]); uvs.append([.5, .5]); new_w.append(sign)
+    for j in range(segments+1):
+        angle = math.tau*j/segments
+        vertices.append([radius*math.cos(angle), height, radius*math.sin(angle)])
+        normals.append(normal); tangents.append([1, 0, 0]); uvs.append([.5+.5*math.cos(angle), .5+.5*math.sin(angle)]); new_w.append(sign)
+        if j < segments:
+            first = center+j+1
+            triangles.append([center, first+1, first] if cap == 0 else [center, first, first+1])
+vertices, normals, tangents, uvs = map(np.array, [vertices, normals, tangents, uvs])
+v1_negative = v2_negative = checks = 0
+minimum_alignment = 1.
+for triangle in triangles:
+    ia, ib, ic = triangle
+    # Derive actual dP/dU,dP/dV from each triangle's geometry/UV Jacobian,
+    # independently of the author's centred profile derivative proof.
+    delta_uv = np.array([uvs[ib]-uvs[ia], uvs[ic]-uvs[ia]])
+    derivative_u, derivative_v = np.linalg.solve(delta_uv, np.array([vertices[ib]-vertices[ia], vertices[ic]-vertices[ia]]))
+    assert np.isfinite(derivative_u).all() and np.isfinite(derivative_v).all()
+    for index in triangle:
+        binormal = np.cross(normals[index], tangents[index])
+        alignment = float(np.dot(binormal, derivative_v)/np.linalg.norm(derivative_v))
+        v1_negative += alignment <= 0
+        v2_negative += alignment*new_w[index] <= 0
+        minimum_alignment = min(minimum_alignment, alignment*new_w[index])
+        assert float(np.dot(tangents[index], derivative_u)) > 0
+        assert abs(float(np.dot(normals[index], tangents[index]))) < 1e-12
+        checks += 1
+assert len(vertices) == 502 and len(triangles) == 864 and v1_negative == 2520 and v2_negative == 0
+out = {
+    'schema': 1, 'reviewer': 'independent_qa',
+    'mode': 'source-only independent triangle/UV Jacobian review; no engine, import, install or production write',
+    'source_delta_only_three_tangent_w_emissions': True,
+    'four_candidate_hashes_match': True, 'original_preservation_files_verified': len(preserved),
+    'column_source_sha256': sha(PACKET / 'gallery_column.gd.txt'),
+    'derived_vertices': len(vertices), 'derived_triangles': len(triangles),
+    'triangle_corner_uv_basis_checks': checks,
+    'v1_wrong_v_direction_corner_occurrences': v1_negative,
+    'v2_wrong_v_direction_corner_occurrences': v2_negative,
+    'minimum_corrected_v_alignment': minimum_alignment,
+    'adapter_cold_read': 'Adapter replaces candidate byte/hash lookup and adds V2 identity scope. It reuses original guarded operations unchanged. Author4/0 remains author evidence; original independent V1 installer9/0 is not relabelled as a V2 execution.',
+    'verdict': 'Bounded source/math direction passes. Native uploaded tangents, actual Main visuals/costs, unchanged collision/occluders and independent V2 install execution remain open. V1 component receipts remain historical.',
+}
+(PACKET / 'independent-cold-read.json').write_text(json.dumps(out, indent=2)+'\n')
+print(json.dumps(out, indent=2))

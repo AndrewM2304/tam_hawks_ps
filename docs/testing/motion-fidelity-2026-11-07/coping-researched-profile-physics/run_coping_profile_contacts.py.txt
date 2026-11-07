@@ -1,0 +1,28 @@
+from pathlib import Path
+import json,hashlib,os,subprocess,time,shutil,datetime
+root=Path('/workspace/tam_hawks_ps');src=root/'.local/coping-proportion-source';out=root/'docs/testing/motion-fidelity-2026-11-07/coping-researched-profile-physics';out.mkdir(exist_ok=True)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inv():return {p.relative_to(src).as_posix():sha(p) for d in ['game','tests','tools'] for p in sorted((src/d).rglob('*')) if p.is_file() and '__pycache__' not in p.parts}|{'project.godot':sha(src/'project.godot')}
+observer=src/'.local/clyde_profile_contacts.gd'
+before=inv();(out/'source-before.json').write_text(json.dumps(before,sort_keys=True,indent=2)+'\n')
+if before['game/player/skater.gd']!='f04253f745780ce8793828a9e6414c5e7f72617b8f235319eefc54574c093ab3':raise RuntimeError('Actual controller not expected held epoch')
+env=dict(os.environ,XDG_DATA_HOME=str(src/'.local/data'),XDG_CONFIG_HOME=str(src/'.local/config'),XDG_CACHE_HOME=str(src/'.local/cache'))
+for d in ['data','config','cache']:(src/'.local'/d).mkdir(exist_ok=True)
+trace=src/'.local/clyde-trajectory.json'
+if trace.exists():trace.rename(src/'.local/clyde-trajectory.before-profile.json')
+started=datetime.datetime.now(datetime.timezone.utc).isoformat();clock=time.monotonic();commands=[]
+for i,cmd in enumerate([['godot','--headless','--path',str(src),'--check-only','--script','.local/clyde_profile_contacts.gd'],['godot','--headless','--path',str(src),'--fixed-fps','60','--script','.local/clyde_profile_contacts.gd']]):
+ with (out/('parse.log' if i==0 else 'engine.log')).open('w') as stream:
+  try:exit_code=subprocess.run(cmd,env=env,stdout=stream,stderr=subprocess.STDOUT,timeout=max(1,60-(time.monotonic()-clock))).returncode
+  except subprocess.TimeoutExpired:exit_code=124
+ commands.append({'command':cmd,'exit':exit_code})
+ if exit_code:break
+after=inv();(out/'source-after.json').write_text(json.dumps(after,sort_keys=True,indent=2)+'\n')
+for name in ['clyde-active-snapshots.json','clyde-trajectory.json','clyde_profile_contacts.gd','profile-native-contact.json']:
+ p=src/'.local'/name
+ if p.exists():shutil.copy2(p,out/name)
+for name in ['transition_feature.gd','bowl_feature.gd','sunken_bowl_feature.gd']:shutil.copy2(src/'game/levels'/name,out/(name+'.txt'))
+shutil.copy2(src/'.local/candidate-receipt.json',out/'candidate-geometry-receipt.json')
+log=(out/'engine.log').read_text() if (out/'engine.log').exists() else '';errors=[l for l in log.splitlines() if 'ERROR:' in l or 'FAIL:' in l]
+receipt={'commands':commands,'started_utc':started,'wall_seconds':time.monotonic()-clock,'source_stable':before==after,'source_count':len(before),'observer_sha256':sha(src/'.local/clyde_profile_contacts.gd'),'controller_sha256':before['game/player/skater.gd'],'ordinary_Main_original_driver':True,'geometry_only_candidate':True,'errors':errors,'accepted_narrow_native':len(commands)==2 and exit_code==0 and before==after and not errors,'visual_acceptance':False,'M5_performance':False,'overlap':'Root-authorized EA tiny private basin component check may overlap; elapsed metadata is not a performance result.'}
+(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2),flush=True)

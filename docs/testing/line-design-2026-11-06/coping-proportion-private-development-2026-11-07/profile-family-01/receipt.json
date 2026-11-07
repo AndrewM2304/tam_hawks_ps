@@ -1,0 +1,43 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source/.local/profile_family.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+  "started_utc": "2026-11-07T03:46:50.053353+00:00",
+  "os_deadline_seconds": 120,
+  "source_inputs": 806,
+  "engine_pid": 52774,
+  "engine_exit": 0,
+  "eligible": true,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "authorized_overlap": "Root-authorized sequential private Feature/Connected coping-family diagnostic; no timing claim",
+  "preflight_processes": [],
+  "finished_utc": "2026-11-07T03:46:55.738253+00:00",
+  "wall_seconds": 5.684897727998759,
+  "changed_inputs": [],
+  "errors": [],
+  "result": [
+    98,
+    0
+  ],
+  "other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "4ad7ceb5864d90c2888380358c32d8a40d4c6b67a98e30acb80c9af226e6adec",
+    "source-before.json": "716726ef14cfb9891d9a884ecd80b4c30f2e4c2906725bbc5ca682a0a65c2b62",
+    "observer.gd": "03cc873b1a44c82498f08bbec9e76cd7e759cb59c3beec5e42c033a4cfdd6667",
+    "wrapper.py.txt": "381c88bd0c1056613f732c185fe405692abc31e98d78eb3d74060f37a2d52488",
+    "native.log": "fb358624cd597e2270a58e9fdab733699dc654059afc2659855c43d6df435bdf",
+    "source-after.json": "716726ef14cfb9891d9a884ecd80b4c30f2e4c2906725bbc5ca682a0a65c2b62"
+  }
+}

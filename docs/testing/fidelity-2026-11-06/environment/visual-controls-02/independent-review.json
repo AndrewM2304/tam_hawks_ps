@@ -1,0 +1,894 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "mode": "read-only independent QE and bounded BA",
+  "checks": 88,
+  "failures": 0,
+  "source_inputs": 791,
+  "native_images": 9,
+  "native_markers": 18,
+  "native_canvas_proofs": 9,
+  "max_projection_metadata_error_px": 2.0746891234336766e-05,
+  "max_centroid_metadata_error_px": 1.3338768028791317e-05,
+  "max_canvas_error": 2.921796360411122e-08,
+  "roi_comparison": [
+    {
+      "view": "river-oblique",
+      "roi_xyxy": [
+        590,
+        240,
+        640,
+        300
+      ],
+      "mean_absolute_rgb8": 0.004555555555555556,
+      "maximum_rgb8": 1,
+      "different_pixels": 41
+    },
+    {
+      "view": "high-coverage",
+      "roi_xyxy": [
+        0,
+        175,
+        640,
+        400
+      ],
+      "mean_absolute_rgb8": 0.0031296296296296298,
+      "maximum_rgb8": 1,
+      "different_pixels": 1335
+    },
+    {
+      "view": "grazing",
+      "roi_xyxy": [
+        0,
+        240,
+        640,
+        400
+      ],
+      "mean_absolute_rgb8": 0.004137369791666666,
+      "maximum_rgb8": 1,
+      "different_pixels": 1265
+    }
+  ],
+  "image_proofs": [
+    {
+      "file": "production-wave-river-oblique.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            225.11615967337914,
+            128.83705151183463
+          ],
+          "centroid_xy": [
+            225.18041237113403,
+            128.7164948453608
+          ],
+          "native_error_px": 0.13661009845563868
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.9536313760059,
+            152.5580629966568
+          ],
+          "centroid_xy": [
+            408.9096385542169,
+            152.5722891566265
+          ],
+          "native_error_px": 0.04623583022335868
+        }
+      ],
+      "canvas_error": 1.5193340696662005e-08
+    },
+    {
+      "file": "production-wave-high-coverage.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            245.87199170744123,
+            128.83703352030648
+          ],
+          "centroid_xy": [
+            245.87234042553192,
+            128.72340425531914
+          ],
+          "native_error_px": 0.1136298000784544
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.1280252952507,
+            152.55803172415352
+          ],
+          "centroid_xy": [
+            394.1666666666667,
+            152.5952380952381
+          ],
+          "native_error_px": 0.053642050987912714
+        }
+      ],
+      "canvas_error": 1.5193340696662005e-08
+    },
+    {
+      "file": "production-wave-grazing.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            266.6278369247625,
+            128.83710122579737
+          ],
+          "centroid_xy": [
+            266.6276595744681,
+            128.72340425531914
+          ],
+          "native_error_px": 0.11369710879813295
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.3024054721613,
+            152.5580673760743
+          ],
+          "centroid_xy": [
+            379.1265060240964,
+            152.54819277108433
+          ],
+          "native_error_px": 0.17617639925156828
+        }
+      ],
+      "canvas_error": 1.7530777496332917e-08
+    },
+    {
+      "file": "constant-normal-river-oblique.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            231.04631412552618,
+            128.83705156971803
+          ],
+          "centroid_xy": [
+            230.99462365591398,
+            128.747311827957
+          ],
+          "native_error_px": 0.10356218373550719
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.9536460755184,
+            145.44174358946242
+          ],
+          "centroid_xy": [
+            408.98837209302326,
+            145.31395348837208
+          ],
+          "native_error_px": 0.1324243415253659
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "constant-normal-high-coverage.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            251.80223407467133,
+            128.8370336195892
+          ],
+          "centroid_xy": [
+            251.747311827957,
+            128.80107526881721
+          ],
+          "native_error_px": 0.0656464482999005
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.12807622512366,
+            145.441781966434
+          ],
+          "centroid_xy": [
+            394.16279069767444,
+            145.38372093023256
+          ],
+          "native_error_px": 0.06764745767037147
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "constant-normal-grazing.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            272.55807538027943,
+            128.83710112596538
+          ],
+          "centroid_xy": [
+            272.5967741935484,
+            128.6720430107527
+          ],
+          "native_error_px": 0.1695340070486965
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.302488177053,
+            145.44172205691035
+          ],
+          "centroid_xy": [
+            379.21084337349396,
+            145.23493975903614
+          ],
+          "native_error_px": 0.22618065508243407
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "native-standard-river-oblique.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            236.97646856730623,
+            128.8370516276014
+          ],
+          "centroid_xy": [
+            236.9468085106383,
+            128.77659574468086
+          ],
+          "native_error_px": 0.06733968177268049
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.95366063366725,
+            138.3254502012063
+          ],
+          "centroid_xy": [
+            409.04761904761904,
+            138.21428571428572
+          ],
+          "native_error_px": 0.14555317483535554
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    },
+    {
+      "file": "native-standard-high-coverage.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            257.73247646081245,
+            128.8370337188719
+          ],
+          "centroid_xy": [
+            257.747311827957,
+            128.80107526881721
+          ],
+          "native_error_px": 0.038898563580795735
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.12802400721085,
+            138.32542263208458
+          ],
+          "centroid_xy": [
+            394.1547619047619,
+            138.26190476190476
+          ],
+          "native_error_px": 0.06891614468056394
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    },
+    {
+      "file": "native-standard-grazing.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            278.4883173912096,
+            128.83710102613327
+          ],
+          "centroid_xy": [
+            278.5,
+            128.73157894736843
+          ],
+          "native_error_px": 0.10616681428300381
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.30248046098717,
+            138.32543312268214
+          ],
+          "centroid_xy": [
+            379.21084337349396,
+            138.23493975903614
+          ],
+          "native_error_px": 0.12878821634065146
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    }
+  ],
+  "observed": "All nine original frames opened independently. Broad wave bands diminish in the constant-normal and native-standard controls. Fine regular curved/parallel striation remains conspicuous in the grazing controls and visible in high coverage. The selected clear-water control ROIs match within one RGB8 level. Custom wave-gradient normal assignment is not necessary for that residual artifact; this does not establish its exact renderer, lighting, BRDF, tone-mapping or output-precision cause.",
+  "verdict": "Capture integrity and the bounded static control finding pass. Water finish, temporal shimmer, three-wave cost admission, full Main and MacBook Air M5 performance remain open. No production replacement or cost admission follows from this diagnostic.",
+  "concurrency": "Root untimed fixed-fps headless suite PID33416 explicitly overlapped. No sole-process, frame-time, FPS or performance claim. Wrapper start observation is not a continuous host-process observer.",
+  "write_activity": "After capture, nine root production derivative/import/manifest files were accidentally rewritten byte-identically. Their mtime changed; SHA-byte stability is verified, filesystem write freedom is not claimed. Original disclosure retained.",
+  "prior_rejection": "Cyan-mask visual-controls-01 remains rejected; its failed receipt is not superseded or relabelled as a passing proof.",
+  "checks_detail": [
+    {
+      "name": "all author-preserved bytes match supplied index",
+      "pass": true,
+      "actual": 23
+    },
+    {
+      "name": "source inventories match exactly",
+      "pass": true,
+      "actual": 791
+    },
+    {
+      "name": "executed private source still matches every recorded input",
+      "pass": true,
+      "actual": []
+    },
+    {
+      "name": "receipt binds exact before and after inventory bytes",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "completed clean native capture",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "raw engine log contains no error or exception",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "diagnostic explicitly excludes timing and full Main",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "concurrent untimed root suite disclosed",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production shader byte identity",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "flat shader byte identity",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "executed observers preserved exactly",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-river-oblique.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-river-oblique.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-river-oblique.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-river-oblique.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-river-oblique.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-river-oblique.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 2.0746891234336766e-05,
+        "centroid_metadata_error_px": 8.179969287224457e-06,
+        "native_error_px": 0.13661009845563868,
+        "pixel_count": 97
+      }
+    },
+    {
+      "name": "production-wave-river-oblique.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.8393977704920593e-05,
+        "centroid_metadata_error_px": 7.072497890520201e-06,
+        "native_error_px": 0.04623583022335868,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "production-wave-river-oblique.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-high-coverage.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-high-coverage.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-high-coverage.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-high-coverage.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-high-coverage.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-high-coverage.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 3.4880412739250193e-06,
+        "centroid_metadata_error_px": 4.556751171022974e-06,
+        "native_error_px": 0.1136298000784544,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "production-wave-high-coverage.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 4.789816144223816e-06,
+        "centroid_metadata_error_px": 1.2501053592743773e-05,
+        "native_error_px": 0.053642050987912714,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "production-wave-high-coverage.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-grazing.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-grazing.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-grazing.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-grazing.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-grazing.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "production-wave-grazing.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 4.234392463807301e-06,
+        "centroid_metadata_error_px": 4.5567511993724555e-06,
+        "native_error_px": 0.11369710879813295,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "production-wave-grazing.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.0173164243252261e-05,
+        "centroid_metadata_error_px": 1.200467991269132e-05,
+        "native_error_px": 0.17617639925156828,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "production-wave-grazing.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-river-oblique.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-river-oblique.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-river-oblique.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-river-oblique.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-river-oblique.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-river-oblique.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1559440175980291e-05,
+        "centroid_metadata_error_px": 5.870054118933996e-06,
+        "native_error_px": 0.10356218373550719,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "constant-normal-river-oblique.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 2.80944400270445e-06,
+        "centroid_metadata_error_px": 3.967405625333169e-06,
+        "native_error_px": 0.1324243415253659,
+        "pixel_count": 86
+      }
+    },
+    {
+      "name": "constant-normal-river-oblique.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-high-coverage.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-high-coverage.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-high-coverage.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-high-coverage.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-high-coverage.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-high-coverage.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 4.10024534612203e-06,
+        "centroid_metadata_error_px": 4.869956597103532e-06,
+        "native_error_px": 0.0656464482999005,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "constant-normal-high-coverage.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1267661214296629e-05,
+        "centroid_metadata_error_px": 1.2210331766695085e-05,
+        "native_error_px": 0.06764745767037147,
+        "pixel_count": 86
+      }
+    },
+    {
+      "name": "constant-normal-high-coverage.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-grazing.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-grazing.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-grazing.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-grazing.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-grazing.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "constant-normal-grazing.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 3.981189327593798e-06,
+        "centroid_metadata_error_px": 2.9578684905721775e-06,
+        "native_error_px": 0.1695340070486965,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "constant-normal-grazing.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 5.06436645127734e-06,
+        "centroid_metadata_error_px": 2.580329476162314e-06,
+        "native_error_px": 0.22618065508243407,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "constant-normal-grazing.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-river-oblique.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-river-oblique.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-river-oblique.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-river-oblique.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-river-oblique.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-river-oblique.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.7640327490925824e-05,
+        "centroid_metadata_error_px": 7.259509720520352e-07,
+        "native_error_px": 0.06733968177268049,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "native-standard-river-oblique.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.7428663066468197e-05,
+        "centroid_metadata_error_px": 1.3338768028791317e-05,
+        "native_error_px": 0.14555317483535554,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "native-standard-river-oblique.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-high-coverage.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-high-coverage.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-high-coverage.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-high-coverage.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-high-coverage.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-high-coverage.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 6.886300838291517e-06,
+        "centroid_metadata_error_px": 4.869956597103532e-06,
+        "native_error_px": 0.038898563580795735,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "native-standard-high-coverage.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 3.1775447304521694e-06,
+        "centroid_metadata_error_px": 7.825818281293878e-06,
+        "native_error_px": 0.06891614468056394,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "native-standard-high-coverage.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-grazing.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-grazing.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-grazing.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-grazing.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-grazing.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-standard-grazing.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 6.819872698624823e-06,
+        "centroid_metadata_error_px": 3.6942335555067984e-06,
+        "native_error_px": 0.10616681428300381,
+        "pixel_count": 95
+      }
+    },
+    {
+      "name": "native-standard-grazing.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1644467203976963e-05,
+        "centroid_metadata_error_px": 2.580329476162314e-06,
+        "native_error_px": 0.12878821634065146,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "native-standard-grazing.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "nine mode/view pairs cover all controls",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "river-oblique: independent clear-water ROI agrees",
+      "pass": true,
+      "actual": {
+        "view": "river-oblique",
+        "roi_xyxy": [
+          590,
+          240,
+          640,
+          300
+        ],
+        "mean_absolute_rgb8": 0.004555555555555556,
+        "maximum_rgb8": 1,
+        "different_pixels": 41
+      }
+    },
+    {
+      "name": "high-coverage: independent clear-water ROI agrees",
+      "pass": true,
+      "actual": {
+        "view": "high-coverage",
+        "roi_xyxy": [
+          0,
+          175,
+          640,
+          400
+        ],
+        "mean_absolute_rgb8": 0.0031296296296296298,
+        "maximum_rgb8": 1,
+        "different_pixels": 1335
+      }
+    },
+    {
+      "name": "grazing: independent clear-water ROI agrees",
+      "pass": true,
+      "actual": {
+        "view": "grazing",
+        "roi_xyxy": [
+          0,
+          240,
+          640,
+          400
+        ],
+        "mean_absolute_rgb8": 0.004137369791666666,
+        "maximum_rgb8": 1,
+        "different_pixels": 1265
+      }
+    },
+    {
+      "name": "all nine disclosed rewritten files have original byte hashes",
+      "pass": true,
+      "actual": null
+    }
+  ]
+}

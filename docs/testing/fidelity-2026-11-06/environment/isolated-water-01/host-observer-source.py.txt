@@ -1,0 +1,24 @@
+from pathlib import Path
+import datetime, hashlib, json, subprocess, time
+root = Path('/workspace/tam_hawks_ps/.local/environment-water-isolated-source')
+label = 'candidate-gl-isolated'
+output = root / '.local/environment-water' / label
+command = ['python3','tools/environment_water_probe.py',label,'--isolated-water']
+process = subprocess.Popen(command,cwd=root)
+samples = []
+unexpected = []
+while process.poll() is None:
+    observed = subprocess.run(['ps','-C','godot','-o','pid=,args='],capture_output=True,text=True).stdout.splitlines()
+    observed = [line.strip() for line in observed if line.strip()]
+    foreign = [line for line in observed if '--path '+str(root)+' ' not in line]
+    row = {'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'godot_processes':observed}
+    samples.append(row)
+    if foreign: unexpected.append({'utc':row['utc'],'unexpected':foreign})
+    time.sleep(1)
+code = process.wait()
+if output.exists():
+    record = {'schema':1,'command':command,'exit':code,'observer_source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'sampling_seconds':1,'scope':'Independent host process observation while isolated wrapper is alive. One small ps subprocess per second, applied equally across brackets. Subsecond competitors may escape observation. Rider offline CPU fitting was explicitly paused for the coordinated epoch.','samples':samples,'unexpected_processes':unexpected}
+    (output/'process-observer.json').write_text(json.dumps(record,indent=2)+'\n')
+    (output/'host-observer-source.py.txt').write_bytes(Path(__file__).read_bytes())
+print('ISOLATED_OBSERVER_DONE exit',code,'samples',len(samples),'unexpected',len(unexpected))
+raise SystemExit(code)

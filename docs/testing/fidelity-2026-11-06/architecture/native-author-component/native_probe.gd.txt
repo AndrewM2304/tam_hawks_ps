@@ -1,0 +1,181 @@
+extends SceneTree
+## Author-only component inventory. This does not run Main or certify rendering.
+
+const Art = preload("res://game/levels/city_art.gd")
+const World = preload("res://game/levels/glasgow_square.gd")
+const Budget = preload("res://game/levels/render_budget.gd")
+const Batches = preload("res://game/levels/static_batches.gd")
+var _meshes: Dictionary = {}
+var _materials: Dictionary = {}
+var _mesh_bytes := 0
+var _triangles := 0
+var _draw_nodes := 0
+var _instances := 0
+var _native_bodies := 0
+var _native_shapes := 0
+var _records: Array = []
+var _shells := 0
+var _buffer_bytes := 0
+var _material_keys: Dictionary = {}
+var _families: Dictionary = {}
+
+
+func _initialize() -> void:
+	call_deferred("_run")
+
+
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	var candidate := args[0] == "candidate"
+	var kit = load("res://.local/architectural-fidelity/run/facade_kit.gd") if candidate else load("res://game/levels/art/facade_kit.gd")
+	var gallery = load("res://.local/architectural-fidelity/run/exchange_gallery.gd") if candidate else load("res://game/levels/art/exchange_gallery.gd")
+	if kit == null or gallery == null:
+		quit(2)
+		return
+	var scene := Node3D.new()
+	scene.name = "ArchitectureComponent"
+	root.add_child(scene)
+	var art := Art.new()
+	scene.add_child(art)
+	art.make_materials(World.PALETTE)
+	for key: String in art.materials:
+		_material_keys[art.materials[key].get_instance_id()] = key
+	var target := _building(scene,Vector3(-41,0,0),30,16,"stone","TENEMENT WORKS",PI/2.0,kit,gallery,art)
+	for z: float in [-33.0,35.0]:
+		_building(scene,Vector3(-41,2 if z<0 else 0,z),10,16,"stone","TENEMENT WORKS",PI/2.0,kit,gallery,art)
+	for z: float in [-33.0,0.0,35.0]:
+		_building(scene,Vector3(41,2 if z<0 else 0,z),30 if z==0 else 10,18,"sandstone","CLOSE COFFEE",-PI/2.0,kit,gallery,art)
+	for x: float in [-32.0,32.0]:
+		_building(scene,Vector3(x,2,-48),10,17,"stone","THE WEE PIE CO.",0,kit,gallery,art)
+	for x: float in [-24.0,0.0,24.0]:
+		_building(scene,Vector3(x,0,48),18,15,"stone_light","EXCHANGE ARCADE",PI,kit,gallery,art)
+	_building(scene,Vector3(0,6,-134),62,19,"stone_light","CIVIC CHAMBERS",0,kit,gallery,art,true)
+	for side: float in [-1.0,1.0]:
+		_building(scene,Vector3(side*42,4,-99),20,17,"sandstone","CIVIC CLOSE",-side*PI/2.0,kit,gallery,art)
+		_building(scene,Vector3(side*42,4,-63.5),14,16,"sandstone","CIVIC CLOSE",-side*PI/2.0,kit,gallery,art)
+	for z: float in [-26.0,26.0]:
+		_building(scene,Vector3(-136,2,z),30,17,"stone","STATION APPROACH",PI/2.0,kit,gallery,art)
+	_building(scene,Vector3(65,1.5,-48),28,13,"stone","THE MARKET HALL",0,kit,gallery,art)
+	_building(scene,Vector3(-77.5,2.5,-55),18,14,"stone","THE CLOSE / PRINT WORKS",PI/2.0,kit,gallery,art)
+	_building(scene,Vector3(-44,2.7,-45),16,17,"sandstone","MERCHANT CLOSE",-0.32,kit,gallery,art)
+	for x: float in [-105.0,-70.0,70.0,105.0]:
+		_building(scene,Vector3(x,6,-149),32,15,"sandstone","",0,kit,gallery,art,true)
+	for z: float in [-24.0,18.0]:
+		_building(scene,Vector3(142,0,z),34,16,"sandstone","",-PI/2.0,kit,gallery,art,true)
+	_building(scene,Vector3(42,6,-118),20,18,"sandstone","",-PI/2.0,kit,gallery,art,true)
+	_building(scene,Vector3(0,2,-48),18,6.75,"stone_light","EXCHANGE GALLERY",0,kit,gallery,art)
+	gallery.build(art)
+	var target_display := target.get_node("Facade/WallVisual") as MeshInstance3D
+	var ray_a: Vector3 = Vector3(0,5.25,6.5)-target.get_node("Facade").position
+	var ray_b: Vector3 = Vector3(0,5.25,5.5)-target.get_node("Facade").position
+	var aperture_hits := 0
+	var faces := target_display.mesh.get_faces()
+	for index: int in range(0,faces.size(),3):
+		if Geometry3D.segment_intersects_triangle(ray_a,ray_b,faces[index],faces[index+1],faces[index+2]) != null:
+			aperture_hits += 1
+	var sharing := Budget.apply_static_decor(scene)
+	var batches := Batches.finalize(scene)
+	_inventory(scene)
+	var result := {"kind":"author_native_architecture_component_inventory",
+		"scope":"29 facade composites and gallery portico only; no Main/render/timing/hardware claim",
+		"variant":args[0],"engine":Engine.get_version_info(),
+		"source_triangle_instances":_triangles,"source_draw_nodes":_draw_nodes,
+		"geometry_instances":_instances,"unique_meshes":_meshes.size(),
+		"unique_materials":_materials.size(),"mesh_array_bytes":_mesh_bytes,
+		"multimesh_transform_bytes":_buffer_bytes,"native_bodies":_native_bodies,
+		"native_shapes":_native_shapes,"collision_records":_records,
+		"recess_shells":_shells,"target_upper_wall_ray_hits":aperture_hits,
+		"target_mesh_class":target_display.mesh.get_class(),"sharing":sharing,"batching":batches,"families":_families}
+	var file := FileAccess.open(args[1],FileAccess.WRITE)
+	file.store_string(JSON.stringify(result,"\t")+"\n")
+	file.close()
+	print("ARCHITECTURE_COMPONENT ",JSON.stringify({"variant":args[0],"triangles":_triangles,"draw_nodes":_draw_nodes,"shells":_shells,"hole_hits":aperture_hits}))
+	scene.free()
+	quit(0)
+
+
+func _building(scene: Node3D, at: Vector3, width: float, height: float, stone: String,
+		shop: String, yaw: float, kit, gallery, art: Node3D,
+		horizon: bool = false) -> Node3D:
+	var building := Node3D.new()
+	building.name = "Building"+str(scene.get_child_count())
+	building.position = at
+	building.rotation.y = yaw
+	scene.add_child(building)
+	var foundation := at.y+3.0 if shop in ["CIVIC CLOSE","CIVIC CHAMBERS","STATION APPROACH"] else 0.0
+	var size := Vector3(width,height+foundation,12)
+	var body := StaticBody3D.new()
+	body.name = "Facade"
+	body.set_meta("art_label","Facade")
+	body.position.y = (height-foundation)/2.0
+	building.add_child(body)
+	var collision := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = size
+	collision.shape = shape
+	body.add_child(collision)
+	var display := MeshInstance3D.new()
+	display.name = "WallVisual"
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	display.mesh = mesh
+	display.material_override = art.materials[stone]
+	if horizon:
+		display.set_meta("horizon_frontage",true)
+	body.add_child(display)
+	if shop == "EXCHANGE GALLERY":
+		gallery.adapt_gallery_front(art,building)
+	else:
+		kit.decorate(art,building,width,height,stone,shop)
+	if shop == "EXCHANGE ARCADE":
+		body.position.z = -0.6
+		shape.size.z = 13.2
+		display.mesh.size.z = 13.2
+	if shop == "TENEMENT WORKS" and at.is_equal_approx(Vector3(-41,0,0)):
+		gallery.align_west_thresholds(building)
+	if shop == "THE CLOSE / PRINT WORKS":
+		building.scale.z = 0.7
+	return building
+
+
+func _inventory(node: Node) -> void:
+	if node is StaticBody3D:
+		_native_bodies += 1
+	if node is CollisionShape3D:
+		_native_shapes += 1
+		_records.append([str(node.get_parent().get_path()),str(node.global_transform),str(node.shape.size)])
+	var mesh: Mesh
+	var count := 1
+	if node is MeshInstance3D:
+		mesh = node.mesh
+	elif node is MultiMeshInstance3D:
+		mesh = node.multimesh.mesh
+		count = node.multimesh.instance_count
+		_buffer_bytes += count*48
+	if mesh != null:
+		_draw_nodes += 1
+		_instances += count
+		if node.material_override != null:
+			_materials[node.material_override.get_instance_id()] = true
+		var label := str(_material_keys.get(node.material_override.get_instance_id(),"unknown"))+":"+mesh.get_class()
+		if not _families.has(label):
+			_families[label] = {"nodes":0,"instances":0,"triangles":0}
+		_families[label].nodes += 1
+		_families[label].instances += count
+		var new_mesh := not _meshes.has(mesh.get_instance_id())
+		_meshes[mesh.get_instance_id()] = true
+		for surface: int in range(mesh.get_surface_count()):
+			var arrays := mesh.surface_get_arrays(surface)
+			var indices: Variant = arrays[Mesh.ARRAY_INDEX]
+			var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+			var triangles := count*int(indices.size()/3 if indices != null and not indices.is_empty() else vertices.size()/3)
+			_triangles += triangles
+			_families[label].triangles += triangles
+			if new_mesh:
+				for channel: Variant in arrays:
+					if channel != null:
+						_mesh_bytes += var_to_bytes(channel).size()
+		if bool(node.get_meta("architectural_recess_shell",false)):
+			_shells += 1
+	for child: Node in node.get_children():
+		_inventory(child)

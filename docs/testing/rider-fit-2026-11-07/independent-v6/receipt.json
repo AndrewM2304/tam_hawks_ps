@@ -1,0 +1,300 @@
+{
+	"anthropometry": {
+		"actual_idle_head_to_sole_height_m": 1.60705006122589,
+		"actual_leg_lengths": [
+			{
+				"lower_leg_m": 0.409999996423721,
+				"side": -1.0,
+				"upper_leg_m": 0.429999977350235
+			},
+			{
+				"lower_leg_m": 0.409999996423721,
+				"side": 1.0,
+				"upper_leg_m": 0.429999977350235
+			}
+		],
+		"actual_lowest_visible_sole_world_y_m": 0.137899994850159,
+		"actual_rendered_head_derivative_sha256": "dd5cc4a17b142defb1400b4ef0d25d6252bc00049a1f77f8d2c17ab8f6dfad5b",
+		"authored_arm_lengths_m": [
+			0.3,
+			0.29
+		],
+		"authored_hip_width_m": 0.21,
+		"authored_shoulder_width_m": 0.43,
+		"board_source_unchanged_sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+		"native_head_local_bounds": "[P: (-0.08565, -0.121258, -0.119988), S: (0.1713, 0.270993, 0.218547)]",
+		"native_head_world_y_m": [
+			1.47208786010742,
+			1.74495005607605
+		],
+		"scope": "Actual settled private idle is bent-knee skating posture, not standing stature or Main acceptance.",
+		"source_ancestry_adult_identity": "Each of three bundled male-young ancestry target displacements weighted 1/3; young corresponds to age 25. The average muscle/weight target is empty and is not needed.",
+		"source_head_mesh_sha256": "e6baabf4dcdc7e38d316fb967769ed0b51a9bd7ba544058431734c3e2d917ff0",
+		"source_revision": "a8bc2d54ff0ac92e78ff71431b1023eda42bf482"
+	},
+	"capture_load": "Concurrent root fixed-fps headless required suite PID33416 and possibly Motion private Clyde diagnostic; no timing/performance or exclusive-engine claim.",
+	"failures": 0,
+	"frames": [
+		{
+			"camera_position": "(0.126724, 1.557421, -0.852449)",
+			"fov": 35.0,
+			"label": "idle-face",
+			"png_sha256": "15fc6f43f06c74c500c4a75d55c8a680b7635338de931cf94513d687be3a4f63",
+			"sync_png_sha256": "8853a618d06d929d7694f09ae1ab413858bcf912e0abebb75a9d0b50ae8a2d53",
+			"synchronization": [
+				{
+					"centroid_error": 0.0001220703125,
+					"count": 52,
+					"projected": "(640.0001, 400.0)",
+					"world": "(0.041221, 1.613395, -0.079173)"
+				},
+				{
+					"centroid_error": 0.214933514595032,
+					"count": 42,
+					"projected": "(728.8048, 400.0)",
+					"world": "(-0.013048, 1.613395, -0.085174)"
+				},
+				{
+					"centroid_error": 0.103455133736134,
+					"count": 50,
+					"projected": "(640.0001, 311.1954)",
+					"world": "(0.041652, 1.667854, -0.083068)"
+				}
+			]
+		},
+		{
+			"camera_position": "(0.814601, 1.564842, 0.009856)",
+			"fov": 35.0,
+			"label": "idle-profile",
+			"png_sha256": "b1a8b4882829037a5a83c66d80e0881a7769457f42d2fcdb558141805cda91c9",
+			"sync_png_sha256": "13d07f314bfe19e34c859d981a6fffc2f90f2eccf478f2cac12cd2f9624b1e36",
+			"synchronization": [
+				{
+					"centroid_error": 0.00006103515625,
+					"count": 52,
+					"projected": "(640.0001, 400.0)",
+					"world": "(0.041221, 1.613395, -0.079173)"
+				},
+				{
+					"centroid_error": 0.214814484119415,
+					"count": 42,
+					"projected": "(728.8047, 400.0)",
+					"world": "(0.047465, 1.613395, -0.133415)"
+				},
+				{
+					"centroid_error": 0.214828014373779,
+					"count": 42,
+					"projected": "(640.0001, 311.1953)",
+					"world": "(0.044597, 1.667889, -0.078784)"
+				}
+			]
+		},
+		{
+			"camera_position": "(2.3, 1.55, 2.65)",
+			"fov": 40.0,
+			"label": "push",
+			"png_sha256": "95f1392018224a3f5fdb00af107ad9b2b3c67d5ff00ed1a32c5fbe49a6541292",
+			"sync_png_sha256": "65a49e9cef333b0b58433a40672d462b9d0154cbb1236a651b089e3c224924c0",
+			"synchronization": [
+				{
+					"centroid_error": 0.00006103515625,
+					"count": 32,
+					"projected": "(639.9999, 400.0)",
+					"world": "(0.0, 0.85, 0.0)"
+				},
+				{
+					"centroid_error": 0.0706787109375,
+					"count": 32,
+					"projected": "(716.9293, 400.0)",
+					"world": "(0.189155, 0.85, -0.164172)"
+				},
+				{
+					"centroid_error": 0.070648193359375,
+					"count": 32,
+					"projected": "(640.0, 323.0706)",
+					"world": "(-0.032118, 1.095624, -0.037006)"
+				}
+			]
+		}
+	],
+	"native_resource_inventory": {
+		"conservative_rgba_mips_bytes": 66060283,
+		"mesh_instances": 14,
+		"scope": "Actual instantiated private Rider and native Board. Source triangle count, all active material Texture2D properties; conservative uncompressed RGBA mip estimate, not target GPU allocation or timing.",
+		"surfaces": 17,
+		"textures": [
+			{
+				"conservative_rgba_mips_bytes": 22369621,
+				"height": 2048,
+				"path": "res://game/art/rider/head_albedo.png",
+				"width": 2048
+			},
+			{
+				"conservative_rgba_mips_bytes": 1398101,
+				"height": 512,
+				"path": "res://game/art/rider/head_roughness.png",
+				"width": 512
+			},
+			{
+				"conservative_rgba_mips_bytes": 5592405,
+				"height": 1024,
+				"path": "res://game/art/rider/head_normal.png",
+				"width": 1024
+			},
+			{
+				"conservative_rgba_mips_bytes": 5592405,
+				"height": 1024,
+				"path": "res://game/art/rider/fitted_hair_albedo.png",
+				"width": 1024
+			},
+			{
+				"conservative_rgba_mips_bytes": 349525,
+				"height": 256,
+				"path": "res://game/art/rider/fitted_brows_albedo.png",
+				"width": 256
+			},
+			{
+				"conservative_rgba_mips_bytes": 5592405,
+				"height": 1024,
+				"path": "res://game/art/rider/fitted_cloth_albedo.png",
+				"width": 1024
+			},
+			{
+				"conservative_rgba_mips_bytes": 1398101,
+				"height": 512,
+				"path": "res://game/art/rider/fitted_cloth_normal.png",
+				"width": 512
+			},
+			{
+				"conservative_rgba_mips_bytes": 1398101,
+				"height": 512,
+				"path": "res://game/art/rider/fitted_shoe_albedo.png",
+				"width": 512
+			},
+			{
+				"conservative_rgba_mips_bytes": 5592405,
+				"height": 1024,
+				"path": "res://game/art/rider/right_hand_albedo.png",
+				"width": 1024
+			},
+			{
+				"conservative_rgba_mips_bytes": 1398101,
+				"height": 512,
+				"path": "res://game/art/rider/right_hand_roughness.png",
+				"width": 512
+			},
+			{
+				"conservative_rgba_mips_bytes": 1398101,
+				"height": 512,
+				"path": "res://game/art/rider/right_hand_normal.png",
+				"width": 512
+			},
+			{
+				"conservative_rgba_mips_bytes": 5592405,
+				"height": 1024,
+				"path": "res://game/art/rider/left_hand_albedo.png",
+				"width": 1024
+			},
+			{
+				"conservative_rgba_mips_bytes": 1398101,
+				"height": 512,
+				"path": "res://game/art/rider/left_hand_roughness.png",
+				"width": 512
+			},
+			{
+				"conservative_rgba_mips_bytes": 1398101,
+				"height": 512,
+				"path": "res://game/art/rider/left_hand_normal.png",
+				"width": 512
+			},
+			{
+				"conservative_rgba_mips_bytes": 5592405,
+				"height": 1024,
+				"path": "res://game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png",
+				"width": 1024
+			}
+		],
+		"triangles": 46448
+	},
+	"purpose": "Private art prototype: copied production SkaterVisual with authored states and static native floor. Not Main, accepted gameplay input, hardware or AAA acceptance.",
+	"source_sha256": {
+		"res://game/art/assets/makehuman_hm08/__pycache__/generate.cpython-312.pyc": "4da86b81d2dcc2f8efd8cc22beb26d59706b7098430f3722e80e980a53906dca",
+		"res://game/art/assets/makehuman_hm08/generate.py": "b469b177bef392c1941de816be5fe75213bd7d14626fc34d8d64eab1625ad319",
+		"res://game/art/assets/makehuman_hm08/hair.obj": "906b29d0238e7c527ce8115d80ddc134d4be5f143f2b16e6ab0cbb359060ba1e",
+		"res://game/art/assets/makehuman_hm08/hair.obj.import": "b5c624d8decad3e41f5184896fdcce319e90b6966cd0f07aca455c2eb899dfef",
+		"res://game/art/assets/makehuman_hm08/head.obj": "e6baabf4dcdc7e38d316fb967769ed0b51a9bd7ba544058431734c3e2d917ff0",
+		"res://game/art/assets/makehuman_hm08/head.obj.import": "73747d61284e366ff38685deab8fecccccf3f9e5481415e19c2d96dd72a646b1",
+		"res://game/art/assets/makehuman_hm08/left_hand.obj": "a63152ba3ce3e54868ea9985f259c0bec047b9329797314e8dde9d7f3348dac3",
+		"res://game/art/assets/makehuman_hm08/left_hand.obj.import": "96e54609df80819110041e2c5be6ccbe255b9f9f9f51f12a5a783fe80867c96b",
+		"res://game/art/assets/makehuman_hm08/manifest.json": "cd8792d529f509d8defb55b65ea6fced02c754678f7846af65dba20ed8218f0b",
+		"res://game/art/assets/makehuman_hm08/right_hand.obj": "be68d644bb4b9a558937d7a1f6dd5ec9f0c2a33195a5bdc17c0cc97f9413d126",
+		"res://game/art/assets/makehuman_hm08/right_hand.obj.import": "0476cb12805608174d678211d51aa141017a494d98fc5a1c7ed34a40822e7e55",
+		"res://game/art/assets/tam_skateboard/README.md": "73005fd4707df3816ef9c5134bd96b6a9c3430d57db34777b51952bf2fe25382",
+		"res://game/art/assets/tam_skateboard/board_albedo.png": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3",
+		"res://game/art/assets/tam_skateboard/board_albedo.png.import": "2e1b89f593531c2d618cb5d9b3902749a5a538a085caf6731a7ed218ff92c7e2",
+		"res://game/art/assets/tam_skateboard/manifest.json": "5636e34a2bfa842c8f1d6f496450e3475fe03f19aee2177981ba100f05c2379b",
+		"res://game/art/assets/tam_skateboard/tam_skateboard.glb": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+		"res://game/art/assets/tam_skateboard/tam_skateboard.glb.import": "fb0c6ca2f42f58f92191cf80c6a9ecbdee65104f73d9a4b0a11228e0e0d01662",
+		"res://game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3",
+		"res://game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png.import": "09f6a206e2ae2c9461836fb124a2aaec7ac355c1395142d29dbfe9278bf5f6c8",
+		"res://game/art/rider/fitted_brows.obj": "e8e2a2b8d42465caebe671e28f337c60b451bde0c070e40622d627eae843789c",
+		"res://game/art/rider/fitted_brows.obj.import": "cb41905078aa0d4160963d4e658f39904b7cba58e35ed5d70e23d0f7ea3a1eca",
+		"res://game/art/rider/fitted_brows_albedo.png": "5cf942fb1907cc2e42b4542e9056d4f5ed775325649b237016cdbe17e257ff61",
+		"res://game/art/rider/fitted_brows_albedo.png.import": "7586bf49eb264b7d14acfa1d02ecd58f2fc499d3439d94d7b7abc2c264f97d84",
+		"res://game/art/rider/fitted_cloth_albedo.png": "d96774f0aeb3c93fdb3f01a27566041320cebda86966e0f9a46f46182f95c75d",
+		"res://game/art/rider/fitted_cloth_albedo.png.import": "c7353564304ef39a636b538a05d7f2d29798767e733550a6890471faa786cb8c",
+		"res://game/art/rider/fitted_cloth_normal.png": "39b96b2ea63cf352ea1278ac997b028c045b84521a3ac41c5f37c55ad23ca6ca",
+		"res://game/art/rider/fitted_cloth_normal.png.import": "48a28656d7537892210bf19bc8c2308b73ec9a512b741778c3153f1e9aefb26f",
+		"res://game/art/rider/fitted_eyes.obj": "2b61b7277336313c1b96894228f77aa7f58d0c1ca74c1701a13f5b68158d3c89",
+		"res://game/art/rider/fitted_eyes.obj.import": "f4109105de112cd62018c3a3b91006f75b6338666036a9d2767f0d6b1559102e",
+		"res://game/art/rider/fitted_hair.obj": "eeb36c9c5cfb1413bb421fb31606f14305b7723b0386005c78c6d802097f382f",
+		"res://game/art/rider/fitted_hair.obj.import": "41dbace2b6ef508cc714385674bae692b3a2c4ae4cf6707e6ffda50570356824",
+		"res://game/art/rider/fitted_hair_albedo.png": "bc1fbdff1e909305083e3d879690d5b358b9c97bb5089c15262249e4e43bcaa4",
+		"res://game/art/rider/fitted_hair_albedo.png.import": "daf886c045abc977a87714a2ebe81bc9dc35dac7190bf5ee0c8ca95aa503471d",
+		"res://game/art/rider/fitted_head.obj": "dd5cc4a17b142defb1400b4ef0d25d6252bc00049a1f77f8d2c17ab8f6dfad5b",
+		"res://game/art/rider/fitted_head.obj.import": "684ba5505602a0bf307118b9082b5c057cea1d7a475586f1db38be353d14ac4b",
+		"res://game/art/rider/fitted_outfit.glb": "b4e9e2947b3751288e8c0301b623a6f01a9430bae77e7d507f468f9f7391a5e7",
+		"res://game/art/rider/fitted_outfit.glb.import": "8b7360c1b657c87e715a2d73fa746cb25e74e4d9f647b202f33ffef6ac71f7ae",
+		"res://game/art/rider/fitted_shoe_albedo.png": "8f627d37db1024b9bfd94b609832dd38a482a0202ccb0c735beceea5ccff0d5a",
+		"res://game/art/rider/fitted_shoe_albedo.png.import": "55051420574c6c8e0867bfedf091daf50336d988b87ea9f0d05c524d36a2edd6",
+		"res://game/art/rider/fitted_shoe_left_sole.obj": "842b4d69a8e1e52c0ddc013d87609839a4de12691d9309442bc7947689c87791",
+		"res://game/art/rider/fitted_shoe_left_sole.obj.import": "2b8a25a582e5320e93de778fc05a173deb07bfc4bbf190245491313d0ec8f9ae",
+		"res://game/art/rider/fitted_shoe_left_upper.obj": "efa202a06634aca798276f1f8fe24aa05df965a1e45959a220cb3b13dc32f27c",
+		"res://game/art/rider/fitted_shoe_left_upper.obj.import": "f2295d0b7ecb8d31032bdeb942154ebefc9ee7edc2c0b6b28c97eb3e10e3c44c",
+		"res://game/art/rider/fitted_shoe_right_sole.obj": "97c8bf4da2461db203cdec16fdd8793c1aeabd94793302be566613ff2e31772b",
+		"res://game/art/rider/fitted_shoe_right_sole.obj.import": "0edcf44c5c892775d57e5883f7da08830f923f4fd70d8641734d206bc1d156a3",
+		"res://game/art/rider/fitted_shoe_right_upper.obj": "b2be959783d525d2f68ddcf05d9a518f545dbb34623a981279795b67db18b2c0",
+		"res://game/art/rider/fitted_shoe_right_upper.obj.import": "1148c9f5f704cd3fb87514b2113b841dc180ff21a9ec92c486376826559bd338",
+		"res://game/art/rider/head_albedo.png": "dc179c234cfcf2b89f5c23af3ee489d4f2dafe04d7ea5e2f4d4b7b08d7914734",
+		"res://game/art/rider/head_albedo.png.import": "3aefa2fbfeaa7f53874c547eabcb2d6f4fe60c3507e814953d12ae17a0d2cba5",
+		"res://game/art/rider/head_normal.png": "098308eb94c3985660300a10433cdeca34304c4e2c4b68979dea965cfc1c99e5",
+		"res://game/art/rider/head_normal.png.import": "703ecc522e7b09791b72b95e6ed8b7258cca7c121dd08d241fc4d74a29e73242",
+		"res://game/art/rider/head_roughness.png": "58bcb5895b53c7ba9b5509e1b67f46fd9ebf039b98bbdf371672ea72ddd2b6b1",
+		"res://game/art/rider/head_roughness.png.import": "c886cc047c53d76b935329610650d2b8bc6ef2295eff7c83aa48f8255ebe1733",
+		"res://game/art/rider/left_hand_albedo.png": "9c7de9df96e434644343b9a95dc18286891b0f2c67cca563cf6084476fd732ec",
+		"res://game/art/rider/left_hand_albedo.png.import": "b02c6de66cbc06d8ee97193644aa0d395a3e10e6881bd643f8d634fe4d049868",
+		"res://game/art/rider/left_hand_normal.png": "97ed3a154a9935eeb62bbf07acb0935c69f460651f49579182ca6f2ad1526035",
+		"res://game/art/rider/left_hand_normal.png.import": "077ebab2d11fa14629c979df3595c72e83d298b65cd41b9c82b08c7bae9a6e8a",
+		"res://game/art/rider/left_hand_roughness.png": "56f174da7de47316e0df6819a55d780d4e31d0519c603fe7e2e6075d8f4a2178",
+		"res://game/art/rider/left_hand_roughness.png.import": "de2d20054125effd69b06ca10005427bc4e26ab66ae8085724cd5d81cbabc7f9",
+		"res://game/art/rider/right_hand_albedo.png": "d49e43ad28286aa71d6b5d797e7ec93938737a83418783d7e0fd93155ca5ac8c",
+		"res://game/art/rider/right_hand_albedo.png.import": "58556aa1e3e5ed734a9c79cc3839991f741a1b2e53337a0ae200c05c269a6f5e",
+		"res://game/art/rider/right_hand_normal.png": "0eb82238b725a84d42b33c7853576db74765a8831072e21aaea326a9abd90fc7",
+		"res://game/art/rider/right_hand_normal.png.import": "d7611a6ab5e197f582202005cdd3bdb5339d28a6f4e0d3f8d6c05ca26972a36e",
+		"res://game/art/rider/right_hand_roughness.png": "56f174da7de47316e0df6819a55d780d4e31d0519c603fe7e2e6075d8f4a2178",
+		"res://game/art/rider/right_hand_roughness.png.import": "d4ff5018d0f9a92b7ed334e6764bf8b4984646151f76635cd6ee77d24443b24d",
+		"res://game/player/skater_anatomy.gd": "9ffe5cffb55df567baf3f1a6c394aeaa8308ac0bcd68643f56b18b64a41def8b",
+		"res://game/player/skater_anatomy.gd.uid": "f880de007d6cd0d0dd52d628058dce84a2d317996cffa9303ddbec75e2ce17d4",
+		"res://game/player/skater_footwear.gd": "e1ab76938348208b1260abaa63d2907572d388177a19d75e877742584f4c3177",
+		"res://game/player/skater_footwear.gd.uid": "13434dd423e3f28364582a22b07ca635e9bd7f205cfaee49ce373ff5d43d149f",
+		"res://game/player/skater_garments.gd": "4ae22ca910de27e3c93a0f844afb782652ffce3df864c874ecfc37920671de41",
+		"res://game/player/skater_garments.gd.uid": "72bb2b0d5b309d514f0adaae81c317a0f00a6fc6ab4a1d8319b9d5fc960a3d54",
+		"res://game/player/skater_visual.gd": "e1c7efe22b3c2c72be2b1f9813d3e37cedfe4de6e42f809ad53af8b0966dc63a",
+		"res://game/player/skater_visual.gd.uid": "6efa9e45324c16d06671d5520baa6309212d85fad4eb433f9dc908e4dfb653b2",
+		"res://game/player/trick_animation.gd": "d16ba96f7ed6484aeef8443d8cffa75a2c1151a906ba1b864205b2e152960c2f",
+		"res://game/player/trick_animation.gd.uid": "29e7563ec732b07137dad92df15b65ab14011d0c36b21471ca1f2d0d27c587c7",
+		"res://preview.gd": "6309517db3d141f98a9770f295b943642acdbc5e80924fee32fa8bd04e10a7ac",
+		"res://project.godot": "11503c5d46b16340bfd5c0c48eb64ef153c4efada2fe1703b0a124dde3efe0d5"
+	},
+	"source_stable": true
+}

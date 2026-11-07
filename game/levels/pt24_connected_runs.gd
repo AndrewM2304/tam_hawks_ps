@@ -14,6 +14,10 @@ var _built := false
 func build(world: Node3D) -> void:
 	if _built: return
 	_built = true
+	# The existing south bank becomes the west fountain exit rather than an
+	# isolated cross-court object. Its native toe stops before the protected Z28
+	# beginner crossing; the four-metre-wide route runs north/south.
+	_move_feature(world,"exchange_south_line",Vector3(0,0,34),Vector3(-10,0,20),-PI*0.5)
 	# This seat now releases into the real east quay close. The teaching rail,
 	# fountain and the Z28 cross-court beginner route retain their exact positions.
 	_move_feature(world,"exchange_south_return",Vector3(15,0,34),Vector3(12,0,35),-PI*0.5)
@@ -75,17 +79,37 @@ func _move_feature(world: Node3D,id: String,old_origin: Vector3,new_origin: Vect
 			child.transform=frame*child.transform
 			if child.has_meta("support_probe"):
 				child.set_meta("support_probe",frame*Vector3(child.get_meta("support_probe")))
-	# Only the station bank has terrain support records. Translation preserves
-	# its plane diagonals and underside; the other changes are ordinary props.
+	# Query records follow the same quarter-turn as the physical terrain. Merely
+	# translating a rotated bank leaves an invisible slope at its old heading.
 	for patch: Dictionary in world._terrain.patches:
-		if String(patch.id).begins_with(id):
-			var bounds: Rect2=patch.bounds
-			bounds.position+=Vector2(new_origin.x-old_origin.x,new_origin.z-old_origin.z)
-			patch.bounds=bounds
+		if String(patch.id).begins_with(id): _transform_patch(patch,frame)
 	for feature: Dictionary in world._fidelity_infill.features:
 		if String(feature.id)==id: _transform_record(feature,frame)
 	for route: Dictionary in world._fidelity_infill.routes:
 		if String(route.id)==id: _transform_record(route,frame)
+
+
+func _transform_patch(patch: Dictionary,frame: Transform3D) -> void:
+	# Rectangular height records admit rigid quarter-turns. An arbitrary yaw
+	# needs polygon support rather than an axis-aligned bounding-box surrogate.
+	assert(absf(frame.basis.x.y)<0.0001 and minf(absf(frame.basis.x.x),absf(frame.basis.x.z))<0.0001)
+	var bounds: Rect2=patch.bounds
+	var heights: Vector4=patch.heights
+	var corners: Array[Vector3]=[
+		frame*Vector3(bounds.position.x,heights.x,bounds.position.y),
+		frame*Vector3(bounds.end.x,heights.y,bounds.position.y),
+		frame*Vector3(bounds.end.x,heights.z,bounds.end.y),
+		frame*Vector3(bounds.position.x,heights.w,bounds.end.y)]
+	var moved:=Rect2(Vector2(corners[0].x,corners[0].z),Vector2.ZERO)
+	for at: Vector3 in corners: moved=moved.expand(Vector2(at.x,at.z))
+	var result:=Vector4.ZERO
+	for at: Vector3 in corners:
+		var east:=absf(at.x-moved.end.x)<0.001
+		var south:=absf(at.z-moved.end.y)<0.001
+		var index:=2 if east and south else (1 if east else (3 if south else 0))
+		result[index]=at.y
+	patch.bounds=moved
+	patch.heights=result
 
 
 func _transform_record(record: Dictionary,frame: Transform3D) -> void:

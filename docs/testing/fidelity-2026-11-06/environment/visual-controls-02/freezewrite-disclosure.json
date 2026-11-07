@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "disclosed_utc": "2026-11-07T01:54:26.478272+00:00",
+  "incident": "A trailing derivative builder command inherited the production working directory after private preparation and rewrote the existing4PNG maps,4import descriptors and derivative manifest. This violated the requested filesystem freeze; the command was unintended.",
+  "command": "python3 tools/build_environment_derivatives.py",
+  "actual_cwd": "/workspace/tam_hawks_ps",
+  "result": "All9affected final file hashes match the independently copied frozen production bytes. Mtimestamps changed. No engine/editor/import launched and no native imported-cache write by the builder. Root explicitly retains SHA-byte-stability scope without claiming filesystem-write freedom or CPU exclusivity. No source-content repair was required.",
+  "corrective_action": "All remaining private tool invocations use explicit absolute private script paths AND explicit absolute private working directories. Future skill update after root release.",
+  "files": [
+    {
+      "file": "game/art/assets/environment_pbr/derived/grass_albedo.png",
+      "current_sha256": "224ca06e75373e392115863c5f50ac49852d13455b08f9a1249a2e0e58e50a58",
+      "frozen_copy_sha256": "224ca06e75373e392115863c5f50ac49852d13455b08f9a1249a2e0e58e50a58",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.413519+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:44:27.061999+00:00"
+    },
+    {
+      "file": "game/art/assets/environment_pbr/derived/grass_albedo.png.import",
+      "current_sha256": "d24bdbac95aa1ed09acdcc51016d1c4b45234a1cd9f7b25f55b3e662a0f38840",
+      "frozen_copy_sha256": "d24bdbac95aa1ed09acdcc51016d1c4b45234a1cd9f7b25f55b3e662a0f38840",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.417438+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:46:43.136664+00:00"
+    },
+    {
+      "file": "game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+      "current_sha256": "17bb6a2dcacaf480b5bf6e3d40d7859ead76aec4e54431526d811a4da86b09de",
+      "frozen_copy_sha256": "17bb6a2dcacaf480b5bf6e3d40d7859ead76aec4e54431526d811a4da86b09de",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.423550+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:44:27.066994+00:00"
+    },
+    {
+      "file": "game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import",
+      "current_sha256": "90dedf535e0a5ba9d85c35e0f4dd9a5525cbf01b6457e8b2f27a0072af7a0774",
+      "frozen_copy_sha256": "90dedf535e0a5ba9d85c35e0f4dd9a5525cbf01b6457e8b2f27a0072af7a0774",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.426598+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:46:45.920417+00:00"
+    },
+    {
+      "file": "game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+      "current_sha256": "8d8b3a041cb598688392b6b581946c4d4ed02642da9bd18add0bbe33cdb128e3",
+      "frozen_copy_sha256": "8d8b3a041cb598688392b6b581946c4d4ed02642da9bd18add0bbe33cdb128e3",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.417924+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:44:27.065927+00:00"
+    },
+    {
+      "file": "game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import",
+      "current_sha256": "5819885d5ff5571f71500cae33dff8f96efa04dbc8b23fb4481e530f23cdc479",
+      "frozen_copy_sha256": "5819885d5ff5571f71500cae33dff8f96efa04dbc8b23fb4481e530f23cdc479",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.423351+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:46:51.575006+00:00"
+    },
+    {
+      "file": "game/art/assets/environment_pbr/derived/manifest.json",
+      "current_sha256": "aff368e987d08fcec6c05e7d686aeb9de78ea3106b9cac2c6a6cc1c7800ba1fd",
+      "frozen_copy_sha256": "aff368e987d08fcec6c05e7d686aeb9de78ea3106b9cac2c6a6cc1c7800ba1fd",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.458782+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:53:21.637242+00:00"
+    },
+    {
+      "file": "game/art/assets/environment_pbr/derived/pavement_albedo.png",
+      "current_sha256": "e77efebba3b0947b02e98cef16115e83d254e7067cb870a7b702c4fbc6683055",
+      "frozen_copy_sha256": "e77efebba3b0947b02e98cef16115e83d254e7067cb870a7b702c4fbc6683055",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.427166+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:44:27.067782+00:00"
+    },
+    {
+      "file": "game/art/assets/environment_pbr/derived/pavement_albedo.png.import",
+      "current_sha256": "d4a50f8980d5030203cdbe924d6d01cbb189c1be822f93e7d0eee90322c23623",
+      "frozen_copy_sha256": "d4a50f8980d5030203cdbe924d6d01cbb189c1be822f93e7d0eee90322c23623",
+      "identical": true,
+      "current_mtime_utc": "2026-11-07T01:52:46.458459+00:00",
+      "frozen_mtime_utc": "2026-11-06T23:47:04.226466+00:00"
+    }
+  ]
+}

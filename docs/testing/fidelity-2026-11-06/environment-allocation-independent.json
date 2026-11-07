@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T00:40:55.734088+00:00",
+  "packet": "docs/testing/fidelity-2026-11-06/environment/native-material-subsets",
+  "packet_receipt_sha256": "3797010153dcaaa25de1e3145f9fc9433db16d79e027a0b655f29273b1e634d5",
+  "source_inputs": 787,
+  "source_before_after_identical": true,
+  "all_preservation_hashes_match": true,
+  "valid_original_pngs": 43,
+  "whole_water_workload_result": "Rejected / incomplete; original eligible=false and engine_exit=-15 retained. No timing cell completed.",
+  "allocation_result": "Pass, exact completed isolated native allocation subset only",
+  "allocation_arithmetic": {
+    "retired_native_payload_bytes": 786429,
+    "new_native_payload_bytes": 33554832,
+    "payload_delta_bytes": 32768403,
+    "actual_resident_delta_bytes": 32768403,
+    "additional_mib": 31.25038433074951,
+    "budget_mib": 32,
+    "headroom_bytes": 786029,
+    "before_and_after_draws": 8,
+    "before_and_after_primitives": 96
+  },
+  "normal_quality_observation": "Reviewer independently opened all six original normal-resolution PNGs: coherent readable relief remains at actual chase, close wall and oblique bank views, without conspicuous static loss at1K. This is a bounded visual observation; per-frame native hashes/cameras/synchronization metadata were not flushed and are unavailable. No full final capture-integrity, moving stability or V2 pass.",
+  "water_observation": "Reviewer independently opened both Clyde sample00 originals: thin parallel bands visibly reduce; paler calmer sky response. Different nativeTIME phases; no normal-speed or cost claim.",
+  "limits": "Fresh isolated material grid proves additional surface-texture allocation only. Not total Main/RAM/frame time, not Mac. Current later gameplay/art code is outside this exact source-copy scope."
+}

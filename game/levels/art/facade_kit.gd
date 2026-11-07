@@ -98,7 +98,7 @@ static func _window(art: Node3D, batches: Dictionary, x: float, y: float, width:
 		projection: float, style: String, variation: int) -> void:
 	var z := 6.0 + projection
 	art._batch_box(batches, "window_shadow", Vector3(width + 0.5, height + 0.42, 0.14 + projection), Vector3(x, y, 6.04 + projection / 2.0))
-	var pane := "window_lit" if variation == 2 else ("window_dull" if variation == 4 else "glass")
+	var pane := "window_lit" if variation == 2 else ("window_dull" if variation == 4 else "facade_glass")
 	art._batch_box(batches, pane, Vector3(width, height, 0.04), Vector3(x, y, z + 0.13))
 	var frame := "iron" if style == "market" else "window_frame"
 	for side: float in [-1.0, 1.0]:
@@ -155,7 +155,7 @@ static func _shops(art: Node3D, building: Node3D, batches: Dictionary, width: fl
 		_display(art, batches, display_x, display_width, variant)
 		art._batch_box(batches, "shop_glass", Vector3(display_width - 0.1, 2.1, 0.025), Vector3(display_x, 1.9, 6.58))
 		art._batch_box(batches, paint, Vector3(1.05, 2.55, 0.17), Vector3(door_x, 1.62, 6.19))
-		art._batch_box(batches, "glass", Vector3(0.79, 1.4, 0.035), Vector3(door_x, 2.0, 6.3))
+		art._batch_box(batches, "facade_glass", Vector3(0.79, 1.4, 0.035), Vector3(door_x, 2.0, 6.3))
 		art._batch_box(batches, "brass", Vector3(0.035, 0.32, 0.05), Vector3(door_x + 0.34, 1.48, 6.33))
 		art._batch_box(batches, "cut_stone", Vector3(1.2, 0.13, 0.52), Vector3(door_x, 0.26, 6.3))
 		art._batch_box(batches, paint, Vector3(display_width, 0.07, 0.1), Vector3(display_x, 2.45, 6.63))
@@ -198,7 +198,7 @@ static func _civic_ground(art: Node3D, building: Node3D, batches: Dictionary, wi
 		art._batch_box(batches, "wood", Vector3(1.75, 2.5, 0.14), Vector3(x, 1.7, 6.17))
 		for side: float in [-1.0, 1.0]:
 			art._batch_box(batches, "cut_stone", Vector3(0.3, 2.7, 0.42), Vector3(x + side * 1.14, 1.65, 6.25))
-			art._batch_box(batches, "glass", Vector3(0.65, 1.25, 0.03), Vector3(x + side * 0.42, 2.0, 6.27))
+			art._batch_box(batches, "facade_glass", Vector3(0.65, 1.25, 0.03), Vector3(x + side * 0.42, 2.0, 6.27))
 		_arch(art, batches, Vector3(x, 2.9, 6.2), 1.15, "cut_stone")
 		art._batch_box(batches, "brass", Vector3(0.07, 0.3, 0.05), Vector3(x, 1.55, 6.3))
 	art._label(building, "CIVIC CHAMBERS", Vector3(0, 3.85, 6.4), 36, 0.018)
@@ -211,7 +211,7 @@ static func _station_ground(art: Node3D, building: Node3D, batches: Dictionary, 
 		var x := (float(index) - float(bays - 1) / 2.0) * step
 		art._batch_box(batches, "window_shadow", Vector3(step - 0.6, 3.1, 0.1), Vector3(x, 1.9, 6.05))
 		art._batch_box(batches, "shop_navy", Vector3(step - 0.85, 0.55, 0.3), Vector3(x, 0.6, 6.2))
-		art._batch_box(batches, "glass", Vector3(step - 1.0, 2.1, 0.05), Vector3(x, 2.0, 6.2))
+		art._batch_box(batches, "facade_glass", Vector3(step - 1.0, 2.1, 0.05), Vector3(x, 2.0, 6.2))
 		for split: float in [-0.3, 0.0, 0.3]:
 			art._batch_box(batches, "iron", Vector3(0.08, 2.6, 0.14), Vector3(x + split * step, 1.9, 6.28))
 		_arch(art, batches, Vector3(x, 2.8, 6.2), (step - 0.7) / 2.0, "cut_stone")
@@ -247,7 +247,7 @@ static func _roof(art: Node3D, _building: Node3D, batches: Dictionary, width: fl
 	if style == "retail":
 		for x: float in [-width * 0.27, width * 0.27]:
 			art._batch_box(batches, stone, Vector3(1.65, 1.45, 1.2), Vector3(x, height + 1.25, 3.9))
-			art._batch_box(batches, "glass", Vector3(1.1, 1.0, 0.06), Vector3(x, height + 1.25, 4.53))
+			art._batch_box(batches, "facade_glass", Vector3(1.1, 1.0, 0.06), Vector3(x, height + 1.25, 4.53))
 			art._batch_box(batches, "window_frame", Vector3(0.06, 1.0, 0.07), Vector3(x, height + 1.25, 4.58))
 			art._batch_prism(batches, "slate", Vector3(2.0, 0.65, 1.6), Vector3(x, height + 1.95, 4))
 	elif style == "station" and seed_value % 2 == 0:

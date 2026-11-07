@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "generator": "tools/build_environment_derivatives.py",
+  "algorithm": "bounded broad-luminance correction; muted grass colour; reflected 2x2 grass with tangent-normal sign correction",
+  "authoring_versions": {
+    "Pillow": "12.3.0",
+    "NumPy": "2.3.5"
+  },
+  "licence": "CC0-1.0; derivatives of the exact retained maps in ../manifest.json",
+  "source_manifest_sha256": "7d8ff62662c04bae2c44029d593d68b42169745b88ad5ae3d5c1ac85756228d4",
+  "source_sha256": {
+    "T_grass01": {
+      "albedo": "a226e00dadc773be187d652c41683dcd61720ca40eeeff5220436ff211940275",
+      "normal_opengl": "7453f91ad36757c559e438169e77549eab16519978c303469543f896b7887ec7",
+      "ambient_occlusion": "c04821991fefccfb1feb5508660e28c0c2b86bc85ee9bdf9202f8bc2ad57d7ca"
+    }
+  },
+  "physical_width_m": {
+    "grass": 3.0
+  },
+  "physical_scale_note": "Grass contains two original authored1.5m tiles per axis. Paving now uses the unchanged2m CobblestoneFloor02 source directly.",
+  "gpu_policy": "These replace existing map bindings: same3grass maps resident, no extra sampling or draw family; mipmapped VRAM compression, grass1K.",
+  "files": {
+    "grass_albedo.png": {
+      "sha256": "224ca06e75373e392115863c5f50ac49852d13455b08f9a1249a2e0e58e50a58",
+      "bytes": 2569369,
+      "dimensions_px": [
+        1024,
+        1024
+      ]
+    },
+    "grass_normal_opengl.png": {
+      "sha256": "8d8b3a041cb598688392b6b581946c4d4ed02642da9bd18add0bbe33cdb128e3",
+      "bytes": 1368018,
+      "dimensions_px": [
+        1024,
+        1024
+      ]
+    },
+    "grass_ambient_occlusion.png": {
+      "sha256": "17bb6a2dcacaf480b5bf6e3d40d7859ead76aec4e54431526d811a4da86b09de",
+      "bytes": 607199,
+      "dimensions_px": [
+        1024,
+        1024
+      ]
+    }
+  }
+}

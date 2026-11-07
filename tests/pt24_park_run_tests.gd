@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Independent fixed-footprint contracts and a production-input park descent.
 ## No actor corrections after the declared starting pose, or direct score calls.
 const Routes = preload("res://tests/world_routes_tests.gd")
@@ -228,13 +229,13 @@ static func _descent(tree: SceneTree,game: Node,check: Callable) -> void:
 		if game.skater.manual_active:
 			if manual_frames==0: manual_begin=at
 			manual_frames+=1
-			_balance(game.skater.manual_balance)
+			_balance(game.skater.manual_balance,game.skater)
 			if at.z>= -118:
 				choice_visible=_visible_choice(game,game.world.get_node("park_east_gateway"),Vector3(-144.5,0,-112))
 				manual_end=at
 				last_value=game.score.get_combo_value()
 				Input.action_release("manual")
-				_balance(0)
+				_balance(0,game.skater)
 				Input.action_press("brake")
 		if frame%8==0: camera_clear=camera_clear and Density._camera_clear(game)
 		if game.score.total_score>total:
@@ -299,8 +300,11 @@ static func _transit(tree: SceneTree,game: Node,check: Callable) -> void:
 	game.start_mode(previous_mode)
 
 
-static func _balance(value: float) -> void:
+static func _balance(value: float, manual: Node = null) -> void:
 	var amount := clampf(-0.14-value*0.85,-0.6,0.6) if absf(value)>0.001 else 0.0
+	if manual != null:
+		ManualBalance.correct(manual,amount)
+		return
 	Input.action_release("steer_left")
 	Input.action_release("steer_right")
 	if amount<0: Input.action_press("steer_left",-amount)

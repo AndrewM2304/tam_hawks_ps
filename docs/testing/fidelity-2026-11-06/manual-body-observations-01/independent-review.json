@@ -1,0 +1,579 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "utc": "2026-11-07T01:48:10.270587+00:00",
+  "native_log": "docs/testing/line-design-2026-11-06/current-order-native-2026-11-07/native.log",
+  "native_log_sha256": "5c7a533837d57937f2968939211499f653c33ede170c6d4a21d24502868e98a6",
+  "observer_source_sha256": "717d5a4df6674c6d80339be4474cc77db0ee7c72b38ce62611f2368b56631c82",
+  "native_result": "Independent sign observer contributes84 assertions in current158/0 Main sequence. Historical standalone85/0 additionally checked CLI Music once. No missing sign assertion.",
+  "finding": "Board endpoints and control signs pass. Pogo and HangTen torso-axis forward response reverses relative to eight ordinary styles, with a substantial lateral component. Special body yaw plus local Z roll is a plausible source interaction, not an independently established complete-body mass/visible defect.",
+  "result": "Unmeasured visual/biomechanical acceptance; bounded quantitative concern for next moving review.",
+  "rows": [
+    {
+      "case": "manual",
+      "original_observation": {
+        "back_leading_rise_after": 0.247778713703156,
+        "back_leading_rise_before": 0.242326200008392,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": -0.1728,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": 0.0183677673339844,
+          "torso_axis_fore_aft": 0.0658648386597633,
+          "torso_axis_lateral": 0.252360254526138,
+          "torso_offset_fore_aft_m": 0.0181522369384766
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": 0.0161552429199219,
+          "torso_axis_fore_aft": 0.0754566490650177,
+          "torso_axis_lateral": 0.242075055837631,
+          "torso_offset_fore_aft_m": 0.0159492492675781
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": 0.0161552429199219,
+          "torso_axis_fore_aft": 0.0754566490650177,
+          "torso_axis_lateral": 0.242075055837631,
+          "torso_offset_fore_aft_m": 0.0159492492675781
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": 0.0187301635742188,
+          "torso_axis_fore_aft": 0.0692445784807205,
+          "torso_axis_lateral": 0.252307802438736,
+          "torso_offset_fore_aft_m": 0.0185108184814453
+        },
+        "case": "manual",
+        "forward_leading_rise_after": 0.242326200008392,
+        "forward_leading_rise_before": 0.248367607593536,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": -0.000333333333333321,
+        "left_turn": 0.0396011620759964,
+        "manual_id": "manual",
+        "right_turn": -0.138811126351357,
+        "speed": 5.53434038162231
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.0025749206542968993,
+          "torso_axis_fore_aft": 0.006212070584297194,
+          "torso_axis_lateral": -0.010232746601105014,
+          "torso_offset_fore_aft_m": -0.002561569213867198
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.0022125244140625,
+          "torso_axis_fore_aft": -0.009591810405254406,
+          "torso_axis_lateral": 0.010285198688506969,
+          "torso_offset_fore_aft_m": 0.0022029876708985
+        }
+      }
+    },
+    {
+      "case": "nose_manual",
+      "original_observation": {
+        "back_leading_rise_after": -0.258057951927185,
+        "back_leading_rise_before": -0.259050905704498,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": 0.1728,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": 0.0271434783935547,
+          "torso_axis_fore_aft": -0.020676588639617,
+          "torso_axis_lateral": -0.135798797011375,
+          "torso_offset_fore_aft_m": 0.0273609161376953
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": 0.0265216827392578,
+          "torso_axis_fore_aft": -0.0126352235674858,
+          "torso_axis_lateral": -0.140019863843918,
+          "torso_offset_fore_aft_m": 0.0267181396484375
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": 0.0265216827392578,
+          "torso_axis_fore_aft": -0.0126352235674858,
+          "torso_axis_lateral": -0.140019863843918,
+          "torso_offset_fore_aft_m": 0.0267181396484375
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": 0.0302543640136719,
+          "torso_axis_fore_aft": -0.0202184207737446,
+          "torso_axis_lateral": -0.123333908617496,
+          "torso_offset_fore_aft_m": 0.0303897857666016
+        },
+        "case": "nose_manual",
+        "forward_leading_rise_after": -0.259050905704498,
+        "forward_leading_rise_before": -0.248367607593536,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": 0.300333333333333,
+        "left_turn": 0.0394763424992561,
+        "manual_id": "nose_manual",
+        "right_turn": -0.138371452689171,
+        "speed": 5.73794651031494
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.0037326812744141007,
+          "torso_axis_fore_aft": 0.0075831972062588,
+          "torso_axis_lateral": -0.01668595522642201,
+          "torso_offset_fore_aft_m": -0.0036716461181641007
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.0006217956542969028,
+          "torso_axis_fore_aft": -0.0080413650721312,
+          "torso_axis_lateral": 0.004221066832543002,
+          "torso_offset_fore_aft_m": 0.0006427764892577986
+        }
+      }
+    },
+    {
+      "case": "manual fakie",
+      "original_observation": {
+        "back_leading_rise_after": -0.25805789232254,
+        "back_leading_rise_before": -0.259050965309143,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": 0.1728,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": -0.0226154327392578,
+          "torso_axis_fore_aft": -0.0691678747534752,
+          "torso_axis_lateral": -0.263918966054916,
+          "torso_offset_fore_aft_m": -0.0224342346191406
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": -0.0231094360351562,
+          "torso_axis_fore_aft": -0.0611625052988529,
+          "torso_axis_lateral": -0.268156051635742,
+          "torso_offset_fore_aft_m": -0.0229034423828125
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": -0.0231094360351562,
+          "torso_axis_fore_aft": -0.0611625052988529,
+          "torso_axis_lateral": -0.268156051635742,
+          "torso_offset_fore_aft_m": -0.0229034423828125
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": -0.0190486907958984,
+          "torso_axis_fore_aft": -0.0690341740846634,
+          "torso_axis_lateral": -0.252136021852493,
+          "torso_offset_fore_aft_m": -0.0188407897949219
+        },
+        "case": "manual fakie",
+        "forward_leading_rise_after": -0.259050965309143,
+        "forward_leading_rise_before": -0.248367607593536,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": 0.300333333333333,
+        "left_turn": 0.0398001670837402,
+        "manual_id": "manual",
+        "right_turn": -0.139511410390035,
+        "speed": -5.20971059799194
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.004060745239257802,
+          "torso_axis_fore_aft": 0.007871668785810505,
+          "torso_axis_lateral": -0.016020029783249012,
+          "torso_offset_fore_aft_m": -0.004062652587890601
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.0004940032958984028,
+          "torso_axis_fore_aft": -0.008005369454622303,
+          "torso_axis_lateral": 0.004237085580826028,
+          "torso_offset_fore_aft_m": 0.0004692077636718993
+        }
+      }
+    },
+    {
+      "case": "nose_manual fakie",
+      "original_observation": {
+        "back_leading_rise_after": 0.247778713703156,
+        "back_leading_rise_before": 0.242326200008392,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": -0.1728,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": -0.0314102172851562,
+          "torso_axis_fore_aft": 0.017276369035244,
+          "torso_axis_lateral": 0.123903580009937,
+          "torso_offset_fore_aft_m": -0.0315799713134766
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": -0.0335044860839844,
+          "torso_axis_fore_aft": 0.0267611891031265,
+          "torso_axis_lateral": 0.113366782665253,
+          "torso_offset_fore_aft_m": -0.0336894989013672
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": -0.0335044860839844,
+          "torso_axis_fore_aft": 0.0267611891031265,
+          "torso_axis_lateral": 0.113366782665253,
+          "torso_offset_fore_aft_m": -0.0336894989013672
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": -0.0305309295654297,
+          "torso_axis_fore_aft": 0.020418519154191,
+          "torso_axis_lateral": 0.123479753732681,
+          "torso_offset_fore_aft_m": -0.0307388305664062
+        },
+        "case": "nose_manual fakie",
+        "forward_leading_rise_after": 0.242326200008392,
+        "forward_leading_rise_before": 0.248367607593536,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": -0.000333333333333321,
+        "left_turn": 0.0396759510040283,
+        "manual_id": "nose_manual",
+        "right_turn": -0.139074150715963,
+        "speed": -5.41230249404907
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.0029735565185547014,
+          "torso_axis_fore_aft": 0.006342669948935502,
+          "torso_axis_lateral": -0.010112971067427992,
+          "torso_offset_fore_aft_m": -0.002950668334961
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.0020942687988282013,
+          "torso_axis_fore_aft": -0.009484820067882503,
+          "torso_axis_lateral": 0.01053679734468399,
+          "torso_offset_fore_aft_m": 0.002109527587890604
+        }
+      }
+    },
+    {
+      "case": "pogo",
+      "original_observation": {
+        "back_leading_rise_after": 0.80901825428009,
+        "back_leading_rise_before": 0.808388113975525,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": -0.201622222222222,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": 0.00118446350097656,
+          "torso_axis_fore_aft": 0.0980125740170479,
+          "torso_axis_lateral": 0.131690248847008,
+          "torso_offset_fore_aft_m": 0.000967025756835938
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": -0.000324249267578125,
+          "torso_axis_fore_aft": 0.0871238112449646,
+          "torso_axis_lateral": 0.12102884799242,
+          "torso_offset_fore_aft_m": -0.0005340576171875
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": -0.000324249267578125,
+          "torso_axis_fore_aft": 0.0871238112449646,
+          "torso_axis_lateral": 0.12102884799242,
+          "torso_offset_fore_aft_m": -0.0005340576171875
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": 0.00201416015625,
+          "torso_axis_fore_aft": 0.0956088602542877,
+          "torso_axis_lateral": 0.131116300821304,
+          "torso_offset_fore_aft_m": 0.00179290771484375
+        },
+        "case": "pogo",
+        "forward_leading_rise_after": 0.808388113975525,
+        "forward_leading_rise_before": 0.808694005012512,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": -0.0290222222222222,
+        "left_turn": 0.0396089181303978,
+        "manual_id": "pogo",
+        "right_turn": -0.138838067650795,
+        "speed": 5.52170038223267
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.002338409423828125,
+          "torso_axis_fore_aft": -0.008485049009323106,
+          "torso_axis_lateral": -0.010087452828883986,
+          "torso_offset_fore_aft_m": -0.00232696533203125
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.001508712768554685,
+          "torso_axis_fore_aft": 0.010888762772083296,
+          "torso_axis_lateral": 0.010661400854587999,
+          "torso_offset_fore_aft_m": 0.001501083374023438
+        }
+      }
+    },
+    {
+      "case": "casper_manual",
+      "original_observation": {
+        "back_leading_rise_after": 0.298757433891296,
+        "back_leading_rise_before": 0.297163784503937,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": -0.201622222222222,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": 0.0383720397949219,
+          "torso_axis_fore_aft": 0.0648896545171738,
+          "torso_axis_lateral": 0.256258100271225,
+          "torso_offset_fore_aft_m": 0.0381546020507812
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": 0.0366840362548828,
+          "torso_axis_fore_aft": 0.0744871124625206,
+          "torso_axis_lateral": 0.245964750647545,
+          "torso_offset_fore_aft_m": 0.0364742279052734
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": 0.0366840362548828,
+          "torso_axis_fore_aft": 0.0744871124625206,
+          "torso_axis_lateral": 0.245964750647545,
+          "torso_offset_fore_aft_m": 0.0364742279052734
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": 0.0388069152832031,
+          "torso_axis_fore_aft": 0.0682573691010475,
+          "torso_axis_lateral": 0.256168395280838,
+          "torso_offset_fore_aft_m": 0.0385856628417969
+        },
+        "case": "casper_manual",
+        "forward_leading_rise_after": 0.297163784503937,
+        "forward_leading_rise_before": 0.29871854186058,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": -0.0290222222222222,
+        "left_turn": 0.0396089181303978,
+        "manual_id": "casper_manual",
+        "right_turn": -0.138838067650795,
+        "speed": 5.52170038223267
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.0021228790283202986,
+          "torso_axis_fore_aft": 0.006229743361473097,
+          "torso_axis_lateral": -0.010203644633293013,
+          "torso_offset_fore_aft_m": -0.0021114349365235
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.0016880035400391041,
+          "torso_axis_fore_aft": -0.009597457945346805,
+          "torso_axis_lateral": 0.010293349623679976,
+          "torso_offset_fore_aft_m": 0.0016803741455077986
+        }
+      }
+    },
+    {
+      "case": "manual_pivot",
+      "original_observation": {
+        "back_leading_rise_after": -0.258429855108261,
+        "back_leading_rise_before": -0.25942075252533,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": 0.176622222222222,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": -0.0227642059326172,
+          "torso_axis_fore_aft": -0.069014810025692,
+          "torso_axis_lateral": -0.264458060264587,
+          "torso_offset_fore_aft_m": -0.0225353240966797
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": -0.0232486724853516,
+          "torso_axis_fore_aft": -0.060970738530159,
+          "torso_axis_lateral": -0.26872193813324,
+          "torso_offset_fore_aft_m": -0.0230197906494141
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": -0.0232486724853516,
+          "torso_axis_fore_aft": -0.060970738530159,
+          "torso_axis_lateral": -0.26872193813324,
+          "torso_offset_fore_aft_m": -0.0230197906494141
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": -0.0191650390625,
+          "torso_axis_fore_aft": -0.0687657743692398,
+          "torso_axis_lateral": -0.252857565879822,
+          "torso_offset_fore_aft_m": -0.0189476013183594
+        },
+        "case": "manual_pivot",
+        "forward_leading_rise_after": -0.25942075252533,
+        "forward_leading_rise_before": -0.248781263828278,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": 0.304022222222222,
+        "left_turn": 0.0401721000671387,
+        "manual_id": "manual_pivot",
+        "right_turn": -0.140818659459249,
+        "speed": -4.60356712341309
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.004083633422851601,
+          "torso_axis_fore_aft": 0.007795035839080797,
+          "torso_axis_lateral": -0.015864372253418024,
+          "torso_offset_fore_aft_m": -0.004072189331054701
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.0004844665527343993,
+          "torso_axis_fore_aft": -0.008044071495533003,
+          "torso_axis_lateral": 0.00426387786865301,
+          "torso_offset_fore_aft_m": 0.0004844665527343993
+        }
+      }
+    },
+    {
+      "case": "nose_manual_pivot",
+      "original_observation": {
+        "back_leading_rise_after": 0.245089203119278,
+        "back_leading_rise_before": 0.240194410085678,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": -0.1442,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": -0.0325183868408203,
+          "torso_axis_fore_aft": 0.0182721391320229,
+          "torso_axis_lateral": 0.120055466890335,
+          "torso_offset_fore_aft_m": -0.0327205657958984
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": -0.0343799591064453,
+          "torso_axis_fore_aft": 0.0275008901953697,
+          "torso_axis_lateral": 0.110298454761505,
+          "torso_offset_fore_aft_m": -0.0345573425292969
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": -0.0343799591064453,
+          "torso_axis_fore_aft": 0.0275008901953697,
+          "torso_axis_lateral": 0.110298454761505,
+          "torso_offset_fore_aft_m": -0.0345573425292969
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": -0.0314140319824219,
+          "torso_axis_fore_aft": 0.0212175212800503,
+          "torso_axis_lateral": 0.120205670595169,
+          "torso_offset_fore_aft_m": -0.0315570831298828
+        },
+        "case": "nose_manual_pivot",
+        "forward_leading_rise_after": 0.240194410085678,
+        "forward_leading_rise_before": 0.246173605322838,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": 0.0209777777777778,
+        "left_turn": 0.0401721000671387,
+        "manual_id": "nose_manual_pivot",
+        "right_turn": -0.140818659459249,
+        "speed": -4.60356712341309
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.002965927124023396,
+          "torso_axis_fore_aft": 0.006283368915319401,
+          "torso_axis_lateral": -0.009907215833663996,
+          "torso_offset_fore_aft_m": -0.003000259399414104
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.001861572265625,
+          "torso_axis_fore_aft": -0.0092287510633468,
+          "torso_axis_lateral": 0.009757012128829998,
+          "torso_offset_fore_aft_m": 0.0018367767333985
+        }
+      }
+    },
+    {
+      "case": "hang_ten",
+      "original_observation": {
+        "back_leading_rise_after": -0.255962371826172,
+        "back_leading_rise_before": -0.256932199001312,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": 0.151622222222222,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": -0.100975036621094,
+          "torso_axis_fore_aft": 0.0135078644379973,
+          "torso_axis_lateral": -0.208589151501656,
+          "torso_offset_fore_aft_m": -0.100757598876953
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": -0.101449966430664,
+          "torso_axis_fore_aft": 0.0126686738803983,
+          "torso_axis_lateral": -0.218424394726753,
+          "torso_offset_fore_aft_m": -0.101251602172852
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": -0.101449966430664,
+          "torso_axis_fore_aft": 0.0126686738803983,
+          "torso_axis_lateral": -0.218424394726753,
+          "torso_offset_fore_aft_m": -0.101251602172852
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": -0.0985088348388672,
+          "torso_axis_fore_aft": 0.0171566102653742,
+          "torso_axis_lateral": -0.193903028964996,
+          "torso_offset_fore_aft_m": -0.0983657836914062
+        },
+        "case": "hang_ten",
+        "forward_leading_rise_after": -0.256932199001312,
+        "forward_leading_rise_before": -0.246173605322838,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": 0.279022222222222,
+        "left_turn": 0.0396089181303978,
+        "manual_id": "hang_ten",
+        "right_turn": -0.138838067650795,
+        "speed": 5.52170038223267
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.0029411315917967917,
+          "torso_axis_fore_aft": -0.0044879363849759015,
+          "torso_axis_lateral": -0.024521365761757008,
+          "torso_offset_fore_aft_m": -0.002885818481445812
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.0004749298095699933,
+          "torso_axis_fore_aft": 0.000839190557599,
+          "torso_axis_lateral": 0.009835243225097018,
+          "torso_offset_fore_aft_m": 0.0004940032958990065
+        }
+      }
+    },
+    {
+      "case": "one_foot_nose_manual",
+      "original_observation": {
+        "back_leading_rise_after": -0.255962371826172,
+        "back_leading_rise_before": -0.256932199001312,
+        "back_speed_loss": 0.0748443603515625,
+        "back_value": 0.151622222222222,
+        "body_after_back": {
+          "pelvis_offset_fore_aft_m": -0.0148830413818359,
+          "torso_axis_fore_aft": -0.0213686265051365,
+          "torso_axis_lateral": -0.132855892181396,
+          "torso_offset_fore_aft_m": -0.0146675109863281
+        },
+        "body_after_forward": {
+          "pelvis_offset_fore_aft_m": -0.0155467987060547,
+          "torso_axis_fore_aft": -0.0133300721645355,
+          "torso_axis_lateral": -0.137064710259438,
+          "torso_offset_fore_aft_m": -0.015350341796875
+        },
+        "body_before_back": {
+          "pelvis_offset_fore_aft_m": -0.0155467987060547,
+          "torso_axis_fore_aft": -0.0133300721645355,
+          "torso_axis_lateral": -0.137064710259438,
+          "torso_offset_fore_aft_m": -0.015350341796875
+        },
+        "body_before_forward": {
+          "pelvis_offset_fore_aft_m": -0.0107593536376953,
+          "torso_axis_fore_aft": -0.0209218226373196,
+          "torso_axis_lateral": -0.120352901518345,
+          "torso_offset_fore_aft_m": -0.0106163024902344
+        },
+        "case": "one_foot_nose_manual",
+        "forward_leading_rise_after": -0.256932199001312,
+        "forward_leading_rise_before": -0.246173605322838,
+        "forward_speed_loss": 0.0748443603515625,
+        "forward_value": 0.279022222222222,
+        "left_turn": 0.0396089181303978,
+        "manual_id": "one_foot_nose_manual",
+        "right_turn": -0.138838067650795,
+        "speed": 5.52170038223267
+      },
+      "response_deltas": {
+        "forward": {
+          "pelvis_offset_fore_aft_m": -0.004787445068359399,
+          "torso_axis_fore_aft": 0.0075917504727841,
+          "torso_axis_lateral": -0.016711808741093,
+          "torso_offset_fore_aft_m": -0.004734039306640601
+        },
+        "back": {
+          "pelvis_offset_fore_aft_m": 0.0006637573242188003,
+          "torso_axis_fore_aft": -0.008038554340601,
+          "torso_axis_lateral": 0.004208818078041993,
+          "torso_offset_fore_aft_m": 0.0006828308105468993
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Source log is a fixed60Hz headless author-assembled sequence with unchanged261script/scene manifest, not a whole-asset freeze or target hardware.",
+    "Torso world-up direction and torso/pelvis point relative to ankle midpoint do not estimate complete body centre of mass.",
+    "No normal-speed special-manual rendered frame sequence was inspected for this finding.",
+    "Observation-only code does not change the original84 control assertions or physical acceptance tolerances."
+  ]
+}

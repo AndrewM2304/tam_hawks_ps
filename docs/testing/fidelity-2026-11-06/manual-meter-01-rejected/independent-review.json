@@ -1,0 +1,69 @@
+{
+  "reviewer": "independent_qa",
+  "whole_epoch_eligible": false,
+  "reason": "Inherited baseline full_fidelity_capture._snapshot accesses cylindrical transition helper as authored feature helper; three script errors and empty state dictionaries. Original receipt preserved rejected.",
+  "source_inputs_unchanged": 787,
+  "checks_stdout": 32,
+  "assertion_failures": 0,
+  "pixel_proofs": [
+    {
+      "file": "manual-ui-1.4.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "88102669e3340a1af48ff12d4f134946ae28f22fa8dd5d344a4f54a421aae020",
+      "matches_native_buffer": true
+    },
+    {
+      "file": "manual-ui-1.0.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "14b55d6839886dcff0e803601ef60132af576e08f7e7a4ba21ad36a9a8611412",
+      "matches_native_buffer": true
+    },
+    {
+      "file": "manual-release.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "2e9e369d70709ef5f67e5eb3a10c193f3aaa74d0ba6dca6def4a8cc6344a43da",
+      "matches_native_buffer": true
+    },
+    {
+      "file": "synchronization/overview_before_contact.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "467a1fbea33489c057e22218e1d2b841b96efccbf3b8974d20b053528d83d0d2",
+      "matches_native_buffer": true,
+      "canvas_pixel_matches": true
+    },
+    {
+      "file": "synchronization/first_contact_inspection.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "1531fb34a29432cc5f72637f5d84c100c39ab4ae8325a18a9668f86932cb734d",
+      "matches_native_buffer": true,
+      "canvas_pixel_matches": true
+    },
+    {
+      "file": "synchronization/return_to_production_chase.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "8ad5ab9d96044c2e6ce46becde985e5eda3a01755016100460f9066fd7737093",
+      "matches_native_buffer": true,
+      "canvas_pixel_matches": true
+    }
+  ],
+  "negative_observation": "FID-D011/P1: native UI1.4 panel intersects upper rendered head and both scales block forward approach; actual multiline correction text renders MANUAL... with remaining lines clipped. Head-centre-only overlap false does not certify full silhouette clearance.",
+  "limits": "Negative visual investigation with actual original pixels/source/synchronization proof. Not a clean capture acceptance, normal-speed HUD/motion, endpoint/remap, performance, Mac or AAA pass."
+}

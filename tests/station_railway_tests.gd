@@ -30,6 +30,13 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		"PT24-15: enclosed station replaces two old facade groups within its predeclared candidate budget")
 	var stable_nodes := railway.find_children("*", "Node", true, false).size()
 	var train_meshes: Array[Node] = railway.train.find_children("*", "MeshInstance3D", true, false)
+	var train_glass: MeshInstance3D = railway.train.get_node("CoachGlass")
+	var saved_glass: Material = train_glass.material_override
+	var saved_glass_mesh: Mesh = train_glass.mesh
+	check.call(saved_glass is StandardMaterial3D and saved_glass == game.world._materials.glass
+		and game.world._materials.facade_glass is ShaderMaterial
+		and saved_glass.next_pass == null,
+		"railway fidelity: moving coach glass keeps native reflection without world-position room randomization")
 	var triangle_total := 0
 	var geometry_bounds := AABB()
 	var first := true
@@ -56,6 +63,8 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		previous_z = current_z
 	check.call(wrapped_hidden and moving and railway.find_children("*", "Node", true, false).size() == stable_nodes,
 		"PT24-15: repeated complete train loops wrap only fully inside opaque tunnels without constructing per-frame nodes")
+	check.call(train_glass.material_override == saved_glass and train_glass.mesh == saved_glass_mesh,
+		"railway fidelity: thirty-two seconds of native movement retain the same stable glass material and geometry")
 	railway.reset_run()
 	check.call(railway.elapsed == 0.0 and railway.train.position.is_equal_approx(Vector3(-136, 8.36, -52))
 		and railway.is_train_concealed(),

@@ -1,0 +1,7 @@
+# Rejected legacy-seat end-cap captures
+
+These three development diagnostics use ordinary cold-start Main with personal Music persistence disabled before tree entry. They are retained as failures, not a source-frozen acceptance packet. `engine.log` and the accompanying driver belong to the first attempt; `second-engine.log` changes the manual lead-in; `later-pop-engine.log` moves the charge one metre later. Concurrent November source continued changing between attempts. All three engine processes completed without resource errors, and every strict relay assertion remained failed.
+
+The first long seat and Manual link succeed, but the second pop catches the wrong 0.418 m west end-cap instead of the intended 5.36 m north bearing. The later trial releases at `(60.01086,2.014016,64.24192)` at approximately3.55 m/s and still selects that short edge. A camera ray then intersects the seat. This rejects both simply accepting any second grind and explaining the problem solely by pop timing. The named-bearing ID and camera assertions were not relaxed.
+
+Inspection then found that these semantic guides retain legacy, uncertified generic contact. The next authored candidate authenticates only the two reworked actual BoxShape seat tops using the existing native-edge contract, derives the approach from the real guide tangent/outward face, and requires an actual two-truck 50-50 plus real board/capsule clearance. It must earn fresh positive evidence. This record does not claim that repair has passed.

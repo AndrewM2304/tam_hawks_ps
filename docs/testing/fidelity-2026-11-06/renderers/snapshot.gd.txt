@@ -1,0 +1,81 @@
+extends "res://tools/full_fidelity_capture.gd"
+## Selective baseline review reuses the proven natural-render/synchronization observer.
+var snapshot_records: Array[Dictionary] = []
+func _run() -> void:
+	if DisplayServer.get_name() == "headless": quit(2); return
+	var arguments := OS.get_cmdline_user_args()
+	if arguments.size() != 1: quit(2); return
+	output = arguments[0]
+	DirAccess.make_dir_recursive_absolute(output)
+	root.size = Vector2i(1280,800)
+	root.content_scale_size = root.size
+	_raw_spool = false
+	RenderingServer.set_render_loop_enabled(false)
+	game = Main.new()
+	game.persistence_enabled = false
+	root.add_child(game)
+	_check(not game.music._can_control and not game.music._persist, "QA script isolates personal Music")
+	game.start_mode(true)
+	for tick in 40:
+		await physics_frame
+		await process_frame
+	await create_timer(0.0,true).timeout
+	_inspection = Camera3D.new()
+	_inspection.name = "DeclaredQAInspectionCamera"
+	_inspection.far = 220
+	game.add_child(_inspection)
+	await _still("ordinary-spawn", "Actual default Main after 40 settled ticks; no pose/camera assignment.")
+	await _overviews()
+	await _synchronization_probe()
+	game.set_physics_process(false)
+	game.skater.set_physics_process(false)
+	game.skater.set_process(false)
+	game.hud.visible = false
+	var target: Vector3 = game.skater.global_position + Vector3(0,0.90,0)
+	var basis: Basis = game.skater._rider_visual.global_basis.orthonormalized()
+	for view: Array in [
+		["rider-front", target-basis.z*3.3+Vector3.UP*0.10],
+		["rider-side", target+basis.x*3.3+Vector3.UP*0.10],
+		["rider-rear", target+basis.z*3.3+Vector3.UP*0.10]]:
+		_inspection.global_position = view[1]
+		_inspection.look_at(target)
+		_inspection.fov = 38
+		_inspection.current = true
+		await process_frame
+		await create_timer(0.0,true).timeout
+		await _still(view[0], "Authored 3.3m rider inspection camera; ordinary idle pose; native physics frozen after actual startup.")
+	for view: Array in [
+		["exchange-shopfront",Vector3(-29,2,-2),Vector3(-35,2.2,1)],
+		["clyde-east-quay",Vector3(18,5,69),Vector3(78,4,69)],
+		["clyde-west-quay",Vector3(-25,5,69),Vector3(-78,4,69)]]:
+		_inspection.global_position = view[1]
+		_inspection.look_at(view[2])
+		_inspection.fov = 68
+		_inspection.current = true
+		await process_frame
+		await create_timer(0.0,true).timeout
+		await _still(view[0], "Authored eye-height environment inspection; no native movement or trick proof.")
+	var report := {"schema":1,"checks":checks,"failures":failures,
+		"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),
+		"adapter":RenderingServer.get_video_adapter_name(),"resolution":[1280,800],
+		"production_main":true,"save_writes":game.persistence_enabled,
+		"normal_trial":game.world._station_railway!=null and game.world._park_pond!=null,
+		"ordinary_and_inspection":snapshot_records,"overviews":_overview_frames,"sync_proofs":_sync_proofs,
+		"limits":"Selective static baseline using existing full_fidelity_capture natural-render and current-camera/Canvas proof. No motion, fun, target-Mac or performance acceptance. Authored cameras are labelled; complete default production world stays enabled."}
+	var file := FileAccess.open(output.path_join("snapshot.json"),FileAccess.WRITE)
+	_check(file!=null,"snapshot receipt writable")
+	if file: file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	print("QA_SNAPSHOT_RESULT checks=",checks," failures=",failures," images=",snapshot_records.size()+_overview_frames.size()+_sync_proofs.size())
+	quit(1 if failures else 0)
+
+func _still(label: String, fixture: String) -> void:
+	var image: Image = await _render_current_frame()
+	var storage := _store_frame(image,label+".png")
+	var camera: Camera3D = root.get_camera_3d()
+	snapshot_records.append({"file":label+".png","fixture":fixture,"pixels":storage,
+		"camera_position":_v(camera.global_position),"camera_forward":_v(-camera.global_basis.z),"camera_fov":camera.fov,
+		"player_position":_v(game.skater.global_position),"on_floor":game.skater.is_on_floor(),
+		"physics_frame":Engine.get_physics_frames(),"process_frame":Engine.get_process_frames(),
+		"draws":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),
+		"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)})
+	print("QA_SNAPSHOT_FRAME ",label)

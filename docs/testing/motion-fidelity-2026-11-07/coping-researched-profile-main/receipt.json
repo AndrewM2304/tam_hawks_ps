@@ -1,0 +1,45 @@
+{
+  "commands": [
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+        "--check-only",
+        "--script",
+        ".local/clyde_profile_main.gd"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+        "--fixed-fps",
+        "60",
+        "--script",
+        ".local/clyde_profile_main.gd"
+      ],
+      "exit": 0
+    }
+  ],
+  "started_utc": "2026-11-07T03:29:31.600246+00:00",
+  "wall_seconds": 24.117188448999514,
+  "source_stable": true,
+  "source_count": 790,
+  "observer_sha256": "b9f948e49da7391b2ef850b9b6aab977af8ea927442228860fbbfc6911a7614e",
+  "controller_sha256": "f04253f745780ce8793828a9e6414c5e7f72617b8f235319eefc54574c093ab3",
+  "ordinary_Main_original_driver": true,
+  "geometry_only_candidate": true,
+  "errors": [],
+  "accepted_narrow_native": true,
+  "visual_acceptance": false,
+  "M5_performance": false,
+  "overlap": "Root-authorized EA actual-Main water graphics; elapsed metadata is not a performance result.",
+  "ld_broader_corpus_count": 801,
+  "ld_broader_corpus_before_matches_after": true,
+  "inventory_scope_difference": "LD includes11additional PLAYER-GUIDE/licence docs and export_presets.cfg; same790production game/tests/tools/project files."
+}

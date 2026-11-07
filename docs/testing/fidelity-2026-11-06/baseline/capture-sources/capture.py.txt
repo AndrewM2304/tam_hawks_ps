@@ -1,0 +1,43 @@
+import hashlib,json,os,pathlib,re,signal,subprocess,sys,time
+root=pathlib.Path.cwd(); label=sys.argv[1]; renderer=sys.argv[2] if len(sys.argv)>2 else 'gl_compatibility'
+if not re.fullmatch(r'[a-zA-Z0-9_-]+',label):raise SystemExit('Invalid label')
+output=root/'.local/qa-fidelity'/label
+output.mkdir(parents=True,exist_ok=False)
+observer=root/'.local/qa-fidelity/snapshot.gd'
+def sources():
+    files=[root/'project.godot',observer,root/'.local/qa-fidelity/capture.py']
+    for directory in ('game','tests','tools'):
+        files.extend(p for p in (root/directory).rglob('*') if p.is_file())
+    return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(files))}
+before=sources(); (output/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+display_file=(output/'display').open('w');xlog=(output/'xorg-console.log').open('w')
+xorg=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(display_file.fileno()),'-config',str(root/'tools/xorg-dummy.conf'),'-logfile',str(output/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=(display_file.fileno(),),stdout=xlog,stderr=subprocess.STDOUT,start_new_session=True)
+process=None
+try:
+    for i in range(50):
+        display=(output/'display').read_text().strip()
+        if display:break
+        if xorg.poll() is not None:raise SystemExit('Xorg failed')
+        time.sleep(.1)
+    if not display:raise SystemExit('No display')
+    command=['./tools/run.sh','--rendering-method',renderer,'--audio-driver','Dummy','--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60','--script','.local/qa-fidelity/snapshot.gd','--',str(output)]
+    env=dict(os.environ,DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1',LP_NUM_THREADS='4')
+    with (output/'engine.log').open('w') as log:
+        process=subprocess.Popen(command,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+        code=process.wait(timeout=600)
+    after=sources(); (output/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+    changed=sorted(p for p in before.keys()|after.keys() if before.get(p)!=after.get(p))
+    log=(output/'engine.log').read_text()
+    manifest=output/'snapshot.json'
+    if code or re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:',log) or not manifest.exists():
+        print(log[-8000:]);raise SystemExit('Rejected engine capture '+str(output))
+    report=json.loads(manifest.read_text())
+    hashes={str(p.relative_to(output)):hashlib.sha256(p.read_bytes()).hexdigest() for p in output.rglob('*.png')}
+    receipt={'command':command,'git_head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'changed_inputs':changed,'source_stable':not changed,'images':hashes,'snapshot_sha256':hashlib.sha256(manifest.read_bytes()).hexdigest(),'engine_exit':code,'failures':report['failures'],'eligible':not changed and not report['failures']}
+    (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    print('QA_SNAPSHOT '+str(output)+' images='+str(len(hashes))+' stable='+str(not changed)+' failures='+str(report['failures']),flush=True)
+    if changed or report['failures']:raise SystemExit(1)
+finally:
+    if process is not None and process.poll() is None:os.killpg(process.pid,signal.SIGTERM);process.wait(timeout=10)
+    if xorg.poll() is None:os.killpg(xorg.pid,signal.SIGTERM);xorg.wait(timeout=10)
+    display_file.close();xlog.close()

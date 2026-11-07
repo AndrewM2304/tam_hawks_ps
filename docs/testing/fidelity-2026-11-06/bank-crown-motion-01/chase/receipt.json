@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "label": "bank-crown-chase-01",
+  "view": "chase",
+  "started_utc": "2026-11-07T01:56:36.683655+00:00",
+  "finished_utc": "2026-11-07T01:58:50.471443+00:00",
+  "project": "/workspace/tam_hawks_ps/.local/qa-fidelity/checkpoint-source-03",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--headless",
+      "--check-only",
+      "--script",
+      "/workspace/tam_hawks_ps/.local/qa-fidelity/bank_motion_capture.gd"
+    ],
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--disable-render-loop",
+      "--audio-driver",
+      "Dummy",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "/workspace/tam_hawks_ps/.local/qa-fidelity/bank_motion_capture.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/qa-fidelity/native-review/bank-crown-chase-01",
+      "chase"
+    ]
+  ],
+  "source_inputs": 791,
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "exception": null,
+  "complete": true,
+  "native_frames_selected": 3,
+  "native_timeline_contiguous": true,
+  "native_pixels": [
+    {
+      "file": "current-quay-approach.png",
+      "native_match": true,
+      "rgba8_sha256": "da3120bffba3d0ab1a1376de0cf7dec52f70ba529ce9dad893cf664827593445"
+    },
+    {
+      "file": "bank-chase-000.png",
+      "native_match": true,
+      "rgba8_sha256": "4b7898603e2b1491b6af2675877aae7c373cc56f11f26a28e297cb0cc11e6229"
+    },
+    {
+      "file": "bank-chase-001.png",
+      "native_match": true,
+      "rgba8_sha256": "b83c7c0caacec6216c2fee44464d96cf8c7d2797e0b2494a96b22ceda3479790"
+    },
+    {
+      "file": "bank-chase-002.png",
+      "native_match": true,
+      "rgba8_sha256": "1fb968ea4b812f1ba1a0cd9bf3e3e157bd169371df950fd31e8a3c63b75e8c12"
+    },
+    {
+      "file": "current-quay-landed-chase.png",
+      "native_match": true,
+      "rgba8_sha256": "a65d231bdcedfdb24d9345fd34aa50118cdc2f4f51173e416cb5b4f0cfec6d27"
+    },
+    {
+      "file": "synchronization/overview_before_contact.png",
+      "native_match": true,
+      "rgba8_sha256": "467a1fbea33489c057e22218e1d2b841b96efccbf3b8974d20b053528d83d0d2"
+    },
+    {
+      "file": "synchronization/first_contact_inspection.png",
+      "native_match": true,
+      "rgba8_sha256": "1531fb34a29432cc5f72637f5d84c100c39ab4ae8325a18a9668f86932cb734d"
+    },
+    {
+      "file": "synchronization/return_to_production_chase.png",
+      "native_match": true,
+      "rgba8_sha256": "8ad5ab9d96044c2e6ce46becde985e5eda3a01755016100460f9066fd7737093"
+    }
+  ],
+  "video": null,
+  "eligible": true,
+  "concurrent_processes_before": "  33416 godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd\n",
+  "limits": "Qualitative current-source motion only. Parent-authorised untimed headless-suite overlap is recorded; no process-exclusivity, frame-time, Mac or full visual acceptance. If stopped/partial retain original completed frames and native metadata, whole epoch rejected."
+}

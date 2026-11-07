@@ -1,0 +1,42 @@
+{
+  "commands": [
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+        "--check-only",
+        "--script",
+        ".local/clyde_profile_contacts.gd"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+        "--fixed-fps",
+        "60",
+        "--script",
+        ".local/clyde_profile_contacts.gd"
+      ],
+      "exit": 0
+    }
+  ],
+  "started_utc": "2026-11-07T03:50:48.509567+00:00",
+  "wall_seconds": 28.634760549997736,
+  "source_stable": true,
+  "source_count": 790,
+  "observer_sha256": "cdeb2e070efb48f858727c3b97e5a64ee06ff937a59a83b560676fb1f67c1d6c",
+  "controller_sha256": "f04253f745780ce8793828a9e6414c5e7f72617b8f235319eefc54574c093ab3",
+  "ordinary_Main_original_driver": true,
+  "geometry_only_candidate": true,
+  "errors": [],
+  "accepted_narrow_native": true,
+  "visual_acceptance": false,
+  "M5_performance": false,
+  "overlap": "Root-authorized EA tiny private basin component check may overlap; elapsed metadata is not a performance result."
+}

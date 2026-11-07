@@ -1,0 +1,66 @@
+# Adapted from this task's root required-suite wrapper for future local probes.
+# It creates receipts during execution; it never reconstructs earlier runs.
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,sys,time
+ROOT=Path('/workspace/tam_hawks_ps/.local/line-return-source')
+label,observer,deadline_text=sys.argv[1:4]
+if not re.fullmatch(r'[A-Za-z0-9_-]+',label):raise SystemExit('Invalid label')
+DEADLINE=int(deadline_text)
+if not 1<=DEADLINE<=180:raise SystemExit('Deadline outside1..180s')
+OBSERVER=(ROOT/observer).resolve()
+if ROOT not in OBSERVER.parents or not OBSERVER.is_file():raise SystemExit('Observer must exist inside project')
+OUT=ROOT/'.local/line-probes'/label
+OUT.mkdir(parents=True,exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def native_processes():
+ return subprocess.run(['ps','-C','godot','-o','pid=,args='],capture_output=True,text=True).stdout.strip().splitlines()
+def inventory():
+ names=subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard','-z','--','project.godot','export_presets.cfg','game','tests','tools','docs/licences','docs/PLAYER-GUIDE.md'],cwd=Path('/workspace/tam_hawks_ps')).split(b'\0')
+ paths={ROOT/Path(n.decode()) for n in names if n and '__pycache__' not in Path(n.decode()).parts}
+ paths|={OBSERVER,Path(__file__).resolve()}
+ paths|={p for p in (ROOT/'.godot/imported').rglob('*') if p.is_file()}
+ return {str(p.relative_to(ROOT)):sha(p) for p in sorted(paths) if p.is_file()}
+# Root explicitly permits untimed private fixture/RV overlap for this epoch.
+before=inventory();(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+(OUT/'wrapper.py.txt').write_bytes(Path(__file__).read_bytes())
+(OUT/'observer.gd').write_bytes(OBSERVER.read_bytes())
+env=dict(os.environ,XDG_DATA_HOME=str(ROOT/'.local/line-probe-data'),XDG_CONFIG_HOME=str(ROOT/'.local/line-probe-config'),XDG_CACHE_HOME=str(ROOT/'.local/line-probe-cache'))
+command=['godot','--headless','--path',str(ROOT),'--audio-driver','Dummy','--fixed-fps','60','--script',str(OBSERVER)]
+receipt={'record_kind':'native process wrapper receipt','command':command,'cwd':str(ROOT),'started_utc':utc(),'os_deadline_seconds':DEADLINE,'source_inputs':len(before),'engine_pid':None,'engine_exit':None,'eligible':False,'performance_acceptance':False,'visual_acceptance':False}
+start=time.monotonic();process=None;samples=[]
+try:
+ with (OUT/'native.log').open('w') as stream:
+  process=subprocess.Popen(command,cwd=ROOT,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
+  receipt['engine_pid']=process.pid
+  while process.poll() is None:
+   samples.append({'utc':utc(),'godot':native_processes()})
+   if time.monotonic()-start>DEADLINE:
+    receipt['timeout']=True
+    os.killpg(process.pid,signal.SIGTERM)
+    try:process.wait(timeout=5)
+    except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait(timeout=5)
+    break
+   time.sleep(.25)
+  receipt['engine_exit']=process.returncode
+except BaseException as error:
+ receipt['exception']=repr(error)
+ if process is not None and process.poll() is None:
+  os.killpg(process.pid,signal.SIGTERM)
+  try:process.wait(timeout=5)
+  except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait(timeout=5)
+finally:
+ after=inventory();(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+ (OUT/'native-process-observer.json').write_text(json.dumps(samples,indent=2)+'\n')
+ text=(OUT/'native.log').read_text(errors='replace') if (OUT/'native.log').exists() else ''
+ receipt.update(finished_utc=utc(),wall_seconds=time.monotonic()-start,changed_inputs=sorted(k for k in before.keys()|after.keys() if before.get(k)!=after.get(k)))
+ receipt['errors']=[line for line in text.splitlines() if re.search(r'SCRIPT ERROR:|Parse Error:|SHADER ERROR:|ERROR:|FAIL:',line)]
+ results=re.findall(r'^.*RESULT: ([0-9]+) passed, ([0-9]+) failed$',text,re.M)
+ receipt['result']=[int(n) for n in results[-1]] if len(results)==1 else None
+ receipt['other_engine_observed']=any(any(int(line.strip().split(None,1)[0])!=receipt['engine_pid'] for line in sample['godot']) for sample in samples)
+ receipt['overlap_authorized_untimed']=True
+ receipt['eligible']=receipt['engine_exit']==0 and not receipt.get('timeout') and not receipt.get('exception') and not receipt['changed_inputs'] and not receipt['errors']  and receipt['result'] is not None and receipt['result'][1]==0
+ receipt['preserved_sha256']={p.name:sha(p) for p in OUT.iterdir() if p.is_file() and p.name!='receipt.json'}
+ (OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+ print(json.dumps(receipt,indent=2),flush=True)
+sys.exit(0 if receipt['eligible'] else 1)

@@ -59,17 +59,17 @@ static func _sky(world: Node3D, context: Node3D, check: Callable) -> void:
 		"horizon cube: bound static sky performs one explicit base-level colour-correct linear lookup without derivatives or a half-resolution pass")
 	if cube != null: _cube_pixels(cube,check)
 	check.call(environment.ambient_light_source == Environment.AMBIENT_SOURCE_COLOR
-		and environment.ambient_light_color.is_equal_approx(Color("c7dfeb"))
-		and absf(environment.ambient_light_energy-.44)<.00001
+		and environment.ambient_light_color.is_equal_approx(Color("d0dce2"))
+		and absf(environment.ambient_light_energy-.36)<.00001
 		and environment.tonemap_mode == Environment.TONE_MAPPER_ACES
-		and environment.fog_enabled and absf(environment.fog_density-.0015)<.000001
+		and environment.fog_enabled and absf(environment.fog_density-.0012)<.000001
 		and environment.fog_light_color.is_equal_approx(Color("b4bec3"))
 		and absf(environment.fog_sky_affect-.15)<.00001,
-		"horizon: established ambient light, ACES and fog remain unchanged rather than concealing gaps")
+		"horizon: calibrated neutral daylight retains ACES and the declared light fog")
 	var sun := world.get_node_or_null("LateAfternoonSun") as DirectionalLight3D
-	check.call(sun != null and sun.light_color.is_equal_approx(Color("ffe8d1"))
-		and absf(sun.light_energy-.80)<.00001,
-		"horizon: existing sun colour and energy are retained")
+	check.call(sun != null and sun.light_color.is_equal_approx(Color("fffaf3"))
+		and absf(sun.light_energy-.86)<.00001,
+		"horizon: neutral sun retains its declared colour and energy")
 	check.call(context.get_meta("original_sky_material",null) is ProceduralSkyMaterial,
 		"horizon: controlled comparison retains the original procedural material")
 
@@ -671,12 +671,16 @@ static func _frontages(world: Node3D, context: Node3D, geometry: Dictionary, che
 				and (display.mesh as BoxMesh).size.distance_to(original_size)<EPS and valid
 			var material_key: String = "stone_light" if found==7 else ("warehouse_brick" if found in [2,3,4,5] else "sandstone")
 			var material := display.material_override as StandardMaterial3D
+			var normal_path := "res://game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg"
+			if material_key == "warehouse_brick":
+				normal_path = "res://game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg"
 			valid = material!=null and display.material_override==palette[material_key] and valid
 			if material!=null:
 				valid = material.shading_mode==BaseMaterial3D.SHADING_MODE_PER_PIXEL \
 					and material.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED \
 					and material.uv1_triplanar and material.uv1_world_triplanar \
-					and material.normal_enabled==(material_key=="warehouse_brick") \
+					and material.normal_enabled and material.normal_texture != null \
+					and material.normal_texture.resource_path == normal_path \
 					and not material.disable_receive_shadows and material.next_pass==null and valid
 		identities[found]=true
 	defaults.free()

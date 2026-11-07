@@ -1,0 +1,144 @@
+extends "res://tools/full_fidelity_capture.gd"
+## Prepared author probe; actual normal Main, never the historical component.
+## A fresh root engine lease and frozen baseline/candidate/control epoch are needed.
+const Batches = preload("res://game/levels/static_batches.gd")
+var _architect_records: Array[Dictionary] = []
+var _architect_inventory := {}
+var _architect_meshes := {}
+var _architect_materials := {}
+
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	if args.size() != 2 or args[1] not in ["inventory", "visual"]:
+		quit(2); return
+	var graphical := args[1] == "visual"
+	if graphical and DisplayServer.get_name() == "headless":
+		quit(2); return
+	output = ProjectSettings.globalize_path(args[0])
+	var ignored := ProjectSettings.globalize_path("res://.local/architectural-fidelity/")
+	if not output.begins_with(ignored) or DirAccess.make_dir_recursive_absolute(output) != OK:
+		quit(2); return
+	root.size = Vector2i(1280,800)
+	root.content_scale_size = root.size
+	_raw_spool = false
+	if graphical: RenderingServer.set_render_loop_enabled(false)
+	game = Main.new()
+	game.persistence_enabled = false
+	root.add_child(game)
+	_check(not game.music._can_control and not game.music._persist, "architecture probe isolates personal Music")
+	game.start_mode(true)
+	for tick: int in 40:
+		await physics_frame
+		await process_frame
+	await create_timer(0.0,true).timeout
+	_check(not game.has_meta("pt24_design_preview") and game.world._station_railway != null
+		and game.world._park_pond != null, "architecture probe uses normal default Main with station and pond")
+	# Stop descendant simulation only after the untouched ordinary startup.
+	game.process_mode = Node.PROCESS_MODE_DISABLED
+	_architect_inventory = {"source_triangle_instances":0, "mesh_draw_nodes":0, "geometry_instances":0,
+		"mesh_array_serialized_bytes":0,"multimesh_transform_estimate_bytes":0,
+		"native_bodies":0,"native_shapes":0,"recess_shells":0,"occluder_owners":[]}
+	_architect_scan(game.world)
+	_architect_inventory["unique_meshes"] = _architect_meshes.size()
+	_architect_inventory["unique_materials"] = _architect_materials.size()
+	var contracts := _architect_contracts(game.world)
+	if graphical:
+		_inspection = Camera3D.new()
+		_inspection.name = "DeclaredArchitecturalInspectionCamera"
+		_inspection.far = 220
+		game.add_child(_inspection)
+		await _architect_still("ordinary-spawn", "Ordinary chase after 40 native settled ticks, no pose/camera assignment.")
+		await _synchronization_probe()
+		game.hud.visible = false
+		for view: Array in [
+			["exchange-shopfront",Vector3(-29,2,-2),Vector3(-35,2.2,1),68.0],
+			["west-upper-oblique",Vector3(-29,4,-2),Vector3(-35,6,5.75),68.0],
+			["west-raised-door-shoulder",Vector3(-30.5,1.85,7.5),Vector3(-34.7,1.9,9.59),68.0],
+			["gallery-approach",Vector3(7,3.4,-22),Vector3(0,6,-41),68.0],
+			["gallery-column-join",Vector3(9,4.7,-35),Vector3(3,5.7,-40.4),68.0],
+			["gallery-side-recess",Vector3(15,7,-43),Vector3(9,7.2,-48),68.0],
+			["merchant-return",Vector3(-31,4.4,-39),Vector3(-43,7,-46),68.0]]:
+			_inspection.global_position = view[1]
+			_inspection.look_at(view[2])
+			_inspection.fov = view[3]
+			_inspection.current = true
+			await process_frame
+			await create_timer(0.0,true).timeout
+			await _architect_still(view[0],"Declared static architecture inspection; entire default Main present, native motion frozen after ordinary startup.")
+	var report := {"schema":1,"kind":"author_actual_Main_architecture_diagnostic",
+		"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),
+		"adapter":RenderingServer.get_video_adapter_name(),"resolution":[1280,800],
+		"production_main":true,"mode":args[1],"checks":checks,"failures":failures,
+		"world_inventory":_architect_inventory,"world_contracts":contracts,
+		"frames":_architect_records,"sync_proofs":_sync_proofs,
+		"limits":"Author evidence only; entire normal Main constructed. Inventory counts all source geometry, not rendered submissions; serialized array bytes and48-byte transform estimates are not allocations. Native buffer/texture/draw counters are same-process observations in static authored views, not pacing evidence. Physics/terrain/routes/grind/gap records allow exact independent before/after comparison. No physical route, final art, timing or M5 acceptance."}
+	var file := FileAccess.open(output.path_join("architecture-main.json"),FileAccess.WRITE)
+	_check(file != null,"architecture Main receipt writable")
+	if file:
+		file.store_string(JSON.stringify(report,"\t")+"\n")
+		file.close()
+	print("ARCHITECTURE_MAIN checks=",checks," failures=",failures," source_triangles=",_architect_inventory.source_triangle_instances," nodes=",_architect_inventory.mesh_draw_nodes)
+	quit(1 if failures else 0)
+
+func _architect_still(label: String, fixture: String) -> void:
+	var image: Image = await _render_current_frame()
+	var camera := root.get_camera_3d()
+	_architect_records.append({"file":label+".png","fixture":fixture,"pixels":_store_frame(image,label+".png"),
+		"camera_position":_v(camera.global_position),"camera_forward":_v(-camera.global_basis.z),"camera_fov":camera.fov,
+		"player_position":_v(game.skater.global_position),"physics_frame":Engine.get_physics_frames(),
+		"process_frame":Engine.get_process_frames(),"draw_calls":int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)),
+		"visible_draws":root.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE,Viewport.RENDER_INFO_DRAW_CALLS_IN_FRAME),
+		"shadow_draws":root.get_render_info(Viewport.RENDER_INFO_TYPE_SHADOW,Viewport.RENDER_INFO_DRAW_CALLS_IN_FRAME),
+		"primitives":int(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)),
+		"buffer_bytes":int(Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED)),
+		"texture_bytes":int(Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED))})
+
+func _architect_scan(node: Node) -> void:
+	if node is PhysicsBody3D: _architect_inventory.native_bodies += 1
+	if node is CollisionShape3D: _architect_inventory.native_shapes += 1
+	if node is OccluderInstance3D:
+		_architect_inventory.occluder_owners.append(str(game.world.get_path_to(node.get_parent())))
+	var mesh: Mesh
+	var count := 1
+	if node is MeshInstance3D: mesh = node.mesh
+	elif node is MultiMeshInstance3D and node.multimesh != null:
+		mesh = node.multimesh.mesh
+		count = node.multimesh.instance_count
+		_architect_inventory.multimesh_transform_estimate_bytes += count*48
+	if mesh != null:
+		_architect_inventory.mesh_draw_nodes += 1
+		_architect_inventory.geometry_instances += count
+		if node.material_override != null: _architect_materials[node.material_override.get_instance_id()] = true
+		var fresh := not _architect_meshes.has(mesh.get_instance_id())
+		_architect_meshes[mesh.get_instance_id()] = true
+		for surface: int in mesh.get_surface_count():
+			var arrays := mesh.surface_get_arrays(surface)
+			if arrays.is_empty(): continue
+			var indices: Variant = arrays[Mesh.ARRAY_INDEX]
+			var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+			_architect_inventory.source_triangle_instances += count*int(indices.size()/3 if indices != null and not indices.is_empty() else vertices.size()/3)
+			if node.material_override == null and mesh.surface_get_material(surface) != null:
+				_architect_materials[mesh.surface_get_material(surface).get_instance_id()] = true
+			if fresh:
+				for channel: Variant in arrays:
+					if channel != null: _architect_inventory.mesh_array_serialized_bytes += var_to_bytes(channel).size()
+		if bool(node.get_meta("architectural_recess_shell",false)): _architect_inventory.recess_shells += 1
+	for child: Node in node.get_children(): _architect_scan(child)
+
+func _architect_contracts(world: Node3D) -> Dictionary:
+	var collisions := PackedStringArray()
+	for node: CollisionShape3D in world.find_children("*","CollisionShape3D",true,false):
+		var body := node.get_parent()
+		var properties := {}
+		for property: Dictionary in node.shape.get_property_list():
+			var key := String(property.name)
+			if int(property.usage)&PROPERTY_USAGE_STORAGE and key not in ["resource_name","resource_path","resource_local_to_scene","script"]:
+				properties[key] = node.shape.get(key)
+		collisions.append(var_to_str([str(world.get_path_to(body)),node.global_transform,node.disabled,body.get_class(),body.collision_layer,body.collision_mask,node.shape.get_class(),properties]))
+	collisions.sort()
+	var rails := PackedStringArray()
+	for line: RefCounted in world.get_grind_lines(): rails.append(var_to_str([line.id,line.kind,line.points,line.is_valid]))
+	rails.sort()
+	return {"collision_records":collisions,"grind_records":rails,
+		"route_records":var_to_str(world.get_route_definitions()),"gap_records":var_to_str(world.get_gap_definitions()),
+		"terrain_patches":var_to_str(world._terrain.patches),"terrain_polygons":var_to_str(world._terrain.polygons)}

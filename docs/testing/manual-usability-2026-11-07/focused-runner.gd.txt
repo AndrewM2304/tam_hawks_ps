@@ -1,0 +1,26 @@
+extends SceneTree
+const Manual=preload("res://tests/manual_revert_tests.gd")
+const Classic=preload("res://tests/classic_control_input_tests.gd")
+const Combo=preload("res://tests/combo_integration_tests.gd")
+const Grade=preload("res://tests/pt24_manual_grade_tests.gd")
+const Main=preload("res://game/main.gd")
+var passed:=0
+var failed:=0
+func _initialize()->void:_run.call_deferred()
+func _run()->void:
+ await Manual.run(self,_check)
+ await Classic.run(self,_check)
+ await Grade.run(self,_check)
+ var game=Main.new()
+ game.persistence_enabled=false
+ root.add_child(game)
+ await physics_frame
+ await process_frame
+ await Combo.run(self,game,_check)
+ game.queue_free()
+ await process_frame
+ print("MANUAL FOCUSED: ",passed," passed, ",failed," failed")
+ quit(1 if failed else 0)
+func _check(ok:bool,label:String)->void:
+ if ok:passed+=1
+ else:failed+=1;print("FAIL: ",label)

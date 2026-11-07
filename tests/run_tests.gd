@@ -30,6 +30,9 @@ const OWNER_PLAYTEST_REPAIRS = preload("res://tests/owner_playtest_repairs_tests
 const CITY_BACKDROP_TESTS = preload("res://tests/city_backdrop_tests.gd")
 const SCORE_SCRIPT = preload("res://game/scoring/score_session.gd")
 const MAIN_SCRIPT = preload("res://game/main.gd")
+const FIDELITY_MOTION_TESTS = preload("res://tests/motion_fidelity_tests.gd")
+const FIDELITY_ACCEPTANCE_TESTS = preload("res://tests/fidelity_acceptance_tests.gd")
+const NOVEMBER_LINE_TESTS = preload("res://tests/line_design_tests.gd")
 const INPUT_SETUP = preload("res://game/core/input_setup.gd")
 const RAIL_GEOMETRY_TESTS = preload("res://tests/rail_geometry_tests.gd")
 const TAKEOFF_TESTS = preload("res://tests/takeoff_tests.gd")
@@ -200,6 +203,7 @@ func _run() -> void:
 	await APPLE_MUSIC_TESTS.run(self, _check)
 	await MANUAL_REVERT_TESTS.run(self, _check)
 	await TAKEOFF_TESTS.run(self, _check)
+	await FIDELITY_MOTION_TESTS.run(self, _check)
 	await PLAYER_FORGIVENESS_TESTS.run(self, _check)
 	await TRANSITION_RIDE_TESTS.run(self, _check)
 	await TRANSITION_GEOMETRY_TESTS.run(self, _check)
@@ -320,6 +324,22 @@ func _run() -> void:
 	await TOPOGRAPHY_TESTS.run(self, game, _check)
 	await CAREER_ROUTE_TESTS.run(self, game, _check)
 	await COMPACT_CLYDE_LINES.run(self, game, _check)
+	_release_actions()
+	paused = false
+	game.queue_free()
+	await process_frame
+	# The existing inventory fixture deliberately disables later trial content.
+	# Verify November work separately in the owner's actual default Main, with
+	# the railway/pond/green/civic content enabled and personal Music isolated by
+	# the ordinary script-launch guard. No legacy inventory count is redefined.
+	game = MAIN_SCRIPT.new()
+	game.persistence_enabled = false
+	root.add_child(game)
+	await _physics_frames(40)
+	await FIDELITY_MOTION_TESTS.run_main(self, game, _check)
+	await FIDELITY_MOTION_TESTS.run_main_support(self, game, _check)
+	await FIDELITY_ACCEPTANCE_TESTS.run(self, game, _check)
+	await NOVEMBER_LINE_TESTS.run(self, game, _check)
 	_release_actions()
 	paused = false
 	game.queue_free()

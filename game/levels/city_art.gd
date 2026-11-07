@@ -1,5 +1,6 @@
 extends Node3D
 const StaticBatches = preload("res://game/levels/static_batches.gd")
+const MaterialLibrary = preload("res://game/levels/art/material_library.gd")
 ## Original Glasgow architectural composites with inspected CC0 material maps.
 ## This layer has no collision or gameplay ownership; provenance is in the manifest.
 
@@ -70,6 +71,7 @@ func make_materials(palette: Dictionary) -> Dictionary:
 	materials["shop_glass"] = shop_glass
 	materials["cut_stone"] = materials["stone_light"].duplicate()
 	_apply_external_materials()
+	MaterialLibrary.apply(materials)
 	var roof_glass := _plain(Color(0.42, 0.55, 0.58, 0.33), 0.26)
 	roof_glass.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	roof_glass.cull_mode = BaseMaterial3D.CULL_DISABLED

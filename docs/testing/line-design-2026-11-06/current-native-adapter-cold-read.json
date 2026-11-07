@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "mode": "read-only source cold review; no Godot execution",
+  "source_sha256": {
+    "tests/support/native_prism_audit.gd": "fb87a60a1cd680a6fa778378bc1f91f67d160ee9dad8c39405d22c8e41b7c134",
+    "tests/test_compact_clyde.gd": "782b5a41bd5e1bf16023ff79529618ca8e0824fbb76374681d864872d633b0db",
+    "tests/surface_coverage_tests.gd": "e5ed57ac41b874f86c0440016e52162517bc8c4476edf7ce0090f8b35f29364d",
+    "tests/grind_contact_metadata_tests.gd": "557674dff999feb50c8908973904bf10f96ecdd605de369514897b3b673261a7",
+    "game/levels/skate_edges.gd": "49e5955c264b77fdb8421b42bb333f2d5f5788c30d48f920403fb5a7de6eaa75",
+    "game/levels/exploration_boundary.gd": "11f1c16b622cd7765e14a37d39c4267ed50dc3a7b1eea3062bcd907459ee37ea"
+  },
+  "findings": [
+    {
+      "scope": "closed_bank_faces",
+      "result": "Bounded design pass",
+      "actual": "Actual enabled backface ConcavePolygon faces, exactly60 corners/20 triangles/12 unique finite world vertices; nonzero finite area and negative clockwise signed volume; each undirected edge exactly two oppositely directed occurrences. No renderer/intent vertex data accepted as native topology."
+    },
+    {
+      "scope": "_opaque_boundary_faces",
+      "result": "Bounded design pass with requested guard",
+      "actual": "Exactly four bank prisms use the new native reader; protected convex branch remains. All displayed triangles still require actual native corner/normal/area matches, shared opaque stone, finite UV/tangent data. Actual numerical count and malformed topology negatives pending. Requested explicit prisms==55 guard because current formula only derives count from observed prisms."
+    },
+    {
+      "scope": "_native_masonry_bounds",
+      "result": "Bounded design pass",
+      "actual": "Concave allowance is limited to bank_terminal_return with valid20-face native topology, then actual transformed finite extrema and existing minimum masonry bounds. Other unsupported shapes still reject."
+    },
+    {
+      "scope": "_native_seat_metadata",
+      "result": "Bounded design pass",
+      "actual": "Only two fixed identity stamps and eight actual Box edges accepted; native top/outward/parallel guide, exact body RID, -40mm offset and finite local unit outward required. Other semantic edges retain generic metadata and player classification."
+    },
+    {
+      "scope": "_quay_end_before_banks",
+      "result": "Bounded design pass; native execution pending",
+      "actual": "Shortens only a bank-terminal obstructed curb tail from actual active Concave shape transformed vertices, using existing 0.295m envelope. Original semantic ID retained. Surface audit retains all17 inherited exact obstruction IDs and adds new cropped-end clear/old-tail blocked controls."
+    }
+  ],
+  "open": [
+    "No parser/native run independently executed for this new source epoch.",
+    "Require native count and malformed-prism rejection evidence before calling the oracle verified.",
+    "D014 coping and D015 crown continuity remain open; these source-level adapters do not repair them."
+  ]
+}

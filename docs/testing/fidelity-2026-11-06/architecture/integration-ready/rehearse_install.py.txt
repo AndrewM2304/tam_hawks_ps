@@ -1,0 +1,82 @@
+"""Offline installer rehearsal; writes only its ignored private fixture."""
+from __future__ import annotations
+import datetime
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import shutil
+
+BASE = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location("architecture_install", BASE/"controlled_install.py")
+installer = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(installer)
+ROOT = BASE/("installer-rehearsal-"+datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"))
+checks = []
+
+def check(condition, message):
+    checks.append({"pass":bool(condition), "message":message})
+    if not condition:
+        raise AssertionError(message)
+
+def state(target):
+    return {name:installer.identity(installer.read(target/installer.ART/name)) for name in installer.FILES}
+
+def refuses(operation, message):
+    try:
+        operation()
+    except RuntimeError:
+        check(True,message)
+        return
+    check(False,message)
+
+original_production = state(installer.ROOT)
+try:
+    art = ROOT/installer.ART
+    art.mkdir(parents=True)
+    for name in installer.EXISTING:
+        shutil.copyfile(BASE/"baseline"/name,art/name)
+    original = state(ROOT)
+    check(installer.inspect(ROOT)["ready"],"Exact original pair and absent helpers pass rehearsal preflight")
+    report = installer.install(ROOT,False)
+    first_journal = Path(report["journal"])
+    candidate_state = state(ROOT)
+    check(all(candidate_state[name]==installer.sha(installer.candidate(name)) for name in installer.FILES),
+          "All four installed bytes match source-stable native component")
+    installer.revert(first_journal,False)
+    check(state(ROOT)==original,"Revert restores exact original pair and removes both exact new helpers")
+
+    report = installer.install(ROOT,False)
+    second_journal = Path(report["journal"])
+    changed_path = art/"facade_kit.gd"
+    installed = changed_path.read_bytes()
+    changed_path.write_bytes(installed+b"\n# simulated later contributor\n")
+    changed_state = state(ROOT)
+    refuses(lambda:installer.revert(second_journal,False),"A later contributor edit rejects the entire revert")
+    check(state(ROOT)==changed_state,"Later-edit refusal restores no file and removes no helper")
+    changed_path.write_bytes(installed)
+    check(state(ROOT)==candidate_state,"Rehearsal restores only its own simulated edit")
+
+    backup_path = second_journal.parent/"facade_kit.gd.before"
+    backup = backup_path.read_bytes()
+    backup_path.write_bytes(backup+b"\n# simulated corrupt backup\n")
+    refuses(lambda:installer.revert(second_journal,False),"Corrupt original backup rejects the entire revert")
+    check(state(ROOT)==candidate_state,"Backup refusal restores no file and removes no helper")
+    backup_path.write_bytes(backup)
+    installer.revert(second_journal,False)
+    check(state(ROOT)==original,"Revert succeeds exactly after private refusal controls are removed")
+
+    (art/"facade_shell.gd").write_bytes(b"# unrelated helper occupant\n")
+    occupied = state(ROOT)
+    refuses(lambda:installer.install(ROOT,False),"An occupied new-helper path rejects stale installation")
+    check(state(ROOT)==occupied,"Occupied-helper refusal changes no source file")
+    (art/"facade_shell.gd").unlink()
+    refuses(lambda:installer.install(installer.ROOT,False),"Production mutation without explicit root release flag is refused")
+    check(state(installer.ROOT)==original_production,"Every rehearsal and negative control leaves all four production paths untouched")
+finally:
+    receipt = {"utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),"kind":"offline-private-installer-rehearsal",
+        "target":str(ROOT),"engines_invoked":0,"checks":checks,"passed":sum(row["pass"] for row in checks),
+        "failed":sum(not row["pass"] for row in checks),"production_unchanged":state(installer.ROOT)==original_production,
+        "installer_sha256":hashlib.sha256((BASE/"controlled_install.py").read_bytes()).hexdigest()}
+    (BASE/"installer-rehearsal.json").write_text(json.dumps(receipt,indent=2)+"\n")
+    print(json.dumps(receipt,indent=2))

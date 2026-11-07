@@ -1,0 +1,30 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS PrivateProfileQuarter: visible/native frame,mask and real owner match
+PASS PrivateProfileQuarter: actual native/display60mm pipe axis−18mmY/−20mmZ
+PASS PrivateProfileQuarter: independent12mmup/20mmbehind crown and face normal match public lip datum
+PASS PrivateProfileQuarter: actual native top rays hit real crown within2mm
+PASS PrivateProfileQuarter: actual native inward rays hit10mm exposed face within2mm
+PASS PrivateProfileQuarter: unchanged guide identity/source bears on same actual crown withoutoffset
+PRIVATE_PROFILE_GEOMETRY { "id": "PrivateProfileQuarter", "radius_m": 0.03, "deck_reveal_m": 0.012, "face_reveal_m": 0.01, "max_native_crown_error_m": 0.00000054628561, "guide_points": 2 }
+PASS PrivateProfileBowl: visible/native frame,mask and real owner match
+PASS PrivateProfileBowl: every displayed steel triangle equals actual native face
+PASS PrivateProfileBowl: actual torus section60mm and crown12mm above deck
+PASS PrivateProfileBowl: major radius20mm behind tangent,minordiameter60mm
+PASS PrivateProfileBowl: independent12mmup/20mmbehind crown and face normal match public lip datum
+PASS PrivateProfileBowl: actual native top rays hit real crown within2mm
+PASS PrivateProfileBowl: actual native inward rays hit10mm exposed face within2mm
+PASS PrivateProfileBowl: unchanged guide identity/source bears on same actual crown withoutoffset
+PRIVATE_PROFILE_GEOMETRY { "id": "PrivateProfileBowl", "radius_m": 0.03, "deck_reveal_m": 0.012, "face_reveal_m": 0.01, "max_native_crown_error_m": 0.00000812024427, "guide_points": 129 }
+PASS PrivateProfileSunken: visible/native frame,mask and real owner match
+PASS PrivateProfileSunken: every displayed steel triangle equals actual native face
+PASS PrivateProfileSunken: actual torus section60mm and crown12mm above deck
+PASS PrivateProfileSunken: independent12mmup/20mmbehind crown and face normal match public lip datum
+PASS PrivateProfileSunken: actual native top rays hit real crown within2mm
+PASS PrivateProfileSunken: actual native inward rays hit10mm exposed face within2mm
+PASS PrivateProfileSunken: unchanged guide identity/source bears on same actual crown withoutoffset
+PASS PrivateProfileSunken: real entry port has no steel collision across open mouth
+PRIVATE_PROFILE_GEOMETRY { "id": "PrivateProfileSunken", "radius_m": 0.03, "deck_reveal_m": 0.012, "face_reveal_m": 0.01, "max_native_crown_error_m": 0.00000944089425, "guide_points": 111 }
+PASS retained original fixture independently contains90mmOD/70mmdeckcrown
+PASS original70mm profile rejects proposed60mmOD/12mmup/10mmout specification
+RESULT: 24 passed, 0 failed

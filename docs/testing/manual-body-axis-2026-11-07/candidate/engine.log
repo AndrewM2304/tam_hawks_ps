@@ -1,0 +1,117 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: fidelity controls: manual is entered and supported by real mapped inputs
+PASS: fidelity controls: manual publishes the effective forward/back axis
+PASS: fidelity controls: manual actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: manual actual W input leans the connected torso toward real travel
+PASS: fidelity controls: manual forward correction does not carve or accelerate
+PASS: fidelity controls: manual actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: manual actual S input leans the connected torso away from real travel
+PASS: fidelity controls: manual backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: manual D steers independently without substituting for balance
+PASS: fidelity controls: manual A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":0.247778713703156,"back_leading_rise_before":0.242326200008392,"back_speed_loss":0.0748443603515625,"back_value":-0.1728,"body_after_back":{"pelvis_offset_fore_aft_m":0.0183677673339844,"torso_axis_fore_aft":0.0651731491088867,"torso_axis_lateral":0.248953655362129,"torso_offset_fore_aft_m":0.0181522369384766},"body_after_forward":{"pelvis_offset_fore_aft_m":0.0161552429199219,"torso_axis_fore_aft":0.0754553079605103,"torso_axis_lateral":0.242068395018578,"torso_offset_fore_aft_m":0.0159492492675781},"body_before_back":{"pelvis_offset_fore_aft_m":0.0161552429199219,"torso_axis_fore_aft":0.0754553079605103,"torso_axis_lateral":0.242068395018578,"torso_offset_fore_aft_m":0.0159492492675781},"body_before_forward":{"pelvis_offset_fore_aft_m":0.0187301635742188,"torso_axis_fore_aft":0.0687282308936119,"torso_axis_lateral":0.249777615070343,"torso_offset_fore_aft_m":0.0185108184814453},"case":"manual","forward_leading_rise_after":0.242326200008392,"forward_leading_rise_before":0.248367607593536,"forward_speed_loss":0.0748443603515625,"forward_value":-0.000333333333333321,"left_turn":0.0396011620759964,"manual_id":"manual","right_turn":-0.138811126351357,"speed":5.53434038162231}
+PASS: fidelity controls: nose_manual is entered and supported by real mapped inputs
+PASS: fidelity controls: nose_manual publishes the effective forward/back axis
+PASS: fidelity controls: nose_manual actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: nose_manual actual W input leans the connected torso toward real travel
+PASS: fidelity controls: nose_manual forward correction does not carve or accelerate
+PASS: fidelity controls: nose_manual actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: nose_manual actual S input leans the connected torso away from real travel
+PASS: fidelity controls: nose_manual backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: nose_manual D steers independently without substituting for balance
+PASS: fidelity controls: nose_manual A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":-0.258057951927185,"back_leading_rise_before":-0.259050905704498,"back_speed_loss":0.0748443603515625,"back_value":0.1728,"body_after_back":{"pelvis_offset_fore_aft_m":0.0271434783935547,"torso_axis_fore_aft":-0.0199649222195148,"torso_axis_lateral":-0.132381394505501,"torso_offset_fore_aft_m":0.0273609161376953},"body_after_forward":{"pelvis_offset_fore_aft_m":0.0265216827392578,"torso_axis_fore_aft":-0.0113979261368513,"torso_axis_lateral":-0.134090185165405,"torso_offset_fore_aft_m":0.0267181396484375},"body_before_back":{"pelvis_offset_fore_aft_m":0.0265216827392578,"torso_axis_fore_aft":-0.0113979261368513,"torso_axis_lateral":-0.134090185165405,"torso_offset_fore_aft_m":0.0267181396484375},"body_before_forward":{"pelvis_offset_fore_aft_m":0.0302543640136719,"torso_axis_fore_aft":-0.0196819342672825,"torso_axis_lateral":-0.120728902518749,"torso_offset_fore_aft_m":0.0303897857666016},"case":"nose_manual","forward_leading_rise_after":-0.259050905704498,"forward_leading_rise_before":-0.248367607593536,"forward_speed_loss":0.0748443603515625,"forward_value":0.300333333333333,"left_turn":0.0394763424992561,"manual_id":"nose_manual","right_turn":-0.138371452689171,"speed":5.73794651031494}
+PASS: fidelity controls: reverse case uses an actual native landing
+PASS: fidelity controls: actual Revert produces functional negative travel
+PASS: fidelity controls: manual fakie is entered and supported by real mapped inputs
+PASS: fidelity controls: manual fakie publishes the effective forward/back axis
+PASS: fidelity controls: manual fakie actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: manual fakie actual W input leans the connected torso toward real travel
+PASS: fidelity controls: manual fakie forward correction does not carve or accelerate
+PASS: fidelity controls: manual fakie actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: manual fakie actual S input leans the connected torso away from real travel
+PASS: fidelity controls: manual fakie backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: manual fakie D steers independently without substituting for balance
+PASS: fidelity controls: manual fakie A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":-0.25805789232254,"back_leading_rise_before":-0.259050965309143,"back_speed_loss":0.0748443603515625,"back_value":0.1728,"body_after_back":{"pelvis_offset_fore_aft_m":-0.0226154327392578,"torso_axis_fore_aft":-0.0684852674603462,"torso_axis_lateral":-0.260609298944473,"torso_offset_fore_aft_m":-0.0224342346191406},"body_after_forward":{"pelvis_offset_fore_aft_m":-0.0231094360351562,"torso_axis_fore_aft":-0.059979859739542,"torso_axis_lateral":-0.262435287237167,"torso_offset_fore_aft_m":-0.0229034423828125},"body_before_back":{"pelvis_offset_fore_aft_m":-0.0231094360351562,"torso_axis_fore_aft":-0.059979859739542,"torso_axis_lateral":-0.262435287237167,"torso_offset_fore_aft_m":-0.0229034423828125},"body_before_forward":{"pelvis_offset_fore_aft_m":-0.0190486907958984,"torso_axis_fore_aft":-0.068523608148098,"torso_axis_lateral":-0.249621421098709,"torso_offset_fore_aft_m":-0.0188407897949219},"case":"manual fakie","forward_leading_rise_after":-0.259050965309143,"forward_leading_rise_before":-0.248367607593536,"forward_speed_loss":0.0748443603515625,"forward_value":0.300333333333333,"left_turn":0.0398001670837402,"manual_id":"manual","right_turn":-0.139511410390035,"speed":-5.20971059799194}
+PASS: fidelity controls: reverse case uses an actual native landing
+PASS: fidelity controls: actual Revert produces functional negative travel
+PASS: fidelity controls: nose_manual fakie is entered and supported by real mapped inputs
+PASS: fidelity controls: nose_manual fakie publishes the effective forward/back axis
+PASS: fidelity controls: nose_manual fakie actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: nose_manual fakie actual W input leans the connected torso toward real travel
+PASS: fidelity controls: nose_manual fakie forward correction does not carve or accelerate
+PASS: fidelity controls: nose_manual fakie actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: nose_manual fakie actual S input leans the connected torso away from real travel
+PASS: fidelity controls: nose_manual fakie backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: nose_manual fakie D steers independently without substituting for balance
+PASS: fidelity controls: nose_manual fakie A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":0.247778713703156,"back_leading_rise_before":0.242326200008392,"back_speed_loss":0.0748443603515625,"back_value":-0.1728,"body_after_back":{"pelvis_offset_fore_aft_m":-0.0314102172851562,"torso_axis_fore_aft":0.0165587496012449,"torso_axis_lateral":0.120398320257664,"torso_offset_fore_aft_m":-0.0315799713134766},"body_after_forward":{"pelvis_offset_fore_aft_m":-0.0335044860839844,"torso_axis_fore_aft":0.0267598014324903,"torso_axis_lateral":0.113359950482845,"torso_offset_fore_aft_m":-0.0336894989013672},"body_before_back":{"pelvis_offset_fore_aft_m":-0.0335044860839844,"torso_axis_fore_aft":0.0267598014324903,"torso_axis_lateral":0.113359950482845,"torso_offset_fore_aft_m":-0.0336894989013672},"body_before_forward":{"pelvis_offset_fore_aft_m":-0.0305309295654297,"torso_axis_fore_aft":0.019888011738658,"torso_axis_lateral":0.120890967547894,"torso_offset_fore_aft_m":-0.0307388305664062},"case":"nose_manual fakie","forward_leading_rise_after":0.242326200008392,"forward_leading_rise_before":0.248367607593536,"forward_speed_loss":0.0748443603515625,"forward_value":-0.000333333333333321,"left_turn":0.0396759510040283,"manual_id":"nose_manual","right_turn":-0.139074150715963,"speed":-5.41230249404907}
+PASS: fidelity controls: pogo is entered and supported by real mapped inputs
+PASS: fidelity controls: pogo publishes the effective forward/back axis
+PASS: fidelity controls: pogo actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: pogo actual W input leans the connected torso toward real travel
+PASS: fidelity controls: pogo forward correction does not carve or accelerate
+PASS: fidelity controls: pogo actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: pogo actual S input leans the connected torso away from real travel
+PASS: fidelity controls: pogo backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: pogo D steers independently without substituting for balance
+PASS: fidelity controls: pogo A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":0.80901825428009,"back_leading_rise_before":0.808388113975525,"back_speed_loss":0.0748443603515625,"back_value":-0.201622222222222,"body_after_back":{"pelvis_offset_fore_aft_m":0.00118446350097656,"torso_axis_fore_aft":0.0735132992267609,"torso_axis_lateral":0.13303117454052,"torso_offset_fore_aft_m":0.000967025756835938},"body_after_forward":{"pelvis_offset_fore_aft_m":-0.000324249267578125,"torso_axis_fore_aft":0.0836043506860733,"torso_axis_lateral":0.12113693356514,"torso_offset_fore_aft_m":-0.0005340576171875},"body_before_back":{"pelvis_offset_fore_aft_m":-0.000324249267578125,"torso_axis_fore_aft":0.0836043506860733,"torso_axis_lateral":0.12113693356514,"torso_offset_fore_aft_m":-0.0005340576171875},"body_before_forward":{"pelvis_offset_fore_aft_m":0.00201416015625,"torso_axis_fore_aft":0.0766116753220558,"torso_axis_lateral":0.132153123617172,"torso_offset_fore_aft_m":0.00179290771484375},"case":"pogo","forward_leading_rise_after":0.808388113975525,"forward_leading_rise_before":0.808694005012512,"forward_speed_loss":0.0748443603515625,"forward_value":-0.0290222222222222,"left_turn":0.0396089181303978,"manual_id":"pogo","right_turn":-0.138838067650795,"speed":5.52170038223267}
+PASS: fidelity controls: casper_manual is entered and supported by real mapped inputs
+PASS: fidelity controls: casper_manual publishes the effective forward/back axis
+PASS: fidelity controls: casper_manual actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: casper_manual actual W input leans the connected torso toward real travel
+PASS: fidelity controls: casper_manual forward correction does not carve or accelerate
+PASS: fidelity controls: casper_manual actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: casper_manual actual S input leans the connected torso away from real travel
+PASS: fidelity controls: casper_manual backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: casper_manual D steers independently without substituting for balance
+PASS: fidelity controls: casper_manual A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":0.298757433891296,"back_leading_rise_before":0.297163784503937,"back_speed_loss":0.0748443603515625,"back_value":-0.201622222222222,"body_after_back":{"pelvis_offset_fore_aft_m":0.0383720397949219,"torso_axis_fore_aft":0.0640962794423103,"torso_axis_lateral":0.252488106489182,"torso_offset_fore_aft_m":0.0381546020507812},"body_after_forward":{"pelvis_offset_fore_aft_m":0.0366840362548828,"torso_axis_fore_aft":0.0743720382452011,"torso_axis_lateral":0.24541412293911,"torso_offset_fore_aft_m":0.0364742279052734},"body_before_back":{"pelvis_offset_fore_aft_m":0.0366840362548828,"torso_axis_fore_aft":0.0743720382452011,"torso_axis_lateral":0.24541412293911,"torso_offset_fore_aft_m":0.0364742279052734},"body_before_forward":{"pelvis_offset_fore_aft_m":0.0388069152832031,"torso_axis_fore_aft":0.0676372423768044,"torso_axis_lateral":0.253233581781387,"torso_offset_fore_aft_m":0.0385856628417969},"case":"casper_manual","forward_leading_rise_after":0.297163784503937,"forward_leading_rise_before":0.29871854186058,"forward_speed_loss":0.0748443603515625,"forward_value":-0.0290222222222222,"left_turn":0.0396089181303978,"manual_id":"casper_manual","right_turn":-0.138838067650795,"speed":5.52170038223267}
+PASS: fidelity controls: manual_pivot is entered and supported by real mapped inputs
+PASS: fidelity controls: manual_pivot publishes the effective forward/back axis
+PASS: fidelity controls: manual_pivot actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: manual_pivot actual W input leans the connected torso toward real travel
+PASS: fidelity controls: manual_pivot forward correction does not carve or accelerate
+PASS: fidelity controls: manual_pivot actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: manual_pivot actual S input leans the connected torso away from real travel
+PASS: fidelity controls: manual_pivot backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: manual_pivot D steers independently without substituting for balance
+PASS: fidelity controls: manual_pivot A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":-0.258429855108261,"back_leading_rise_before":-0.25942075252533,"back_speed_loss":0.0748443603515625,"back_value":0.176622222222222,"body_after_back":{"pelvis_offset_fore_aft_m":-0.0227642059326172,"torso_axis_fore_aft":-0.0683191865682602,"torso_axis_lateral":-0.261083334684372,"torso_offset_fore_aft_m":-0.0225353240966797},"body_after_forward":{"pelvis_offset_fore_aft_m":-0.0232486724853516,"torso_axis_fore_aft":-0.0597821064293385,"torso_axis_lateral":-0.262957036495209,"torso_offset_fore_aft_m":-0.0230197906494141},"body_before_back":{"pelvis_offset_fore_aft_m":-0.0232486724853516,"torso_axis_fore_aft":-0.0597821064293385,"torso_axis_lateral":-0.262957036495209,"torso_offset_fore_aft_m":-0.0230197906494141},"body_before_forward":{"pelvis_offset_fore_aft_m":-0.0191650390625,"torso_axis_fore_aft":-0.0682504177093506,"torso_axis_lateral":-0.250298470258713,"torso_offset_fore_aft_m":-0.0189476013183594},"case":"manual_pivot","forward_leading_rise_after":-0.25942075252533,"forward_leading_rise_before":-0.248781263828278,"forward_speed_loss":0.0748443603515625,"forward_value":0.304022222222222,"left_turn":0.0401721000671387,"manual_id":"manual_pivot","right_turn":-0.140818659459249,"speed":-4.60356712341309}
+PASS: fidelity controls: nose_manual_pivot is entered and supported by real mapped inputs
+PASS: fidelity controls: nose_manual_pivot publishes the effective forward/back axis
+PASS: fidelity controls: nose_manual_pivot actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: nose_manual_pivot actual W input leans the connected torso toward real travel
+PASS: fidelity controls: nose_manual_pivot forward correction does not carve or accelerate
+PASS: fidelity controls: nose_manual_pivot actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: nose_manual_pivot actual S input leans the connected torso away from real travel
+PASS: fidelity controls: nose_manual_pivot backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: nose_manual_pivot D steers independently without substituting for balance
+PASS: fidelity controls: nose_manual_pivot A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":0.245089203119278,"back_leading_rise_before":0.240194410085678,"back_speed_loss":0.0748443603515625,"back_value":-0.1442,"body_after_back":{"pelvis_offset_fore_aft_m":-0.0325183868408203,"torso_axis_fore_aft":0.0176733937114477,"torso_axis_lateral":0.117115631699562,"torso_offset_fore_aft_m":-0.0327205657958984},"body_after_forward":{"pelvis_offset_fore_aft_m":-0.0343799591064453,"torso_axis_fore_aft":0.0275878328830004,"torso_axis_lateral":0.11072900891304,"torso_offset_fore_aft_m":-0.0345573425292969},"body_before_back":{"pelvis_offset_fore_aft_m":-0.0343799591064453,"torso_axis_fore_aft":0.0275878328830004,"torso_axis_lateral":0.11072900891304,"torso_offset_fore_aft_m":-0.0345573425292969},"body_before_forward":{"pelvis_offset_fore_aft_m":-0.0314140319824219,"torso_axis_fore_aft":0.0207820739597082,"torso_axis_lateral":0.11805571615696,"torso_offset_fore_aft_m":-0.0315570831298828},"case":"nose_manual_pivot","forward_leading_rise_after":0.240194410085678,"forward_leading_rise_before":0.246173605322838,"forward_speed_loss":0.0748443603515625,"forward_value":0.0209777777777778,"left_turn":0.0401721000671387,"manual_id":"nose_manual_pivot","right_turn":-0.140818659459249,"speed":-4.60356712341309}
+PASS: fidelity controls: hang_ten is entered and supported by real mapped inputs
+PASS: fidelity controls: hang_ten publishes the effective forward/back axis
+PASS: fidelity controls: hang_ten actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: hang_ten actual W input leans the connected torso toward real travel
+PASS: fidelity controls: hang_ten forward correction does not carve or accelerate
+PASS: fidelity controls: hang_ten actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: hang_ten actual S input leans the connected torso away from real travel
+PASS: fidelity controls: hang_ten backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: hang_ten D steers independently without substituting for balance
+PASS: fidelity controls: hang_ten A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":-0.255962371826172,"back_leading_rise_before":-0.256932199001312,"back_speed_loss":0.0748443603515625,"back_value":0.151622222222222,"body_after_back":{"pelvis_offset_fore_aft_m":-0.100975036621094,"torso_axis_fore_aft":0.0247462280094624,"torso_axis_lateral":-0.198818400502205,"torso_offset_fore_aft_m":-0.100757598876953},"body_after_forward":{"pelvis_offset_fore_aft_m":-0.101449966430664,"torso_axis_fore_aft":0.0333358198404312,"torso_axis_lateral":-0.200483173131943,"torso_offset_fore_aft_m":-0.101251602172852},"body_before_back":{"pelvis_offset_fore_aft_m":-0.101449966430664,"torso_axis_fore_aft":0.0333358198404312,"torso_axis_lateral":-0.200483173131943,"torso_offset_fore_aft_m":-0.101251602172852},"body_before_forward":{"pelvis_offset_fore_aft_m":-0.0985088348388672,"torso_axis_fore_aft":0.0250195730477571,"torso_axis_lateral":-0.186961621046066,"torso_offset_fore_aft_m":-0.0983657836914062},"case":"hang_ten","forward_leading_rise_after":-0.256932199001312,"forward_leading_rise_before":-0.246173605322838,"forward_speed_loss":0.0748443603515625,"forward_value":0.279022222222222,"left_turn":0.0396089181303978,"manual_id":"hang_ten","right_turn":-0.138838067650795,"speed":5.52170038223267}
+PASS: fidelity controls: one_foot_nose_manual is entered and supported by real mapped inputs
+PASS: fidelity controls: one_foot_nose_manual publishes the effective forward/back axis
+PASS: fidelity controls: one_foot_nose_manual actual W input lowers the travel-leading board end and shifts balance forward
+PASS: fidelity controls: one_foot_nose_manual actual W input leans the connected torso toward real travel
+PASS: fidelity controls: one_foot_nose_manual forward correction does not carve or accelerate
+PASS: fidelity controls: one_foot_nose_manual actual S input raises the travel-leading board end and shifts balance back
+PASS: fidelity controls: one_foot_nose_manual actual S input leans the connected torso away from real travel
+PASS: fidelity controls: one_foot_nose_manual backward correction retains the same coasting loss without braking or turning
+PASS: fidelity controls: one_foot_nose_manual D steers independently without substituting for balance
+PASS: fidelity controls: one_foot_nose_manual A turns the opposite way while the native manual remains live
+FIDELITY_MANUAL_WORLD_SIGN {"back_leading_rise_after":-0.255962371826172,"back_leading_rise_before":-0.256932199001312,"back_speed_loss":0.0748443603515625,"back_value":0.151622222222222,"body_after_back":{"pelvis_offset_fore_aft_m":-0.0148830413818359,"torso_axis_fore_aft":-0.0207429528236389,"torso_axis_lateral":-0.129841268062592,"torso_offset_fore_aft_m":-0.0146675109863281},"body_after_forward":{"pelvis_offset_fore_aft_m":-0.0155467987060547,"torso_axis_fore_aft":-0.012178422883153,"torso_axis_lateral":-0.131525635719299,"torso_offset_fore_aft_m":-0.015350341796875},"body_before_back":{"pelvis_offset_fore_aft_m":-0.0155467987060547,"torso_axis_fore_aft":-0.012178422883153,"torso_axis_lateral":-0.131525635719299,"torso_offset_fore_aft_m":-0.015350341796875},"body_before_forward":{"pelvis_offset_fore_aft_m":-0.0107593536376953,"torso_axis_fore_aft":-0.0204741321504116,"torso_axis_lateral":-0.118170388042927,"torso_offset_fore_aft_m":-0.0106163024902344},"case":"one_foot_nose_manual","forward_leading_rise_after":-0.256932199001312,"forward_leading_rise_before":-0.246173605322838,"forward_speed_loss":0.0748443603515625,"forward_value":0.279022222222222,"left_turn":0.0396089181303978,"manual_id":"one_foot_nose_manual","right_turn":-0.138838067650795,"speed":5.52170038223267}
+BODY AXIS RESULT: 104 passed, 0 failed

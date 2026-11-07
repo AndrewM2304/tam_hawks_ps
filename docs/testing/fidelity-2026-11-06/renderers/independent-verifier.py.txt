@@ -1,0 +1,66 @@
+import datetime, hashlib, json, math, pathlib, re, shutil
+from PIL import Image
+
+root=pathlib.Path('/workspace/tam_hawks_ps')
+source=root/'.local/renderer-comparison-source'
+staging=source/'.local/qa-fidelity'
+out=root/'docs/testing/fidelity-2026-11-06/renderers'
+out.mkdir(exist_ok=True)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+result={'schema':1,'reviewer':'independent_qa','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+ 'source_scope':'Immutable November dirty-candidate copy: exact inventories authoritative. Subsequent rider, bank, controls and normal-map changes are outside this epoch.',
+ 'limits':'Static diagnostic/capability comparison on Linux software rendering. CPU diagnostics overlapped Forward+ qualitative rendering; elapsed/frame timings do not establish comparative performance. No Mac, Metal, physical-controller, complete motion or AAA acceptance.',
+ 'renderers':{},'matched_views':[]}
+reports={}
+for mode in ['renderer-gl','renderer-forward']:
+ p=staging/mode; dest=out/mode;dest.mkdir(exist_ok=True)
+ receipt=json.loads((p/'receipt.json').read_text());report=json.loads((p/'snapshot.json').read_text());reports[mode]=report
+ before=json.loads((p/'source-before.json').read_text());after=json.loads((p/'source-after.json').read_text())
+ assert before==after and receipt['source_stable'] and receipt['eligible'] and not receipt['changed_inputs']
+ assert not receipt['failures'] and not report['failures'] and receipt['engine_exit']==0
+ assert receipt['snapshot_sha256']==sha(p/'snapshot.json')
+ text=(p/'engine.log').read_text();assert not re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:',text)
+ rows=report['ordinary_and_inspection']+report['overviews']+report['sync_proofs']; assert len(rows)==17
+ images=[];sync=[]
+ for row in rows:
+  file=row['file'];path=p/file
+  im=Image.open(path).convert('RGBA');raw=im.tobytes()
+  assert im.size==(1280,800) and len(raw)==4096000
+  assert hashlib.sha256(raw).hexdigest()==row['pixels']['rgba8_sha256']
+  assert sha(path)==receipt['images'][file]
+  d=dest/file;d.parent.mkdir(exist_ok=True);shutil.copy2(path,d)
+  images.append({'file':file,'dimensions':list(im.size),'png_sha256':sha(path),'native_rgba8_sha256':hashlib.sha256(raw).hexdigest(),'native_match':True,'receipt_match':True})
+  if 'canvas_pixel' in row:
+   assert list(im.getpixel(tuple(row['canvas_pixel'])))==row['canvas_expected']
+   markers=[]
+   for marker in row['markers']:
+    px,py=marker['projected_pixel'];channel=0 if marker['color_channel']=='red' else 1;hits=[]
+    for y in range(max(0,int(py)-12),min(800,int(py)+13)):
+     for x in range(max(0,int(px)-12),min(1280,int(px)+13)):
+      col=im.getpixel((x,y));other=[c for c in range(3) if c!=channel]
+      if col[channel]/255>0.75 and all((col[channel]-col[c])/255>0.20 for c in other):hits.append((x+.5,y+.5))
+    assert len(hits)==marker['count'] and len(hits)>=4
+    error=math.hypot(sum(x for x,y in hits)/len(hits)-px,sum(y for x,y in hits)/len(hits)-py)
+    assert error<=2.5 and abs(error-marker['centroid_error'])<0.0001
+    markers.append({'kind':marker['kind'],'pixels':len(hits),'centroid_error_pixels':error,'count_matches_native':True})
+   assert row['same_native_frame']
+   sync.append({'file':file,'canvas_rgba_matches':True,'native_tick_stable':True,'independent_markers':markers})
+ for name in ['receipt.json','snapshot.json','source-before.json','source-after.json','engine.log']:
+  shutil.copy2(p/name,dest/name)
+ result['renderers'][mode]={'capture_receipt_sha256':sha(p/'receipt.json'),'source_inputs':len(before),'source_stable':True,'snapshot_checks_before_receipt_write':report['checks'],'final_stdout_checks':61,'final_failures':0,'backend':text.splitlines()[1],'images':images,'synchronization':sync}
+gl=json.loads((staging/'renderer-gl/source-before.json').read_text());fw=json.loads((staging/'renderer-forward/source-before.json').read_text());assert gl==fw
+result['identical_source_inputs']=len(gl)
+for row in reports['renderer-gl']['ordinary_and_inspection']+reports['renderer-gl']['overviews']+reports['renderer-gl']['sync_proofs']:
+ other=next(x for x in reports['renderer-forward']['ordinary_and_inspection']+reports['renderer-forward']['overviews']+reports['renderer-forward']['sync_proofs'] if x['file']==row['file'])
+ keys=[k for k in ['camera_position','camera_forward','camera_fov','player_position','on_floor','physics_frame','process_frame','target','camera'] if k in row]
+ assert all(row[k]==other[k] for k in keys),(row['file'],keys)
+ result['matched_views'].append({'file':row['file'],'exact_metadata_fields':keys,'match':True})
+for name in ['snapshot.gd','capture.py']:
+ path=staging/name;assert sha(path)==gl['.local/qa-fidelity/'+name]
+ shutil.copy2(path,out/(name+'.txt'))
+result['count_note']='Each snapshot is constructed before the final writable-receipt assertion:60+1=61 final checks per backend, not121 or122 combined gameplay checks.'
+result['independent_verdict']={'source_pixels_sync':'Pass, this exact static epoch','backend_capability':'Pass, both backends render the complete default-Main snapshot with clean logs','material_form_composition':'Fail against the full fidelity benchmark; previous topology is not final revised rider/bank acceptance','renderer_switch_benefit':'No demonstrated benefit in this unchanged lighting/workload justifies a default switch','performance':'Unmeasured: software/JIT and concurrent CPU diagnostic conditions','Mac_Metal':'Unmeasured'}
+(out/'independent-review.json').write_text(json.dumps(result,indent=2)+'\n')
+files=[p for p in out.rglob('*') if p.is_file() and p.name not in ['preservation.json','README.md']]
+(out/'preservation.json').write_text(json.dumps({'files':{str(p.relative_to(out)):sha(p) for p in sorted(files)}},indent=2)+'\n')
+print('RENDERER_INDEPENDENT 34 PNG/native hashes;6 Canvas proofs;8 projected markers;17 matched cameras;781 identical source inputs; preserved',sum(p.stat().st_size for p in files),'bytes')

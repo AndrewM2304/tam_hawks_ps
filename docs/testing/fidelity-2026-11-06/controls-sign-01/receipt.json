@@ -1,0 +1,22 @@
+{
+  "started_utc": "2026-11-07T00:06:51.749718+00:00",
+  "finished_utc": "2026-11-07T00:07:16.601303+00:00",
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/qa-fidelity/controls-runner.gd",
+    "--",
+    "sign"
+  ],
+  "executed_project": "/workspace/tam_hawks_ps/.local/qa-fidelity/controls-source",
+  "engine_exit": 0,
+  "changed_inputs": [],
+  "source_stable": true,
+  "source_copy_receipt_sha256": "89d3f7ed2b16aadd232ec6fb23ecd351d9ea488570914640acb56c3c7c7bad10",
+  "source_scope": "Dedicated copied dirty November candidate, exact inventory authoritative; not final integrated source."
+}

@@ -1,0 +1,100 @@
+from pathlib import Path
+import json,hashlib,shutil,math,datetime,urllib.request
+import numpy as np
+from PIL import Image
+ROOT=Path('/workspace/tam_hawks_ps');SRC=ROOT/'.local/qa-fidelity';OUT=ROOT/'docs/testing/fidelity-2026-11-06/skinning-operation-order-01';OUT.mkdir(exist_ok=True)
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+checks=[]
+def check(name,ok,value=None):checks.append({'name':name,'pass':bool(ok),'actual':value})
+for label,source in [('identity-epoch01','native-skinning-order-01'),('active-epoch02','native-skinning-order-02')]:
+ p=SRC/source;q=OUT/label;q.mkdir(exist_ok=True)
+ for f in p.iterdir():
+  if f.is_file() and f.suffix in ['.json','.png','.log']:shutil.copyfile(f,q/f.name)
+ if label=='identity-epoch01':
+  r=q/'rejected-startup';r.mkdir(exist_ok=True)
+  for f in (p/'rejected-startup').iterdir():shutil.copyfile(f,r/f.name)
+ for name in ['source-before.json','source-after.json']:
+  check(label+': source inventory retained exact',sha(q/name)==sha(p/name))
+ before=json.loads((q/'source-before.json').read_text());after=json.loads((q/'source-after.json').read_text());receipt=json.loads((q/'gpu-receipt.json').read_text());data=json.loads((q/'native-skin-order.json').read_text())
+ check(label+': source bytes stable',before==after,len(before));check(label+': clean bounded native GPU',receipt['engine_exit']==0 and not receipt['engine_errors'] and not receipt['failure'] and receipt['wrapper_seconds']<20,receipt['wrapper_seconds'])
+ for image in data['images']:
+  path=q/image['file'];pixels=np.asarray(Image.open(path).convert('RGBA'))
+  check(label+' '+image['file']+': native64x64 PNG and RGBA hashes',pixels.shape==(64,64,4) and sha(path)==image['png_sha256'] and hashlib.sha256(pixels.tobytes()).hexdigest()==image['rgba8_sha256'])
+  check(label+' '+image['file']+': unchanged readback counters',image['physics_before']==image['physics_after'] and image['process_before']==image['process_after'])
+  check(label+' '+image['file']+': decoded center/canvas metadata',np.max(np.abs(pixels[32,32]/255-np.array(image['center_rgba'])))<1e-6 and np.max(np.abs(pixels[5,5]/255-np.array(image['corner_rgba'])))<1e-6)
+  check(label+' '+image['file']+': native epoch blue and Canvas tag',abs(int(pixels[32,32,2])-image['epoch_blue']*255)<2 and np.max(np.abs(pixels[5,5]/255-np.array(image['canvas_expected'])))<=1/255+1e-6)
+active=json.loads((OUT/'active-epoch02/native-skin-order.json').read_text());vertex=active['native_vertex'];w=np.array(vertex['weights']);weight_sum=float(w.sum())
+check('actual native decoded weights are nonunit and unchanged in rendered ArrayMesh',abs(weight_sum-0.999984711408615)<1e-14 and all(np.array_equal(np.array(i['native_triangle_weights'][:4]),w) for i in active['images']),weight_sum)
+check('actual canonical jacket resolves Skeleton and same model frame',active['mesh_resolves_actual_skeleton'] and active['mesh_model']==active['skeleton_frame'])
+raw_rows=[]
+for i in active['images']:
+ im=np.asarray(Image.open(OUT/'active-epoch02'/i['file']).convert('RGBA'));skin=i['skin_attached'];z=i['model_z'];bone_z=i['native_bone_z_translation'];native=int(im[32,32,0]);correct=.5+100*(bone_z*weight_sum if skin else 0);wrong=.5+100*((z+bone_z)*weight_sum-z) if skin else .5
+ raw_rows.append({'file':i['file'],'skin_attached':skin,'mesh_model_z_m':z,'skeleton_world_z_m':i['skeleton']['origin'][2],'actual_center_rgba8':im[32,32].tolist(),'local_then_model_red_ideal_rgb8':float(np.clip(correct,0,1)*255),'world_inside_weighted_sum_red_ideal_rgb8':float(np.clip(wrong,0,1)*255)})
+ check(i['file']+': local skin then model once RGB equation',abs(native-float(np.clip(correct,0,1)*255))<=2)
+ if skin and z>=100:check(i['file']+': old world-weighted equation excluded by native pixels',abs(native-float(np.clip(wrong,0,1)*255))>20)
+check('actual nonidentity skin versus detached-Skin discrimination',raw_rows[0]['actual_center_rgba8'][0]==153 and raw_rows[3]['actual_center_rgba8'][0]==128)
+# Independently reconstruct official shader weighted3x4 local matrix from recorded native input.
+mat=np.zeros((3,4));rest=np.array(vertex['rest'])
+for weight,t in zip(w,vertex['bone_bind_local_transforms']):mat[:,:3]+=np.array(t['basis']).T*weight;mat[:,3]+=np.array(t['origin'])*weight
+local=mat[:,:3]@rest+mat[:,3];numeric=[]
+for sample in active['samples']:
+ model=sample['actual_model'];basis=np.array(model['basis']).T;origin=np.array(model['origin']);native=basis@local+origin;old=basis@local+origin*weight_sum
+ numeric.append({'model_origin_m':origin.tolist(),'native_equation_world_m':native.tolist(),'inherited_world_weighted_m':old.tolist(),'ideal_error_mm':float(np.linalg.norm(native-old)*1000),'recorded_float32_error_mm':sample['difference_m']*1000})
+ check('native recorded local/model formula within ordinary float32 rounding '+str(sample['added_model_z_m']),np.linalg.norm(native-np.array(sample['shader_equation_world']))<.0001)
+for n in ['native_skin_order.gd','native_skin_order_active.gd','run_skin_order.py','run_skin_order_active.py']:shutil.copyfile(SRC/n,OUT/(n+'.txt'))
+project=SRC/'checkpoint-source-03'
+for n in ['game/player/skater_obstacle_arm_fit.gd','game/player/skater_garments.gd']:shutil.copyfile(project/n,OUT/(Path(n).name+'.txt'))
+# Official retained excerpts keep exact source lines and complete upstream MIT licence.
+source_dir=SRC/'godot-skinning';extracts=[]
+records=[('drivers/gles3/shaders/skeleton.glsl','drivers__gles3__shaders__skeleton.glsl',[(241,263)]),('servers/rendering/renderer_rd/shaders/skeleton.glsl','servers__rendering__renderer_rd__shaders__skeleton.glsl',[(251,289)]),('drivers/gles3/shaders/scene.glsl','scene.glsl',[(593,598),(678,683),(701,716)]),('scene/3d/skeleton_3d.cpp','scene__3d__skeleton_3d.cpp',[(398,404)]),('scene/3d/mesh_instance_3d.cpp','scene__3d__mesh_instance_3d.cpp',[(175,197),(808,833)]),('servers/rendering/renderer_scene_cull.cpp','servers__rendering__renderer_scene_cull.cpp',[(1719,1726)])]
+for upstream,name,ranges in records:
+ p=source_dir/name;lines=p.read_text().splitlines();extracts.append({'url':'https://github.com/godotengine/godot/blob/4.6.3-stable/'+upstream,'full_file_sha256':sha(p),'ranges':[{'first_line':a,'last_line':b,'exact_text':'\n'.join(lines[a-1:b])+'\n'} for a,b in ranges]})
+(OUT/'official-source-excerpts.json').write_text(json.dumps(extracts,indent=2)+'\n')
+license_bytes=urllib.request.urlopen('https://raw.githubusercontent.com/godotengine/godot/4.6.3-stable/LICENSE.txt',timeout=15).read();(OUT/'GODOT-LICENSE.txt').write_bytes(license_bytes)
+report={'schema':1,'reviewer':'independent_qa','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'defect':'FID-D016','status':'Native shader operation-order defect independently reproduced; corrected helper admission remains separate.','checks':len(checks),'failures':sum(not x['pass'] for x in checks),'actual_native_vertex':vertex,'gpu_rows':raw_rows,'actual_native_jacket_far_origin_numeric_reference':numeric,'source_findings':['GLES and RD skeleton preprocessing sum local bone matrices using exact decoded weights and output xyz. They do not renormalize weights. Scene then applies actual mesh model once with homogeneous1.','Skeleton3D uploads globalBonePose*Skin.bindPose, with no mesh/world factor. Actual mesh model is MeshInstance global transform; canonical jacket/Skeleton globals coincide and mesh resolves that Skeleton.','Inherited production helper and test reference multiply world inside every weighted influence. For nonunit decoded weights this scales translation and is not the native shader equation.','Godot MeshInstance bake_mesh_from_current_skeleton_pose is also unsuitable as sole GPU oracle for nonunit weights: it retains residual(1-sum)*rest in addition to weighted posed vertices.','GPU epoch02 uses1mm nonidentity bone translation plus detached-Skin negative; identity epoch01 is retained only as its narrower model-translation diagnostic.'],'limits':['Synthetic3-vertex native ArrayMesh/Skin, actual jacket decoded weight values, authored64x64 camera and world-coordinate encoding shader; not ordinary gameplay or realistic artwork.','The GPU probe proves operation-order/no-skipped-Skin discrimination, not universal skinning correctness or equality at unlimited coordinates.','GLES actually executed; RD source read only. No Apple Silicon/native target performance or rendering admission.','Headless initial direct startup crashed before script due unwritable XDG directories and is retained rejected. Successful retry uses existing project tools/run.sh. Headless has after-run-only source scope; GPU before/after inventory includes791 actual source/asset/observer/wrapper inputs.','No per-frame Main movement, contacts, source-level fixes, current full integration, garment coverage or AAA acceptance follows.'],'checks_detail':checks}
+(OUT/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n')
+(OUT/'README.md').write_text('''# Native skinning operation order — independent QE, 7 November 2026
+
+**FID-D016/P2 reproduced.** Native Godot skinning weights local bone matrices,
+then applies the actual mesh model transform once. The inherited contact helper
+and its test reference weight the world translation per influence. These disagree
+when valid decoded UNORM16 weights sum to less than one.
+
+The actual native jacket vertex924 has weights0.579995393753052 and
+0.419989317655563, sum0.999984711408615. An independent official-shader equation
+reconstruction finds about1.7mm error with model Z112m and15.5mm at1012m. Exact
+float32 observations and double-precision references are separately retained.
+
+The active GPU epoch uses those actual decoded values in an isolated native
+ArrayMesh/Skin triangle with a genuine1mm bone translation. A world-coordinate
+shader encodes world Z into red. Native red remains153 at mesh Z0/100/1000m;
+the detached-Skin negative gives128. The old world-weighted equation predicts
+about114 and0 at100/1000m. Blue and Canvas epoch tags, native RGBA/PNG hashes
+and unchanged readback counters authenticate all four natural frame_post_draw
+readbacks. The native Skeleton stays at world0, distinguishing the actual mesh
+model from a presumed Skeleton model. All four originals were personally opened.
+
+The original identity-bone epoch remains its narrower model-translation diagnostic;
+it does not alone prove the skin stage executed. The failed initial direct Godot
+startup is retained separately. The successful headless retry took1.52s, and GPU
+epochs took14.85/12.78s under20s process deadlines. These are wrapper durations,
+not target frame-time measurements. Source before/after791-input byte equality
+belongs to each GPU epoch; no earlier source-before record was invented.
+
+[Independent checks and exact observations](independent-review.json) include the
+actual native weights, bind matrices, model transforms and arithmetic. The exact
+executed observers/wrappers, native originals, raw engine logs, receipts and source
+inventories are retained. [Official4.6.3 source excerpts](official-source-excerpts.json)
+record upstream URLs, full-file SHA256 and exact line ranges; the upstream MIT
+licence is retained. The native CPU mesh-bake API uses a different residual-rest
+formula, so it was rejected as a sole GPU oracle before any comparison used it.
+
+The private corrected contact helper still needs its complete native trajectory,
+resource-cache/budget, malformed-input and existing gameplay regressions. No full
+Main, realistic-rider, visual-motion, M5, physical-controller or AAA pass is claimed.
+''')
+(OUT/'independent-observer.py.txt').write_bytes(Path(__file__).read_bytes())
+index={str(p.relative_to(OUT)):sha(p) for p in OUT.rglob('*') if p.is_file() and p.name!='preservation.json'}
+(OUT/'preservation.json').write_text(json.dumps({'schema':1,'retained_files':index},indent=2)+'\n')
+print(json.dumps({'checks':report['checks'],'failures':report['failures'],'retained_files':len(index),'bytes':sum(p.stat().st_size for p in OUT.rglob('*') if p.is_file()),'native_weight_sum':weight_sum,'gpu_rows':raw_rows,'numeric':numeric},indent=2))
+raise SystemExit(1 if report['failures'] else 0)

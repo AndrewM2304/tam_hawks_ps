@@ -3,6 +3,7 @@ extends RefCounted
 ## real flatland/ledge combo. Only the initial spawn and facing are fixtures.
 
 const Density = preload("res://tests/full_level_density_tests.gd")
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 const Surfaces = preload("res://tests/surface_coverage_tests.gd")
 const BoardGeometry = preload("res://tests/board_geometry_tests_support.gd")
 const Footwear = preload("res://game/player/skater_footwear.gd")
@@ -351,6 +352,11 @@ static func _frames(tree: SceneTree, game: Node, evidence: Dictionary, count: in
 
 
 static func _speed(game: Node, ceiling: float) -> void:
+	# Fore/aft input owns balance during a Manual; ground speed commands
+	# would override it. Preserve momentum and independent lateral steering.
+	if game.skater.manual_active:
+		ManualBalance.hold(game.skater)
+		return
 	# Hold Push through braking so a brake correction cannot accidentally
 	# manufacture the game's Up-neutral-Down manual gesture.
 	Input.action_press("push",0.5)

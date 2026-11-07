@@ -1,0 +1,604 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"checks": 60,
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"limits": "Selective static baseline using existing full_fidelity_capture natural-render and current-camera/Canvas proof. No motion, fun, target-Mac or performance acceptance. Authored cameras are labelled; complete default production world stays enabled.",
+	"normal_trial": true,
+	"ordinary_and_inspection": [
+		{
+			"camera_forward": [
+				-0.000000000000000111022302462516,
+				-0.177726969122887,
+				-0.984079837799072
+			],
+			"camera_fov": 64.5149383544922,
+			"camera_position": [
+				-22.0,
+				2.53008365631104,
+				32.9023246765137
+			],
+			"draws": 1512.0,
+			"file": "ordinary-spawn.png",
+			"fixture": "Actual default Main after 40 settled ticks; no pose/camera assignment.",
+			"on_floor": true,
+			"physics_frame": 41,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 33688809,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 745345,
+				"rgba8_sha256": "69e984d4776f48e46a3ec8f643a67cc59452e9dd7f8be13d2241a535aa54956c"
+			},
+			"player_position": [
+				-22.0,
+				0.0000260472297668457,
+				28.0
+			],
+			"primitives": 979360.0,
+			"process_frame": 40
+		},
+		{
+			"camera_forward": [
+				-0.95871764421463,
+				0.0697086602449417,
+				0.275683283805847
+			],
+			"camera_fov": 38.0,
+			"camera_position": [
+				-18.8443603515625,
+				0.670578479766846,
+				27.0925827026367
+			],
+			"draws": 619.0,
+			"file": "rider-front.png",
+			"fixture": "Authored 3.3m rider inspection camera; ordinary idle pose; native physics frozen after actual startup.",
+			"on_floor": true,
+			"physics_frame": 53,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 585710,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 386057,
+				"rgba8_sha256": "015f07cc852d02d1741f0faf489aa22a17b388a379436acaa9c3078ea266a65b"
+			},
+			"player_position": [
+				-22.0,
+				0.0000260472297668457,
+				28.0
+			],
+			"primitives": 172311.0,
+			"process_frame": 52
+		},
+		{
+			"camera_forward": [
+				-0.276228994131088,
+				-0.0302891209721565,
+				-0.960614442825317
+			],
+			"camera_fov": 38.0,
+			"camera_position": [
+				-21.0880260467529,
+				1.00002598762512,
+				31.1714820861816
+			],
+			"draws": 925.0,
+			"file": "rider-side.png",
+			"fixture": "Authored 3.3m rider inspection camera; ordinary idle pose; native physics frozen after actual startup.",
+			"on_floor": true,
+			"physics_frame": 54,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 1235204,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 658597,
+				"rgba8_sha256": "83a2091f01dfe830cb359e1538926178694f524b43f426df27e38df62f461eca"
+			},
+			"player_position": [
+				-22.0,
+				0.0000260472297668457,
+				28.0
+			],
+			"primitives": 713285.0,
+			"process_frame": 53
+		},
+		{
+			"camera_forward": [
+				0.952939689159393,
+				-0.129684567451477,
+				-0.274021744728088
+			],
+			"camera_fov": 38.0,
+			"camera_position": [
+				-25.1556396484375,
+				1.32947361469269,
+				28.9074172973633
+			],
+			"draws": 805.0,
+			"file": "rider-rear.png",
+			"fixture": "Authored 3.3m rider inspection camera; ordinary idle pose; native physics frozen after actual startup.",
+			"on_floor": true,
+			"physics_frame": 55,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 1124679,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 705592,
+				"rgba8_sha256": "d3718e9a6bdf6d7f71c4405cb46c0173a18568972eeb398dcc5cada3d0f9ed5b"
+			},
+			"player_position": [
+				-22.0,
+				0.0000260472297668457,
+				28.0
+			],
+			"primitives": 628548.0,
+			"process_frame": 54
+		},
+		{
+			"camera_forward": [
+				-0.894029974937439,
+				0.0298010092228651,
+				0.447014898061752
+			],
+			"camera_fov": 68.0,
+			"camera_position": [
+				-29.0,
+				2.0,
+				-2.0
+			],
+			"draws": 916.0,
+			"file": "exchange-shopfront.png",
+			"fixture": "Authored eye-height environment inspection; no native movement or trick proof.",
+			"on_floor": true,
+			"physics_frame": 56,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 907059,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 321993,
+				"rgba8_sha256": "e490847a183660c9d4d5768b9b5f23f2bbb6fcde874ba998fc683e48bb51820c"
+			},
+			"player_position": [
+				-22.0,
+				0.0000260472297668457,
+				28.0
+			],
+			"primitives": 698396.0,
+			"process_frame": 55
+		},
+		{
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_fov": 68.0,
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"draws": 419.0,
+			"file": "clyde-east-quay.png",
+			"fixture": "Authored eye-height environment inspection; no native movement or trick proof.",
+			"on_floor": true,
+			"physics_frame": 57,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 341207,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 355301,
+				"rgba8_sha256": "fd958a30db609d7878fe4c3980b409f8b5ec300b49bd3db049465a95218ea216"
+			},
+			"player_position": [
+				-22.0,
+				0.0000260472297668457,
+				28.0
+			],
+			"primitives": 253912.0,
+			"process_frame": 56
+		},
+		{
+			"camera_forward": [
+				-0.999822020530701,
+				-0.0188645664602518,
+				0.0000000437036078437814
+			],
+			"camera_fov": 68.0,
+			"camera_position": [
+				-25.0,
+				5.0,
+				69.0
+			],
+			"draws": 562.0,
+			"file": "clyde-west-quay.png",
+			"fixture": "Authored eye-height environment inspection; no native movement or trick proof.",
+			"on_floor": true,
+			"physics_frame": 58,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 474429,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 392675,
+				"rgba8_sha256": "bb6c82ff1d97b740657f6ac3e93280699376501d03a397d197fe93e7679fde5c"
+			},
+			"player_position": [
+				-22.0,
+				0.0000260472297668457,
+				28.0
+			],
+			"primitives": 381950.0,
+			"process_frame": 57
+		}
+	],
+	"overviews": [
+		{
+			"camera": "authored district inspection",
+			"camera_position": [
+				20.0,
+				32.0,
+				38.0
+			],
+			"file": "overview_exchange.png",
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 2286036,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 678812,
+				"rgba8_sha256": "7b877afe2a23242c3abde27859561a0344f4683ac56859e65e7cebed97c23979"
+			},
+			"target": [
+				0.0,
+				2.0,
+				-12.0
+			]
+		},
+		{
+			"camera": "authored district inspection",
+			"camera_position": [
+				43.0,
+				32.0,
+				-43.0
+			],
+			"file": "overview_george.png",
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 1424051,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 622557,
+				"rgba8_sha256": "355e0b37859c83d45e08269eeefcfc9ee2dd3dfbe948f8ddc2f05067d4992d3d"
+			},
+			"target": [
+				0.0,
+				4.0,
+				-85.0
+			]
+		},
+		{
+			"camera": "authored district inspection",
+			"camera_position": [
+				-52.0,
+				36.0,
+				54.0
+			],
+			"file": "overview_central.png",
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 1983472,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 512882,
+				"rgba8_sha256": "359a1b8998e4c17d736cf4e22a129fbef4ecb3d2a0b574e896b3eecdc053dcb0"
+			},
+			"target": [
+				-90.0,
+				3.0,
+				1.0
+			]
+		},
+		{
+			"camera": "authored district inspection",
+			"camera_position": [
+				75.0,
+				28.0,
+				43.0
+			],
+			"file": "overview_barras.png",
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 644865,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 391634,
+				"rgba8_sha256": "4d82fab529db7c1f8a15c3af61367da3688a7175882a4661b946b29153d15712"
+			},
+			"target": [
+				113.0,
+				2.0,
+				-5.0
+			]
+		},
+		{
+			"camera": "authored district inspection",
+			"camera_position": [
+				-22.0,
+				43.0,
+				151.0
+			],
+			"file": "overview_clyde.png",
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 1783802,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 433856,
+				"rgba8_sha256": "878b697e7018965c18132c91b0dc1e74f5c29b1442353696d328dbe0563da3a1"
+			},
+			"target": [
+				-55.0,
+				2.0,
+				100.0
+			]
+		},
+		{
+			"camera": "authored district inspection",
+			"camera_position": [
+				-115.0,
+				47.0,
+				-62.0
+			],
+			"file": "overview_park.png",
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 768092,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 356740,
+				"rgba8_sha256": "8a697ae0a023c57bf6a1204690c07313f2de2aa55d71f53a6a0bbc1109872753"
+			},
+			"target": [
+				-174.0,
+				10.0,
+				-128.0
+			]
+		},
+		{
+			"camera": "authored district inspection",
+			"camera_position": [
+				-179.5,
+				29.5,
+				-163.5
+			],
+			"file": "overview_sunken_kelvingrove.png",
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 778994,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 358006,
+				"rgba8_sha256": "8d69d84c0a40efd45a262afa7205c8f91d6ddb4711030cb67757a60a7cd0c38a"
+			},
+			"target": [
+				-207.5,
+				14.5,
+				-187.5
+			]
+		}
+	],
+	"production_main": true,
+	"renderer": "gl_compatibility",
+	"resolution": [
+		1280,
+		800
+	],
+	"save_writes": false,
+	"schema": 1,
+	"sync_proofs": [
+		{
+			"camera_position": [
+				-115.0,
+				47.0,
+				-62.0
+			],
+			"canvas_expected": [
+				0,
+				0,
+				255,
+				255
+			],
+			"canvas_pixel": [
+				20,
+				20
+			],
+			"file": "synchronization/overview_before_contact.png",
+			"id": "overview_before_contact",
+			"markers": [],
+			"physics_frame": 49,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 913872,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 351545,
+				"rgba8_sha256": "9ab79816df48977b9777eb33fb8ca963276f6a2e5e7a7f60c7f18282bc18898c"
+			},
+			"process_frame": 48,
+			"same_native_frame": true
+		},
+		{
+			"camera_position": [
+				-19.593017578125,
+				2.20774412155151,
+				30.648832321167
+			],
+			"canvas_expected": [
+				255,
+				255,
+				0,
+				255
+			],
+			"canvas_pixel": [
+				20,
+				20
+			],
+			"file": "synchronization/first_contact_inspection.png",
+			"id": "first_contact_inspection",
+			"markers": [
+				{
+					"centroid_error": 0.285595685243607,
+					"color_channel": "red",
+					"count": 624,
+					"kind": "actual head",
+					"logical_projected": [
+						672.396728515625,
+						189.20783996582
+					],
+					"logical_viewport_size": [
+						1280.0,
+						800.0
+					],
+					"projected_pixel": [
+						672.396728515625,
+						189.207824707031
+					],
+					"world": [
+						-21.81005859375,
+						1.59014105796814,
+						27.9029674530029
+					]
+				},
+				{
+					"centroid_error": 0.248807445168495,
+					"color_channel": "green",
+					"count": 588,
+					"kind": "actual board",
+					"logical_projected": [
+						612.091857910156,
+						581.58935546875
+					],
+					"logical_viewport_size": [
+						1280.0,
+						800.0
+					],
+					"projected_pixel": [
+						612.091857910156,
+						581.58935546875
+					],
+					"world": [
+						-22.0,
+						0.12799996137619,
+						28.0
+					]
+				}
+			],
+			"physics_frame": 50,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 1341315,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 629686,
+				"rgba8_sha256": "7c3488ff086f720fddbe489e430d18a306b3b1a0c807784ea40e5e10209431aa"
+			},
+			"process_frame": 49,
+			"same_native_frame": true
+		},
+		{
+			"camera_position": [
+				-22.0,
+				2.52119994163513,
+				32.9016571044922
+			],
+			"canvas_expected": [
+				255,
+				0,
+				255,
+				255
+			],
+			"canvas_pixel": [
+				20,
+				20
+			],
+			"file": "synchronization/return_to_production_chase.png",
+			"id": "return_to_production_chase",
+			"markers": [
+				{
+					"centroid_error": 0.408971279859543,
+					"color_channel": "red",
+					"count": 151,
+					"kind": "actual head",
+					"logical_projected": [
+						663.706604003906,
+						404.5078125
+					],
+					"logical_viewport_size": [
+						1280.0,
+						800.0
+					],
+					"projected_pixel": [
+						663.706604003906,
+						404.5078125
+					],
+					"world": [
+						-21.8100757598877,
+						1.59018015861511,
+						27.9029636383057
+					]
+				},
+				{
+					"centroid_error": 0.04736328125,
+					"color_channel": "green",
+					"count": 134,
+					"kind": "actual board",
+					"logical_projected": [
+						640.0,
+						580.54736328125
+					],
+					"logical_viewport_size": [
+						1280.0,
+						800.0
+					],
+					"projected_pixel": [
+						640.0,
+						580.54736328125
+					],
+					"world": [
+						-22.0,
+						0.12799996137619,
+						28.0
+					]
+				}
+			],
+			"physics_frame": 51,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 1251937,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 495839,
+				"rgba8_sha256": "bbcaf59817726e2bf324d70081cced06eadf04931c1a6cf623a07a3aaf7d801e"
+			},
+			"process_frame": 50,
+			"same_native_frame": true
+		}
+	]
+}

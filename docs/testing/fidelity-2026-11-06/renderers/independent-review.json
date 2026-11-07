@@ -1,0 +1,690 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T00:19:36.859756+00:00",
+  "source_scope": "Immutable November dirty-candidate copy: exact inventories authoritative. Subsequent rider, bank, controls and normal-map changes are outside this epoch.",
+  "limits": "Static diagnostic/capability comparison on Linux software rendering. CPU diagnostics overlapped Forward+ qualitative rendering; elapsed/frame timings do not establish comparative performance. No Mac, Metal, physical-controller, complete motion or AAA acceptance.",
+  "renderers": {
+    "renderer-gl": {
+      "capture_receipt_sha256": "40cb5a847188c55edd9edf82131ac52a924d86a49831f011bf787a7e2cbb208c",
+      "source_inputs": 781,
+      "source_stable": true,
+      "snapshot_checks_before_receipt_write": 60,
+      "final_stdout_checks": 61,
+      "final_failures": 0,
+      "backend": "WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.",
+      "images": [
+        {
+          "file": "ordinary-spawn.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "8fd59e7ef831dca4e0513da341b269b89850f7dfdf3ab23a00804186adec6681",
+          "native_rgba8_sha256": "681e65e97fcec7d7d2d200a9178be78915048f6817952f6da300281bddac963f",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "rider-front.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "fce44d4ba44ebf35c72d589261d4d54a8bd6bbe1262e81efed71fcefd5cff7f1",
+          "native_rgba8_sha256": "9f096d77b3e4a33d2e8e45fa4f7d61326597144a2ae117a7dcc6c52a19b27ddd",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "rider-side.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "b50c86f747a5f00fef8608ba582ce225b4692e52a360ad83ae1ad3c2dd22a8fa",
+          "native_rgba8_sha256": "e60bcb3b4154214d6f90bc846e9d1d0a862b7b878dfc4fc021dd1eab57fe2ce3",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "rider-rear.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "ed8bf06854ecf170ccd195aed4d1c6c4ce6849f4efe5fe4325b71c629b60057e",
+          "native_rgba8_sha256": "238619fbb59c01dc3c3f18d74d59d05fa34e331d8d9b5ca2603e7cdfb37b2d16",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "exchange-shopfront.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "7b41dfafc380d2f015c66237281f5362bd52a6e9cb3f9d0a9d956371cf26d7b7",
+          "native_rgba8_sha256": "544fdf8b109391829727756a2b963685097fd4f420279a9ff6fc8d5dac16be7a",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "clyde-east-quay.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "85d1072fd6843e9e06eb98daa102ff15b876cfd592392dd530a101e2cd89fc1e",
+          "native_rgba8_sha256": "d225b1a7d0228e3d13715454a8ec3dab81c8dd16760ae6fec1caa6f8f465279a",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "clyde-west-quay.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "6981a5b7cb1d6880f2521b8d5a1b0f7e6d02e190bdd606d1fe3e2f40325f002a",
+          "native_rgba8_sha256": "3324b77c16261048d67a97ad79f8adfddb92f113e97e84ef43252eca074d9552",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_exchange.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "fac262a0cc5e027380ad3c3727e142a526e0f0c803170903473b6d7ae3040e6b",
+          "native_rgba8_sha256": "89a56067ef881eb84b39e1dd631d9f891dc00372bddb73679f068cc9d6e56f5a",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_george.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "b05e9f0f3b64dc0bad27a0f2a5273fdbc4c7b7246cba024b949754355a151e8b",
+          "native_rgba8_sha256": "bca20e12bcf92c2890403b09b8b5766fd4ab04ed7383822d1e8560246d9f3e37",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_central.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "a54d88e1821b081b06e836aaa2157f79efd7539b31ac57a12b09b262c0d59757",
+          "native_rgba8_sha256": "dfdb772865226b4eea61e5ef3d36ffa95cc824a047f938e603b4c4578224472c",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_barras.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "3995912f86a24d21ac46d33f161a0c791ba3f25e432d9b8c5775737137e7f561",
+          "native_rgba8_sha256": "fcdd47e1f85070d1138ffd7f3c82ee910c5bef31886d302262f8454062b23f26",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_clyde.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "aa576a0311e496a7d45cd8273f856f6abc63bacb7787b9577e9d376b9644d102",
+          "native_rgba8_sha256": "69a364b676337d2ac5e67be1fbaffb3e519ec8a33c3b116bac5c6a0139985600",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_park.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "be38d7fcfe1e8ba13781fe410a96b5cbc4937f279433d1d2720025f75fe85a51",
+          "native_rgba8_sha256": "a0345d6be5a6c9e4f392cbdd92a07afcfe1cd2629594520ccefc7b6d57ec0970",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_sunken_kelvingrove.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "664e4ede24a5b87e0aa215ec898ac6366ada6fcf57fdba5c52f535ec5eec8b20",
+          "native_rgba8_sha256": "4ceeb4401bc0aabf91123ca0234c3fdff0d11530497b6ec07b6f79018251ec25",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "synchronization/overview_before_contact.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "ce1000545b4a136b8a8f1cfdd719bcedb323d1e5f22a96e84010c22d1910872a",
+          "native_rgba8_sha256": "1657250ebf66d12cc7e5ce68987ab22c5474260832bfe18a3a9752db9fac0b70",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "synchronization/first_contact_inspection.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "247cfe69977b3c6d1f2efda8ba1c0c03c3b744f44d90ea28d38e057816f144a4",
+          "native_rgba8_sha256": "9d13f9a567d82d7b6cf4c657b1afba30bb31bc1f08f72c6069f236fad28dee9b",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "synchronization/return_to_production_chase.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "af9d161154be79f71420d0832fc9de432afeeec4a2d64b77c0f5c9e5d085d734",
+          "native_rgba8_sha256": "11c7cfa3ef93d4935518e8c3fe1667b8ee18b3b43f7a17601d5957607261d4ea",
+          "native_match": true,
+          "receipt_match": true
+        }
+      ],
+      "synchronization": [
+        {
+          "file": "synchronization/overview_before_contact.png",
+          "canvas_rgba_matches": true,
+          "native_tick_stable": true,
+          "independent_markers": []
+        },
+        {
+          "file": "synchronization/first_contact_inspection.png",
+          "canvas_rgba_matches": true,
+          "native_tick_stable": true,
+          "independent_markers": [
+            {
+              "kind": "actual head",
+              "pixels": 625,
+              "centroid_error_pixels": 0.3098893371940058,
+              "count_matches_native": true
+            },
+            {
+              "kind": "actual board",
+              "pixels": 588,
+              "centroid_error_pixels": 0.24880691178619005,
+              "count_matches_native": true
+            }
+          ]
+        },
+        {
+          "file": "synchronization/return_to_production_chase.png",
+          "canvas_rgba_matches": true,
+          "native_tick_stable": true,
+          "independent_markers": [
+            {
+              "kind": "actual head",
+              "pixels": 173,
+              "centroid_error_pixels": 0.5469185377378926,
+              "count_matches_native": true
+            },
+            {
+              "kind": "actual board",
+              "pixels": 134,
+              "centroid_error_pixels": 0.04736328125,
+              "count_matches_native": true
+            }
+          ]
+        }
+      ]
+    },
+    "renderer-forward": {
+      "capture_receipt_sha256": "5d2cd5e4ece284d8758336e1e664b698bae752c7f358ddd8c1c28e7eb1a27866",
+      "source_inputs": 781,
+      "source_stable": true,
+      "snapshot_checks_before_receipt_write": 60,
+      "final_stdout_checks": 61,
+      "final_failures": 0,
+      "backend": "Vulkan 1.4.305 - Forward+ - Using Device #0: Unknown - llvmpipe (LLVM 19.1.7, 256 bits)",
+      "images": [
+        {
+          "file": "ordinary-spawn.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "a8d9b2bc7d9637d87980654762c818b0838ce96c97a69d24a10b8ff699b7d1ae",
+          "native_rgba8_sha256": "50f5ba329518f7f4ccd7870d3843dccf0f1eb99d2b8410f0beac02b18eb60790",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "rider-front.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "9f7a53f3054afb9967b3115e8af0870cd3cc6413cbe327fa23d092e7c695713f",
+          "native_rgba8_sha256": "36ba3bae55574e2c43ec0b551a899d1d4220ef462eb5c6814ce72263576e508f",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "rider-side.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "cfe3f4d5a4700c62ff1da11a9610dfd1b5d09be8099321c82252e453e9858ddd",
+          "native_rgba8_sha256": "05855dd5bb26725408a6db4ad2c4688e57f5467d4ba476a0a99783c0748b164c",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "rider-rear.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "3735c0a17fead2e0d25f90c35de210b07690a0a1771ad64f98b8b4a2824269a2",
+          "native_rgba8_sha256": "780f5681c24699c92ce5d11b18f3938fffa758a0f08881e2fe113f387555956a",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "exchange-shopfront.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "8148e76c0cd434fa172b62742715c116974da960b0d98360f49a1aa34c281c91",
+          "native_rgba8_sha256": "e1c3bc398d6d3a53efa7edafe6652bda746f7556fb8fa6b12aabeb1b68ae250e",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "clyde-east-quay.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "496b2d51b7ab571fbca28571998986f2e4e64a9fc7ef13ae843dfbf614eba6f4",
+          "native_rgba8_sha256": "7ee213cfd2a19feb0be8e286da9b0228615a952b3bb156814cbead078d54f834",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "clyde-west-quay.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "3363ce4d0001c6a65db26ce65b005cb8f9834173ef6361fbd8ad0f83704b8adb",
+          "native_rgba8_sha256": "4743941f127a5b06d761d6e1a290f2f5cfbd17416d16e9f50a1619811b85298b",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_exchange.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "1911fb5abadc4c3522f369b9d3274e6560c54e6f016056bfd397f50b08a678d8",
+          "native_rgba8_sha256": "8c39d982e035a4969b85c42ff610390292e01fa05edf003e271606aba5f9f676",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_george.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "c9eb12225fd3c033b52cf784cef66815e2810b5713dbb9bb51059527e97fa841",
+          "native_rgba8_sha256": "d7a199c37c64caf2b5fbca12eaebcd914b848ec714f2d37d3cc1f54a0cd1fdeb",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_central.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "88e3ddbc55b5992a5fc5170d12c2d54134550b92c8fab08f592cda13f4c93224",
+          "native_rgba8_sha256": "e61ca47fd55561c26bd0ace27aedeec400e4de1dce2194989f0b5fcf8b0c3043",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_barras.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "40a979eed3c65a119581f15fe71b09b0a0dfc9d58c359bbc34d9517e4f88bfdd",
+          "native_rgba8_sha256": "b6ae46bbadef5a7a610f7786a2082922a83dfeaa502d23197051b7e5665ce8fa",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_clyde.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "32b445513f498934fabdf4b6a5da2e3c129bf3ac6b0aab3cf34b47e7f1139e8b",
+          "native_rgba8_sha256": "65ee99be3dc6625a556e7d0dcb176b844ca601b43fc8d47522f5dc467df6364f",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_park.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "91959173a0447df3753e7eaf1aa512ff8b51e2d2e96ef2938345a6fdd541bb7b",
+          "native_rgba8_sha256": "778d64c75f8ccd1ecc514e5483cd53ea8b98556bc96ec71028ebe0383876bfd4",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "overview_sunken_kelvingrove.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "912bd2b26b54779624d8fad86489f23a0d4259f0c42797e480de7890069b420c",
+          "native_rgba8_sha256": "4d60c62ed655b08c4f11070e48467c1a8d6eca4d178ef28c1831c5610dc99521",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "synchronization/overview_before_contact.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "df66d15010ca38836c5760587471a41632854e1c09c276c17ad90e5e5b0c778c",
+          "native_rgba8_sha256": "849bdd5944101234076f361d9894988f7836af4aa82473989fbcc22bbc696c0b",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "synchronization/first_contact_inspection.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "cc44efea697c870c7c66a4d03d8e2b3e7a0741f04f93b2d1c28b30e7a0908932",
+          "native_rgba8_sha256": "645d1c88722136a33898ab6b89d6c106a7d062c96dfef99bfb3928ac5432bfcf",
+          "native_match": true,
+          "receipt_match": true
+        },
+        {
+          "file": "synchronization/return_to_production_chase.png",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "png_sha256": "71d7736815b7a192ec4c0bfe68905b512b63908b758df32e39766e592c4113df",
+          "native_rgba8_sha256": "621f690839f7c72645109d7658063a7233e39deb162d3f032c4cbb6dc3a47ce1",
+          "native_match": true,
+          "receipt_match": true
+        }
+      ],
+      "synchronization": [
+        {
+          "file": "synchronization/overview_before_contact.png",
+          "canvas_rgba_matches": true,
+          "native_tick_stable": true,
+          "independent_markers": []
+        },
+        {
+          "file": "synchronization/first_contact_inspection.png",
+          "canvas_rgba_matches": true,
+          "native_tick_stable": true,
+          "independent_markers": [
+            {
+              "kind": "actual head",
+              "pixels": 624,
+              "centroid_error_pixels": 0.28558983672507143,
+              "count_matches_native": true
+            },
+            {
+              "kind": "actual board",
+              "pixels": 593,
+              "centroid_error_pixels": 0.28107123762989716,
+              "count_matches_native": true
+            }
+          ]
+        },
+        {
+          "file": "synchronization/return_to_production_chase.png",
+          "canvas_rgba_matches": true,
+          "native_tick_stable": true,
+          "independent_markers": [
+            {
+              "kind": "actual head",
+              "pixels": 168,
+              "centroid_error_pixels": 0.4084004551288697,
+              "count_matches_native": true
+            },
+            {
+              "kind": "actual board",
+              "pixels": 142,
+              "centroid_error_pixels": 0.04736328125,
+              "count_matches_native": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "matched_views": [
+    {
+      "file": "ordinary-spawn.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "camera_forward",
+        "camera_fov",
+        "player_position",
+        "on_floor",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "rider-front.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "camera_forward",
+        "camera_fov",
+        "player_position",
+        "on_floor",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "rider-side.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "camera_forward",
+        "camera_fov",
+        "player_position",
+        "on_floor",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "rider-rear.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "camera_forward",
+        "camera_fov",
+        "player_position",
+        "on_floor",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "exchange-shopfront.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "camera_forward",
+        "camera_fov",
+        "player_position",
+        "on_floor",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "clyde-east-quay.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "camera_forward",
+        "camera_fov",
+        "player_position",
+        "on_floor",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "clyde-west-quay.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "camera_forward",
+        "camera_fov",
+        "player_position",
+        "on_floor",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "overview_exchange.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "target",
+        "camera"
+      ],
+      "match": true
+    },
+    {
+      "file": "overview_george.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "target",
+        "camera"
+      ],
+      "match": true
+    },
+    {
+      "file": "overview_central.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "target",
+        "camera"
+      ],
+      "match": true
+    },
+    {
+      "file": "overview_barras.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "target",
+        "camera"
+      ],
+      "match": true
+    },
+    {
+      "file": "overview_clyde.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "target",
+        "camera"
+      ],
+      "match": true
+    },
+    {
+      "file": "overview_park.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "target",
+        "camera"
+      ],
+      "match": true
+    },
+    {
+      "file": "overview_sunken_kelvingrove.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "target",
+        "camera"
+      ],
+      "match": true
+    },
+    {
+      "file": "synchronization/overview_before_contact.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "synchronization/first_contact_inspection.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    },
+    {
+      "file": "synchronization/return_to_production_chase.png",
+      "exact_metadata_fields": [
+        "camera_position",
+        "physics_frame",
+        "process_frame"
+      ],
+      "match": true
+    }
+  ],
+  "identical_source_inputs": 781,
+  "count_note": "Each snapshot is constructed before the final writable-receipt assertion:60+1=61 final checks per backend, not121 or122 combined gameplay checks.",
+  "independent_verdict": {
+    "source_pixels_sync": "Pass, this exact static epoch",
+    "backend_capability": "Pass, both backends render the complete default-Main snapshot with clean logs",
+    "material_form_composition": "Fail against the full fidelity benchmark; previous topology is not final revised rider/bank acceptance",
+    "renderer_switch_benefit": "No demonstrated benefit in this unchanged lighting/workload justifies a default switch",
+    "performance": "Unmeasured: software/JIT and concurrent CPU diagnostic conditions",
+    "Mac_Metal": "Unmeasured"
+  }
+}

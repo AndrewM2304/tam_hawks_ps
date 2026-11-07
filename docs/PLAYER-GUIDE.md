@@ -25,6 +25,9 @@ this default change.
 | Air spin | A/D or Q/E | Left stick or L1/R1 |
 | Rail grind | Tap L; tap again to drop | Tap Triangle; tap again to drop |
 | Manual / nose manual | Up–Down manual / Down–Up nose; M shortcut | D-pad or stick Up–Down / Down–Up; L2 shortcut |
+| Manual fore/aft balance | W / S, or up / down | D-pad or left stick up / down |
+| Turn during manual | A / D; Q / E also turn | D-pad or left stick left / right; L1 / R1 also turn |
+| Rail / lip balance | A / D, or left / right | D-pad or left stick left / right |
 | Revert after landing | C | R2 |
 | Special tricks | U / I | Right stick up / down |
 | Interact near an object | X | L3 |
@@ -141,13 +144,21 @@ takeoff. Rotation appears beside the air trick and adds points without another
 multiplier entry. A revert also changes facing and costs some speed.
 
 For an easier landing link, press and hold Manual just before touching down
-(within 0.18 seconds). Holding it from the start of a jump will not enter a manual.
+(less than 0.35 seconds before contact). Holding it from the start of a jump will not enter a manual.
 Forward plus Manual selects Nose Manual, including when Push is already held.
 Release Push and centre the direction before pressing Manual for the ordinary
 rear-axle balance. A quick forward → back gesture also starts
 Manual, while back → forward starts Nose Manual; make the two direction changes
 within 220 ms, including a genuine neutral release between them. Gesture manuals stay latched until you press Manual again,
-pop, lose support or run out of speed. While balancing, use these style changes:
+pop, lose support or run out of speed.
+
+To link back into the air, keep the Manual shortcut held while you charge Ollie,
+then release Ollie to pop. Release Manual after takeoff. Fore/aft correction
+during that charge keeps balancing the manual; it does not select a different
+launch. Releasing Manual first ends its supported link and starts the bank timer.
+Cancelling a pending request, pausing or restarting clears that pending landing
+request; a held button does not automatically renew it. While balancing, use
+these style changes:
 
 | Direction with the button | Flip | Grab | Revert |
 |---|---|---|---|
@@ -169,10 +180,13 @@ Flip or Grab to change style. Hold and release Ollie to pop off; steering during
 release adds an outward pop while keeping the rail's momentum. Tap Grind again to
 leave the rail. Press Revert while grinding for **Grind Pivot**: turn the facing
 180 degrees, retain travel along the rail and spend 15 percent of its speed.
-Manuals need suitable ground and some rolling speed; correct
-balance with Left/Right (A/D, D-pad or left stick). Correction does not turn the
-board: Q/E or L1/R1 steer during a manual. Controls and landing forgiveness still need
-human feel testing.
+Manuals need suitable ground and some rolling speed. Their vertical meter shows
+fore/aft lean along actual travel, including Nose Manuals, pivots and fakie.
+Use Forward/Back (W/S or Up/Down) to bring its marker toward the centre; the risk
+cue names the effective correction using your current bindings. These inputs
+balance while the manual coasts. Left/Right (A/D, D-pad or stick) steer separately;
+Q/E or L1/R1 also turn. Rails and lips retain a horizontal Left/Right balance
+meter. Controls and landing forgiveness still need human feel testing.
 
 Accepted trick, rotation and hold points fill the special meter while you skate.
 Full charge activates **Special**. Its charge drains over six seconds, or twelve

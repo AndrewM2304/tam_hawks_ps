@@ -1,0 +1,11 @@
+func _water() -> void:
+	var mesh := PlaneMesh.new()
+	mesh.size = VISIBLE_WATER.size
+	var instance := MeshInstance3D.new()
+	instance.name = "ClydeWater"
+	instance.mesh = mesh
+	instance.position = Vector3(0, WATER_Y, RIVER.get_center().y)
+	var material := ShaderMaterial.new()
+	material.shader = WATER_SHADER
+	instance.material_override = material
+	add_child(instance)

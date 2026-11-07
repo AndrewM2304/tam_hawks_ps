@@ -1,0 +1,88 @@
+"""Run the explicitly root-leased frozen-bank visual observer; never import."""
+from pathlib import Path
+from PIL import Image
+import datetime,hashlib,json,os,re,signal,subprocess,sys,time
+ROOT=Path('/workspace/tam_hawks_ps')
+label,view=sys.argv[1:3]
+assert re.fullmatch(r'[A-Za-z0-9_-]+',label) and view in ['side','chase']
+PROJECT=ROOT/'.local/qa-fidelity/checkpoint-source-03'
+OBSERVER=ROOT/'.local/qa-fidelity/bank_motion_capture.gd'
+OUT=ROOT/'.local/qa-fidelity/native-review'/label
+OUT.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inventory():
+ files=[PROJECT/'project.godot']+[p for d in ['game','tests','tools'] for p in (PROJECT/d).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+ data={str(p.relative_to(PROJECT)):sha(p) for p in sorted(files)}
+ data['EXTERNAL_OBSERVER']=sha(OBSERVER);data['EXTERNAL_WRAPPER']=sha(Path(__file__))
+ return data
+def running():return subprocess.run(['ps','-C','godot','-o','pid=,args='],capture_output=True,text=True).stdout
+# Parent explicitly permits qualitative capture alongside its ordinary headless
+# required suite. All graphical/import work still needs its exact queue release.
+occupied=running()
+for line in occupied.splitlines():
+ if '--headless' not in line or '--editor' in line or '--import' in line:raise SystemExit('Unleased graphical/import process still active: '+line)
+def stop(process):
+ if process and process.poll() is None:
+  os.killpg(process.pid,signal.SIGTERM)
+  try:process.wait(timeout=5)
+  except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait(timeout=5)
+before=inventory();(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+started=datetime.datetime.now(datetime.timezone.utc).isoformat();engine=xorg=None;failure=None;engine_exit=None;commands=[];host=[]
+try:
+ parse=['./tools/run.sh','--headless','--check-only','--script',str(OBSERVER)]
+ commands.append(parse)
+ with (OUT/'parse.log').open('w') as log:
+  result=subprocess.run(parse,cwd=PROJECT,stdout=log,stderr=subprocess.STDOUT,timeout=60)
+ if result.returncode or re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:',(OUT/'parse.log').read_text()):raise RuntimeError('Observer parse rejected')
+ with (OUT/'display').open('w') as displayfile,(OUT/'xorg-console.log').open('w') as log:
+  xorg=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(displayfile.fileno()),'-config',str(PROJECT/'tools/xorg-dummy.conf'),'-logfile',str(OUT/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=[displayfile.fileno()],stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+  for i in range(50):
+   display=(OUT/'display').read_text().strip()
+   if display:break
+   if xorg.poll() is not None:raise RuntimeError('Private Xorg exited')
+   time.sleep(.1)
+  if not display:raise RuntimeError('Private Xorg startup timeout')
+ env=dict(os.environ,DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1',LP_NUM_THREADS='4')
+ command=['./tools/run.sh','--rendering-method','gl_compatibility','--windowed','--resolution','1280x800','--disable-render-loop','--audio-driver','Dummy','--fixed-fps','60','--script',str(OBSERVER),'--',str(OUT),view]
+ commands.append(command)
+ with (OUT/'engine.log').open('w') as log:
+  engine=subprocess.Popen(command,cwd=PROJECT,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+  deadline=time.monotonic()+720
+  while engine.poll() is None:
+   host.append({'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'godot':running()})
+   (OUT/'host-observer.json').write_text(json.dumps({'samples':host,'limits':'Root explicitly permitted overlapping untimed headless suite. No exclusive-process or performance claim.'},indent=2)+'\n')
+   if time.monotonic()>deadline:raise TimeoutError('Bounded720s capture timeout; completed frame metadata retained')
+   time.sleep(1)
+  engine_exit=engine.returncode
+except Exception as error:failure=repr(error)
+finally:stop(engine);stop(xorg)
+if engine_exit is None and engine is not None:engine_exit=engine.returncode
+after=inventory();(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+changed=[k for k in before.keys()|after.keys() if before.get(k)!=after.get(k)]
+errors=any(re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:|^FAIL(?: |:)',p.read_text(),re.M) for p in [OUT/'engine.log',OUT/'parse.log'] if p.exists())
+report=json.loads((OUT/'bank-motion-report.json').read_text()) if (OUT/'bank-motion-report.json').exists() else None
+native=[]
+if report:
+ for row in report['frames']+report['synchronization']:
+  p=OUT/row['file']
+  pixels=Image.open(p).convert('RGBA');digest=hashlib.sha256(pixels.tobytes()).hexdigest()
+  good=pixels.size==(1280,800) and digest==row['pixels']['rgba8_sha256'];native.append({'file':row['file'],'native_match':good,'rgba8_sha256':digest})
+  if not good:errors=True
+selected=[r for r in report['frames'] if str(r['file']).startswith('bank-')] if report else []
+continuous=all(b['physics_frame']-a['physics_frame']==1 for a,b in zip(selected,selected[1:]))
+eligible=bool(engine_exit==0 and not failure and not errors and not changed and report and report['complete'] and report['failures']==0 and continuous)
+video=None
+if eligible and view=='side':
+ try:
+  movie=OUT/'bank-crown-60fps.mp4'
+  subprocess.run(['ffmpeg','-v','error','-nostdin','-y','-framerate','60','-i',str(OUT/'bank-side-%03d.png'),'-c:v','libx264','-preset','medium','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart',str(movie)],check=True,timeout=120)
+  info=json.loads(subprocess.check_output(['ffprobe','-v','error','-select_streams','v:0','-show_entries','stream=width,height,nb_frames,r_frame_rate,duration','-of','json',str(movie)]))['streams'][0]
+  assert int(info['nb_frames'])==32 and info['r_frame_rate']=='60/1' and int(info['width'])==1280 and int(info['height'])==800
+  subprocess.run(['ffmpeg','-v','error','-nostdin','-i',str(movie),'-f','null','-'],check=True,timeout=120)
+  video=dict(info,file=movie.name,sha256=sha(movie),all_frames_decode=True,limits='60Hz physics-time playback artifact; no realtime rendering/FPS or human temporal acceptance.')
+ except Exception as error:
+  eligible=False;failure='Video artifact validation failed: '+repr(error)
+receipt={'schema':1,'label':label,'view':view,'started_utc':started,'finished_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'project':str(PROJECT),'commands':commands,'source_inputs':len(before),'source_stable':not changed,'changed_inputs':changed,'engine_exit':engine_exit,'engine_errors':errors,'exception':failure,'complete':bool(report and report['complete']),'native_frames_selected':len(selected),'native_timeline_contiguous':continuous,'native_pixels':native,'video':video,'eligible':eligible,'concurrent_processes_before':occupied,'limits':'Qualitative current-source motion only. Parent-authorised untimed headless-suite overlap is recorded; no process-exclusivity, frame-time, Mac or full visual acceptance. If stopped/partial retain original completed frames and native metadata, whole epoch rejected.'}
+(OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print('QA_BANK_CAPTURE',str(OUT),'eligible='+str(eligible),'frames='+str(len(selected)),'exception='+str(failure),flush=True)
+raise SystemExit(0 if eligible else 1)

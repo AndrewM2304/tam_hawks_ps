@@ -14,8 +14,8 @@ const ArmControls=preload("res://tests/skater_manual_arm_controls.gd")
 static func run(tree: SceneTree,check: Callable) -> void:
 	Wall.Setup.register_actions()
 	_release()
-	# Twenty millimetres of initial spawn phase gives a native moving frame
-	# inside the existing skin before the unfitted mesh actually penetrates.
+	# The measured initial phase exercises a positive native-skin sample;
+	# otherwise current input crosses the 8 mm band between physics ticks.
 	var f: Dictionary=await _skin_phase_fixture(tree)
 	var r: CharacterBody3D=f.rider
 	var c: CharacterBody3D=f.control
@@ -384,7 +384,7 @@ static func _skin_phase_fixture(tree: SceneTree) -> Dictionary:
 	var control:=Wall.UnfittedSkater.new()
 	var arm_control:=Wall.Skater.new();arm_control._obstacle_arm_fit=Arm.NoArmFit.new()
 	for body: CharacterBody3D in [rider,control,arm_control]:
-		body.spawn_position=Vector3(0,0.04,-3.02);root.add_child(body);body.rotation.y=PI
+		body.spawn_position=Vector3(0,0.04,-3.012);root.add_child(body);body.rotation.y=PI
 	await Wall._frames(tree,4)
 	return {"viewport":viewport,"root":root,"rider":rider,"control":control,"arm_control":arm_control,"wall":wall,"gate":gate}
 

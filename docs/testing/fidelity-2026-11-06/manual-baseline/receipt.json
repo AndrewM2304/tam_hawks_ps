@@ -1,0 +1,19 @@
+{
+  "git_archive_source": "0b620358767c9c647dde66945377d99702c85d0b",
+  "production_inventory_reference": "../baseline/source-before.json",
+  "changed_production_inputs_vs_initial_baseline": [],
+  "observer_sha256": "0954739ee3ca2eeb9cb42887c85ca387bfb6d67f4b482881289107a73dc5df51",
+  "report_sha256": "75d0fbfea651e0c7abda0b62aa8f98067c3f45435e88b48a0ba444d391fa86fe",
+  "command": "./tools/run.sh --headless --audio-driver Dummy --fixed-fps 60 --script .local/qa-fidelity/landing_matrix.gd -- /workspace/tam_hawks_ps/.local/qa-fidelity/manual-review/baseline-matrix.json",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "observed_completion_utc": "2026-11-06T23:43:38.341645+00:00",
+  "engine_exit": 0,
+  "limitations": "No graphical output; native mapped-action timing diagnostics only. Source checked against immutable prior baseline inventory after run; observer did not modify production. Log captures emitted event evidence. Do not count absent before-run inventory as a perfect two-sided freeze receipt.",
+  "native_tick_continuity": {
+    "cases": 12,
+    "observations_each": 96,
+    "missed_ticks": 0
+  },
+  "compressed_trace_sha256": "642305d9f1e5719dec38f77c14c0f2713bd1acfa2f70da83e3fc74b37bd6aa23",
+  "decoded_trace_sha256": "75d0fbfea651e0c7abda0b62aa8f98067c3f45435e88b48a0ba444d391fa86fe"
+}

@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T01:39:33.841151+00:00",
+  "capture_integrity": "Pass, bounded completed shader-only 640x400 epoch:786 source hashes stable/executed copy matches, exact two overlays, six native RGBA/camera identities and all189 percentile/resource values recomputed.31/0, clean engine.",
+  "cost_admission": "Not admitted: warmed controls still drift, candidate does not consistently meet both bracketing controls. No independent exclusive-process or target-Mac claim. Original three-wave rejection remains active.",
+  "source_inputs": 786,
+  "overlays": [
+    "game/art/assets/horizon/clyde_water.gdshader",
+    "tools/environment_water_isolated_probe.gd"
+  ],
+  "checks": 31,
+  "failures": 0,
+  "host_observations": 55,
+  "host_processes": {
+    "31734": {
+      "first_observed_utc": "2026-11-07T01:32:42.837408+00:00",
+      "last_observed_utc": "2026-11-07T01:33:36.584739+00:00",
+      "sample_count": 54,
+      "command": "godot --path /workspace/tam_hawks_ps/.local/water-two-wave-source --rendering-method gl_compatibility --audio-driver Dummy --windowed --resolution 640x400 --script tools/environment_water_isolated_probe.gd -- /workspace/tam_hawks_ps/.local/water-two-wave-source/.local/environment-water/two-wave-48warm-01"
+    },
+    "31762": {
+      "first_observed_utc": "2026-11-07T01:32:45.863464+00:00",
+      "last_observed_utc": "2026-11-07T01:32:45.863464+00:00",
+      "sample_count": 1,
+      "command": "godot --path /workspace/tam_hawks_ps/.local/water-two-wave-source --rendering-method gl_compatibility --audio-driver Dummy --windowed --resolution 640x400 --script tools/environment_water_isolated_probe.gd -- /workspace/tam_hawks_ps/.local/water-two-wave-source/.local/environment-water/two-wave-48warm-01"
+    }
+  },
+  "host_limit": "Primary PID31734 plus unclassified transient identical-command PID31762 in one observation; no PPID or direct provenance evidence. Root reports one wrapper invocation/one engine Popen. No different-project/command Godot observed. Do not claim process exclusivity.",
+  "native_pixels": [
+    {
+      "file": "before-river-oblique.png",
+      "rgba8_sha256": "2b42a7a66cd4c1a5773815a5c2f41939cf13899a108edf25fcb9f09eaa35c1f6",
+      "native_match": true
+    },
+    {
+      "file": "before-high-coverage.png",
+      "rgba8_sha256": "b98510ef4e409bbb091d878830b6bc2706a5e4bd37cdf3f20ec3fe14700fc2fa",
+      "native_match": true
+    },
+    {
+      "file": "before-grazing.png",
+      "rgba8_sha256": "60b30981f323b59e51a5abd1323fb8b0b1c2e1b9d0c6ca0ac40f8ae26abb9753",
+      "native_match": true
+    },
+    {
+      "file": "candidate-river-oblique.png",
+      "rgba8_sha256": "9723889252886a5d2f05c2d3032d5ce2d43a255fd1da73e00f391208fdea9c64",
+      "native_match": true
+    },
+    {
+      "file": "candidate-high-coverage.png",
+      "rgba8_sha256": "3c9208928ea762abe5b95099c84827b6763b7951326142f309697d85d90e4391",
+      "native_match": true
+    },
+    {
+      "file": "candidate-grazing.png",
+      "rgba8_sha256": "ea391889432e0b3d300f8640e40b1acef5937867071ef2de93db405322b26ea6",
+      "native_match": true
+    }
+  ],
+  "recomputed_metrics": [
+    {
+      "view": "river-oblique",
+      "mode": "before-a",
+      "samples": 174,
+      "sample_duration_ms": 3003.706,
+      "p50_ms": 16.733,
+      "p95_ms": 22.215,
+      "p99_ms": 28.297
+    },
+    {
+      "view": "river-oblique",
+      "mode": "candidate",
+      "samples": 163,
+      "sample_duration_ms": 3002.288,
+      "p50_ms": 18.585,
+      "p95_ms": 22.554,
+      "p99_ms": 23.504
+    },
+    {
+      "view": "river-oblique",
+      "mode": "before-b",
+      "samples": 165,
+      "sample_duration_ms": 3003.817,
+      "p50_ms": 17.398,
+      "p95_ms": 24.92,
+      "p99_ms": 32.839
+    },
+    {
+      "view": "high-coverage",
+      "mode": "before-a",
+      "samples": 93,
+      "sample_duration_ms": 3006.516,
+      "p50_ms": 27.047,
+      "p95_ms": 61.574,
+      "p99_ms": 79.401
+    },
+    {
+      "view": "high-coverage",
+      "mode": "candidate",
+      "samples": 134,
+      "sample_duration_ms": 3012.635,
+      "p50_ms": 21.837,
+      "p95_ms": 27.586,
+      "p99_ms": 31.193
+    },
+    {
+      "view": "high-coverage",
+      "mode": "before-b",
+      "samples": 142,
+      "sample_duration_ms": 3020.192,
+      "p50_ms": 20.843,
+      "p95_ms": 25.283,
+      "p99_ms": 28.361
+    },
+    {
+      "view": "grazing",
+      "mode": "before-a",
+      "samples": 151,
+      "sample_duration_ms": 3012.677,
+      "p50_ms": 19.512,
+      "p95_ms": 23.497,
+      "p99_ms": 28.393
+    },
+    {
+      "view": "grazing",
+      "mode": "candidate",
+      "samples": 147,
+      "sample_duration_ms": 3015.559,
+      "p50_ms": 19.849,
+      "p95_ms": 26.827,
+      "p99_ms": 30.812
+    },
+    {
+      "view": "grazing",
+      "mode": "before-b",
+      "samples": 148,
+      "sample_duration_ms": 3013.63,
+      "p50_ms": 19.535,
+      "p95_ms": 26.118,
+      "p99_ms": 31.65
+    }
+  ],
+  "resources": "All cell counters retain2 draws/2 visible draws/0 shadow draws/4 primitives/14736405 texture bytes/7443628 buffer bytes; equality does not prove frame-time admission.",
+  "visual_review": "Independently opened all six original640x400 frames. Candidate reduces broad parallel ripple bands and looks calmer in all three views, but regular fine stippled/specular striation remains prominent, particularly grazing/high coverage. Time phases differ; stills do not establish temporal stability or full Main appearance.",
+  "next_action": "Fresh constant-normal diagnostic to isolate remaining striation; retain real-wave visible finish and stronger repeated matched timing before any production cost decision. No source promotion from this result.",
+  "limits": [
+    "Exact production 900x38m plane and daylight only; no Main/city/rider/collision/routes/Music/save.",
+    "Native shader TIME active with unmatched still phases;48 warm frames per cell and at least48samples/3seconds,8s cell guard.",
+    "Linux llvmpipe/Mesa diagnostic; no 1080p whole-game/actual M5 frame-time, thermal or memory acceptance."
+  ]
+}

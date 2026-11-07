@@ -1,0 +1,30 @@
+"""Tangent-only V2 adapter; preserves reviewed V1 guarded file operations unchanged."""
+from pathlib import Path
+import importlib.util
+import json
+
+BASE = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location("architecture_v1_operations",BASE/"controlled_install.py")
+installer = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(installer)
+manifest_path = BASE/"candidate-v2.json"
+manifest = json.loads(manifest_path.read_text())
+original_inspect = installer.inspect
+
+def candidate(name):
+    data = (BASE/"prototype-v2"/name).read_bytes()
+    if installer.sha(data) != manifest["files"][name]:
+        raise RuntimeError(f"V2 candidate differs from its explicit pending-native manifest: {name}")
+    return data
+
+def inspect(target):
+    report = original_inspect(target)
+    report.update(candidate_revision="v2-tangent-handedness-correction",
+        candidate_manifest_sha256=installer.sha(manifest_path.read_bytes()),
+        native_measurement_scope="V1 component remains historical; V2 awaits actual Main verification")
+    return report
+
+installer.candidate = candidate
+installer.inspect = inspect
+
+if __name__ == "__main__": installer.main()

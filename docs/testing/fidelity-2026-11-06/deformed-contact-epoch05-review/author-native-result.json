@@ -1,0 +1,31 @@
+{
+	"failures": [],
+	"measurements": [
+		{
+			"cache_bytes": 63376,
+			"cohort": "original_manual_controls",
+			"maximum_bounds": 4,
+			"maximum_contributions": 6344,
+			"maximum_model_transforms": 4624
+		},
+		{
+			"cohort": "far_origin_native_weights",
+			"mesh_skeleton_world_equal": true,
+			"model_origin": "(137.0, 0.008, -106.0)",
+			"old_oracle_maximum_error_m": 0.00265985913574696
+		},
+		{
+			"cache_bytes": 63376,
+			"cache_rebuilds": 9,
+			"left_influences": 1586,
+			"left_vertices": 1156,
+			"native_max_bounds_per_tick": 0,
+			"native_max_contributions_per_tick": 0,
+			"right_influences": 1586,
+			"right_vertices": 1156,
+			"wrong_bind_stale_outside": 676
+		}
+	],
+	"passes": 120,
+	"scope": "private current-procedural snapshot with only contact-helper overlay; overlapping untimed headless/RA diagnostics; no FPS/M5 claim"
+}

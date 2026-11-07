@@ -1,0 +1,852 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"checks": 33,
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"fixtures": "Actual default Main start and mapped push/manual input; user-facing UI scale changed via apply_settings(...,false). Three inherited diagnostic camera/Canvas synchronization frames. No position/velocity/balance/score/pose assignments. Static chase frame investigation; not normal-speed motion or performance.",
+	"frames": [
+		{
+			"balance_value": -0.1358,
+			"board_centre_inside_visible_meter": false,
+			"board_pixel": [
+				640.0,
+				549.989013671875
+			],
+			"camera_forward": [
+				0.0,
+				-0.141848936676979,
+				-0.989888370037079
+			],
+			"camera_fov": 64.7496185302734,
+			"camera_position": [
+				-22.0,
+				2.52852582931519,
+				27.5575141906738
+			],
+			"file": "manual-ui-1.4.png",
+			"head_centre_inside_visible_meter": false,
+			"head_pixel": [
+				675.051879882812,
+				421.856475830078
+			],
+			"manual": true,
+			"meter_label_lines": 3,
+			"meter_label_rect": [
+				896.355590820312,
+				301.155578613281,
+				194.133346557617,
+				70.9333343505859
+			],
+			"meter_label_visible_lines": 3,
+			"meter_rect": [
+				876.444458007812,
+				286.222229003906,
+				233.95556640625,
+				253.866668701172
+			],
+			"meter_text": "MANUAL\nW FORWARD  /  S BACK",
+			"meter_visible": true,
+			"physics_frame": 125,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 17002642,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 518682,
+				"rgba8_sha256": "c0c7ba59f053a8a3577bbf350857aa56258b0eed2b267f8ea7bb309ded37ff2a"
+			},
+			"process_frame": 124,
+			"projected_board_mesh_bounds": [
+				624.719421386719,
+				520.634948730469,
+				30.5612182617188,
+				68.5064697265625
+			],
+			"projected_head_mesh_bounds": [
+				662.387451171875,
+				403.657165527344,
+				25.5364379882812,
+				34.2227783203125
+			],
+			"state": {
+				"accepted_score_identities": [
+					"manual"
+				],
+				"actions": {
+					"manual": 1.0
+				},
+				"active_trick": "Manual",
+				"airborne": false,
+				"bail_active": false,
+				"bail_phase": "",
+				"banked": 0,
+				"capsule_up": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"combo": 100,
+				"current_receipt_labels": [
+					"Manual"
+				],
+				"cylindrical_transition_active": false,
+				"cylindrical_transition_body": "",
+				"cylindrical_transition_feature_id": "",
+				"cylindrical_transition_theta": 0.0,
+				"entries": 1,
+				"flip_id": "",
+				"flip_remaining": 0.0,
+				"force_air_tick": false,
+				"front_shoe_forward": [
+					0.991826832294464,
+					-0.0369689464569092,
+					0.122118130326271
+				],
+				"grab_blend": 0.0,
+				"grab_id": "",
+				"grab_remaining": 0.0,
+				"grind_id": "",
+				"grinding": false,
+				"head_forward": [
+					0.0937522649765015,
+					-0.136503309011459,
+					-0.986193358898163
+				],
+				"hips_forward": [
+					0.942411422729492,
+					-0.193625599145889,
+					-0.272708296775818
+				],
+				"last_banked_receipt_labels": [],
+				"last_trick_id": "manual",
+				"lip_active": false,
+				"lip_id": "lip_stall",
+				"manual_active": true,
+				"manual_id": "manual",
+				"markers_head_board_feet_hands": [
+					[
+						-21.6623973846436,
+						1.45817983150482,
+						21.5721874237061
+					],
+					[
+						-22.0,
+						0.198110103607178,
+						21.6497974395752
+					],
+					[
+						-22.0149974822998,
+						0.336861431598663,
+						21.4620494842529
+					],
+					[
+						-21.9846801757812,
+						0.209453493356705,
+						21.8825206756592
+					],
+					[
+						-21.7158432006836,
+						0.804625034332275,
+						21.1523361206055
+					],
+					[
+						-21.6596240997314,
+						0.860463440418243,
+						21.9673881530762
+					]
+				],
+				"native_floor_valid": true,
+				"on_floor": true,
+				"paused": false,
+				"physics_frame": 125,
+				"position": [
+					-22.0,
+					0.0000260472297668457,
+					21.6497974395752
+				],
+				"process_frame": 124,
+				"push_blend": 0.0012710142045475,
+				"push_phase": 0.975000000000001,
+				"rear_sole": [
+					-21.9846801757812,
+					0.151548713445663,
+					21.864990234375
+				],
+				"recovery_fade": 0.0,
+				"run_finished": false,
+				"setup_active": false,
+				"setup_id": "",
+				"setup_phase": 0.0,
+				"skitch_caught": false,
+				"skitching": false,
+				"special_remaining": 0.0,
+				"speed": 5.80890607833862,
+				"stance": "REGULAR",
+				"torso_forward": [
+					0.902002334594727,
+					-0.261292159557343,
+					-0.343683212995529
+				],
+				"transition_active": false,
+				"transition_feature": "",
+				"transition_state": "idle",
+				"up_direction": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"vehicle_phase": "cruise",
+				"vehicle_position": [
+					-71.5625610351562,
+					2.00424075126648,
+					70.5
+				],
+				"vehicle_turn_blocked": "",
+				"vehicle_velocity": [
+					5.99990797042847,
+					0.0,
+					0.0
+				],
+				"vehicle_yaw": -1.57079637050629,
+				"velocity": [
+					0.0,
+					0.0,
+					-5.80888032913208
+				],
+				"wallriding": false
+			},
+			"ui_scale": 1.4
+		},
+		{
+			"balance_value": -0.146666666666667,
+			"board_centre_inside_visible_meter": false,
+			"board_pixel": [
+				640.0,
+				550.068054199219
+			],
+			"camera_forward": [
+				0.000000000000000111022302462516,
+				-0.142004832625389,
+				-0.989865958690643
+			],
+			"camera_fov": 64.7499237060547,
+			"camera_position": [
+				-22.0,
+				2.5283145904541,
+				27.2622108459473
+			],
+			"file": "manual-ui-1.0.png",
+			"head_centre_inside_visible_meter": false,
+			"head_pixel": [
+				675.300170898438,
+				421.90185546875
+			],
+			"manual": true,
+			"meter_label_lines": 3,
+			"meter_label_rect": [
+				823.111145019531,
+				215.111114501953,
+				138.66667175293,
+				50.6666679382324
+			],
+			"meter_label_visible_lines": 3,
+			"meter_rect": [
+				808.888916015625,
+				204.444442749023,
+				167.111114501953,
+				181.33332824707
+			],
+			"meter_text": "MANUAL\nW FORWARD  /  S BACK",
+			"meter_visible": true,
+			"physics_frame": 128,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 20973101,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 585593,
+				"rgba8_sha256": "cacc1b593d04e529f0c4f3571f9938f56e66896f1708248e7d4d8c31155c20e8"
+			},
+			"process_frame": 127,
+			"projected_board_mesh_bounds": [
+				624.704467773438,
+				520.635986328125,
+				30.591064453125,
+				68.6687622070312
+			],
+			"projected_head_mesh_bounds": [
+				662.626647949219,
+				403.670196533203,
+				25.552490234375,
+				34.2868957519531
+			],
+			"state": {
+				"accepted_score_identities": [
+					"manual"
+				],
+				"actions": {
+					"manual": 1.0
+				},
+				"active_trick": "Manual",
+				"airborne": false,
+				"bail_active": false,
+				"bail_phase": "",
+				"banked": 0,
+				"capsule_up": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"combo": 100,
+				"current_receipt_labels": [
+					"Manual"
+				],
+				"cylindrical_transition_active": false,
+				"cylindrical_transition_body": "",
+				"cylindrical_transition_feature_id": "",
+				"cylindrical_transition_theta": 0.0,
+				"entries": 1,
+				"flip_id": "",
+				"flip_remaining": 0.0,
+				"force_air_tick": false,
+				"front_shoe_forward": [
+					0.991723120212555,
+					-0.0373731702566147,
+					0.122835278511047
+				],
+				"grab_blend": 0.0,
+				"grab_id": "",
+				"grab_remaining": 0.0,
+				"grind_id": "",
+				"grinding": false,
+				"head_forward": [
+					0.0921540558338165,
+					-0.135839939117432,
+					-0.98643547296524
+				],
+				"hips_forward": [
+					0.942346274852753,
+					-0.194913282990456,
+					-0.272015303373337
+				],
+				"last_banked_receipt_labels": [],
+				"last_trick_id": "manual",
+				"lip_active": false,
+				"lip_id": "lip_stall",
+				"manual_active": true,
+				"manual_id": "manual",
+				"markers_head_board_feet_hands": [
+					[
+						-21.6603393554688,
+						1.45764923095703,
+						21.2830181121826
+					],
+					[
+						-22.0,
+						0.198414742946625,
+						21.3605995178223
+					],
+					[
+						-22.0149993896484,
+						0.337439477443695,
+						21.1730041503906
+					],
+					[
+						-21.9848098754883,
+						0.209414273500443,
+						21.5935573577881
+					],
+					[
+						-21.7146282196045,
+						0.803163111209869,
+						20.8625888824463
+					],
+					[
+						-21.6583213806152,
+						0.861063718795776,
+						21.6781272888184
+					]
+				],
+				"native_floor_valid": true,
+				"on_floor": true,
+				"paused": false,
+				"physics_frame": 128,
+				"position": [
+					-22.0,
+					0.0000260472297668457,
+					21.3605995178223
+				],
+				"process_frame": 127,
+				"push_blend": 0.000770909083988323,
+				"push_phase": 0.975000000000001,
+				"rear_sole": [
+					-21.9848098754883,
+					0.151533991098404,
+					21.5759468078613
+				],
+				"recovery_fade": 0.0,
+				"run_finished": false,
+				"setup_active": false,
+				"setup_id": "",
+				"setup_phase": 0.0,
+				"skitch_caught": false,
+				"skitching": false,
+				"special_remaining": 0.0,
+				"speed": 5.77148389816284,
+				"stance": "REGULAR",
+				"torso_forward": [
+					0.901873707771301,
+					-0.262499958276749,
+					-0.343099802732468
+				],
+				"transition_active": false,
+				"transition_feature": "",
+				"transition_state": "idle",
+				"up_direction": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"vehicle_phase": "cruise",
+				"vehicle_position": [
+					-71.262565612793,
+					2.00424075126648,
+					70.5
+				],
+				"vehicle_turn_blocked": "",
+				"vehicle_velocity": [
+					5.99990797042847,
+					0.0,
+					0.0
+				],
+				"vehicle_yaw": -1.57079637050629,
+				"velocity": [
+					0.0,
+					0.0,
+					-5.7714581489563
+				],
+				"wallriding": false
+			},
+			"ui_scale": 1.0
+		},
+		{
+			"balance_value": 0.0,
+			"board_centre_inside_visible_meter": false,
+			"board_pixel": [
+				640.0,
+				553.860595703125
+			],
+			"camera_forward": [
+				0.0,
+				-0.142276391386986,
+				-0.98982697725296
+			],
+			"camera_fov": 64.7486572265625,
+			"camera_position": [
+				-22.0,
+				2.52808618545532,
+				26.968578338623
+			],
+			"file": "manual-release.png",
+			"head_centre_inside_visible_meter": false,
+			"head_pixel": [
+				666.553466796875,
+				414.499542236328
+			],
+			"manual": false,
+			"meter_label_lines": 1,
+			"meter_label_rect": [
+				513.777770996094,
+				128.0,
+				138.66667175293,
+				50.6666679382324
+			],
+			"meter_label_visible_lines": 1,
+			"meter_rect": [
+				499.555572509766,
+				117.333335876465,
+				280.888885498047,
+				94.2222213745117
+			],
+			"meter_text": "MANUAL  /  A–D",
+			"meter_visible": false,
+			"physics_frame": 131,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 20920888,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 545204,
+				"rgba8_sha256": "2e9e369d70709ef5f67e5eb3a10c193f3aaa74d0ba6dca6def4a8cc6344a43da"
+			},
+			"process_frame": 130,
+			"projected_board_mesh_bounds": [
+				624.652587890625,
+				529.473022460938,
+				30.69482421875,
+				59.0897827148438
+			],
+			"projected_head_mesh_bounds": [
+				654.305053710938,
+				396.447998046875,
+				24.6520385742188,
+				33.8193969726562
+			],
+			"state": {
+				"accepted_score_identities": [
+					"manual"
+				],
+				"actions": {
+
+				},
+				"active_trick": "",
+				"airborne": false,
+				"bail_active": false,
+				"bail_phase": "",
+				"banked": 0,
+				"capsule_up": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"combo": 100,
+				"current_receipt_labels": [
+					"Manual"
+				],
+				"cylindrical_transition_active": false,
+				"cylindrical_transition_body": "",
+				"cylindrical_transition_feature_id": "",
+				"cylindrical_transition_theta": 0.0,
+				"entries": 1,
+				"flip_id": "",
+				"flip_remaining": 0.0,
+				"force_air_tick": false,
+				"front_shoe_forward": [
+					0.991659879684448,
+					-0.0170540511608124,
+					0.127749308943748
+				],
+				"grab_blend": 0.0,
+				"grab_id": "",
+				"grab_remaining": 0.0,
+				"grind_id": "",
+				"grinding": false,
+				"head_forward": [
+					0.095751166343689,
+					-0.125170424580574,
+					-0.987503945827484
+				],
+				"hips_forward": [
+					0.951049506664276,
+					-0.142722561955452,
+					-0.274107754230499
+				],
+				"last_banked_receipt_labels": [],
+				"last_trick_id": "manual",
+				"lip_active": false,
+				"lip_id": "lip_stall",
+				"manual_active": false,
+				"manual_id": "manual",
+				"markers_head_board_feet_hands": [
+					[
+						-21.7449569702148,
+						1.5280487537384,
+						20.9900913238525
+					],
+					[
+						-22.0,
+						0.160968363285065,
+						21.0755996704102
+					],
+					[
+						-22.0149993896484,
+						0.26778507232666,
+						20.8679447174072
+					],
+					[
+						-21.9848804473877,
+						0.209553688764572,
+						21.3038387298584
+					],
+					[
+						-21.7502117156982,
+						0.890337944030762,
+						20.6205539703369
+					],
+					[
+						-21.7175045013428,
+						0.915968418121338,
+						21.3774662017822
+					]
+				],
+				"native_floor_valid": true,
+				"on_floor": true,
+				"paused": false,
+				"physics_frame": 131,
+				"position": [
+					-22.0,
+					0.0000260472297668457,
+					21.0755996704102
+				],
+				"process_frame": 130,
+				"push_blend": 0.000467579995289899,
+				"push_phase": 0.975000000000001,
+				"rear_sole": [
+					-21.9848804473877,
+					0.14958567917347,
+					21.2958335876465
+				],
+				"recovery_fade": 0.0,
+				"run_finished": false,
+				"setup_active": false,
+				"setup_id": "",
+				"setup_phase": 0.0,
+				"skitch_caught": false,
+				"skitching": false,
+				"special_remaining": 0.0,
+				"speed": 5.66436719894409,
+				"stance": "REGULAR",
+				"torso_forward": [
+					0.914051413536072,
+					-0.211198598146439,
+					-0.346273183822632
+				],
+				"transition_active": false,
+				"transition_feature": "",
+				"transition_state": "idle",
+				"up_direction": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"vehicle_phase": "cruise",
+				"vehicle_position": [
+					-70.9625701904297,
+					2.00424075126648,
+					70.5
+				],
+				"vehicle_turn_blocked": "",
+				"vehicle_velocity": [
+					5.99990797042847,
+					0.0,
+					0.0
+				],
+				"vehicle_yaw": -1.57079637050629,
+				"velocity": [
+					0.0,
+					0.0,
+					-5.66435098648071
+				],
+				"wallriding": false
+			},
+			"ui_scale": 1.0
+		}
+	],
+	"production_main": true,
+	"profile_writes": false,
+	"renderer": "gl_compatibility",
+	"resolution": [
+		1280,
+		800
+	],
+	"schema": 1,
+	"synchronization": [
+		{
+			"camera_position": [
+				-115.0,
+				47.0,
+				-62.0
+			],
+			"canvas_expected": [
+				0,
+				0,
+				255,
+				255
+			],
+			"canvas_pixel": [
+				20,
+				20
+			],
+			"file": "synchronization/overview_before_contact.png",
+			"id": "overview_before_contact",
+			"markers": [],
+			"physics_frame": 42,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 23099906,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 518370,
+				"rgba8_sha256": "467a1fbea33489c057e22218e1d2b841b96efccbf3b8974d20b053528d83d0d2"
+			},
+			"process_frame": 41,
+			"same_native_frame": true
+		},
+		{
+			"camera_position": [
+				-19.593017578125,
+				2.20774412155151,
+				30.648832321167
+			],
+			"canvas_expected": [
+				255,
+				255,
+				0,
+				255
+			],
+			"canvas_pixel": [
+				20,
+				20
+			],
+			"file": "synchronization/first_contact_inspection.png",
+			"id": "first_contact_inspection",
+			"markers": [
+				{
+					"centroid_error": 0.309889316558838,
+					"color_channel": "red",
+					"count": 625,
+					"kind": "actual head",
+					"logical_projected": [
+						672.396728515625,
+						189.20783996582
+					],
+					"logical_viewport_size": [
+						1280.0,
+						800.0
+					],
+					"projected_pixel": [
+						672.396728515625,
+						189.207824707031
+					],
+					"world": [
+						-21.81005859375,
+						1.59014105796814,
+						27.9029674530029
+					]
+				},
+				{
+					"centroid_error": 0.248807445168495,
+					"color_channel": "green",
+					"count": 588,
+					"kind": "actual board",
+					"logical_projected": [
+						612.091857910156,
+						581.58935546875
+					],
+					"logical_viewport_size": [
+						1280.0,
+						800.0
+					],
+					"projected_pixel": [
+						612.091857910156,
+						581.58935546875
+					],
+					"world": [
+						-22.0,
+						0.12799996137619,
+						28.0
+					]
+				}
+			],
+			"physics_frame": 43,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 19303587,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 663046,
+				"rgba8_sha256": "1531fb34a29432cc5f72637f5d84c100c39ab4ae8325a18a9668f86932cb734d"
+			},
+			"process_frame": 42,
+			"same_native_frame": true
+		},
+		{
+			"camera_position": [
+				-22.0,
+				2.52119994163513,
+				32.9016571044922
+			],
+			"canvas_expected": [
+				255,
+				0,
+				255,
+				255
+			],
+			"canvas_pixel": [
+				20,
+				20
+			],
+			"file": "synchronization/return_to_production_chase.png",
+			"id": "return_to_production_chase",
+			"markers": [
+				{
+					"centroid_error": 0.546917378902435,
+					"color_channel": "red",
+					"count": 173,
+					"kind": "actual head",
+					"logical_projected": [
+						663.706604003906,
+						404.5078125
+					],
+					"logical_viewport_size": [
+						1280.0,
+						800.0
+					],
+					"projected_pixel": [
+						663.706604003906,
+						404.5078125
+					],
+					"world": [
+						-21.8100757598877,
+						1.59018015861511,
+						27.9029636383057
+					]
+				},
+				{
+					"centroid_error": 0.04736328125,
+					"color_channel": "green",
+					"count": 134,
+					"kind": "actual board",
+					"logical_projected": [
+						640.0,
+						580.54736328125
+					],
+					"logical_viewport_size": [
+						1280.0,
+						800.0
+					],
+					"projected_pixel": [
+						640.0,
+						580.54736328125
+					],
+					"world": [
+						-22.0,
+						0.12799996137619,
+						28.0
+					]
+				}
+			],
+			"physics_frame": 44,
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 17654823,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 620100,
+				"rgba8_sha256": "8ad5ab9d96044c2e6ce46becde985e5eda3a01755016100460f9066fd7737093"
+			},
+			"process_frame": 43,
+			"same_native_frame": true
+		}
+	]
+}

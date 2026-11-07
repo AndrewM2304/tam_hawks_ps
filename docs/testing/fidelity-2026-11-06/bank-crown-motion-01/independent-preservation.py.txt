@@ -1,0 +1,102 @@
+from pathlib import Path
+from PIL import Image
+import json,hashlib,datetime,zipfile,shutil,io,re
+ROOT=Path('/workspace/tam_hawks_ps');BASE=ROOT/'.local/qa-fidelity/native-review';OUT=ROOT/'docs/testing/fidelity-2026-11-06/bank-crown-motion-01';OUT.mkdir(exist_ok=False)
+def sha(data):return hashlib.sha256(data).hexdigest()
+def retain(src,dest):
+ p=OUT/dest;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(src.read_bytes());return p
+images=[];runs={};provenance={}
+for view in ['side','chase']:
+ b=BASE/('bank-crown-'+view+'-01');receipt=json.loads((b/'receipt.json').read_text());report=json.loads((b/'bank-motion-report.json').read_text());before=json.loads((b/'source-before.json').read_text());after=json.loads((b/'source-after.json').read_text())
+ assert receipt['eligible'] and receipt['engine_exit']==0 and not receipt['engine_errors'] and before==after and len(before)==791 and report['complete'] and report['failures']==0
+ run={'checks':report['checks'],'failures':report['failures'],'selected_frames':receipt['native_frames_selected'],'all_images':len(receipt['native_pixels']),'source_inputs':len(before),'maximum_offset_step_m':report['maximum_offset_step_m'],'source_before_after_equal':True,'engine_exit':0,'timeline_contiguous':receipt['native_timeline_contiguous'],'events':report['events']}
+ selected=[r for r in report['frames'] if r['file'].startswith('bank-')];assert len(selected)==(32 if view=='side' else 3);assert all(b['physics_frame']-a['physics_frame']==1 for a,b in zip(selected,selected[1:]))
+ for entry in report['frames']+report['synchronization']:
+  p=b/entry['file'];data=p.read_bytes();im=Image.open(io.BytesIO(data)).convert('RGBA');assert im.size==(1280,800) and sha(im.tobytes())==entry['pixels']['rgba8_sha256']
+  images.append({'member':view+'/'+entry['file'],'source':p,'png_sha256':sha(data),'rgba8_sha256':entry['pixels']['rgba8_sha256']})
+ for name in ['receipt.json','bank-motion-report.json','source-before.json','source-after.json','engine.log','parse.log','host-observer.json','xorg.log','xorg-console.log']:retain(b/name,view+'/'+name)
+ if view=='side':
+  retain(b/'bank-crown-60fps.mp4','bank-crown-60fps.mp4')
+  for n in [9,10,11]:retain(b/('bank-side-%03d.png'%n),'selected/'+('bank-side-%03d.png'%n))
+  masks=[]
+  for n in [9,10,11,12]:
+   im=Image.open(b/('bank-side-%03d.png'%n)).convert('RGB');points=[]
+   for y in range(250,400):
+    for x in range(500,800):
+     red,green,blue=im.getpixel((x,y))
+     if red<80 and green>red+5 and blue>red+10:points.append((x+.5,y+.5))
+   masks.append({'file':'bank-side-%03d.png'%n,'darkblue_pixels':len(points),'centroid_x':sum(v[0] for v in points)/len(points),'centroid_y':sum(v[1] for v in points)/len(points)})
+  run['shirt_region_observation']={'method':'Fixed x[500,800),y[250,400) region; read-only darkblue mask R<80,G>R+5,B>R+10, pixelcentres. This measures an image-region change, not wholebodyCOM or exact projected model points.','frames':masks,'centroid_shift_010_to_011_px':masks[2]['centroid_x']-masks[1]['centroid_x']}
+ else:
+  for name in ['bank-chase-000.png','bank-chase-001.png','bank-chase-002.png','current-quay-approach.png','current-quay-landed-chase.png']:retain(b/name,'selected/'+name)
+ runs[view]=run
+ # Preserve exact native source controller/terrain/capture dependencies, not
+ # another full production source or asset/cache copy.
+ project=ROOT/'.local/qa-fidelity/checkpoint-source-03'
+ for name in ['game/player/skater.gd','game/player/skater_visual.gd','game/levels/outdoor_routes.gd','tests/pt24_flagship_runs_tests.gd','tests/line_design_tests.gd','tools/full_fidelity_capture.gd']:
+  source=project/name;assert sha(source.read_bytes())==before[name];retain(source,'executed-source/'+name.replace('/','__')+'.txt')
+for name in ['bank_motion_capture.gd','run_bank_motion_review.py']:retain(ROOT/'.local/qa-fidelity'/name,name+'.txt')
+for name in ['source-before.json','source-after.json','copied-source.json','receipt.json']:retain(ROOT/'.local/qa-fidelity/checkpoint-copy-03'/name,'copy/'+name)
+archive=OUT/'native-png-originals.zip'
+with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_STORED) as z:
+ for entry in images:z.writestr(entry['member'],entry['source'].read_bytes())
+with zipfile.ZipFile(archive) as z:
+ assert z.testzip() is None and len(z.namelist())==45
+ for entry in images:assert sha(z.read(entry['member']))==entry['png_sha256']
+manifest={k:{f:v for f,v in entry.items() if f!='source'} for k,entry in enumerate(images)}
+(OUT/'native-archive-index.json').write_text(json.dumps({'schema':1,'archive':'native-png-originals.zip','archive_sha256':sha(archive.read_bytes()),'images':list(manifest.values()),'exact_original_png_members':45},indent=2)+'\n')
+result={'schema':1,'reviewer':'independent_qa','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'runs':runs,'native_originals_retained':45,'verdict':'Fail, bounded motion criterion FID-D015. Source/pixel/native-frame integrity passes; observed lateral presentation pop remains. Native containment D012 is separately passed in158/0 source/log scope.','observed':'All32fullworld side frames are consecutive real60Hz physics samples. Frames009/010/011 show a distinct sideward connected rider/deck step. Fixed darkblue shirt ROI centroid shifts28.627px010→011; native presentation offset steps119.816407mm. Actual unchanged production chase is retained at the same three correction ticks; forward-axis chase masks much of the lateral displacement but still shows hard upright descent.','video':'Exact32successive native frames encoded60/1fps,1280x800,.533333s; all32video frames fullydecode. Video artifact is prepared for normal-speed viewing. This reviewer inspected original chronological frames; no unavailable player/tool human temporal acceptance is claimed.','source_copy':'789game/tests/tools/project inputs exactlyequal source-before/source-after/copied inventory; imported.godot copied afterrootcleanimport, no import inQAproject. Eachrun inventories789+externalobserver/wrapper=791 unchanged bytes.','activity_disclosure':'Root explicitly permitted concurrent untimed ordinaryheadless required-01 PID33416. Mainenvironment builder rewrote9files byte-identically during this period; root verified hashes and cache unchanged. Mainrider baker earlier also rewrote byte-identical data beforefreeze. These are write activities, distinct from bytehash stability. QA private source byteguard passes; no process-exclusivity/performance claim.','fixture_scope':'Standalone80.1m gate afterexplicit initial(66,2.08,73.5)/−PI/2 setup/50native settledticks, actualpush/continuoussteer/16tickcharge. Does not inherit3priorpops. Reproduces exact release14.999741m/s, peak7.350675m and119.816407mm maximum correction class, not asserted whole1408tick trajectoryidentity. Entireordinaryworld/physics/light/HUD remains; sidecamera onlyauthored/interpolationOFF. Actualrider/productioncamera interpolation retained.','next_action':'Finite earned-wall swept-component anticipation/contactresponse preserving actualmesh8mm skin; retest exact original4charges, noforeign/staleowner attraction, initial/reset/landing and groundcontact neighbours; same-source native-frame/video review.','limits':['No whole-game/M5 performance, physicalcontrols/humanfun or AAA acceptance.','Static/camera proofs proveactualbuffers/currentcamera; rawstate metadata is physics state while normalnativecharacter interpolation remains enabled.','D014fullsuite coping/other regressions remain separate; neither integraltest success nor export/sourcecommit acceptance follows from these captures.']}
+(OUT/'independent-review.json').write_text(json.dumps(result,indent=2)+'\n')
+retain(Path(__file__),'independent-preservation.py.txt')
+(OUT/'README.md').write_text('''# Native bank crown motion — independent failure
+
+**FID-D015/P1 remains open.** Native enclosure/contact safety and visual continuity
+are separate results. Both current fullworld captures have clean logs and stable
+source/pixel proofs: side492/0 with32consecutive physics frames; chase314/0 with
+three actual production-camera correction frames. All45exact original PNGs,
+including synchronization/approach/landing, are retained in
+[native-png-originals.zip](native-png-originals.zip); the
+[index](native-archive-index.json) binds each original and decoded RGBA8 buffer.
+Selected originals remain directly viewable below. The [full review](independent-review.json)
+contains scope, activity disclosures, source identity and next reproduction.
+
+The connected rider/deck moves visibly sideways between side010 and011. A fixed
+darkblue shirt region shifts28.627pixels; the native presentation offset changes
+119.816407mm in one physics step. The actual uncorrected mesh intrudes111.820mm,
+so reducing the required8mmclearance is invalid. Motion independently inspected
+the same originals and corroborates the step. The three true chase frames are
+also retained; a camera along travel hides much of the lateral displacement.
+
+[The32frame60fps clip](bank-crown-60fps.mp4) is1280×800,.533333seconds and fully
+decodes. It is ready for normal-speed playback; this review inspects the original
+chronological frames and does not invent human temporal acceptance. The static
+native buffers do not measure real-time rendering/FPS.
+
+The fixture starts normal default-on Main, explicitly sets only initial
+(66,2.08,73.5)/heading−PI/2, settles50native ticks, then uses ordinary Push,
+continuous steering and an80.1m/16tickchargedOllie. No later actor/velocity/pose
+assignment occurs. Sidecamera is authored; the fullworld, realrider interpolation,
+productionphysics/light/HUD and actualchase camera are retained. Standalone input
+reproduces the same correction class rather than claiming identity with the
+four-case preceding-input epoch. Three inherited current-camera/Canvas/native
+pixel proofs run in each capture.
+
+The copy has789equal before/after/copied production inputs; each capture adds the
+exact external observer/wrapper for791unchanged inputs. Root's headless fullsuite
+is intentionally concurrent: no exclusivity or performance claim is made.
+Byte-identical mainbuilder rewrites are disclosed separately from source-byte
+stability. The private copied project performs no editor import.
+
+Next is a finite native earned-wall anticipation/contact-response repair, keeping
+actual mesh/sole/capsule authority and all foreign/stale/reset/landing negatives.
+D012's narrower native containment/contact pass does not close D015. D014's
+separate coping regression, fullcombined checks, finalart, exports/mainintegration,
+MacBookAirM5 and humanreview remain open.
+
+![Before lateral correction](selected/bank-side-009.png)
+![Native correction tick](selected/bank-side-010.png)
+![Rendered lateral step](selected/bank-side-011.png)
+''')
+files={str(p.relative_to(OUT)):sha(p.read_bytes()) for p in sorted(OUT.rglob('*')) if p.is_file()}
+(OUT/'preservation.json').write_text(json.dumps({'schema':1,'retained_files':files},indent=2)+'\n')
+print(json.dumps({'retained_png_originals':45,'archive_MiB':archive.stat().st_size/1048576,'files':len(files),'side_checks':runs['side']['checks'],'chase_checks':runs['chase']['checks'],'shirt_pixel_shift':runs['side']['shirt_region_observation']['centroid_shift_010_to_011_px']}))

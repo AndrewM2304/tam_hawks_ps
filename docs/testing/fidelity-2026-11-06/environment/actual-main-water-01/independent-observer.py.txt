@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+"""Read-only independent validation of preserved actual-Main water A/B/A evidence."""
+import hashlib,json,math
+from pathlib import Path
+import numpy as np
+from PIL import Image
+ROOT=Path('/workspace/tam_hawks_ps')
+E=ROOT/'docs/testing/fidelity-2026-11-06/environment/actual-main-water-01'
+S=ROOT/'.local/environment-phase2/main-water-source'
+checks=[]
+def check(label,ok,value=None):checks.append({'name':label,'pass':bool(ok),'actual':value})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def read(f):return json.loads((E/f).read_text())
+r=read('receipt.json'); d=read('actual-main-water-report.json'); before=read('source-before.json');after=read('source-after.json')
+check('exact source inventories agree',before==after,len(before))
+miss=[k for k,v in before.items() if not (S/k).is_file() or sha(S/k)!=v]
+check('private executed source still matches all recorded inputs',not miss,miss)
+check('receipt inventory SHA binds both original inventories',sha(E/'source-before.json')==sha(E/'source-after.json')==r['source_inventory_sha256'])
+check('native completion and clean engine',r['eligible'] and r['source_stable'] and r['engine_exit']==0 and not r['engine_errors'] and d['complete'] and d['checks']==60 and d['failures']==0)
+check('raw log contains no engine/script errors',not any(s in (E/'engine.log').read_text() for s in ['SCRIPT ERROR:','ERROR:','Parse Error','Traceback']))
+check('no timing acceptance claimed',r['timing_measured'] is False and d['timing_measured'] is False)
+arrays={}
+for f,digest in r['images'].items():
+ a=np.asarray(Image.open(E/f).convert('RGBA'));arrays[f]=a
+ check(f+': exact PNG bytes',sha(E/f)==digest)
+ check(f+': original 1280x800 native dimensions',a.shape==(800,1280,4))
+rows=d['images']+d['synchronization_proofs']
+for item in rows:
+ a=arrays[item['file']]
+ check(item['file']+': independent decoded RGBA matches native hash',hashlib.sha256(a.tobytes()).hexdigest()==item['pixels']['rgba8_sha256'] and a.nbytes==item['pixels']['bytes'])
+for item in d['synchronization_proofs']:
+ a=arrays[item['file']];x,y=item['canvas_pixel']
+ check(item['id']+': independent Canvas pixel',a[y,x].tolist()==item['canvas_expected'])
+ check(item['id']+': native synchronization assertion',item['same_native_frame'] is True)
+ for mark in item['markers']:
+  x,y=mark['projected_pixel'];x0,x1=max(0,int(x)-12),min(1280,int(x)+13);y0,y1=max(0,int(y)-12),min(800,int(y)+13)
+  rgb=a[y0:y1,x0:x1,:3].astype(float)/255.;c=0 if mark['color_channel']=='red' else 1;other=[i for i in range(3) if i!=c]
+  mask=(rgb[:,:,c]>.75)&(rgb[:,:,c]-rgb[:,:,other[0]]>.20)&(rgb[:,:,c]-rgb[:,:,other[1]]>.20)
+  yy,xx=np.nonzero(mask);centroid=np.array([xx.mean()+x0+.5,yy.mean()+y0+.5]);error=float(np.linalg.norm(centroid-[x,y]))
+  check(item['id']+': independently counted '+mark['kind']+' current pixels',len(xx)==mark['count'] and len(xx)>=4 and error<=2.5 and abs(error-mark['centroid_error'])<1e-4,{'count':len(xx),'error_px':error})
+base=d['mode_inventories']['before-a']
+check('all original native inventory restored in control B',d['mode_inventories']['before-b']==base)
+for mode,inv in d['mode_inventories'].items():
+ for key in ['nonwater','collisions','sun']:
+  check(mode+': exact native '+key+' inventory retained',inv[key]==base[key],len(inv[key]) if isinstance(inv[key],list) else None)
+ expected=[]
+ for water in base['water']:
+  w=dict(water)
+  if mode=='caster-off':w['cast_shadow']=0
+  expected.append(w)
+ check(mode+': only three water cast flags changed',inv['water']==expected and len(inv['water'])==3)
+check('only expected native water instances selected', {w['path'] for w in base['water']}=={'ExchangeFountain/FountainWater','OutdoorRoutes/ClydeWater','KelvingrovePond/PondWater'})
+check('exact shared shader source SHA authenticated',all(w['shader_source_sha256']==before['game/art/assets/horizon/clyde_water.gdshader'] for w in base['water']))
+check('policy source selects exactly three changes and no unsupported objects',d['policy']['matched_count']==3 and d['policy']['changed_count']==3 and not d['policy']['unsupported'])
+for item in d['images']:
+ check(item['file']+': exact native water inventory bound to mode',item['water_inventory']==d['mode_inventories'][item['mode']]['water'])
+for view in ['river','fountain','pond']:
+ subset=[x for x in d['images'] if x['view']==view]
+ check(view+': three A/B/A mode rows',len(subset)==3 and {x['mode'] for x in subset}=={'before-a','caster-off','before-b'})
+ check(view+': recorded camera position/forward/FOV identical',all(all(x[k]==subset[0][k] for k in ['camera_position','camera_forward','fov']) for x in subset))
+ check(view+': native resource allocation retained',all(all(x['counters'][k]==subset[0]['counters'][k] for k in ['texture_bytes','buffer_bytes']) for x in subset))
+# Bind each preserved executed source to the recorded actual execution inventory.
+for p in (E/'executed-source').rglob('*.txt'):
+ key=str(p.relative_to(E/'executed-source'))[:-4]
+ check('archived executed source '+key,key in before and sha(p)==before[key])
+result={'schema':1,'reviewer':'independent_qa','method':'Read-only independent decoded PNG/RGBA hashes, current-pixel synchronization centroid and Canvas counts, source inventories, exact archived observer/policy code, per-mode native render/collision identities. No QA engine run.','checks':len(checks),'failures':sum(not c['pass'] for c in checks),'source_inputs':len(before),'original_native_images':len(r['images']),'personally_opened_originals':[x['file'] for x in d['images']], 'verdict':'Bounded static actual-Main pond improvement; fountain unresolved and river view obstructed. Native capture integrity independently checked; no production promotion or broad water-quality pass.','findings':{'pond':'Dense fine vertical bands disappear in caster-off still and return in both controls. Broad directional response remains.','fountain':'Fine radial bands remain in all three originals. Basin geometry/caster is a hypothesis requiring separate controlled isolation.','river':'All three originals are dominated by transfer-bridge deck; river quality cannot be assessed from them.'},'limits':['Nine water readbacks preserve RGBA hashes and camera position/forward/FOV but not full numeric camera/projection matrices, per-image tick brackets or independent 3D/Canvas marker proofs. Four decoded 3D marker centroids plus three Canvas samples verify the inherited synchronization images only, not each later water camera.','Executed _render_current_frame awaits natural frame_post_draw and asserts no intervening physics/process tick. This is code plus aggregate native assertions; missing per-water metadata has not been reconstructed.','Recorded inventory transforms are Godot strings; resource identities and A/B/A flags are exact native records, not full triangle/topology authentication.','Authored frozen-world views preserve normal default content and isolate personal Music; they are not real-input gameplay, moving-water review or a normal-speed reel. Native shader TIME remains active, so controls are not pixel-identical.','No measured cost, whole-run exclusivity, M5/macOS/AAA acceptance. Root-authorised headless overlap is disclosed in original author analysis; no inference of timing from counter reductions.'],'checks_detail':checks,'native_counters':{x['file']:x['counters'] for x in d['images']},'evidence_hashes':{str(p.relative_to(E)):sha(p) for p in E.rglob('*') if p.is_file() and not p.name.startswith('independent-')}}
+(ROOT/'.local/qa-fidelity/actual-main-water-independent-review.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({k:v for k,v in result.items() if k not in ['checks_detail','evidence_hashes']},indent=2))
+if result['failures']:print(json.dumps([c for c in checks if not c['pass']],indent=2))
+raise SystemExit(bool(result['failures']))

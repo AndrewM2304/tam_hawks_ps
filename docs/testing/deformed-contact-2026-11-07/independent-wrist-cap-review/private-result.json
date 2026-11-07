@@ -1,0 +1,17 @@
+{
+	"failures": [],
+	"modules": [
+		{
+			"failures": 0,
+			"name": "entire_skater_wall_manual_tests",
+			"passes": 91
+		},
+		{
+			"failures": 0,
+			"name": "entire_skater_obstacle_arm_tests",
+			"passes": 48
+		}
+	],
+	"passes": 139,
+	"scope": "private current-source entire WallManual.run then ObstacleArm.run, declared+8mm initial NoseManual phase plus capped-initial-wrist proposal; unchanged inputs, thresholds, endpoints, native limits and twins; no performance/M5 claim"
+}

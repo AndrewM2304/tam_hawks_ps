@@ -1,0 +1,106 @@
+extends "res://tools/full_fidelity_capture.gd"
+## Selective native HUD investigation; inherits natural-frame/pixel proofs.
+var _records:Array[Dictionary]=[]
+
+func _run()->void:
+	if DisplayServer.get_name()=="headless":quit(2);return
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=1:quit(2);return
+	output=args[0]
+	DirAccess.make_dir_recursive_absolute(output)
+	root.size=Vector2i(1280,800)
+	root.content_scale_size=root.size
+	RenderingServer.set_render_loop_enabled(false)
+	game=Main.new()
+	game.persistence_enabled=false
+	root.add_child(game)
+	_check(not game.music._can_control and not game.music._persist,"manual HUD probe isolates personal Music")
+	game.start_mode(true)
+	await _frames(40)
+	_inspection=Camera3D.new()
+	_inspection.far=220
+	game.add_child(_inspection)
+	await _synchronization_probe()
+	Input.action_press("push")
+	await _frames(40)
+	Input.action_release("push")
+	await _frames(13)
+	Input.action_press("manual")
+	await _frames(24)
+	_check(game.skater.manual_active and game.skater.is_on_floor() and not game.skater.bail_active,
+		"manual HUD probe reaches an actual supported manual with mapped input")
+	for scale:float in [1.4,1.0]:
+		game.apply_settings({"ui_scale":scale},false)
+		await _frames(3)
+		await _capture("manual-ui-"+str(scale),scale)
+	Input.action_release("manual")
+	await _frames(3)
+	_check(not game.skater.manual_active and not game.hud._balance_panel.visible,
+		"manual HUD probe native release clears active meter")
+	await _capture("manual-release",1.0)
+	var report:={"schema":1,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),
+		"renderer":RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),
+		"resolution":[1280,800],"production_main":true,"profile_writes":game.persistence_enabled,
+		"fixtures":"Actual default Main start and mapped push/manual input; user-facing UI scale changed via apply_settings(...,false). Three inherited diagnostic camera/Canvas synchronization frames. No position/velocity/balance/score/pose assignments. Static chase frame investigation; not normal-speed motion or performance.",
+		"synchronization":_sync_proofs,"frames":_records}
+	var file:=FileAccess.open(output.path_join("meter-report.json"),FileAccess.WRITE)
+	_check(file!=null,"manual HUD report writable")
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	print("QA_MANUAL_METER checks=",checks," failures=",failures," images=",_records.size()+_sync_proofs.size())
+	quit(1 if failures else 0)
+
+func _frames(count:int)->void:
+	for tick in count:
+		await physics_frame
+		await process_frame
+		await create_timer(0.0,true).timeout
+
+func _capture(label:String,scale:float)->void:
+	game.skater._camera.current=true
+	game.hud.visible=true
+	var image:Image=await _render_current_frame()
+	var camera:Camera3D=root.get_camera_3d()
+	var panel:Rect2=game.hud._balance_panel.get_global_rect()
+	var head:Vector2=camera.unproject_position(game.skater._visual_rig._head.global_position)
+	var board:Vector2=camera.unproject_position(game.skater._board_visual.global_position)
+	var head_bounds:=_projected_mesh_bounds(game.skater._visual_rig._head,camera)
+	var board_bounds:=_projected_mesh_bounds(game.skater._board_visual,camera)
+	if game.hud._balance_panel.visible:
+		_check(not panel.intersects(head_bounds) and not panel.intersects(board_bounds),
+			"native manual meter clears actual projected head and board mesh bounds at scale "+str(scale))
+	var row:={"file":label+".png","ui_scale":scale,"pixels":_store_frame(image,label+".png"),
+		"physics_frame":Engine.get_physics_frames(),"process_frame":Engine.get_process_frames(),
+		"camera_position":_v(camera.global_position),"camera_forward":_v(-camera.global_basis.z),"camera_fov":camera.fov,
+		"state":_snapshot(game),"balance_value":game.skater.balance_value(),"manual":game.skater.manual_active,
+		"meter_visible":game.hud._balance_panel.visible,"meter_text":game.hud._balance_label.text,
+		"meter_rect":[panel.position.x,panel.position.y,panel.size.x,panel.size.y],
+		"projected_head_mesh_bounds":[head_bounds.position.x,head_bounds.position.y,head_bounds.size.x,head_bounds.size.y],
+		"projected_board_mesh_bounds":[board_bounds.position.x,board_bounds.position.y,board_bounds.size.x,board_bounds.size.y],
+		"meter_label_rect":_rect(game.hud._balance_label.get_global_rect()),
+		"meter_label_lines":game.hud._balance_label.get_line_count(),
+		"meter_label_visible_lines":game.hud._balance_label.get_visible_line_count(),
+		"head_pixel":[head.x,head.y],"board_pixel":[board.x,board.y],
+		"head_centre_inside_visible_meter":game.hud._balance_panel.visible and panel.has_point(head),
+		"board_centre_inside_visible_meter":game.hud._balance_panel.visible and panel.has_point(board)}
+	_records.append(row)
+	print("QA_MANUAL_METER_FRAME ",JSON.stringify({"file":row.file,"meter":row.meter_rect,"head":row.head_pixel,
+		"head_overlap":row.head_centre_inside_visible_meter,"value":row.balance_value}))
+
+func _rect(value:Rect2)->Array:
+	return [value.position.x,value.position.y,value.size.x,value.size.y]
+
+func _projected_mesh_bounds(parent:Node3D,camera:Camera3D)->Rect2:
+	# Conservative projection of the ACTUAL visible mesh bounds; a projected
+	# node centre cannot establish head/hair or deck silhouette clearance.
+	var points:Array[Vector2]=[]
+	for raw:Node in parent.find_children("*","MeshInstance3D",true,false):
+		var mesh:=raw as MeshInstance3D
+		if mesh.mesh==null or not mesh.is_visible_in_tree():continue
+		var aabb:=mesh.get_aabb()
+		for corner:int in 8:
+			var world:Vector3=mesh.to_global(aabb.get_endpoint(corner))
+			if not camera.is_position_behind(world):points.append(camera.unproject_position(world))
+	if points.is_empty():return Rect2()
+	var result:=Rect2(points[0],Vector2.ZERO)
+	for point:Vector2 in points:result=result.expand(point)
+	return result

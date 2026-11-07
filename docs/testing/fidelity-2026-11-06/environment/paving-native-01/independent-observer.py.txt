@@ -1,0 +1,123 @@
+#!/usr/bin/env python3
+"""Independent, read-only PNG/camera/source audit of native paving A/B/A and separate allocation."""
+import hashlib
+import json
+import math
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+ROOT = Path('/workspace/tam_hawks_ps')
+PACKET=ROOT/'docs/testing/fidelity-2026-11-06/environment/paving-native-01'
+EVIDENCE=PACKET/'paving-visual-01'
+SOURCE=ROOT/'.local/environment-phase2/paving-source'
+checks = []
+
+
+def check(name, condition, actual=None):
+    checks.append({'name': name, 'pass': bool(condition), 'actual': actual})
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def read(name):
+    return json.loads((EVIDENCE / name).read_text())
+
+
+receipt = read('receipt.json')
+report = read('visual-paving-report.json')
+before = read('source-before.json')
+after = read('source-after.json')
+check('source inventories match exactly', before == after, len(before))
+source_mismatch = [k for k,v in before.items() if not (SOURCE/k).is_file() or sha(SOURCE/k)!=v]
+check('executed private source still matches every recorded input', not source_mismatch, source_mismatch)
+check('receipt binds inventory bytes', sha(EVIDENCE/'source-before.json') == sha(EVIDENCE/'source-after.json') == receipt['source_inventory_sha256'])
+check('completed clean native capture', receipt['engine_exit']==0 and not receipt['engine_errors'] and receipt['source_stable'] and receipt['eligible'] and report['complete'] and report['checks']==70 and report['failures']==0)
+check('raw engine has no errors', all(x not in (EVIDENCE/'engine.log').read_text() for x in ['SCRIPT ERROR:', 'ERROR:', 'Traceback','Parse Error']))
+check('no timing claimed', report['timing_measured'] is False and report['cost_brackets']==[] and receipt['timing_measured'] is False)
+images = {}
+image_results = []
+max_projection_error = 0
+max_centroid_metadata_error = 0
+max_canvas_error = 0
+for item in report['images']:
+    path = EVIDENCE / item['file']
+    array = np.asarray(Image.open(path).convert('RGBA'))
+    images[item['file']] = array
+    check(item['file'] + ': native dimensions and RGBA hash', array.shape == (400, 640, 4) and hashlib.sha256(array.tobytes()).hexdigest() == item['rgba8_sha256'])
+    check(item['file'] + ': PNG receipt hash', sha(path) == receipt['images'][item['file']])
+    check(item['file'] + ': no process or physics tick changes at readback', item['physics_before'] == item['physics_after'] and item['process_before'] == item['process_after'])
+    check(item['file'] + ': declared perspective camera', item['keep_aspect'] == 1 and item['fov'] == 68 and item['far'] == 220 and abs(item['near'] - .05) < 1e-7)
+    basis = np.array(item['camera_basis'], dtype=float).T
+    position = np.array(item['camera_position'], dtype=float)
+    check(item['file'] + ': finite orthonormal camera basis and forward', np.isfinite(basis).all() and np.isfinite(position).all() and np.max(np.abs(basis.T @ basis - np.eye(3))) < 1e-6 and np.max(np.abs(np.array(item['camera_forward']) + basis[:, 2])) < 1e-8)
+    focal = 200 / math.tan(math.radians(item['fov']) / 2)
+    markers = []
+    for marker in item['pixel_proofs']['markers']:
+        local = np.linalg.solve(basis, np.array(marker['world_position']) - position)
+        projected = np.array([320 + focal * local[0] / -local[2], 200 - focal * local[1] / -local[2]])
+        projection_error = float(np.linalg.norm(projected - marker['projected_xy']))
+        max_projection_error = max(max_projection_error, projection_error)
+        px, py = marker['projected_xy']
+        x0, x1 = max(0, int(px) - 10), min(640, int(px) + 11)
+        y0, y1 = max(0, int(py) - 10), min(400, int(py) + 11)
+        window = array[y0:y1, x0:x1, :3].astype(float) / 255
+        channel = 0 if marker['color'] == 'red' else 1
+        others = [i for i in range(3) if i != channel]
+        mask = (window[:, :, channel] > .75) & (window[:, :, channel] - window[:, :, others[0]] > .20) & (window[:, :, channel] - window[:, :, others[1]] > .20)
+        yy, xx = np.nonzero(mask)
+        centroid = np.array([float(xx.mean() + x0 + .5), float(yy.mean() + y0 + .5)])
+        centroid_metadata_error = float(np.linalg.norm(centroid - marker['centroid_xy']))
+        native_error = float(np.linalg.norm(centroid - projected))
+        max_centroid_metadata_error = max(max_centroid_metadata_error, centroid_metadata_error)
+        check(item['file'] + ': independently projected ' + marker['color'] + ' marker matches native pixels', projection_error < .001 and len(xx) == marker['pixel_count'] and centroid_metadata_error < .001 and len(xx) >= 8 and native_error <= 2, {'projection_metadata_error_px': projection_error, 'centroid_metadata_error_px': centroid_metadata_error, 'native_error_px': native_error, 'pixel_count': len(xx)})
+        markers.append({'color': marker['color'], 'projected_xy': projected.tolist(), 'centroid_xy': centroid.tolist(), 'native_error_px': native_error})
+    proof = item['pixel_proofs']
+    cx, cy = proof['canvas_sample_xy']
+    canvas = array[cy, cx, :3].astype(float) / 255
+    canvas_error = float(np.max(np.abs(canvas - proof['canvas_expected_rgb'])))
+    max_canvas_error = max(max_canvas_error, canvas_error)
+    check(item['file'] + ': Canvas sample matches independent decoded pixel', canvas_error <= 2 / 255 and np.max(np.abs(canvas - proof['canvas_actual_rgb'])) < 1e-6)
+    image_results.append({'file': item['file'], 'markers': markers, 'canvas_error': canvas_error})
+
+modes=['fan-baseline-a','setts-candidate','fan-baseline-b']
+views=['route-eye','oblique-close','wide-repeat']
+check('nine exact mode/view pairs', len(report['images'])==9 and {(i['mode'],i['view']) for i in report['images']}=={(m,v) for m in modes for v in views})
+contracts=report['material_contracts']
+check('A/B/A baseline contract unchanged',contracts['fan-baseline-a']==contracts['fan-baseline-b'])
+for mode,c in contracts.items():
+    check('verified physical width '+mode,c['physical_width_m']==(2.0 if mode=='setts-candidate' else 1.5))
+    check('same normal strength/filter/tint '+mode,all(c[k]==contracts[modes[0]][k] for k in ['normal_strength','texture_filter','tint']))
+    check('native material imports '+mode,len(c['maps'])==3 and all(m['compressed'] and m['format']==22 and m['width']==m['height']==(2048 if j==0 else 1024) and m['mipmaps']==(11 if j==0 else 10) for j,m in enumerate(c['maps'])))
+for item in report['images']:
+    check('per-image actual material matches intervention '+item['file'],item['material_class']=='StandardMaterial3D' and item['material_contract']==contracts[item['mode']])
+for view in views:
+    rows=[next(i for i in report['images'] if i['view']==view and i['mode']==mode) for mode in modes]
+    check('matched native camera '+view,all(all(r[k]==rows[0][k] for k in ['camera_basis','camera_position','camera_forward','fov','near','far','keep_aspect']) for r in rows))
+    check('matched native geometry/resource counters '+view,all(r['counters']==rows[0]['counters'] for r in rows))
+    # Exclude the coloured synchronization tag while comparing A/A pixels.
+    x=images[rows[0]['file']].copy();y=images[rows[2]['file']].copy();x[:24,:24]=0;y[:24,:24]=0
+    # Markers deliberately move between native epochs to reject stale pixels.
+    for row in [rows[0],rows[2]]:
+        for marker in row['pixel_proofs']['markers']:
+            px,py=marker['projected_xy'];x0,x1=max(0,int(px)-10),min(640,int(px)+11);y0,y1=max(0,int(py)-10),min(400,int(py)+11)
+            x[y0:y1,x0:x1]=0;y[y0:y1,x0:x1]=0
+    check('A/A return pixels byte-identical outside tag and declared moving markers '+view, bool(np.array_equal(x,y)),int(np.max(np.abs(x.astype(int)-y.astype(int)))))
+allocation=PACKET/'paving-allocation-01'
+a=json.loads((allocation/'texture-report.json').read_text());ar=json.loads((allocation/'receipt.json').read_text())
+check('separate fresh allocation clean/stable', ar['engine_exit']==0 and ar['eligible'] and ar['source_stable'] and not ar['engine_errors'] and a['failures']==0)
+check('allocation before/after inventories identical and source-bound', (allocation/'source-before.json').read_bytes()==(allocation/'source-after.json').read_bytes() and sha(allocation/'source-before.json')==ar['source_inventory_sha256'])
+check('allocation has no timing claim',ar['timing_measured'] is False)
+check('native allocation arithmetic',a['after']['texture_bytes']-a['before']['texture_bytes']==a['additional_texture_bytes']==32768403)
+check('native allocation within original32MiB budget',a['budget_mib']==32 and a['budget_pass'] and a['additional_texture_bytes']<=32*1024**2)
+check('15 unique compressed native map resources',a['after']['unique_bound_maps']==len(a['after']['maps'])==len({m['resource_path'] for m in a['after']['maps']})==15 and all(m['compressed'] and m['format']==22 for m in a['after']['maps']))
+check('native allocation geometry unchanged',a['before']['draws']==a['after']['draws']==8 and a['before']['primitives']==a['after']['primitives']==96)
+check('all27 author-preserved files retain exact hashes',all(sha(PACKET/k)==v for k,v in json.loads((PACKET/'analysis.json').read_text())['files'].items()))
+report_out={'schema':1,'reviewer':'independent_qa','method':'Read-only independent original PNG decoding, native camera projection and red/green centroid/Canvas verification; actual source inventories and separate native allocation review. No QA engine execution.','checks':len(checks),'failures':sum(not x['pass'] for x in checks),'source_inputs':len(before),'native_images':9,'native_markers':18,'native_canvas_proofs':9,'max_projection_metadata_error_px':max_projection_error,'max_centroid_metadata_error_px':max_centroid_metadata_error,'max_canvas_error':max_canvas_error,'image_proofs':image_results,'observed':'All nine originals individually opened in three groups. Fan-shaped arcs disappear; worn setts and physical courses are legible. Candidate bright mortar creates a stronger grid at route-eye and wide views, and the texture covers both fixture wall and top without authored joint/cap detail. The large blank plane does not establish actual Main readability or composition.','verdict':'Native capture integrity and separate component texture allocation pass within scope. Proceed to an actual Main chase/court comparison; final paving art/readability remains open.','limits':['Declared64m plane and ledge fixture, exact production daylight/final Main sky; no real gameplay route/collider/composition claim.','640x400 static native Linux llvmpipe images cannot establish moving-surface shimmer, frame time or target Mac quality/performance.','Visual process loads baseline/candidate simultaneously. Only separate fresh allocation owns15maps/31.250384MiB claim; no whole-Main resource admission.','Allocation records concurrent authorised headless PID41988; visual wrapper sees none at startup but no continuous process observer establishes exclusivity. No timing measured.'],'checks_detail':checks,'executed_source_hashes':{k:v for k,v in before.items() if k.startswith('tools/environment_')},'evidence_hashes':{str(p.relative_to(PACKET)):sha(p) for p in PACKET.rglob('*') if p.is_file()}}
+(ROOT/'.local/qa-fidelity/paving-independent-review.json').write_text(json.dumps(report_out,indent=2)+'\n')
+print(json.dumps({k:v for k,v in report_out.items() if k not in ['checks_detail','image_proofs','evidence_hashes','executed_source_hashes']},indent=2))
+if report_out['failures']:print(json.dumps([x for x in checks if not x['pass']],indent=2))
+raise SystemExit(1 if report_out['failures'] else 0)

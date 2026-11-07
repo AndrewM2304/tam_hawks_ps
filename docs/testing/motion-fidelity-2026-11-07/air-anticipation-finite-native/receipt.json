@@ -1,0 +1,38 @@
+{
+  "source_stable": true,
+  "source_count": 786,
+  "commands": [
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/motion-sweep-source",
+        "--check-only",
+        "--script",
+        ".local/motion_air_sweep_runner.gd"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/motion-sweep-source",
+        "--fixed-fps",
+        "60",
+        "--script",
+        ".local/motion_air_sweep_runner.gd"
+      ],
+      "exit": 0
+    }
+  ],
+  "wall_seconds": 30.7133014359988,
+  "private_only": true,
+  "visual_acceptance": false,
+  "Mac_M5_performance": false,
+  "overlap": "Root-authorized untimed diagnostic overlap only; observer native queries separately attributed in test output.",
+  "query_attribution_accepted": false,
+  "query_attribution_defect": "Observer live-Dictionary alias at gate78.7physics544 misclassifies accepted120 as refusal85 during synchronous fault injection. Nativecontact/physical source-scoped proofs remain; corrected observer rerun required."
+}

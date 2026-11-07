@@ -96,6 +96,78 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 	return body
 
 
+## Recompose an existing terminal masonry wall into a bank-backed return.
+## Its original collision slots, opaque backing and single display stay resident;
+## each closed native prism and display use the same six-corner profile.
+static func bank_terminal_wall(body: StaticBody3D,toe_x: float,knee_x: float,rise: float) -> Dictionary:
+	var points: PackedVector3Array=body.get_meta("boundary_points")
+	assert(points.size()>=2 and toe_x<knee_x)
+	var floor_y: float=points[0].y
+	var front_x: float=points[0].x-0.10
+	var back_x: float=points[0].x+0.10
+	assert(absf(front_x-knee_x)<0.001)
+	var top: float=floor_y+float(body.get_meta("boundary_height"))
+	var profile:=PackedVector2Array([Vector2(toe_x,floor_y),Vector2(knee_x,floor_y+rise),
+		Vector2(front_x,top),Vector2(back_x,top),Vector2(back_x,floor_y-0.2),Vector2(toe_x,floor_y-0.2)])
+	var tool:=SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var shapes: Array[CollisionShape3D]=[]
+	for child: Node in body.get_children():
+		if child is CollisionShape3D:shapes.append(child)
+	assert(shapes.size()==points.size()-1)
+	for index: int in shapes.size():
+		var faces:=_bank_prism(tool,profile,points[index].z,points[index+1].z)
+		var shape:=ConcavePolygonShape3D.new()
+		shape.backface_collision=true
+		shape.set_faces(faces)
+		shapes[index].shape=shape
+	tool.generate_tangents()
+	for child: Node in body.get_children():
+		if child is MeshInstance3D:child.mesh=tool.commit();break
+	var bounds:=Rect2(toe_x,points[0].z,knee_x-toe_x,points[-1].z-points[0].z)
+	var record: Dictionary={"bounds":bounds,"floor_y":floor_y,"rise":rise,"wall_top":top,
+		"profile":profile,"shape_count":shapes.size(),"added_bodies":0,"added_shapes":0,
+		"added_meshes":0,"added_materials":0,"added_textures":0,"added_triangles":shapes.size()*8}
+	body.set_meta("bank_terminal_return",record)
+	return record
+
+
+static func _bank_prism(tool: SurfaceTool,profile: PackedVector2Array,low_z: float,high_z: float) -> PackedVector3Array:
+	var faces:=PackedVector3Array()
+	var indices:=Geometry2D.triangulate_polygon(profile)
+	for index: int in range(0,indices.size(),3):
+		var a: Vector2=profile[indices[index]]
+		var b: Vector2=profile[indices[index+1]]
+		var c: Vector2=profile[indices[index+2]]
+		_bank_triangle(tool,faces,Vector3(a.x,a.y,low_z),Vector3(b.x,b.y,low_z),Vector3(c.x,c.y,low_z),Vector3.FORWARD)
+		_bank_triangle(tool,faces,Vector3(a.x,a.y,high_z),Vector3(b.x,b.y,high_z),Vector3(c.x,c.y,high_z),Vector3.BACK)
+	var clockwise:=Geometry2D.is_polygon_clockwise(profile)
+	for index: int in profile.size():
+		var a: Vector2=profile[index]
+		var b: Vector2=profile[(index+1)%profile.size()]
+		var edge:=b-a
+		var normal:=Vector3(-edge.y,edge.x,0).normalized()*(1.0 if clockwise else -1.0)
+		var low_a:=Vector3(a.x,a.y,low_z)
+		var low_b:=Vector3(b.x,b.y,low_z)
+		var high_a:=Vector3(a.x,a.y,high_z)
+		var high_b:=Vector3(b.x,b.y,high_z)
+		_bank_triangle(tool,faces,low_a,high_a,low_b,normal)
+		_bank_triangle(tool,faces,high_a,high_b,low_b,normal)
+	return faces
+
+
+static func _bank_triangle(tool: SurfaceTool,faces: PackedVector3Array,a: Vector3,b: Vector3,c: Vector3,normal: Vector3) -> void:
+	# Godot's visible front faces use clockwise winding. Collision/display
+	# retain those identical vertices, including the concave bank/wall knee.
+	if (-(b-a).cross(c-a)).dot(normal)<0.0:
+		var swap:=b;b=c;c=swap
+	for at: Vector3 in [a,b,c]:
+		tool.set_normal(normal)
+		tool.set_uv(Vector2(at.x,at.z)*0.5 if absf(normal.y)>0.2 else Vector2(at.z if absf(normal.x)>0.5 else at.x,at.y)*0.5)
+		tool.add_vertex(at)
+		faces.append(at)
+
+
 static func _admit_masonry(body: StaticBody3D, points: PackedVector3Array, height: float) -> void:
 	# Opaque walls keep every existing boundary collider. Riding their real
 	# inboard face must not depend on one named property's opt-in. Open iron

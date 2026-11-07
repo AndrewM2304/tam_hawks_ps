@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "capture_integrity": "Native58checks0fail,9frames,source-stable,clean engine. Independent verification pending.",
+  "result": "Fine striation persists in both constant-world-normal custom shader and native Lambert StandardMaterial3D at matching PBR parameters. Selected clear-water regions match within one RGB8 level. Wave gradient/custom normal assignment is therefore not necessary for this residual. This does not remove the larger procedural wave bands or establish the exact renderer/lighting cause.",
+  "roi_comparison": [
+    {
+      "view": "river-oblique",
+      "roi_xyxy": [
+        590,
+        240,
+        640,
+        300
+      ],
+      "mean_absolute_rgb8": 0.004555555555555556,
+      "maximum_rgb8": 1,
+      "different_pixels": 41
+    },
+    {
+      "view": "high-coverage",
+      "roi_xyxy": [
+        0,
+        175,
+        640,
+        400
+      ],
+      "mean_absolute_rgb8": 0.0031296296296296298,
+      "maximum_rgb8": 1,
+      "different_pixels": 1335
+    },
+    {
+      "view": "grazing",
+      "roi_xyxy": [
+        0,
+        240,
+        640,
+        400
+      ],
+      "mean_absolute_rgb8": 0.004137369791666666,
+      "maximum_rgb8": 1,
+      "different_pixels": 1265
+    }
+  ],
+  "concurrency": "Explicitly authorised root untimed fixed-fps headless required suite PID33416 ran concurrently. No timing, sole-engine, FPS or performance-admission claim.",
+  "previous_epoch": "visual-controls-01 remains rejected: ACES cyan marker mask failed9checks. Exact original observer/PNGs/receipt retained; no failed frame reclassified. Epoch02 reuses full-fidelity RED/GREEN relative-channel matching and pixel-centre centroids.",
+  "limits": "Static640x400 diagnostic only; no temporal shimmer, full Main or M5 acceptance. Production source remains unchanged. See separatefreezewrite-disclosure for accidental byte-identical root derivative rewrite after capture.",
+  "files": {
+    "base-observer.gd.txt": "b2163332c6ab1b82780016714ee0e661d569faa335ee74c71a423e8905e839a0",
+    "constant-normal-grazing.png": "5d10762f83f82d7428842aca1abf15beef58b29851442c2915181f244abe1081",
+    "constant-normal-high-coverage.png": "5986692b20c10e6edb547c23e70e388d67bcdb90ffa7c3cde84e520c673e3faf",
+    "constant-normal-river-oblique.png": "706ecd374dc72acccca4b79e846bfb6b30192c1dcd861cd1cb006be23391f750",
+    "display": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "engine.log": "d56656a7d60c7855044217074456e8929bef166a937c38887cf842d6f3e22bba",
+    "flat-shader.gdshader.txt": "d8eca9d2e483176e215549b854753d30ee33865b669fbfcf623c2fc745584426",
+    "freezewrite-disclosure.json": "852ca78561b0aae954a2a668a30ef39cfa24833853155f0912f978a8b2a9c477",
+    "native-standard-grazing.png": "94fe9944045ee2deac2b088ea234fb2f7e97d275ad79cc73a5e36da2a7a2908a",
+    "native-standard-high-coverage.png": "480d1ca13dd1db03fae7da50300c179baa6faa363a1810e04e740b153c8ecc46",
+    "native-standard-river-oblique.png": "ab5e4dfb4666504b9f62cffe594571f7bf192742ed58babcd2efc66e814a7667",
+    "observer.gd.txt": "830db4bea42144115490eb77836e4e4fa0cd078f65c4571408e90272b5fd0ae5",
+    "production-shader.gdshader.txt": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+    "production-wave-grazing.png": "a8986a137d534769ed2f4d02435b4834290177f57334d8b8b8fdef6b83f996d0",
+    "production-wave-high-coverage.png": "0731a9d28fb25dc251dc9f3420f874b50d371105eeca7306dc69da1a523cb794",
+    "production-wave-river-oblique.png": "6210b073e381ad97e17701c04c0aa12be13f94adc5d95ef156a8c77872bf110a",
+    "receipt.json": "1a48056b8a42f12c91b01657e1a9d6a9e8fca10ac056a8902f362cd8f2cac9fa",
+    "runner.py.txt": "620b4b1e13209e6d1e3523fd9f9a0f858c5ad394ffbc8ad857e51e331925ba67",
+    "source-after.json": "173da92ee2a6fb631f2cc3f3c636fdb005d672e805aac6b580c49e6f97f08bb3",
+    "source-before.json": "173da92ee2a6fb631f2cc3f3c636fdb005d672e805aac6b580c49e6f97f08bb3",
+    "visual-water-report.json": "a951fdfc0dac44300983b591625f237050bb637119505222f5b5e995e38ccbe8",
+    "xorg-console.log": "fa11992d3004ec48d72ceb7d5795f6edda3574fbe2c210a1d983ce8a6e745ad4",
+    "xorg.log": "216207f871432133422993476569d4f18a9fd56770a51527beeffbcd0215ed44"
+  }
+}

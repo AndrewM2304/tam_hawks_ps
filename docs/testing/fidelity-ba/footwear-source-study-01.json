@@ -1,0 +1,126 @@
+{
+  "reviewer": "studio-production, independent of rider asset implementation",
+  "reviewed_utc": "2026-11-07T00:31:05.456353+00:00",
+  "scope": "Source-selection visual study and identity/licence-header inspection only; no fitted runtime model, contact, budget or V1 acceptance.",
+  "catalog_url": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html",
+  "catalog_sha256": "e72fd807982839147e426dbd2dd77a1a2b83ae9693b96219a72e3e6c5f771530",
+  "catalog_declares_cc0": true,
+  "catalog_links_cc0_pack": true,
+  "source_pack_url": "https://files2.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+  "source_pack_total_bytes_author_report": 280737770,
+  "source_pack_download_or_full_zip_hash_independently_verified": false,
+  "inspected_files": [
+    {
+      "member": "clothes/shoes01/shoes01.thumb",
+      "bytes": 40319,
+      "sha256": "a118291fe3e83e3c616febf52fdb480186c816e7cd4d77d331adffd457421cbb",
+      "format": "PNG",
+      "dimensions": [
+        256,
+        256
+      ]
+    },
+    {
+      "member": "clothes/shoes01/shoes01.mhmat",
+      "bytes": 1161,
+      "sha256": "db1711e2dfea4dd8c24459643603a190d9a9da603fd26da5542002a73d740be8",
+      "explicit_cc0_header": true
+    },
+    {
+      "member": "clothes/shoes02/shoes02.thumb",
+      "bytes": 43978,
+      "sha256": "0e41c095f5ff5a13c0d2b12a6c96d65d907137e1ae3fb120ff14300fc818015d",
+      "format": "PNG",
+      "dimensions": [
+        256,
+        256
+      ]
+    },
+    {
+      "member": "clothes/shoes02/shoes02.mhmat",
+      "bytes": 1184,
+      "sha256": "7f2cb19506784fbe22ba3f766f94bb13d1eee1712dd29ed10b926c5905bab924",
+      "explicit_cc0_header": true
+    },
+    {
+      "member": "clothes/shoes03/shoes03.thumb",
+      "bytes": 37720,
+      "sha256": "ac461bf40bb9e125526198c6c827c0f5cfa5538ac86f25dd3efbff7d5aaf5a3c",
+      "format": "PNG",
+      "dimensions": [
+        256,
+        256
+      ]
+    },
+    {
+      "member": "clothes/shoes03/shoes03.mhmat",
+      "bytes": 1184,
+      "sha256": "0104a8ecf68aa81bca878c12f909aca45a59e265f8b49cf4e4d5e2667773776e",
+      "explicit_cc0_header": true
+    },
+    {
+      "member": "clothes/shoes04/shoes04.thumb",
+      "bytes": 37350,
+      "sha256": "f6f6f0d30733ac1491072a453a82d105619c2af99228ec51d251cbf4776b8b7c",
+      "format": "PNG",
+      "dimensions": [
+        256,
+        256
+      ]
+    },
+    {
+      "member": "clothes/shoes04/shoes04.mhmat",
+      "bytes": 1161,
+      "sha256": "dafb73d722453798f4d501f2bf2d668ba41c34fc252cd76d0716ea23baef8753",
+      "explicit_cc0_header": true
+    },
+    {
+      "member": "clothes/shoes05/shoes05.thumb",
+      "bytes": 41218,
+      "sha256": "f5d86e0427638e592c787f91a0427ae09df51f0a4d34665a069cfa3fcbc451b8",
+      "format": "PNG",
+      "dimensions": [
+        256,
+        256
+      ]
+    },
+    {
+      "member": "clothes/shoes05/shoes05.mhmat",
+      "bytes": 1184,
+      "sha256": "e59a9cc4d4c9a56cf9025beb26ca549986c97065cdb675d4f59bd9c5a27dbe8d",
+      "explicit_cc0_header": true
+    },
+    {
+      "member": "clothes/shoes06/shoes06.thumb",
+      "bytes": 43267,
+      "sha256": "31b24009786e31ccb0620adff6859fb23b907ffb98209b60f5121aececa8b5b2",
+      "format": "PNG",
+      "dimensions": [
+        256,
+        256
+      ]
+    },
+    {
+      "member": "clothes/shoes06/shoes06.mhmat",
+      "bytes": 1184,
+      "sha256": "964f6279aa28cbb4da83d84e71328f31cf50c2831eaffa11c6c2077f96278611",
+      "explicit_cc0_header": true
+    }
+  ],
+  "preferred_candidate": "shoes02",
+  "observations": {
+    "shoes01": "Brown moccasin or dress-shoe read; unsuitable skate silhouette.",
+    "shoes02": "Strongest candidate for fitting: low collar, laces, layered muted casual-trainer upper. Rounded or tapered forefoot and sole still need mesh review; not accepted as a flat skate cupsole.",
+    "shoes03": "Formal slip-on shape; unsuitable for requested skate shoe.",
+    "shoes04": "Dark moccasin or dress-shoe read; unsuitable skate silhouette.",
+    "shoes05": "Athletic running-trainer read; bright vented upper and running sole.",
+    "shoes06": "Low blue trainer, plausible alternative but running-trainer read. Thumbnail does not establish same topology as02."
+  },
+  "remaining": [
+    "Inspect mesh and all source-material dependencies/branding.",
+    "Fit anatomical foot and trouser hem without ankle/sole distortion.",
+    "Verify flat loaded outsole and deck contact from actual vertices.",
+    "Review normal-speed push, landings, manuals and bails.",
+    "Measure topology, surfaces, textures and matched cost before admission."
+  ]
+}

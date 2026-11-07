@@ -1,0 +1,895 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "method": "Read-only independently decoded all native PNG/RGBA; full numeric camera/projection multiplication; native marker masks/centroids and Canvas samples; same-tick brackets; exact source identities and isolated native state inventories; separate Python segment/bridge-AABB and fountain-layer arithmetic. No QA engine run.",
+  "checks": 137,
+  "failures": 0,
+  "source_inputs": 795,
+  "original_native_images": 12,
+  "independently_projected_markers": 18,
+  "per_view_canvas_proofs": 9,
+  "max_projection_metadata_error_px": 4.860636618172891e-05,
+  "max_native_marker_error_px": 0.22645493745478545,
+  "verdict": "Bounded causal diagnosis passes: actual-Main river fine bands disappear when only exact water casting is disabled; fountain fine bands disappear when water is held off and only the existing basin casting is disabled. Both defects return in controls. No production/geometry/art/cost admission.",
+  "personally_opened_originals": [
+    "before-a-river-unobstructed.png",
+    "before-a-fountain-wide.png",
+    "before-a-fountain-close.png",
+    "candidate-river-unobstructed.png",
+    "candidate-fountain-wide.png",
+    "candidate-fountain-close.png",
+    "before-b-river-unobstructed.png",
+    "before-b-fountain-wide.png",
+    "before-b-fountain-close.png"
+  ],
+  "limits": [
+    "These are nine frozen authored actual-Main views, not real-input gameplay, normal-speed motion or temporal-shadow/shimmer review. Native TIME phases remain active.",
+    "The river centre sightline clears three actual bridge bounds and visible bridge shadows remain. Ordinary foreground token still occupies part of the view; this is not a wholly unobstructed water-only frame.",
+    "Native original basin is a solid plinth with water proxy overlapping by5mm and top only5mm higher. Caster isolation identifies a contributing rendering relationship, not a corrected physically hollow basin or exact renderer root cause.",
+    "Numeric camera/projection, per-readback tick brackets and changing marker/Canvas targets repair missing per-view metadata in this epoch only. Earlier actual-main-water-01 retains its limits.",
+    "Native counters and preserved resources are not frame-time/cost admission. Existing water high-coverage cost rejection remains open; software Linux/M5/macOS and whole-game hardware gates remain separate.",
+    "Root-authorised diagnostic overlap and copied warm renderer cache are disclosed. No whole-run sole-engine or cold-cache performance assertion."
+  ],
+  "native_counters": {
+    "before-a-river-unobstructed.png": {
+      "buffer_bytes": 30936010,
+      "draws": 237,
+      "primitives": 102226,
+      "shadow_primitives": 50873,
+      "texture_bytes": 95006369
+    },
+    "before-a-fountain-wide.png": {
+      "buffer_bytes": 30936010,
+      "draws": 1226,
+      "primitives": 841147,
+      "shadow_primitives": 201134,
+      "texture_bytes": 95006369
+    },
+    "before-a-fountain-close.png": {
+      "buffer_bytes": 30936010,
+      "draws": 1226,
+      "primitives": 860687,
+      "shadow_primitives": 188556,
+      "texture_bytes": 95006369
+    },
+    "candidate-river-unobstructed.png": {
+      "buffer_bytes": 30936010,
+      "draws": 236,
+      "primitives": 102208,
+      "shadow_primitives": 50855,
+      "texture_bytes": 95006369
+    },
+    "candidate-fountain-wide.png": {
+      "buffer_bytes": 30936010,
+      "draws": 1225,
+      "primitives": 840891,
+      "shadow_primitives": 200878,
+      "texture_bytes": 95006369
+    },
+    "candidate-fountain-close.png": {
+      "buffer_bytes": 30936010,
+      "draws": 1222,
+      "primitives": 859475,
+      "shadow_primitives": 188300,
+      "texture_bytes": 95006369
+    },
+    "before-b-river-unobstructed.png": {
+      "buffer_bytes": 30936010,
+      "draws": 237,
+      "primitives": 102226,
+      "shadow_primitives": 50873,
+      "texture_bytes": 95006369
+    },
+    "before-b-fountain-wide.png": {
+      "buffer_bytes": 30936010,
+      "draws": 1226,
+      "primitives": 841147,
+      "shadow_primitives": 201134,
+      "texture_bytes": 95006369
+    },
+    "before-b-fountain-close.png": {
+      "buffer_bytes": 30936010,
+      "draws": 1223,
+      "primitives": 859731,
+      "shadow_primitives": 188556,
+      "texture_bytes": 95006369
+    }
+  },
+  "checks_detail": [
+    {
+      "name": "795 exact native input inventories",
+      "pass": true,
+      "actual": 795
+    },
+    {
+      "name": "private executed source still authenticates all inputs",
+      "pass": true,
+      "actual": []
+    },
+    {
+      "name": "receipt binds exact original inventory bytes",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "clean native completed128/0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "raw engine log contains no errors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "timing acceptance explicitly absent",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-close.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-close.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-wide.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-wide.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-river-unobstructed.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-river-unobstructed.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-close.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-close.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-wide.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-wide.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-river-unobstructed.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-river-unobstructed.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-close.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-close.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-wide.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-wide.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-river-unobstructed.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-river-unobstructed.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/first_contact_inspection.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/first_contact_inspection.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/overview_before_contact.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/overview_before_contact.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/return_to_production_chase.png: exact PNG byte hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/return_to_production_chase.png: original native dimensions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-river-unobstructed.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-wide.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-close.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-river-unobstructed.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-wide.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-close.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-river-unobstructed.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-wide.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-close.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/overview_before_contact.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/first_contact_inspection.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "synchronization/return_to_production_chase.png: independently decoded native RGBA",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-river-unobstructed.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-river-unobstructed.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-river-unobstructed.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-river-unobstructed.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 2.9036261575187306e-05,
+        "native_error_px": 0.2009477944263776,
+        "pixel_count": 135
+      }
+    },
+    {
+      "name": "before-a-river-unobstructed.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 1.889081074451567e-05,
+        "native_error_px": 0.04532979533517426,
+        "pixel_count": 124
+      }
+    },
+    {
+      "name": "before-a-river-unobstructed.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-wide.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-wide.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-wide.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-wide.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 1.6272008212423088e-05,
+        "native_error_px": 0.22645493745478545,
+        "pixel_count": 134
+      }
+    },
+    {
+      "name": "before-a-fountain-wide.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 2.296481338573458e-05,
+        "native_error_px": 0.10429713763766024,
+        "pixel_count": 126
+      }
+    },
+    {
+      "name": "before-a-fountain-wide.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-close.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-close.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-close.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-close.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 3.2243456560507624e-05,
+        "native_error_px": 0.16154509384064564,
+        "pixel_count": 136
+      }
+    },
+    {
+      "name": "before-a-fountain-close.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 9.236174789531047e-06,
+        "native_error_px": 0.019834847705966784,
+        "pixel_count": 126
+      }
+    },
+    {
+      "name": "before-a-fountain-close.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-river-unobstructed.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-river-unobstructed.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-river-unobstructed.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-river-unobstructed.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 1.3180203474647083e-05,
+        "native_error_px": 0.1307448444083663,
+        "pixel_count": 134
+      }
+    },
+    {
+      "name": "candidate-river-unobstructed.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 2.5394390651679914e-05,
+        "native_error_px": 0.09395774807984816,
+        "pixel_count": 127
+      }
+    },
+    {
+      "name": "candidate-river-unobstructed.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-wide.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-wide.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-wide.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-wide.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 2.3257197111878036e-05,
+        "native_error_px": 0.09618322055207737,
+        "pixel_count": 136
+      }
+    },
+    {
+      "name": "candidate-fountain-wide.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 1.448228536739554e-05,
+        "native_error_px": 0.06348864776636139,
+        "pixel_count": 126
+      }
+    },
+    {
+      "name": "candidate-fountain-wide.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-close.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-close.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-close.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-close.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 2.7756115755083165e-05,
+        "native_error_px": 0.172445160457112,
+        "pixel_count": 132
+      }
+    },
+    {
+      "name": "candidate-fountain-close.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 2.2649407839749338e-05,
+        "native_error_px": 0.030149588808070057,
+        "pixel_count": 126
+      }
+    },
+    {
+      "name": "candidate-fountain-close.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-river-unobstructed.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-river-unobstructed.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-river-unobstructed.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-river-unobstructed.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 1.0684675690782385e-05,
+        "native_error_px": 0.14463587316227008,
+        "pixel_count": 135
+      }
+    },
+    {
+      "name": "before-b-river-unobstructed.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 3.411030698718981e-05,
+        "native_error_px": 0.07879786525224722,
+        "pixel_count": 128
+      }
+    },
+    {
+      "name": "before-b-river-unobstructed.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-wide.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-wide.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-wide.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-wide.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 3.343518401035409e-05,
+        "native_error_px": 0.10493575524603628,
+        "pixel_count": 138
+      }
+    },
+    {
+      "name": "before-b-fountain-wide.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 4.304166792732886e-05,
+        "native_error_px": 0.04853853261417087,
+        "pixel_count": 131
+      }
+    },
+    {
+      "name": "before-b-fountain-wide.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-close.png: finite numeric camera/projection and actual forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-close.png: declared perspective matches native matrix",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-close.png: same physics/process readback brackets",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-close.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 4.860636618172891e-05,
+        "native_error_px": 0.06066068834006765,
+        "pixel_count": 131
+      }
+    },
+    {
+      "name": "before-b-fountain-close.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_error_px": 2.819120793438107e-05,
+        "native_error_px": 0.11911456400648159,
+        "pixel_count": 127
+      }
+    },
+    {
+      "name": "before-b-fountain-close.png: independent current Canvas pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-off-basin-off: exact native collisions and sun",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-off-basin-off: all three exact water flags only",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-off-basin-off: only exact basin cast flag may change among1809 non-water instances",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-off-basin-on: exact native collisions and sun",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-off-basin-on: all three exact water flags only",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-off-basin-on: only exact basin cast flag may change among1809 non-water instances",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-on-basin-on: exact native collisions and sun",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-on-basin-on: all three exact water flags only",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "water-on-basin-on: only exact basin cast flag may change among1809 non-water instances",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-river-unobstructed.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-wide.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-a-fountain-close.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-river-unobstructed.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-wide.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-fountain-close.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-river-unobstructed.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-wide.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "before-b-fountain-close.png: separate causal intervention applies correct state",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "river-unobstructed: complete A/B/A and exact recorded camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "river-unobstructed: exact native texture/buffer resources retained",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fountain-wide: complete A/B/A and exact recorded camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fountain-wide: exact native texture/buffer resources retained",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fountain-close: complete A/B/A and exact recorded camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fountain-close: exact native texture/buffer resources retained",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "independent river sightline clears bridge OutdoorRoutes/ClydeSafeBridge/@MeshInstance3D@1272",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "bridge actual mesh identity binds native non-water inventory OutdoorRoutes/ClydeSafeBridge/@MeshInstance3D@1272",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "independent river sightline clears bridge OutdoorRoutes/ClydeBridgeNorthDeck/@MeshInstance3D@1274",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "bridge actual mesh identity binds native non-water inventory OutdoorRoutes/ClydeBridgeNorthDeck/@MeshInstance3D@1274",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "independent river sightline clears bridge OutdoorRoutes/ClydeBridgeSouthDeck/@MeshInstance3D@1276",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "bridge actual mesh identity binds native non-water inventory OutdoorRoutes/ClydeBridgeSouthDeck/@MeshInstance3D@1276",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "independent5mm top-separation/lower-overlap arithmetic",
+      "pass": true,
+      "actual": {
+        "stone_top_m": 0.550000011920929,
+        "water_top_m": 0.5550000071525578,
+        "water_bottom_m": 0.545000016689301
+      }
+    },
+    {
+      "name": "actual solid plinth cylinder recorded rather than invented hollow pool",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source tools/environment_main_water_base.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source tools/environment_main_water_shadow_capture.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source tools/full_fidelity_capture.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source tools/environment_water_probe.py",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source game/levels/outdoor_routes.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source game/levels/water_shadow_policy.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source game/levels/park_pond.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source game/levels/glasgow_square.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "archived executed source game/art/assets/horizon/clyde_water.gdshader",
+      "pass": true,
+      "actual": null
+    }
+  ],
+  "evidence_sha256": {
+    "before-a-river-unobstructed.png": "0f6f5fb5abc437986d31f2a24e3bde7fc366c70e21f31984043bb10a82c17e10",
+    "before-a-fountain-wide.png": "088ce55cc3cc453ff61ed23bc77200ab775cb607586fd409f07e6ee68898864d",
+    "before-a-fountain-close.png": "c5958d8babbb72d2b5cc14c46801acea0c77de077105fc2c2412a66c5fbcf682",
+    "source-before.json": "2816ca4861f2bb4797400a56aeffa0b99207696ac77c85522ba6c96541ad1754",
+    "candidate-river-unobstructed.png": "aab76d867d17ee43251d57960d4396836ce39e8859dde439e878ea1152c9db4b",
+    "candidate-fountain-close.png": "9976692926d2747c6005abea2abb263c7445c9b8ee338ac99a1928273bd96e17",
+    "engine.log": "2bf6b1486a435a42ea13c5e6d857804a9da52404b640b60e422a7d5051881cb4",
+    "before-b-fountain-wide.png": "219762f03cbffb87d92a81c2361f57e7073d7e0b922148a27892714db6de90c7",
+    "README.md": "c24cdd66d2f900c7b621d4ee7c64c0f595c8b2ff7580fcf8f8c35e5e83b8060e",
+    "actual-main-water-report.json": "f6b16a59b29c14bbd3033373435494df84e27b8110a3440a4d6157ac1705d43d",
+    "candidate-fountain-wide.png": "c3b3e827457a20e69fa567762e8703368163ba9dc67651dca2b58e76cfa9abca",
+    "xorg.log": "62d0a6f9b58975be440fb087e4015c4428b45cec1c0aad0ae2f031a0c20a8652",
+    "xorg-console.log": "22ee0e3602774e5f8948e9e03b20448d199a53b324cc29299a73bc06a3f9cf5d",
+    "display": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "before-b-fountain-close.png": "8bb0aa9d8119f6fc23d09b549a4f6f18432c8596f43c5b1d540c1fb6d93443b8",
+    "private-copy-and-cache-policy.json": "2ece21858dd7ca28d88b2c2b0b03125717b8b6779a7f4abb12b6ad1f0f02a64b",
+    "receipt.json": "e2989dfa1eae5134b9033b3143a458797359e401cebd96ea51afa94b7cc2c23c",
+    "analysis.json": "66de9b91536088993478061c07d8968f0f4c35e9de68cfad823e3075cf6df83b",
+    "before-b-river-unobstructed.png": "fa0113ba44d21eac14e294cbc81ce8d820e7da6e8b9b35a591c19e3fefa68f01",
+    "source-after.json": "2816ca4861f2bb4797400a56aeffa0b99207696ac77c85522ba6c96541ad1754",
+    "synchronization/return_to_production_chase.png": "889788f9742ea8853d19552a20710e75c58bf1a61cbac91dc31fd60873a75410",
+    "synchronization/overview_before_contact.png": "74663f219cf4ba8d459647c56df2012fd2600710fc69943d331b6d2f7f835f92",
+    "synchronization/first_contact_inspection.png": "a0278c31bb37efbf7e587e7b01c4f181ead2d8def41bd09cd9d85e37907e5d2e",
+    "executed-source/tools/environment_main_water_base.gd.txt": "e599f32f153c2b3294ab72bd9fe00e15f881b6a2b17f8964aa336b335cf81e10",
+    "executed-source/tools/environment_main_water_shadow_capture.gd.txt": "5808f306f1044cf23928a8e0d95abca5f5effde622309b822825d5dea97580d9",
+    "executed-source/tools/full_fidelity_capture.gd.txt": "5cb7c12ec634519e1b52d9375af663e2d5a588f0f84b615f76d1af81e4ffc388",
+    "executed-source/tools/environment_water_probe.py.txt": "b4aab5105636ee3c1d693251ca9728b07acf6fa33353bd7f02b2c9a8661fd150",
+    "executed-source/game/levels/outdoor_routes.gd.txt": "f43ce909519b188be3a94482de3c11deb385a89f5d47973a2e9c0919c91f5fb1",
+    "executed-source/game/levels/water_shadow_policy.gd.txt": "5eb47aae515824b26637cec1b388db9b7c2038647037ae1a75705a146197f696",
+    "executed-source/game/levels/park_pond.gd.txt": "b72f7f1ab2b4eef13072b14a3cf5f66fefd7da2868846c9cf4e548c535237d52",
+    "executed-source/game/levels/glasgow_square.gd.txt": "b4c14e92a3c91b9ae86e25c0ebfa0342ecb0054f2df01332a536171803dedc6d",
+    "executed-source/game/art/assets/horizon/clyde_water.gdshader.txt": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190"
+  }
+}

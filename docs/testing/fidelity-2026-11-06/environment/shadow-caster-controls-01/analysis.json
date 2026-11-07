@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "capture_integrity": "Native58checks0fail,9originals,source-stable/clean engine. IndependentQA108/0 reported separately.",
+  "finding": "Native water-caster OFF removes fine comb/ring striation in high/grazing views while directional reflection remains and all sun/specular/fog/ACES/sky/PBR settings stay unchanged. Sun-shadows-OFF is independently smooth with a different reflection response. This supports water self-shadow/path acne in the isolated production plane, not a wave-normal-only defect.",
+  "measured_control": "Baseline shadow_primitives2, water casterOFF0, sun shadowsOFF0; shadow_draws remains0 due verifiedGLES draw-accounting limitation. Draws5->4 and primitives342->340; texture14736405/buffer7451468 unchanged in declared high-coverage cell.",
+  "limits": "Visual component only, final ordinary-Main horizon material setup but no world/actors. No timing, final Main, temporal shimmer or M5/cost admission. Actual shader/river/fountain/pond with receiving shadows must be reviewed before production policy promotion.",
+  "files": {
+    "engine.log": "b133e2fe2a0a924d8f7b7987b8ab16456ad63549b9d7fefd998273ac478fb241",
+    "horizon-shader.gdshader.txt": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+    "isolated-base.gd.txt": "b2163332c6ab1b82780016714ee0e661d569faa335ee74c71a423e8905e839a0",
+    "lighting-base.gd.txt": "5ad77ea4d9ff3700b8ff78e5347063bf11e5f2fe09126cc81bb914489e142af3",
+    "native-baseline-grazing.png": "5159ec3abe4b0e9e389be5551d2a613fca2c3ed78dd7afcd777abfa947d780cf",
+    "native-baseline-high-coverage.png": "a38853efeb630274ae170831ee8115f84b1052a3eaee3033e8f3367d0ccd1b2d",
+    "native-baseline-river-oblique.png": "ed66ffa34d68a8b19545ce88dfe7f5042c8f143dab6cfcf48ff91404c361a0ad",
+    "native-sun-shadows-off-grazing.png": "cff19459fa1cad91ffc2d55fc229e18c9ad957ee6f4eccec6ac2edb39d433aec",
+    "native-sun-shadows-off-high-coverage.png": "112472dae432970be19bc546e5efd366b1faddda8c4df794b662ba9fe7ee6d6a",
+    "native-sun-shadows-off-river-oblique.png": "8e05f4099013f3ead321dec6af286aca3099cd5004a7249a688a39965db2193d",
+    "native-water-caster-off-grazing.png": "8552edbc4029a37d8fb9f8aef7b9dde0632090a52275e168a33878ca2d7399a4",
+    "native-water-caster-off-high-coverage.png": "bb2f8e81182654bcdc928559e57b25590558e0541bde29cbc211fd111e5032e6",
+    "native-water-caster-off-river-oblique.png": "d7a0384815cc4cac24cbf8169e35326f08b2304b7bd5fe41311b38cf2e51ce62",
+    "observer.gd.txt": "04792aab36b97b2dcefd038f13cb327e57227a5070d9c9040a6fed7d0ef7461e",
+    "pixel-base.gd.txt": "830db4bea42144115490eb77836e4e4fa0cd078f65c4571408e90272b5fd0ae5",
+    "receipt.json": "392075379e6569ceef0adb04aa8e914c74f9998689eb0efaa0a63f3f6ebd11d9",
+    "runner.py.txt": "3b847f8ed1f16929a5aea0392f11b568fccf4e2ae23daa665eadb8090594fe17",
+    "source-after.json": "c180a347e60ce552e4cdeafa591b630756db97dd57eb9c45ddccca6307494b4f",
+    "source-before.json": "c180a347e60ce552e4cdeafa591b630756db97dd57eb9c45ddccca6307494b4f",
+    "visual-water-report.json": "9b1d7339d4e23b190a27c9ee168e726fffbae53339d71bb6ea6f669c5330d62b"
+  }
+}

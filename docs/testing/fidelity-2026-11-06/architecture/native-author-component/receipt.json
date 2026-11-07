@@ -1,0 +1,68 @@
+{
+  "scope": "author native component only, no render, frame timing, Main or target-Mac claim",
+  "private_source_rewrite": "four exact preload path substitutions into ignored run directory; production unchanged",
+  "source_stable": true,
+  "inputs": 474,
+  "runs": [
+    {
+      "variant": "baseline",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--script",
+        "res://.local/architectural-fidelity/native_probe.gd",
+        "--",
+        "baseline",
+        "/workspace/tam_hawks_ps/.local/architectural-fidelity/native/fifth-combined-reveals/baseline.json"
+      ],
+      "exit": 0,
+      "elapsed_seconds_diagnostic_only": 2.0909915209995233
+    },
+    {
+      "variant": "candidate",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--script",
+        "res://.local/architectural-fidelity/native_probe.gd",
+        "--",
+        "candidate",
+        "/workspace/tam_hawks_ps/.local/architectural-fidelity/native/fifth-combined-reveals/candidate.json"
+      ],
+      "exit": 0,
+      "elapsed_seconds_diagnostic_only": 1.7043813880000016
+    },
+    {
+      "variant": "control",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--script",
+        "res://.local/architectural-fidelity/native_probe.gd",
+        "--",
+        "baseline",
+        "/workspace/tam_hawks_ps/.local/architectural-fidelity/native/fifth-combined-reveals/control.json"
+      ],
+      "exit": 0,
+      "elapsed_seconds_diagnostic_only": 2.5962635899995803
+    }
+  ],
+  "delta": {
+    "source_triangle_instances": 68086,
+    "source_draw_nodes": -8,
+    "unique_meshes": 1,
+    "unique_materials": -1,
+    "mesh_array_bytes": 156040,
+    "multimesh_transform_bytes": 168384,
+    "recess_shells": 18
+  },
+  "collision_identical": true,
+  "control_geometry_identical": true,
+  "actual_aperture": true
+}

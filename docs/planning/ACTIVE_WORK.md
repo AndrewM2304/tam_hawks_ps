@@ -1,3 +1,26 @@
+# Active fidelity studio — 6 November 2026
+
+Current owner priority: realistic rider/materials/architecture, coherent movement
+and forward-facing pushing, then compact connected skating lines and manual
+combo/balance usability. Target MacBook Air M5. See
+[FIDELITY_TICKETS](FIDELITY_TICKETS.md),
+[benchmark](../product/AAA_BENCHMARK.md) and
+[persistent studio](STUDIO.md) for assignments and independent gates.
+
+Root owns main integration, renderer evaluation, manual/combo and balance HUD.
+Specialists own rider art, environment materials, push animation and level lines
+in agreed disjoint sections. QE captures/reviews independently; BA audits each
+acceptance clause. Reuse current native contacts, culling, batching and proven
+capture fences. No routine approval pause, spending or unattended jobs.
+
+The shared checkout was fast-forwarded from historical `315d245` to current
+`0b62035` before accepting production changes. Old prototype results and
+diagnoses are historical only. Candidate work is in progress; current receipts
+and unresolved defects belong in STATUS/fidelity review. Keep taking unblocked
+work after tested checkpoints while target hardware/human acceptance stays open.
+
+---
+
 # Owner steering landing and wallride repairs — 28 October 2026
 
 The [owner-priority repair](OWNER-TURN-WALLRIDE-2026-10-28.md) starts from main `21b0e86`.

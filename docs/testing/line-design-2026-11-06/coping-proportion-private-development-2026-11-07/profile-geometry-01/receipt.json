@@ -1,0 +1,43 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source/.local/profile_geometry.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+  "started_utc": "2026-11-07T03:36:10.625132+00:00",
+  "os_deadline_seconds": 45,
+  "source_inputs": 5,
+  "engine_pid": 51609,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "authorized_overlap": "Root-authorized private manual-body-axis Main and Rider V10 fixtures may overlap; untimed geometry diagnostic only",
+  "preflight_processes": [],
+  "finished_utc": "2026-11-07T03:36:11.165002+00:00",
+  "wall_seconds": 0.5398695049989328,
+  "changed_inputs": [],
+  "errors": [
+    "SCRIPT ERROR: Parse Error: Cannot infer the type of \"guide_ok\" variable because the value doesn't have a set type.",
+    "ERROR: Failed to load script \"res://.local/profile_geometry.gd\" with error \"Parse error\"."
+  ],
+  "result": null,
+  "other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "1a26502a2470ed8b6118617ce015ec39d97d022a02ae9fdc1ae88ebd0f4f8fba",
+    "source-before.json": "ee3028ae3f374131f8a227555be4e3e2e0c45b8193014f443b69300f1e68cc20",
+    "observer.gd": "dbcf8a35b7e106a3108df7615965583d1d87919351a1063c4d8d7374af4f2883",
+    "wrapper.py.txt": "56e2c387eb08bedfaa4c6ef33c2f9328910192c4e36ed910742ac1ecdf78096c",
+    "native.log": "9e8d5f027d57109bec8b306da9546829f59e90fdbd2c944eee7967f264343411",
+    "source-after.json": "ee3028ae3f374131f8a227555be4e3e2e0c45b8193014f443b69300f1e68cc20"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T03:23:36.638395+00:00",
+  "method": "Read-only exact3-file private diff/source arithmetic; independently verified existing3PDFdownloadSHA and opened actualPDFpageimages; independently searched/opened official Gnarchitect projectpage using webconnector. No Godot/import/native process.",
+  "status": "Independent design-source and atomic code cold-read pass; native/visual admission pending.",
+  "sources": [
+    {
+      "file": "tsp-best-practices-40.pdf",
+      "url": "https://skatepark.org/s/Best-Practices-Guide-40.pdf",
+      "final_url": "https://static1.squarespace.com/static/5ebecf15da3f1d1078d5a551/t/682ab0e9105975117c944530/1747628280449/Best-Practices-Guide-4.0.pdf",
+      "bytes": 18526624,
+      "sha256": "9b68017a2f6d689986f6caabc92176f6cb0836af0636b2015d3d5e5a2f63f95d",
+      "retrieved_utc": "2026-11-07T03:17:04.557776+00:00",
+      "independent_existing_download_hash_match": true
+    },
+    {
+      "file": "huxley-construction.pdf",
+      "url": "https://rdn.bc.ca/sites/default/files/2021-03/21-027%20Huxley%20Community%20Park%20Skatepark%20Construction.pdf",
+      "final_url": "https://www.rdn.ca/sites/default/files/2021-03/21-027%20Huxley%20Community%20Park%20Skatepark%20Construction.pdf",
+      "bytes": 34431230,
+      "sha256": "c67dbf652fca58212fbd1697a3ead7099bf8d1956db9e64d3fe7c841abb7007a",
+      "retrieved_utc": "2026-11-07T03:17:06.941903+00:00",
+      "independent_existing_download_hash_match": true
+    },
+    {
+      "file": "edmonton-2022.pdf",
+      "url": "https://www.gov.edmonton.ab.ca/sites/default/files/public-files/Playspaces_and_Wheeled_Sport_Facility_Design_and_Construction_Standard.pdf",
+      "final_url": "https://www.edmonton.ca/sites/default/files/public-files/Playspaces_and_Wheeled_Sport_Facility_Design_and_Construction_Standard.pdf",
+      "bytes": 1776884,
+      "sha256": "4420cf7f7adb912259f8c2a26e871da238b25b168a5606edf14132a571d59e6e",
+      "retrieved_utc": "2026-11-07T03:17:03.236285+00:00",
+      "independent_existing_download_hash_match": true
+    },
+    {
+      "url": "https://thegnarchitect.com/stokeside-skate-bowl/",
+      "title": "Stokeside private skate bowl",
+      "independent_open": "2026-11-07",
+      "web_reference": "turn918023view0,line29",
+      "verified_statement": "60mm OD,12mm up,10mm out",
+      "scope": "Specific designer-authored bowl example, not a universal standard."
+    }
+  ],
+  "source_files": [
+    {
+      "path": "game/levels/transition_feature.gd",
+      "actual_production_sha256": "e7eb9540a02032d09922e131ea8ca21b9eaef0c52f3adddafa3daf9fea4256e7",
+      "private_candidate_sha256": "e8ce38790f5c7a73510c2921391be69b097a5b363f65ac5f3ebe360e8c2be429"
+    },
+    {
+      "path": "game/levels/bowl_feature.gd",
+      "actual_production_sha256": "11063a878376c8db63c9dbe848f7355236afad84e4720d97f40657e48b96c9eb",
+      "private_candidate_sha256": "8f5ee5c456faf65f6621ae6b79ed2097a40a2c00dfd42ce17cc12896c22dcf99"
+    },
+    {
+      "path": "game/levels/sunken_bowl_feature.gd",
+      "actual_production_sha256": "05038ce01f0b62d068602bc886e2103679cecb7861380dfdae27cada2107fa8a",
+      "private_candidate_sha256": "cb935ac891c0335543cdc26d64b913b55598d09808f2c6f86e2f00ba1715dcea"
+    }
+  ],
+  "dimensions_mm": {
+    "current": {
+      "pipe_od": 90,
+      "centre_above_deck": 25,
+      "deck_projection": 70,
+      "transition_face_projection": 45
+    },
+    "private": {
+      "pipe_od": 60,
+      "centre_above_deck": -18,
+      "centre_outboard_from_profile": 20,
+      "deck_projection": 12,
+      "transition_face_projection": 10
+    }
+  },
+  "source_findings": [
+    "EdmontonPDF42(printed41) explicitly limits copingprojection12mm andOD40\u201380mm; it is aCanadian2022guideline, not aGlasgow compliance certification.",
+    "TSPp72 gives average2\u20132.5inchOD and1/8\u20131/4inchreveal with variations, rather than a universal12mm recommendation.",
+    "Huxleyactualrounddetail p197 uses73mmOD and6\u20139mmreveal; do notmisquote its60mmfencingpipe as coping.",
+    "Exact60/12/10 choice is directly corroborated by GnarchitectStokeside example. No layout/design artwork is copied.",
+    "Private3-file diff changes visible coping and same nativecollision dimensions together. Cylinder/Torus segmentcounts,materialconstruction,body/shapeIDs retained. Existing lip/grind line IDs derive the newcrown point through lip_frame; bowl torus centre radialoutboard20mm matches inherited face-normal offset.",
+    "Code arithmetic independently agrees:30mmradius\u221218mmcentreY=12mmdeckreveal;30mmradius\u221220mmoutboard=10mmfaceprojection. Existing45mmradius+25mmcentreY=70mmdeckprojection."
+  ],
+  "required_retests": [
+    "Independently query actualnative visible/native triangles, radial/Y extents and grind/lip crown witnesses atspokes/betweenspokes andsunkenmouth/caps. Confirm no gap/hidden obstruction introduced at profile/deck join.",
+    "Rerun exact originalMain D014 crossing/coast/return and immediate neighbours, native wheel/model/capsule/camera guards, intentionalmisses/fullspeed. Preserve all old failed logs and physical parity/disclosedgeometrychange.",
+    "Fresh native namedgrind/lip/transfer/park/facility/career/routes and sunkenport crops. Update only expectations that truly represent old geometry, using independentactualnative measurements; keep contactskins/budgets/authorities unchanged.",
+    "Sourcebound before/after ordinaryMain/chase rendered review plus matched draw/geometry/resource/timing admission; no estimate or small-pipe test pass substitutes."
+  ],
+  "limits": [
+    "Physical design repair is a new candidate, not retroactive acceptance of oldD014 contacts or failed support experiments.",
+    "Exact triangle/body/collider/resource counts and gameplay outcomes have not been executed by thisreview.",
+    "Keep current fullsuite rejection and wholeAAA/Mac/human gates open."
+  ]
+}

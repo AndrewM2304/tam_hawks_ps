@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""Run a bounded, source-frozen native water A/B/A diagnostic locally.
+
+No CI, export, network, save writes or personal Music access. Requires an idle
+Godot/render slot, Xorg and an already imported project. Results remain .local.
+"""
+from __future__ import annotations
+import argparse
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import signal
+import subprocess
+import time
+
+ROOT = Path(__file__).resolve().parents[1]
+
+def identity() -> dict[str, str]:
+    paths = [ROOT / "project.godot"]
+    for directory in ("game", "tests", "tools"):
+        paths.extend(p for p in (ROOT / directory).rglob("*") if p.is_file() and "__pycache__" not in p.parts)
+    controls = ROOT / ".local/environment-fidelity/normal2k-control"
+    if controls.exists(): paths.extend(p for p in controls.rglob("*") if p.is_file())
+    return {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths))}
+
+def stop(process: subprocess.Popen | None) -> None:
+    if process is not None and process.poll() is None:
+        os.killpg(process.pid, signal.SIGTERM)
+        try: process.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid, signal.SIGKILL)
+            process.wait(timeout=10)
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("label", help="new output-directory label")
+    parser.add_argument("--renderer", choices=["gl_compatibility", "forward_plus"], default="gl_compatibility")
+    parser.add_argument("--isolated-water", action="store_true", help="short 640x400 actual-plane shader diagnostic; excludes Main and allocation control")
+    parser.add_argument("--visual-controls", action="store_true", help="visual-only exact-plane material controls; no timing")
+    parser.add_argument("--concurrent-headless-pid", type=int, help="explicit root-authorised untimed headless suite PID; visual-only")
+    args = parser.parse_args()
+    if args.visual_controls and args.isolated_water: raise SystemExit("Choose visual-only or timed isolated mode")
+    if args.concurrent_headless_pid and not args.visual_controls: raise SystemExit("Concurrent suite is permitted only for visual-only controls")
+    if not re.fullmatch(r"[A-Za-z0-9_-]+", args.label): raise SystemExit("Invalid label")
+    running = subprocess.run(["ps", "-C", "godot", "-o", "pid=,args="], capture_output=True, text=True)
+    concurrent = [line.strip() for line in running.stdout.splitlines() if line.strip()]
+    unexpected = []
+    for line in concurrent:
+        pid, command = line.split(maxsplit=1)
+        if not (args.visual_controls and int(pid) == args.concurrent_headless_pid and " --headless " in " " + command + " " and "--script tests/run_tests.gd" in command): unexpected.append(line)
+    if unexpected: raise SystemExit("Unregistered Godot workload: " + repr(unexpected))
+    output = ROOT / ".local/environment-water" / args.label
+    output.mkdir(parents=True, exist_ok=False)
+    before = identity()
+    (output / "source-before.json").write_text(json.dumps(before, indent=2) + "\n")
+    started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    xorg = process = None
+    code = None
+    abort_reason = None
+    active_stage = "display-startup"
+    timeout_seconds = 120 if args.isolated_water or args.visual_controls else 1800
+    resolution = "640x400" if args.isolated_water or args.visual_controls else "1280x800"
+    common = ["./tools/run.sh", "--rendering-method", args.renderer, "--audio-driver", "Dummy", "--windowed", "--resolution", resolution]
+    scripts = ["tools/environment_water_isolated_probe.gd"] if args.isolated_water else ["tools/environment_texture_probe.gd", "tools/environment_water_probe.gd"]
+    if args.visual_controls: scripts = ["tools/environment_water_visual_controls.gd"]
+    commands = [common + ["--script", script, "--", str(output)] for script in scripts]
+    try:
+        with (output / "display").open("w") as display_file, (output / "xorg-console.log").open("w") as xlog:
+            xorg = subprocess.Popen(["/usr/lib/xorg/Xorg", "-displayfd", str(display_file.fileno()), "-config", str(ROOT / "tools/xorg-dummy.conf"), "-logfile", str(output / "xorg.log"), "-noreset", "-nolisten", "tcp"], pass_fds=(display_file.fileno(),), stdout=xlog, stderr=subprocess.STDOUT, start_new_session=True)
+            display = ""
+            for _ in range(50):
+                display = (output / "display").read_text().strip()
+                if display: break
+                if xorg.poll() is not None: raise RuntimeError("Xorg failed")
+                time.sleep(0.1)
+            if not display: raise RuntimeError("No Xorg display")
+            env = dict(os.environ, DISPLAY=":" + display, LIBGL_ALWAYS_SOFTWARE="1", LP_NUM_THREADS="4")
+            with (output / "engine.log").open("w") as log:
+                for command in commands:
+                    active_stage = command[command.index("--script") + 1]
+                    process = subprocess.Popen(command, cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+                    code = process.wait(timeout=timeout_seconds)
+                    if code: break
+    except Exception as error:
+        # A slow software-renderer timeout is a rejected epoch, but its native
+        # frames/allocation report and exact source identity remain useful.
+        abort_reason = type(error).__name__ + ": " + str(error)
+    finally:
+        stop(process)
+        stop(xorg)
+    after = identity()
+    (output / "source-after.json").write_text(json.dumps(after, indent=2) + "\n")
+    changed = sorted(key for key in before.keys() | after.keys() if before.get(key) != after.get(key))
+    engine_log = output / "engine.log"
+    log = engine_log.read_text() if engine_log.exists() else ""
+    engine_errors = bool(re.search(r"SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:|FAIL:", log))
+    reports = {}
+    for name in ["water", "texture", "isolated-water", "visual-water"]:
+        report_path = output / (name + "-report.json")
+        try:
+            reports[name] = json.loads(report_path.read_text()) if report_path.exists() else {}
+        except (OSError, ValueError) as error:
+            abort_reason = abort_reason or type(error).__name__ + ": " + str(error)
+            reports[name] = {}
+    report, texture = reports["water"], reports["texture"]
+    workload_pass = report.get("failures") == 0 and report.get("complete") is True and len(report.get("images", [])) == 48 and len(report.get("cost_brackets", [])) == 27 and texture.get("failures") == 0 and texture.get("budget_pass") is True
+    if args.isolated_water:
+        report = reports["isolated-water"]
+        workload_pass = report.get("failures") == 0 and report.get("complete") is True and len(report.get("cost_brackets", [])) == 9 and len(report.get("images", [])) == 6
+    if args.visual_controls:
+        report = reports["visual-water"]
+        workload_pass = report.get("failures") == 0 and report.get("complete") is True and len(report.get("images", [])) == 9 and report.get("timing_measured") is False and report.get("cost_brackets") == []
+    receipt = {"schema": 1, "started_utc": started, "finished_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "commands": commands, "git_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "source_stable": not changed, "changed_inputs": changed, "engine_exit": code, "engine_errors": engine_errors,
+        "abort_reason": abort_reason, "last_stage": active_stage, "process_timeout_seconds": timeout_seconds,
+        "workload": "visual-water-controls-640x400" if args.visual_controls else ("isolated-water-640x400" if args.isolated_water else "allocation-plus-full-Main-water-1280x800"),
+        "concurrent_headless_authorised_pid": args.concurrent_headless_pid, "other_godot_at_start": concurrent, "timing_measured": not args.visual_controls,
+        "source_inventory_sha256": hashlib.sha256((output / "source-after.json").read_bytes()).hexdigest(),
+        "environment": {key: env.get(key) for key in ["DISPLAY", "LIBGL_ALWAYS_SOFTWARE", "LP_NUM_THREADS", "VK_ICD_FILENAMES", "VK_DRIVER_FILES", "LD_LIBRARY_PATH"]} if "env" in locals() else {},
+        "images": {p.relative_to(output).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(output.rglob("*.png"))},
+        "eligible": not changed and code == 0 and abort_reason is None and not engine_errors and workload_pass,
+        "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."}
+    (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
+    print("ENVIRONMENT_WATER_RECEIPT " + str(output) + " eligible=" + str(receipt["eligible"]))
+    if not receipt["eligible"]: raise SystemExit(1)
+
+if __name__ == "__main__": main()

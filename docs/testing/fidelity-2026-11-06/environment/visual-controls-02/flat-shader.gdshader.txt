@@ -1,0 +1,10 @@
+shader_type spatial;
+render_mode diffuse_lambert;
+// Diagnostic only: matching production PBR, constant world-up normal.
+void fragment() {
+    NORMAL = normalize((VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz);
+    ALBEDO = vec3(0.055, 0.110, 0.115);
+    ROUGHNESS = 0.36;
+    METALLIC = 0.0;
+    SPECULAR = 0.50;
+}

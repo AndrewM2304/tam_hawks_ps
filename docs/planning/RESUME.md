@@ -1,3 +1,40 @@
+# Fidelity studio continuation — 6 November 2026
+
+Read current [STATUS](../STATUS.md), [AGENTS](../../AGENTS.md),
+[STUDIO](STUDIO.md), [persistent specialist roles](../../.agents/agents/README.md),
+[AAA_BENCHMARK](../product/AAA_BENCHMARK.md),
+[FIDELITY_TICKETS](FIDELITY_TICKETS.md) and runtime interfaces first.
+The role briefs link exact reusable repository skills. Reconcile origin/main
+before diagnosis; this session discovered and corrected a stale October checkout.
+Current production base is `0b62035`, with all later trial content and personal
+Music isolation retained. Work directly on main and push without force.
+
+November checkpoint: current actual source is an in-progress trial. The complete
+required run was rejected (6,311/25); separate subsequent repairs are recorded in
+STATUS. Current actual-Skin contact passes139/0 and the independent manual-body
+comparison104/0. Continuous fitted assets, researched coping, swept bank forecast,
+annular fountain/restricted water casting and recessed architecture remain private
+until their own admission. Inspect Git and exact source receipts before continuing;
+do not infer global success from these focused checks. Commit/push is a checkpoint,
+then continue the accepted independent queue.
+
+Continue the owner's realism/line-design programme, including the explicit
+forward-facing natural push pose, then manual combo links and correctly oriented
+fore/aft or lateral balance indicators. The target is MacBook Air M5. An engine
+rewrite is authorised if needed; [ADR-034](../architecture/decisions/ADR-034-fidelity-studio-and-m5-rendering.md)
+records the evidence-based Godot/renderer evaluation. No spending, hosted CI,
+release publication or unattended automation is authorised.
+
+The current-source independent baseline is retained under
+`docs/testing/fidelity-2026-11-06/baseline/`; candidate work and test receipts
+must be read from STATUS and the fidelity review, not inferred from older
+5,888/0 tests or exports. Passing a checkpoint does not complete the visual target.
+Keep visual, motion, regression, hardware and human acceptance separate, then
+take the next independently actionable ticket rather than stopping for routine
+approval. Current source changes may still be in progress; inspect Git first.
+
+---
+
 # Owner steering landing and wallride repairs — 28 October 2026
 
 The [owner-priority repair](OWNER-TURN-WALLRIDE-2026-10-28.md) starts from main `21b0e86`.

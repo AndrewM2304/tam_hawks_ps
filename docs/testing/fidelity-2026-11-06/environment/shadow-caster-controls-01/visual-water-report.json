@@ -1,0 +1,1214 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"checks": 58,
+	"complete": true,
+	"cost_brackets": [],
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"images": [
+		{
+			"camera_basis": [
+				[
+					-0.0000000437113882867379,
+					0.0,
+					1.0
+				],
+				[
+					0.0166643541306257,
+					0.999861180782318,
+					0.00000000072842204490442
+				],
+				[
+					-0.999861180782318,
+					0.0166643559932709,
+					-0.0000000437053202517745
+				]
+			],
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"shadow_primitives": 2,
+				"texture_bytes": 14736405,
+				"visible_draws": 4,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-baseline-river-oblique.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": true,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 1
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-baseline",
+			"near": 0.0500000007450581,
+			"physics_after": 18,
+			"physics_before": 18,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							225.180419921875,
+							128.716491699219
+						],
+						"color": "red",
+						"error_pixels": 0.136606559157372,
+						"pixel_count": 97,
+						"projected_xy": [
+							225.116180419922,
+							128.837051391602
+						],
+						"world_position": [
+							23.0193023681641,
+							6.11651182174683,
+							67.4000015258789
+						]
+					},
+					{
+						"centroid_xy": [
+							408.909637451172,
+							152.572296142578
+						],
+						"color": "green",
+						"error_pixels": 0.0462228320538998,
+						"pixel_count": 83,
+						"projected_xy": [
+							408.95361328125,
+							152.558059692383
+						],
+						"world_position": [
+							23.012638092041,
+							5.71656703948975,
+							70.5
+						]
+					}
+				]
+			},
+			"process_after": 3,
+			"process_before": 3,
+			"rgba8_sha256": "b16d37ca0219a49bb52549e4012b4d4da3cf71e8c52944dbe3487a75878f4ab1",
+			"view": "river-oblique"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000358752245688265,
+					0.911921501159668,
+					0.410364717245102
+				],
+				[
+					-0.0000000797227102111719,
+					0.410364717245102,
+					-0.911921501159668
+				]
+			],
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"shadow_primitives": 2,
+				"texture_bytes": 14736405,
+				"visible_draws": 4,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-baseline-high-coverage.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": true,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 1
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-baseline",
+			"near": 0.0500000007450581,
+			"physics_after": 29,
+			"physics_before": 29,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.431372553110123,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.431372553110123,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							245.872344970703,
+							128.723403930664
+						],
+						"color": "red",
+						"error_pixels": 0.11363273859024,
+						"pixel_count": 94,
+						"projected_xy": [
+							245.871994018555,
+							128.837036132812
+						],
+						"world_position": [
+							1.25000035762787,
+							6.04248237609863,
+							85.0520477294922
+						]
+					},
+					{
+						"centroid_xy": [
+							394.166656494141,
+							152.595245361328
+						],
+						"color": "green",
+						"error_pixels": 0.0536444522440434,
+						"pixel_count": 84,
+						"projected_xy": [
+							394.128021240234,
+							152.558029174805
+						],
+						"world_position": [
+							-1.24999964237213,
+							5.67771339416504,
+							84.8879013061523
+						]
+					}
+				]
+			},
+			"process_after": 7,
+			"process_before": 7,
+			"rgba8_sha256": "e9d116f14d31d3fa77216eebbae22feb80acb646bacc6d064dabf89b2ba4ae1d",
+			"view": "high-coverage"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000412370271263285,
+					0.99888688325882,
+					0.0471696630120277
+				],
+				[
+					-0.0000000873254677458135,
+					0.0471696630120277,
+					-0.99888688325882
+				]
+			],
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"shadow_primitives": 2,
+				"texture_bytes": 14736405,
+				"visible_draws": 4,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-baseline-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": true,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 1
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-baseline",
+			"near": 0.0500000007450581,
+			"physics_after": 40,
+			"physics_before": 40,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.705882370471954,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.705882370471954,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							266.627655029297,
+							128.723403930664
+						],
+						"color": "red",
+						"error_pixels": 0.113693386316299,
+						"pixel_count": 94,
+						"projected_xy": [
+							266.627838134766,
+							128.837097167969
+						],
+						"world_position": [
+							0.900000393390656,
+							0.662815988063812,
+							85.0510406494141
+						]
+					},
+					{
+						"centroid_xy": [
+							379.126495361328,
+							152.548187255859
+						],
+						"color": "green",
+						"error_pixels": 0.176181003451347,
+						"pixel_count": 83,
+						"projected_xy": [
+							379.302398681641,
+							152.558074951172
+						],
+						"world_position": [
+							-0.999999582767487,
+							0.263261198997498,
+							85.0321731567383
+						]
+					}
+				]
+			},
+			"process_after": 11,
+			"process_before": 11,
+			"rgba8_sha256": "fb4ff4972d40866045077013f270f49b55639987dc98380211704bcb9d1b62db",
+			"view": "grazing"
+		},
+		{
+			"camera_basis": [
+				[
+					-0.0000000437113882867379,
+					0.0,
+					1.0
+				],
+				[
+					0.0166643541306257,
+					0.999861180782318,
+					0.00000000072842204490442
+				],
+				[
+					-0.999861180782318,
+					0.0166643559932709,
+					-0.0000000437053202517745
+				]
+			],
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 4,
+				"primitives": 340,
+				"shadow_draws": 0,
+				"shadow_primitives": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 3,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-water-caster-off-river-oblique.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": true,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 0
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-water-caster-off",
+			"near": 0.0500000007450581,
+			"physics_after": 49,
+			"physics_before": 49,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							230.99462890625,
+							128.747314453125
+						],
+						"color": "red",
+						"error_pixels": 0.103562898933887,
+						"pixel_count": 93,
+						"projected_xy": [
+							231.046325683594,
+							128.837051391602
+						],
+						"world_position": [
+							23.0193023681641,
+							6.11651182174683,
+							67.5
+						]
+					},
+					{
+						"centroid_xy": [
+							408.988372802734,
+							145.313949584961
+						],
+						"color": "green",
+						"error_pixels": 0.132427304983139,
+						"pixel_count": 86,
+						"projected_xy": [
+							408.953643798828,
+							145.441741943359
+						],
+						"world_position": [
+							23.0146369934082,
+							5.83655071258545,
+							70.5
+						]
+					}
+				]
+			},
+			"process_after": 15,
+			"process_before": 15,
+			"rgba8_sha256": "f44a197b54846be3ae6e34d08fa0c9cd67f519c1cb87f12b68b35b268f970878",
+			"view": "river-oblique"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000358752245688265,
+					0.911921501159668,
+					0.410364717245102
+				],
+				[
+					-0.0000000797227102111719,
+					0.410364717245102,
+					-0.911921501159668
+				]
+			],
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 4,
+				"primitives": 340,
+				"shadow_draws": 0,
+				"shadow_primitives": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 3,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-water-caster-off-high-coverage.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": true,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 0
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-water-caster-off",
+			"near": 0.0500000007450581,
+			"physics_after": 58,
+			"physics_before": 58,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.431372553110123,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.431372553110123,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							251.747314453125,
+							128.801071166992
+						],
+						"color": "red",
+						"error_pixels": 0.0656451657414436,
+						"pixel_count": 93,
+						"projected_xy": [
+							251.802230834961,
+							128.837036132812
+						],
+						"world_position": [
+							1.15000033378601,
+							6.04248237609863,
+							85.0520477294922
+						]
+					},
+					{
+						"centroid_xy": [
+							394.162780761719,
+							145.383728027344
+						],
+						"color": "green",
+						"error_pixels": 0.0676250010728836,
+						"pixel_count": 86,
+						"projected_xy": [
+							394.128082275391,
+							145.441772460938
+						],
+						"world_position": [
+							-1.24999964237213,
+							5.78714418411255,
+							84.937141418457
+						]
+					}
+				]
+			},
+			"process_after": 19,
+			"process_before": 19,
+			"rgba8_sha256": "0e427db9ba7c134475b06d9e7e313394ba4e8cdc1760f029567fce542a22d0e9",
+			"view": "high-coverage"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000412370271263285,
+					0.99888688325882,
+					0.0471696630120277
+				],
+				[
+					-0.0000000873254677458135,
+					0.0471696630120277,
+					-0.99888688325882
+				]
+			],
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 4,
+				"primitives": 340,
+				"shadow_draws": 0,
+				"shadow_primitives": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 3,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-water-caster-off-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": true,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 0
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-water-caster-off",
+			"near": 0.0500000007450581,
+			"physics_after": 67,
+			"physics_before": 67,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.705882370471954,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.705882370471954,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							272.596771240234,
+							128.67204284668
+						],
+						"color": "red",
+						"error_pixels": 0.169529736042023,
+						"pixel_count": 93,
+						"projected_xy": [
+							272.558074951172,
+							128.837097167969
+						],
+						"world_position": [
+							0.800000429153442,
+							0.662815988063812,
+							85.0510406494141
+						]
+					},
+					{
+						"centroid_xy": [
+							379.210845947266,
+							145.234939575195
+						],
+						"color": "green",
+						"error_pixels": 0.226184844970703,
+						"pixel_count": 83,
+						"projected_xy": [
+							379.302490234375,
+							145.44172668457
+						],
+						"world_position": [
+							-0.999999582767487,
+							0.383127629756927,
+							85.0378265380859
+						]
+					}
+				]
+			},
+			"process_after": 23,
+			"process_before": 23,
+			"rgba8_sha256": "1a486bc2d92a4b0ccfaadd92c2a4bd115e59db62a08130553489fe411db76ab8",
+			"view": "grazing"
+		},
+		{
+			"camera_basis": [
+				[
+					-0.0000000437113882867379,
+					0.0,
+					1.0
+				],
+				[
+					0.0166643541306257,
+					0.999861180782318,
+					0.00000000072842204490442
+				],
+				[
+					-0.999861180782318,
+					0.0166643559932709,
+					-0.0000000437053202517745
+				]
+			],
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 4,
+				"primitives": 340,
+				"shadow_draws": 0,
+				"shadow_primitives": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 3,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-sun-shadows-off-river-oblique.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": false,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 1
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-sun-shadows-off",
+			"near": 0.0500000007450581,
+			"physics_after": 83,
+			"physics_before": 83,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							236.946807861328,
+							128.776596069336
+						],
+						"color": "red",
+						"error_pixels": 0.0673472359776497,
+						"pixel_count": 94,
+						"projected_xy": [
+							236.976486206055,
+							128.837051391602
+						],
+						"world_position": [
+							23.0193023681641,
+							6.11651182174683,
+							67.5999984741211
+						]
+					},
+					{
+						"centroid_xy": [
+							409.047607421875,
+							138.214279174805
+						],
+						"color": "green",
+						"error_pixels": 0.14556497335434,
+						"pixel_count": 84,
+						"projected_xy": [
+							408.953643798828,
+							138.325454711914
+						],
+						"world_position": [
+							23.0166358947754,
+							5.95653390884399,
+							70.5
+						]
+					}
+				]
+			},
+			"process_after": 27,
+			"process_before": 27,
+			"rgba8_sha256": "74af35a3b15219aba248b8ac20cc87ae5873cb7a11a32c26535fc217bab9c451",
+			"view": "river-oblique"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000358752245688265,
+					0.911921501159668,
+					0.410364717245102
+				],
+				[
+					-0.0000000797227102111719,
+					0.410364717245102,
+					-0.911921501159668
+				]
+			],
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 4,
+				"primitives": 340,
+				"shadow_draws": 0,
+				"shadow_primitives": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 3,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-sun-shadows-off-high-coverage.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": false,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 1
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-sun-shadows-off",
+			"near": 0.0500000007450581,
+			"physics_after": 90,
+			"physics_before": 90,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.431372553110123,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.431372553110123,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							257.747314453125,
+							128.801071166992
+						],
+						"color": "red",
+						"error_pixels": 0.0389031283557415,
+						"pixel_count": 93,
+						"projected_xy": [
+							257.732482910156,
+							128.837036132812
+						],
+						"world_position": [
+							1.05000030994415,
+							6.04248237609863,
+							85.0520477294922
+						]
+					},
+					{
+						"centroid_xy": [
+							394.154754638672,
+							138.261901855469
+						],
+						"color": "green",
+						"error_pixels": 0.0689185187220573,
+						"pixel_count": 84,
+						"projected_xy": [
+							394.128021240234,
+							138.325424194336
+						],
+						"world_position": [
+							-1.24999964237213,
+							5.89657497406006,
+							84.9863891601562
+						]
+					}
+				]
+			},
+			"process_after": 31,
+			"process_before": 31,
+			"rgba8_sha256": "7c8e3cc36fd2b1328f126e50cdfbad6769349796dd391c3ad2e6c18ab32f7c83",
+			"view": "high-coverage"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000412370271263285,
+					0.99888688325882,
+					0.0471696630120277
+				],
+				[
+					-0.0000000873254677458135,
+					0.0471696630120277,
+					-0.99888688325882
+				]
+			],
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 4,
+				"primitives": 340,
+				"shadow_draws": 0,
+				"shadow_primitives": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 3,
+				"visible_primitives": 338
+			},
+			"far": 1000.0,
+			"file": "native-sun-shadows-off-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"lighting_contract": {
+				"ambient_energy": 0.360000014305115,
+				"ambient_light_source": 2,
+				"fog_density": 0.00120000005699694,
+				"fog_enabled": true,
+				"reflected_light_source": 0,
+				"sky_class": "ShaderMaterial",
+				"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+				"sky_process_mode": 1,
+				"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+				"sun_energy": 0.860000014305115,
+				"sun_light_specular": 1.0,
+				"sun_shadow_enabled": false,
+				"tonemap_mode": 3,
+				"viewport_debanding": false,
+				"water_cast_shadow": 1
+			},
+			"material_class": "StandardMaterial3D",
+			"mode": "native-sun-shadows-off",
+			"near": 0.0500000007450581,
+			"physics_after": 97,
+			"physics_before": 97,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.705882370471954,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.705882370471954,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							278.5,
+							128.731582641602
+						],
+						"color": "red",
+						"error_pixels": 0.106159925460815,
+						"pixel_count": 95,
+						"projected_xy": [
+							278.488311767578,
+							128.837097167969
+						],
+						"world_position": [
+							0.700000405311584,
+							0.662815988063812,
+							85.0510406494141
+						]
+					},
+					{
+						"centroid_xy": [
+							379.210845947266,
+							138.234939575195
+						],
+						"color": "green",
+						"error_pixels": 0.128797918558121,
+						"pixel_count": 83,
+						"projected_xy": [
+							379.302490234375,
+							138.325439453125
+						],
+						"world_position": [
+							-0.999999582767487,
+							0.502994000911713,
+							85.0434875488281
+						]
+					}
+				]
+			},
+			"process_after": 35,
+			"process_before": 35,
+			"rgba8_sha256": "2f3fb1572f9dee39559f793927f0230e63411f73cdc18b02ddae8c034a75a098",
+			"view": "grazing"
+		}
+	],
+	"lighting_interventions": [
+		{
+			"ambient_energy": 0.360000014305115,
+			"ambient_light_source": 2,
+			"fog_density": 0.00120000005699694,
+			"fog_enabled": true,
+			"mode": "native-baseline",
+			"reflected_light_source": 0,
+			"sky_class": "ShaderMaterial",
+			"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+			"sky_process_mode": 1,
+			"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+			"sun_energy": 0.860000014305115,
+			"sun_light_specular": 1.0,
+			"sun_shadow_enabled": true,
+			"tonemap_mode": 3,
+			"viewport_debanding": false,
+			"water_cast_shadow": 1
+		},
+		{
+			"ambient_energy": 0.360000014305115,
+			"ambient_light_source": 2,
+			"fog_density": 0.00120000005699694,
+			"fog_enabled": true,
+			"mode": "native-water-caster-off",
+			"reflected_light_source": 0,
+			"sky_class": "ShaderMaterial",
+			"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+			"sky_process_mode": 1,
+			"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+			"sun_energy": 0.860000014305115,
+			"sun_light_specular": 1.0,
+			"sun_shadow_enabled": true,
+			"tonemap_mode": 3,
+			"viewport_debanding": false,
+			"water_cast_shadow": 0
+		},
+		{
+			"ambient_energy": 0.360000014305115,
+			"ambient_light_source": 2,
+			"fog_density": 0.00120000005699694,
+			"fog_enabled": true,
+			"mode": "native-sun-shadows-off",
+			"reflected_light_source": 0,
+			"sky_class": "ShaderMaterial",
+			"sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+			"sky_process_mode": 1,
+			"sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+			"sun_energy": 0.860000014305115,
+			"sun_light_specular": 1.0,
+			"sun_shadow_enabled": false,
+			"tonemap_mode": 3,
+			"viewport_debanding": false,
+			"water_cast_shadow": 1
+		}
+	],
+	"limits": "Private visual-only640x400 caster/light interventions with exact final ordinary-Main horizon sky material and production daylight/plane. Every mode resets baseline lighting and geometry shadow flags, then changes either only water.cast_shadow=OFF or only sun.shadow_enabled=false. Same PBR/material, cameras, native current red/green/Canvas pixel proof. Shadow primitive counter supplements unreliable GLES shadow draw-call accounting. Concurrent untimed suite allowed only via explicit wrapper PID; no timing/performance/sole-engine claim. Diagnostic flag changes are not production proposals or final water/M5 acceptance.",
+	"material_contract": {
+		"albedo": [
+			0.055,
+			0.11,
+			0.115
+		],
+		"class": "StandardMaterial3D",
+		"diffuse": "Lambert",
+		"metallic": 0,
+		"normal_map": false,
+		"roughness": 0.36,
+		"specular": 0.5
+	},
+	"phase": "complete",
+	"renderer": "gl_compatibility",
+	"resolution": [
+		640,
+		400
+	],
+	"schema": 1,
+	"timing_measured": false
+}

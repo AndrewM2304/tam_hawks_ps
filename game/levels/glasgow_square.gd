@@ -263,26 +263,39 @@ func _build_lighting() -> void:
 	environment.background_mode = Environment.BG_SKY
 	environment.sky = sky
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	environment.ambient_light_color = Color("c7dfeb")
-	environment.ambient_light_energy = 0.44
-	# Filmic rolloff keeps the sandstone highlights while recovering colour and
-	# contrast in pale stone, water and the Glasgow sky on the Compatibility path.
+	environment.ambient_light_color = Color("d0dce2")
+	environment.ambient_light_energy = 0.36
+	# Directional daylight and sky fill retain material colour and shaped contact
+	# shadows. The existing authored horizon is installed later without changes.
 	environment.tonemap_mode = Environment.TONE_MAPPER_ACES
 	environment.fog_enabled = true
-	environment.fog_density = 0.0015
+	environment.fog_density = 0.0012
 	environment.fog_light_color = Color("b4bec3")
 	environment.fog_sky_affect = 0.15
+	var modern := RenderingServer.get_current_rendering_method() == "forward_plus"
+	# Native depth-aware contact and low-intensity indirect fill are available
+	# only on Forward+. Compatibility keeps its independently testable path.
+	if modern:
+		environment.ssao_enabled = true
+		environment.ssao_radius = 0.75
+		environment.ssao_intensity = 1.2
+		environment.ssao_power = 1.3
+		environment.ssao_detail = 0.45
+		environment.ssil_enabled = true
+		environment.ssil_radius = 2.0
+		environment.ssil_intensity = 0.35
 	var world_environment := WorldEnvironment.new()
 	world_environment.environment = environment
 	add_child(world_environment)
 	var sun := DirectionalLight3D.new()
 	sun.name = "LateAfternoonSun"
 	sun.rotation_degrees = Vector3(-42.0, -32.0, 0.0)
-	sun.light_color = Color("ffe8d1")
-	sun.light_energy = 0.80
-	sun.shadow_opacity = 0.65
-	# One short-range shadow source; no dynamic local lights or post-processing.
+	sun.light_color = Color("fffaf3")
+	sun.light_energy = 0.86
+	sun.shadow_opacity = 0.80
 	sun.shadow_enabled = true
+	sun.shadow_bias = 0.035
+	sun.shadow_normal_bias = 0.55
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	sun.directional_shadow_max_distance = 75.0
 	add_child(sun)

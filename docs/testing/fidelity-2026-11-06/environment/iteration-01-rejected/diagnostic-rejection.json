@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "eligible": false,
+  "scope": "Historical diagnostic only; superseded material/light/grass candidate follows. No final visual/cost/target-hardware acceptance.",
+  "engine_result": "Native completed17frames;61observerchecks/0observerfailures; rejected by wrapper because head_normal.png had9resource-loaderrors. Rider corrected import after this capture.",
+  "command": [
+    "python3",
+    ".local/qa-fidelity/capture.py",
+    "environment-preview",
+    "gl_compatibility"
+  ],
+  "source_stable": false,
+  "changed_inputs": [
+    "game/art/rider/cloth_albedo.png.import",
+    "game/art/rider/cloth_normal.png.import",
+    "game/art/rider/cloth_roughness.png.import",
+    "game/art/rider/hair_albedo.png.import",
+    "game/art/rider/hair_normal.png.import",
+    "game/art/rider/head_albedo.png.import",
+    "game/art/rider/head_normal.png.import",
+    "game/art/rider/head_roughness.png.import",
+    "game/art/rider/left_hand_albedo.png.import",
+    "game/art/rider/left_hand_normal.png.import",
+    "game/art/rider/left_hand_roughness.png.import",
+    "game/art/rider/manifest.json",
+    "game/art/rider/right_hand_albedo.png.import",
+    "game/art/rider/right_hand_normal.png.import",
+    "game/art/rider/right_hand_roughness.png.import",
+    "game/art/rider/suede_albedo.png.import",
+    "game/art/rider/suede_normal.png.import",
+    "game/player/skater_visual.gd",
+    "tests/line_design_tests.gd",
+    "tests/line_design_tests.gd.uid",
+    "tests/motion_fidelity_tests.gd",
+    "tools/export.sh",
+    "tools/fixtures/environment/clyde_water_before_2026_11_06.gdshader",
+    "tools/fixtures/environment/clyde_water_before_2026_11_06.gdshader.uid",
+    "tools/full_fidelity_capture.gd",
+    "tools/rider_asset_bake.py"
+  ],
+  "original_directory": "/workspace/tam_hawks_ps/.local/qa-fidelity/environment-preview",
+  "saved_files": {
+    "clyde-east-quay.png": "59941476b9128395f91a8bfd93d80817e15d3ef733f16421c1552d43bcc809b7",
+    "engine.log": "3c6a475b01de902613a65a3e54d8ed7381aa8c6ec3cc3914437c360043a9195f",
+    "exchange-shopfront.png": "d834bc8203ea151873851f8a527847bef3a2e43e20ab33e4c157fc79666964b4",
+    "ordinary-spawn.png": "bd798676201626e6470d64014e5a8887739e005aec5e6c629ff816fd69b71ca8",
+    "overview_park.png": "ef3212b8fb41f13948b1b774613b606741a974df9648cc4b85f5c2b5aed86b11",
+    "snapshot.json": "6211c0d37cca9d88c325a708fa6935488ccf10e00c2e7a765c9d0e710947f1b0",
+    "source-after.json": "ecd8eec6c0564e71e219b7a1ab27d74dbe7eb0f4a268bf92d22022568d53d959",
+    "source-before.json": "28018455b36fe697841eb2e6c400e09dec16dfe4714ebde47b36e2dde85ca695"
+  },
+  "lessons": [
+    "Orange sandstone: original warm photo multiplied by a warm tint and warm strong daylight.",
+    "Bright green repeated grass squares: source saturation and broad illumination require correction.",
+    "Paving photographic detail improves nearfield but1.5m brightness repeat remains overlargeemptycourt.",
+    "Window interior depth subtle and shop merchandise remains generic block silhouettes.",
+    "River stripe amplitude lower but water and shore still need matched motion/cost proof."
+  ]
+}

@@ -129,6 +129,57 @@ static func run(tree: SceneTree, check: Callable) -> void:
 			"static batches: incompatible or dynamic source stays unchanged: " + exclusion)
 		world.free()
 
+	# The real window shader is the sole static-shader exception. Its opaque,
+	# transform-only contract must preserve existing batching rather than
+	# silently multiplying every facade's window draws.
+	world = _world(tree)
+	var glazing := ShaderMaterial.new()
+	glazing.shader = preload("res://game/art/shaders/window_interior.gdshader")
+	var shader_contract := ""
+	for line: String in glazing.shader.code.split("\n"):
+		shader_contract += line.split("//")[0] + "\n"
+	var immutable_opaque := true
+	for forbidden: String in ["ALPHA", "discard", "VERTEX", "TIME", "INSTANCE_CUSTOM", "INSTANCE_ID", "hint_screen_texture", "hint_depth_texture"]:
+		immutable_opaque = immutable_opaque and not shader_contract.contains(forbidden)
+	check.call(immutable_opaque,
+		"static windows: admitted source stays opaque, vertex-static, time/channel-independent and free of screen/depth-copy dependencies")
+	var pane_parent := Node3D.new()
+	pane_parent.transform = Transform3D(Basis(Vector3.UP, 0.6), Vector3(5, 2, 3))
+	world.add_child(pane_parent)
+	a = _source(pane_parent, mesh, glazing, [Transform3D(Basis.from_scale(Vector3(1.4, 2.1, 0.04)), Vector3(1, 3, 1))])
+	b = _source(world, mesh, glazing, [Transform3D(Basis(Vector3.UP, -0.2).scaled(Vector3(1.3, 1.8, 0.04)), Vector3(9, 5, 4))])
+	before = Batches.snapshot(world)
+	report = Batches.finalize(world, 64)
+	check.call(report.sources_removed == 2 and report.batches_created == 1 and report.instances_preserved == 2,
+		"static windows: exact opaque glazing shader consolidates two pane sources without another draw family")
+	check.call(_same_records(before, Batches.snapshot(world)),
+		"static windows: every world pane transform, exact shader/material and render setting survives consolidation")
+	world.free()
+	for shader_case: String in ["arbitrary_opaque", "transparent", "duplicate_shader", "next_pass", "overlay"]:
+		world = _world(tree)
+		var rejected := ShaderMaterial.new()
+		rejected.shader = glazing.shader
+		match shader_case:
+			"arbitrary_opaque":
+				var other := Shader.new()
+				other.code = "shader_type spatial; void fragment(){ALBEDO=vec3(0.3); }"
+				rejected.shader = other
+			"transparent":
+				var alpha_shader := Shader.new()
+				alpha_shader.code = "shader_type spatial; void fragment(){ALPHA=0.5;}"
+				rejected.shader = alpha_shader
+			"duplicate_shader": rejected.shader = glazing.shader.duplicate()
+			"next_pass": rejected.next_pass = StandardMaterial3D.new()
+		a = _source(world, mesh, rejected if shader_case != "overlay" else material, [Transform3D(Basis.IDENTITY, Vector3(2, 2, 2))])
+		b = _source(world, mesh, rejected if shader_case != "overlay" else material, [Transform3D(Basis.IDENTITY, Vector3(3, 2, 2))])
+		if shader_case == "overlay":
+			a.material_overlay = rejected
+			b.material_overlay = rejected
+		report = Batches.finalize(world, 64)
+		check.call(report.sources_removed == 0 and report.excluded_sources == 2 and is_instance_valid(a) and is_instance_valid(b),
+			"static windows: non-admitted shader/pass remains excluded: " + shader_case)
+		world.free()
+
 	world = _world(tree)
 	a = _source(world, mesh, material, [Transform3D.IDENTITY])
 	check.call(not Batches.register(a, []) and not Batches.register(a,

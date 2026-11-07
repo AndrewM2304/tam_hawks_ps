@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+"""Independent read-only source/log review; no engine, no reconstructed native evidence."""
+import json,hashlib,re
+from pathlib import Path
+ROOT=Path('/workspace/tam_hawks_ps'); E=ROOT/'docs/testing/motion-fidelity-2026-11-07/coping-researched-profile-main'; S=ROOT/'.local/coping-proportion-source'; PRIOR=ROOT/'docs/testing/line-design-2026-11-06/coping-proportion-source-review-2026-11-07'
+c=[]
+def ck(n,b,a=None):c.append({'name':n,'pass':bool(b),'actual':a})
+def sh(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def rd(f):return json.loads((E/f).read_text())
+a=rd('source-before.json');b=rd('source-after.json');r=rd('receipt.json');g=rd('candidate-geometry-receipt.json'); ld=rd('ld-corpus-source-before.json');ldafter=rd('ld-corpus-source-after.json')
+ck('790 production inputs before/after exact',a==b and len(a)==790,len(a))
+m=[k for k,v in a.items() if not (S/k).is_file() or sh(S/k)!=v];ck('private execution source still authenticates every recorded input',not m,m)
+ck('broader 801-input corpus exact before/after',ld==ldafter and len(ld)==801)
+ck('scope difference exactly 11 additional documents/export inputs',set(a)<set(ld) and len(ld)-len(a)==11 and all(ld[k]==v for k,v in a.items()),sorted(set(ld)-set(a)))
+ck('observer archived bytes bind receipt',sh(E/'clyde_profile_main.gd')==r['observer_sha256'])
+ck('unchanged controller identity binds both source and geometry receipts',a['game/player/skater.gd']==r['controller_sha256']==g['copied_actual_controller_sha256']=='f04253f745780ce8793828a9e6414c5e7f72617b8f235319eefc54574c093ab3')
+for name in ('transition_feature.gd','bowl_feature.gd','sunken_bowl_feature.gd'):
+ key='game/levels/'+name
+ ck(name+': archived executed constructor matches inventory',sh(E/(name+'.txt'))==a[key]==g['candidate_sha256'][key])
+ ck(name+': exact previously independently cold-read proposed geometry',sh(E/(name+'.txt'))==sh(PRIOR/(name+'.private.txt')))
+ck('only declared construction scripts in geometry overlay',set(g['changed_candidate_inputs'])=={'game/levels/transition_feature.gd','game/levels/bowl_feature.gd','game/levels/sunken_bowl_feature.gd'} and not g['copy_mismatch'] and not g['changed_during_copy'])
+ck('ordinary original driver bytes bind native source',sh(S/'tests/pt24_clyde_flagship_tests.gd')==a['tests/pt24_clyde_flagship_tests.gd'])
+log=(E/'engine.log').read_text();ck('raw native log engine clean',not any(x in log for x in ['ERROR:','SCRIPT ERROR:','Parse Error','Traceback']))
+ck('raw native reports six successes and zero failures','CLYDE CURRENT MAIN RESULT: 6 passed, 0 failed' in log)
+match=re.search(r'CLYDE_BANK_RETURN_RESULT (\{.*\})',log); data=json.loads(match.group(1)) if match else {}
+ck('original return retains earned score and no bail',data.get('returned') is True and data.get('bails')==0 and data.get('bank_before')==data.get('bank_after')==100 and data.get('bail_records')==[],data)
+ck('actual finite support and strict camera samples',data.get('camera_clear') is True and data.get('camera_samples')==472 and data.get('support_finite') is True and data.get('bowl_samples')==250 and data.get('minimum_y',-1)>-.5)
+ck('receipt native commands completed cleanly',all(x['exit']==0 for x in r['commands']) and len(r['commands'])==2 and not r['errors'] and r['source_stable'])
+snaps=rd('clyde-active-snapshots.json'); active=[x for x in snaps if x['kind']=='authored'];ck('real authored snapshot records active state and Node feature',len(active)==1 and active[0]['snapshot']['transition_state']!='' and bool(active[0]['snapshot']['transition_feature']),[{k:v for k,v in x['snapshot'].items() if k in ['transition_state','transition_feature','physics_frame']} for x in active])
+ck('no invented cylindrical positive',not any(x['kind']=='cylindrical' for x in snaps) and 'cylindrical=false' in log)
+t=rd('clyde-trajectory.json');ck('actual physics trajectory retains 503 consecutive ticks',len(t)==503 and all(t[i+1]['tick']==t[i]['tick']+1 for i in range(len(t)-1)),{'rows':len(t),'first':t[0]['tick'],'last':t[-1]['tick']})
+ck('visual and M5 acceptance explicitly false',r['visual_acceptance'] is False and r['M5_performance'] is False)
+out={'schema':1,'reviewer':'independent_qa','method':'Read-only independently recomputed source/observer/constructor hashes, prior independent geometry cold-read identity, original driver/guard source inspection, native raw log and physical-record review. No QA Godot invocation.','checks':len(c),'failures':sum(not x['pass'] for x in c),'verdict':'Original Main Clyde return passes its source-bound six checks under researched private 60mm/12mm/10mm native geometry. Exact controller remains unchanged. This is bounded regression evidence for D014, not complete contact, art or coping integration acceptance.','limits':['472 camera samples run after initial 30 presentation warmup frames. They are completed process/presentation samples, not every-physics sampling. Existing exact frustum/ray/native camera-volume authority was retained.','Camera rays to real board convex vertices and sole/toe/head markers rejected the earlier penetration. A camera pass alone does not independently establish every triangle, actual loaded-wheel count or whole-model floor contact at every tick.','No new loaded/unloaded tyre classification or exact actual wheel-clearance extrema recorded here. Old 43mm profile fixture counts cannot transfer to this geometry.','Active authored transition snapshot is proven; active cylindrical transition branch is not exercised in this run.','Trace global transforms/velocities are Godot strings. They preserve observed native rows but not full-precision numeric transforms, and geometry intentionally changes physical trajectory; no old trajectory parity is asserted.','790 recorded source inputs exclude imported cache and the observer; its separate receipt SHA binds the archived observer. Broader corpus adds 11 documents/export inputs.','Original receipt records command/exit and aggregate duration but lacks native PID/individual absolute process start/end timestamps. No process-exclusivity or CPU/M5 cost claim follows.','Full Quarter/Bowl/Sunken/halfpipe/spine/grind/lip/transfer/route/career combined regression and normal-speed visible profile/contact review remain open.'],'checks_detail':c,'evidence_sha256':{p.name:sh(p) for p in E.iterdir() if p.is_file() and not p.name.startswith('independent-')}}
+(ROOT/'.local/qa-fidelity/researched-coping-main-independent-review.json').write_text(json.dumps(out,indent=2)+'\n')
+print(json.dumps({k:v for k,v in out.items() if k not in ['checks_detail','evidence_sha256']},indent=2))
+if out['failures']:print(json.dumps([x for x in c if not x['pass']],indent=2))
+raise SystemExit(bool(out['failures']))

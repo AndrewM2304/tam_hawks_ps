@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "mode": "landing",
+  "started_utc": "2026-11-07T00:53:39.492227+00:00",
+  "finished_utc": "2026-11-07T00:54:14.234140+00:00",
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/qa-fidelity/manual-review/landing_candidate_matrix.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/qa-fidelity/native-review/landing-checkpoint-01/candidate-matrix.json"
+  ],
+  "executed_project": "/workspace/tam_hawks_ps/.local/qa-fidelity/checkpoint-source-01",
+  "source_scope": "Exact two-sided dirty source-copy inventory, not final main acceptance unless independently tied to integration.",
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "source_stable": true,
+  "changed_inputs": [],
+  "source_inputs": 787,
+  "engine_exit": 0,
+  "exception": null,
+  "engine_errors": false,
+  "native_timeline_consecutive": true,
+  "eligible": true,
+  "files": {
+    "source-before.json": "6d8b09244d2a426e6e38b88c6105793e6121100bc5c5a391fd968b2f9aeb8edb",
+    "engine.log": "bc5af9db1630f7722c7f35698014b7acc6630f79c4685fa11005f3261a2e4a14",
+    "candidate-matrix.json": "9d09e9aa2ea3149593c7990a85519ea59d58874bba94508a34f498349735d558",
+    "source-after.json": "6d8b09244d2a426e6e38b88c6105793e6121100bc5c5a391fd968b2f9aeb8edb"
+  },
+  "limits": "Native input diagnostic or explicitly labelled static HUD chase inspection. No normal-speed motion, physical-controller, performance, Mac or overall fidelity acceptance."
+}

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "utc": "2026-11-07T01:36:21.299432+00:00",
+  "source_file": "tests/line_design_tests.gd",
+  "source_sha256": "e9a2012fe072bf7b222fb9eae75110a203d6a675e2062669bbbfe9a97c4d8980",
+  "scope": "Offline independent cold-read of _loaded_capsule_contact and four negative controls; no engine executed or runtime/test code authored by this reviewer.",
+  "result": "Pass, bounded oracle design only; native results and whole D012 remain unmeasured",
+  "accepted_contract": [
+    "Only actual non-airborne on-floor states; no actor/input/physics displacement.",
+    "Fresh finite native floor ray and exact RID/shape, current floor normal and finite callable ground-height agreement.",
+    "Actual native capsule shape and full affine frame support distance within existing solver safe_margin, with observed depth recorded separately.",
+    "Strict 1mm overlap query; all unsaturated hit owners exactly the supporting floor RID/shape.",
+    "Every finite unsaturated contact pair aligned to current supporting floor normal and environment endpoint on that finite floor plane; same-owner vertical wall is not excluded.",
+    "Existing safe_margin lift applied only to the diagnostic standing volume and still required clear.",
+    "Wrong-floor identity, deeper-than-margin volume, NaN frame, and same-shape vertical-wall diagnostics all required to reject.",
+    "Actual-air every-physics capsule and connected-model checks remain strict; loaded support does not authorize wall or airborne penetration."
+  ],
+  "limits": [
+    "Source is mutable; this hash identifies the reviewed text and does not declare a whole-game freeze.",
+    "Native helper parse/run and positive/four-negative logs not yet inspected.",
+    "Existing15mm safe_margin is a floor-contact authorization, not a visual garment/board/capsule wall penetration allowance.",
+    "Native collision safety does not prove a ~120mm board correction looks smooth; actual moving review remains required."
+  ]
+}

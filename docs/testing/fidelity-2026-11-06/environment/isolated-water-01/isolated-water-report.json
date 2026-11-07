@@ -1,0 +1,8646 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"baseline_sha256": "e60ac5cbafce8eaaca67ed1d44903ca6fe94329b4fd1c375306bba7dd9cc71f3",
+	"candidate_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+	"checks": 31,
+	"complete": true,
+	"cost_brackets": [
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 20.458,
+			"frame_ms_p95": 27.427,
+			"frame_ms_p99": 36.151,
+			"id": "river-oblique",
+			"mode": "before-a",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.751,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 15.988,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 15.937,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.98,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.705,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.721,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.071,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.426,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.402,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.187,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.495,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.487,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 15.503,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.611,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.623,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.466,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.292,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.258,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.552,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 15.742,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.656,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.578,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.438,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.246,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.61,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.132,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.424,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.447,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.971,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.165,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.642,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.445,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.366,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.446,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.277,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.535,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.785,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.378,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.574,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.545,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 32.984,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.503,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.433,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.744,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.771,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.126,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.374,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.13,
+					"primitives": 4,
+					"process_ms": 129.667,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.881,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.319,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.274,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.612,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.75,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.527,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.148,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.866,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.853,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.721,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.92,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.409,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.086,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.578,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.593,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.894,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.949,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.863,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.146,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.301,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.504,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.367,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.458,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.491,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.406,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.957,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.88,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.36,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.349,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.919,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.518,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.755,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.238,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.375,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 15.817,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.567,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.463,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.539,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.165,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.38,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 15.851,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.456,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.23,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.104,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.023,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.264,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 15.412,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.462,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.436,
+					"primitives": 4,
+					"process_ms": 26.813,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.416,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.098,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 14.968,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.103,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.872,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.469,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.34,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.797,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.842,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.843,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.378,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.172,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.739,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.866,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.587,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.123,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.963,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.071,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.933,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.753,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.872,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.427,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 36.151,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 38.649,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.077,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.841,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.696,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.764,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.726,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.776,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.705,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.379,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.167,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.601,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.401,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.691,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.681,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.54,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.8,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.209,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.673,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.918,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.611,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.42,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.646,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 15.47,
+					"primitives": 4,
+					"process_ms": 27.168,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.0,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.187,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 145,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		},
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 20.727,
+			"frame_ms_p95": 25.741,
+			"frame_ms_p99": 31.995,
+			"id": "river-oblique",
+			"mode": "candidate",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.904,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.25,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.269,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.992,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.589,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 14.879,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.415,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.918,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.191,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.944,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.834,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.721,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.247,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.92,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.045,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.287,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.328,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.072,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.22,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.481,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.228,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.384,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.774,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.152,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.99,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.652,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.071,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.657,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.97,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.398,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.361,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.721,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.356,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.764,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.511,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.442,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.089,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.126,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.927,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.727,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.273,
+					"primitives": 4,
+					"process_ms": 36.385,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.564,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.595,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.728,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.818,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.097,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.779,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.149,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.693,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.921,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.574,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.376,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.809,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.225,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.001,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.102,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.132,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.972,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.652,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.774,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.858,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.696,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.165,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.055,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.093,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.508,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.495,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.905,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.753,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.937,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.33,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.246,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.741,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.251,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.247,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.812,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.788,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.288,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.684,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.384,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.639,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.562,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.942,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.135,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.834,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.15,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.998,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.916,
+					"primitives": 4,
+					"process_ms": 28.368,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.378,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.951,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.463,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.231,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.792,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.526,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.503,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 32.184,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.244,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.631,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.262,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.167,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.96,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.197,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 31.188,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.925,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 31.995,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.545,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.232,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.696,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.897,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.586,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.086,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.992,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.025,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.927,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.748,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.165,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.235,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.317,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.995,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.453,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.634,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.13,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.221,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.373,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.883,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.381,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.47,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.16,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.417,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.92,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.568,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.773,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.695,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.679,
+					"primitives": 4,
+					"process_ms": 27.002,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.162,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.089,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.827,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.569,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.347,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.209,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.547,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.904,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.219,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 143,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		},
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 25.276,
+			"frame_ms_p95": 64.391,
+			"frame_ms_p99": 94.102,
+			"id": "river-oblique",
+			"mode": "before-b",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.652,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.676,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.906,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.869,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.861,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.509,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.343,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.37,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.313,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.822,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.417,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.088,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.403,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.277,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.276,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.679,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.399,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.865,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.517,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.613,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.412,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.799,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.325,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.198,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.79,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.829,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.446,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.193,
+					"primitives": 4,
+					"process_ms": 31.716,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.015,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.766,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.485,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.74,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.874,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.424,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 30.764,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.043,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.412,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.098,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.726,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.923,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.255,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.33,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.716,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.366,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.376,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.512,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.565,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.314,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.356,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.097,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.414,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.458,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 16.43,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.889,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.306,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.746,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.176,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 36.202,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.713,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.214,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 64.391,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 65.322,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 48.815,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.865,
+					"primitives": 4,
+					"process_ms": 27.991,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 48.953,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 59.526,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 59.864,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.282,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.352,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 53.517,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 47.566,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 50.332,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 47.79,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 94.102,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.166,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 66.348,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 41.946,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 51.031,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.13,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.717,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.584,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 36.393,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.818,
+					"primitives": 4,
+					"process_ms": 64.804,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.097,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 47.594,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.312,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.301,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.701,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.156,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 74.307,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 90,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		},
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 58.608,
+			"frame_ms_p95": 88.097,
+			"frame_ms_p99": 95.056,
+			"id": "high-coverage",
+			"mode": "before-a",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 51.869,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.72,
+					"primitives": 4,
+					"process_ms": 93.877,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.917,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 56.814,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.608,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.071,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.515,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 84.258,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 65.477,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 71.315,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 56.155,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.598,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 69.272,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 76.399,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 72.451,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 65.045,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.131,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 64.244,
+					"primitives": 4,
+					"process_ms": 79.251,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.014,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 73.787,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.115,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 47.622,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.495,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 70.416,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 61.648,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 74.682,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 67.877,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 71.317,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 51.468,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 61.15,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 48.22,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.603,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.853,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 90.669,
+					"primitives": 4,
+					"process_ms": 84.165,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 50.667,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.096,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 41.314,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 40.019,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 35.939,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 57.082,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 88.097,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 66.177,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 72.375,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 95.056,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 61.015,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 30.375,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.264,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 63.785,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.967,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.274,
+					"primitives": 4,
+					"process_ms": 86.057,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 50,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		},
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 66.751,
+			"frame_ms_p95": 102.1,
+			"frame_ms_p99": 115.008,
+			"id": "high-coverage",
+			"mode": "candidate",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.258,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 68.956,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.104,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.527,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.637,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.658,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 69.048,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 102.1,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 77.248,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 72.978,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 51.772,
+					"primitives": 4,
+					"process_ms": 91.883,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 47.356,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 59.331,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 59.493,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.29,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.724,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 67.338,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 73.332,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.971,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 47.779,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.853,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 115.008,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.097,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 48.829,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 50.831,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.579,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 87.246,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 64.222,
+					"primitives": 4,
+					"process_ms": 101.723,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 68.287,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 81.286,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 53.561,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 66.751,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 65.924,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 40.945,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.604,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 68.403,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 81.573,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 104.026,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 72.229,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 80.325,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 84.002,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 72.235,
+					"primitives": 4,
+					"process_ms": 113.791,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 74.119,
+					"primitives": 4,
+					"process_ms": 103.77,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 72.048,
+					"primitives": 4,
+					"process_ms": 103.77,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 73.452,
+					"primitives": 4,
+					"process_ms": 103.77,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 76.544,
+					"primitives": 4,
+					"process_ms": 103.77,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 69.607,
+					"primitives": 4,
+					"process_ms": 103.77,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 80.748,
+					"primitives": 4,
+					"process_ms": 103.77,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 48,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		},
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 46.096,
+			"frame_ms_p95": 70.167,
+			"frame_ms_p99": 87.129,
+			"id": "high-coverage",
+			"mode": "before-b",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 57.003,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.387,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.244,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 47.469,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 70.167,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.217,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.515,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.796,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 62.993,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 48.232,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 66.352,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 80.401,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 44.257,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 48.452,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.348,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.844,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.935,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 44.276,
+					"primitives": 4,
+					"process_ms": 88.411,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 44.337,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 41.008,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 57.327,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 70.0,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 87.129,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 75.461,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 44.875,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 36.733,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 33.798,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 48.912,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.676,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.263,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 41.129,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.332,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.777,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.391,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.174,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.092,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.134,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.845,
+					"primitives": 4,
+					"process_ms": 80.403,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.985,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.037,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 61.34,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 53.511,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.096,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 34.705,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 39.278,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 53.168,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 38.417,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.244,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 40.339,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 57.925,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 48.286,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 40.54,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 35.543,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.747,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 42.501,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 66.901,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 38.895,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.919,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 39.274,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 34.479,
+					"primitives": 4,
+					"process_ms": 87.005,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 34.208,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.95,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 62,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		},
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 59.906,
+			"frame_ms_p95": 76.686,
+			"frame_ms_p99": 84.588,
+			"id": "grazing",
+			"mode": "before-a",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 33.479,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 33.269,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.499,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 35.837,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 30.758,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 40.493,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 35.715,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.148,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 69.003,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 80.324,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 68.461,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 50.761,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 57.403,
+					"primitives": 4,
+					"process_ms": 66.806,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.744,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 62.769,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 76.686,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.622,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.703,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 53.314,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 53.188,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 36.379,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 68.002,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 65.222,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 62.695,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 56.002,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 61.443,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 62.946,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.603,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.828,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.945,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 59.906,
+					"primitives": 4,
+					"process_ms": 79.97,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 63.764,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.965,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 73.715,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 62.896,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 62.99,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 63.769,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.708,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.065,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.042,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 73.349,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 61.242,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 57.598,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 56.414,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 71.563,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 62.79,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 56.643,
+					"primitives": 4,
+					"process_ms": 75.139,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.665,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 84.588,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.943,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 58.943,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 66.235,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 64.768,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 53,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		},
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 24.58,
+			"frame_ms_p95": 54.275,
+			"frame_ms_p99": 68.603,
+			"id": "grazing",
+			"mode": "candidate",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.392,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.059,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.308,
+					"primitives": 4,
+					"process_ms": 73.536,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 52.845,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 60.796,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.275,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.997,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 44.482,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.267,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 41.516,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 41.357,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 42.724,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 38.543,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 38.242,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.035,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 31.653,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 43.021,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.595,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 55.735,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 36.715,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.819,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 50.464,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 68.603,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.163,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 50.262,
+					"primitives": 4,
+					"process_ms": 80.019,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 45.524,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 42.986,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 49.171,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 36.319,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 38.581,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.23,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 38.792,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 46.298,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 44.303,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.304,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 36.22,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 34.206,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 40.961,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 41.36,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 51.843,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 54.812,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.69,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.065,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.061,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.569,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.258,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.745,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 30.818,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.169,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.536,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.044,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.552,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.905,
+					"primitives": 4,
+					"process_ms": 66.1,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.23,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.392,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.668,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.893,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.182,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.979,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.27,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.131,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.478,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.099,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.58,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.75,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.74,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.983,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.935,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.72,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.825,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.868,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.349,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.018,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.641,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.624,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.25,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.903,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.596,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.465,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.022,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.507,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.91,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.567,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.542,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.884,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.694,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.599,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.31,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.749,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.253,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 17.259,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.854,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.024,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.233,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.69,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.506,
+					"primitives": 4,
+					"process_ms": 51.537,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 96,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		},
+		{
+			"buffer_bytes_p50": 7443628.0,
+			"buffer_bytes_p95": 7443628.0,
+			"buffer_bytes_p99": 7443628.0,
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"draws_p50": 2.0,
+			"draws_p95": 2.0,
+			"draws_p99": 2.0,
+			"frame_ms_p50": 23.754,
+			"frame_ms_p95": 29.998,
+			"frame_ms_p99": 37.147,
+			"id": "grazing",
+			"mode": "before-b",
+			"primitives_p50": 4.0,
+			"primitives_p95": 4.0,
+			"primitives_p99": 4.0,
+			"raw_samples": [
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.263,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.316,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 29.998,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.682,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.787,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.732,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.558,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.472,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.038,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.914,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.867,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.352,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.564,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.115,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.829,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.224,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.726,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.923,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.958,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.488,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.55,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.395,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.874,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.61,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.078,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.382,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 31.197,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.636,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 29.263,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.018,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 29.909,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.362,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.912,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.549,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.325,
+					"primitives": 4,
+					"process_ms": 35.54,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 28.455,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 31.085,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 32.975,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.06,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.001,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.048,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.381,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 37.147,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 30.436,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.453,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.901,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.603,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.326,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.915,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 29.122,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.275,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.343,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.456,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.936,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.149,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.735,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.153,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.572,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.899,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.905,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.39,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.777,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.482,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.113,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.914,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.631,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.454,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.057,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.59,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.48,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.649,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.349,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.836,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.864,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.543,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.419,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.001,
+					"primitives": 4,
+					"process_ms": 31.079,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.45,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.016,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.306,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.773,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.947,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.382,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.272,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.509,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.889,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.446,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.533,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.361,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.772,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.542,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.302,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 40.627,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.249,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.132,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.515,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.526,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.476,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 27.325,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 26.074,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.603,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.971,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.169,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.626,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.199,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.487,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.209,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.665,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.705,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.259,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 24.544,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.754,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.448,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 25.103,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.969,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.875,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.185,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 22.963,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 23.625,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.231,
+					"primitives": 4,
+					"process_ms": 36.906,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.086,
+					"primitives": 4,
+					"process_ms": 40.413,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 19.137,
+					"primitives": 4,
+					"process_ms": 40.413,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 18.643,
+					"primitives": 4,
+					"process_ms": 40.413,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 20.959,
+					"primitives": 4,
+					"process_ms": 40.413,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				},
+				{
+					"buffer_bytes": 7443628,
+					"draws": 2,
+					"frame_ms": 21.978,
+					"primitives": 4,
+					"process_ms": 40.413,
+					"shadow_draws": 0,
+					"texture_bytes": 14736405,
+					"visible_draws": 2
+				}
+			],
+			"sample_count": 125,
+			"shadow_draws_p50": 0.0,
+			"shadow_draws_p95": 0.0,
+			"shadow_draws_p99": 0.0,
+			"texture_bytes_p50": 14736405.0,
+			"texture_bytes_p95": 14736405.0,
+			"texture_bytes_p99": 14736405.0,
+			"visible_draws_p50": 2.0,
+			"visible_draws_p95": 2.0,
+			"visible_draws_p99": 2.0
+		}
+	],
+	"elapsed_seconds": 34.275667,
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"geometry_source": "OutdoorRoutes._water() invoked directly: exact central production plane and material",
+	"images": [
+		{
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"counters": {
+				"buffer_bytes": 7443628,
+				"draws": 2,
+				"primitives": 4,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 2
+			},
+			"file": "before-river-oblique.png",
+			"fov": 68.0,
+			"mode": "before",
+			"rgba8_sha256": "1e83b4f8149440559378dd7ef1d5396f36c86b459fa2bee37c511effb71affa4",
+			"view": "river-oblique"
+		},
+		{
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7443628,
+				"draws": 2,
+				"primitives": 4,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 2
+			},
+			"file": "before-high-coverage.png",
+			"fov": 68.0,
+			"mode": "before",
+			"rgba8_sha256": "37e562a018e020e7dcfbfcf1c0f88ccbef83f4823b92b85d6bd48dc3d5201448",
+			"view": "high-coverage"
+		},
+		{
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7443628,
+				"draws": 2,
+				"primitives": 4,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 2
+			},
+			"file": "before-grazing.png",
+			"fov": 68.0,
+			"mode": "before",
+			"rgba8_sha256": "60cbcf0559aa4e2ff271bd86b6d55ff2b19107303e8f86609b9ae27b8a4ad8d9",
+			"view": "grazing"
+		},
+		{
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"counters": {
+				"buffer_bytes": 7443628,
+				"draws": 2,
+				"primitives": 4,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 2
+			},
+			"file": "candidate-river-oblique.png",
+			"fov": 68.0,
+			"mode": "candidate",
+			"rgba8_sha256": "93bffe71b2d880905ffdf808fa1f9c98e123affd6f1e147d3bfa81d2abea0a02",
+			"view": "river-oblique"
+		},
+		{
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7443628,
+				"draws": 2,
+				"primitives": 4,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 2
+			},
+			"file": "candidate-high-coverage.png",
+			"fov": 68.0,
+			"mode": "candidate",
+			"rgba8_sha256": "8e43d5e89421fa5bb1e61e273a0e9a4b55338bde5fc153f852afa9ead188e904",
+			"view": "high-coverage"
+		},
+		{
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7443628,
+				"draws": 2,
+				"primitives": 4,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 2
+			},
+			"file": "candidate-grazing.png",
+			"fov": 68.0,
+			"mode": "candidate",
+			"rgba8_sha256": "cd08d5d3b995885c6de070834657d3a2d28fa477f71c5f088eb45c9d4ad1bdeb",
+			"view": "grazing"
+		}
+	],
+	"lighting_source": "GlasgowSquare._build_lighting() invoked directly, with no full-world _ready()",
+	"limits": "Shader-only Linux software-renderer diagnostic at640x400. One exact production water plane and actual production daylight; no Main, rider, city geometry, Music, saves or game route. Nine cells: A/B/A at three fixed authored cameras, eight warm frames then at least48 natural frames and3seconds, with8second per-cell safety bound. Readbacks/storage outside timing samples. Native shader TIME active. This does not measure whole-world1080p cost, target-Mac performance or normal-speed gameplay water motion.",
+	"phase": "complete",
+	"renderer": "gl_compatibility",
+	"resolution": [
+		640,
+		400
+	],
+	"schema": 1
+}

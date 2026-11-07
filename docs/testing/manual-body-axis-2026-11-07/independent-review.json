@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "method": "Independent actual mapped-input Main regression, exact one-file visual A/B on frozen private source and imported cache, all10 native manual variants including actual Revert fakie. World torso-up dot actual native horizontal velocity is independent of production sign helpers/local Euler axis.",
+  "baseline_result": [
+    100,
+    4
+  ],
+  "candidate_result": [
+    104,
+    0
+  ],
+  "source_inputs_per_epoch": 999,
+  "exact_changed_input_between_epochs": [
+    "game/player/skater_visual.gd"
+  ],
+  "baseline_expected_failure_lines": [
+    "ERROR: FAIL: fidelity controls: pogo actual W input leans the connected torso toward real travel",
+    "ERROR: FAIL: fidelity controls: pogo actual S input leans the connected torso away from real travel",
+    "ERROR: FAIL: fidelity controls: hang_ten actual W input leans the connected torso toward real travel",
+    "ERROR: FAIL: fidelity controls: hang_ten actual S input leans the connected torso away from real travel"
+  ],
+  "baseline_visual_sha256": "e896c154f8b8c18671a5df6620746d3ad1fdc37e3f6dd1136bcffeab0b1a686a",
+  "candidate_visual_sha256": "0e7409dd7aa1330f0e6e43a0bd76836a0900ae3bc796dd78645ae55de418e70b",
+  "test_sha256": "54fdf5ddb2a9f0e0a8f1f91e85bc36f281e8a02e2bc70b60d159f5352b4b432c",
+  "native_measures": {
+    "baseline": [
+      {
+        "case": "manual",
+        "forward_delta": 0.006212070584297194,
+        "back_delta": -0.009591810405254406
+      },
+      {
+        "case": "nose_manual",
+        "forward_delta": 0.0075831972062588,
+        "back_delta": -0.0080413650721312
+      },
+      {
+        "case": "manual fakie",
+        "forward_delta": 0.007871668785810505,
+        "back_delta": -0.008005369454622303
+      },
+      {
+        "case": "nose_manual fakie",
+        "forward_delta": 0.006342669948935502,
+        "back_delta": -0.009484820067882503
+      },
+      {
+        "case": "pogo",
+        "forward_delta": -0.008485049009323106,
+        "back_delta": 0.010888762772083296
+      },
+      {
+        "case": "casper_manual",
+        "forward_delta": 0.006229743361473097,
+        "back_delta": -0.009597457945346805
+      },
+      {
+        "case": "manual_pivot",
+        "forward_delta": 0.007795035839080797,
+        "back_delta": -0.008044071495533003
+      },
+      {
+        "case": "nose_manual_pivot",
+        "forward_delta": 0.006283368915319401,
+        "back_delta": -0.0092287510633468
+      },
+      {
+        "case": "hang_ten",
+        "forward_delta": -0.0044879363849759015,
+        "back_delta": 0.000839190557599
+      },
+      {
+        "case": "one_foot_nose_manual",
+        "forward_delta": 0.0075917504727841,
+        "back_delta": -0.008038554340601
+      }
+    ],
+    "candidate": [
+      {
+        "case": "manual",
+        "forward_delta": 0.0067270770668984015,
+        "back_delta": -0.01028215885162359
+      },
+      {
+        "case": "nose_manual",
+        "forward_delta": 0.0082840081304312,
+        "back_delta": -0.008566996082663501
+      },
+      {
+        "case": "manual fakie",
+        "forward_delta": 0.008543748408556005,
+        "back_delta": -0.008505407720804194
+      },
+      {
+        "case": "nose_manual fakie",
+        "forward_delta": 0.0068717896938323,
+        "back_delta": -0.010201051831245402
+      },
+      {
+        "case": "pogo",
+        "forward_delta": 0.0069926753640175005,
+        "back_delta": -0.010091051459312397
+      },
+      {
+        "case": "casper_manual",
+        "forward_delta": 0.0067347958683967035,
+        "back_delta": -0.010275758802890791
+      },
+      {
+        "case": "manual_pivot",
+        "forward_delta": 0.008468311280012103,
+        "back_delta": -0.00853708013892171
+      },
+      {
+        "case": "nose_manual_pivot",
+        "forward_delta": 0.006805758923292202,
+        "back_delta": -0.009914439171552703
+      },
+      {
+        "case": "hang_ten",
+        "forward_delta": 0.0083162467926741,
+        "back_delta": -0.008589591830968798
+      },
+      {
+        "case": "one_foot_nose_manual",
+        "forward_delta": 0.008295709267258599,
+        "back_delta": -0.008564529940485899
+      }
+    ]
+  },
+  "verdict": "Independent sign regression passes proposed body-axis correction. Old Pogo/HangTen W/S body lean is physically reversed relative to real travel, reproduced with four failing assertions. Proposed deck-space lean fixes all four while all existing84 board/control assertions remain passing.",
+  "limits": [
+    "This is world-axis direction, not biomechanical plausibility or rendered/moving quality. Lateral response, centre-of-mass/contact/hip posture and all variants in a normal-speed reel remain separate.",
+    "Current root original Main, procedural rider and full default content are instantiated. Frozen source predates any later fitted-avatar adapter or subsequent controller changes; integration must preserve this hunk and rerun current combined gates.",
+    "Each baseline/candidate source+import-cache epoch is byte-stable, but exact renderer shader runtime caches are not treated as immutable inputs. This is headless and makes no graphics/performance/M5 claim.",
+    "Root authorized possible overlap with untimed environment graphics. No continuous host process observer was recorded; no whole-run exclusivity is asserted. Native exact process IDs/start/end/deadline/exit are retained in original receipts.",
+    "Baseline explicitly exits1 for four genuine failures and is eligible=false. It has not been rewritten as a passing negative fixture or silently omitted. Candidate is104/0, exit0 and eligible=true for this narrow regression."
+  ]
+}

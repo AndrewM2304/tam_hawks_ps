@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "resolution": [
+    1280,
+    800
+  ],
+  "reviewer": "environment specialist; independently viewable native lossless pairs",
+  "findings": "All three actual native pairs personally inspected. No meaningful loss of masonry or paving detail at these declared chase/close views. Wall maximum RGB8 component difference is one. The result supports the bounded normal-resolution reduction, not final architectural art acceptance.",
+  "limits": "Native world TIME remains active; incidental moving water/NPC pixels can differ. Full-frame maximum differences must not be interpreted as normal-map degradation. Display inspection and metrics are at 1280x800, not target-Mac 1440p/4K or human playtest acceptance.",
+  "pairs": [
+    {
+      "view": "ordinary-chase",
+      "frames": [
+        {
+          "file": "normals-2k-reference-ordinary-chase.png",
+          "sha256": "053d983d8c2b1ade6894246e407ca5440f81a522f23227620878f90ba5bf751c"
+        },
+        {
+          "file": "normals-1k-production-ordinary-chase.png",
+          "sha256": "d5e9463a6dd308c7d8228854ac9eb1cf28d1b63389d61d44d57ffa69d0b51bab"
+        }
+      ],
+      "full_image": {
+        "mean_absolute_rgb8": 0.037569986979166664,
+        "p99_component": 1.0,
+        "max_component": 202,
+        "pixels_with_any_difference": 86427
+      }
+    },
+    {
+      "view": "wall-eye",
+      "frames": [
+        {
+          "file": "normals-2k-reference-wall-eye.png",
+          "sha256": "7b41dfafc380d2f015c66237281f5362bd52a6e9cb3f9d0a9d956371cf26d7b7"
+        },
+        {
+          "file": "normals-1k-production-wall-eye.png",
+          "sha256": "280f7486ea82ea2ed9840ffde66f93656b9ddebc5d7e06a0a9cd273df8fbd1dc"
+        }
+      ],
+      "full_image": {
+        "mean_absolute_rgb8": 0.0023548177083333333,
+        "p99_component": 0.0,
+        "max_component": 1,
+        "pixels_with_any_difference": 6835
+      }
+    },
+    {
+      "view": "paving-oblique",
+      "frames": [
+        {
+          "file": "normals-2k-reference-paving-oblique.png",
+          "sha256": "54c4e0753bfa0a787188abba7ed6de8bfa723bbb4ff1503fd48948db11413b51"
+        },
+        {
+          "file": "normals-1k-production-paving-oblique.png",
+          "sha256": "27e97af34107a8f803ec32ac3c3fd1d52b18b36f22e2e6cb454e3409bfe36ca9"
+        }
+      ],
+      "full_image": {
+        "mean_absolute_rgb8": 0.06321451822916667,
+        "p99_component": 1.0,
+        "max_component": 96,
+        "pixels_with_any_difference": 160845
+      },
+      "foreground_paving_region_xyxy": [
+        0,
+        400,
+        1280,
+        800
+      ],
+      "foreground_paving": {
+        "mean_absolute_rgb8": 0.0991953125,
+        "p99_component": 1.0,
+        "max_component": 2
+      }
+    }
+  ]
+}

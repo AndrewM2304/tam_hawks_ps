@@ -78,7 +78,7 @@ static func run_player(tree: SceneTree,game: Node,check: Callable,observer: Call
 		reached=game.skater.manual_active
 		if reached:
 			var targets := [Vector3(-144,6,-126),Vector3(-134,6,-125),Vector3(-110,6,-125),
-				Vector3(-80,6,-124),Vector3(-44,6,-122)]
+				Vector3(-80,6,-124),Vector3(-62,6,-123),Vector3(-44,6,-122)]
 			for target_index: int in targets.size():
 				var target: Vector3=targets[target_index]
 				reached=await _manual_target(tree,game,e,target,900,"civic_promenade_manual_return",observer)

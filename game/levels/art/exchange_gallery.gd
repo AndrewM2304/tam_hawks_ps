@@ -77,7 +77,7 @@ static func adapt_gallery_front(art: Node3D, building: Node3D) -> void:
 	art._batch_box(batches,"window_shadow",Vector3(5.3,3.45,0.10),Vector3(0,2.25,6.10))
 	for side: float in [-1.0,1.0]:
 		art._batch_box(batches,"wood",Vector3(1.55,2.75,0.16),Vector3(side*0.8,2.105,6.23))
-		art._batch_box(batches,"glass",Vector3(1.18,1.65,0.035),Vector3(side*0.8,2.38,6.33))
+		art._batch_box(batches,"facade_glass",Vector3(1.18,1.65,0.035),Vector3(side*0.8,2.38,6.33))
 		art._batch_box(batches,"brass",Vector3(0.045,0.36,0.06),Vector3(side*0.16,1.9,6.36))
 		art._batch_box(batches,"cut_stone",Vector3(0.38,3.18,0.34),Vector3(side*1.90,2.20,6.20))
 	art._batch_box(batches,"cut_stone",Vector3(4.25,0.32,0.38),Vector3(0,3.93,6.20))

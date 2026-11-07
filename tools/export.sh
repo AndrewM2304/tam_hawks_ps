@@ -103,6 +103,7 @@ python3 - <<'PY'
 import hashlib, json, os, pathlib, subprocess
 root = pathlib.Path.cwd()
 paths = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
+paths += [root / 'tools' / name for name in ('rider_asset_bake.py', 'rider_asset_acquire.py', 'rider_asset_hair.py', 'fetch_environment_materials.py', 'build_environment_derivatives.py')]
 paths += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
 entries = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 fingerprint = hashlib.sha256(json.dumps(entries, sort_keys=True).encode()).hexdigest()
@@ -128,6 +129,24 @@ for model in human_manifest['outputs'].values():
     relative = model['path'].removeprefix('res://')
     if not relative.startswith('game/art/assets/makehuman_hm08/') or entries.get(relative) != model['sha256']:
         raise SystemExit('Cropped human mesh differs from reviewed provenance: ' + relative)
+# Verify the November fidelity inputs before packaging. Imported GPU resources
+# are checked again from the empty-project pack inspection below.
+environment_manifest = json.loads((root / 'game/art/assets/environment_pbr/manifest.json').read_text())
+for material in environment_manifest['materials'].values():
+    for channel, resource in material['files'].items():
+        relative = resource.removeprefix('res://')
+        if not relative.startswith('game/art/assets/environment_pbr/') or entries.get(relative) != material['file_sha256'][channel]:
+            raise SystemExit('Fidelity material differs from reviewed provenance: ' + relative)
+derived_manifest = json.loads((root / 'game/art/assets/environment_pbr/derived/manifest.json').read_text())
+for name, image in derived_manifest['files'].items():
+    if pathlib.Path(name).name != name or entries.get('game/art/assets/environment_pbr/derived/' + name) != image['sha256']:
+        raise SystemExit('Derived fidelity surface differs from reviewed provenance: ' + name)
+rider_manifest = json.loads((root / 'game/art/rider/manifest.json').read_text())
+for name, image in rider_manifest['maps'].items():
+    if pathlib.Path(name).name != name or entries.get('game/art/rider/' + name) != image['sha256']:
+        raise SystemExit('Rider surface differs from reviewed provenance: ' + name)
+if entries.get(rider_manifest['generator']) != rider_manifest['generator_sha256']:
+    raise SystemExit('Rider surface generator differs from reviewed provenance.')
 manifest = {'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
             'working_tree_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
             'runtime_source_sha256': fingerprint, 'source_files_sha256': entries,
@@ -196,6 +215,38 @@ func _initialize() -> void:
 			quit(1)
 			return
 		report.human_meshes[id] = {"resource": path, "surfaces": mesh.get_surface_count(), "vertices": mesh.surface_get_array_len(0)}
+	var environment_manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://game/art/assets/environment_pbr/manifest.json"))
+	var rider_manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://game/art/rider/manifest.json"))
+	if not environment_manifest is Dictionary or not rider_manifest is Dictionary:
+		push_error("Pack is missing its readable fidelity provenance manifests.")
+		quit(1)
+		return
+	for material: Dictionary in environment_manifest.materials.values():
+		for channel: String in material.files:
+			var policy: Dictionary = environment_manifest.import_policy.maximum_dimension_by_map
+			var cap := int(policy.get(channel, 1024)) if material.provider == "Poly Haven" else int(policy.zc_materials_all_maps)
+			if not _fidelity_texture(str(material.files[channel]), cap, report):
+				quit(1)
+				return
+	for name: String in rider_manifest.maps:
+		if not _fidelity_texture("res://game/art/rider/" + name, 2048, report):
+			quit(1)
+			return
+	var derived_manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://game/art/assets/environment_pbr/derived/manifest.json"))
+	if not derived_manifest is Dictionary:
+		push_error("Pack is missing its derived-surface provenance.")
+		quit(1)
+		return
+	for name: String in derived_manifest.files:
+		var cap := 2048 if name.begins_with("pavement_") else 1024
+		if not _fidelity_texture("res://game/art/assets/environment_pbr/derived/" + name, cap, report):
+			quit(1)
+			return
+	var hair := load("res://game/art/rider/short_crop.obj") as ArrayMesh
+	if hair == null or hair.get_surface_count() != 1 or hair.surface_get_array_len(0) < 1000:
+		push_error("Pack is missing its single-surface cropped hair mesh.")
+		quit(1)
+		return
 	var output := FileAccess.open(OS.get_cmdline_user_args()[0], FileAccess.WRITE)
 	if output == null:
 		push_error("Could not write packaged resource report.")
@@ -203,8 +254,20 @@ func _initialize() -> void:
 		return
 	output.store_string(JSON.stringify(report, "\t") + "\n")
 	output.close()
-	print("RESOURCES VERIFIED: main scene/scripts, 3 voice streams, 4 material textures and 4 anatomical meshes")
+	print("RESOURCES VERIFIED: main scene/scripts, 3 voice streams, ", report.textures.size(), " material/rider textures and 4 anatomical meshes")
 	quit(0)
+
+func _fidelity_texture(path: String, cap: int, report: Dictionary) -> bool:
+	var texture := load(path) as Texture2D
+	if texture == null or texture.get_width() <= 0 or texture.get_height() <= 0 or texture.get_width() > cap or texture.get_height() > cap:
+		push_error("Pack is missing its bounded fidelity texture: " + path)
+		return false
+	var image := texture.get_image()
+	if image == null or not image.has_mipmaps():
+		push_error("Packed fidelity texture has no image/mipmaps: " + path)
+		return false
+	report.textures[path] = {"width": texture.get_width(), "height": texture.get_height(), "mipmaps": image.get_mipmap_count()}
+	return true
 GDSCRIPT
 for TASK_PLATFORM in linux macos; do
   if [[ ! -d "$TASK_BUILD/$TASK_PLATFORM" ]]; then continue; fi
@@ -223,6 +286,7 @@ root = pathlib.Path.cwd()
 build = pathlib.Path(os.environ['TASK_BUILD'])
 metadata = json.loads((build / 'BUILD-METADATA.json').read_text())
 current_inputs = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
+current_inputs += [root / 'tools' / name for name in ('rider_asset_bake.py', 'rider_asset_acquire.py', 'rider_asset_hair.py', 'fetch_environment_materials.py', 'build_environment_derivatives.py')]
 current_inputs += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
 if {str(p.relative_to(root)) for p in current_inputs} != set(metadata['source_files_sha256']):
     raise SystemExit('Source files were added or removed during export. Rebuild a stable checkpoint.')
@@ -260,6 +324,11 @@ for platform in ('linux', 'macos'):
     shutil.copy2(root / 'docs/licences/REGISTER.md', notices / 'PROVENANCE.md')
     shutil.copy2(root / 'game/art/assets/zc_textures/manifest.json', notices / 'TEXTURE-PROVENANCE.json')
     shutil.copy2(root / 'game/art/assets/makehuman_hm08/manifest.json', notices / 'HUMAN-MESH-PROVENANCE.json')
+    shutil.copy2(root / 'game/art/assets/environment_pbr/manifest.json', notices / 'ENVIRONMENT-PROVENANCE.json')
+    shutil.copy2(root / 'game/art/assets/environment_pbr/derived/manifest.json', notices / 'ENVIRONMENT-DERIVATIVES.json')
+    shutil.copy2(root / 'game/art/rider/manifest.json', notices / 'RIDER-SURFACE-PROVENANCE.json')
+    shutil.copy2(root / 'game/art/rider/SKIN-NOTICE.md', notices / 'SKIN-NOTICE.md')
+    shutil.copy2(root / 'docs/licences/ENVIRONMENT-FIDELITY.md', notices / 'ENVIRONMENT-FIDELITY.md')
     shutil.copy2(root / 'docs/PLAYER-GUIDE.md', package / 'PLAYER-GUIDE.md')
     shutil.copy2(build / 'BUILD-METADATA.json', package / 'BUILD-METADATA.json')
     resource_report = json.loads((build / (platform + '-resources.json')).read_text())
@@ -290,6 +359,11 @@ for platform in ('linux', 'macos'):
         provenance_sources = {
             'TEXTURE-PROVENANCE.json': root / 'game/art/assets/zc_textures/manifest.json',
             'HUMAN-MESH-PROVENANCE.json': root / 'game/art/assets/makehuman_hm08/manifest.json',
+            'ENVIRONMENT-PROVENANCE.json': root / 'game/art/assets/environment_pbr/manifest.json',
+            'ENVIRONMENT-DERIVATIVES.json': root / 'game/art/assets/environment_pbr/derived/manifest.json',
+            'RIDER-SURFACE-PROVENANCE.json': root / 'game/art/rider/manifest.json',
+            'SKIN-NOTICE.md': root / 'game/art/rider/SKIN-NOTICE.md',
+            'ENVIRONMENT-FIDELITY.md': root / 'docs/licences/ENVIRONMENT-FIDELITY.md',
             'VOICE-PROVENANCE.json': root / 'game/audio/generated/manifest.json',
             'PROVENANCE.md': root / 'docs/licences/REGISTER.md',
         }

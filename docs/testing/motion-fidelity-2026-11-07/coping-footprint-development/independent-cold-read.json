@@ -1,0 +1,59 @@
+{
+  "schema": "tam-hawks-independent-coping-cold-read-v1",
+  "reviewed_utc": "2026-11-07T02:42:35.115581+00:00",
+  "reviewer": "independent_qa",
+  "method": "Read-only source/native-log review; no QA engine run. Author executed the native fixture.",
+  "status": "Bounded private native fixture and promoted helper source reviewed; D014 ordinary Main route remains OPEN.",
+  "retained_source_manifest_scope": "After-run only; not a before/after freeze claim.",
+  "recorded_after_inputs": 786,
+  "retained_controller_and_test_hashes_match_after_inventory": true,
+  "independently_counted_pass_lines": 49,
+  "independently_counted_engine_script_error_lines": 0,
+  "helper_comparison": {
+    "_native_wheel_footprint_hits": {
+      "private_sha256": "69cb9ecc5148ad6e8ec3eb0a974da5874bbac2aa85cc0762371746d9a7fea09c",
+      "actual_sha256": "ab12c2ced81fbe853f1bfedbbf1e439fefe3f2d4993a00bf4d9c497337a4ce82",
+      "exact": false,
+      "equal_after_removing_read_only_trace_calls": true
+    },
+    "_native_footprint_contact": {
+      "private_sha256": "f2eff70fc3a245af53d4fff2d76b0aff797727d8e4acb3df6e214aa684f88f31",
+      "actual_sha256": "f2eff70fc3a245af53d4fff2d76b0aff797727d8e4acb3df6e214aa684f88f31",
+      "exact": true,
+      "equal_after_removing_read_only_trace_calls": true
+    },
+    "_native_footprint_board_fit": {
+      "private_sha256": "35053da7cee8bc044930cf5617545fd6e8eb59949f9f94fd20ca9b2a705808bb",
+      "actual_sha256": "21d1b96066beae4394bde6561b5d7f3f175e44c53f6bcb9817934b92826e0cbe",
+      "exact": false,
+      "equal_after_removing_read_only_trace_calls": true
+    }
+  },
+  "authentication_checks": [
+    "PT24 footprint authentication: positive control begins on an independently ray-confirmed real native coping face",
+    "PT24 footprint authentication: a real native top face supplies a finite same-owner support",
+    "PT24 footprint authentication: the recorded virtual concave point cannot replace recovered actual native coping geometry",
+    "PT24 footprint authentication: virtual point above the finite30mm ray reach cannot supply a plane without live contacts",
+    "PT24 footprint authentication: an underside-only contact cannot supply an upward support",
+    "PT24 footprint authentication: wrong native RID and shape cannot reuse genuine coping contacts",
+    "PT24 footprint authentication: malformed/nonfinite points cannot expand the30mm ray and leave physical state unchanged"
+  ],
+  "source_findings": [
+    "Candidates only aim fresh downward vertical rays over +/-30mm; support comes from actual ray face, exact RID and exact shape.",
+    "Pair enumeration is bounded to8 and incomplete sampling is explicitly declared; final full-model/four-tyre proof remains mandatory.",
+    "Existing three-pass finite fit and100mm total presentation cap remain. Bowl-owned failed ordinary fits enter new face authentication; successful ordinary path remains unchanged.",
+    "Promoted board fit differs from retained private source only by removal of read-only tracing."
+  ],
+  "limits": [
+    "Author49/0 is an isolated native fixture including retained recorded body poses, not the original live ordinary-Main C04 traversal.",
+    "No runtime trajectory or source-before record was reconstructed.",
+    "No moving visual continuity, final integrated regression, physical controller, human fun or target-M5 acceptance."
+  ],
+  "retained_evidence_sha256": {
+    "finite-contact-controller.gd.txt": "e0838ca05e8c2a58ac46c95f5b6f15c91ed295b906912e59f9dc1937c089f789",
+    "finite-contact-tests.gd.txt": "6efa65deeb14deb306931164ea87656cf7ce9b0bfec15c6b3160cd745cf734e3",
+    "finite-contact49.log": "b463ce8b1da2c24a0d4c685bff78ffd5de8c954567529cb5a03aace783cf3796",
+    "finite-contact-development-receipt.json": "9ffee9d8a2669f765cc4b70ce34f507ed8b2b1d9b16cc4d0ad1bd5f1d51ede31",
+    "finite-contact-source-after-only.json": "195e760806e5f09d6076dbca7dc92c12587f9a408ca12760f2af200df0e7b062"
+  }
+}

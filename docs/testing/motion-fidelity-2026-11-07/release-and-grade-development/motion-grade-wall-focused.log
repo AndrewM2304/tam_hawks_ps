@@ -1,0 +1,7 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: native graded wall: real fast approach and rollback keep the connected model clear without moving the physical capsule
+PASS: native graded wall: every sampled actual tyre retains finite bank support during the tangential wall correction
+PASS: native graded wall: finite support refuses an offset that floats tyres or cuts them into the actual grade
+NATIVE_GRADED_WALL samples=57 clear=true native_wheel_gap_min_m=0.01410493534058 native_wheel_gap_max_m=0.01411342062056 max_connected_offset_m=0.0431505702436 reverse=true reject_float=true reject_intrusion=true final_body=(83.7795, 3.578002, 73.5005)
+MOTION_GRADED_WALL_RESULT 3/0

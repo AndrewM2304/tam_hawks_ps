@@ -1,0 +1,1282 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T02:07:05.175947+00:00",
+  "overall_result": "Fail / incomplete",
+  "scope": "Independent checkpoint, not final candidate acceptance. Production is mutable. Fail refers to directly inspected source-bound baseline or candidate evidence; later unreviewed production changes do not inherit a positive or negative current-source certification. Pass is only the bounded exact evidence stated; Unmeasured means missing independent complete-clause evidence.",
+  "head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "source_documents": {
+    "docs/planning/FIDELITY_TICKETS.md": "4a814d519ae7078dcc6ddac816776e61315ebe6666955bfc7c22e7266719935f",
+    "docs/product/AAA_BENCHMARK.md": "31c28af085056ffd664bdfe7ba5f7f3e161b8a246c212400c8e62d51b4424b1b"
+  },
+  "evidence_index": {
+    "review": "../FIDELITY-REVIEW.md",
+    "baseline": "baseline/README.md",
+    "push_baseline": "push-baseline/README.md",
+    "manual_baseline": "manual-baseline/README.md",
+    "controls_sign": "controls-sign-01/README.md",
+    "landing_candidate": "controls-landing-01/README.md",
+    "motion_checkpoint": "motion-checkpoint-01-rejected/README.md",
+    "meter_negative": "manual-meter-01-rejected/README.md",
+    "meter_retest": "manual-meter-02/README.md",
+    "renderer_comparison": "renderers/README.md",
+    "derivatives": "derivative-independent.json",
+    "studio": "studio-structure-audit-extension.json",
+    "environment_allocation": "environment-allocation-independent.json",
+    "contact_diagnostics": "motion-contact-diagnostics/README.md",
+    "water_isolated": "environment/isolated-water-01/independent-review.json",
+    "bank_escape": "../line-design-2026-11-06/rejected-top-escape/README.md",
+    "checkpoint_readiness": "checkpoint-readiness-offline.md",
+    "bank_motion": "bank-crown-motion-01/README.md",
+    "coping_contact": "clyde-coping-contact-01/README.md",
+    "current_native_order": "../line-design-2026-11-06/current-order-native-2026-11-07/independent-review.json",
+    "water_two_wave": "environment/two-wave-48warm-01/independent-review.json",
+    "rigging_structure": "studio-structure-audit-rigging-extension.json",
+    "asset_BA": "../FIDELITY-BA.md",
+    "research": "../../research/THPS-LINE-DESIGN.md"
+  },
+  "benchmark": [
+    {
+      "id": "V1",
+      "clauses": [
+        {
+          "id": "V1.1",
+          "name": "Continuous believable forms",
+          "criterion": "At normal chase distance and a two-metre close view, the head, neck, shoulders, elbows, hands, hips, knees and ankles have anatomically credible silhouettes. No visible cuboid limbs, primitive joint balls, separated sleeves, open seams, inverted surfaces or visibly faceted face. Hidden simple collision is appropriate.",
+          "result": "Fail",
+          "evidence_or_limit": "D001; older GL still angular, final garment changes unreviewed.",
+          "next_action": "Review final front/side/rear/three-quarter close and chase."
+        },
+        {
+          "id": "V1.2",
+          "name": "Adult scale and proportions",
+          "criterion": "One consistent adult rider scale, measured against the approximately metre-based world. Document height, board dimensions and limb proportions. Neck/shoulder/hip widths and face placement must hold in front, side, rear and three-quarter views.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No independent final adult/limb/board measurements.",
+          "next_action": "Measure metre-world proportions."
+        },
+        {
+          "id": "V1.3",
+          "name": "Character surfaces",
+          "criterion": "Clothing reads as cloth through its shape, seams, folds, thickness and restrained material response. Skin, hair, soles, grip tape, deck wood, trucks and wheels have distinct believable responses. Detail must survive the ordinary camera rather than exist only in an asset preview.",
+          "result": "Fail",
+          "evidence_or_limit": "D001 surfaces; GL skin improves but cloth/angular finish remains.",
+          "next_action": "Inspect final ordinary camera material/form quality."
+        },
+        {
+          "id": "V1.4",
+          "name": "Deformation",
+          "criterion": "Crouch, deepest landing, push extension, grab and both specials show no collapsed crotch, broken elbow/knee, detached wrists or visible clothing/body penetration. Deformation is reviewed in motion and in the frame at the worst bend.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Full worst-bend candidate motion absent.",
+          "next_action": "Review crouch/landing/push/grab/special bends."
+        },
+        {
+          "id": "V1.5",
+          "name": "Board construction",
+          "criterion": "Deck profile, trucks, wheels, grip, feet placement and board scale are coherent. No wheel visibly detaches, rotates around the wrong axle, penetrates the ordinary skating surface or hovers in an unsupported idle pose.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Wheel8mm native flat baseline is bounded; complete final construction/idle review absent.",
+          "next_action": "Inspect finite wheel/truck/deck/shoe motion and idle."
+        },
+        {
+          "id": "V1.6",
+          "name": "Grounding",
+          "criterion": "In supported coast and ordinary grounded trick poses, planted shoe soles target at most 20 mm separation from their intended deck plane. Report maximum and 95th-percentile error where instrumented. Deliberate push/flip/bail separation is labelled and judged against the action.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Baseline frontsole0.854mm; final full supported-pose max/p95 absent.",
+          "next_action": "Measure final shoe/deck errors and label intentional separation."
+        }
+      ]
+    },
+    {
+      "id": "V2",
+      "clauses": [
+        {
+          "id": "V2.1",
+          "name": "Readable physical materials",
+          "criterion": "Paving, concrete, sandstone, brick, asphalt, slate, painted steel, glass, grass and water have coherent scale and response under the same lighting. Large route-facing surfaces cannot remain featureless flat colours. Normal and roughness detail support the material rather than produce noisy sparkle.",
+          "result": "Fail",
+          "evidence_or_limit": "D002/D004; improved paving but inspected repeated stone/bright glass remain.",
+          "next_action": "Enumerate and finish actual materials in ordinary views."
+        },
+        {
+          "id": "V2.2",
+          "name": "Texture scale and resolution",
+          "criterion": "Document metres per repeat and actual source resolution. Route-facing hero surfaces target about 256\u2013512 source texels per metre at their intended close view, with sensible mipmaps and filtering. Upsampling does not count as added detail. Match adjoining modules within about 10% apparent scale unless construction calls for a difference.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Asset metadata/rebuild passes; full apparent adjacent scale and all-material target coverage not accepted.",
+          "next_action": "Measure actual repeats/resolution/adjacent apparent scale."
+        },
+        {
+          "id": "V2.3",
+          "name": "Stable surface detail",
+          "criterion": "No stretched UVs at banks, giant visible pixels on the normal path, shimmering grass, moir\u00e9, unintended normal-map inversion, z-fighting, detached decals or obvious discontinuities at pavement joins. Inspect both stationary and moving frames.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No full final moving UV/shimmer/seam review.",
+          "next_action": "Inspect moving banks, pavement joins and grass."
+        },
+        {
+          "id": "V2.4",
+          "name": "Architecture",
+          "criterion": "Windows/doors have plausible scale, recess and thickness; roofs and cornices meet; no floating trims or regular blockout rows dominate an ordinary route. District silhouettes and credible close-up details identify the place without copied map layouts.",
+          "result": "Fail",
+          "evidence_or_limit": "D002 flat bright window panels remain in inspected GL.",
+          "next_action": "Inspect/finish architectural depth, joins and district silhouette."
+        },
+        {
+          "id": "V2.5",
+          "name": "Light and contact",
+          "criterion": "One coherent daylight treatment; wheels, rails and building bases read as grounded. Bright stone retains detail and shaded landings remain readable. No artificial bloom, excessive saturation or crushed blacks conceal missing detail.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final shaded/bright grounding pair absent.",
+          "next_action": "Review final shadows, bright stone detail and landing clarity."
+        },
+        {
+          "id": "V2.6",
+          "name": "Composition",
+          "criterion": "At least one intentional foreground/middle/background composition on each primary line. Visible boundaries frame returns or destinations. Open space has a skating or visual purpose; clutter cannot replace deliberate composition.",
+          "result": "Fail",
+          "evidence_or_limit": "D003 broad east-quay transport; latest bank-return unseen.",
+          "next_action": "Review useful next choices from actual primary decision points."
+        }
+      ]
+    },
+    {
+      "id": "V3",
+      "clauses": [
+        {
+          "id": "V3.1",
+          "name": "Action reel",
+          "criterion": "The action reel must show idle, coast, push, brake, crouch, ollie, spin, flip, grab, rail entry/travel/exit, manual, revert, both specials, clean landing, bail and recovery. Add left/right carving, uphill/downhill, rollback, bank takeoff, support loss and a wall-adjacent camera turn. Record accepted input, actual state transitions and whether any setup fixture is used.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current-source normal-speed action reel.",
+          "next_action": "Review all named actions plus bank/support-loss/wall sequence."
+        },
+        {
+          "id": "V3.2",
+          "name": "Action coherence 1",
+          "criterion": "Input must affect eligible gameplay on the existing physics tick; animation never adds a gameplay waiting period. The rider anticipates, extends and compresses in a way that agrees with actual takeoff/landing events.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final all-action input/contact/visual latency not measured.",
+          "next_action": "Pair accepted input, physics events and same-frame visuals."
+        },
+        {
+          "id": "V3.3",
+          "name": "Action coherence 2",
+          "criterion": "Ordinary state transitions must have no single-frame pose pops, unexplained body rotation or camera cuts. Instrument discontinuities and distinguish the physical event from cosmetic smoothing. A camera may resolve collision promptly, but must not oscillate or cut through scenery.",
+          "result": "Fail",
+          "evidence_or_limit": "D015 native full-world side sequence independently exposes a 28.627-pixel rider/deck step at the bank crown; 119.816 mm physical-frame presentation offset.",
+          "next_action": "Repair earned finite wall anticipation, then repeat exact source-bound frames/video and the wider transition cohort."
+        },
+        {
+          "id": "V3.4",
+          "name": "Action coherence 3",
+          "criterion": "The board and shoes agree in grounded poses; push-foot ground contact follows the support height. Grabs meet the deck within 50 mm at full extension. These are measurable targets; no \u201csmooth\u201d status is awarded from source inspection.",
+          "result": "Fail",
+          "evidence_or_limit": "D014 current grounded tyre penetrates finite coping by 35.716 mm with a mesh/camera obstruction. Native push improves, but all-action contact is not accepted.",
+          "next_action": "Rerun final contact checks and actual normal-speed action."
+        },
+        {
+          "id": "V3.5",
+          "name": "Action coherence 4",
+          "criterion": "Wheel/ground response, skater lean and landing compression must support the movement. Do not disguise physics defects by sliding an independent visible model over them.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Actual wheel/lean/compression all-action review incomplete.",
+          "next_action": "Inspect native event versus model without cosmetic state drift."
+        },
+        {
+          "id": "V3.6",
+          "name": "Action coherence 5",
+          "criterion": "The owner-requested push stroke faces and follows actual travel: shoulders/hips open naturally, the supporting foot stays on the deck, the pushing leg extends behind travel and visibly lifts into recovery. Forward/reverse and carving strokes must avoid a side-sweeping leg, lateral foot skid or abrupt torso snap. Review the cycle in normal-speed chase/front/side views, not just a contact marker or static pose.",
+          "result": "Fail",
+          "evidence_or_limit": "D008 baseline side-on stroke; final source-aligned cycles unreviewed.",
+          "next_action": "Review forward/fakie/carving/slope push and actual hips."
+        },
+        {
+          "id": "V3.7",
+          "name": "Action coherence 6",
+          "criterion": "At the normal chase view the complete rider, board and immediate landing remain visible through a 30-second natural-input wall/undercroft/turn sequence. A deliberately excluded close-up camera is labelled.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No final30-second wall/undercroft/turn framing proof.",
+          "next_action": "Capture natural-input camera sequence with full rider/landing."
+        },
+        {
+          "id": "V3.8",
+          "name": "Action coherence 7",
+          "criterion": "Restart, pause, slow speed, reverse travel and repeat inputs must not leave stale trick poses or timers. Reduced motion preserves legibility while removing nonessential camera motion.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Full reduced-motion/pause/restart/reverse repetition state review absent.",
+          "next_action": "Replay interruptions and observe stale timers/poses."
+        },
+        {
+          "id": "V3.9",
+          "name": "Manual linking",
+          "criterion": "After the fidelity candidate, explicitly review manual continuity using real air\u2192manual\u2192air and air\u2192manual\u2192ground-bank inputs. Document admitted early/late requests, held/gesture semantics, release and cancellation; observe actual support/link/landing/bank events. No per-tick manual/balance/score/velocity assignment can create the claimed link. Unsupported, expired, low-speed and stale requests must fail deliberately; valid admission must not lose a combo through event-ordering or premature banking.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Independent candidate landing matrix47/0 verifies actual widened early links, exclusive350ms expiry, release/stale/gesture and bank-once events. Full linked-run/interruption/threshold coverage remains open.",
+          "next_action": "Complete real manual\u2192air continuation and threshold/cooldown/pause/restart/bail neighbours on final source."
+        },
+        {
+          "id": "V3.10",
+          "name": "Balance feedback",
+          "criterion": "Balance feedback reads the authoritative state and shows its actual correction axis and direction. Ordinary and nose manuals must actually correct fore/aft with W/S or Up/Down and map nose/tail/stance correctly; relabelling an unchanged lateral control does not meet the owner's request. Grinds use lateral correction/display, and special balance variants follow their modelled support/axis with documented controls. Neutral/risk/bail endpoints and both correction signs must map correctly with current remaps/device prompts. Do not correct balance and unintentionally carve or accelerate with the same control. Keep the moving rider/landing clear, use non-colour risk cues, and clear stale meters at mode exit/restart. UI fixture checks supplement actual-input moving play; they cannot replace it.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Actual W/S direction passes10 variants; clean native34/0 retest fixes D011 glyph and rider/approach interference at1280x800/UI1.0+1.4. Full moving/risk/remap/lateral scope remains open.",
+          "next_action": "Inspect final integrated normal-speed feedback and body lean, endpoints, remaps and lateral modes."
+        }
+      ]
+    },
+    {
+      "id": "L1",
+      "clauses": [
+        {
+          "id": "L1.1",
+          "name": "Original research",
+          "criterion": "Research Tony Hawk levels as examples of spatial and mechanical principles. Record inspected sources and distinguish direct observation from design inference. Implement original Glasgow arrangements; do not recreate a franchise map.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent3level source cold-read and original-inference separation.",
+          "next_action": "Retain current dated sources; never bundle reference assets."
+        },
+        {
+          "id": "L1.2",
+          "name": "Useful density",
+          "criterion": "Audit travel time between meaningful trick opportunities, rather than counting decorative props. On authored primary lines at an 8 m/s reference speed, target an opportunity at least every 3 seconds and avoid an unpurposed flat stretch longer than 24 m. Measure actual natural-input traversal separately from the reference calculation.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "D003 baseline58m reference stretch; final actual opportunity/return intervals incomplete.",
+          "next_action": "Measure actual physics time/distance/events plus8m/s reference."
+        },
+        {
+          "id": "L1.3",
+          "name": "Connected set pieces",
+          "criterion": "Preserve the existing density requirement: each retained core arena has at least two genuinely distinct original returnable lines and a safe bypass. Each line connects a launch, a rail/ledge/manual choice, a landing and a turnaround/re-entry. Reversing the same perimeter is not a second line. Across the six-area world, at least three independently demonstrated circuits must also connect arenas with useful next choices. A prop that cannot be approached and exited at useful speed is not a completed set piece.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete two-distinct-lines-per-arena plus3cross-arena independent proof.",
+          "next_action": "Create actual-input packets for every required line/bypass."
+        },
+        {
+          "id": "L1.4",
+          "name": "Enclosure and reversibility",
+          "criterion": "Architectural edges, banks, courts and end pieces should return the rider toward another opportunity rather than leave them facing an empty boundary. Primary decision points target spacing within roughly 35 m, subject to the specific line's speed and view.",
+          "result": "Fail",
+          "evidence_or_limit": "D003 empty/re-entry baseline deficiency; latest bank-return unreviewed.",
+          "next_action": "Review both directions, returns and35m decision points."
+        },
+        {
+          "id": "L1.5",
+          "name": "Landing and approach",
+          "criterion": "Mark approach, takeoff, trick, landing and runout volumes. Ordinary intended landings target at least 3 m clear width. Preserve wider clearance where speed/camera/alternate approaches require it. Scenery and collision match; no invisible obstacle occupies the line.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "All final approach/landing/runout clearances not measured.",
+          "next_action": "Mark volumes and test3m+ actual landing widths/misses."
+        },
+        {
+          "id": "L1.6",
+          "name": "Discoverability",
+          "criterion": "From each primary decision point, a useful next feature or destination is visible or deliberately revealed by a short turn. At least one easier bypass accompanies a technical route. Interesting geometry, material wear and lighting guide the line without compulsory floating arrows.",
+          "result": "Fail",
+          "evidence_or_limit": "D003 weak east-quay next choice in baseline/earlier GL.",
+          "next_action": "Review actual decision points and easier bypass visibility."
+        },
+        {
+          "id": "L1.7",
+          "name": "Supported world",
+          "criterion": "Inspect route centres, both shoulders and deliberate misses. No visible dry ground hole, arbitrary invisible catch slab or abrupt false wall may substitute for authored support and understandable boundaries. River hazards retain deliberate recovery.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final centre/shoulder/miss/native-visible boundary proof incomplete.",
+          "next_action": "Probe actual support without hidden catch slabs."
+        },
+        {
+          "id": "L1.8",
+          "name": "Existing game",
+          "criterion": "All ten goals, three core encounters, existing enabled station/train, pond/ducks/cable, park/civic/green content, stable gap/rail IDs, saved progression and district connections remain usable. Preserve personal Music isolation and other implemented content. Further development of traffic/skitch, Cone on a Cruise and the extra park-lap challenge remains deferred under the existing queue. New line density cannot obstruct physical approaches or hide required interaction prompts.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "All current ten-goal/three-encounter/default/save/Music preservation not rerun.",
+          "next_action": "Execute integrated career/encounter/ID/default tests."
+        },
+        {
+          "id": "L1.9",
+          "name": "Topology resource budget",
+          "criterion": "Layout compression starts with the current shared resources: target zero new texture bytes and zero unique shader/material resources for topology work, with non-increasing mesh/collision totals unless a measured exception is documented. Art upgrades have their own explicit resource budget and matched cost admission. Never optimise a density proxy by scattering decorative curbs, cutting useful recovery flat or weakening native support.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Topology resource-neutral intent plus32triangle exception; exact final totals/cost not accepted.",
+          "next_action": "Record final before/after resources and measured exception."
+        },
+        {
+          "id": "L1.10",
+          "name": "Actual line evidence fields",
+          "criterion": "The primary-line report contains start/end positions, ordered features, direction, input method, simulated time, distance, largest opportunity interval, actual jump/grind/manual/landing events, bails/stalls, and a source-bound clip or image sequence. Structural route metadata alone does not prove a playable line. Human discoverability and replay appeal remain explicitly reviewed outcomes.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Author route iterations still being repaired; exact final event/interval packet absent.",
+          "next_action": "Report every specified start/end/event/bail/stall/native-time field."
+        }
+      ]
+    },
+    {
+      "id": "Q1",
+      "clauses": [
+        {
+          "id": "Q1.1",
+          "name": "Evidence 1",
+          "criterion": "Capture before and after from matched position, camera, renderer, resolution and lighting whenever the comparison is meaningful. Preserve failed diagnostic frames.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Matched baseline/GL exist; final candidate comparison not complete.",
+          "next_action": "Use same renderer/camera/resolution/light and retain failed frames."
+        },
+        {
+          "id": "Q1.2",
+          "name": "Evidence 2",
+          "criterion": "Freeze the changed source while capturing. Record Git SHA, dirty status, hashes of relevant source/assets, Godot version, render backend, GPU/driver, OS, resolution, settings, command, output, timestamp and manifest hash. A commit label alone is insufficient if source was dirty.",
+          "result": "Pass",
+          "evidence_or_limit": "Baseline and immutable sign receipts have unchanged inventories; 17 baseline plus 34 matched renderer PNG/native hashes independently verified, including renderer synchronization markers.",
+          "next_action": "Require identical complete identity contract for final packets."
+        },
+        {
+          "id": "Q1.3",
+          "name": "Evidence 3",
+          "criterion": "Keep fixture-only closeups separate from ordinary title-to-play and mapped-input playback. Label teleports, full-meter setup, camera overrides and slowed playback. Do not present a fixture as a completed physical run.",
+          "result": "Pass",
+          "evidence_or_limit": "Authored/static/moving-start/reset fixtures explicitly disclosed; personal Music isolated.",
+          "next_action": "Keep final native routes distinct from reconstruction/closeups."
+        },
+        {
+          "id": "Q1.4",
+          "name": "Evidence 4",
+          "criterion": "Run `./tools/check.sh` for GDScript changes after integration. Count and nonzero failure status must be retained. Focused tests, full regression, visual review, hardware performance and human acceptance receive separate results. Extend the existing native full-fidelity capture/receipt pipeline instead of creating a weaker replacement; its 78-trick catalogue, actual contacts, fixture disclosure and render/pixel synchronization proofs remain valuable.",
+          "result": "Fail",
+          "evidence_or_limit": "Current required-01 already contains native/integration failures including D014; the final count/exit/source-after receipt remains root-owned. Earlier focused passes do not replace it.",
+          "next_action": "Repair actual failures and validate legitimate changed oracles independently, then rerun the entire stable-source gate."
+        },
+        {
+          "id": "Q1.5",
+          "name": "Evidence 5",
+          "criterion": "Log defects with reproduction, expected/actual behaviour, evidence, severity, owner, affected ticket and retest. A count of passing assertions cannot cancel a visible failed frame.",
+          "result": "Pass",
+          "evidence_or_limit": "D001\u2013015 and separate D801\u2013803 have source/repro/owners/retest; rejected seat/bank witnesses remain explicit.",
+          "next_action": "Update final retests while retaining failed epochs."
+        },
+        {
+          "id": "Q1.6",
+          "name": "Evidence 6",
+          "criterion": "Independent BA review maps every acceptance clause to an evidence item or an open gap. QE verifies technical behaviour. Owner review judges visual finish, feel, discoverability and fun. Evidence remains honest when one of those reviews is unavailable.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Exact independent matrix exists; final technical/moving/human scopes open.",
+          "next_action": "Inspect final candidate and obtain actual owner response separately."
+        },
+        {
+          "id": "Q1.7",
+          "name": "Evidence 7",
+          "criterion": "Before adding render cost, declare baseline and proposed draw, geometry, texture/buffer memory and frame-time budgets. Compare frozen, matched, uncontended original/candidate/control workloads, including p50/p95/p99 and long frames. Retain current culling, skyline and offscreen gameplay. Reject a failed cost cell; fewer triangles/draws alone do not prove smoother play. Existing rejected results cannot be relabelled as a pass.",
+          "result": "Fail",
+          "evidence_or_limit": "D013 isolated water high-coverage candidate exceeds both controls at p50/p95/p99, so cost admission is rejected despite equal draws/memory and passing resident texture increment. Whole Main and M5 pacing remain unmeasured.",
+          "next_action": "Evaluate cheaper prepared water in fresh warmed repeated matched controls, then complete whole Main cost admission without contention."
+        }
+      ]
+    },
+    {
+      "id": "H1",
+      "clauses": [
+        {
+          "id": "H1.1",
+          "name": "Actual target identity",
+          "criterion": "The owner's MacBook Air M5 is the target. RAM, OS version, display mode and sustained performance are **unmeasured until recorded from that machine**. No Linux result establishes a target-Mac pass.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No actual target machine evidence.",
+          "next_action": "Record M5AirRAM/OS/display/preset/engine/backend from operator."
+        },
+        {
+          "id": "H1.2",
+          "name": "Hardware requirement 1",
+          "criterion": "The intended target is 1920\u00d71080 at 60 fps during a representative ten-minute moving circuit through all six areas, including tricks, rail contacts, crowded views and menus. Record warm-up separately, average, median, p95/p99 frame times, worst stalls, memory and thermal/power conditions where observable.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No actual ten-minute1080p target circuit.",
+          "next_action": "Run representative ten-minute full-area route, separate warmup."
+        },
+        {
+          "id": "H1.3",
+          "name": "Hardware requirement 2",
+          "criterion": "Production targets are p95 frame time at or below 16.7 ms, p99 at or below 22 ms, and no steady-play stall above 100 ms. State the observed frame pacing and visual preset; do not turn an export or an average alone into a 60 fps claim.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No targetp95/p99/stall/memory/thermal values.",
+          "next_action": "Export actual pacing/memory/conditions and repair failed target."
+        },
+        {
+          "id": "H1.4",
+          "name": "Hardware requirement 3",
+          "criterion": "Verify cold source launch or the delivered native package, offline play, save/relaunch, keyboard and intended DualSense navigation, reconnect, pause/restart and reduced-motion settings on the actual Mac.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No actual Mac launch/offline/save/DualSense/reconnect result.",
+          "next_action": "Execute physical-device and native-source/package protocol."
+        },
+        {
+          "id": "H1.5",
+          "name": "Hardware requirement 4",
+          "criterion": "An engine or renderer change is permitted when evidence identifies a material blocker or benefit. Compare a representative rider, material/light scene and full playable route with Mac export/portability implications, measured workload and remaining migration cost. A rewrite is not completion unless the gameplay and delivery gates return to parity or better.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Engine/renderer decision and export parity under evaluation.",
+          "next_action": "Complete representative comparison with migration cost/parity before default change."
+        }
+      ]
+    }
+  ],
+  "tickets": [
+    {
+      "id": "FID-001",
+      "title": "FID-001 \u2014 Preserve the baseline and bind evidence to source",
+      "clauses": [
+        {
+          "id": "FID-001.A",
+          "criterion": "Record current local/remote refs, dirty state and preserved owner changes.",
+          "result": "Pass",
+          "evidence_or_limit": "Recovered HEAD/origin main0b62035; current branch main and preserved dirty work independently inspected.",
+          "next_action": "Record final commit and remote identity after integration."
+        },
+        {
+          "id": "FID-001.B",
+          "criterion": "Capture or identify actual baseline views of rider, all six areas, connecting dead stretches and the action reel; label historical images explicitly.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "17 source-stable baseline views plus native push/manual traces exist; a complete normal-speed baseline action reel was not inspected.",
+          "next_action": "Retain missing historical scope explicitly; inspect the candidate full repertoire/motion."
+        },
+        {
+          "id": "FID-001.C",
+          "criterion": "Each candidate capture has command, source/asset hash manifest, renderer/driver, resolution, settings, fixture disclosure, timestamp and result.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Baseline and independent sign receipts have identity; some author/early candidate epochs are explicitly rejected.",
+          "next_action": "Require complete Q1 identity on every final candidate packet."
+        },
+        {
+          "id": "FID-001.D",
+          "criterion": "No file mutation occurs inside a claimed source-stable evidence run; if it does, reject/repeat that run.",
+          "result": "Pass",
+          "evidence_or_limit": "Changed-source push and author control runs are retained and rejected; immutable baseline/sign runs have two-sided inventories.",
+          "next_action": "Repeat final combined capture with unchanged source/assets."
+        }
+      ]
+    },
+    {
+      "id": "FID-002",
+      "title": "FID-002 \u2014 Persist the specialist studio and exact-use-case skills",
+      "clauses": [
+        {
+          "id": "FID-002.A",
+          "criterion": "Nine durable role briefs cover direction, rider, environment, motion, level design, rendering, combo controls, QE and BA.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill.",
+          "next_action": "Keep these files in the integrated commit."
+        },
+        {
+          "id": "FID-002.B",
+          "criterion": "Nine skills cover production, rider, environment, motion, level design, renderer evaluation, combo usability, native gameplay QA and independent quality verification with repository-specific paths and methods.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill.",
+          "next_action": "Keep these files in the integrated commit."
+        },
+        {
+          "id": "FID-002.C",
+          "criterion": "AGENTS/resume guidance points to the roster, benchmark and tickets; no undocumented runtime registration is claimed.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill.",
+          "next_action": "Keep these files in the integrated commit."
+        },
+        {
+          "id": "FID-002.D",
+          "criterion": "Every active ticket has owner, priority, milestone, dependencies, clauses and verification strategy.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill.",
+          "next_action": "Keep these files in the integrated commit."
+        },
+        {
+          "id": "FID-002.E",
+          "criterion": "A fresh agent can identify the next unblocked ticket and exact reproduction method from repository files alone.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill.",
+          "next_action": "Keep these files in the integrated commit."
+        }
+      ]
+    },
+    {
+      "id": "FID-010",
+      "title": "FID-010 \u2014 Evaluate engine/renderer against MacBook Air M5",
+      "clauses": [
+        {
+          "id": "FID-010.A",
+          "criterion": "Document the actual fidelity/performance blockers, distinguishing renderer limitations from absent assets/lighting/animation.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Static GL material/form defects were directly inspected; renderer-specific cause and motion/performance blockers are not fully separated.",
+          "next_action": "Complete actual representative comparison and attribute each limitation."
+        },
+        {
+          "id": "FID-010.B",
+          "criterion": "Evaluate the retained Godot 4.6.3 Compatibility route and relevant native Metal Forward+/Mobile possibilities using official references and a representative workload.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Both identical 17-view Compatibility/Forward+ outputs independently inspected; all 34 native PNG/RGBA hashes, six Canvas proofs, eight projected marker centroids and 781 unchanged inputs verified. Official Godot renderer/Metal constraints inspected. This static Linux scope does not certify maximum tuned quality, Mac export or pacing.",
+          "next_action": "Preserve the matched renderer packet; obtain actual native Metal/M5 export and pacing evidence."
+        },
+        {
+          "id": "FID-010.C",
+          "criterion": "If changing engine/renderer, preserve a runnable old candidate, record migration scope, retain gameplay/save/input parity and verify native Mac export compatibility.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No engine/default-renderer migration has been accepted.",
+          "next_action": "If changing renderer, demonstrate gameplay/save/input/export parity and retain the old runnable source."
+        },
+        {
+          "id": "FID-010.D",
+          "criterion": "Keep target-Mac performance Unmeasured until actually run on the owner's M5 Air; record RAM/OS only from real evidence.",
+          "result": "Pass",
+          "evidence_or_limit": "No actual M5 RAM/OS/FPS result is asserted in the inspected benchmark/status/ADR.",
+          "next_action": "Replace Unmeasured only with an actual machine record."
+        },
+        {
+          "id": "FID-010.E",
+          "criterion": "Write a decision with alternatives, expected benefit, measured evidence, costs and next experiment.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Matched renderer evidence finds neither backend cures the same angular cloth, repeated paving or flat facades. Root retains Godot/default Compatibility; final decision and target portability/pacing must stay source-bound.",
+          "next_action": "Record decision, alternatives, measured limits, cost and next experiment."
+        }
+      ]
+    },
+    {
+      "id": "FID-101",
+      "title": "FID-101 \u2014 Replace visible blockout character forms",
+      "clauses": [
+        {
+          "id": "FID-101.A",
+          "criterion": "Meet benchmark V1 continuous adult silhouette and measured proportions in front/side/rear/three-quarter close views.",
+          "result": "Fail",
+          "evidence_or_limit": "Baseline D001; inspected renderer-GL epoch still has angular torso/hip silhouette. Later garment topology has not been independently rendered.",
+          "next_action": "RA: repeat final chase/front/side/rear/three-quarter close views and measure proportions."
+        },
+        {
+          "id": "FID-101.B",
+          "criterion": "Build coherent skin/hair/clothing/shoes/board surfaces with source provenance.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Candidate GL shows better skin/hands; whole rider/cloth/shoe/board provenance and finish are not fully independently accepted.",
+          "next_action": "Inspect final materials/asset notices and ordinary camera survival."
+        },
+        {
+          "id": "FID-101.C",
+          "criterion": "Review deepest crouch, push, grab and special deformation without open seams, detached joints or severe penetration.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final deepest crouch/push/grab/special deformation not independently reviewed in motion.",
+          "next_action": "Inspect natural-frame worst bends with source/pixel proofs; resolve D803 evidence gap."
+        },
+        {
+          "id": "FID-101.D",
+          "criterion": "Actual ordinary spawn/chase views show the revised complete rider.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Baseline and earlier GL ordinary spawn inspected; latest revised complete rider has no independent current-source spawn review yet.",
+          "next_action": "Capture latest ordinary title-to-play/chase after final source freeze."
+        },
+        {
+          "id": "FID-101.E",
+          "criterion": "Record remaining defects and retain final owner visual review as open until performed.",
+          "result": "Pass",
+          "evidence_or_limit": "D001 and later angular/gap observations were sent to RA/root; owner visual acceptance remains explicitly open.",
+          "next_action": "Record retests and retain failed original frames."
+        }
+      ]
+    },
+    {
+      "id": "FID-102",
+      "title": "FID-102 \u2014 Make shoe, hand and board contacts coherent",
+      "clauses": [
+        {
+          "id": "FID-102.A",
+          "criterion": "Measure planted shoe/deck separation against V1's target, with maximum/95th percentile or an explicit instrumentation gap.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Independent baseline native sole/wheel samples pass a narrow flat scope; final full-action maximum and p95 remain absent.",
+          "next_action": "Measure final supported-pose separation and report maximum/p95 by action."
+        },
+        {
+          "id": "FID-102.B",
+          "criterion": "Push foot follows actual support and returns without teleporting through the board.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Independent frozen checkpoint native push/grade/contact subsets pass regular/fakie/rest peaks 2.892/4.017/0.162 mm; aggregate66/1 remains rejected for fast-bank component clearance. Normal-speed foot return is unreviewed.",
+          "next_action": "Resolve bank component failure and inspect normal-speed push/support transitions."
+        },
+        {
+          "id": "FID-102.C",
+          "criterion": "Grab hand meets the intended deck edge within V3's target.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No independent current grab-edge 50mm result.",
+          "next_action": "Measure real hand/deck world-space distance at full extension and review render."
+        },
+        {
+          "id": "FID-102.D",
+          "criterion": "Flip/revert/special board and body rotations agree and return to eligible grounded poses.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Actual final flip/revert/special rotation/contact sequence not fully reviewed.",
+          "next_action": "Run existing full repertoire with contacts and inspect worst return transitions."
+        },
+        {
+          "id": "FID-102.E",
+          "criterion": "Pause/restart/recovery clears stale contact poses.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Release/brake/pop baseline slices are bounded; final pause/restart/recovery whole contact sequence remains open.",
+          "next_action": "Replay all interruption/recovery cases and inspect stale-pose clearance."
+        }
+      ]
+    },
+    {
+      "id": "FID-201",
+      "title": "FID-201 \u2014 Replace poor route-facing surface textures",
+      "clauses": [
+        {
+          "id": "FID-201.A",
+          "criterion": "Meet V2's physical scale/response across paving, concrete, sandstone, brick, asphalt, slate, metal, glass, grass and water, or enumerate precise unfinished materials.",
+          "result": "Fail",
+          "evidence_or_limit": "D002/D004 baseline material deficiencies; candidate paving/stone improve, but repeated paving and flat bright windows persist in inspected GL.",
+          "next_action": "EA: enumerate unfinished materials and inspect complete final moving bright/shaded set."
+        },
+        {
+          "id": "FID-201.B",
+          "criterion": "Record actual texture sources, licence, included maps, source resolution and metres per repeat.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent raw asset BA plus derivative rebuild/reflection audit verify sources, dimensions, imports, licence and physical repeat metadata.",
+          "next_action": "Recheck any final material/import changes and actual resident allocation."
+        },
+        {
+          "id": "FID-201.C",
+          "criterion": "No normal path exhibits giant texels, UV stretching, inverted normals, shimmer, z-fighting or unsupported visible seams.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Derived normal tangent signs verified within one byte; moving shimmer/seams/UV continuity not reviewed on final source.",
+          "next_action": "Inspect moving banks, joins, grass and close surfaces."
+        },
+        {
+          "id": "FID-201.D",
+          "criterion": "Ordinary moving frames and close/shaded views substantiate the improvement.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Matched stills exist; ordinary moving material and shaded review remains open.",
+          "next_action": "Capture final source moving routes and close bright/shaded pairs."
+        },
+        {
+          "id": "FID-201.E",
+          "criterion": "New assets ship with attribution/compatible redistribution permissions.",
+          "result": "Pass",
+          "evidence_or_limit": "Bounded asset BA register audit and official CC0 source/licence inspection support redistributed environment subset.",
+          "next_action": "Retain notices and verify additions before final integration."
+        }
+      ]
+    },
+    {
+      "id": "FID-202",
+      "title": "FID-202 \u2014 Ground the scene with coherent light and material response",
+      "clauses": [
+        {
+          "id": "FID-202.A",
+          "criterion": "Wheels/rails/buildings read as grounded in normal play.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Flat wheel gap is about8mm; a visible unsupported hover is not established. All wheels/rails/building bases not accepted.",
+          "next_action": "Inspect final ordinary motion/contact shadows at all support types."
+        },
+        {
+          "id": "FID-202.B",
+          "criterion": "Bright stone retains detail and shaded landing/runout remains readable.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Selected bright GL frames inspected; matched shaded landing/runout detail not fully reviewed.",
+          "next_action": "Inspect a matched bright/shaded route pair."
+        },
+        {
+          "id": "FID-202.C",
+          "criterion": "One coherent sky/exposure/daylight treatment works in all six areas.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "All six baseline areas inspected, but latest candidate daylight/exposure consistency not complete.",
+          "next_action": "Review final all-area ordinary moving views."
+        },
+        {
+          "id": "FID-202.D",
+          "criterion": "No shader errors, unstable glints or post-effects conceal geometry.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Clean GL capture log proves no error in that epoch; no final moving glint/post-effect acceptance.",
+          "next_action": "Inspect final shader log and moving surfaces without concealing detail."
+        },
+        {
+          "id": "FID-202.E",
+          "criterion": "Cost and renderer limitations are recorded honestly.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Qualitative software renderer overlap explicitly excludes a timing claim; resource/cost cells remain open.",
+          "next_action": "Measure uncontended original/candidate/control cost and disclose backend limits."
+        }
+      ]
+    },
+    {
+      "id": "FID-203",
+      "title": "FID-203 \u2014 Remove remaining architectural placeholders along primary lines",
+      "clauses": [
+        {
+          "id": "FID-203.A",
+          "criterion": "Inventory all visible placeholders on each primary line.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Baseline facade defects identified; no complete primary-line placeholder inventory independently verified.",
+          "next_action": "EA: enumerate route-facing placeholders by primary line."
+        },
+        {
+          "id": "FID-203.B",
+          "criterion": "Replace or deliberately finish route-facing facade/roof/ground edges with credible scale, recess, joins and district identity.",
+          "result": "Fail",
+          "evidence_or_limit": "D002 and inspected candidate GL still show uniform bright window panels/weak facade depth.",
+          "next_action": "EA: finish plausible recess/joins/scale and verify district identity."
+        },
+        {
+          "id": "FID-203.C",
+          "criterion": "No floating detail, visible open facade seam or unexplained boundary dominates a normal view.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Full final primary-line seam/trim/boundary traversal not independently inspected.",
+          "next_action": "Inspect close and shoulder views of each changed module."
+        },
+        {
+          "id": "FID-203.D",
+          "criterion": "Dressing preserves approaches, landings, runouts, camera and challenge access.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final dressing/support/camera/goal access not independently replayed.",
+          "next_action": "Run affected actual approaches, landings, misses and challenge interactions."
+        },
+        {
+          "id": "FID-203.E",
+          "criterion": "Research-to-geometry claims use dated inspected sources; generic composites are labelled.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "THPS principles are sourced; complete facade-specific source-to-geometry claims not independently audited here.",
+          "next_action": "Inspect dated architectural references and label generic composites."
+        }
+      ]
+    },
+    {
+      "id": "FID-301",
+      "title": "FID-301 \u2014 Eliminate reproduced motion and camera discontinuities",
+      "clauses": [
+        {
+          "id": "FID-301.A",
+          "criterion": "Reproduce and record current defects before tuning.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent baseline D006 manual timing, D007 push slip and D008 side-on push were reproduced before positive acceptance.",
+          "next_action": "Retain exact old traces and input observers."
+        },
+        {
+          "id": "FID-301.B",
+          "criterion": "Fix the identified discontinuities while preserving eligible input timing, takeoff momentum, rail release and combo deadlines.",
+          "result": "Fail",
+          "evidence_or_limit": "Native sign/contact subsets pass, but current D014 finite coping penetration and D015 rendered crown pop show remaining discontinuities. The combined required-01 already records failures.",
+          "next_action": "Repair exact native mixed support and finite wall anticipation; repeat affected neighbours and the complete integrated gate."
+        },
+        {
+          "id": "FID-301.C",
+          "criterion": "Complete normal-speed V3 action coverage, including walls/undercroft/inclines/reverse/restart.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Complete normal-speed V3 sequence remains missing from independent review.",
+          "next_action": "Capture/inspect action, incline, wall, undercroft, reverse and restart sequences."
+        },
+        {
+          "id": "FID-301.D",
+          "criterion": "Full rider/board and landing remain framed through the benchmark camera sequence.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No independent final30-second natural wall/undercroft/turn camera framing result.",
+          "next_action": "Verify complete rider/board/immediate landing throughout the prescribed route."
+        },
+        {
+          "id": "FID-301.E",
+          "criterion": "Separate measured physical improvement from human feel acceptance.",
+          "result": "Pass",
+          "evidence_or_limit": "Reports keep native checks, visual motion, human feel and Mac acceptance distinct.",
+          "next_action": "Preserve separation in final report and owner handoff."
+        }
+      ]
+    },
+    {
+      "id": "FID-302",
+      "title": "FID-302 \u2014 Deliver complete animation state transitions and landing weight",
+      "clauses": [
+        {
+          "id": "FID-302.A",
+          "criterion": "Every V3 action communicates a credible intention and recovery at normal speed.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Full normal-speed intention/recovery reel not independently reviewed.",
+          "next_action": "Inspect every V3 action at normal speed, then worst frames."
+        },
+        {
+          "id": "FID-302.B",
+          "criterion": "Takeoff/landing visuals agree with actual contact events, without delaying gameplay.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final actual takeoff/landing event versus rendered compression not measured across actions.",
+          "next_action": "Pair native events with same-frame visuals without gameplay delay."
+        },
+        {
+          "id": "FID-302.C",
+          "criterion": "No ordinary transition contains a single-frame pose pop or angular joint collapse.",
+          "result": "Fail",
+          "evidence_or_limit": "D015 immutable full-world 32-frame side sequence shows a 28.627-pixel connected rider/deck step around a 119.816 mm offset change. Capture integrity passes 492/0; motion criterion fails.",
+          "next_action": "Repair finite earned-wall contact anticipation, then inspect the exact native sequence and the remaining action/interruptions."
+        },
+        {
+          "id": "FID-302.D",
+          "criterion": "Reduced motion and pause/restart preserve state and clarity.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final reduced-motion/pause/restart visual-state cohort not independently reviewed.",
+          "next_action": "Replay those transitions in native Main."
+        },
+        {
+          "id": "FID-302.E",
+          "criterion": "Worst remaining transition and owner feel/visual review are documented.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Baseline push worst defects recorded; final worst remaining transition and owner review absent.",
+          "next_action": "Publish actual worst transition and separate owner feel response."
+        }
+      ]
+    },
+    {
+      "id": "FID-303",
+      "title": "FID-303 \u2014 Make the push stroke face and follow actual travel",
+      "clauses": [
+        {
+          "id": "FID-303.A",
+          "criterion": "At ordinary chase and front/side inspection views, push shoulders/hips open naturally toward actual signed travel, the supporting foot remains on the deck, and the pushing leg extends behind the travel vector rather than sweeping sideways.",
+          "result": "Fail",
+          "evidence_or_limit": "Baseline D008 torso/frontshoe dots about0.30/0.066; later positive physical alignment diagnostics are not a final motion verdict.",
+          "next_action": "ME+RA: source-stable chase/front/side motion of final shoulder/hip/shoe geometry."
+        },
+        {
+          "id": "FID-303.B",
+          "criterion": "Stroke contact, leg extension and lifted recovery form one coherent cycle with no lateral skid, joint separation or pose pop.",
+          "result": "Fail",
+          "evidence_or_limit": "Baseline D007 peak planted slip212.5mm/tick; positive working-tree epoch rejected for changing source.",
+          "next_action": "Independently rerun final planted stroke/recovery with finite native support."
+        },
+        {
+          "id": "FID-303.C",
+          "criterion": "Forward and reverse/fakie travel remain credible; turning, slopes and acceleration do not create a flipped knee or instantaneous torso snap.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final forward/reverse/carving/grade acceleration knee/snap sequence not independently accepted.",
+          "next_action": "Review normal-speed signed-travel cycles, actual hips and slope support."
+        },
+        {
+          "id": "FID-303.D",
+          "criterion": "Preserve actual native sole/deck/support checks and current physical trajectory, input timing and score.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Independent baseline wheel8mm/frontsole0.854mm scope established; final whole native support/trajectory/score preservation pending.",
+          "next_action": "Run final native focused and full existing contact/trajectory/score cohorts."
+        },
+        {
+          "id": "FID-303.E",
+          "criterion": "Coast/push/brake/manual/ollie transitions, pause and restart clear/blend the state correctly.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Six/18-tick push-pop interruptions covered narrowly; final manual/pause/restart transition scope incomplete.",
+          "next_action": "Inspect all named state interruptions and continuity."
+        },
+        {
+          "id": "FID-303.F",
+          "criterion": "Normal-speed current-source motion and worst-frame closeups substantiate the change; owner visual acceptance remains distinct.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No final normal-speed current-source push reel/worst closeups independently accepted.",
+          "next_action": "Capture final natural frames and retain owner visual review as distinct."
+        }
+      ]
+    },
+    {
+      "id": "FID-304",
+      "title": "FID-304 \u2014 Verify manual combo links and an honest balance meter",
+      "clauses": [
+        {
+          "id": "FID-304.A",
+          "criterion": "Real input demonstrates air\u2192manual\u2192air and air\u2192manual\u2192ground-bank, preserving the intended combo across valid links and banking once on actual expiry/exit.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Author real5-entry line passes, but whole-source author epoch rejected; independent final link/bank run pending.",
+          "next_action": "Replay actual air\u2192manual\u2192air and manual\u2192bank with source-stable events."
+        },
+        {
+          "id": "FID-304.B",
+          "criterion": "Define the admitted early/late request window and held/gesture semantics; test requests around landing, release/cancellation, speed threshold, cooldown, pause/restart, expired/stale inputs and bail. Valid landing manual admission must occur before an accidental score bank, without inventing a link while unsupported.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Independent frozen landing matrix47/0: fifteen real Main cases;100\u2013333ms fresh and200ms gesture link at native contact,350ms exact expiry and released/stale requests reject, original combo banks once. Full threshold/cooldown/pause/restart/bail scope remains open.",
+          "next_action": "Replay fresh/released/stale/gesture/threshold/cooldown/pause/restart/bail boundary cases."
+        },
+        {
+          "id": "FID-304.C",
+          "criterion": "The meter reads the authoritative balance state and actual model axis, maps centre/risk/failed endpoints correctly and shows effective correction direction with remapped/current-device prompts. **Ordinary and nose manuals require actual fore/aft W/S or Up/Down correction with nose/tail/stance mapping; relabelling the old lateral A/D control is insufficient.** Grinds use lateral correction/display; special balance variants follow their modelled support/axis and explicitly documented controls.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Independent85/0 physical signs and clean34/0 native HUD retest pass bounded scopes: complete forward/back glyphs, true vertical track and state visible. Full endpoint/remap/lateral/variant/moving review remains open.",
+          "next_action": "Inspect final effective prompts, all risk endpoints, remaps, lateral modes and actual body lean in normal-speed motion."
+        },
+        {
+          "id": "FID-304.D",
+          "criterion": "Balance correction never silently doubles as unintended carving/acceleration; deliberate steering remains accessible and documented.",
+          "result": "Pass",
+          "evidence_or_limit": "Independent actual-world sign cohort: W/S change board pitch with identical coast loss/no heading change; A/D steer opposite independently in10 cases.",
+          "next_action": "Re-run integrated source; physical-device feel remains separate."
+        },
+        {
+          "id": "FID-304.E",
+          "criterion": "Meter/focus/text fit supported resolutions and UI scales, remain clear over the moving world, use a shape/direction/risk cue beyond colour, and clear immediately when balance mode ends or restart occurs.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "D011 original negative retained; independent clean34/0 native retest at1280x800/UI1.0+1.4 shows full glyphs, projected actual head/board bounds and central approach clear, actual release clears panel. Other moving/resolution/risk cases remain open.",
+          "next_action": "Complete supported-resolution/remap/risk/moving/restart review on integrated source."
+        },
+        {
+          "id": "FID-304.F",
+          "criterion": "Preserve score-once, non-extending revert deadlines, progression/save IDs, current native contact tolerances and ordinary feature/Music isolation.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Immutable sign run verifies CLI Music isolation; score-once/deadlines/save/contact/default preservation need integrated suite.",
+          "next_action": "Run existing combo, progression, save, native contact and CLI Music regressions."
+        }
+      ]
+    },
+    {
+      "id": "FID-401",
+      "title": "FID-401 \u2014 Review enclosed Tony Hawk lines and quantify current dead space",
+      "clauses": [
+        {
+          "id": "FID-401.A",
+          "criterion": "Inspect credible sources for at least three relevant Tony Hawk levels and cite dated observations.",
+          "result": "Pass",
+          "evidence_or_limit": "Independently opened developer testimony and Warehouse, SchoolII, Marseille published guide passages; sources/dates recorded.",
+          "next_action": "Retain sources and distinguish published description from commercial-game playtest."
+        },
+        {
+          "id": "FID-401.B",
+          "criterion": "Explain enclosure, approach vectors, transfers, gaps, turnarounds and re-entry opportunities with direct observation separate from inference.",
+          "result": "Pass",
+          "evidence_or_limit": "Dossier separates observed rail/deck/stair/pool relationships and inferred enclosure/return principles.",
+          "next_action": "Use principles in original geometry, then measure actual outcomes."
+        },
+        {
+          "id": "FID-401.C",
+          "criterion": "Quantify current meaningful-opportunity spacing/dead corridors on existing primary paths.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "East-quay58m geometric stretch identified; actual opportunity and no-feature return timing not independently complete.",
+          "next_action": "Measure feature events, distances and physics-time intervals on final routes."
+        },
+        {
+          "id": "FID-401.D",
+          "criterion": "Produce original Glasgow line proposals tied to specific current positions/clearances.",
+          "result": "Pass",
+          "evidence_or_limit": "Original Exchange north/south bank and east-quay bench proposals are tied to current positions and protected routes.",
+          "next_action": "Verify actual native approaches, exits, return and bypass."
+        },
+        {
+          "id": "FID-401.E",
+          "criterion": "No copied map layouts, textures, models or branding enter the game.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Inspected research/layout proposals contain no copied layouts/branding; full integrated new assets inventory awaits final review.",
+          "next_action": "Audit final changed geometry/assets/licences, keeping reference materials external."
+        }
+      ]
+    },
+    {
+      "id": "FID-402",
+      "title": "FID-402 \u2014 Build dense original set pieces and return loops",
+      "clauses": [
+        {
+          "id": "FID-402.A",
+          "criterion": "Audit and complete at least two genuinely distinct returnable lines per retained core arena plus a safe bypass, and three cross-arena circuits under L1; each names launch, grind/manual choice, landing and useful re-entry.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Existing routes plus new local relay do not establish two distinct lines per arena and three cross-arena circuits.",
+          "next_action": "Produce all required natural-input line packets with named features/returns/bypass."
+        },
+        {
+          "id": "FID-402.B",
+          "criterion": "Two-direction/return and easier bypass options work; reversing one perimeter is not a distinct second line.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Candidate both directions/return/bypass not independently replayed.",
+          "next_action": "Test each actual direction and independent easier bypass, not a reversed duplicate."
+        },
+        {
+          "id": "FID-402.C",
+          "criterion": "Audit opportunity intervals and longest empty stretch against L1 targets, with deliberate run-up/recovery exceptions explained.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Old observer timing was withdrawn. Independent new log reading confirms manual\u2192secondcatch159physicsframes/2.65s, but safe return570frames/9.50s lacks a trick and does not certify a closed trick circuit. Whole-map intervals remain open.",
+          "next_action": "Compute actual physics-time events, longest empty return and8m/s reference separately."
+        },
+        {
+          "id": "FID-402.D",
+          "criterion": "Architecture/banks frame next choices while retaining runouts and camera clearance.",
+          "result": "Fail",
+          "evidence_or_limit": "D003 broad transport and the 9.50-second trickless return remain; current 2 m bank full-world side/chase views are now inspected, without establishing two distinct arena lines.",
+          "next_action": "LD: demonstrate visible next choices, useful rollback/re-entry and clear runouts."
+        },
+        {
+          "id": "FID-402.E",
+          "criterion": "Implement within the existing six areas rather than add a new district to avoid fixing old dead space.",
+          "result": "Pass",
+          "evidence_or_limit": "Inspected candidate recomposes existing Exchange/quay resources within the six retained areas.",
+          "next_action": "Confirm final geometry inventory and document any cost exception."
+        }
+      ]
+    },
+    {
+      "id": "FID-403",
+      "title": "FID-403 \u2014 Verify playable gaps, rails, landings and line continuity",
+      "clauses": [
+        {
+          "id": "FID-403.A",
+          "criterion": "Every new advertised rail/gap has real input-driven success and a named measured approach/exit.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Author early relay was rejected for second exit landing on seat; corrected line not independently accepted.",
+          "next_action": "Demonstrate each advertised interaction with real approach/capture/exit events."
+        },
+        {
+          "id": "FID-403.B",
+          "criterion": "Both directions, failed takeoff, lateral miss and landing/runout behave deliberately.",
+          "result": "Fail",
+          "evidence_or_limit": "D012 now passes a bounded four-input native containment/contact retest. Current D014 coping penetration and D015 rendered bank snap still undermine deliberate runout and recovery; full bidirectional/miss scope remains incomplete.",
+          "next_action": "Preserve the four-input safety pass while fixing exact coping support and wall contact continuity; replay both directions, miss and runout neighbours."
+        },
+        {
+          "id": "FID-403.C",
+          "criterion": "Intended short combinations actually continue or bank according to existing deadlines.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Author relay links diagnose mechanics; final source-stable independent combo/expiry proof pending.",
+          "next_action": "Observe actual links/bank/bails with existing deadlines unchanged."
+        },
+        {
+          "id": "FID-403.D",
+          "criterion": "No forced speed, score, position or event injection creates the claimed success.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Independent baseline/sign inputs contain no per-tick injection; final advertised line drivers still require audit.",
+          "next_action": "Inspect exact driver and trace for source-bound actual-input run."
+        },
+        {
+          "id": "FID-403.E",
+          "criterion": "Report actual bails/stalls, not only selected successes.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Rejected exit and observer-time error retained; final complete bails/stalls report pending.",
+          "next_action": "Include all failed attempts and final actual-physics intervals."
+        }
+      ]
+    },
+    {
+      "id": "FID-404",
+      "title": "FID-404 \u2014 Protect exploration, career and challenge approaches",
+      "clauses": [
+        {
+          "id": "FID-404.A",
+          "criterion": "All ten career goals, three core encounters and existing enabled station/train, pond/ducks/cable, green/civic and other merged content remain physically usable with stable save/goal/gap/rail identities; personal Music stays isolated.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Snapshots show default station/pond and CLI Music isolation, not all goals/encounters/save IDs.",
+          "next_action": "Run full candidate career/encounter/default/Music and ID-preservation checks."
+        },
+        {
+          "id": "FID-404.B",
+          "criterion": "Existing routes, shoulders, gallery/quay joins, station overlap, market aisles and park taper retain matching visible support/collision.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Final shoulders/joins/aisles/taper native and visible support not independently complete.",
+          "next_action": "Run affected current routes plus off-centre probes."
+        },
+        {
+          "id": "FID-404.C",
+          "criterion": "Added boundary/set-piece geometry has understandable misses and recovery.",
+          "result": "Fail",
+          "evidence_or_limit": "D012 upper-boundary containment now passes its four native inputs, but D015 visibly snaps during crown recovery and D014 fails loaded coping clearance. These do not establish coherent added-set-piece recovery.",
+          "next_action": "Retain native safety while repairing rendered contact response and finite coping support; review misses and supported recovery on current source."
+        },
+        {
+          "id": "FID-404.D",
+          "criterion": "No invisible catch slab, decorative collision wall or narrow blocked camera runout replaces valid terrain.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No final off-route camera/collision review of all modified boundaries.",
+          "next_action": "Probe centre/shoulders/misses and compare visible/native support."
+        },
+        {
+          "id": "FID-404.E",
+          "criterion": "Existing career replay and independent off-route probes pass on the candidate; deferred traffic/cone/extra-lap development stays deferred.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Current full career replay not complete; deferred creation scope remains deferred in inspected plans.",
+          "next_action": "Run final career and adverse off-route checks; preserve deferred implementations."
+        }
+      ]
+    },
+    {
+      "id": "FID-501",
+      "title": "FID-501 \u2014 Freeze, run regression and capture the integrated candidate",
+      "clauses": [
+        {
+          "id": "FID-501.A",
+          "criterion": "Reconcile changed public interfaces and source/asset provenance.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Specialists coordinated shared files, but final native support/control/resource interfaces remain under integration.",
+          "next_action": "Reconcile exact final source/assets and verify provenance."
+        },
+        {
+          "id": "FID-501.B",
+          "criterion": "Run `./tools/check.sh` with current counts, nonzero failure behaviour and clean error scan.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No final current-candidate tools/check.sh result yet; baseline/capture/focused counts are separate.",
+          "next_action": "Root executes sole full check with source hashes, counts, error scan and CLI Music."
+        },
+        {
+          "id": "FID-501.C",
+          "criterion": "Capture normal title-to-play, six-area moving/material review, complete action reel and new circuit events with Q1 source identity.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "17-view snapshots are static diagnostics; final title-to-play/moving all-area/action/new-circuit packet missing.",
+          "next_action": "Capture source-stable Q1-native moving evidence with actual events."
+        },
+        {
+          "id": "FID-501.D",
+          "criterion": "Independently inspect actual output; file defects and repair/retest P0/P1 integration failures.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Baseline/GL static and native subsets inspected; final integrated visual/physics P0/P1 retest incomplete.",
+          "next_action": "Inspect actual final output and resolve/retest reported integration defects."
+        },
+        {
+          "id": "FID-501.E",
+          "criterion": "Report only the verified scope and keep remaining benchmark clauses open.",
+          "result": "Pass",
+          "evidence_or_limit": "Current STATUS/benchmark/review retain failed/unmeasured gates; no AAA/M5 pass claimed.",
+          "next_action": "Keep final delivery claims bounded to their actual source/evidence."
+        }
+      ]
+    },
+    {
+      "id": "FID-502",
+      "title": "FID-502 \u2014 Independently audit every benchmark and ticket outcome",
+      "clauses": [
+        {
+          "id": "FID-502.A",
+          "criterion": "Create a clause-by-clause matrix for V1/V2/V3/L1/Q1/H1 and each active ticket.",
+          "result": "Pass",
+          "evidence_or_limit": "This exact-clause JSON and readable matrix enumerate every benchmark requirement and all20 active ticket clauses.",
+          "next_action": "Update results only after inspecting new independent evidence."
+        },
+        {
+          "id": "FID-502.B",
+          "criterion": "Inspect actual frames/normal-speed motion/routes and source identity.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Actual baseline and selected GL stills/native inputs inspected; final normal-speed motion/routes not yet complete.",
+          "next_action": "Inspect actual final frames, normal-speed sequences and route source identity."
+        },
+        {
+          "id": "FID-502.C",
+          "criterion": "Give each dimension Pass/Fail/Unmeasured, with evidence and exact next action.",
+          "result": "Pass",
+          "evidence_or_limit": "Every enumerated clause has Pass/Fail/Unmeasured, bounded evidence and a concrete next action.",
+          "next_action": "Replace open results with inspected evidence, never author-only prose."
+        },
+        {
+          "id": "FID-502.D",
+          "criterion": "File actionable defects for every failed required clause and assign owners.",
+          "result": "Pass",
+          "evidence_or_limit": "Observed failures map to D001\u2013015 with owners/repro/retest; new finite-seat and fast-bank negative logs independently inspected, diagnostic fixes not accepted; asset BA has D801\u2013803.",
+          "next_action": "Add concrete final defects, retain old source scope and verify repairs."
+        },
+        {
+          "id": "FID-502.E",
+          "criterion": "Verify persistent skill discoverability and actual `main` integration.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Persistent roles/skills independently pass; final integrated main/remote commit not yet available.",
+          "next_action": "Cold-read final handoff and verify integrated runtime/source inventories and remote ref."
+        },
+        {
+          "id": "FID-502.F",
+          "criterion": "No overall AAA/release pass is issued while a required gate remains failed/unmeasured.",
+          "result": "Pass",
+          "evidence_or_limit": "Overall acceptance remains Fail/incomplete and M5/owner gates stay Unmeasured.",
+          "next_action": "Do not award overall AAA/release while any required gate remains open."
+        }
+      ]
+    },
+    {
+      "id": "FID-503",
+      "title": "FID-503 \u2014 Prove actual MacBook Air M5 play and sustained performance",
+      "clauses": [
+        {
+          "id": "FID-503.A",
+          "criterion": "Record actual M5 Air OS/RAM/device/display/engine/renderer/preset.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No actual owner MacBookAirM5 execution, configuration, controller, performance or subjective acceptance record.",
+          "next_action": "Actual Mac operator executes H1 protocol; record configuration,10-minute timings, controls/save and owner defects."
+        },
+        {
+          "id": "FID-503.B",
+          "criterion": "Verify cold launch, offline save/relaunch, keyboard, DualSense/reconnect, menus, pause/restart and reduced motion.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No actual owner MacBookAirM5 execution, configuration, controller, performance or subjective acceptance record.",
+          "next_action": "Actual Mac operator executes H1 protocol; record configuration,10-minute timings, controls/save and owner defects."
+        },
+        {
+          "id": "FID-503.C",
+          "criterion": "Measure H1's representative ten-minute 1080p moving route and frame-time/memory/stall results.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No actual owner MacBookAirM5 execution, configuration, controller, performance or subjective acceptance record.",
+          "next_action": "Actual Mac operator executes H1 protocol; record configuration,10-minute timings, controls/save and owner defects."
+        },
+        {
+          "id": "FID-503.D",
+          "criterion": "Record owner visual/feel/line-discovery response and exact defects.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No actual owner MacBookAirM5 execution, configuration, controller, performance or subjective acceptance record.",
+          "next_action": "Actual Mac operator executes H1 protocol; record configuration,10-minute timings, controls/save and owner defects."
+        },
+        {
+          "id": "FID-503.E",
+          "criterion": "Optimise/retest any failed required target without silently downgrading visual quality or benchmark.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No actual owner MacBookAirM5 execution, configuration, controller, performance or subjective acceptance record.",
+          "next_action": "Actual Mac operator executes H1 protocol; record configuration,10-minute timings, controls/save and owner defects."
+        }
+      ]
+    },
+    {
+      "id": "FID-601",
+      "title": "FID-601 \u2014 Merge tested source into main and leave a reproducible handoff",
+      "clauses": [
+        {
+          "id": "FID-601.A",
+          "criterion": "Inspect current local/remote histories and preserve owner changes; `origin/main` exists and must not be overwritten from stale assumptions.",
+          "result": "Pass",
+          "evidence_or_limit": "Current branchmain and local/origin0b62035 ancestry independently inspected; stale initial checkout was recovered with preserved work.",
+          "next_action": "Verify final refs and owner-change ancestry at integration."
+        },
+        {
+          "id": "FID-601.B",
+          "criterion": "Work directly on local `main`, without feature branches/worktrees, and integrate tested changes with an actual recorded commit/ref.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Production changes are present in mutable main; no final tested integrated commit yet.",
+          "next_action": "Commit verified source and retain exact runtime inventory/commit correspondence."
+        },
+        {
+          "id": "FID-601.C",
+          "criterion": "Push non-force as authorised without triggering prohibited hosted jobs; report actual remote ref or exact blocker.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No November final remote push observed yet.",
+          "next_action": "Root pushes non-force without prohibited hosted jobs and records actual remote ref."
+        },
+        {
+          "id": "FID-601.D",
+          "criterion": "STATUS/backlog/active/resume identify current source, commands, evidence, unresolved defects and next tickets.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Current STATUS/backlog/resume point to studio and open gates; final counts/commands/refs pending.",
+          "next_action": "Update all final handoff files with actual evidence and next unblocked reproductions."
+        },
+        {
+          "id": "FID-601.E",
+          "criterion": "Source contains reusable skills/roster, compatible asset notices and no generated caches/credentials.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Ten reusable roles/skills and asset notices exist; final tracked/generated/credential inventory not yet reviewed.",
+          "next_action": "Inspect staged/source inventory and exclude caches/credentials/unneeded generated data."
+        },
+        {
+          "id": "FID-601.F",
+          "criterion": "Normal merged trial features remain enabled and Music isolation intact.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "Bounded snapshots/sign run preserve ordinary defaults and CLI Music; full final preservation pending.",
+          "next_action": "Run default-feature, actual Music-isolation and progression/career regressions."
+        },
+        {
+          "id": "FID-601.G",
+          "criterion": "No open quality/hardware gate is represented as passed merely because integration succeeded.",
+          "result": "Pass",
+          "evidence_or_limit": "Inspected programme explicitly separates main integration from visual/hardware/human acceptance.",
+          "next_action": "Retain that separation after actual commit/push."
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "benchmark_clauses": 44,
+    "active_tickets": 20,
+    "ticket_clauses": 104,
+    "results": {
+      "Pass": 29,
+      "Fail": 22,
+      "Unmeasured": 97
+    }
+  }
+}

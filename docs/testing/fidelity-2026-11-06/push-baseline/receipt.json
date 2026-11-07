@@ -1,0 +1,18 @@
+{
+  "source": "0b620358767c9c647dde66945377d99702c85d0b",
+  "observer_and_test_overlay": "Exact independent runner plus author-provided candidate regression test run against untouched original production. Test overlay in .local only, no original production/tests overwritten.",
+  "command": "./tools/run.sh --headless --audio-driver Dummy --fixed-fps 60 --script .local/qa-fidelity/motion_review.gd",
+  "checks": 26,
+  "failures": 6,
+  "engine_exit": 1,
+  "expected_rejection": "Original production fails planted-slip and forward-facing torso/front-shoe criteria in regular/fakie/from-rest cases. Native wheel, front sole, release, brake and interrupted pop criteria pass.",
+  "changed_production_inputs_vs_baseline": [],
+  "inventory_reference": "../baseline/source-before.json",
+  "observed_completion_utc": "2026-11-06T23:47:21.503800+00:00",
+  "files": {
+    "observer.gd.txt": "b4bc960df420d63a1647bcb3d968d12de86569767d834e721abf38bcf52c7cb7",
+    "motion_tests.gd.txt": "441091d29eee0a652908afa8fe1cd49a4871cfd509db955b585718874c269fc0",
+    "engine.log": "4a05d457f8b3940e02c4b44f03b74b4d588ee8b3539db6b9fbc2406fa561e100"
+  },
+  "limits": "Headless native diagnostic; not a current candidate or rendered motion/owner/M5 pass. Original-source comparison checked after run against immutable earlier inventory; final acceptance still requires two-sided source freeze."
+}

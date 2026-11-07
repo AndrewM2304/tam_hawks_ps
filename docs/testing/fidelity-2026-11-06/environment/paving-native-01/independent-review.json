@@ -1,0 +1,1005 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "method": "Read-only independent original PNG decoding, native camera projection and red/green centroid/Canvas verification; actual source inventories and separate native allocation review. No QA engine execution.",
+  "checks": 115,
+  "failures": 0,
+  "source_inputs": 802,
+  "native_images": 9,
+  "native_markers": 18,
+  "native_canvas_proofs": 9,
+  "max_projection_metadata_error_px": 2.7259169964139643e-05,
+  "max_centroid_metadata_error_px": 1.5088769216045349e-05,
+  "max_canvas_error": 2.921796360411122e-08,
+  "image_proofs": [
+    {
+      "file": "fan-baseline-a-route-eye.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            225.1160933982394,
+            128.83707367538645
+          ],
+          "centroid_xy": [
+            225.12765957446808,
+            128.82978723404256
+          ],
+          "native_error_px": 0.01366999122205139
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.95365249874106,
+            152.55804884967273
+          ],
+          "centroid_xy": [
+            408.9634146341463,
+            152.59756097560975
+          ],
+          "native_error_px": 0.04070021355882121
+        }
+      ],
+      "canvas_error": 1.5193340696662005e-08
+    },
+    {
+      "file": "fan-baseline-a-oblique-close.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            245.8719629241801,
+            128.83706774909513
+          ],
+          "centroid_xy": [
+            245.8548387096774,
+            128.77956989247312
+          ],
+          "native_error_px": 0.059993684988166554
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.12805162398257,
+            152.55804782742322
+          ],
+          "centroid_xy": [
+            394.1265060240964,
+            152.54819277108433
+          ],
+          "native_error_px": 0.009975520760888798
+        }
+      ],
+      "canvas_error": 1.5193340696662005e-08
+    },
+    {
+      "file": "fan-baseline-a-wide-repeat.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            266.62780660639567,
+            128.83709051925186
+          ],
+          "centroid_xy": [
+            266.67894736842106,
+            128.75263157894736
+          ],
+          "native_error_px": 0.0987354553232908
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.30244094201345,
+            152.55804404680475
+          ],
+          "centroid_xy": [
+            379.1666666666667,
+            152.5
+          ],
+          "native_error_px": 0.147660980680106
+        }
+      ],
+      "canvas_error": 1.7530777496332917e-08
+    },
+    {
+      "file": "setts-candidate-route-eye.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            231.046338618071,
+            128.8370736101353
+          ],
+          "centroid_xy": [
+            231.01086956521738,
+            128.80434782608697
+          ],
+          "native_error_px": 0.048260031619446794
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.95365998772314,
+            145.44174591574685
+          ],
+          "centroid_xy": [
+            408.9470588235294,
+            145.35882352941178
+          ],
+          "native_error_px": 0.08318471929516502
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "setts-candidate-oblique-close.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            251.80219580536078,
+            128.83706784002766
+          ],
+          "centroid_xy": [
+            251.69148936170214,
+            128.80851063829786
+          ],
+          "native_error_px": 0.11433035659080454
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.128055058536,
+            145.44175568387593
+          ],
+          "centroid_xy": [
+            394.1470588235294,
+            145.3235294117647
+          ],
+          "native_error_px": 0.11974387041198523
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "setts-candidate-wide-repeat.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            272.55804848339847,
+            128.83709054204002
+          ],
+          "centroid_xy": [
+            272.5736842105263,
+            128.7
+          ],
+          "native_error_px": 0.1379793197535248
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.30243954175484,
+            145.44176299212762
+          ],
+          "centroid_xy": [
+            379.1547619047619,
+            145.26190476190476
+          ],
+          "native_error_px": 0.23271799983394026
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "fan-baseline-b-route-eye.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            236.97658385850815,
+            128.83707354488416
+          ],
+          "centroid_xy": [
+            236.91304347826087,
+            128.79347826086956
+          ],
+          "native_error_px": 0.07705795682654687
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.9536583308959,
+            138.32546602477947
+          ],
+          "centroid_xy": [
+            409.04761904761904,
+            138.21428571428572
+          ],
+          "native_error_px": 0.14556674664431915
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    },
+    {
+      "file": "fan-baseline-b-oblique-close.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            257.73245049359707,
+            128.83706778394352
+          ],
+          "centroid_xy": [
+            257.6914893617021,
+            128.80851063829786
+          ],
+          "native_error_px": 0.0499332043188094
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.12805112076154,
+            138.32546511178452
+          ],
+          "centroid_xy": [
+            394.1024096385542,
+            138.23493975903614
+          ],
+          "native_error_px": 0.09408679556669373
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    },
+    {
+      "file": "fan-baseline-b-wide-repeat.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            278.48829391504165,
+            128.8370905648282
+          ],
+          "centroid_xy": [
+            278.5208333333333,
+            128.71875
+          ],
+          "native_error_px": 0.12273264857656105
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.3024435794132,
+            138.3254844275521
+          ],
+          "centroid_xy": [
+            379.1547619047619,
+            138.26190476190476
+          ],
+          "native_error_px": 0.16078635175795186
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    }
+  ],
+  "observed": "All nine originals individually opened in three groups. Fan-shaped arcs disappear; worn setts and physical courses are legible. Candidate bright mortar creates a stronger grid at route-eye and wide views, and the texture covers both fixture wall and top without authored joint/cap detail. The large blank plane does not establish actual Main readability or composition.",
+  "verdict": "Native capture integrity and separate component texture allocation pass within scope. Proceed to an actual Main chase/court comparison; final paving art/readability remains open.",
+  "limits": [
+    "Declared64m plane and ledge fixture, exact production daylight/final Main sky; no real gameplay route/collider/composition claim.",
+    "640x400 static native Linux llvmpipe images cannot establish moving-surface shimmer, frame time or target Mac quality/performance.",
+    "Visual process loads baseline/candidate simultaneously. Only separate fresh allocation owns15maps/31.250384MiB claim; no whole-Main resource admission.",
+    "Allocation records concurrent authorised headless PID41988; visual wrapper sees none at startup but no continuous process observer establishes exclusivity. No timing measured."
+  ],
+  "checks_detail": [
+    {
+      "name": "source inventories match exactly",
+      "pass": true,
+      "actual": 802
+    },
+    {
+      "name": "executed private source still matches every recorded input",
+      "pass": true,
+      "actual": []
+    },
+    {
+      "name": "receipt binds inventory bytes",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "completed clean native capture",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "raw engine has no errors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "no timing claimed",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-route-eye.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-route-eye.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-route-eye.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-route-eye.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-route-eye.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-route-eye.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.2823217806585451e-05,
+        "centroid_metadata_error_px": 4.648353363117863e-06,
+        "native_error_px": 0.01366999122205139,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "fan-baseline-a-route-eye.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 9.75654848950153e-06,
+        "centroid_metadata_error_px": 6.402979153362899e-06,
+        "native_error_px": 0.04070021355882121,
+        "pixel_count": 82
+      }
+    },
+    {
+      "name": "fan-baseline-a-route-eye.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-oblique-close.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-oblique-close.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-oblique-close.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-oblique-close.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-oblique-close.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-oblique-close.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.2409050766345247e-06,
+        "centroid_metadata_error_px": 4.724048487327281e-06,
+        "native_error_px": 0.059993684988166554,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "fan-baseline-a-oblique-close.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 3.396466851221501e-06,
+        "centroid_metadata_error_px": 1.200467991269132e-05,
+        "native_error_px": 0.009975520760888798,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "fan-baseline-a-oblique-close.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-wide-repeat.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-wide-repeat.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-wide-repeat.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-wide-repeat.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-wide-repeat.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-a-wide-repeat.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 6.725112702557913e-06,
+        "centroid_metadata_error_px": 1.0458740429896424e-05,
+        "native_error_px": 0.0987354553232908,
+        "pixel_count": 95
+      }
+    },
+    {
+      "name": "fan-baseline-a-wide-repeat.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1749162859292789e-05,
+        "centroid_metadata_error_px": 1.0172525662710541e-05,
+        "native_error_px": 0.147660980680106,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "fan-baseline-a-wide-repeat.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-route-eye.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-route-eye.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-route-eye.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-route-eye.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-route-eye.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-route-eye.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 7.337606357346545e-06,
+        "centroid_metadata_error_px": 6.634256726556486e-06,
+        "native_error_px": 0.048260031619446794,
+        "pixel_count": 92
+      }
+    },
+    {
+      "name": "setts-candidate-route-eye.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.4869129707825617e-05,
+        "centroid_metadata_error_px": 7.153628836683304e-06,
+        "native_error_px": 0.08318471929516502,
+        "pixel_count": 85
+      }
+    },
+    {
+      "name": "setts-candidate-route-eye.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-oblique-close.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-oblique-close.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-oblique-close.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-oblique-close.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-oblique-close.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-oblique-close.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.0812410995166373e-05,
+        "centroid_metadata_error_px": 9.641764611347091e-06,
+        "native_error_px": 0.11433035659080454,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "setts-candidate-oblique-close.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 2.7259169964139643e-05,
+        "centroid_metadata_error_px": 6.02112127133918e-06,
+        "native_error_px": 0.11974387041198523,
+        "pixel_count": 85
+      }
+    },
+    {
+      "name": "setts-candidate-oblique-close.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-wide-repeat.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-wide-repeat.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-wide-repeat.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-wide-repeat.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-wide-repeat.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "setts-candidate-wide-repeat.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 7.765555444802035e-06,
+        "centroid_metadata_error_px": 1.5088769216045349e-05,
+        "native_error_px": 0.1379793197535248,
+        "pixel_count": 95
+      }
+    },
+    {
+      "name": "setts-candidate-wide-repeat.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1852928409504236e-05,
+        "centroid_metadata_error_px": 7.825818281293878e-06,
+        "native_error_px": 0.23271799983394026,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "setts-candidate-wide-repeat.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-route-eye.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-route-eye.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-route-eye.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-route-eye.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-route-eye.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-route-eye.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1463969503596921e-05,
+        "centroid_metadata_error_px": 6.8303846744773835e-06,
+        "native_error_px": 0.07705795682654687,
+        "pixel_count": 92
+      }
+    },
+    {
+      "name": "fan-baseline-b-route-eye.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.5058263838918206e-05,
+        "centroid_metadata_error_px": 1.3338768028791317e-05,
+        "native_error_px": 0.14556674664431915,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "fan-baseline-b-route-eye.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-oblique-close.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-oblique-close.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-oblique-close.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-oblique-close.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-oblique-close.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-oblique-close.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 2.211576349751411e-06,
+        "centroid_metadata_error_px": 1.0850476089986205e-05,
+        "native_error_px": 0.0499332043188094,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "fan-baseline-b-oblique-close.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 4.9005022332074814e-06,
+        "centroid_metadata_error_px": 7.355931463924591e-06,
+        "native_error_px": 0.09408679556669373,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "fan-baseline-b-oblique-close.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-wide-repeat.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-wide-repeat.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-wide-repeat.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-wide-repeat.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-wide-repeat.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "fan-baseline-b-wide-repeat.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.903456127525811e-05,
+        "centroid_metadata_error_px": 1.0172525662710541e-05,
+        "native_error_px": 0.12273264857656105,
+        "pixel_count": 96
+      }
+    },
+    {
+      "name": "fan-baseline-b-wide-repeat.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.44025377364764e-05,
+        "centroid_metadata_error_px": 7.825818281293878e-06,
+        "native_error_px": 0.16078635175795186,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "fan-baseline-b-wide-repeat.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "nine exact mode/view pairs",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "A/B/A baseline contract unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "verified physical width fan-baseline-a",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same normal strength/filter/tint fan-baseline-a",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native material imports fan-baseline-a",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "verified physical width fan-baseline-b",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same normal strength/filter/tint fan-baseline-b",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native material imports fan-baseline-b",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "verified physical width setts-candidate",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same normal strength/filter/tint setts-candidate",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native material imports setts-candidate",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention fan-baseline-a-route-eye.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention fan-baseline-a-oblique-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention fan-baseline-a-wide-repeat.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention setts-candidate-route-eye.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention setts-candidate-oblique-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention setts-candidate-wide-repeat.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention fan-baseline-b-route-eye.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention fan-baseline-b-oblique-close.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual material matches intervention fan-baseline-b-wide-repeat.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "matched native camera route-eye",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "matched native geometry/resource counters route-eye",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "A/A return pixels byte-identical outside tag and declared moving markers route-eye",
+      "pass": true,
+      "actual": 0
+    },
+    {
+      "name": "matched native camera oblique-close",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "matched native geometry/resource counters oblique-close",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "A/A return pixels byte-identical outside tag and declared moving markers oblique-close",
+      "pass": true,
+      "actual": 0
+    },
+    {
+      "name": "matched native camera wide-repeat",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "matched native geometry/resource counters wide-repeat",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "A/A return pixels byte-identical outside tag and declared moving markers wide-repeat",
+      "pass": true,
+      "actual": 0
+    },
+    {
+      "name": "separate fresh allocation clean/stable",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "allocation before/after inventories identical and source-bound",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "allocation has no timing claim",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native allocation arithmetic",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native allocation within original32MiB budget",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "15 unique compressed native map resources",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native allocation geometry unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "all27 author-preserved files retain exact hashes",
+      "pass": true,
+      "actual": null
+    }
+  ],
+  "executed_source_hashes": {
+    "tools/environment_paving_visual_controls.gd": "3e2ed6a184e5c330d7c872c9f813d9816726f131c7cf7a2065cd4a937df24c05",
+    "tools/environment_paving_visual_controls.gd.uid": "848387d87aa965d41b2bdaf0f772e15d68d758c32ccdc61ea90b9389c2d55a48",
+    "tools/environment_texture_probe.gd": "e0dabfc2643f35ff330c0da6eea56d5db375c6dee8a70680740dfedfbd7378bf",
+    "tools/environment_texture_probe.gd.uid": "0e3cab5e7a03448e37143f234402525f65118b01a7dc38b46917464882d3e0ad",
+    "tools/environment_water_isolated_probe.gd": "b2163332c6ab1b82780016714ee0e661d569faa335ee74c71a423e8905e839a0",
+    "tools/environment_water_isolated_probe.gd.uid": "c7566002be32d200afa33dcbfadbe46a4214beb17cd23dd73bf51cd8c37bf723",
+    "tools/environment_water_probe.gd": "232ded9bd5f6609678e5563ffaff26bf47fc3700b69ad41446e9ccb1c1475764",
+    "tools/environment_water_probe.gd.uid": "11a4fda8ac36ebcd0bacf716c677a3a5c82f27418d9f344e1e25eb63d509d1a9",
+    "tools/environment_water_probe.py": "adc330ebbd57218bbf5e2d7b2dd9bce5a98c95cf5d630af3c7d3f8ad21180b00",
+    "tools/environment_water_visual_controls.gd": "830db4bea42144115490eb77836e4e4fa0cd078f65c4571408e90272b5fd0ae5",
+    "tools/environment_water_visual_controls.gd.uid": "fe05987f3309b7167d50c9aa6e957d420777af8429ea2d8c88ddd29970faa796"
+  },
+  "evidence_hashes": {
+    "observer.gd.txt": "3e2ed6a184e5c330d7c872c9f813d9816726f131c7cf7a2065cd4a937df24c05",
+    "allocation-observer.gd.txt": "e0dabfc2643f35ff330c0da6eea56d5db375c6dee8a70680740dfedfbd7378bf",
+    "pixel-base.gd.txt": "830db4bea42144115490eb77836e4e4fa0cd078f65c4571408e90272b5fd0ae5",
+    "derivative-manifest.json": "030a12f1f8e2259d0248d9d40fda2bad5c468d1ee419ba2cffbb2a15af47a53f",
+    "provenance.json": "a11d67707280d36092047967d2b33252d87449f0886fd945d2930a8fbe3a8284",
+    "README.md": "5641072855e591d4042f8a67223e318be1572899db577b75cf8fa1f27c7fc005",
+    "candidate-library.gd.txt": "a015b676c9f0ecc9b653ebcf5bd8d35976ed9d8e35c71d70e05f14e464ed85d2",
+    "runner.py.txt": "adc330ebbd57218bbf5e2d7b2dd9bce5a98c95cf5d630af3c7d3f8ad21180b00",
+    "candidate-manifest.json": "7d8ff62662c04bae2c44029d593d68b42169745b88ad5ae3d5c1ac85756228d4",
+    "analysis.json": "50828194e75cc15180256e1cb296374201c392cca1fcc4b07eb33a58e8a2f634",
+    "paving-visual-01/source-before.json": "eaa6e4f0c5e5aafe0a1b8339eeaf6855581565512494eeb56128ba21b3b3f738",
+    "paving-visual-01/fan-baseline-a-route-eye.png": "aa7d33f604ad61e196c5e724c65524ee3e4fda61e3edf4d350658d9a2ac05832",
+    "paving-visual-01/fan-baseline-b-wide-repeat.png": "16baa308b23e5a4aae2e420d1db2fb050083c995cdd1ddece4e9c345834733df",
+    "paving-visual-01/fan-baseline-a-oblique-close.png": "1ddd56a2f45a68bccf35345ea672389222fe2a5cf0ff379bd72962f581f0ef21",
+    "paving-visual-01/fan-baseline-b-oblique-close.png": "565bff4b76b51415a630dd4b6a1829b0931e269c21e73c0a8feee5d897a64429",
+    "paving-visual-01/visual-paving-report.json": "f6efcc3aa4ea6a20dafb43095d30250f88e93590788b00fc22f9fb0ff6d632e9",
+    "paving-visual-01/engine.log": "6d17b4c2e9ec3f32f2907186eeda39b0356a0e9dde01dbe1078b621c7a86275d",
+    "paving-visual-01/fan-baseline-a-wide-repeat.png": "bafb06aca757f80cee1a7dc33f0e22259db9ef1ae245bdfe4edb1382a6b071a0",
+    "paving-visual-01/setts-candidate-oblique-close.png": "7c4868e2d1c6e38982b75053e483b08c309255ab0bf3e4f8b37b9e1a4b4ca99f",
+    "paving-visual-01/setts-candidate-route-eye.png": "4366a92fc6de3047c09bb96ca756c22021048977e1f76e75a989228d32d8cef4",
+    "paving-visual-01/fan-baseline-b-route-eye.png": "46c0004bf25ddbe0e19fa4e7d5e2a83bc449e603be8a459bb6537303dd4a0b58",
+    "paving-visual-01/receipt.json": "2f47a1e20bed5a63b97acf3a57453b067f1710e9fc60cc1e69a273025dd119ff",
+    "paving-visual-01/setts-candidate-wide-repeat.png": "cec865e1107808db9c94eaf9644729603be1fba6b9b189b1d853312f902c1428",
+    "paving-visual-01/source-after.json": "eaa6e4f0c5e5aafe0a1b8339eeaf6855581565512494eeb56128ba21b3b3f738",
+    "paving-allocation-01/source-before.json": "eaa6e4f0c5e5aafe0a1b8339eeaf6855581565512494eeb56128ba21b3b3f738",
+    "paving-allocation-01/engine.log": "69a34d4a51cda77bd6872f1b5d52728ab474ac6e3755a949477821672a16b184",
+    "paving-allocation-01/receipt.json": "c360dbc1cd6cef0ef8bd4fb8cb6ebcaa1af480cfc3170fb8b2d1cbc46d6d8236",
+    "paving-allocation-01/texture-report.json": "080de24b1e30154da59be27dd3f488c3b50888e5fa0bbc69938bfd0c166d11f8",
+    "paving-allocation-01/source-after.json": "eaa6e4f0c5e5aafe0a1b8339eeaf6855581565512494eeb56128ba21b3b3f738"
+  }
+}

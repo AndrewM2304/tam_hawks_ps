@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T01:32:42.188463+00:00",
+  "finished_utc": "2026-11-07T01:33:37.375257+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "640x400",
+      "--script",
+      "tools/environment_water_isolated_probe.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/water-two-wave-source/.local/environment-water/two-wave-48warm-01"
+    ]
+  ],
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_water_isolated_probe.gd",
+  "process_timeout_seconds": 120,
+  "workload": "isolated-water-640x400",
+  "source_inventory_sha256": "5d6fadf2425b6f5aee735ace3fa60c8e4c29ce72242c282b780e10e54edbd270",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "before-grazing.png": "5592dce13e97d3c5f775734aba81bffcdadb09194ca80fd94560ce9627f85c3e",
+    "before-high-coverage.png": "e19915985bae744d47a7212f22ea674a7e6bdde7df0b30881980db0981b1b8a7",
+    "before-river-oblique.png": "294679a7646c47a51a7d09f55ead84d524ebf0e1c4ca7dfc00a0b5b4151ae718",
+    "candidate-grazing.png": "ce5da36a39f7323abdc634e5479831c05d0d562b31c232320b384d256c36af77",
+    "candidate-high-coverage.png": "e9820b3793ac0ae7f691b726b7b3520bc547dfdf08298a1f8fcea1c72d0b38c8",
+    "candidate-river-oblique.png": "b17d859c5c6276fb244adfdd5c24e8ca61ac0e61dfa2222104d35abb5544864d"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

@@ -1,0 +1,82 @@
+{
+  "schema": "tam-hawks-independent-line-audit-v1",
+  "reviewed_utc": "2026-11-07T02:43:55.433623+00:00",
+  "reviewer": "independent_qa",
+  "method": "Read retained native logs, exact runner and both source inventories; inspect current independent native topology helper and six-versus-two metadata admission predicates. No QA engine execution.",
+  "subsets": {
+    "legacy-audit-accepted": {
+      "recorded_inputs": 288,
+      "source_before_after_equal": true,
+      "pass_lines": 149,
+      "fail_lines": 0,
+      "failure_labels": [],
+      "other_engine_script_error_lines": [],
+      "process_exit_scope": "Author-reported process exit; raw process-wrapper exit receipt not present in retained subset at independent review. Runner calls quit(1 if failed>0 else0).",
+      "sha256": {
+        "source-before.json": "d8be6e4897f536fdc918e1d5e515de9297f07215d0dc8780f829db7f86d60bf3",
+        "runner.gd": "510220589f177e5fe1a00133c139115c044200c2b81e306217236d7483f5cd45",
+        "native.log": "dd089df6dfa14dad4128d80559273a369a248bbace15ece93c240e8fc430b21b",
+        "source-after.json": "d8be6e4897f536fdc918e1d5e515de9297f07215d0dc8780f829db7f86d60bf3"
+      },
+      "actual_seat_records": {
+        "verified": 6,
+        "generic": 2,
+        "generic_exact_ids": [
+          "Grind_Edge_Bench_x7000y244z5900_1_0",
+          "Grind_Edge_Bench_x7000y244z5900_3_0"
+        ],
+        "raw_short_end_perpendicular_errors": [
+          2.4586916e-06,
+          1.63912773e-06
+        ],
+        "unchanged_guard": 1e-06
+      },
+      "native_guard_labels": [
+        "compact Clyde: obsolete 560x90m landscape body is removed",
+        "compact Clyde: removed south roaming space is not advertised as the Clyde district",
+        "compact Clyde: safe navigation route follows the moved continuous crossing rather than the removed bridge",
+        "compact Clyde: moved native flat box retains its8m footprint and actual Y2 support across both opposing toes",
+        "compact Clyde: moved planter has matching real top support rather than only a moved grind track",
+        "compact Clyde: displayed faces cover every protected convex prism and four closed native bank prisms without a bounding-box shortcut",
+        "compact Clyde: independent native topology refuses missing face",
+        "compact Clyde: independent native topology refuses reversed face",
+        "compact Clyde: independent native topology refuses moved single corner",
+        "compact Clyde: genuine hip-to-floor coplanar counterexample is removed while the whole physical hip footprint stays visibly covered",
+        "compact Clyde: moved-layout district checkpoint remains a real supported clear retry point",
+        "surface audit: over5000 native-profile sweeps admit every unlisted track and independently reject exactly17 documented inherited obstructed candidates",
+        "surface audit: original long river-curb identity retains over57m and its real capsule clears the shortened bank-side endpoint",
+        "surface audit: actual terminal bank still rejects the original newly obstructed river-curb tail instead of hiding it in inherited exceptions",
+        "surface audit: each inherited bench retains its usable unobstructed front edge"
+      ]
+    },
+    "rejected-default-tail": {
+      "recorded_inputs": 288,
+      "source_before_after_equal": true,
+      "pass_lines": 212,
+      "fail_lines": 2,
+      "failure_labels": [
+        "compact Clyde: old outer quays and 33 former landscape samples contain no obsolete floor or query support",
+        "grind contact world: only eight inspected native seat faces authenticate real support; every other semantic source retains its original generic guide"
+      ],
+      "other_engine_script_error_lines": [],
+      "process_exit_scope": "Author-reported process exit; raw process-wrapper exit receipt not present in retained subset at independent review. Runner calls quit(1 if failed>0 else0).",
+      "sha256": {
+        "source-before.json": "7261f31947f9bac3d04d99ec6a974499241f6f7981e8175286fad8a6ec5c0155",
+        "runner.gd": "9e22c2d8bd133c9871018a7c83bc937d0ca259aa0de6160d78113aa5cc87086d",
+        "native.log": "78031a16d03193ee801dd6f433ef978bd36dabe3f2f3d05c6b937e524e9f9959",
+        "source-after.json": "7261f31947f9bac3d04d99ec6a974499241f6f7981e8175286fad8a6ec5c0155"
+      }
+    }
+  },
+  "source_cold_read": [
+    "Protected prisms==55, actual bank_prisms==4 and 55*12+4*20=740 native/display triangles explicitly required.",
+    "Bank oracle consumes actual enabled backface ConcavePolygon60-corner shape and demands12 finite vertices,20 finite triangles, opposite paired edges and clockwise signed volume. Three actual native malformed controls retain missing/reversed/moved-corner failures.",
+    "Two rotated short endcap IDs are explicitly admitted only as generic when actual outward errors exceed the unchanged1e-6 guard. Generic source/RID/offset/player contracts remain, while six actual matching Box faces authenticate.",
+    "Historical preview=false inventory fixture is separately labelled; rejected ordinary-default tail is retained and not converted into acceptance."
+  ],
+  "limits": [
+    "This review validates recorded source-byte equality, not absence of filesystem write activity.",
+    "Original live Clyde D014 remains open, and new coping helper postdates these subset sources.",
+    "No full required-suite replacement, current matched rendering, M5, controller or fun acceptance."
+  ]
+}

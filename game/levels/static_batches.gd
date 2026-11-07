@@ -4,6 +4,8 @@ extends RefCounted
 ## Registration promises that ancestor transforms/visibility stay static after
 ## finalize(). Gameplay, collision, trees and unregistered visuals are untouched.
 
+const STATIC_WINDOW_SHADER = preload("res://game/art/shaders/window_interior.gdshader")
+
 const META_RECORDS: StringName = &"tam_static_batch_records"
 const META_PERMISSION: StringName = &"tam_static_batch_permission"
 const META_FINALIZED: StringName = &"tam_static_batch_finalized"
@@ -193,7 +195,7 @@ static func _eligible(source: MultiMeshInstance3D, world: Node3D, cell_size: flo
 		if not _finite_transform(global) or absf(global.origin.x / cell_size) > 2147483000.0 \
 			or absf(global.origin.z / cell_size) > 2147483000.0:
 			return false
-	if not _opaque_material(source.material_override) or not _opaque_material(source.material_overlay):
+	if not _opaque_material(source.material_override, {}, true) or not _opaque_material(source.material_overlay):
 		return false
 	if source.material_override == null:
 		for surface: int in range(batch.mesh.get_surface_count()):
@@ -214,9 +216,15 @@ static func _eligible(source: MultiMeshInstance3D, world: Node3D, cell_size: flo
 	return ancestor == world
 
 
-static func _opaque_material(material: Material, seen: Dictionary = {}) -> bool:
+static func _opaque_material(material: Material, seen: Dictionary = {}, allow_static_window: bool = false) -> bool:
 	if material == null:
 		return true
+	# One exact audited shader is immutable, opaque and does not deform vertices
+	# or consume INSTANCE/CUSTOM data. Never admit arbitrary shaders by metadata,
+	# code similarity, filename, or this shader as an overlay/next pass. Native
+	# MultiMesh keeps every per-pane MODEL_MATRIX after spatial consolidation.
+	if material is ShaderMaterial:
+		return allow_static_window and material.shader == STATIC_WINDOW_SHADER and material.next_pass == null
 	if not material is BaseMaterial3D or seen.has(material.get_instance_id()):
 		return false
 	seen[material.get_instance_id()] = true

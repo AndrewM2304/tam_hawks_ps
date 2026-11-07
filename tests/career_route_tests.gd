@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Input-driven route feasibility, not a human playtest or target-device benchmark.
 ## Position is assigned only by restart at each route's initial fixture. The driver
 ## may aim heading on supported ground; velocity/speed/collision are never injected.
@@ -12,7 +13,10 @@ const CIRCUIT: Array[Vector3] = [
 	Vector3(-88, 2, -40), Vector3(-82, 2, -40), Vector3(-62, 2, 22),
 	Vector3(-82, 2, 34), Vector3(-94, 2, 34), Vector3(-94, 5, 4.5),
 	Vector3(-94, 5, -12), Vector3(-94, 2, -38), Vector3(-62, 2, -38),
-	Vector3(-62, 2, 22), Vector3(-22, 0, 22), Vector3(22, 0, 22),
+	Vector3(-62, 2, 22), Vector3(-22, 0, 22),
+	# The west-fountain bank is an optional north/south trick line. Its side
+	# is real masonry; take the preserved south bypass for this collection leg.
+	Vector3(-22, 0, 28), Vector3(22, 0, 28), Vector3(22, 0, 22),
 	Vector3(60, 0, 22), Vector3(70, 0, 22), Vector3(94, 0, 20),
 	# The solid Barras rail ends at Z33. Use the clear south shoulder, then
 	# rejoin every original collection waypoint and scoring leg.
@@ -23,7 +27,7 @@ const CIRCUIT: Array[Vector3] = [
 	Vector3(75, 1.5, -22), Vector3(22, 2, -22), Vector3(-22, 2, -22),
 	Vector3(-22, 0, 28),
 ]
-const COMBO_WAYPOINTS: Array[int] = [0, 4, 10, 21, 31, 39]
+const COMBO_WAYPOINTS: Array[int] = [0, 4, 10, 21, 33, 41]
 
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
@@ -178,10 +182,7 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 					manual_entered = true
 				elif game.skater.manual_active:
 					Input.action_release("push")
-					Input.action_release("steer_left")
-					Input.action_release("steer_right")
-					if game.skater.manual_balance > 0.08: Input.action_press("steer_left")
-					elif game.skater.manual_balance < -0.08: Input.action_press("steer_right")
+					ManualBalance.hold(game.skater, 0.08, 1.0)
 				await _frames(tree, 1)
 				var manual_input: bool = Input.is_action_pressed("manual")
 				var manual_buffer: float = game.skater.get("_manual_buffer_remaining")
@@ -270,10 +271,7 @@ static func _drive_to(tree: SceneTree, game: Node, target: Vector3, evidence: Di
 				else: Input.action_press("manual")
 			elif game.skater.manual_active:
 				Input.action_release("push")
-				Input.action_release("steer_left")
-				Input.action_release("steer_right")
-				if game.skater.manual_balance > 0.08: Input.action_press("steer_left")
-				elif game.skater.manual_balance < -0.08: Input.action_press("steer_right")
+				ManualBalance.hold(game.skater, 0.08, 1.0)
 		await _frames(tree, 1)
 		_record(game, at, evidence)
 	return {"reached": false}

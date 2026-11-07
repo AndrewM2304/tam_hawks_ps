@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+"""Read-only independent verification of exact receipt-listed V9-three native frames."""
+import hashlib,json,re
+from pathlib import Path
+import numpy as np
+from PIL import Image
+ROOT=Path('/workspace/tam_hawks_ps');E=ROOT/'.local/rider-fit-staging/epochs/v9-three';checks=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def check(n,v,a=None):checks.append({'name':n,'pass':bool(v),'actual':a})
+def vec(s):return np.array([float(x) for x in re.findall(r'-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?',s)])
+r=json.loads((E/'output/receipt.json').read_text());index=json.loads((E/'epoch-sha256.json').read_text())
+check('74 exact preserved files match index',len(index)==74 and all((E/k).is_file() and sha(E/k)==v['sha256'] and (E/k).stat().st_size==v['bytes'] for k,v in index.items()))
+check('only actual current three labels',len(r['frames'])==3 and {i['label'] for i in r['frames']}=={'idle-face','idle-profile','push'})
+log=(E/'native.log').read_text();check('raw clean native log confirms three current frames',not any(x in log for x in ['ERROR:', 'SCRIPT ERROR:', 'Parse Error']) and 'PRIVATE_FIT_PREVIEW frames=3 failures=0' in log)
+check('before source observer/project identities retained',r['source_sha256']['res://preview.gd']==sha(E/'preview.gd') and r['source_sha256']['res://project.godot']==sha(E/'project.godot') and r['source_sha256']['res://capture-load.json']==sha(E/'capture-load.json'))
+check('receipt records internally asserted source and pose stability',r['source_stable'] and r['failures']==0)
+results=[]
+for f in r['frames']:
+ label=f['label'];clean=np.asarray(Image.open(E/'output'/f'{label}.png').convert('RGBA'));proof=np.asarray(Image.open(E/'output/synchronization'/f'{label}.png').convert('RGBA'))
+ check(label+' clean/proof hashes and native1280x800',clean.shape==proof.shape==(800,1280,4) and hashlib.sha256(clean.tobytes()).hexdigest()==f['native_rgba_sha256'] and hashlib.sha256(proof.tobytes()).hexdigest()==f['synchronization_native_rgba_sha256'] and sha(E/'output'/f'{label}.png')==f['png_sha256'] and sha(E/'output/synchronization'/f'{label}.png')==f['sync_png_sha256'])
+ state=f['native_state'];camera=np.asarray(state['camera_global'],dtype=float);projection=np.asarray(state['camera_projection_columns'],dtype=float).T
+ check(label+' numeric finite camera/projection and viewport',camera.shape==projection.shape==(4,4) and np.isfinite(camera).all() and np.isfinite(projection).all() and state['viewport_pixels']==[1280,800] and state['camera_near']>0 and state['camera_far']>state['camera_near'])
+ check(label+' actual camera forward',np.max(np.abs(np.asarray(state['camera_forward'])+camera[:3,2]))<1e-8)
+ check(label+' projection matches declared FOV',abs(projection[1,1]-1/np.tan(np.radians(f['fov'])/2))<1e-5 and abs(projection[0,0]-projection[1,1]*800/1280)<1e-6)
+ pose=[state[k] for k in ['head_global','rider_global','skeleton_global']]+list(state['bone_global_pose_in_skeleton'].values())
+ check(label+' actual finite head/root/skeleton/allbones retained',set(state['bone_global_pose_in_skeleton'])==set(re.findall(r'FITTED_BONE \d+ ([^ ]+)',log)) and len(pose)==14 and all(np.asarray(p).shape==(4,4) and np.isfinite(p).all() for p in pose))
+ markers=[]
+ for channel,m in enumerate(f['synchronization']):
+  world=vec(m['world']);clip=projection@np.linalg.inv(camera)@np.append(world,1);ndc=clip[:3]/clip[3];xy=np.array([(ndc[0]+1)*640,(1-ndc[1])*400]);reported=vec(m['projected']);project_error=float(np.linalg.norm(xy-reported))
+  px,py=reported;x0,x1=max(0,int(px)-12),min(1280,int(px)+13);y0,y1=max(0,int(py)-12),min(800,int(py)+13);rgb=proof[y0:y1,x0:x1,:3].astype(float)/255;other=[i for i in range(3) if i!=channel];mask=(rgb[:,:,channel]>.75)&(rgb[:,:,channel]-rgb[:,:,other[0]]>.2)&(rgb[:,:,channel]-rgb[:,:,other[1]]>.2);yy,xx=np.nonzero(mask);centroid=np.array([xx.mean()+x0+.5,yy.mean()+y0+.5]);error=float(np.linalg.norm(centroid-xy));recorderror=float(np.linalg.norm(centroid-reported))
+  check(label+f' independently projected native channel{channel}',project_error<.01 and len(xx)==m['count'] and len(xx)>=4 and error<=2.5 and abs(recorderror-m['centroid_error'])<.001,{'projection_metadata_error_px':project_error,'pixel_count':len(xx),'native_centroid_error_px':error,'reported_error_delta_px':abs(recorderror-m['centroid_error'])})
+  markers.append({'channel':channel,'projection_error_px':project_error,'native_error_px':error})
+ check(label+' native frame counters progress proof toclean',all(f['proof_frame_counters'][k]<=f['clean_frame_counters'][k] for k in ['physics','process']))
+ results.append({'label':label,'markers':markers,'proof_counters':f['proof_frame_counters'],'clean_counters':f['clean_frame_counters']})
+src=(E/'preview.gd').read_text();check('observer natural postdraw with actual pose parity guard','await RenderingServer.frame_post_draw' in src and 'pose_before != _pose_matrices()' in src and 'force_draw' not in src)
+report={'schema':1,'reviewer':'independent_qa','method':'Read-only independent native PNG/RGBA hashing, numeric perspective projection and RGB centroid reconstruction, exact74-file archive verification and observer cold-read. All three receipt-listed originals personally opened; no QA engine execution.','checks':len(checks),'failures':sum(not x['pass'] for x in checks),'images':3,'proof_images':3,'actual_markers':9,'verdict':'The two conspicuous lower-collar skin islands visible in V8 are absent in these exact front/profile originals; this specific visible-defect retest passes. Full garment/coverage remains unaccepted pending opposite angles, bends, action and actual Main.','limits':['Authored private art states, not actual Main/input/movement or physical contact acceptance.','Six other clean PNGs in output are unlisted stale copies and excluded from this epoch review.','Per-readback counters are single snapshots, not before/after brackets around get_image.','Pose-before versus final is asserted by code; only final pose matrices are stored, so separate per-readback pose parity cannot be independently reconstructed.','Source-before and source_stable boolean retained; no source-after inventory is retained. Exact archive74-file integrity is separate from full runtime source-freeze proof.','No Canvas frame tag in this observer; three real3D markers and clean/proof hashes establish this narrower native camera claim.','No whole-process timing/exclusivity, full rig attachment/coverage or AAA/M5 acceptance.'],'frames':results,'checks_detail':checks,'retained_sha256':{str(p.relative_to(E)):sha(p) for p in [E/'preview.gd',E/'native.log',E/'output/receipt.json',E/'epoch-sha256.json']}}
+(ROOT/'.local/qa-fidelity/rider-v9-three-independent-review.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k not in ['checks_detail','frames','retained_sha256']},indent=2))
+if report['failures']:print(json.dumps([x for x in checks if not x['pass']],indent=2))
+raise SystemExit(1 if report['failures'] else 0)

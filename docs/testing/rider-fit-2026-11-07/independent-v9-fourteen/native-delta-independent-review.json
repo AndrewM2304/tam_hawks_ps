@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "method": "Independent rawGLB chunk/accessor reader and exact attribute arrays; no fitter algorithm, shared RV reader or engine invocation.",
+  "checks": 27,
+  "failures": 0,
+  "old_glb_sha256": "a7ad8ff2eae82611565c76fd018dea8b507ee6006ca626b5180a12eeec6a6c61",
+  "new_glb_sha256": "03944d9a01a030ee39a5cab2211cc8827c85e81cd60f6fd3e8783a8d360f7a46",
+  "changes": "Exactly33 emitted authentic source cloth positions move by at most6.532029mm; all other raw positions/UV/joints/weights/indices and inversebinds/boneNodes remain exact except jacket normals.",
+  "limits": [
+    "Does not establish actual imported GPU deformation or visible/current contact acceptance.",
+    "Original26foldedlapel crossing pairs and far-knee silhouette concern remain open."
+  ],
+  "checks_detail": [
+    {
+      "name": "exact official Skin bone node records unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "inverse bind matrix bytes unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedJacket same actual attribute set",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedJacket exact TEXCOORD_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedJacket exact JOINTS_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedJacket exact WEIGHTS_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedJacket exact INDICES",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedTrousers same actual attribute set",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedTrousers exact POSITION",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedTrousers exact NORMAL",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedTrousers exact TEXCOORD_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedTrousers exact JOINTS_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedTrousers exact WEIGHTS_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "SkinnedTrousers exact INDICES",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "UpperChest same actual attribute set",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "UpperChest exact POSITION",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "UpperChest exact NORMAL",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "UpperChest exact TEXCOORD_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "UpperChest exact JOINTS_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "UpperChest exact WEIGHTS_0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "UpperChest exact INDICES",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "exact33nonzero raw position vertices, all declared",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual bounded offset and declared match",
+      "pass": true,
+      "actual": {
+        "actual_maximum_m": 0.006532029217952772,
+        "declaration_error_m": 9.248913238223555e-08
+      }
+    },
+    {
+      "name": "all100source waist vertices unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual head source bytes unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "full Body-mask/rim source metadata unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "all waist sourceedge correspondence unchanged",
+      "pass": true,
+      "actual": null
+    }
+  ]
+}

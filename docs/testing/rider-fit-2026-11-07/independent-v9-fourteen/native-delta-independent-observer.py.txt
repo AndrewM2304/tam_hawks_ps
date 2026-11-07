@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+"""Independent read-only actual GLB delta audit, separate from the fitter."""
+from pathlib import Path
+import hashlib,json,struct
+import numpy as np
+ROOT=Path('/workspace/tam_hawks_ps');A=ROOT/'.local/rider-fit-staging/epochs/v8/rider-assets/fitted_outfit.glb';B=ROOT/'.local/rider-fit-staging/epochs/v9-fourteen/rider-assets/fitted_outfit.glb'
+def parse(p):
+ d=p.read_bytes();magic,version,size=struct.unpack_from('<III',d);assert magic==0x46546c67 and version==2 and size==len(d);chunks={};off=12
+ while off<len(d):
+  n,t=struct.unpack_from('<II',d,off);chunks[t]=d[off+8:off+8+n];off+=8+n
+ return json.loads(chunks[0x4e4f534a]),chunks[0x004e4942]
+def read(d,b,i):
+ a=d['accessors'][i];assert 'sparse'not in a;v=d['bufferViews'][a['bufferView']];dtype=np.dtype({5121:'u1',5123:'<u2',5125:'<u4',5126:'<f4'}[a['componentType']]);k={'SCALAR':1,'VEC2':2,'VEC3':3,'VEC4':4,'MAT4':16}[a['type']]
+ return np.ndarray((a['count'],k),dtype=dtype,buffer=b,offset=v.get('byteOffset',0)+a.get('byteOffset',0),strides=(v.get('byteStride',k*dtype.itemsize),dtype.itemsize)).copy()
+def parts(p):
+ d,b=parse(p);out={}
+ for m in d['meshes']:
+  assert len(m['primitives'])==1;pr=m['primitives'][0];assert pr.get('mode',4)==4;out[m['name']]={k:read(d,b,x) for k,x in pr['attributes'].items()};out[m['name']]['INDICES']=read(d,b,pr['indices'])
+ return d,b,out
+ad,ab,a=parts(A);bd,bb,b=parts(B);checks=[]
+def check(n,c,v=None):checks.append({'name':n,'pass':bool(c),'actual':v})
+check('exact official Skin bone node records unchanged',[(ad['nodes'][i]) for i in ad['skins'][0]['joints']]==[(bd['nodes'][i]) for i in bd['skins'][0]['joints']])
+check('inverse bind matrix bytes unchanged',np.array_equal(read(ad,ab,ad['skins'][0]['inverseBindMatrices']),read(bd,bb,bd['skins'][0]['inverseBindMatrices'])))
+for name in ['SkinnedJacket','SkinnedTrousers','UpperChest']:
+ check(name+' same actual attribute set',a[name].keys()==b[name].keys())
+ for key in a[name]:
+  if name=='SkinnedJacket'and key in ['POSITION','NORMAL']:continue
+  check(name+' exact '+key,np.array_equal(a[name][key],b[name][key]))
+delta=b['SkinnedJacket']['POSITION'].astype(float)-a['SkinnedJacket']['POSITION'].astype(float);changed=np.flatnonzero(np.any(delta!=0,axis=1));magnitudes=np.linalg.norm(delta,axis=1);fit=json.loads((B.parent.parent/'fitted-garment-fit.json').read_text());oldmap=json.loads((A.parent.parent/'cloth-landmarks.json').read_text());mapping=oldmap['SkinnedJacket']['mesh_vertex_to_source_obj_vertex'];actual_ids={str(mapping[i])for i in changed};declared=fit['source_vertex_offsets_m'];check('exact33nonzero raw position vertices, all declared',len(changed)==len(actual_ids)==33 and actual_ids==set(declared));error=max(np.linalg.norm(delta[i]-np.asarray(declared[str(mapping[i])]))for i in changed);check('actual bounded offset and declared match',magnitudes.max()<.008 and error<1e-6,{'actual_maximum_m':float(magnitudes.max()),'declaration_error_m':float(error)})
+waist={v for edge in oldmap['waist_seam_correspondence']['source_vertex_edges']for v in edge};check('all100source waist vertices unchanged',len(waist)==100 and all(np.array_equal(a['SkinnedJacket']['POSITION'][i],b['SkinnedJacket']['POSITION'][i])for i,v in enumerate(mapping)if v in waist))
+check('actual head source bytes unchanged',(A.parent/'fitted_head.obj').read_bytes()==(B.parent/'fitted_head.obj').read_bytes());newmap=json.loads((B.parent/'fitted_landmarks.json').read_text());check('full Body-mask/rim source metadata unchanged',oldmap['UpperChest']==newmap['UpperChest']);check('all waist sourceedge correspondence unchanged',oldmap['waist_seam_correspondence']==newmap['waist_seam_correspondence'])
+r={'schema':1,'reviewer':'independent_qa','method':'Independent rawGLB chunk/accessor reader and exact attribute arrays; no fitter algorithm, shared RV reader or engine invocation.','checks':len(checks),'failures':sum(not c['pass']for c in checks),'old_glb_sha256':hashlib.sha256(A.read_bytes()).hexdigest(),'new_glb_sha256':hashlib.sha256(B.read_bytes()).hexdigest(),'changes':'Exactly33 emitted authentic source cloth positions move by at most6.532029mm; all other raw positions/UV/joints/weights/indices and inversebinds/boneNodes remain exact except jacket normals.','limits':['Does not establish actual imported GPU deformation or visible/current contact acceptance.','Original26foldedlapel crossing pairs and far-knee silhouette concern remain open.'],'checks_detail':checks}
+(ROOT/'.local/qa-fidelity/rider-v9-native-delta-independent-review.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps({k:v for k,v in r.items()if k!='checks_detail'},indent=2))
+if r['failures']:print(json.dumps([c for c in checks if not c['pass']],indent=2))
+raise SystemExit(1 if r['failures'] else 0)

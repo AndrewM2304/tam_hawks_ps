@@ -1,0 +1,507 @@
+{
+  "checks": 26,
+  "engine": {
+    "build": "official",
+    "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+    "hex": 263683,
+    "major": 4,
+    "minor": 6,
+    "patch": 3,
+    "status": "stable",
+    "string": "4.6.3-stable (official)",
+    "timestamp": 0
+  },
+  "failures": 0,
+  "fixture": "Default-enabled real Main; reset only at case boundary;40 settle ticks,40push ticks,2ollie-charge ticks,release,real flip. Synthesized mapped Input actions; no pose, velocity, score, balance or heading assignment during run.",
+  "limits": "Headless native timing diagnostic, not normal-speed visual, physical-controller or M5 acceptance. Manual requests do not alter airborne trajectory; schedule references independently measured calibration contact.",
+  "schema": 1,
+  "source": "Clean main0b620358767c9c647dde66945377d99702c85d0b production; narrow independent observer only.",
+  "cases": [
+    {
+      "actual_ms_before_contact": null,
+      "bank_ticks": [
+        52
+      ],
+      "case": "calibration",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        }
+      ],
+      "final_score": 800,
+      "first_landing_tick": 31,
+      "manual_entry_tick": -1,
+      "reference_landing_tick": 0,
+      "request_tick": -1000,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": 100.0,
+      "bank_ticks": [],
+      "case": "held_100ms_before",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        },
+        {
+          "event": "link_started",
+          "tick": 31
+        },
+        {
+          "event": "trick",
+          "label": "Manual",
+          "points": 100,
+          "tick": 31
+        }
+      ],
+      "final_score": 0,
+      "first_landing_tick": 31,
+      "manual_entry_tick": 31,
+      "reference_landing_tick": 31,
+      "request_tick": 25,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": 200.0,
+      "bank_ticks": [
+        52
+      ],
+      "case": "held_200ms_before",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        }
+      ],
+      "final_score": 800,
+      "first_landing_tick": 31,
+      "manual_entry_tick": -1,
+      "reference_landing_tick": 31,
+      "request_tick": 19,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": 300.0,
+      "bank_ticks": [
+        52
+      ],
+      "case": "held_300ms_before",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        }
+      ],
+      "final_score": 800,
+      "first_landing_tick": 31,
+      "manual_entry_tick": -1,
+      "reference_landing_tick": 31,
+      "request_tick": 13,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": 450.0,
+      "bank_ticks": [
+        52
+      ],
+      "case": "held_450ms_before",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        }
+      ],
+      "final_score": 800,
+      "first_landing_tick": 31,
+      "manual_entry_tick": -1,
+      "reference_landing_tick": 31,
+      "request_tick": 4,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": 0.0,
+      "bank_ticks": [],
+      "case": "held_0ms_after",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        },
+        {
+          "event": "link_started",
+          "tick": 31
+        },
+        {
+          "event": "trick",
+          "label": "Manual",
+          "points": 100,
+          "tick": 31
+        }
+      ],
+      "final_score": 0,
+      "first_landing_tick": 31,
+      "manual_entry_tick": 31,
+      "reference_landing_tick": 31,
+      "request_tick": 31,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": -50.0,
+      "bank_ticks": [],
+      "case": "held_50ms_after",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        },
+        {
+          "event": "link_started",
+          "tick": 34
+        },
+        {
+          "event": "trick",
+          "label": "Manual",
+          "points": 100,
+          "tick": 34
+        }
+      ],
+      "final_score": 0,
+      "first_landing_tick": 31,
+      "manual_entry_tick": 34,
+      "reference_landing_tick": 31,
+      "request_tick": 34,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": -200.0,
+      "bank_ticks": [],
+      "case": "held_200ms_after",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        },
+        {
+          "event": "link_started",
+          "tick": 43
+        },
+        {
+          "event": "trick",
+          "label": "Manual",
+          "points": 100,
+          "tick": 43
+        }
+      ],
+      "final_score": 0,
+      "first_landing_tick": 31,
+      "manual_entry_tick": 43,
+      "reference_landing_tick": 31,
+      "request_tick": 43,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": -400.0,
+      "bank_ticks": [
+        52
+      ],
+      "case": "held_400ms_after",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        },
+        {
+          "event": "link_started",
+          "tick": 55
+        },
+        {
+          "event": "trick",
+          "label": "Manual",
+          "points": 100,
+          "tick": 55
+        }
+      ],
+      "final_score": 800,
+      "first_landing_tick": 31,
+      "manual_entry_tick": 55,
+      "reference_landing_tick": 31,
+      "request_tick": 55,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": 200.0,
+      "bank_ticks": [
+        52
+      ],
+      "case": "released_200ms_before",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        }
+      ],
+      "final_score": 800,
+      "first_landing_tick": 31,
+      "manual_entry_tick": -1,
+      "reference_landing_tick": 31,
+      "request_tick": 19,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": 500.0,
+      "bank_ticks": [
+        52
+      ],
+      "case": "stale_held_since_takeoff",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        }
+      ],
+      "final_score": 800,
+      "first_landing_tick": 31,
+      "manual_entry_tick": -1,
+      "reference_landing_tick": 31,
+      "request_tick": 1,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    },
+    {
+      "actual_ms_before_contact": 200.0,
+      "bank_ticks": [
+        52
+      ],
+      "case": "two_tap_gesture_200ms_before",
+      "events": [
+        {
+          "event": "link_started",
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Ollie",
+          "points": 100,
+          "tick": 0
+        },
+        {
+          "event": "trick",
+          "label": "Kickflip",
+          "points": 300,
+          "tick": 1
+        },
+        {
+          "clean": true,
+          "event": "landed",
+          "tick": 31
+        }
+      ],
+      "final_score": 800,
+      "first_landing_tick": 31,
+      "manual_entry_tick": -1,
+      "reference_landing_tick": 31,
+      "request_tick": 19,
+      "observed_ticks": 96,
+      "native_ticks_consecutive": true
+    }
+  ]
+}

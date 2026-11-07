@@ -1,0 +1,66 @@
+"""Run an explicitly leased QA cohort, never import or modify game sources."""
+import datetime,hashlib,json,os,pathlib,platform,re,signal,subprocess,sys,time
+ROOT=pathlib.Path('/workspace/tam_hawks_ps')
+mode,label,project=sys.argv[1:4];project=pathlib.Path(project).resolve()
+assert mode in ['landing','push','meter'] and re.fullmatch(r'[A-Za-z0-9_-]+',label)
+observer=ROOT/('.local/qa-fidelity/manual-review/landing_candidate_matrix.gd' if mode=='landing' else '.local/qa-fidelity/manual-review/meter_capture.gd' if mode=='meter' else '.local/qa-fidelity/controls-runner.gd')
+out=ROOT/'.local/qa-fidelity/native-review'/label;out.mkdir(parents=True,exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inventory():
+ files=[project/'project.godot']
+ for directory in ['game','tests','tools']:files.extend(p for p in (project/directory).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
+ result={str(p.relative_to(project)):sha(p) for p in sorted(set(files))}
+ result['EXTERNAL_OBSERVER:'+str(observer)]=sha(observer)
+ result['EXTERNAL_WRAPPER:'+str(pathlib.Path(__file__).resolve())]=sha(pathlib.Path(__file__))
+ return result
+def stop(process):
+ if process is not None and process.poll() is None:
+  os.killpg(process.pid,signal.SIGTERM)
+  try:process.wait(timeout=5)
+  except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait(timeout=5)
+running=subprocess.run(['ps','-C','godot','-o','pid=,args='],capture_output=True,text=True)
+if running.stdout.strip():raise SystemExit('Godot lease occupied; no execution. '+running.stdout)
+before=inventory();(out/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+started=datetime.datetime.now(datetime.timezone.utc).isoformat();env=dict(os.environ)
+process=xorg=None;exception=None;code=None;command=[]
+try:
+ if mode=='meter':
+  with (out/'display').open('w') as displayfile,(out/'xorg-console.log').open('w') as log:
+   xorg=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(displayfile.fileno()),'-config',str(project/'tools/xorg-dummy.conf'),'-logfile',str(out/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=[displayfile.fileno()],stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+   for i in range(50):
+    display=(out/'display').read_text().strip()
+    if display:break
+    if xorg.poll() is not None:raise RuntimeError('Private Xorg exited')
+    time.sleep(.1)
+   if not display:raise RuntimeError('Private Xorg startup timeout')
+  env.update(DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1',LP_NUM_THREADS='4')
+ command=['./tools/run.sh']+(['--rendering-method','gl_compatibility','--windowed','--resolution','1280x800','--disable-render-loop'] if mode=='meter' else ['--headless'])+['--audio-driver','Dummy','--fixed-fps','60','--script',str(observer),'--']
+ command+=['push'] if mode=='push' else [str(out/('candidate-matrix.json' if mode=='landing' else 'unused-output-placeholder'))]
+ if mode=='meter':command[-1]=str(out)
+ with (out/'engine.log').open('w') as log:
+  process=subprocess.Popen(command,cwd=project,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+  code=process.wait(timeout=360 if mode=='meter' else 180)
+except Exception as error:exception=repr(error)
+finally:
+ stop(process);stop(xorg)
+if code is None and process is not None:code=process.returncode
+after=inventory();(out/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+changed=sorted(k for k in before.keys()|after.keys() if before.get(k)!=after.get(k))
+log=(out/'engine.log').read_text() if (out/'engine.log').exists() else ''
+errors=bool(re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:|^FAIL(?: |:)',log,re.M))
+native_contiguous=None
+if mode=='landing' and (out/'candidate-matrix.json').exists():
+ report=json.loads((out/'candidate-matrix.json').read_text())
+ native_contiguous=all(len(row['trace'])==96 and all(b['native_tick']-a['native_tick']==1 for a,b in zip(row['trace'],row['trace'][1:])) for row in report['cases'])
+ if report['failures']:errors=True
+eligible=code==0 and not exception and not changed and not errors and native_contiguous is not False
+receipt={'schema':1,'mode':mode,'started_utc':started,'finished_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+ 'command':command,'executed_project':str(project),'source_scope':'Exact two-sided dirty source-copy inventory, not final main acceptance unless independently tied to integration.',
+ 'git_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'platform':platform.platform(),
+ 'source_stable':not changed,'changed_inputs':changed,'source_inputs':len(before),'engine_exit':code,'exception':exception,'engine_errors':errors,
+ 'native_timeline_consecutive':native_contiguous,'eligible':eligible,'files':{str(p.relative_to(out)):sha(p) for p in out.rglob('*') if p.is_file()},
+ 'limits':'Native input diagnostic or explicitly labelled static HUD chase inspection. No normal-speed motion, physical-controller, performance, Mac or overall fidelity acceptance.'}
+(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print('QA_NATIVE_REVIEW '+str(out)+' eligible='+str(eligible)+' changed='+str(len(changed)))
+print(log[-4500:])
+raise SystemExit(0 if eligible else 1)

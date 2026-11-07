@@ -1,0 +1,387 @@
+extends RefCounted
+## Bounded free-arm presentation after the connected board/shoe wall fit.
+## Exact cached native LBS endpoints enclose every indexed arm triangle.
+## Distinct weights and noncylindrical source topology require no row grouping.
+## The hand bound encloses base and normalized curl, hence every curl mixture.
+const SKIN := 0.008
+const MAX_WRIST_SHIFT := 0.20
+var supported:=true
+var actor: CharacterBody3D
+var rig: RefCounted
+var skeleton: Skeleton3D
+var jacket: MeshInstance3D
+var arms: Array[Dictionary]=[]
+var continuing:=false
+var calls:=0
+var maximum_calls:=0
+var maximum_shift:=0.0
+var accepted:=0
+var refused:=0
+var cache_bytes:=0
+var cache_rebuilds:=0
+var maximum_bounds_evaluations:=0
+var maximum_transformed_influences:=0
+var maximum_model_transforms:=0
+var _cached_skin: Skin
+var _cached_mesh: Mesh
+var _geometry_dirty:=false
+var _bind_snapshot: Array[Transform3D]=[]
+var _bone_snapshot:=PackedInt32Array()
+var _skin_palette: Array[Transform3D]=[]
+var _tick_bounds:=0
+var _tick_influences:=0
+var _tick_models:=0
+var _runtime_counting:=false
+
+func reset() -> void:
+	continuing=false
+	calls=0
+	maximum_calls=0
+	maximum_shift=0.0
+	accepted=0
+	refused=0
+
+func prepare(body: CharacterBody3D) -> void:
+	reset()
+	arms.clear()
+	supported=true
+	actor=body;rig=body._visual_rig;skeleton=rig._garments.skeleton
+	jacket=rig._rider.get_node("SkinnedJacket")
+	if not _valid_native_skin() or not _valid_native_geometry():supported=false;return
+	for side: float in [-1.0,1.0]:
+		var prefix: String="left" if side<0.0 else "right"
+		var upper:=skeleton.find_bone(prefix+"_sleeve")
+		var lower:=skeleton.find_bone(prefix+"_forearm")
+		var hand: Node3D=rig._arms[arms.size()].hand
+		var mesh: MeshInstance3D=hand.get_node("HandAndFingers")
+		var hand_bounds:=AABB();var first:=true
+		for surface: int in mesh.mesh.get_surface_count():
+			var base: PackedVector3Array=mesh.mesh.surface_get_arrays(surface)[Mesh.ARRAY_VERTEX]
+			var shapes: Array=mesh.mesh.surface_get_blend_shape_arrays(surface)
+			var curl: PackedVector3Array=shapes[0][Mesh.ARRAY_VERTEX]
+			for index: int in base.size():
+				for point: Vector3 in [base[index],curl[index]]:
+					hand_bounds=AABB(point,Vector3.ZERO) if first else hand_bounds.expand(point);first=false
+		var hand_radius:=0.0
+		var hand_length:=0.0
+		for corner: int in 8:
+			var point:=hand_bounds.get_endpoint(corner)
+			hand_radius=maxf(hand_radius,Vector2(point.x,point.z).length())
+			hand_length=maxf(hand_length,absf(point.y))
+		arms.append({"side":side,"upper":upper,"lower":lower,
+			"hand":hand,"mesh_local":mesh.transform,"hand_bounds":hand_bounds,
+			"hand_radius":hand_radius,"hand_length":hand_length})
+	_geometry_dirty=true
+	_sync_cache()
+
+func _mark_geometry_dirty() -> void:
+	_geometry_dirty=true
+
+func _source_geometry(upper: int,lower: int) -> Dictionary:
+	var points:=PackedVector3Array()
+	var offsets:=PackedInt32Array([0])
+	var binds:=PackedInt32Array()
+	var weights:=PackedFloat32Array()
+	var radius:=0.0
+	var rest:=skeleton.get_bone_rest(upper)
+	for surface: int in jacket.mesh.get_surface_count():
+		var arrays:=jacket.mesh.surface_get_arrays(surface)
+		var vertices: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+		var native_binds: PackedInt32Array=arrays[Mesh.ARRAY_BONES]
+		var native_weights: PackedFloat32Array=arrays[Mesh.ARRAY_WEIGHTS]
+		var indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+		var stride:=native_binds.size()/maxi(1,vertices.size())
+		var influenced:=PackedByteArray()
+		influenced.resize(vertices.size())
+		for index: int in vertices.size():
+			var arm_weight:=0.0
+			for k: int in stride:
+				var bone:=_bone(native_binds[index*stride+k])
+				if bone==upper or bone==lower:arm_weight+=native_weights[index*stride+k]
+			influenced[index]=int(arm_weight>0.0)
+		# Every real endpoint of every incident rendered triangle participates,
+		# including its zero-arm-weight shoulder corner. One native triangle is
+		# the convex hull of these skinned endpoints.
+		var included:=influenced.duplicate()
+		var count:=indices.size() if not indices.is_empty() else vertices.size()
+		for start: int in range(0,count,3):
+			var a: int=indices[start] if not indices.is_empty() else start
+			var b: int=indices[start+1] if not indices.is_empty() else start+1
+			var c: int=indices[start+2] if not indices.is_empty() else start+2
+			if influenced[a] or influenced[b] or influenced[c]:
+				included[a]=1;included[b]=1;included[c]=1
+		for index: int in vertices.size():
+			if not included[index]:continue
+			var point:=vertices[index]
+			points.append(point)
+			radius=maxf(radius,(point-rest.origin).slide(rest.basis.y).length())
+			for k: int in stride:
+				var weight:=native_weights[index*stride+k]
+				if weight<=0.0:continue
+				binds.append(native_binds[index*stride+k]);weights.append(weight)
+			offsets.append(binds.size())
+	return {"points":points,"offsets":offsets,"binds":binds,"weights":weights,"radius":radius}
+
+func _valid_native_skin() -> bool:
+	if skeleton==null or jacket==null or jacket.mesh==null or jacket.skin==null:return false
+	if jacket.get_node_or_null(jacket.skeleton)!=skeleton:return false
+	for bind: int in jacket.skin.get_bind_count():
+		var bone:=_bone(bind)
+		if bone<0 or bone>=skeleton.get_bone_count():return false
+		var transform:=jacket.skin.get_bind_pose(bind)
+		if not transform.origin.is_finite() or not transform.basis.x.is_finite() or not transform.basis.y.is_finite() or not transform.basis.z.is_finite():return false
+	return jacket.skin.get_bind_count()>0
+
+func _valid_native_geometry() -> bool:
+	for surface: int in jacket.mesh.get_surface_count():
+		if jacket.mesh.surface_get_primitive_type(surface)!=Mesh.PRIMITIVE_TRIANGLES:return false
+		var arrays:=jacket.mesh.surface_get_arrays(surface)
+		var points: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+		var binds: PackedInt32Array=arrays[Mesh.ARRAY_BONES]
+		var weights: PackedFloat32Array=arrays[Mesh.ARRAY_WEIGHTS]
+		var indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+		if points.is_empty() or binds.is_empty() or binds.size()!=weights.size() or binds.size()%points.size()!=0:return false
+		if (indices.size() if not indices.is_empty() else points.size())%3!=0:return false
+		for index: int in indices:
+			if index<0 or index>=points.size():return false
+		var stride:=binds.size()/points.size()
+		for vertex: int in points.size():
+			if not points[vertex].is_finite():return false
+			var total:=0.0
+			for k: int in stride:
+				var index:=vertex*stride+k
+				if binds[index]<0 or binds[index]>=jacket.skin.get_bind_count() or is_nan(weights[index]) or is_inf(weights[index]) or weights[index]<0.0:return false
+				total+=weights[index]
+			# Godot packs each native influence into UNORM16. Independent
+			# per-component quantization can lose up to one quantum per slot.
+			if absf(total-1.0)>float(stride)/65535.0+0.000001:return false
+	return jacket.mesh.get_surface_count()>0
+
+func _sync_cache() -> bool:
+	if not _valid_native_skin():supported=false;return false
+	supported=true
+	if jacket.mesh!=_cached_mesh:
+		if _cached_mesh!=null and _cached_mesh.changed.is_connected(_mark_geometry_dirty):
+			_cached_mesh.changed.disconnect(_mark_geometry_dirty)
+		_cached_mesh=jacket.mesh
+		_cached_mesh.changed.connect(_mark_geometry_dirty)
+		_geometry_dirty=true
+	if jacket.skin!=_cached_skin or _bind_snapshot.size()!=jacket.skin.get_bind_count():_geometry_dirty=true
+	var changed:=_geometry_dirty
+	if not changed:
+		for bind: int in _bind_snapshot.size():
+			if _bone(bind)!=_bone_snapshot[bind]:
+				_geometry_dirty=true;changed=true;break
+			if jacket.skin.get_bind_pose(bind)!=_bind_snapshot[bind]:changed=true
+	if not changed:return true
+	if _geometry_dirty:
+		if not _valid_native_geometry():supported=false;return false
+		for arm: Dictionary in arms:arm.merge(_source_geometry(arm.upper,arm.lower),true)
+		_geometry_dirty=false
+	_cached_skin=jacket.skin
+	_bind_snapshot.resize(jacket.skin.get_bind_count())
+	_bone_snapshot.resize(jacket.skin.get_bind_count())
+	_skin_palette.resize(jacket.skin.get_bind_count())
+	for bind: int in jacket.skin.get_bind_count():
+		_bind_snapshot[bind]=jacket.skin.get_bind_pose(bind)
+		_bone_snapshot[bind]=_bone(bind)
+	cache_bytes=_bind_snapshot.size()*48+_bone_snapshot.size()*4+_skin_palette.size()*48
+	for arm: Dictionary in arms:
+		cache_bytes+=arm.points.size()*12+arm.offsets.size()*4+arm.binds.size()*4+arm.weights.size()*4
+	cache_rebuilds+=1
+	return true
+
+func _ordinary_manual_fit() -> bool:
+	# The immediately preceding final root fit has proved current native
+	# loaded-tyre and complete board/shoe support; never reuse a stale ID alone.
+	return (actor.manual_active or rig._manual_blend>0.0001) \
+		and actor._obstacle_manual_continuation \
+		and actor.manual_trick_id in ["manual","nose_manual"] \
+		and not actor.airborne and actor._native_floor_valid and actor.is_on_floor() \
+		and not actor._force_air_tick and actor._native_floor_normal().y>0.999
+
+func apply(_delta: float) -> void:
+	calls=0
+	_runtime_counting=false
+	_tick_bounds=0;_tick_influences=0;_tick_models=0
+	if not _sync_cache():continuing=false;return
+	var ordinary_manual: bool=_ordinary_manual_fit()
+	if (actor.manual_active and not ordinary_manual) or actor.transition_active or actor.grinding or actor.wallriding \
+			or actor.bailing or actor.setup_active or actor.skitching or actor.lip_active \
+			or actor.powersliding or actor._special_remaining>0.0 \
+			or actor._grab_remaining>0.0 or rig._grab_blend>0.0001 \
+			or rig._skitch_blend>0.0001 or rig._pogo_blend>0.0001 or rig._handplant_blend>0.0001 \
+			or ((rig._manual_blend>0.0001 or absf(rig._manual_weight_z)>0.0001) and not ordinary_manual) \
+			or rig._walk_blend>0.0001 or rig._cross_blend>0.0001 or rig._casper_blend>0.0001 \
+			or rig._front_foot_lift>0.0001 or rig._rear_foot_lift>0.0001 \
+			or rig._grind_blend>0.0001 or rig._lip_blend>0.0001 or rig._wall_blend>0.0001 \
+			or rig._transition_blend>0.0001 or rig._slide_blend>0.0001 or rig._bail_blend>0.0001:
+		continuing=false;return
+	if not continuing and not ordinary_manual and not (actor.airborne and actor._obstacle_ollie_continuation and actor._launch_id=="ollie"):
+		return
+	_runtime_counting=true
+	var query: PhysicsShapeQueryParameters3D=actor._grind_board_query
+	var ray: PhysicsRayQueryParameters3D=actor._recovery_floor_query
+	var shape:=query.shape;var margin:=query.margin;var frame:=query.transform;var motion:=query.motion
+	var size: Vector3=actor._grind_board_box.size
+	var ray_from:=ray.from;var ray_to:=ray.to;var mask:=ray.collision_mask
+	query.shape=actor._grind_board_box;query.margin=SKIN;query.motion=Vector3.ZERO
+	ray.collision_mask=query.collision_mask
+	var fitted:=false
+	for arm: Dictionary in arms:
+		var hand: Node3D=arm.hand
+		var shoulder: Vector3=skeleton.global_transform*skeleton.get_bone_global_pose(arm.upper).origin
+		var elbow: Vector3=skeleton.global_transform*skeleton.get_bone_global_pose(arm.lower).origin
+		var wrist:=hand.global_position
+		var current:=_bounds(arm,{},hand.global_transform)
+		if _clear(query,current):continue
+		# The base Box overlaps now; rest+same-RID ray authenticates its
+		# current finite face even when both joint centres are outside it.
+		var face:=_envelope_face(query,ray)
+		if face.is_empty():refused+=1;continue
+		var normal: Vector3=face.normal;var point: Vector3=face.position
+		if not normal.is_finite() or not point.is_finite() or absf(normal.y)>0.001 or normal.length_squared()<0.99:
+			refused+=1;continue
+		# Fixed shoulder must be outside the solid; this is not a body fit.
+		if (shoulder-point).dot(normal)<float(arm.radius)+SKIN:refused+=1;continue
+		var elbow_min: float=arm.radius+SKIN
+		# The actual native hand/curl envelope determines wrist bearing.
+		# A shoulder-wide scalar radius is not a wrist contact requirement.
+		var hand_bounds: AABB=hand.global_transform*Transform3D(arm.mesh_local)*AABB(arm.hand_bounds)
+		var hand_min: float=(hand_bounds.get_center()-wrist).dot(normal)-hand_bounds.size.dot(normal.abs())*0.5
+		var goal:=maxf(0.0,-hand_min)+SKIN*2.0
+		var wrist_gap: float=(wrist-point).dot(normal)
+		# The old hand orientation is only a seed; IK changes its bearing.
+		# Try the greatest legal target and require complete native clearance.
+		goal=minf(goal,wrist_gap+MAX_WRIST_SHIFT-0.000001)
+		var solved:=false
+		for attempt in 3:
+			var target_gap:=goal
+			var shift:=maxf(0.0,target_gap-wrist_gap)
+			if shift>MAX_WRIST_SHIFT:break
+			var target:=wrist+normal*shift
+			var elbow_max:=maxf(elbow_min,target_gap)
+			var circle:=_elbow(shoulder,target,elbow,normal,point,elbow_min,elbow_max)
+			if circle.is_empty():goal+=SKIN;continue
+			# Independent garment bones already use rider space. Preserve this
+			# original shoulder origin without a world/local round-trip drift.
+			var local_shoulder: Vector3=skeleton.get_bone_global_pose(arm.upper).origin
+			var local_elbow: Vector3=rig._rider.to_local(circle.point)
+			var local_wrist: Vector3=rig._rider.to_local(target)
+			var upper: Transform3D=rig._garments._bone_transform(local_shoulder,local_elbow-local_shoulder)
+			upper.basis=upper.basis.scaled_local(Vector3(1,local_shoulder.distance_to(local_elbow)/0.30,1))
+			var lower: Transform3D=rig._garments._bone_transform(local_elbow,local_wrist-local_elbow)
+			lower.basis=lower.basis.scaled_local(Vector3(1,local_elbow.distance_to(local_wrist)/0.29,1))
+			var hand_local:=Transform3D(rig._hand_basis(arm.side,local_elbow-local_wrist,0.0),local_wrist)
+			var poses: Dictionary={arm.upper:upper,arm.lower:lower}
+			var envelope:=_bounds(arm,poses,rig._rider.global_transform*hand_local)
+			if not _clear(query,envelope):
+				# Only propose from the same fresh finite face. Actual native
+				# full-envelope clearance must still pass before any pose commits.
+				var minimum_gap: float=(envelope.get_center()-point).dot(normal)-envelope.size.dot(normal.abs())*0.5
+				goal+=maxf(SKIN,SKIN*2.0-minimum_gap)
+				continue
+			rig._garments.pose_arm(arm.side,local_shoulder,local_elbow,local_wrist)
+			hand.transform=hand_local
+			maximum_shift=maxf(maximum_shift,shift);accepted+=1;solved=true;fitted=true;break
+		if not solved:refused+=1
+	query.shape=shape;query.margin=margin;query.transform=frame;query.motion=motion
+	actor._grind_board_box.size=size
+	ray.from=ray_from;ray.to=ray_to;ray.collision_mask=mask
+	continuing=fitted
+	maximum_calls=maxi(maximum_calls,calls)
+	maximum_bounds_evaluations=maxi(maximum_bounds_evaluations,_tick_bounds)
+	maximum_transformed_influences=maxi(maximum_transformed_influences,_tick_influences)
+	maximum_model_transforms=maxi(maximum_model_transforms,_tick_models)
+	_runtime_counting=false
+
+func _bone(bind: int) -> int:
+	var bone:=jacket.skin.get_bind_bone(bind)
+	return skeleton.find_bone(String(jacket.skin.get_bind_name(bind))) if bone<0 else bone
+
+func _envelope_face(query: PhysicsShapeQueryParameters3D,ray: PhysicsRayQueryParameters3D) -> Dictionary:
+	# This axis belongs to the final freshly validated board/shoe fit, not a
+	# remembered wall plane or an arbitrary direction manufactured in flight.
+	var axis: Vector3=actor._obstacle_visual_offset
+	if not axis.is_finite() or axis.length_squared()<0.0000000001 or axis.length()>0.18:return {}
+	axis=axis.normalized()
+	calls+=1
+	var contact:=actor.get_world_3d().direct_space_state.get_rest_info(query)
+	if contact.is_empty():return {}
+	var point: Vector3=contact.point
+	if not point.is_finite():return {}
+	var face:=_face(ray,point+axis*SKIN*2.0,point-axis*SKIN*2.0)
+	var normal: Vector3=face.get("normal",Vector3.ZERO)
+	if face.is_empty() or face.get("rid")!=contact.get("rid") \
+			or typeof(face.get("shape"))!=TYPE_INT or typeof(contact.get("shape"))!=TYPE_INT \
+			or int(face.shape)<0 or face.shape!=contact.shape or not normal.is_finite() \
+			or absf(normal.y)>0.001 or normal.dot(axis)<0.999:return {}
+	return face
+
+func _face(ray: PhysicsRayQueryParameters3D,from: Vector3,to: Vector3) -> Dictionary:
+	ray.from=from;ray.to=to;calls+=1
+	return actor.get_world_3d().direct_space_state.intersect_ray(ray)
+
+func _clear(query: PhysicsShapeQueryParameters3D,bounds: AABB) -> bool:
+	actor._grind_board_box.size=bounds.size
+	query.transform=Transform3D(Basis.IDENTITY,bounds.get_center());calls+=1
+	return actor.get_world_3d().direct_space_state.intersect_shape(query,1).is_empty()
+
+func _bounds(arm: Dictionary,overrides: Dictionary,hand_world: Transform3D) -> AABB:
+	# Cache changes are explicit preparation/resource-change events. Routine
+	# bounds evaluation reuses every packed cache and its native-pose palette.
+	if not _sync_cache():return AABB()
+	var model_world:=jacket.global_transform
+	for bind: int in _skin_palette.size():
+		var bone:=_bone_snapshot[bind]
+		var pose: Transform3D=overrides.get(bone,skeleton.get_bone_global_pose(bone))
+		_skin_palette[bind]=pose*_bind_snapshot[bind]
+	var result:=AABB()
+	var first:=true
+	var offsets: PackedInt32Array=arm.offsets
+	var binds: PackedInt32Array=arm.binds
+	var weights: PackedFloat32Array=arm.weights
+	var rest_points: PackedVector3Array=arm.points
+	for vertex: int in offsets.size()-1:
+		# Both Godot 4.6.3 backends first sum weighted local skin matrices,
+		# discard their homogeneous W, then apply the model transform ONCE.
+		# Decoded UNORM16 weights are deliberately not renormalized.
+		var x:=Vector3.ZERO;var y:=Vector3.ZERO;var z:=Vector3.ZERO;var origin:=Vector3.ZERO
+		var index: int=offsets[vertex]
+		while index<offsets[vertex+1]:
+			var transform: Transform3D=_skin_palette[binds[index]]
+			var weight: float=weights[index]
+			x+=transform.basis.x*weight;y+=transform.basis.y*weight;z+=transform.basis.z*weight;origin+=transform.origin*weight
+			index+=1
+		var source_point: Vector3=rest_points[vertex]
+		var local_point:=x*source_point.x+y*source_point.y+z*source_point.z+origin
+		var point:=model_world*local_point
+		result=AABB(point,Vector3.ZERO) if first else result.expand(point)
+		first=false
+	if _runtime_counting:
+		_tick_bounds+=1;_tick_influences+=binds.size();_tick_models+=rest_points.size()
+	return result.merge(hand_world*Transform3D(arm.mesh_local)*AABB(arm.hand_bounds))
+
+func _elbow(shoulder: Vector3,wrist: Vector3,old: Vector3,normal: Vector3,point: Vector3,minimum: float,maximum: float) -> Dictionary:
+	var offset:=wrist-shoulder;var distance:=offset.length()
+	if distance<0.011 or distance>0.589:return {}
+	var direction:=offset/distance
+	var along: float=(0.30*0.30-0.29*0.29+distance*distance)/(2.0*distance)
+	var height:=sqrt(maxf(0.0,0.30*0.30-along*along))
+	var center:=shoulder+direction*along
+	var outward:=normal.slide(direction);var reach:=height*outward.length()
+	if reach<0.000001:return {}
+	outward=outward.normalized()
+	var across:=direction.cross(outward).normalized()
+	var current: Vector3=(old-center).slide(direction).normalized()
+	if current.length_squared()<0.01:current=outward
+	var gap: float=(center-point).dot(normal)
+	var low:=maxf(minimum,gap-reach);var high:=minf(maximum,gap+reach)
+	if low>high:return {}
+	var original: float=(center+current*height-point).dot(normal)
+	if original>=low and original<=high:return {"point":center+current*height}
+	var cosine:=clampf((clampf(original,low,high)-gap)/reach,-1.0,1.0)
+	var sine:=sqrt(maxf(0.0,1.0-cosine*cosine))
+	var a:=outward*cosine+across*sine
+	var b:=outward*cosine-across*sine
+	return {"point":center+(a if a.dot(current)>=b.dot(current) else b)*height}

@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PT24_NATIVE_BOWL_CONTACT { "witness": 0, "fit": { "position": (-5.6048, 0.540385, 139.7005), "normal": (-0.201249, 0.631924, -0.748445) }, "minimum": 0.0066623436287, "maximum": 0.01754906773567, "material_gap": 0.01823118142784, "legacy_minimum": -0.02094788849354, "misses": 0 }
+PT24_NATIVE_BOWL_CONTACT { "witness": 1, "fit": { "position": (-4.319512, 0.728351, 139.3112), "normal": (-0.401728, 0.557583, -0.72644) }, "minimum": 0.00711796991527, "maximum": 0.02626155689359, "material_gap": 0.03283134847879, "legacy_minimum": -0.03346793353558, "misses": 0 }
+PT24_NATIVE_BOWL_CONTACT { "witness": 2, "fit": { "position": (-1.818508, 1.072834, 136.8465), "normal": (-0.822935, 0.425636, -0.376313) }, "minimum": 0.00446570245549, "maximum": 0.02658397331834, "material_gap": 0.03137105703354, "legacy_minimum": -0.0570330247283, "misses": 0 }
+FAIL: PT24 native footprint: exact Clyde phase and steep coping-tangent witnesses supply finite tyres/model clearance without changing physical state -10.647394
+FAIL: PT24 native coping: twisted rim/deck patch retains two actual loaded and two unloaded tyres, clear whole GLB and original100mm fit budget
+PT24_AIR_LANDING_CONTACT { "legacy_minimum": -0.03842747211456, "legacy_axle": -0.02273571491241, "minimum": 0.0081148147583, "axle": 0.02940130233765, "old_visual": [X: (0.767991, -0.592711, 0.24266), Y: (0.438894, 0.762984, 0.474582), Z: (-0.466435, -0.257972, 0.846102), O: (-9.289708, 2.102755, 127.4841)], "fixed_visual": [X: (0.81734, -0.421694, 0.392594), Y: (0.294898, 0.891571, 0.343709), Z: (-0.494965, -0.165151, 0.853074), O: (-9.289708, 2.102755, 127.4841)] }
+FAIL: PT24 Feature air: retained real release pose intersects the constructor-owned native coping
+FAIL: PT24 Feature air: finite normal-only continuation clears actual tyres/model inside25mm while preserving flight, basis and local rig
+PT24_RAMP_AIR_POSE_HANDOFF { "stale_angle": 2.3662269115448, "seed_error": 0.0, "first_ordinary_angle": 0.07499697059393 }
+CURRENT_PROFILE_BOWL_RESULT 45 passed 4 failed

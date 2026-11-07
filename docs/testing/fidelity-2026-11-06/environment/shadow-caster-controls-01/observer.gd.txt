@@ -1,0 +1,27 @@
+extends "res://tools/environment_water_lighting_controls.gd"
+## Direct caster/light intervention; zero shadow-draw counter is unreliable on GLES.
+func _make_control_modes(native: StandardMaterial3D) -> Array[Dictionary]:
+	return [{"id":"native-baseline","material":native},
+		{"id":"native-water-caster-off","material":native},
+		{"id":"native-sun-shadows-off","material":native}]
+
+func _apply_lighting_mode(index: int,specular: float,reflection: Environment.ReflectionSource) -> void:
+	super._apply_lighting_mode(0,specular,reflection)
+	if index==1:_control_water.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	if index==2:_sun_control.shadow_enabled=false
+
+func _counters() -> Dictionary:
+	var result:=super._counters()
+	result.shadow_primitives=root.get_render_info(Viewport.RENDER_INFO_TYPE_SHADOW,Viewport.RENDER_INFO_PRIMITIVES_IN_FRAME)
+	result.visible_primitives=root.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE,Viewport.RENDER_INFO_PRIMITIVES_IN_FRAME)
+	return result
+
+func _write_report(complete: bool,phase: String) -> void:
+	var report: Dictionary={"schema":1,"complete":complete,"phase":phase,"checks":_checks,"failures":_failures,
+		"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),"resolution":[root.size.x,root.size.y],
+		"images":_images,"cost_brackets":[],"timing_measured":false,"lighting_interventions":_lighting_records,
+		"material_contract":{"class":"StandardMaterial3D","diffuse":"Lambert","albedo":[0.055,0.110,0.115],"roughness":0.36,"specular":0.50,"metallic":0,"normal_map":false},
+		"limits":"Private visual-only640x400 caster/light interventions with exact final ordinary-Main horizon sky material and production daylight/plane. Every mode resets baseline lighting and geometry shadow flags, then changes either only water.cast_shadow=OFF or only sun.shadow_enabled=false. Same PBR/material, cameras, native current red/green/Canvas pixel proof. Shadow primitive counter supplements unreliable GLES shadow draw-call accounting. Concurrent untimed suite allowed only via explicit wrapper PID; no timing/performance/sole-engine claim. Diagnostic flag changes are not production proposals or final water/M5 acceptance."}
+	var file:=FileAccess.open(_output.path_join("visual-water-report.json"),FileAccess.WRITE)
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	else:_check(false,"shadow-control report writable")

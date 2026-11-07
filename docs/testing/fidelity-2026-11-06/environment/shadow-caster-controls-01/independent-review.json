@@ -1,0 +1,1006 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "method": "Read-only independently decoded original PNG RGBA, recomputed native camera projection and marker centroids, source-byte inventories, exact source interventions and native resource counters. No QA engine execution.",
+  "checks": 108,
+  "failures": 0,
+  "source_inputs": 793,
+  "native_images": 9,
+  "native_markers": 18,
+  "native_canvas_proofs": 9,
+  "max_projection_metadata_error_px": 2.0746891234336766e-05,
+  "max_centroid_metadata_error_px": 1.3338768028791317e-05,
+  "max_canvas_error": 2.921796360411122e-08,
+  "image_proofs": [
+    {
+      "file": "native-baseline-river-oblique.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            225.11615967337914,
+            128.83705151183463
+          ],
+          "centroid_xy": [
+            225.18041237113403,
+            128.7164948453608
+          ],
+          "native_error_px": 0.13661009845563868
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.9536313760059,
+            152.5580629966568
+          ],
+          "centroid_xy": [
+            408.9096385542169,
+            152.5722891566265
+          ],
+          "native_error_px": 0.04623583022335868
+        }
+      ],
+      "canvas_error": 1.5193340696662005e-08
+    },
+    {
+      "file": "native-baseline-high-coverage.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            245.87199170744123,
+            128.83703352030648
+          ],
+          "centroid_xy": [
+            245.87234042553192,
+            128.72340425531914
+          ],
+          "native_error_px": 0.1136298000784544
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.1280252952507,
+            152.55803172415352
+          ],
+          "centroid_xy": [
+            394.1666666666667,
+            152.5952380952381
+          ],
+          "native_error_px": 0.053642050987912714
+        }
+      ],
+      "canvas_error": 1.5193340696662005e-08
+    },
+    {
+      "file": "native-baseline-grazing.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            266.6278369247625,
+            128.83710122579737
+          ],
+          "centroid_xy": [
+            266.6276595744681,
+            128.72340425531914
+          ],
+          "native_error_px": 0.11369710879813295
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.3024054721613,
+            152.5580673760743
+          ],
+          "centroid_xy": [
+            379.1265060240964,
+            152.54819277108433
+          ],
+          "native_error_px": 0.17617639925156828
+        }
+      ],
+      "canvas_error": 1.7530777496332917e-08
+    },
+    {
+      "file": "native-water-caster-off-river-oblique.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            231.04631412552618,
+            128.83705156971803
+          ],
+          "centroid_xy": [
+            230.99462365591398,
+            128.747311827957
+          ],
+          "native_error_px": 0.10356218373550719
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.9536460755184,
+            145.44174358946242
+          ],
+          "centroid_xy": [
+            408.98837209302326,
+            145.31395348837208
+          ],
+          "native_error_px": 0.1324243415253659
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "native-water-caster-off-high-coverage.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            251.80223407467133,
+            128.8370336195892
+          ],
+          "centroid_xy": [
+            251.747311827957,
+            128.80107526881721
+          ],
+          "native_error_px": 0.0656464482999005
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.12807622512366,
+            145.441781966434
+          ],
+          "centroid_xy": [
+            394.16279069767444,
+            145.38372093023256
+          ],
+          "native_error_px": 0.06764745767037147
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "native-water-caster-off-grazing.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            272.55807538027943,
+            128.83710112596538
+          ],
+          "centroid_xy": [
+            272.5967741935484,
+            128.6720430107527
+          ],
+          "native_error_px": 0.1695340070486965
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.302488177053,
+            145.44172205691035
+          ],
+          "centroid_xy": [
+            379.21084337349396,
+            145.23493975903614
+          ],
+          "native_error_px": 0.22618065508243407
+        }
+      ],
+      "canvas_error": 2.220565209487546e-08
+    },
+    {
+      "file": "native-sun-shadows-off-river-oblique.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            236.97646856730623,
+            128.8370516276014
+          ],
+          "centroid_xy": [
+            236.9468085106383,
+            128.77659574468086
+          ],
+          "native_error_px": 0.06733968177268049
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            408.95366063366725,
+            138.3254502012063
+          ],
+          "centroid_xy": [
+            409.04761904761904,
+            138.21428571428572
+          ],
+          "native_error_px": 0.14555317483535554
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    },
+    {
+      "file": "native-sun-shadows-off-high-coverage.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            257.73247646081245,
+            128.8370337188719
+          ],
+          "centroid_xy": [
+            257.747311827957,
+            128.80107526881721
+          ],
+          "native_error_px": 0.038898563580795735
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            394.12802400721085,
+            138.32542263208458
+          ],
+          "centroid_xy": [
+            394.1547619047619,
+            138.26190476190476
+          ],
+          "native_error_px": 0.06891614468056394
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    },
+    {
+      "file": "native-sun-shadows-off-grazing.png",
+      "markers": [
+        {
+          "color": "red",
+          "projected_xy": [
+            278.4883173912096,
+            128.83710102613327
+          ],
+          "centroid_xy": [
+            278.5,
+            128.73157894736843
+          ],
+          "native_error_px": 0.10616681428300381
+        },
+        {
+          "color": "green",
+          "projected_xy": [
+            379.30248046098717,
+            138.32543312268214
+          ],
+          "centroid_xy": [
+            379.21084337349396,
+            138.23493975903614
+          ],
+          "native_error_px": 0.12878821634065146
+        }
+      ],
+      "canvas_error": 2.921796360411122e-08
+    }
+  ],
+  "observed": "All nine original frames opened. Fine comb/ring striation visibly disappears in high-coverage/grazing when only water casting is disabled, while bright directional reflection remains. Disabling sun shadows also removes bands, with a larger reflected-light change. Oblique changes are less conspicuous.",
+  "verdict": "Capture integrity and bounded static native-StandardMaterial caster isolation pass. This supports an isolated self-shadow explanation for these views, rather than assigning the residual solely to wave NORMAL. Exact underlying renderer cause is not fully diagnosed.",
+  "limits": [
+    "This is an isolated StandardMaterial plane with exact production plane/daylight/final-Main sky; no world geometry or production wave shader is rendered.",
+    "No moving shimmer, production Main caster change, physical gameplay, temporal/cost/M5/AAA acceptance.",
+    "Wrapper reports no other Godot at startup; absence of a continuous process observer does not establish whole-run exclusivity. No timing measured.",
+    "Zero shadow_draws alone is invalid GLES evidence; native shadow_primitives2->0 and actual flag intervention support this narrower conclusion."
+  ],
+  "checks_detail": [
+    {
+      "name": "source inventories match exactly",
+      "pass": true,
+      "actual": 793
+    },
+    {
+      "name": "executed private source still matches every recorded input",
+      "pass": true,
+      "actual": []
+    },
+    {
+      "name": "receipt binds inventory bytes",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "completed clean native capture",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "raw engine has no errors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "no timing claimed",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "exact one-flag intervention native-baseline",
+      "pass": true,
+      "actual": {
+        "ambient_energy": 0.360000014305115,
+        "ambient_light_source": 2,
+        "fog_density": 0.00120000005699694,
+        "fog_enabled": true,
+        "mode": "native-baseline",
+        "reflected_light_source": 0,
+        "sky_class": "ShaderMaterial",
+        "sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+        "sky_process_mode": 1,
+        "sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+        "sun_energy": 0.860000014305115,
+        "sun_light_specular": 1.0,
+        "sun_shadow_enabled": true,
+        "tonemap_mode": 3,
+        "viewport_debanding": false,
+        "water_cast_shadow": 1
+      }
+    },
+    {
+      "name": "exact one-flag intervention native-water-caster-off",
+      "pass": true,
+      "actual": {
+        "ambient_energy": 0.360000014305115,
+        "ambient_light_source": 2,
+        "fog_density": 0.00120000005699694,
+        "fog_enabled": true,
+        "mode": "native-water-caster-off",
+        "reflected_light_source": 0,
+        "sky_class": "ShaderMaterial",
+        "sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+        "sky_process_mode": 1,
+        "sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+        "sun_energy": 0.860000014305115,
+        "sun_light_specular": 1.0,
+        "sun_shadow_enabled": true,
+        "tonemap_mode": 3,
+        "viewport_debanding": false,
+        "water_cast_shadow": 0
+      }
+    },
+    {
+      "name": "exact one-flag intervention native-sun-shadows-off",
+      "pass": true,
+      "actual": {
+        "ambient_energy": 0.360000014305115,
+        "ambient_light_source": 2,
+        "fog_density": 0.00120000005699694,
+        "fog_enabled": true,
+        "mode": "native-sun-shadows-off",
+        "reflected_light_source": 0,
+        "sky_class": "ShaderMaterial",
+        "sky_cube_source_sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+        "sky_process_mode": 1,
+        "sky_shader_sha256": "d55e74f6d2090cc11a55b8db66b5d823c1a6c26b1654dde6f63a11570f1f5aef",
+        "sun_energy": 0.860000014305115,
+        "sun_light_specular": 1.0,
+        "sun_shadow_enabled": false,
+        "tonemap_mode": 3,
+        "viewport_debanding": false,
+        "water_cast_shadow": 1
+      }
+    },
+    {
+      "name": "real baseline water and sun both cast shadows",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual final ordinary-Main sky identities match source",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-river-oblique.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-river-oblique.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-river-oblique.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-river-oblique.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-river-oblique.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-river-oblique.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 2.0746891234336766e-05,
+        "centroid_metadata_error_px": 8.179969287224457e-06,
+        "native_error_px": 0.13661009845563868,
+        "pixel_count": 97
+      }
+    },
+    {
+      "name": "native-baseline-river-oblique.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.8393977704920593e-05,
+        "centroid_metadata_error_px": 7.072497890520201e-06,
+        "native_error_px": 0.04623583022335868,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "native-baseline-river-oblique.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-high-coverage.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-high-coverage.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-high-coverage.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-high-coverage.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-high-coverage.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-high-coverage.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 3.4880412739250193e-06,
+        "centroid_metadata_error_px": 4.556751171022974e-06,
+        "native_error_px": 0.1136298000784544,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "native-baseline-high-coverage.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 4.789816144223816e-06,
+        "centroid_metadata_error_px": 1.2501053592743773e-05,
+        "native_error_px": 0.053642050987912714,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "native-baseline-high-coverage.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-grazing.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-grazing.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-grazing.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-grazing.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-grazing.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-baseline-grazing.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 4.234392463807301e-06,
+        "centroid_metadata_error_px": 4.5567511993724555e-06,
+        "native_error_px": 0.11369710879813295,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "native-baseline-grazing.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.0173164243252261e-05,
+        "centroid_metadata_error_px": 1.200467991269132e-05,
+        "native_error_px": 0.17617639925156828,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "native-baseline-grazing.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-river-oblique.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-river-oblique.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-river-oblique.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-river-oblique.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-river-oblique.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-river-oblique.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1559440175980291e-05,
+        "centroid_metadata_error_px": 5.870054118933996e-06,
+        "native_error_px": 0.10356218373550719,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "native-water-caster-off-river-oblique.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 2.80944400270445e-06,
+        "centroid_metadata_error_px": 3.967405625333169e-06,
+        "native_error_px": 0.1324243415253659,
+        "pixel_count": 86
+      }
+    },
+    {
+      "name": "native-water-caster-off-river-oblique.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-high-coverage.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-high-coverage.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-high-coverage.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-high-coverage.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-high-coverage.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-high-coverage.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 4.10024534612203e-06,
+        "centroid_metadata_error_px": 4.869956597103532e-06,
+        "native_error_px": 0.0656464482999005,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "native-water-caster-off-high-coverage.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1267661214296629e-05,
+        "centroid_metadata_error_px": 1.2210331766695085e-05,
+        "native_error_px": 0.06764745767037147,
+        "pixel_count": 86
+      }
+    },
+    {
+      "name": "native-water-caster-off-high-coverage.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-grazing.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-grazing.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-grazing.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-grazing.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-grazing.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-water-caster-off-grazing.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 3.981189327593798e-06,
+        "centroid_metadata_error_px": 2.9578684905721775e-06,
+        "native_error_px": 0.1695340070486965,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "native-water-caster-off-grazing.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 5.06436645127734e-06,
+        "centroid_metadata_error_px": 2.580329476162314e-06,
+        "native_error_px": 0.22618065508243407,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "native-water-caster-off-grazing.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-river-oblique.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-river-oblique.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-river-oblique.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-river-oblique.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-river-oblique.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-river-oblique.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.7640327490925824e-05,
+        "centroid_metadata_error_px": 7.259509720520352e-07,
+        "native_error_px": 0.06733968177268049,
+        "pixel_count": 94
+      }
+    },
+    {
+      "name": "native-sun-shadows-off-river-oblique.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.7428663066468197e-05,
+        "centroid_metadata_error_px": 1.3338768028791317e-05,
+        "native_error_px": 0.14555317483535554,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "native-sun-shadows-off-river-oblique.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-high-coverage.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-high-coverage.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-high-coverage.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-high-coverage.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-high-coverage.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-high-coverage.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 6.886300838291517e-06,
+        "centroid_metadata_error_px": 4.869956597103532e-06,
+        "native_error_px": 0.038898563580795735,
+        "pixel_count": 93
+      }
+    },
+    {
+      "name": "native-sun-shadows-off-high-coverage.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 3.1775447304521694e-06,
+        "centroid_metadata_error_px": 7.825818281293878e-06,
+        "native_error_px": 0.06891614468056394,
+        "pixel_count": 84
+      }
+    },
+    {
+      "name": "native-sun-shadows-off-high-coverage.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-grazing.png: native dimensions and RGBA hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-grazing.png: PNG receipt hash",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-grazing.png: no process or physics tick changes at readback",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-grazing.png: declared perspective camera",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-grazing.png: finite orthonormal camera basis and forward",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native-sun-shadows-off-grazing.png: independently projected red marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 6.819872698624823e-06,
+        "centroid_metadata_error_px": 3.6942335555067984e-06,
+        "native_error_px": 0.10616681428300381,
+        "pixel_count": 95
+      }
+    },
+    {
+      "name": "native-sun-shadows-off-grazing.png: independently projected green marker matches native pixels",
+      "pass": true,
+      "actual": {
+        "projection_metadata_error_px": 1.1644467203976963e-05,
+        "centroid_metadata_error_px": 2.580329476162314e-06,
+        "native_error_px": 0.12878821634065146,
+        "pixel_count": 83
+      }
+    },
+    {
+      "name": "native-sun-shadows-off-grazing.png: Canvas sample matches independent decoded pixel",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "nine mode/view pairs",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-baseline-river-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-baseline-river-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-baseline-high-coverage.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-baseline-high-coverage.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-baseline-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-baseline-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-water-caster-off-river-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-water-caster-off-river-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-water-caster-off-high-coverage.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-water-caster-off-high-coverage.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-water-caster-off-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-water-caster-off-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-sun-shadows-off-river-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-sun-shadows-off-river-oblique.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-sun-shadows-off-high-coverage.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-sun-shadows-off-high-coverage.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "per-image actual lighting matches intervention native-sun-shadows-off-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual shadow primitives follow caster/light flag native-sun-shadows-off-grazing.png",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same camera each intervention river-oblique",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same native visible primitive/allocation each intervention river-oblique",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same camera each intervention high-coverage",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same native visible primitive/allocation each intervention high-coverage",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same camera each intervention grazing",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "same native visible primitive/allocation each intervention grazing",
+      "pass": true,
+      "actual": null
+    }
+  ],
+  "executed_source_hashes": {
+    "tools/environment_water_isolated_probe.gd": "b2163332c6ab1b82780016714ee0e661d569faa335ee74c71a423e8905e839a0",
+    "tools/environment_water_isolated_probe.gd.uid": "c7566002be32d200afa33dcbfadbe46a4214beb17cd23dd73bf51cd8c37bf723",
+    "tools/environment_water_lighting_controls.gd": "5ad77ea4d9ff3700b8ff78e5347063bf11e5f2fe09126cc81bb914489e142af3",
+    "tools/environment_water_probe.gd": "0e00fad56b82f03743e2ff1bdda49ce9135033d799cd6d966518a6124a0fec35",
+    "tools/environment_water_probe.gd.uid": "11a4fda8ac36ebcd0bacf716c677a3a5c82f27418d9f344e1e25eb63d509d1a9",
+    "tools/environment_water_probe.py": "3b847f8ed1f16929a5aea0392f11b568fccf4e2ae23daa665eadb8090594fe17",
+    "tools/environment_water_shadow_controls.gd": "04792aab36b97b2dcefd038f13cb327e57227a5070d9c9040a6fed7d0ef7461e",
+    "tools/environment_water_visual_controls.gd": "830db4bea42144115490eb77836e4e4fa0cd078f65c4571408e90272b5fd0ae5"
+  },
+  "evidence_hashes": {
+    "native-sun-shadows-off-grazing.png": "cff19459fa1cad91ffc2d55fc229e18c9ad957ee6f4eccec6ac2edb39d433aec",
+    "native-sun-shadows-off-high-coverage.png": "112472dae432970be19bc546e5efd366b1faddda8c4df794b662ba9fe7ee6d6a",
+    "source-before.json": "c180a347e60ce552e4cdeafa591b630756db97dd57eb9c45ddccca6307494b4f",
+    "native-baseline-high-coverage.png": "a38853efeb630274ae170831ee8115f84b1052a3eaee3033e8f3367d0ccd1b2d",
+    "engine.log": "b133e2fe2a0a924d8f7b7987b8ab16456ad63549b9d7fefd998273ac478fb241",
+    "native-sun-shadows-off-river-oblique.png": "8e05f4099013f3ead321dec6af286aca3099cd5004a7249a688a39965db2193d",
+    "native-water-caster-off-high-coverage.png": "bb2f8e81182654bcdc928559e57b25590558e0541bde29cbc211fd111e5032e6",
+    "xorg.log": "6ddeb0a4230ecbfdfde8c9fd9b88a2f48290e46984dc2985bb4e7a8428cd918e",
+    "xorg-console.log": "da76179b39ac91f62a3cdc8c751a1332fc9501eedd3c2e930b263c28d617080d",
+    "display": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "native-water-caster-off-grazing.png": "8552edbc4029a37d8fb9f8aef7b9dde0632090a52275e168a33878ca2d7399a4",
+    "native-baseline-grazing.png": "5159ec3abe4b0e9e389be5551d2a613fca2c3ed78dd7afcd777abfa947d780cf",
+    "visual-water-report.json": "9b1d7339d4e23b190a27c9ee168e726fffbae53339d71bb6ea6f669c5330d62b",
+    "receipt.json": "392075379e6569ceef0adb04aa8e914c74f9998689eb0efaa0a63f3f6ebd11d9",
+    "native-baseline-river-oblique.png": "ed66ffa34d68a8b19545ce88dfe7f5042c8f143dab6cfcf48ff91404c361a0ad",
+    "source-after.json": "c180a347e60ce552e4cdeafa591b630756db97dd57eb9c45ddccca6307494b4f",
+    "native-water-caster-off-river-oblique.png": "d7a0384815cc4cac24cbf8169e35326f08b2304b7bd5fe41311b38cf2e51ce62"
+  }
+}

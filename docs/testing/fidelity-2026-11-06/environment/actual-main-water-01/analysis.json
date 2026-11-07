@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "preserved_utc": "2026-11-07T03:28:30.836821+00:00",
+  "capture_integrity": {
+    "eligible": true,
+    "native_checks": 60,
+    "failures": 0,
+    "source_inputs": 794,
+    "source_stable": true,
+    "original_images": 12,
+    "water_policy_guard_checks": 13,
+    "water_policy_guard_failures": 0
+  },
+  "visual_verdict": "POND_STILL_IMPROVEMENT_ONLY; fountain unresolved, river occluded; no production promotion",
+  "observations": {
+    "pond": "Fine comb bands disappear when only exact shared water casters are OFF; directional bright response remains. Native matched A/B/A counter deltas32shadow primitives/1draw.",
+    "fountain": "Fine bands remain visibly present after all3water castersOFF. Nearcoplanar basin top is0.550m, water upperface0.555m; basin remains casting. This geometry is a hypothesis for a separate controlled test, not a measured cause. Native delta274shadow primitives/2draws includes256fountain+18river.",
+    "river": "Camera(18,3,74) toward(35,-2,98) looks into actual river bounds but transferbridge deck dominates the frame. Do not claim a river water-quality pass. Native water shadow delta18triangles/1draw nevertheless verifies actual river/horizon strips selected.",
+    "all": "Current actual production three-wave shader retained, all normal Main station/pond content enabled, exact final horizon retained. No material/mesh/collision identities or sun settings changed; candidate changes3water cast flags only and restores them forcontrolB."
+  },
+  "cpu_overlap": {
+    "motion": "Root-authorized one\u226460s untimed private forecast; GodotPID49517 recorded at startup, separate source/cache.",
+    "rigging": "Root-authorized private manualtrace PID50003; supplied wrapperwindow2026-11-07T03:24:45.019087Z to03:25:08.165882Z,23.146795s. Actual engine end not separately timestamped.",
+    "limits": "No continuous competing-process observer; startup snapshot plus explicit team disclosure only. No timing, uncontended or sole-engine claim."
+  },
+  "limits": [
+    "Frozenactors/authoredstills are not normal-speed motion or gameplayroute acceptance.",
+    "WaterTIME remains active, phases need not match across A/B/A.",
+    "Componentcaster result remains valid within its own scene; actual Main demonstrates incomplete generalisation.",
+    "Three-wave D013 cost and targetMac performance remain open.",
+    "Policy and observers are private prepared candidates, not production code."
+  ],
+  "preserved_files_sha256": {
+    "actual-main-water-report.json": "1ace84c93caf483f9cf92aa7e4871e6c73710a3371a25f6a50743a259ce7a7a8",
+    "before-a-fountain.png": "3df72a8078cd5573521a5c0366c8286caab103dcca4afdec6524303c570507c6",
+    "before-a-pond.png": "57c0592d98c08061b3fd1d9eb8273b75a701a3ffe9e278ce48f6775454cbaaa2",
+    "before-a-river.png": "e24722c236673e46aaaaedff94fb4f3ca595e0d85318adef7c494692e18d82ea",
+    "before-b-fountain.png": "b33986beb64439a9f5b2c88e26ca82939c84cd5172e2823aabef0b27582afc45",
+    "before-b-pond.png": "7ea025416d6ab002ea6971b1ecd81197dfde4d1563c2fe09841ce28c51252c7f",
+    "before-b-river.png": "a2d531597e5c39e2c0e6b6cb5410743ff97bd177701d2bb95415e5fe86d7684e",
+    "caster-off-fountain.png": "7442ee37399d5615dce800edd4e747af93ed11efc5abb778a9a2949ad8cbc77d",
+    "caster-off-pond.png": "ab148140c5b035cc894640d83aba585a79e5fa7541902399dae93e418448d972",
+    "caster-off-river.png": "a7efc29b2cc8bf8e8327e08ec09f9cafee86129ee322abfadccf6aa7527747d0",
+    "display": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "engine.log": "64cb39f45697ec76a7ef6aca2a6495ff7e5994090f43ac5b8427498ff5d9d97c",
+    "executed-source/game/art/assets/horizon/clyde_water.gdshader.txt": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+    "executed-source/game/levels/glasgow_square.gd.txt": "b4c14e92a3c91b9ae86e25c0ebfa0342ecb0054f2df01332a536171803dedc6d",
+    "executed-source/game/levels/outdoor_routes.gd.txt": "f43ce909519b188be3a94482de3c11deb385a89f5d47973a2e9c0919c91f5fb1",
+    "executed-source/game/levels/park_pond.gd.txt": "b72f7f1ab2b4eef13072b14a3cf5f66fefd7da2868846c9cf4e548c535237d52",
+    "executed-source/game/levels/water_shadow_policy.gd.txt": "5eb47aae515824b26637cec1b388db9b7c2038647037ae1a75705a146197f696",
+    "executed-source/tools/environment_main_water_shadow_capture.gd.txt": "e599f32f153c2b3294ab72bd9fe00e15f881b6a2b17f8964aa336b335cf81e10",
+    "executed-source/tools/environment_water_probe.py.txt": "b4aab5105636ee3c1d693251ca9728b07acf6fa33353bd7f02b2c9a8661fd150",
+    "executed-source/tools/full_fidelity_capture.gd.txt": "5cb7c12ec634519e1b52d9375af663e2d5a588f0f84b615f76d1af81e4ffc388",
+    "executed-source/tools/water_shadow_policy_guard.gd.txt": "c7f911097277befea1d3e6cbe4b9566c00e67223759c0751f0be9d23db8a21a2",
+    "receipt.json": "7c12b1b671535ea01afd0e46bb81c6e6e4345da18a23b5398142c6e570141b06",
+    "source-after.json": "5d9d8a84067a204e3ebe79d8b8f83ced9b038576ed7bec61d724a88bdb908b4b",
+    "source-before.json": "5d9d8a84067a204e3ebe79d8b8f83ced9b038576ed7bec61d724a88bdb908b4b",
+    "synchronization/first_contact_inspection.png": "0c8974b53ae46f98908750c0fd69bcdf38a6a521fe43fd92513f3069b8864554",
+    "synchronization/overview_before_contact.png": "b9881c70a83a587f5fc8691aa8ec89a0013ae2d8625d6f6fd81fb876ac212fda",
+    "synchronization/return_to_production_chase.png": "ab328316673fef3c481578f850bf668963ed300ea8efde4e0a6ae36cab051e50",
+    "water-policy-guard.json": "5d3968a64f1a5d334143ed799fc9b77b1feedfdd713cdcaa7146216d5e25141f",
+    "xorg-console.log": "652454a2d145aebe089ad9a55844eb550792c5def279f03ab3cd24a74e2ab573",
+    "xorg.log": "cb3b0662880346d7c6ed816d57a6543577dcb3ecc952b8fd52f0209688db9e60"
+  }
+}

@@ -1,0 +1,990 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"checks": 58,
+	"complete": true,
+	"cost_brackets": [],
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"flat_shader_sha256": "d8eca9d2e483176e215549b854753d30ee33865b669fbfcf623c2fc745584426",
+	"geometry_source": "Exact OutdoorRoutes._water() central plane",
+	"images": [
+		{
+			"camera_basis": [
+				[
+					-0.0000000437113882867379,
+					0.0,
+					1.0
+				],
+				[
+					0.0166643541306257,
+					0.999861180782318,
+					0.00000000072842204490442
+				],
+				[
+					-0.999861180782318,
+					0.0166643559932709,
+					-0.0000000437053202517745
+				]
+			],
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "production-wave-river-oblique.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "ShaderMaterial",
+			"mode": "production-wave",
+			"near": 0.0500000007450581,
+			"physics_after": 21,
+			"physics_before": 21,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							225.180419921875,
+							128.716491699219
+						],
+						"color": "red",
+						"error_pixels": 0.136606559157372,
+						"pixel_count": 97,
+						"projected_xy": [
+							225.116180419922,
+							128.837051391602
+						],
+						"world_position": [
+							23.0193023681641,
+							6.11651182174683,
+							67.4000015258789
+						]
+					},
+					{
+						"centroid_xy": [
+							408.909637451172,
+							152.572296142578
+						],
+						"color": "green",
+						"error_pixels": 0.0462228320538998,
+						"pixel_count": 83,
+						"projected_xy": [
+							408.95361328125,
+							152.558059692383
+						],
+						"world_position": [
+							23.012638092041,
+							5.71656703948975,
+							70.5
+						]
+					}
+				]
+			},
+			"process_after": 3,
+			"process_before": 3,
+			"rgba8_sha256": "eb822f538970d0af259367b78abdc71f7e51d7e535c6b9c077a07be960f578f5",
+			"view": "river-oblique"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000358752245688265,
+					0.911921501159668,
+					0.410364717245102
+				],
+				[
+					-0.0000000797227102111719,
+					0.410364717245102,
+					-0.911921501159668
+				]
+			],
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "production-wave-high-coverage.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "ShaderMaterial",
+			"mode": "production-wave",
+			"near": 0.0500000007450581,
+			"physics_after": 32,
+			"physics_before": 32,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.431372553110123,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.431372553110123,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							245.872344970703,
+							128.723403930664
+						],
+						"color": "red",
+						"error_pixels": 0.11363273859024,
+						"pixel_count": 94,
+						"projected_xy": [
+							245.871994018555,
+							128.837036132812
+						],
+						"world_position": [
+							1.25000035762787,
+							6.04248237609863,
+							85.0520477294922
+						]
+					},
+					{
+						"centroid_xy": [
+							394.166656494141,
+							152.595245361328
+						],
+						"color": "green",
+						"error_pixels": 0.0536444522440434,
+						"pixel_count": 84,
+						"projected_xy": [
+							394.128021240234,
+							152.558029174805
+						],
+						"world_position": [
+							-1.24999964237213,
+							5.67771339416504,
+							84.8879013061523
+						]
+					}
+				]
+			},
+			"process_after": 7,
+			"process_before": 7,
+			"rgba8_sha256": "772e2c0df2d1bf165bfc0d39de67c05a87aca09309f977574a5ef883d8c4fb04",
+			"view": "high-coverage"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000412370271263285,
+					0.99888688325882,
+					0.0471696630120277
+				],
+				[
+					-0.0000000873254677458135,
+					0.0471696630120277,
+					-0.99888688325882
+				]
+			],
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "production-wave-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "ShaderMaterial",
+			"mode": "production-wave",
+			"near": 0.0500000007450581,
+			"physics_after": 43,
+			"physics_before": 43,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.705882370471954,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.705882370471954,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							266.627655029297,
+							128.723403930664
+						],
+						"color": "red",
+						"error_pixels": 0.113693386316299,
+						"pixel_count": 94,
+						"projected_xy": [
+							266.627838134766,
+							128.837097167969
+						],
+						"world_position": [
+							0.900000393390656,
+							0.662815988063812,
+							85.0510406494141
+						]
+					},
+					{
+						"centroid_xy": [
+							379.126495361328,
+							152.548187255859
+						],
+						"color": "green",
+						"error_pixels": 0.176181003451347,
+						"pixel_count": 83,
+						"projected_xy": [
+							379.302398681641,
+							152.558074951172
+						],
+						"world_position": [
+							-0.999999582767487,
+							0.263261198997498,
+							85.0321731567383
+						]
+					}
+				]
+			},
+			"process_after": 11,
+			"process_before": 11,
+			"rgba8_sha256": "e982f8e7496f899625f40c53cd8d809dde97dd198eed52516e6a12c8f975dc9a",
+			"view": "grazing"
+		},
+		{
+			"camera_basis": [
+				[
+					-0.0000000437113882867379,
+					0.0,
+					1.0
+				],
+				[
+					0.0166643541306257,
+					0.999861180782318,
+					0.00000000072842204490442
+				],
+				[
+					-0.999861180782318,
+					0.0166643559932709,
+					-0.0000000437053202517745
+				]
+			],
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "constant-normal-river-oblique.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "ShaderMaterial",
+			"mode": "constant-normal",
+			"near": 0.0500000007450581,
+			"physics_after": 56,
+			"physics_before": 56,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							230.99462890625,
+							128.747314453125
+						],
+						"color": "red",
+						"error_pixels": 0.103562898933887,
+						"pixel_count": 93,
+						"projected_xy": [
+							231.046325683594,
+							128.837051391602
+						],
+						"world_position": [
+							23.0193023681641,
+							6.11651182174683,
+							67.5
+						]
+					},
+					{
+						"centroid_xy": [
+							408.988372802734,
+							145.313949584961
+						],
+						"color": "green",
+						"error_pixels": 0.132427304983139,
+						"pixel_count": 86,
+						"projected_xy": [
+							408.953643798828,
+							145.441741943359
+						],
+						"world_position": [
+							23.0146369934082,
+							5.83655071258545,
+							70.5
+						]
+					}
+				]
+			},
+			"process_after": 15,
+			"process_before": 15,
+			"rgba8_sha256": "19e079e245df2a33a194bd0845c2e83db5e9b1f53db0cdd61ceaddfa18694702",
+			"view": "river-oblique"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000358752245688265,
+					0.911921501159668,
+					0.410364717245102
+				],
+				[
+					-0.0000000797227102111719,
+					0.410364717245102,
+					-0.911921501159668
+				]
+			],
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "constant-normal-high-coverage.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "ShaderMaterial",
+			"mode": "constant-normal",
+			"near": 0.0500000007450581,
+			"physics_after": 66,
+			"physics_before": 66,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.431372553110123,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.431372553110123,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							251.747314453125,
+							128.801071166992
+						],
+						"color": "red",
+						"error_pixels": 0.0656451657414436,
+						"pixel_count": 93,
+						"projected_xy": [
+							251.802230834961,
+							128.837036132812
+						],
+						"world_position": [
+							1.15000033378601,
+							6.04248237609863,
+							85.0520477294922
+						]
+					},
+					{
+						"centroid_xy": [
+							394.162780761719,
+							145.383728027344
+						],
+						"color": "green",
+						"error_pixels": 0.0676250010728836,
+						"pixel_count": 86,
+						"projected_xy": [
+							394.128082275391,
+							145.441772460938
+						],
+						"world_position": [
+							-1.24999964237213,
+							5.78714418411255,
+							84.937141418457
+						]
+					}
+				]
+			},
+			"process_after": 19,
+			"process_before": 19,
+			"rgba8_sha256": "a4baad8b4457b8f56adcaecd520309fa90d9d5eb90df07c85449c6d1320be51d",
+			"view": "high-coverage"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000412370271263285,
+					0.99888688325882,
+					0.0471696630120277
+				],
+				[
+					-0.0000000873254677458135,
+					0.0471696630120277,
+					-0.99888688325882
+				]
+			],
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "constant-normal-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "ShaderMaterial",
+			"mode": "constant-normal",
+			"near": 0.0500000007450581,
+			"physics_after": 77,
+			"physics_before": 77,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.705882370471954,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.705882370471954,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							272.596771240234,
+							128.67204284668
+						],
+						"color": "red",
+						"error_pixels": 0.169529736042023,
+						"pixel_count": 93,
+						"projected_xy": [
+							272.558074951172,
+							128.837097167969
+						],
+						"world_position": [
+							0.800000429153442,
+							0.662815988063812,
+							85.0510406494141
+						]
+					},
+					{
+						"centroid_xy": [
+							379.210845947266,
+							145.234939575195
+						],
+						"color": "green",
+						"error_pixels": 0.226184844970703,
+						"pixel_count": 83,
+						"projected_xy": [
+							379.302490234375,
+							145.44172668457
+						],
+						"world_position": [
+							-0.999999582767487,
+							0.383127629756927,
+							85.0378265380859
+						]
+					}
+				]
+			},
+			"process_after": 23,
+			"process_before": 23,
+			"rgba8_sha256": "8323e1fa9f76e42691a6bde79952266785d4fc3345738915fa515fd24cff6a70",
+			"view": "grazing"
+		},
+		{
+			"camera_basis": [
+				[
+					-0.0000000437113882867379,
+					0.0,
+					1.0
+				],
+				[
+					0.0166643541306257,
+					0.999861180782318,
+					0.00000000072842204490442
+				],
+				[
+					-0.999861180782318,
+					0.0166643559932709,
+					-0.0000000437053202517745
+				]
+			],
+			"camera_forward": [
+				0.999861180782318,
+				-0.0166643559932709,
+				0.0000000437053202517745
+			],
+			"camera_position": [
+				18.0,
+				5.0,
+				69.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "native-standard-river-oblique.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"mode": "native-standard",
+			"near": 0.0500000007450581,
+			"physics_after": 92,
+			"physics_before": 92,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							236.946807861328,
+							128.776596069336
+						],
+						"color": "red",
+						"error_pixels": 0.0673472359776497,
+						"pixel_count": 94,
+						"projected_xy": [
+							236.976486206055,
+							128.837051391602
+						],
+						"world_position": [
+							23.0193023681641,
+							6.11651182174683,
+							67.5999984741211
+						]
+					},
+					{
+						"centroid_xy": [
+							409.047607421875,
+							138.214279174805
+						],
+						"color": "green",
+						"error_pixels": 0.14556497335434,
+						"pixel_count": 84,
+						"projected_xy": [
+							408.953643798828,
+							138.325454711914
+						],
+						"world_position": [
+							23.0166358947754,
+							5.95653390884399,
+							70.5
+						]
+					}
+				]
+			},
+			"process_after": 27,
+			"process_before": 27,
+			"rgba8_sha256": "d3fdc07c5ef3cd1ceabff65af897569bf2e356ddc3c447fa665329ab4904ae2f",
+			"view": "river-oblique"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000358752245688265,
+					0.911921501159668,
+					0.410364717245102
+				],
+				[
+					-0.0000000797227102111719,
+					0.410364717245102,
+					-0.911921501159668
+				]
+			],
+			"camera_forward": [
+				0.0000000797227102111719,
+				-0.410364717245102,
+				0.911921501159668
+			],
+			"camera_position": [
+				0.0,
+				7.0,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "native-standard-high-coverage.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"mode": "native-standard",
+			"near": 0.0500000007450581,
+			"physics_after": 103,
+			"physics_before": 103,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.431372553110123,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.431372553110123,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							257.747314453125,
+							128.801071166992
+						],
+						"color": "red",
+						"error_pixels": 0.0389031283557415,
+						"pixel_count": 93,
+						"projected_xy": [
+							257.732482910156,
+							128.837036132812
+						],
+						"world_position": [
+							1.05000030994415,
+							6.04248237609863,
+							85.0520477294922
+						]
+					},
+					{
+						"centroid_xy": [
+							394.154754638672,
+							138.261901855469
+						],
+						"color": "green",
+						"error_pixels": 0.0689185187220573,
+						"pixel_count": 84,
+						"projected_xy": [
+							394.128021240234,
+							138.325424194336
+						],
+						"world_position": [
+							-1.24999964237213,
+							5.89657497406006,
+							84.9863891601562
+						]
+					}
+				]
+			},
+			"process_after": 31,
+			"process_before": 31,
+			"rgba8_sha256": "d5556fd4d2dd1598247eba6ea2fed7a893103e7d9e7941aa94c85b8ab8c400ba",
+			"view": "high-coverage"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000412370271263285,
+					0.99888688325882,
+					0.0471696630120277
+				],
+				[
+					-0.0000000873254677458135,
+					0.0471696630120277,
+					-0.99888688325882
+				]
+			],
+			"camera_forward": [
+				0.0000000873254677458135,
+				-0.0471696630120277,
+				0.99888688325882
+			],
+			"camera_position": [
+				0.0,
+				-0.300000011920929,
+				80.0
+			],
+			"counters": {
+				"buffer_bytes": 7451468,
+				"draws": 5,
+				"primitives": 342,
+				"shadow_draws": 0,
+				"texture_bytes": 14736405,
+				"visible_draws": 4
+			},
+			"far": 1000.0,
+			"file": "native-standard-grazing.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"mode": "native-standard",
+			"near": 0.0500000007450581,
+			"physics_after": 114,
+			"physics_before": 114,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.705882370471954,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.705882370471954,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							278.5,
+							128.731582641602
+						],
+						"color": "red",
+						"error_pixels": 0.106159925460815,
+						"pixel_count": 95,
+						"projected_xy": [
+							278.488311767578,
+							128.837097167969
+						],
+						"world_position": [
+							0.700000405311584,
+							0.662815988063812,
+							85.0510406494141
+						]
+					},
+					{
+						"centroid_xy": [
+							379.210845947266,
+							138.234939575195
+						],
+						"color": "green",
+						"error_pixels": 0.128797918558121,
+						"pixel_count": 83,
+						"projected_xy": [
+							379.302490234375,
+							138.325439453125
+						],
+						"world_position": [
+							-0.999999582767487,
+							0.502994000911713,
+							85.0434875488281
+						]
+					}
+				]
+			},
+			"process_after": 35,
+			"process_before": 35,
+			"rgba8_sha256": "70fe91abbddfa97cf84ab3a7f3f0aa13dffe716ea567b6f205f63b4bc0b8268d",
+			"view": "grazing"
+		}
+	],
+	"lighting_source": "Exact GlasgowSquare._build_lighting(), no full-world ready",
+	"limits": "Visual-only640x400 controls. Explicitly permitted concurrent untimed headless suite; no sole-engine, pacing, FPS or cost claim. Exact production plane/daylight; production-wave, constant-world-normal custom shader and native Lambert StandardMaterial3D with matched exposed PBR values. Native TIME active for production waves only. Two small independent3D markers and a Canvas swatch prove current camera/Canvas boundary; these are diagnostic overlays outside the primary water region. Native RGBA8 originals, camera transforms and same-frame counters preserved. No Main, rider, save or personal Music.",
+	"material_contract": {
+		"albedo": [
+			0.055,
+			0.11,
+			0.115
+		],
+		"metallic": 0.0,
+		"native_diffuse": "Lambert",
+		"native_normal_map": false,
+		"roughness": 0.36,
+		"specular": 0.5
+	},
+	"phase": "complete",
+	"production_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+	"renderer": "gl_compatibility",
+	"resolution": [
+		640,
+		400
+	],
+	"schema": 1,
+	"timing_measured": false
+}

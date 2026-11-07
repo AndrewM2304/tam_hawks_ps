@@ -4,6 +4,7 @@ extends RefCounted
 ## Does not certify ordinary-input loops, temporal rendering, fun or Mac timing.
 
 const FaceProbe = preload("res://tests/clyde_surface_tests.gd")
+const NativePrism = preload("res://tests/support/native_prism_audit.gd")
 
 const NORTH := Rect2(-85, 55, 170, 23)
 const SOUTH := Rect2(-39, 116, 115, 14)
@@ -488,6 +489,8 @@ static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Calla
 	var face_coverage := true
 	var panels := 0
 	var prisms := 0
+	var bank_prisms := 0
+	var bank_example: CollisionShape3D
 	var triangles := 0
 	var shared_materials: Dictionary = world.get("_materials")
 	var shared_stone: Material = shared_materials.get("stone_light")
@@ -502,6 +505,13 @@ static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Calla
 		var faces: Array[Dictionary] = []
 		for shape: Node in body.get_children():
 			if not shape is CollisionShape3D: continue
+			if shape.shape is ConcavePolygonShape3D and body.has_meta("bank_terminal_return"):
+				var native_faces: Array[Dictionary]=NativePrism.closed_bank_faces(shape)
+				face_coverage=native_faces.size()==20 and face_coverage
+				faces.append_array(native_faces)
+				bank_prisms+=1
+				if bank_example==null:bank_example=shape
+				continue
 			if not shape.shape is ConvexPolygonShape3D or shape.disabled:
 				face_coverage=false
 				continue
@@ -523,7 +533,7 @@ static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Calla
 			material_and_data = display.material_override==shared_stone \
 				and shared_stone is BaseMaterial3D \
 				and shared_stone.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED \
-				and not shared_stone.normal_enabled and material_and_data
+				and (not shared_stone.normal_enabled or shared_stone.normal_texture!=null) and material_and_data
 			var data: Array = display.mesh.surface_get_arrays(0)
 			if not data[Mesh.ARRAY_VERTEX] is PackedVector3Array or not data[Mesh.ARRAY_NORMAL] is PackedVector3Array \
 				or not data[Mesh.ARRAY_TEX_UV] is PackedVector2Array or not data[Mesh.ARRAY_TANGENT] is PackedFloat32Array:
@@ -569,9 +579,43 @@ static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Calla
 		"compact Clyde: opaque treatment is limited to all8 existing dry approach/end/ordinary-landward boundary bodies")
 	check.call(material_and_data,
 		"compact Clyde: each graded closure uses one opaque shared-stone surface with finite outward normals and valid texture tangents")
-	check.call(face_coverage and triangles==prisms*12,
-		"compact Clyde: displayed closed prism faces match every actual graded convex collision face without a bounding-box shortcut")
-	print("COMPACT_CLYDE_OPAQUE panels=",panels," preserved_prisms=",prisms," triangles=",triangles," surfaces=",panels)
+	check.call(face_coverage and prisms==55 and bank_prisms==4 and triangles==prisms*12+bank_prisms*20,
+		"compact Clyde: displayed faces cover every protected convex prism and four closed native bank prisms without a bounding-box shortcut")
+	print("COMPACT_CLYDE_OPAQUE panels=",panels," preserved_prisms=",prisms," bank_prisms=",bank_prisms," triangles=",triangles," surfaces=",panels)
+
+	_bank_topology_negatives(world,bank_example,check)
+
+
+static func _bank_topology_negatives(world: Node3D,original: CollisionShape3D,check: Callable) -> void:
+	if original==null:
+		check.call(false,"compact Clyde: actual bank prism exists for malformed native controls")
+		return
+	var native: PackedVector3Array=original.shape.get_faces()
+	var missing:=native.duplicate()
+	missing.resize(missing.size()-3)
+	var reversed:=native.duplicate()
+	var swap: Vector3=reversed[1]
+	reversed[1]=reversed[2]
+	reversed[2]=swap
+	var moved:=native.duplicate()
+	moved[0]+=Vector3(.01,.02,.03)
+	var fixture:=StaticBody3D.new()
+	fixture.collision_layer=0
+	fixture.collision_mask=0
+	world.add_child(fixture)
+	fixture.global_transform=original.global_transform
+	var collision:=CollisionShape3D.new()
+	fixture.add_child(collision)
+	var labels: Array[String]=["missing face","reversed face","moved single corner"]
+	var examples: Array[PackedVector3Array]=[missing,reversed,moved]
+	for index: int in examples.size():
+		var shape:=ConcavePolygonShape3D.new()
+		shape.backface_collision=true
+		shape.set_faces(examples[index])
+		collision.shape=shape
+		check.call(NativePrism.closed_bank_faces(collision).is_empty(),
+			"compact Clyde: independent native topology refuses "+labels[index])
+	fixture.free()
 
 
 static func _convex_supporting_faces(points: PackedVector3Array) -> Array[Dictionary]:

@@ -1,0 +1,1448 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"checks": 70,
+	"complete": true,
+	"cost_brackets": [],
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"geometry": "Declared64m plane and4x0.55x2.5m fixture ledge; no gameplay/collision or actual map route claim",
+	"images": [
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000984489112454412,
+					0.99363899230957,
+					0.112612426280975
+				],
+				[
+					-0.0000000868666774067606,
+					0.112612426280975,
+					-0.99363899230957
+				]
+			],
+			"camera_forward": [
+				0.0000000868666774067606,
+				-0.112612426280975,
+				0.99363899230957
+			],
+			"camera_position": [
+				0.0,
+				1.70000004768372,
+				-8.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "fan-baseline-a-route-eye.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 1.5,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "fan-baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 32,
+			"physics_before": 32,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							225.127655029297,
+							128.829788208008
+						],
+						"color": "red",
+						"error_pixels": 0.0136528052389622,
+						"pixel_count": 94,
+						"projected_xy": [
+							225.116104125977,
+							128.837066650391
+						],
+						"world_position": [
+							1.60000050067902,
+							2.32930469512939,
+							-2.8966703414917
+						]
+					},
+					{
+						"centroid_xy": [
+							408.963409423828,
+							152.597564697266
+						],
+						"color": "green",
+						"error_pixels": 0.04070895165205,
+						"pixel_count": 82,
+						"projected_xy": [
+							408.953643798828,
+							152.558044433594
+						],
+						"world_position": [
+							-1.49999952316284,
+							1.93184912204742,
+							-2.94171476364136
+						]
+					}
+				]
+			},
+			"process_after": 3,
+			"process_before": 3,
+			"rgba8_sha256": "5afcd6784cccb19cd5be4f6b53ebac44d684d901b61f474b87b2e6f7196a382f",
+			"view": "route-eye"
+		},
+		{
+			"camera_basis": [
+				[
+					-0.87990540266037,
+					0.0,
+					0.475148946046829
+				],
+				[
+					0.105964750051498,
+					0.974815309047699,
+					0.196231007575989
+				],
+				[
+					-0.46318244934082,
+					0.223013758659363,
+					-0.857745230197906
+				]
+			],
+			"camera_forward": [
+				0.46318244934082,
+				-0.223013758659363,
+				0.857745230197906
+			],
+			"camera_position": [
+				-1.20000004768372,
+				1.29999995231628,
+				-2.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "fan-baseline-a-oblique-close.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 1.5,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "fan-baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 64,
+			"physics_before": 64,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.431372553110123,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.431372553110123,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							245.854843139648,
+							128.779571533203
+						],
+						"color": "red",
+						"error_pixels": 0.0599899590015411,
+						"pixel_count": 93,
+						"projected_xy": [
+							245.871963500977,
+							128.837066650391
+						],
+						"world_position": [
+							2.34295153617859,
+							1.35470962524414,
+							1.93026733398438
+						]
+					},
+					{
+						"centroid_xy": [
+							394.126495361328,
+							152.548187255859
+						],
+						"color": "green",
+						"error_pixels": 0.00997929461300373,
+						"pixel_count": 83,
+						"projected_xy": [
+							394.128051757812,
+							152.558044433594
+						],
+						"world_position": [
+							0.100802183151245,
+							0.964783430099487,
+							3.03964710235596
+						]
+					}
+				]
+			},
+			"process_after": 7,
+			"process_before": 7,
+			"rgba8_sha256": "08eee5afa01e72c477326c26c5dfaa80b6e4eb36a680fe641682c8fd5f5b428e",
+			"view": "oblique-close"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000240168827048137,
+					0.961523950099945,
+					0.27472111582756
+				],
+				[
+					-0.000000084059095684097,
+					0.27472111582756,
+					-0.961523950099945
+				]
+			],
+			"camera_forward": [
+				0.000000084059095684097,
+				-0.27472111582756,
+				0.961523950099945
+			],
+			"camera_position": [
+				0.0,
+				6.0,
+				-11.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "fan-baseline-a-wide-repeat.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 1.5,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "fan-baseline-a",
+			"near": 0.0500000007450581,
+			"physics_after": 96,
+			"physics_before": 96,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.705882370471954,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.705882370471954,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							266.678955078125,
+							128.752624511719
+						],
+						"color": "red",
+						"error_pixels": 0.0987506583333015,
+						"pixel_count": 95,
+						"projected_xy": [
+							266.627807617188,
+							128.837097167969
+						],
+						"world_position": [
+							0.900000393390656,
+							5.78022289276123,
+							-5.86271524429321
+						]
+					},
+					{
+						"centroid_xy": [
+							379.166656494141,
+							152.5
+						],
+						"color": "green",
+						"error_pixels": 0.147659689188004,
+						"pixel_count": 84,
+						"projected_xy": [
+							379.302429199219,
+							152.558044433594
+						],
+						"world_position": [
+							-0.999999582767487,
+							5.39561367034912,
+							-5.97260332107544
+						]
+					}
+				]
+			},
+			"process_after": 11,
+			"process_before": 11,
+			"rgba8_sha256": "5bfe19e0b769b65415069d9846512502d63c92e2260a28be2a016e415b56801b",
+			"view": "wide-repeat"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000984489112454412,
+					0.99363899230957,
+					0.112612426280975
+				],
+				[
+					-0.0000000868666774067606,
+					0.112612426280975,
+					-0.99363899230957
+				]
+			],
+			"camera_forward": [
+				0.0000000868666774067606,
+				-0.112612426280975,
+				0.99363899230957
+			],
+			"camera_position": [
+				0.0,
+				1.70000004768372,
+				-8.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "setts-candidate-route-eye.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_diff_2k.jpg",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 2.0,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "setts-candidate",
+			"near": 0.0500000007450581,
+			"physics_after": 128,
+			"physics_before": 128,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							231.010864257812,
+							128.804351806641
+						],
+						"color": "red",
+						"error_pixels": 0.0482582226395607,
+						"pixel_count": 92,
+						"projected_xy": [
+							231.046340942383,
+							128.837066650391
+						],
+						"world_position": [
+							1.50000047683716,
+							2.32930469512939,
+							-2.8966703414917
+						]
+					},
+					{
+						"centroid_xy": [
+							408.947052001953,
+							145.358825683594
+						],
+						"color": "green",
+						"error_pixels": 0.0831802934408188,
+						"pixel_count": 85,
+						"projected_xy": [
+							408.953674316406,
+							145.441741943359
+						],
+						"world_position": [
+							-1.49999952316284,
+							2.05108594894409,
+							-2.92820167541504
+						]
+					}
+				]
+			},
+			"process_after": 15,
+			"process_before": 15,
+			"rgba8_sha256": "54cb8b4771557b83748bd9e51414ffc2f4bfd09f6a389b456b09941f9ca243d5",
+			"view": "route-eye"
+		},
+		{
+			"camera_basis": [
+				[
+					-0.87990540266037,
+					0.0,
+					0.475148946046829
+				],
+				[
+					0.105964750051498,
+					0.974815309047699,
+					0.196231007575989
+				],
+				[
+					-0.46318244934082,
+					0.223013758659363,
+					-0.857745230197906
+				]
+			],
+			"camera_forward": [
+				0.46318244934082,
+				-0.223013758659363,
+				0.857745230197906
+			],
+			"camera_position": [
+				-1.20000004768372,
+				1.29999995231628,
+				-2.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "setts-candidate-oblique-close.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_diff_2k.jpg",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 2.0,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "setts-candidate",
+			"near": 0.0500000007450581,
+			"physics_after": 160,
+			"physics_before": 160,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.431372553110123,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.431372553110123,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							251.691482543945,
+							128.808517456055
+						],
+						"color": "red",
+						"error_pixels": 0.114324547350407,
+						"pixel_count": 94,
+						"projected_xy": [
+							251.802185058594,
+							128.837066650391
+						],
+						"world_position": [
+							2.25496125221252,
+							1.35470962524414,
+							1.97778224945068
+						]
+					},
+					{
+						"centroid_xy": [
+							394.147064208984,
+							145.323532104492
+						],
+						"color": "green",
+						"error_pixels": 0.11973924934864,
+						"pixel_count": 85,
+						"projected_xy": [
+							394.128082275391,
+							145.441757202148
+						],
+						"world_position": [
+							0.113517999649048,
+							1.08176124095917,
+							3.06319522857666
+						]
+					}
+				]
+			},
+			"process_after": 19,
+			"process_before": 19,
+			"rgba8_sha256": "60be5ddd7887d6fc5d3cd02290d060b828b611c8d3bb9c992b2a641ed6e150f7",
+			"view": "oblique-close"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000240168827048137,
+					0.961523950099945,
+					0.27472111582756
+				],
+				[
+					-0.000000084059095684097,
+					0.27472111582756,
+					-0.961523950099945
+				]
+			],
+			"camera_forward": [
+				0.000000084059095684097,
+				-0.27472111582756,
+				0.961523950099945
+			],
+			"camera_position": [
+				0.0,
+				6.0,
+				-11.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "setts-candidate-wide-repeat.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_diff_2k.jpg",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 2.0,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "setts-candidate",
+			"near": 0.0500000007450581,
+			"physics_after": 192,
+			"physics_before": 192,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.705882370471954,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.705882370471954,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							272.573669433594,
+							128.699996948242
+						],
+						"color": "red",
+						"error_pixels": 0.137987717986107,
+						"pixel_count": 95,
+						"projected_xy": [
+							272.558044433594,
+							128.837097167969
+						],
+						"world_position": [
+							0.800000429153442,
+							5.78022289276123,
+							-5.86271524429321
+						]
+					},
+					{
+						"centroid_xy": [
+							379.154754638672,
+							145.261901855469
+						],
+						"color": "green",
+						"error_pixels": 0.23271381855011,
+						"pixel_count": 84,
+						"projected_xy": [
+							379.302429199219,
+							145.441757202148
+						],
+						"world_position": [
+							-0.999999582767487,
+							5.51099634170532,
+							-5.93963670730591
+						]
+					}
+				]
+			},
+			"process_after": 23,
+			"process_before": 23,
+			"rgba8_sha256": "fafb48d31e49fa55830dabddb30d501658e2b4366502b370990fb343f072d10b",
+			"view": "wide-repeat"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.00000000984489112454412,
+					0.99363899230957,
+					0.112612426280975
+				],
+				[
+					-0.0000000868666774067606,
+					0.112612426280975,
+					-0.99363899230957
+				]
+			],
+			"camera_forward": [
+				0.0000000868666774067606,
+				-0.112612426280975,
+				0.99363899230957
+			],
+			"camera_position": [
+				0.0,
+				1.70000004768372,
+				-8.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "fan-baseline-b-route-eye.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 1.5,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "fan-baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 224,
+			"physics_before": 224,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							236.913040161133,
+							128.793472290039
+						],
+						"color": "red",
+						"error_pixels": 0.0770677179098129,
+						"pixel_count": 92,
+						"projected_xy": [
+							236.976593017578,
+							128.837066650391
+						],
+						"world_position": [
+							1.4000004529953,
+							2.32930469512939,
+							-2.8966703414917
+						]
+					},
+					{
+						"centroid_xy": [
+							409.047607421875,
+							138.214279174805
+						],
+						"color": "green",
+						"error_pixels": 0.145576626062393,
+						"pixel_count": 84,
+						"projected_xy": [
+							408.953643798828,
+							138.325469970703
+						],
+						"world_position": [
+							-1.49999952316284,
+							2.17032241821289,
+							-2.91468811035156
+						]
+					}
+				]
+			},
+			"process_after": 27,
+			"process_before": 27,
+			"rgba8_sha256": "eb32568e11f668bd8da3dc9ff126e3de0effab44f81274c4e0f22144a8132e3c",
+			"view": "route-eye"
+		},
+		{
+			"camera_basis": [
+				[
+					-0.87990540266037,
+					0.0,
+					0.475148946046829
+				],
+				[
+					0.105964750051498,
+					0.974815309047699,
+					0.196231007575989
+				],
+				[
+					-0.46318244934082,
+					0.223013758659363,
+					-0.857745230197906
+				]
+			],
+			"camera_forward": [
+				0.46318244934082,
+				-0.223013758659363,
+				0.857745230197906
+			],
+			"camera_position": [
+				-1.20000004768372,
+				1.29999995231628,
+				-2.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "fan-baseline-b-oblique-close.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 1.5,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "fan-baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 256,
+			"physics_before": 256,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.431372553110123,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.431372553110123,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							257.691497802734,
+							128.808517456055
+						],
+						"color": "red",
+						"error_pixels": 0.0499232895672321,
+						"pixel_count": 94,
+						"projected_xy": [
+							257.732452392578,
+							128.837066650391
+						],
+						"world_position": [
+							2.1669704914093,
+							1.35470962524414,
+							2.02529716491699
+						]
+					},
+					{
+						"centroid_xy": [
+							394.102416992188,
+							138.234939575195
+						],
+						"color": "green",
+						"error_pixels": 0.0940898135304451,
+						"pixel_count": 83,
+						"projected_xy": [
+							394.128051757812,
+							138.325469970703
+						],
+						"world_position": [
+							0.126233816146851,
+							1.19873905181885,
+							3.08674287796021
+						]
+					}
+				]
+			},
+			"process_after": 31,
+			"process_before": 31,
+			"rgba8_sha256": "9df06924f05951f913188514efdcf8dc8d68b854b04b4217aa91a9e6b598748b",
+			"view": "oblique-close"
+		},
+		{
+			"camera_basis": [
+				[
+					-1.0,
+					0.0,
+					0.0000000874227765734759
+				],
+				[
+					0.0000000240168827048137,
+					0.961523950099945,
+					0.27472111582756
+				],
+				[
+					-0.000000084059095684097,
+					0.27472111582756,
+					-0.961523950099945
+				]
+			],
+			"camera_forward": [
+				0.000000084059095684097,
+				-0.27472111582756,
+				0.961523950099945
+			],
+			"camera_position": [
+				0.0,
+				6.0,
+				-11.0
+			],
+			"counters": {
+				"buffer_bytes": 7452212,
+				"draws": 7,
+				"primitives": 366,
+				"shadow_draws": 0,
+				"texture_bytes": 56679925,
+				"visible_draws": 6
+			},
+			"far": 220.0,
+			"file": "fan-baseline-b-wide-repeat.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_class": "StandardMaterial3D",
+			"material_contract": {
+				"maps": [
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 2048,
+						"mipmaps": 11,
+						"native_payload_bytes": 5592432,
+						"path": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+						"width": 2048
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+						"width": 1024
+					},
+					{
+						"compressed": true,
+						"format": 22,
+						"height": 1024,
+						"mipmaps": 10,
+						"native_payload_bytes": 1398128,
+						"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+						"width": 1024
+					}
+				],
+				"normal_strength": 0.180000007152557,
+				"physical_width_m": 1.5,
+				"texture_filter": 5,
+				"tint": [
+					0.835294127464294,
+					0.850980401039124,
+					0.850980401039124
+				]
+			},
+			"mode": "fan-baseline-b",
+			"near": 0.0500000007450581,
+			"physics_after": 288,
+			"physics_before": 288,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.705882370471954,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.705882370471954,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							278.520843505859,
+							128.71875
+						],
+						"color": "red",
+						"error_pixels": 0.122736983001232,
+						"pixel_count": 96,
+						"projected_xy": [
+							278.488311767578,
+							128.837097167969
+						],
+						"world_position": [
+							0.700000405311584,
+							5.78022289276123,
+							-5.86271524429321
+						]
+					},
+					{
+						"centroid_xy": [
+							379.154754638672,
+							138.261901855469
+						],
+						"color": "green",
+						"error_pixels": 0.160781279206276,
+						"pixel_count": 84,
+						"projected_xy": [
+							379.302429199219,
+							138.325485229492
+						],
+						"world_position": [
+							-0.999999582767487,
+							5.62637901306152,
+							-5.90667057037354
+						]
+					}
+				]
+			},
+			"process_after": 35,
+			"process_before": 35,
+			"rgba8_sha256": "2aab65948ef1bbd678127a1a52fef00b469a0997ac3b97851cac9565469c7ce4",
+			"view": "wide-repeat"
+		}
+	],
+	"lighting_source": "Exact production GlasgowSquare._build_lighting() plus ordinary-Main Horizon.SKY_SHADER/SKY_CUBE quality setup",
+	"limits": "Visual-only640x400 matched cameras and native red/green world markers/Canvas frame proof. Concurrent root untimed headless suite may run; no timing/exclusivity/performance claim. Baseline and candidate maps temporarily coexist for comparison, so visual-process memory is not final production admission. The separate fresh native allocation process must establish the unchanged15bound maps/32MiB contract before promotion. Actual Main route/chase/composition and moving-surface/H1 review remain separate.",
+	"material_contracts": {
+		"fan-baseline-a": {
+			"maps": [
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 2048,
+					"mipmaps": 11,
+					"native_payload_bytes": 5592432,
+					"path": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+					"width": 2048
+				},
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 1024,
+					"mipmaps": 10,
+					"native_payload_bytes": 1398128,
+					"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+					"width": 1024
+				},
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 1024,
+					"mipmaps": 10,
+					"native_payload_bytes": 1398128,
+					"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+					"width": 1024
+				}
+			],
+			"normal_strength": 0.180000007152557,
+			"physical_width_m": 1.5,
+			"texture_filter": 5,
+			"tint": [
+				0.835294127464294,
+				0.850980401039124,
+				0.850980401039124
+			]
+		},
+		"fan-baseline-b": {
+			"maps": [
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 2048,
+					"mipmaps": 11,
+					"native_payload_bytes": 5592432,
+					"path": "res://game/art/assets/environment_pbr/derived/pavement_albedo.png",
+					"width": 2048
+				},
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 1024,
+					"mipmaps": 10,
+					"native_payload_bytes": 1398128,
+					"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+					"width": 1024
+				},
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 1024,
+					"mipmaps": 10,
+					"native_payload_bytes": 1398128,
+					"path": "res://game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+					"width": 1024
+				}
+			],
+			"normal_strength": 0.180000007152557,
+			"physical_width_m": 1.5,
+			"texture_filter": 5,
+			"tint": [
+				0.835294127464294,
+				0.850980401039124,
+				0.850980401039124
+			]
+		},
+		"setts-candidate": {
+			"maps": [
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 2048,
+					"mipmaps": 11,
+					"native_payload_bytes": 5592432,
+					"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_diff_2k.jpg",
+					"width": 2048
+				},
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 1024,
+					"mipmaps": 10,
+					"native_payload_bytes": 1398128,
+					"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_nor_gl_2k.jpg",
+					"width": 1024
+				},
+				{
+					"compressed": true,
+					"format": 22,
+					"height": 1024,
+					"mipmaps": 10,
+					"native_payload_bytes": 1398128,
+					"path": "res://game/art/assets/environment_pbr/cobblestone_floor_02/cobblestone_floor_02_arm_2k.jpg",
+					"width": 1024
+				}
+			],
+			"normal_strength": 0.180000007152557,
+			"physical_width_m": 2.0,
+			"texture_filter": 5,
+			"tint": [
+				0.835294127464294,
+				0.850980401039124,
+				0.850980401039124
+			]
+		}
+	},
+	"phase": "complete",
+	"renderer": "gl_compatibility",
+	"resolution": [
+		640,
+		400
+	],
+	"schema": 1,
+	"source_provenance": "paving-provenance.json and candidate environment_pbr/manifest.json",
+	"timing_measured": false,
+	"workload": "paving-material-component-A/B/A"
+}

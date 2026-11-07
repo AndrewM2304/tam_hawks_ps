@@ -1,0 +1,105 @@
+extends SceneTree
+const Skater=preload("res://game/player/skater.gd")
+const Setup=preload("res://game/core/input_setup.gd")
+var result:Dictionary={"schema":1,"method":"Independent actual native ArrayMesh weights and official shader operation-order witness; no inherited CPU bounds oracle.","samples":[],"images":[]}
+var output:String
+func _initialize()->void:_run.call_deferred()
+func _v(v:Vector3)->Array:return [v.x,v.y,v.z]
+func _c(c:Color)->Array:return [c.r,c.g,c.b,c.a]
+func _hash(bytes:PackedByteArray)->String:
+	var h:=HashingContext.new();h.start(HashingContext.HASH_SHA256);h.update(bytes);return h.finish().hex_encode()
+func _t(t:Transform3D)->Dictionary:return {"basis":[_v(t.basis.x),_v(t.basis.y),_v(t.basis.z)],"origin":_v(t.origin)}
+func _write()->void:
+	var f:=FileAccess.open(output.path_join("native-skin-order.json"),FileAccess.WRITE)
+	f.store_string(JSON.stringify(result,"\t")+"\n");f.close()
+func _run()->void:
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=1:quit(2);return
+	output=args[0];DirAccess.make_dir_recursive_absolute(output)
+	Setup.register_actions()
+	var world:=Node3D.new();root.add_child(world)
+	var actor:=Skater.new();world.add_child(actor)
+	actor.set_process(false);actor.set_physics_process(false)
+	var garments=actor._visual_rig._garments
+	var skeleton:Skeleton3D=garments.skeleton
+	var jacket:MeshInstance3D=actor.find_child("SkinnedJacket",true,false)
+	if jacket==null:push_error("Missing actual native jacket");quit(3);return
+	result.engine=Engine.get_version_info();result.renderer=RenderingServer.get_current_rendering_method()
+	result.mesh_model=_t(jacket.global_transform);result.skeleton_frame=_t(skeleton.global_transform)
+	result.mesh_resolves_actual_skeleton=jacket.get_node(jacket.skeleton)==skeleton
+	var chosen_weights:=PackedFloat32Array()
+	var min_sum:=INF;var max_sum:=-INF;var selected_surface:=-1;var selected_vertex:=-1
+	for surface:int in jacket.mesh.get_surface_count():
+		var arrays:=jacket.mesh.surface_get_arrays(surface)
+		var points:PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+		var bones:PackedInt32Array=arrays[Mesh.ARRAY_BONES]
+		var weights:PackedFloat32Array=arrays[Mesh.ARRAY_WEIGHTS]
+		var stride:int=bones.size()/points.size()
+		for vertex:int in points.size():
+			var sum:=0.0
+			for k:int in stride:sum+=weights[vertex*stride+k]
+			max_sum=maxf(max_sum,sum)
+			if sum>=min_sum:continue
+			min_sum=sum;selected_surface=surface;selected_vertex=vertex
+			chosen_weights=weights.slice(vertex*stride,(vertex+1)*stride)
+	var a:=jacket.mesh.surface_get_arrays(selected_surface)
+	var rest:Vector3=a[Mesh.ARRAY_VERTEX][selected_vertex]
+	var indices:PackedInt32Array=a[Mesh.ARRAY_BONES]
+	var stride:int=chosen_weights.size()
+	var bind_ids:Array=[];var transforms:Array=[];var local_sum:=Vector3.ZERO
+	for k:int in stride:
+		var bind:int=indices[selected_vertex*stride+k]
+		var bone:int=jacket.skin.get_bind_bone(bind)
+		var name:StringName=jacket.skin.get_bind_name(bind)
+		if not name.is_empty():bone=skeleton.find_bone(name)
+		if bone<0 or bone>=skeleton.get_bone_count():push_error("Invalid actual native bind");quit(4);return
+		var transform:Transform3D=skeleton.get_bone_global_pose(bone)*jacket.skin.get_bind_pose(bind)
+		bind_ids.append(bind);transforms.append(_t(transform));local_sum+=(transform*rest)*chosen_weights[k]
+	result.native_vertex={"surface":selected_surface,"vertex":selected_vertex,"rest":_v(rest),"weights":Array(chosen_weights),"sum":min_sum,"maximum_native_sum":max_sum,"bind_ids":bind_ids,"bone_bind_local_transforms":transforms,"local_shader_sum":_v(local_sum)}
+	for distance:float in [0.0,100.0,1000.0]:
+		var model:=jacket.global_transform;model.origin+=Vector3(0,0,distance)
+		var correct:=model*local_sum;var inherited:=Vector3.ZERO
+		for k:int in stride:
+			var tr:Dictionary=transforms[k];var b:Array=tr.basis;var o:Array=tr.origin
+			var transform:=Transform3D(Basis(Vector3(b[0][0],b[0][1],b[0][2]),Vector3(b[1][0],b[1][1],b[1][2]),Vector3(b[2][0],b[2][1],b[2][2])),Vector3(o[0],o[1],o[2]))
+			inherited+=(model*transform*rest)*chosen_weights[k]
+		result.samples.append({"added_model_z_m":distance,"actual_model":_t(model),"shader_equation_world":_v(correct),"inherited_world_per_weight":_v(inherited),"difference_m":correct.distance_to(inherited),"difference_vector":_v(correct-inherited)})
+	world.free();_write()
+	if DisplayServer.get_name()=="headless":quit(0);return
+	await _gpu(chosen_weights)
+	_write();quit(0)
+func _gpu(weights:PackedFloat32Array)->void:
+	root.size=Vector2i(64,64);root.content_scale_size=root.size
+	var world:=Node3D.new();root.add_child(world)
+	var environment:=WorldEnvironment.new();environment.environment=Environment.new();environment.environment.background_mode=Environment.BG_COLOR;environment.environment.background_color=Color.BLACK;world.add_child(environment)
+	var skeleton:=Skeleton3D.new();skeleton.name="NativeWitnessSkeleton";world.add_child(skeleton)
+	var skin:=Skin.new()
+	for bone:int in weights.size():
+		skeleton.add_bone("bone"+str(bone));skeleton.set_bone_rest(bone,Transform3D.IDENTITY);skin.add_bind(bone,Transform3D.IDENTITY)
+	var arrays:Array=[];arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX]=PackedVector3Array([Vector3(-1,-1,0),Vector3(1,-1,0),Vector3(0,1,0)])
+	arrays[Mesh.ARRAY_NORMAL]=PackedVector3Array([Vector3.BACK,Vector3.BACK,Vector3.BACK])
+	var native_bones:=PackedInt32Array();var native_weights:=PackedFloat32Array()
+	for vertex:int in 3:
+		for bone:int in weights.size():native_bones.append(bone);native_weights.append(weights[bone])
+	arrays[Mesh.ARRAY_BONES]=native_bones;arrays[Mesh.ARRAY_WEIGHTS]=native_weights
+	var mesh:=ArrayMesh.new();mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+	var node:=MeshInstance3D.new();node.name="NativeWeightedTriangle";node.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF;node.mesh=mesh;world.add_child(node);node.skin=skin;node.skeleton=node.get_path_to(skeleton)
+	var shader:=Shader.new();shader.code="shader_type spatial; render_mode unshaded, world_vertex_coords, fog_disabled, shadows_disabled, cull_disabled; uniform float origin_z; uniform float epoch_blue; varying vec3 witness_rgb; void vertex(){witness_rgb=vec3(0.5+(VERTEX.z-origin_z)*100.0,0.2,epoch_blue);} void fragment(){ALBEDO=witness_rgb;}"
+	var material:=ShaderMaterial.new();material.shader=shader;node.material_override=material
+	var camera:=Camera3D.new();camera.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF;camera.projection=Camera3D.PROJECTION_ORTHOGONAL;camera.size=3.0;camera.near=.05;camera.far=10;world.add_child(camera);camera.current=true
+	var canvas:=ColorRect.new();canvas.position=Vector2(2,2);canvas.size=Vector2(8,8);root.add_child(canvas)
+	for index:int in 3:
+		var distance:float=[0.0,100.0,1000.0][index]
+		node.position.z=distance;camera.position=Vector3(0,0,distance+3)
+		material.set_shader_parameter("origin_z",distance);material.set_shader_parameter("epoch_blue",.2+float(index)*.25)
+		canvas.color=Color(.1+float(index)*.3,.4,.7)
+		for frame:int in 4:await process_frame
+		await RenderingServer.frame_post_draw
+		var physics_before:=Engine.get_physics_frames();var process_before:=Engine.get_process_frames()
+		var picture:=root.get_texture().get_image();picture.convert(Image.FORMAT_RGBA8)
+		var physics_after:=Engine.get_physics_frames();var process_after:=Engine.get_process_frames()
+		var file:="native-world-z-"+str(int(distance))+".png";picture.save_png(output.path_join(file))
+		result.images.append({"file":file,"model":_t(node.global_transform),"skeleton":_t(skeleton.global_transform),"camera":_t(camera.global_transform),"model_z":distance,"native_triangle_weights":Array(mesh.surface_get_arrays(0)[Mesh.ARRAY_WEIGHTS]),"center_rgba":_c(picture.get_pixel(32,32)),"corner_rgba":_c(picture.get_pixel(5,5)),"canvas_expected":_c(canvas.color),"epoch_blue":.2+float(index)*.25,"physics_before":physics_before,"physics_after":physics_after,"process_before":process_before,"process_after":process_after,"rgba8_sha256":_hash(picture.get_data()),"png_sha256":FileAccess.get_sha256(output.path_join(file))})
+		_write()
+	canvas.free();world.free()

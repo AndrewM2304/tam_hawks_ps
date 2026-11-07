@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "authorship": "Skin albedos are masked CC0 MakeHuman derivatives; all cloth/hair/suede, roughness and normal maps are original deterministic painting. No AI-generated images.",
+  "skin_source": {
+    "url": "https://files2.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+    "member": "skins/young_caucasian_male/young_lightskinned_male_diffuse.png",
+    "sha256": "862a26e335e958b70534cb5f0d7c47ef30ab148a56c42b3e9da969cf76f12963",
+    "licence": "CC0-1.0",
+    "notice": "game/art/rider/SKIN-NOTICE.md",
+    "adaptation": "Retain only UV triangles of the existing cropped head/hand meshes; neutral-fill unused atlas, dilate island edges12pixels, downsample hands to1024. Full source body atlas is not distributed."
+  },
+  "geometry_uv_source": "Existing CC0 MakeHuman cropped meshes; see game/art/assets/makehuman_hm08/manifest.json",
+  "generator": "tools/rider_asset_bake.py",
+  "generator_sha256": "964b9bd54b1ccb2dd146d3f9a0e7ade5bda8e0cb40402ebd19eb735e00871025",
+  "resolution_policy": "Head albedo2048, head normal1024; hands albedo1024; remaining maps512. Original native skateboard atlas preserved.",
+  "maps": {
+    "cloth_albedo.png": {
+      "sha256": "3c0d502a969969aa8caf7385d88402fc7f4b50fe5dc2ee39de672007486cb1e9",
+      "bytes": 151023
+    },
+    "cloth_normal.png": {
+      "sha256": "9dd14df659ed94facc6faca538aa1e4c21048fddc81e2c0900e48ab4aa8767ee",
+      "bytes": 240681
+    },
+    "cloth_roughness.png": {
+      "sha256": "e5bd8ab514f5d5c989b8f044bcd2f1ac0385321cca866f091a39f339d3ce613e",
+      "bytes": 52141
+    },
+    "hair_albedo.png": {
+      "sha256": "78f86d4dc85af3d4b2df6927648ef71c8602966253606fa3e2febd2aa29d7fce",
+      "bytes": 463516
+    },
+    "head_albedo.png": {
+      "sha256": "0da8f4402f358bc0e9f2ae1643c17d7650db73530150c2ff2db5b74367b039f7",
+      "bytes": 1383421
+    },
+    "head_normal.png": {
+      "sha256": "098308eb94c3985660300a10433cdeca34304c4e2c4b68979dea965cfc1c99e5",
+      "bytes": 271036
+    },
+    "head_roughness.png": {
+      "sha256": "58bcb5895b53c7ba9b5509e1b67f46fd9ebf039b98bbdf371672ea72ddd2b6b1",
+      "bytes": 4386
+    },
+    "left_hand_albedo.png": {
+      "sha256": "9c7de9df96e434644343b9a95dc18286891b0f2c67cca563cf6084476fd732ec",
+      "bytes": 39079
+    },
+    "left_hand_normal.png": {
+      "sha256": "97ed3a154a9935eeb62bbf07acb0935c69f460651f49579182ca6f2ad1526035",
+      "bytes": 12183
+    },
+    "left_hand_roughness.png": {
+      "sha256": "56f174da7de47316e0df6819a55d780d4e31d0519c603fe7e2e6075d8f4a2178",
+      "bytes": 1302
+    },
+    "right_hand_albedo.png": {
+      "sha256": "d49e43ad28286aa71d6b5d797e7ec93938737a83418783d7e0fd93155ca5ac8c",
+      "bytes": 39041
+    },
+    "right_hand_normal.png": {
+      "sha256": "0eb82238b725a84d42b33c7853576db74765a8831072e21aaea326a9abd90fc7",
+      "bytes": 12272
+    },
+    "right_hand_roughness.png": {
+      "sha256": "56f174da7de47316e0df6819a55d780d4e31d0519c603fe7e2e6075d8f4a2178",
+      "bytes": 1302
+    },
+    "suede_albedo.png": {
+      "sha256": "f2298a617a536e1abcbded105a6d9771507704257b6f3282ce0a95d0b43f7efe",
+      "bytes": 226012
+    },
+    "suede_normal.png": {
+      "sha256": "e60bb6d02b2a7167a64dae97a79be39b082824e2b07675dcfa075e0c21f76594",
+      "bytes": 374941
+    }
+  }
+}

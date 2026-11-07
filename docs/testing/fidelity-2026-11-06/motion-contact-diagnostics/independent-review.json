@@ -1,0 +1,338 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T00:46:10.394609+00:00",
+  "defects": [
+    "FID-D009",
+    "FID-D010"
+  ],
+  "status": "Development diagnostic only; not source-frozen acceptance or moving visual review.",
+  "source_limits": "Producer did not take complete two-sided inventories for these runs. Copied diagnostic scripts are preserved as inspected at review time, not asserted to be exact historical executed scripts. Positive changes require independent current-source retest.",
+  "independent_findings": {
+    "relay": {
+      "overlapping_native_ticks": [
+        438,
+        439,
+        440,
+        441,
+        442,
+        443
+      ],
+      "physical_tick_state_position_velocity_exactly_match": true,
+      "before_min_gap_m": -0.02630019187927,
+      "after_min_gap_m": 0.00284934043884,
+      "before": {
+        "438": {
+          "physics": 489,
+          "phase": "east_quay_seating_relay_second_exit_charge",
+          "grinding": "true",
+          "air": "false",
+          "body": "(65.95808, 2.505, 63.19063)",
+          "velocity": "(2.551936, 0.0, -0.683787)",
+          "gap_m": 0.00284934043884
+        },
+        "439": {
+          "physics": 490,
+          "phase": "east_quay_seating_relay_second_exit_charge",
+          "grinding": "true",
+          "air": "false",
+          "body": "(66.00053, 2.505, 63.17926)",
+          "velocity": "(2.542277, 0.0, -0.681199)",
+          "gap_m": 0.00284934043884
+        },
+        "440": {
+          "physics": 491,
+          "phase": "east_quay_seating_relay_second_exit",
+          "grinding": "false",
+          "air": "true",
+          "body": "(66.00053, 2.505, 63.17926)",
+          "velocity": "(2.542277, 7.2, -0.681199)",
+          "gap_m": -0.02630019187927
+        },
+        "441": {
+          "physics": 492,
+          "phase": "east_quay_seating_relay_second_landing",
+          "grinding": "false",
+          "air": "true",
+          "body": "(66.04291, 2.615556, 63.16791)",
+          "velocity": "(2.542277, 6.633333, -0.681199)",
+          "gap_m": 0.07530975341797
+        },
+        "442": {
+          "physics": 493,
+          "phase": "east_quay_seating_relay_second_landing",
+          "grinding": "false",
+          "air": "true",
+          "body": "(66.08528, 2.716667, 63.15656)",
+          "velocity": "(2.542277, 6.066667, -0.681199)",
+          "gap_m": 0.15370869636536
+        },
+        "443": {
+          "physics": 494,
+          "phase": "east_quay_seating_relay_second_landing",
+          "grinding": "false",
+          "air": "true",
+          "body": "(66.12766, 2.808334, 63.1452)",
+          "velocity": "(2.542277, 5.5, -0.681199)",
+          "gap_m": 0.22865009307861
+        }
+      },
+      "after": {
+        "438": {
+          "physics": 489,
+          "phase": "east_quay_seating_relay_second_exit_charge",
+          "grinding": "true",
+          "air": "false",
+          "body": "(65.95808, 2.505, 63.19063)",
+          "velocity": "(2.551936, 0.0, -0.683787)",
+          "gap_m": 0.00284934043884
+        },
+        "439": {
+          "physics": 490,
+          "phase": "east_quay_seating_relay_second_exit_charge",
+          "grinding": "true",
+          "air": "false",
+          "body": "(66.00053, 2.505, 63.17926)",
+          "velocity": "(2.542277, 0.0, -0.681199)",
+          "gap_m": 0.00284934043884
+        },
+        "440": {
+          "physics": 491,
+          "phase": "east_quay_seating_relay_second_exit",
+          "grinding": "false",
+          "air": "true",
+          "body": "(66.00053, 2.505, 63.17926)",
+          "velocity": "(2.542277, 7.2, -0.681199)",
+          "gap_m": 0.00284934043884
+        },
+        "441": {
+          "physics": 492,
+          "phase": "east_quay_seating_relay_second_landing",
+          "grinding": "false",
+          "air": "true",
+          "body": "(66.04291, 2.615556, 63.16791)",
+          "velocity": "(2.542277, 6.633333, -0.681199)",
+          "gap_m": 0.10099363327026
+        },
+        "442": {
+          "physics": 493,
+          "phase": "east_quay_seating_relay_second_landing",
+          "grinding": "false",
+          "air": "true",
+          "body": "(66.08528, 2.716667, 63.15656)",
+          "velocity": "(2.542277, 6.066667, -0.681199)",
+          "gap_m": 0.16529393196106
+        },
+        "443": {
+          "physics": 494,
+          "phase": "east_quay_seating_relay_second_landing",
+          "grinding": "false",
+          "air": "true",
+          "body": "(66.12766, 2.808334, 63.1452)",
+          "velocity": "(2.542277, 5.5, -0.681199)",
+          "gap_m": 0.23587512969971
+        }
+      }
+    },
+    "bank": {
+      "overlapping_native_ticks": [
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145
+      ],
+      "physical_tick_position_speed_exactly_match": true,
+      "before_min_wall_gap_m": -0.03039245605468,
+      "after_min_wall_gap_m": 0.0080062866211,
+      "after_model_clear_all_recorded": true,
+      "before": {
+        "134": {
+          "physics": 185,
+          "body": "(84.32046, 3.853984, 73.49999)",
+          "speed": 8.74564266204834,
+          "wall_gap_m": 0.05569763183594,
+          "model_clear": true
+        },
+        "135": {
+          "physics": 186,
+          "body": "(84.40575, 3.884414, 73.49998)",
+          "speed": 6.37364816665649,
+          "wall_gap_m": -0.02419738769531,
+          "model_clear": false
+        },
+        "136": {
+          "physics": 187,
+          "body": "(84.40575, 3.88308, 73.49998)",
+          "speed": 1.45500183105469,
+          "wall_gap_m": -0.02364807128906,
+          "model_clear": false
+        },
+        "137": {
+          "physics": 188,
+          "body": "(84.40568, 3.899813, 73.49998)",
+          "speed": 0.45449164509773,
+          "wall_gap_m": -0.03039245605468,
+          "model_clear": false
+        },
+        "138": {
+          "physics": 189,
+          "body": "(84.41145, 3.88388, 73.49998)",
+          "speed": 0.38947811722755,
+          "wall_gap_m": -0.0284927368164,
+          "model_clear": false
+        },
+        "139": {
+          "physics": 190,
+          "body": "(84.40342, 3.897701, 73.49998)",
+          "speed": -0.05051824450493,
+          "wall_gap_m": -0.02774505615234,
+          "model_clear": false
+        },
+        "140": {
+          "physics": 191,
+          "body": "(84.40223, 3.897089, 73.49998)",
+          "speed": -0.0802797973156,
+          "wall_gap_m": -0.02655487060547,
+          "model_clear": false
+        },
+        "141": {
+          "physics": 192,
+          "body": "(84.4006, 3.896253, 73.49998)",
+          "speed": -0.11006681621075,
+          "wall_gap_m": -0.02492218017578,
+          "model_clear": false
+        },
+        "142": {
+          "physics": 193,
+          "body": "(84.39853, 3.895191, 73.49998)",
+          "speed": -0.13946610689163,
+          "wall_gap_m": -0.02285461425781,
+          "model_clear": false
+        },
+        "143": {
+          "physics": 194,
+          "body": "(84.39603, 3.893906, 73.49998)",
+          "speed": -0.16877397894859,
+          "wall_gap_m": -0.02035217285156,
+          "model_clear": false
+        },
+        "144": {
+          "physics": 195,
+          "body": "(84.39309, 3.8924, 73.49998)",
+          "speed": -0.19806882739067,
+          "wall_gap_m": -0.01741485595703,
+          "model_clear": false
+        },
+        "145": {
+          "physics": 196,
+          "body": "(84.38972, 3.890671, 73.49998)",
+          "speed": -0.22737672924995,
+          "wall_gap_m": -0.01404266357422,
+          "model_clear": false
+        }
+      },
+      "after": {
+        "134": {
+          "physics": 185,
+          "body": "(84.32046, 3.853984, 73.49999)",
+          "speed": 8.74564266204834,
+          "wall_gap_m": 0.05569763183594,
+          "model_clear": true
+        },
+        "135": {
+          "physics": 186,
+          "body": "(84.40575, 3.884414, 73.49998)",
+          "speed": 6.37364816665649,
+          "wall_gap_m": 0.0080062866211,
+          "model_clear": true
+        },
+        "136": {
+          "physics": 187,
+          "body": "(84.40575, 3.88308, 73.49998)",
+          "speed": 1.45500183105469,
+          "wall_gap_m": 0.0080062866211,
+          "model_clear": true
+        },
+        "137": {
+          "physics": 188,
+          "body": "(84.40568, 3.899813, 73.49998)",
+          "speed": 0.45449164509773,
+          "wall_gap_m": 0.0080062866211,
+          "model_clear": true
+        },
+        "138": {
+          "physics": 189,
+          "body": "(84.41145, 3.88388, 73.49998)",
+          "speed": 0.38947811722755,
+          "wall_gap_m": 0.0080062866211,
+          "model_clear": true
+        },
+        "139": {
+          "physics": 190,
+          "body": "(84.40342, 3.897701, 73.49998)",
+          "speed": -0.05051824450493,
+          "wall_gap_m": 0.0080062866211,
+          "model_clear": true
+        },
+        "140": {
+          "physics": 191,
+          "body": "(84.40223, 3.897089, 73.49998)",
+          "speed": -0.0802797973156,
+          "wall_gap_m": 0.00919647216797,
+          "model_clear": true
+        },
+        "141": {
+          "physics": 192,
+          "body": "(84.4006, 3.896253, 73.49998)",
+          "speed": -0.11006681621075,
+          "wall_gap_m": 0.01082916259766,
+          "model_clear": true
+        },
+        "142": {
+          "physics": 193,
+          "body": "(84.39853, 3.895191, 73.49998)",
+          "speed": -0.13946610689163,
+          "wall_gap_m": 0.01289672851563,
+          "model_clear": true
+        },
+        "143": {
+          "physics": 194,
+          "body": "(84.39603, 3.893906, 73.49998)",
+          "speed": -0.16877397894859,
+          "wall_gap_m": 0.01539916992188,
+          "model_clear": true
+        },
+        "144": {
+          "physics": 195,
+          "body": "(84.39309, 3.8924, 73.49998)",
+          "speed": -0.19806882739067,
+          "wall_gap_m": 0.01833648681641,
+          "model_clear": true
+        },
+        "145": {
+          "physics": 196,
+          "body": "(84.38972, 3.890671, 73.49998)",
+          "speed": -0.22737672924995,
+          "wall_gap_m": 0.01063842773438,
+          "model_clear": true
+        }
+      }
+    }
+  },
+  "files": {
+    "motion-bank-diagnostic-before.log": "12c933f902f1aab07b2b8c9a678be209c77e3bad80449d37aff4f8281cb50dc0",
+    "motion_bank_diagnostic.gd.txt": "53ecd1570a969c8ffe0047c35077825303c9ad2faec1ebda5f708975a0488310",
+    "motion-relay-diagnostic-after.log": "4a12e04d19fc5952f00be04c596f999ebf5be1d4a189d317b167ab42ef06c82e",
+    "motion_relay_diagnostic.gd.txt": "321949fe530329fdcfaf69435157917a270be126ac6e8904859cdb5197115dc6",
+    "motion-relay-diagnostic-before.log": "4c9dc71e3bf8fb3a0b738504b676b3c04dfdd6f3991763b002190f2b39339a94",
+    "motion-bank-diagnostic-after.log": "e78dc8a6b92e0d151a50c0864d9fa5ed5dbf331160412889f4a281b9e869d14a"
+  }
+}

@@ -1,0 +1,178 @@
+extends RefCounted
+## Independent actual-input verification of fore/aft correction against the
+## drawn board's world endpoints. Does not reuse the production sign derivative.
+static var _observer:=Callable()
+static var _phase:=""
+static var _step:=0
+
+static func run(tree:SceneTree,game:Node,check:Callable,observer:Callable=Callable())->void:
+	var original_spawn:Vector3=game.skater.spawn_position
+	var original_free:bool=game.free_skate_mode
+	_observer=observer
+	_step=0
+	for selection:Dictionary in [
+		{"id":"manual","nose":false,"fakie":false},
+		{"id":"nose_manual","nose":true,"fakie":false},
+		{"id":"manual","nose":false,"fakie":true},
+		{"id":"nose_manual","nose":true,"fakie":true},
+		{"id":"pogo","action":"grab","direction":"south"},
+		{"id":"casper_manual","action":"flip","direction":"south"},
+		{"id":"manual_pivot","action":"revert","direction":"neutral"},
+		{"id":"nose_manual_pivot","action":"revert","direction":"north"},
+		{"id":"hang_ten","action":"grab","direction":"north"},
+		{"id":"one_foot_nose_manual","action":"flip","direction":"north"}]:
+		await _case(tree,game,check,selection)
+	_observer=Callable()
+	_phase=""
+	_release()
+	game.skater.spawn_position=original_spawn
+	game.start_mode(original_free)
+
+static func _case(tree:SceneTree,game:Node,check:Callable,selection:Dictionary)->void:
+	_phase=""
+	_release()
+	game.skater.spawn_position=game.world.get_spawn_position()
+	game.start_mode(true)
+	await _frames(tree,game,40)
+	Input.action_press("push")
+	await _frames(tree,game,40)
+	Input.action_release("push")
+	if selection.get("fakie",false):
+		# Real flat ollie, native landing and a real Revert create reverse travel.
+		Input.action_press("ollie")
+		await _frames(tree,game,2)
+		Input.action_release("ollie")
+		var saw_air:=false
+		for tick in 90:
+			await _frames(tree,game,1)
+			saw_air=saw_air or game.skater.airborne
+			if saw_air and game.skater.is_on_floor() and not game.skater.airborne:break
+		check.call(saw_air and game.skater.is_on_floor(),"fidelity controls: reverse case uses an actual native landing")
+		Input.action_press("revert")
+		await _frames(tree,game,1)
+		Input.action_release("revert")
+		await _frames(tree,game,1)
+		check.call(game.skater.speed< -2.0,"fidelity controls: actual Revert produces functional negative travel")
+	else:
+		# Let sustained pushing cease to be a fresh nose-manual modifier.
+		await _frames(tree,game,13)
+	if selection.get("nose",false):Input.action_press("push")
+	Input.action_press("manual")
+	await _frames(tree,game,1)
+	Input.action_release("push")
+	if selection.has("action"):
+		_direction(str(selection.direction))
+		Input.action_press(str(selection.action))
+		await _frames(tree,game,1)
+		Input.action_release(str(selection.action))
+		_direction("neutral")
+	await _frames(tree,game,24)
+	var rider:CharacterBody3D=game.skater
+	var label:String=str(selection.id)+(" fakie" if selection.get("fakie",false) else "")
+	check.call(rider.manual_active and rider.manual_trick_id==selection.id and rider.is_on_floor(),
+		"fidelity controls: %s is entered and supported by real mapped inputs"%label)
+	if not rider.manual_active or rider.manual_trick_id!=selection.id:return
+	check.call(rider.balance_axis()==&"fore_aft" and rider.balance_action(true)==&"push" and rider.balance_action(false)==&"brake",
+		"fidelity controls: %s publishes the effective forward/back axis"%label)
+	_phase="manual_real_sign_"+label.replace(" ","_")
+	var forward_before:=_leading_rise(rider)
+	var value_before:float=rider.balance_value()
+	var heading_before:float=rider.rotation.y
+	var speed_before:float=absf(rider.speed)
+	var body_before_forward:=_body_pose(rider)
+	Input.action_press("push")
+	await _frames(tree,game,6)
+	Input.action_release("push")
+	var forward_after:=_leading_rise(rider)
+	var forward_value:float=rider.balance_value()
+	var forward_speed_loss:=speed_before-absf(rider.speed)
+	var body_after_forward:=_body_pose(rider)
+	check.call(forward_after<forward_before-0.0001 and forward_value>value_before+0.08,
+		"fidelity controls: %s actual W input lowers the travel-leading board end and shifts balance forward"%label)
+	# Observe the connected torso's actual world axis, independent of its local
+	# Euler axes or the controller's sign helper. Pogo/Hang Ten turn the torso.
+	check.call(is_finite(float(body_before_forward.torso_axis_fore_aft)) and is_finite(float(body_after_forward.torso_axis_fore_aft))
+		and float(body_after_forward.torso_axis_fore_aft)>float(body_before_forward.torso_axis_fore_aft)+0.001,
+		"fidelity controls: %s actual W input leans the connected torso toward real travel"%label)
+	check.call(absf(angle_difference(heading_before,rider.rotation.y))<0.0005 and forward_speed_loss>=-0.02 and forward_speed_loss<0.20,
+		"fidelity controls: %s forward correction does not carve or accelerate"%label)
+	var backward_before:=_leading_rise(rider)
+	value_before=rider.balance_value()
+	speed_before=absf(rider.speed)
+	var body_before_back:=_body_pose(rider)
+	Input.action_press("brake")
+	await _frames(tree,game,6)
+	Input.action_release("brake")
+	var backward_after:=_leading_rise(rider)
+	var backward_value:float=rider.balance_value()
+	var backward_speed_loss:=speed_before-absf(rider.speed)
+	var body_after_back:=_body_pose(rider)
+	check.call(backward_after>backward_before+0.0001 and backward_value<value_before-0.08,
+		"fidelity controls: %s actual S input raises the travel-leading board end and shifts balance back"%label)
+	check.call(is_finite(float(body_before_back.torso_axis_fore_aft)) and is_finite(float(body_after_back.torso_axis_fore_aft))
+		and float(body_after_back.torso_axis_fore_aft)<float(body_before_back.torso_axis_fore_aft)-0.001,
+		"fidelity controls: %s actual S input leans the connected torso away from real travel"%label)
+	check.call(absf(angle_difference(heading_before,rider.rotation.y))<0.0005 and absf(backward_speed_loss-forward_speed_loss)<0.03,
+		"fidelity controls: %s backward correction retains the same coasting loss without braking or turning"%label)
+	var before_balance:float=rider.balance_value()
+	Input.action_press("steer_right")
+	await _frames(tree,game,6)
+	Input.action_release("steer_right")
+	var right_turn:=angle_difference(heading_before,rider.rotation.y)
+	var after_right:float=rider.rotation.y
+	check.call(absf(right_turn)>0.002 and absf(rider.balance_value()-before_balance)<0.08,
+		"fidelity controls: %s D steers independently without substituting for balance"%label)
+	Input.action_press("steer_left")
+	await _frames(tree,game,6)
+	Input.action_release("steer_left")
+	var left_turn:=angle_difference(after_right,rider.rotation.y)
+	check.call(left_turn*right_turn<0.0 and rider.manual_active and not rider.bail_active,
+		"fidelity controls: %s A turns the opposite way while the native manual remains live"%label)
+	print("FIDELITY_MANUAL_WORLD_SIGN ",JSON.stringify({"case":label,"manual_id":rider.manual_trick_id,"speed":rider.speed,
+		"forward_leading_rise_before":forward_before,"forward_leading_rise_after":forward_after,"forward_value":forward_value,
+		"back_leading_rise_before":backward_before,"back_leading_rise_after":backward_after,"back_value":backward_value,
+		"forward_speed_loss":forward_speed_loss,"back_speed_loss":backward_speed_loss,"right_turn":right_turn,"left_turn":left_turn,
+		"body_before_forward":body_before_forward,"body_after_forward":body_after_forward,
+		"body_before_back":body_before_back,"body_after_back":body_after_back}))
+	_phase=""
+
+static func _body_pose(rider:CharacterBody3D)->Dictionary:
+	# Observation only: this does not award biomechanical/visual acceptance from
+	# axis names. In particular Pogo/HangTen rotate the connected upper body.
+	var rig:RefCounted=rider._visual_rig
+	var travel:Vector3=rider.get_real_velocity().slide(Vector3.UP).normalized()
+	var lateral:=travel.cross(Vector3.UP).normalized()
+	var feet:Vector3=(rig._legs[0].foot.global_position+rig._legs[1].foot.global_position)*0.5
+	var hips:Transform3D=rig._garments.skeleton.global_transform \
+		* rig._garments.skeleton.get_bone_global_pose(int(rig._garments._bones.hips))
+	var torso_up:Vector3=rig._upper.global_basis.y.normalized()
+	return {"torso_axis_fore_aft":torso_up.dot(travel),"torso_axis_lateral":torso_up.dot(lateral),
+		"torso_offset_fore_aft_m":(rig._upper.global_position-feet).dot(travel),
+		"pelvis_offset_fore_aft_m":(hips.origin-feet).dot(travel)}
+
+static func _leading_rise(rider:CharacterBody3D)->float:
+	var board:Node3D=rider._board_visual
+	# Observe the actual drawn board frame, independent of the controller's
+	# sign implementation. End difference cancels whole-board contact offsets.
+	var nose:Vector3=board.to_global(Vector3(0,0,-0.43))
+	var tail:Vector3=board.to_global(Vector3(0,0,0.43))
+	var travel:Vector3=rider.get_real_velocity().slide(Vector3.UP).normalized()
+	return (nose-tail).dot(rider.get_floor_normal())*signf((nose-tail).dot(travel))
+
+static func _frames(tree:SceneTree,game:Node,count:int)->void:
+	for tick in count:
+		await tree.physics_frame
+		await tree.process_frame
+		await tree.create_timer(0.0,true).timeout
+		if _observer.is_valid() and not _phase.is_empty():
+			await _observer.call(_phase,game,_step)
+			_step+=1
+
+static func _direction(direction:String)->void:
+	for action:String in ["push","brake","steer_left","steer_right"]:Input.action_release(action)
+	if direction=="north":Input.action_press("push")
+	elif direction=="south":Input.action_press("brake")
+	elif direction=="east":Input.action_press("steer_right")
+
+static func _release()->void:
+	for action in InputMap.get_actions():Input.action_release(action)

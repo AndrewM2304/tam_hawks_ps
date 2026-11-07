@@ -1,0 +1,715 @@
+--- a/game/levels/art/facade_kit.gd
++++ b/game/levels/art/facade_kit.gd
+@@ -4,6 +4,7 @@
+ 
+ const SHOP_NAMES: Array[String] = ["CLOSE COFFEE", "CLYDE VINYL", "NORTHSIDE BOOKS", "THE WEE PIE CO."]
+ const SHOP_PAINT: Array[String] = ["shop_green", "shop_burgundy", "shop_navy", "shop_umber"]
++const FacadeShell = preload("res://game/levels/art/facade_shell.gd")
+ const FacadeBay = preload("res://game/levels/art/facade_bay.gd")
+ 
+ 
+@@ -12,7 +13,7 @@
+ 	var seed_value := absi(int(building.global_position.x * 7.0 + building.global_position.z * 11.0))
+ 	var batches: Dictionary = {}
+ 	var facade_stone := "warehouse_brick" if style == "market" else stone
+-	_recolor_wall(art, building, facade_stone)
++	var recessed := _recolor_wall(art, building, facade_stone, width, height, style, shop)
+ 	art._batch_box(batches, "slate", Vector3(width, 0.55, 0.18), Vector3(0, 0.275, 6.08))
+ 	var bay_spacing := 3.6 if style == "civic" else (4.2 if style == "market" else 3.25)
+ 	var columns := maxi(3, int(width / bay_spacing))
+@@ -25,7 +26,7 @@
+ 			art._batch_box(batches, "cut_stone", Vector3(width, 0.13, 0.25), Vector3(0, y - 1.43, 6.1))
+ 		for column: int in range(columns):
+ 			var x := (float(column) - float(columns - 1) / 2.0) * actual_spacing
+-			var projection := 0.22 if style == "retail" and column % 3 == 1 else 0.0
++			var projection := 0.0
+ 			var opening_width := 1.8 if style in ["market", "station"] else 1.45
+ 			var opening_height := 1.8 if row == floors - 1 else 2.1
+ 			# Remove complete crossing groups, including their sill/pediment.
+@@ -35,7 +36,7 @@
+ 				var report: Dictionary = building.get_meta(FacadeBay.REPORT)
+ 				report.omitted_window_groups += 1
+ 				continue
+-			_window(art, batches, x, y, opening_width, opening_height, projection, style, (seed_value + column + row * 3) % 5)
++			_window(art, batches, x, y, opening_width, opening_height, projection, style, (seed_value + column + row * 3) % 5, recessed)
+ 			if style == "civic" and column % 3 == 0:
+ 				art._batch_box(batches, "cut_stone", Vector3(0.3, 3.05, 0.27), Vector3(x - actual_spacing * 0.5, y, 6.16))
+ 			if row == 0 and (column + seed_value) % 3 == 0 and style == "retail":
+@@ -53,11 +54,11 @@
+ 		_shops(art, building, batches, width, style, shop, seed_value)
+ 	FacadeBay.filter_front(batches, building)
+ 	_roof(art, building, batches, width, height, facade_stone, style, seed_value)
+-	_return_windows(art, batches, width, floors, style)
++	_return_windows(art, batches, width, floors, style, recessed)
+ 	art._flush_batches(building, batches)
+ 
+ 
+-static func _return_windows(art: Node3D, batches: Dictionary, width: float, floors: int, style: String) -> void:
++static func _return_windows(art: Node3D, batches: Dictionary, width: float, floors: int, style: String, recessed: bool) -> void:
+ 	# Exposed ends face the linked streets. Reuse the facade's existing batches
+ 	# so a side elevation is an authored return rather than a blank giant box.
+ 	for side: float in [-1.0, 1.0]:
+@@ -65,7 +66,7 @@
+ 		for floor_index: int in range(floors):
+ 			for column: int in range(3):
+ 				_window(art, local_batches, float(column - 1) * 3.2,
+-					5.25 + floor_index * 3.2, 1.3, 1.9, 0, style, (column + floor_index) % 5)
++					5.25 + floor_index * 3.2, 1.3, 1.9, 0, style, (column + floor_index) % 5, recessed)
+ 		var transform := Transform3D(Basis(Vector3.UP, side * PI / 2.0), Vector3(side * (width / 2.0 - 6.0), 0, 0))
+ 		for key: String in local_batches:
+ 			if not batches.has(key):
+@@ -84,37 +85,100 @@
+ 	return "retail"
+ 
+ 
+-static func _recolor_wall(art: Node3D, building: Node3D, material_key: String) -> void:
++static func _recolor_wall(art: Node3D, building: Node3D, material_key: String,
++		width: float, height: float, style: String, shop: String) -> bool:
++	var recessed := false
+ 	for child: Node in building.get_children():
+ 		if child.get_meta("art_label", "") == "Facade":
+ 			for geometry: Node in child.get_children():
+-				if geometry is MeshInstance3D:
+-					geometry.material_override = art.materials[material_key]
++				if not geometry is MeshInstance3D:
++					continue
++				geometry.material_override = art.materials[material_key]
++				# Arcade depth is changed by the world after this helper. Marked
++				# skyline masses are extended by HorizonBackground after dressing.
++				# Preserve both exact BoxMesh contracts and the separate fitted pilot.
++				if not geometry.mesh is BoxMesh or shop == "EXCHANGE ARCADE" \
++					or bool(geometry.get_meta("horizon_frontage", false)) \
++					or bool(building.get_meta(FacadeBay.META, false)):
++					continue
++				var box := geometry.mesh as BoxMesh
++				var local_frame: Transform3D = building.global_transform.affine_inverse() * geometry.global_transform
++				# Construction owns an axis-aligned, unit-scale native wall. Refuse
++				# unrelated geometry rather than carve an assumed transformed mass.
++				if not local_frame.basis.is_equal_approx(Basis.IDENTITY):
++					continue
++				var opening_rows := maxi(2, int((height - 4.25) / 3.2))
++				var spacing := 3.6 if style == "civic" else (4.2 if style == "market" else 3.25)
++				var columns := maxi(3, int(width / spacing))
++				var actual_spacing := (width - 1.6) / float(columns)
++				var front: Array[Rect2] = []
++				var sides: Array[Rect2] = []
++				for row: int in range(opening_rows):
++					var y := 5.25 + row * 3.2 - local_frame.origin.y
++					var opening_width := 1.8 if style in ["market", "station"] else 1.45
++					var opening_height := 1.8 if row == opening_rows - 1 else 2.1
++					for column: int in range(columns):
++						var x := (float(column) - float(columns - 1) / 2.0) * actual_spacing - local_frame.origin.x
++						front.append(Rect2(x - opening_width / 2.0, y - opening_height / 2.0, opening_width, opening_height))
++					for column: int in range(3):
++						var z := float(column - 1) * 3.2 - local_frame.origin.z
++						sides.append(Rect2(z - 0.65, y - 0.95, 1.3, 1.9))
++				geometry.mesh = FacadeShell.make(box.size, front, sides)
++				geometry.set_meta("architectural_recess_shell", true)
++				recessed = true
+ 		elif child is MeshInstance3D and child.mesh is BoxMesh and child.position.y > 4.0:
+ 			child.material_override = art.materials[material_key]
++	return recessed
+ 
+ 
+ static func _window(art: Node3D, batches: Dictionary, x: float, y: float, width: float, height: float,
+-		projection: float, style: String, variation: int) -> void:
+-	var z := 6.0 + projection
+-	art._batch_box(batches, "window_shadow", Vector3(width + 0.5, height + 0.42, 0.14 + projection), Vector3(x, y, 6.04 + projection / 2.0))
++		projection: float, style: String, variation: int, recessed: bool = false) -> void:
++	var wall := 6.0 + projection
++	var pane_z := wall - FacadeShell.RECESS_DEPTH if recessed else wall + 0.035
++	var frame_z := pane_z + 0.055
++	var frame := "iron" if style == "market" else "window_frame"
+ 	var pane := "window_lit" if variation == 2 else ("window_dull" if variation == 4 else "facade_glass")
+-	art._batch_box(batches, pane, Vector3(width, height, 0.04), Vector3(x, y, z + 0.13))
+-	var frame := "iron" if style == "market" else "window_frame"
+-	for side: float in [-1.0, 1.0]:
+-		art._batch_box(batches, "cut_stone", Vector3(0.17, height + 0.42, 0.3), Vector3(x + side * (width / 2.0 + 0.18), y, z + 0.2))
+-		art._batch_box(batches, frame, Vector3(0.055, height, 0.09), Vector3(x + side * width / 2.0, y, z + 0.19))
+-	art._batch_box(batches, frame, Vector3(0.06, height, 0.09), Vector3(x, y, z + 0.19))
+-	art._batch_box(batches, frame, Vector3(width, 0.07, 0.09), Vector3(x, y + 0.1, z + 0.19))
+-	if style in ["market", "station"]:
+-		art._batch_box(batches, frame, Vector3(width, 0.04, 0.09), Vector3(x, y - 0.5, z + 0.19))
+-		art._batch_box(batches, frame, Vector3(width, 0.04, 0.09), Vector3(x, y + 0.65, z + 0.19))
+-	art._batch_box(batches, "cut_stone", Vector3(width + 0.6, 0.18, 0.48), Vector3(x, y - height / 2.0 - 0.15, z + 0.26))
+-	art._batch_box(batches, "cut_stone", Vector3(width + 0.48, 0.22, 0.3), Vector3(x, y + height / 2.0 + 0.13, z + 0.2))
++	# The opaque pane closes the actual aperture. Stone reveals meet the wall,
++	# rather than an oversized black plate floating in front of the sandstone.
++	art._batch_box(batches, pane, Vector3(width, height, 0.025), Vector3(x, y, pane_z))
++	var reveal_depth := maxf(0.12, wall + 0.07 - pane_z)
++	for side: float in [-1.0, 1.0]:
++		art._batch_box(batches, "cut_stone", Vector3(0.13, height + 0.18, reveal_depth),
++			Vector3(x + side * (width / 2.0 + 0.065), y, wall + 0.07 - reveal_depth / 2.0))
++		# Separate timber sash stile and deep dressed-stone reveal.
++		art._batch_box(batches, frame, Vector3(0.065, height, 0.08), Vector3(x + side * (width / 2.0 - 0.035), y, frame_z))
++	for edge: float in [-1.0, 1.0]:
++		art._batch_box(batches, frame, Vector3(width, 0.085, 0.09), Vector3(x, y + edge * (height / 2.0 - 0.04), frame_z))
++	# A traditional sash meeting rail with a deeper bottom rail. Retail/civic
++	# panes avoid the thick repeated white cross; warehouse openings keep fine
++	# vertical iron glazing bars and three genuinely distinct lights.
++	art._batch_box(batches, frame, Vector3(width, 0.055, 0.095), Vector3(x, y + 0.08, frame_z + 0.01))
++	if style in ["station", "market"]:
++		for split: float in [-1.0, 1.0]:
++			art._batch_box(batches, frame, Vector3(0.025, height, 0.065), Vector3(x + split * width / 6.0, y, frame_z))
++	else:
++		art._batch_box(batches, frame, Vector3(0.028, height * 0.48, 0.065),
++			Vector3(x, y + height * 0.25, frame_z))
++	# Full-depth head and a sloped sill have a legible stone profile and drip.
++	var head_depth := reveal_depth + 0.13
++	art._batch_box(batches, "cut_stone", Vector3(width + 0.40, 0.16, head_depth),
++		Vector3(x, y + height / 2.0 + 0.08, wall + 0.20 - head_depth / 2.0))
++	if recessed:
++		art._batch_box(batches, "cut_stone", Vector3(width + 0.48, 0.065, 0.29),
++			Vector3(x, y + height / 2.0 + 0.1925, wall + 0.11))
++	# The sloped sill IS the lower reveal: its rear upper edge meets the
++	# aperture exactly, and falls toward the outside instead of leaving a gap.
++	var sill_depth := wall + 0.38 - pane_z
++	var sill_drop := 0.06 * cos(0.08) + sill_depth / 2.0 * sin(0.08)
++	art._batch_box(batches, "cut_stone", Vector3(width + 0.48, 0.12, sill_depth),
++		Vector3(x, y - height / 2.0 - sill_drop, pane_z + sill_depth / 2.0), Basis.from_euler(Vector3(0.08, 0, 0)))
++	if recessed:
++		art._batch_box(batches, "cut_stone", Vector3(width + 0.38, 0.055, 0.10),
++			Vector3(x, y - height / 2.0 - 0.1775, wall + 0.23))
+ 	if variation == 4:
+-		art._batch_box(batches, "curtain", Vector3(width * 0.3, height - 0.1, 0.015), Vector3(x - width * 0.32, y, z + 0.16))
+-	elif variation == 1:
+-		art._batch_box(batches, "window_reflection", Vector3(width * 0.32, height - 0.1, 0.015), Vector3(x + width * 0.28, y, z + 0.16))
++		# Curtain is behind the sash and wholly inside its aperture.
++		art._batch_box(batches, "curtain", Vector3(width * 0.23, height - 0.12, 0.015),
++			Vector3(x - width * 0.35, y, pane_z + 0.024))
+ 
+ 
+ static func _shops(art: Node3D, building: Node3D, batches: Dictionary, width: float, style: String,
+@@ -127,7 +191,6 @@
+ 		if fitted and bay == 1:
+ 			var report: Dictionary = building.get_meta(FacadeBay.REPORT)
+ 			report.omitted_shop_bays += 1
+-			# Keep the same original composite shop identity once on the new fascia.
+ 			var fitted_name: String = SHOP_NAMES[(seed_value + bay) % 4]
+ 			art._label(building, fitted_name, Vector3(FacadeBay.MOUNT.x,3.25,6.40),30,0.014)
+ 			continue
+@@ -137,56 +200,175 @@
+ 		var display_width := bay_width - 1.75
+ 		var display_x := left + display_width / 2.0
+ 		var door_x := x + bay_width / 2.0 - 0.83
+-		# The shallow lit display sits in front of the opaque collision facade;
+-		# a clear outer pane and projecting frame create actual 0.5m depth.
+-		art._batch_box(batches, "window_shadow", Vector3(bay_width - 0.2, 2.9, 0.08), Vector3(x, 1.8, 6.05))
+-		art._batch_box(batches, "interior_plaster", Vector3(display_width - 0.1, 2.2, 0.04), Vector3(display_x, 1.8, 6.12))
+-		art._batch_box(batches, "wood", Vector3(display_width - 0.1, 0.17, 0.4), Vector3(display_x, 1.18, 6.35))
+-		art._batch_box(batches, paint, Vector3(bay_width - 0.15, 0.63, 0.46), Vector3(x, 3.25, 6.3))
+-		art._batch_box(batches, "brass", Vector3(bay_width - 0.3, 0.035, 0.035), Vector3(x, 3.48, 6.55))
+-		art._batch_box(batches, paint, Vector3(display_width + 0.14, 0.55, 0.4), Vector3(display_x, 0.6, 6.32))
++		# The display remains entirely behind the original outer glazing plane.
++		# A restrained dark reveal and warm rear wall preserve real 0.46m depth.
++		art._batch_box(batches, "window_shadow", Vector3(bay_width - 0.2, 2.9, 0.05), Vector3(x, 1.8, 6.035))
++		art._batch_box(batches, "interior_plaster", Vector3(display_width - 0.1, 2.2, 0.035), Vector3(display_x, 1.8, 6.10))
++		art._batch_box(batches, "wood", Vector3(display_width - 0.1, 0.10, 0.39), Vector3(display_x, 1.18, 6.33))
++		# Fascia and cornice are constructed courses, not one oversized block.
++		art._batch_box(batches, paint, Vector3(bay_width - 0.15, 0.49, 0.25), Vector3(x, 3.25, 6.33))
++		art._batch_box(batches, paint, Vector3(bay_width - 0.10, 0.065, 0.38), Vector3(x, 3.545, 6.37))
++		art._batch_box(batches, "brass", Vector3(bay_width - 0.30, 0.025, 0.025), Vector3(x, 3.48, 6.515))
++		art._batch_box(batches, paint, Vector3(bay_width - 0.20, 0.07, 0.30), Vector3(x, 2.97, 6.36))
++		art._batch_box(batches, paint, Vector3(display_width + 0.14, 0.55, 0.25), Vector3(display_x, 0.6, 6.32))
++		# A recessed kick-panel and fine raised border make the base read as timber.
++		art._batch_box(batches, "window_shadow", Vector3(display_width - 0.28, 0.31, 0.012), Vector3(display_x, 0.61, 6.453))
++		art._batch_box(batches, paint, Vector3(display_width - 0.34, 0.25, 0.012), Vector3(display_x, 0.61, 6.466))
++		art._batch_box(batches, paint, Vector3(display_width + 0.22, 0.065, 0.40), Vector3(display_x, 0.91, 6.35))
+ 		for edge: float in [left - 0.1, left + display_width + 0.11, x + bay_width / 2.0 - 0.03]:
+-			art._batch_box(batches, paint, Vector3(0.2, 3.1, 0.55), Vector3(edge, 1.75, 6.3))
++			_shop_pilaster(art, batches, edge, paint)
+ 		if fitted and bay == 2:
+-			# The 6.5m fitted bay removes this neighbour's old left jamb.
+-			# Close the retained glass/shelf edge using its existing paint batch.
+ 			art._batch_box(batches, paint, Vector3(0.12, 3.1, 0.66), Vector3(FacadeBay.STRIP.y + 0.06, 1.75, 6.31))
+-		# Different shop objects make each frontage legible without an interior level.
+-		_display(art, batches, display_x, display_width, variant)
++		_display(art, batches, display_x, display_width, variant, style)
+ 		art._batch_box(batches, "shop_glass", Vector3(display_width - 0.1, 2.1, 0.025), Vector3(display_x, 1.9, 6.58))
+-		art._batch_box(batches, paint, Vector3(1.05, 2.55, 0.17), Vector3(door_x, 1.62, 6.19))
+-		art._batch_box(batches, "facade_glass", Vector3(0.79, 1.4, 0.035), Vector3(door_x, 2.0, 6.3))
+-		art._batch_box(batches, "brass", Vector3(0.035, 0.32, 0.05), Vector3(door_x + 0.34, 1.48, 6.33))
+-		art._batch_box(batches, "cut_stone", Vector3(1.2, 0.13, 0.52), Vector3(door_x, 0.26, 6.3))
+-		art._batch_box(batches, paint, Vector3(display_width, 0.07, 0.1), Vector3(display_x, 2.45, 6.63))
++		# Fine glazing beads at the actual glass edge; lower opening stays clear.
++		for side: float in [-1.0, 1.0]:
++			art._batch_box(batches, paint, Vector3(0.035, 2.10, 0.065), Vector3(display_x + side * (display_width / 2.0 - 0.055), 1.9, 6.59))
++		art._batch_box(batches, paint, Vector3(display_width, 0.045, 0.075), Vector3(display_x, 2.53, 6.60))
++		_door(art, batches, door_x, paint)
+ 		var sign_text: String = SHOP_NAMES[variant]
+ 		if style == "market":
+ 			sign_text = ["RECORDS & REPAIRS", "SECOND HAND", "MARKET BOOKS", "THE OLD WORKSHOP"][variant]
+ 		if bay == 0 and not shop.is_empty() and shop.length() < 22:
+ 			sign_text = shop
+ 		var pixel_size: float = minf(0.014, (bay_width - 0.75) / (float(sign_text.length()) * 18.0))
+-		art._label(building, sign_text, Vector3(x, 3.25, 6.66), 30, pixel_size)
++		art._label(building, sign_text, Vector3(x, 3.25, 6.52), 30, pixel_size)
+ 		if variant == 0 or style == "market":
+ 			art._batch_box(batches, paint, Vector3(bay_width - 0.1, 0.055, 1.1), Vector3(x, 3.77, 6.83), Basis.from_euler(Vector3(0.17, 0, 0)))
+ 
+ 
+-static func _display(art: Node3D, batches: Dictionary, x: float, width: float, variant: int) -> void:
+-	if variant in [1, 2]:
+-		for shelf_y: float in [1.4, 2.0]:
+-			art._batch_box(batches, "wood", Vector3(width - 0.2, 0.07, 0.22), Vector3(x, shelf_y, 6.37))
+-			for index: int in range(maxi(4, int(width / 0.28))):
+-				var book_x := x - width / 2.0 + 0.2 + float(index) * 0.26
+-				var color: String = ["shop_burgundy", "cream", "shop_green", "shop_umber"][index % 4]
+-				art._batch_box(batches, color, Vector3(0.19, 0.35 + float(index % 3) * 0.045, 0.12), Vector3(book_x, shelf_y + 0.23, 6.4))
++static func _shop_pilaster(art: Node3D, batches: Dictionary, x: float, paint: String) -> void:
++	art._batch_box(batches, paint, Vector3(0.17, 2.62, 0.38), Vector3(x, 1.76, 6.30))
++	art._batch_box(batches, paint, Vector3(0.25, 0.27, 0.47), Vector3(x, 0.47, 6.33))
++	art._batch_box(batches, paint, Vector3(0.24, 0.095, 0.47), Vector3(x, 2.99, 6.33))
++	art._batch_box(batches, paint, Vector3(0.28, 0.055, 0.52), Vector3(x, 3.065, 6.35))
++
++
++static func _door(art: Node3D, batches: Dictionary, x: float, paint: String) -> void:
++	# Door leaf sits 0.25m behind the shop's outer moulding, with separate
++	# stiles, rails and a panel. All leaf centres remain within the existing
++	# west-door lift filter's X±0.45/Z>6.15 envelope.
++	art._batch_box(batches, "window_shadow", Vector3(1.05, 2.55, 0.045), Vector3(x, 1.62, 6.16))
++	for side: float in [-1.0, 1.0]:
++		art._batch_box(batches, paint, Vector3(0.10, 2.55, 0.12), Vector3(x + side * 0.44, 1.62, 6.23))
++	for rail: Vector2 in [Vector2(0.40,0.11), Vector2(1.26,0.12), Vector2(2.82,0.14)]:
++		art._batch_box(batches, paint, Vector3(0.98, rail.y, 0.12), Vector3(x, rail.x, 6.23))
++	art._batch_box(batches, "facade_glass", Vector3(0.79, 1.42, 0.025), Vector3(x, 2.04, 6.23))
++	art._batch_box(batches, paint, Vector3(0.79, 0.69, 0.045), Vector3(x, 0.83, 6.21))
++	for side: float in [-1.0, 1.0]:
++		art._batch_box(batches, paint, Vector3(0.035, 0.62, 0.03), Vector3(x + side * 0.34, 0.83, 6.25))
++		art._batch_box(batches, paint, Vector3(0.70, 0.035, 0.03), Vector3(x, 0.83 + side * 0.29, 6.25))
++	art._batch_box(batches, "brass", Vector3(0.035, 0.32, 0.05), Vector3(x + 0.34, 1.48, 6.33))
++	art._batch_box(batches, "brass", Vector3(0.09, 0.38, 0.018), Vector3(x + 0.34, 1.48, 6.29))
++	art._batch_box(batches, "cut_stone", Vector3(1.2, 0.13, 0.52), Vector3(x, 0.26, 6.3))
++
++
++static func _display(art: Node3D, batches: Dictionary, x: float, width: float, variant: int, style: String = "retail") -> void:
++	if style == "market" and variant == 3:
++		_workshop_display(art, batches, x, width)
++	elif variant == 1 or (style == "market" and variant == 0):
++		_record_display(art, batches, x, width)
++	elif variant == 2:
++		_book_display(art, batches, x, width)
+ 	elif variant == 0:
+-		for side: float in [-1.0, 1.0]:
+-			art._batch_box(batches, "cream", Vector3(0.4, 0.22, 0.22), Vector3(x + side * width * 0.25, 1.37, 6.4))
+-			art._batch_box(batches, "iron", Vector3(0.035, 0.7, 0.035), Vector3(x + side * width * 0.25, 2.65, 6.3))
+-			art._batch_box(batches, "window_lit", Vector3(0.42, 0.12, 0.22), Vector3(x + side * width * 0.25, 2.32, 6.3))
++		_cafe_display(art, batches, x, width)
+ 	else:
+-		for index: int in range(4):
+-			art._batch_box(batches, "shop_umber", Vector3(0.45, 0.25, 0.2), Vector3(x - 0.95 + index * 0.63, 1.39, 6.4))
+-		art._batch_box(batches, "cream", Vector3(width * 0.7, 0.4, 0.02), Vector3(x, 2.13, 6.17))
++		_bakery_display(art, batches, x, width)
++
++
++static func _disc(art: Node3D, batches: Dictionary, material: String, radius: float,
++		depth: float, at: Vector3, vertical: bool = false) -> void:
++	art._batch_cylinder(batches, material, radius, depth, at)
++	if vertical:
++		var frames: Array = batches["cylinder:" + material].transforms
++		var frame: Transform3D = frames[-1]
++		frame.basis = Basis(Vector3.RIGHT, PI / 2.0) * frame.basis
++		frames[-1] = frame
++
++
++static func _record_display(art: Node3D, batches: Dictionary, x: float, width: float) -> void:
++	var count := clampi(int(width / 0.62), 3, 4)
++	var spacing := (width - 0.5) / float(count)
++	for shelf_y: float in [1.35, 1.97]:
++		art._batch_box(batches, "wood", Vector3(width - 0.2, 0.055, 0.25), Vector3(x, shelf_y, 6.35))
++		for index: int in range(count):
++			var record_x := x + (float(index) - float(count - 1) / 2.0) * spacing
++			var paper: String = ["shop_burgundy", "cream", "shop_green", "shop_umber"][index % 4]
++			var tilt := -0.035 if index % 2 == 0 else 0.025
++			art._batch_box(batches, paper, Vector3(0.34, 0.34, 0.025), Vector3(record_x, shelf_y + 0.20, 6.27), Basis.from_euler(Vector3(0,0,tilt)))
++			if index == 1:
++				_disc(art, batches, "iron", 0.147, 0.016, Vector3(record_x + 0.055, shelf_y + 0.20, 6.31), true)
++				_disc(art, batches, "cream", 0.035, 0.018, Vector3(record_x + 0.055, shelf_y + 0.20, 6.325), true)
++			else:
++				# Original abstract sleeve composition, without copied album art.
++				art._batch_box(batches, "cream", Vector3(0.23, 0.014, 0.012), Vector3(record_x, shelf_y + 0.30, 6.29))
++				art._batch_box(batches, "iron", Vector3(0.11, 0.17, 0.012), Vector3(record_x + 0.055, shelf_y + 0.19, 6.29))
++
++
++static func _book_display(art: Node3D, batches: Dictionary, x: float, width: float) -> void:
++	var count := clampi(int(width / 0.23), 5, 12)
++	var spacing := (width - 0.45) / float(count)
++	for shelf_y: float in [1.35, 1.98]:
++		art._batch_box(batches, "wood", Vector3(width - 0.2, 0.045, 0.24), Vector3(x, shelf_y, 6.35))
++		for index: int in range(count):
++			var book_x := x + (float(index) - float(count - 1) / 2.0) * spacing
++			var book_height := 0.30 + float((index * 3 + 1) % 5) * 0.032
++			var color: String = ["shop_burgundy", "cream", "shop_green", "shop_umber", "shop_navy"][index % 5]
++			var lean := -0.12 if index == count - 1 else (0.08 if index == 0 else 0.0)
++			var frame := Basis.from_euler(Vector3(0,0,lean))
++			art._batch_box(batches, color, Vector3(spacing * 0.70, book_height, 0.14), Vector3(book_x, shelf_y + book_height / 2.0 + 0.025, 6.36), frame)
++			if index % 3 == 0:
++				art._batch_box(batches, "brass", Vector3(spacing * 0.50, 0.014, 0.012), Vector3(book_x, shelf_y + book_height * 0.75, 6.438), frame)
++
++
++static func _cup(art: Node3D, batches: Dictionary, x: float, y: float, z: float) -> void:
++	_disc(art, batches, "cream", 0.075, 0.15, Vector3(x,y,z))
++	_disc(art, batches, "shop_umber", 0.061, 0.008, Vector3(x,y+0.075,z))
++	_disc(art, batches, "cream", 0.11, 0.014, Vector3(x,y-0.076,z))
++	# A finite open handle, not a detached decorative solid.
++	for sign_value: float in [-1.0, 1.0]:
++		art._batch_box(batches, "cream", Vector3(0.055,0.018,0.025), Vector3(x+0.085,y+sign_value*0.044,z))
++	art._batch_box(batches, "cream", Vector3(0.018,0.088,0.025), Vector3(x+0.111,y,z))
++
++
++static func _cafe_display(art: Node3D, batches: Dictionary, x: float, width: float) -> void:
++	# One lived-in place setting and one hanging light avoid a repeated catalogue
++	# of identical cups. All objects stay inside the existing display recess.
++	_cup(art, batches, x - minf(width*0.20,0.7), 1.31, 6.34)
++	art._batch_box(batches, "iron", Vector3(0.016,0.60,0.016), Vector3(x,2.68,6.30))
++	_disc(art, batches, "iron", 0.19, 0.11, Vector3(x,2.34,6.30))
++	art._batch_box(batches, "window_lit", Vector3(0.25,0.015,0.20), Vector3(x,2.28,6.30))
++	var menu_x := x + minf(width*0.22,0.65)
++	art._batch_box(batches, "iron", Vector3(0.42,0.58,0.035), Vector3(menu_x,1.52,6.30), Basis.from_euler(Vector3(0.10,0,0)))
++	for row: int in range(4):
++		art._batch_box(batches, "cream", Vector3(0.25-float(row%2)*0.05,0.012,0.012), Vector3(menu_x,1.68-float(row)*0.09,6.35))
++
++
++static func _bakery_display(art: Node3D, batches: Dictionary, x: float, width: float) -> void:
++	var count := 3
++	art._batch_box(batches, "wood", Vector3(width-0.25,0.055,0.28), Vector3(x,1.30,6.34))
++	for index: int in range(count):
++		var pie_x := x + (float(index) - float(count-1) / 2.0) * (width-0.45) / float(count)
++		_disc(art, batches, "cream", 0.17, 0.015, Vector3(pie_x,1.34,6.34))
++		_disc(art, batches, "sandstone", 0.135, 0.085, Vector3(pie_x,1.39,6.34))
++		for slash: float in [-1.0,0.0,1.0]:
++			art._batch_box(batches, "shop_umber", Vector3(0.012,0.007,0.08), Vector3(pie_x+slash*0.055,1.435,6.34), Basis.from_euler(Vector3(0,0.45,0)))
++	art._batch_box(batches, "cream", Vector3(width*0.55,0.40,0.025), Vector3(x,2.12,6.15))
++	for row: int in range(3):
++		art._batch_box(batches, "shop_umber", Vector3(width*0.36,0.018,0.012), Vector3(x,2.23-row*0.10,6.17))
++
++
++static func _workshop_display(art: Node3D, batches: Dictionary, x: float, width: float) -> void:
++	art._batch_box(batches, "wood", Vector3(width-0.2,0.08,0.28), Vector3(x,1.35,6.34))
++	# Repair-radio cases have inset faces, a speaker grille and paired knobs.
++	for side: float in [-1.0,1.0]:
++		var at_x := x + side * minf(width*0.24,0.65)
++		art._batch_box(batches, "shop_umber", Vector3(0.47,0.28,0.19), Vector3(at_x,1.53,6.32))
++		art._batch_box(batches, "iron", Vector3(0.29,0.19,0.012), Vector3(at_x-0.05,1.53,6.424))
++		for row: int in range(4):
++			art._batch_box(batches, "brass", Vector3(0.25,0.008,0.012), Vector3(at_x-0.05,1.47+row*0.04,6.433))
++		for knob_y: float in [1.46,1.60]:
++			_disc(art, batches, "iron", 0.025, 0.018, Vector3(at_x+0.16,knob_y,6.43), true)
+ 
+ 
+ static func _civic_ground(art: Node3D, building: Node3D, batches: Dictionary, width: float) -> void:
+--- /dev/null
++++ b/game/levels/art/facade_shell.gd
+@@ -0,0 +1,81 @@
++extends RefCounted
++## Original finite wall shell with real recessed upper openings. Startup only.
++## The complete native body/shape remains owned by the world.
++
++const RECESS_DEPTH := 0.22
++static var _meshes: Dictionary = {}
++
++
++static func make(size: Vector3, local_front: Array[Rect2], local_sides: Array[Rect2], local_back: Array[Rect2] = []) -> ArrayMesh:
++	var key: Array = [size, local_front, local_sides, local_back]
++	if _meshes.has(key):
++		return _meshes[key]
++	var half := size * 0.5
++	var surface := SurfaceTool.new()
++	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
++	# Front-plane coordinates are X/Y; each side uses Z/Y. Exact closed mass
++	# faces survive except the intended apertures. No cap/ground seam is moved.
++	_plane(surface, Rect2(-half.x, -half.y, size.x, size.y), local_front,
++		Vector3(0, 0, half.z), Vector3.RIGHT, Vector3.UP, Vector3.BACK)
++	for sign_value: float in [-1.0, 1.0]:
++		_plane(surface, Rect2(-half.z, -half.y, size.z, size.y), local_sides,
++			Vector3(sign_value * half.x, 0, 0), Vector3.BACK, Vector3.UP, Vector3(sign_value, 0, 0))
++	_plane(surface, Rect2(-half.x, -half.y, size.x, size.y), local_back,
++		Vector3(0, 0, -half.z), Vector3.RIGHT, Vector3.UP, Vector3.FORWARD)
++	_quad(surface, Vector3(-half.x,half.y,-half.z), Vector3(half.x,half.y,-half.z),
++		Vector3(half.x,half.y,half.z), Vector3(-half.x,half.y,half.z), Vector3.UP)
++	_quad(surface, Vector3(-half.x,-half.y,-half.z), Vector3(-half.x,-half.y,half.z),
++		Vector3(half.x,-half.y,half.z), Vector3(half.x,-half.y,-half.z), Vector3.DOWN)
++	surface.index()
++	surface.generate_tangents()
++	var result := surface.commit()
++	_meshes[key] = result
++	return result
++
++
++static func _plane(surface: SurfaceTool, bounds: Rect2, holes: Array[Rect2],
++		origin: Vector3, across: Vector3, up: Vector3, normal: Vector3) -> void:
++	var pieces: Array[Rect2] = [bounds]
++	for aperture: Rect2 in holes:
++		var next: Array[Rect2] = []
++		for piece: Rect2 in pieces:
++			var overlap := piece.intersection(aperture)
++			if not overlap.has_area():
++				next.append(piece)
++				continue
++			# Disjoint rectangular pieces; no overdraw plate behind the glazing.
++			_append_rect(next, Rect2(piece.position.x, piece.position.y,
++				overlap.position.x - piece.position.x, piece.size.y))
++			_append_rect(next, Rect2(overlap.end.x, piece.position.y,
++				piece.end.x - overlap.end.x, piece.size.y))
++			_append_rect(next, Rect2(overlap.position.x, piece.position.y,
++				overlap.size.x, overlap.position.y - piece.position.y))
++			_append_rect(next, Rect2(overlap.position.x, overlap.end.y,
++				overlap.size.x, piece.end.y - overlap.end.y))
++		pieces = next
++	for piece: Rect2 in pieces:
++		_quad(surface, origin + across * piece.position.x + up * piece.position.y,
++			origin + across * piece.end.x + up * piece.position.y,
++			origin + across * piece.end.x + up * piece.end.y,
++			origin + across * piece.position.x + up * piece.end.y, normal)
++
++
++static func _append_rect(rectangles: Array[Rect2], rectangle: Rect2) -> void:
++	if rectangle.size.x > 0.000001 and rectangle.size.y > 0.000001:
++		rectangles.append(rectangle)
++
++
++static func _quad(surface: SurfaceTool, a: Vector3, b: Vector3, c: Vector3,
++		d: Vector3, normal: Vector3) -> void:
++	for triangle: Array in [[a,b,c],[a,c,d]]:
++		if (triangle[1]-triangle[0]).cross(triangle[2]-triangle[0]).dot(normal) > 0.0:
++			triangle.reverse()
++		for at: Vector3 in triangle:
++			surface.set_normal(normal)
++			var uv := Vector2(at.x, at.y)
++			if absf(normal.x) > 0.5:
++				uv = Vector2(at.z, at.y)
++			elif absf(normal.y) > 0.5:
++				uv = Vector2(at.x, at.z)
++			surface.set_uv(uv)
++			surface.add_vertex(at)
+--- a/game/levels/art/exchange_gallery.gd
++++ b/game/levels/art/exchange_gallery.gd
+@@ -1,5 +1,8 @@
+ extends RefCounted
+ const StaticBatches = preload("res://game/levels/static_batches.gd")
++const FacadeKit = preload("res://game/levels/art/facade_kit.gd")
++const GalleryColumn = preload("res://game/levels/art/gallery_column.gd")
++const FacadeShell = preload("res://game/levels/art/facade_shell.gd")
+ ## Original gallery and shop-edge detail. Geometry/collision remain in world.
+ ## Shared local portico dimensions keep visible shafts and their solids aligned.
+ 
+@@ -23,18 +26,24 @@
+ 	root.set_meta("art_only",true)
+ 	art.add_child(root)
+ 	var batches: Dictionary={}
++	_profile_columns(root, art)
+ 	for at: Vector3 in column_positions():
+-		# Stacked circular mouldings remain visible above the real raised footing.
+-		art._batch_cylinder(batches,"stone_light",BASE_RADIUS,0.12,at+Vector3.UP*0.06)
+-		art._batch_cylinder(batches,"cut_stone",0.48,0.16,at+Vector3.UP*0.20)
+-		art._batch_cylinder(batches,"stone_light",0.42,0.12,at+Vector3.UP*0.34)
+-		art._batch_cylinder(batches,"stone_light",SHAFT_RADIUS,COLUMN_HEIGHT,at+Vector3.UP*(COLUMN_HEIGHT/2))
+-		art._batch_cylinder(batches,"cut_stone",0.38,0.12,at+Vector3.UP*(COLUMN_HEIGHT-0.20))
+ 		art._batch_box(batches,"stone_light",Vector3(0.95,0.35,0.95),at+Vector3.UP*COLUMN_HEIGHT)
+ 	# The old entablature/pediment datum stays8.45/10.85. A deeper back course
+ 	# joins the real wall atZ−42 after the column row moves forward toZ−40.4.
+ 	art._batch_box(batches,"cut_stone",Vector3(16.1,0.12,1.5),Vector3(0,8.78,-41.2))
+ 	art._pediment(root,Vector3(0,8.75,-39.9),16.4,2.1,2.3,art.materials["stone"])
++	# Restrained architrave/cornice courses meet the real entablature instead
++	# of leaving its large face as a featureless stone rectangle.
++	art._batch_box(batches,"cut_stone",Vector3(16.10,0.08,0.14),Vector3(0,8.22,-39.57))
++	art._batch_box(batches,"cut_stone",Vector3(16.22,0.09,0.22),Vector3(0,8.70,-39.55))
++	for index: int in range(32):
++		art._batch_box(batches,"stone_light",Vector3(0.13,0.09,0.14),Vector3(-7.75+index*0.50,8.60,-39.56))
++	var rake_length := Vector2(8.2,2.1).length()
++	for side: float in [-1.0,1.0]:
++		var rake := Basis.from_euler(Vector3(0,0,-side*atan2(2.1,8.2)))
++		art._batch_box(batches,"cut_stone",Vector3(rake_length,0.11,0.14),Vector3(side*4.1,9.80,-38.72),rake)
++	art._batch_box(batches,"cut_stone",Vector3(16.5,0.10,0.14),Vector3(0,8.77,-38.72))
+ 	# Quiet slab/step bands retain the material's existing world triplanar scale.
+ 	for z: float in [-40.0,-38.0,-36.0]:
+ 		art._batch_box(batches,"stone",Vector3(12.9,0.006,0.018),Vector3(0,2.654,z))
+@@ -44,30 +53,45 @@
+ 	art._flush_batches(root,batches)
+ 
+ 
++static func _profile_columns(root: Node3D, art: Node3D) -> void:
++	var batch := MultiMesh.new()
++	batch.transform_format = MultiMesh.TRANSFORM_3D
++	batch.mesh = GalleryColumn.shared_mesh()
++	var positions := column_positions()
++	batch.instance_count = positions.size()
++	var records: Array = []
++	for index: int in range(positions.size()):
++		var frame := Transform3D(Basis.IDENTITY, positions[index])
++		batch.set_instance_transform(index,frame)
++		records.append(frame)
++	var display := MultiMeshInstance3D.new()
++	display.name = "GalleryProfiledColumns"
++	display.multimesh = batch
++	display.material_override = art.materials["stone_light"]
++	root.add_child(display)
++	StaticBatches.register(display, records)
++
++
+ static func adapt_gallery_front(art: Node3D, building: Node3D) -> void:
+ 	# This low gallery alone bypasses generic retail decoration. All original
+ 	# door/threshold coordinates remain; a restrained shell meets the portico.
+ 	var batches: Dictionary={}
++	var recessed := _gallery_shell(building)
+ 	for x: float in [-7.3,-4.6,-2.2,2.2,4.6,7.3]:
+-		art._batch_box(batches,"window_shadow",Vector3(1.55,1.75,0.10),Vector3(x,5.15,6.06))
+-		art._batch_box(batches,"window_dull",Vector3(1.25,1.45,0.06),Vector3(x,5.15,6.14))
+-		art._batch_box(batches,"stone_light",Vector3(1.65,0.10,0.25),Vector3(x,4.24,6.13))
+-		art._batch_box(batches,"window_frame",Vector3(0.045,1.45,0.08),Vector3(x,5.15,6.20))
++		FacadeKit._window(art,batches,x,5.22,1.25,1.40,0.0,"civic",0,recessed)
+ 	for side: float in [-1.0,1.0]:
+-		# One ordered return row and a continuous cornice close the low building.
++		var side_batches: Dictionary = {}
+ 		for z: float in [-3.5,0.0,3.5]:
+-			art._batch_box(batches,"window_shadow",Vector3(0.10,1.75,1.55),Vector3(side*9.04,5.15,z))
+-			art._batch_box(batches,"window_dull",Vector3(0.06,1.45,1.25),Vector3(side*9.12,5.15,z))
+-			art._batch_box(batches,"stone_light",Vector3(0.25,0.10,1.65),Vector3(side*9.12,4.24,z))
+-			art._batch_box(batches,"window_frame",Vector3(0.08,1.45,0.045),Vector3(side*9.18,5.15,z))
++			FacadeKit._window(art,side_batches,z,5.22,1.25,1.40,0.0,"civic",0,recessed)
++		_append_batches(batches, side_batches, Transform3D(Basis(Vector3.UP,side*PI/2.0),Vector3(side*3.0,0,0)))
+ 		art._batch_box(batches,"cut_stone",Vector3(18.4,0.18,0.32),Vector3(0,6.53,side*6.10))
+ 		art._batch_box(batches,"cut_stone",Vector3(0.32,0.18,12.2),Vector3(side*9.10,6.53,0))
+ 		art._batch_box(batches,"stone_light",Vector3(18.5,0.10,0.38),Vector3(0,6.70,side*6.10))
+ 		art._batch_box(batches,"stone_light",Vector3(0.38,0.10,12.2),Vector3(side*9.10,6.70,0))
++	var back_batches: Dictionary = {}
+ 	for x: float in [-6.0,-3.0,0.0,3.0,6.0]:
+-		art._batch_box(batches,"window_shadow",Vector3(1.55,1.75,0.10),Vector3(x,5.15,-6.06))
+-		art._batch_box(batches,"window_dull",Vector3(1.25,1.45,0.06),Vector3(x,5.15,-6.14))
+-		art._batch_box(batches,"stone_light",Vector3(1.65,0.10,0.25),Vector3(x,4.24,-6.13))
++		FacadeKit._window(art,back_batches,x,5.22,1.25,1.40,0.0,"civic",0,recessed)
++	_append_batches(batches,back_batches,Transform3D(Basis(Vector3.UP,PI),Vector3.ZERO))
+ 	var roof:=MeshInstance3D.new()
+ 	roof.name="GalleryClosedSlateRoof"
+ 	roof.mesh=_closed_roof()
+@@ -78,6 +102,12 @@
+ 	for side: float in [-1.0,1.0]:
+ 		art._batch_box(batches,"wood",Vector3(1.55,2.75,0.16),Vector3(side*0.8,2.105,6.23))
+ 		art._batch_box(batches,"facade_glass",Vector3(1.18,1.65,0.035),Vector3(side*0.8,2.38,6.33))
++		for edge: float in [-1.0,1.0]:
++			art._batch_box(batches,"wood",Vector3(0.12,2.75,0.10),Vector3(side*0.8+edge*0.71,2.105,6.33))
++			art._batch_box(batches,"wood",Vector3(0.055,0.65,0.035),Vector3(side*0.8+edge*0.53,1.18,6.34))
++			art._batch_box(batches,"wood",Vector3(1.10,0.055,0.035),Vector3(side*0.8,1.18+edge*0.30,6.34))
++		for rail_y: float in [0.81,1.60,3.40]:
++			art._batch_box(batches,"wood",Vector3(1.42,0.10,0.10),Vector3(side*0.8,rail_y,6.33))
+ 		art._batch_box(batches,"brass",Vector3(0.045,0.36,0.06),Vector3(side*0.16,1.9,6.36))
+ 		art._batch_box(batches,"cut_stone",Vector3(0.38,3.18,0.34),Vector3(side*1.90,2.20,6.20))
+ 	art._batch_box(batches,"cut_stone",Vector3(4.25,0.32,0.38),Vector3(0,3.93,6.20))
+@@ -94,6 +124,40 @@
+ 	label.outline_size=0
+ 	label.double_sided=false
+ 	building.add_child(label)
++
++
++static func _append_batches(destination: Dictionary, source: Dictionary, frame: Transform3D) -> void:
++	for key: String in source:
++		if not destination.has(key):
++			destination[key] = {"material":source[key].material,"transforms":[]}
++		for authored: Transform3D in source[key].transforms:
++			destination[key].transforms.append(frame*authored)
++
++
++static func _gallery_shell(building: Node3D) -> bool:
++	var wall := building.get_node_or_null("Facade") as Node3D
++	if wall == null:
++		return false
++	for node: Node in wall.get_children():
++		if not node is MeshInstance3D or not node.mesh is BoxMesh:
++			continue
++		var display := node as MeshInstance3D
++		var frame: Transform3D = building.global_transform.affine_inverse()*display.global_transform
++		if not frame.basis.is_equal_approx(Basis.IDENTITY):
++			continue
++		var front: Array[Rect2] = []
++		var back: Array[Rect2] = []
++		var sides: Array[Rect2] = []
++		for x: float in [-7.3,-4.6,-2.2,2.2,4.6,7.3]:
++			front.append(Rect2(x-0.625-frame.origin.x,4.52-frame.origin.y,1.25,1.40))
++		for x: float in [-6.0,-3.0,0.0,3.0,6.0]:
++			back.append(Rect2(x-0.625-frame.origin.x,4.52-frame.origin.y,1.25,1.40))
++		for z: float in [-3.5,0.0,3.5]:
++			sides.append(Rect2(z-0.625-frame.origin.z,4.52-frame.origin.y,1.25,1.40))
++		display.mesh = FacadeShell.make(display.mesh.size,front,sides,back)
++		display.set_meta("architectural_recess_shell",true)
++		return true
++	return false
+ 
+ 
+ static func _closed_roof() -> ArrayMesh:
+--- /dev/null
++++ b/game/levels/art/gallery_column.gd
+@@ -0,0 +1,74 @@
++extends RefCounted
++## Original restrained order, authored in metres; native collision remains world-owned.
++
++static var _mesh: ArrayMesh
++const SEGMENTS := 24
++
++
++static func shared_mesh() -> ArrayMesh:
++	if _mesh != null:
++		return _mesh
++	# (radius,height). Rounded base courses, a restrained shaft entasis and neck
++	# meet the existing square abacus. Maximum radius0.54 and top5.175 are exact.
++	var profile := PackedVector2Array([
++		Vector2(0.54,0.0), Vector2(0.54,0.08), Vector2(0.51,0.115),
++		Vector2(0.48,0.14), Vector2(0.48,0.245), Vector2(0.45,0.275),
++		Vector2(0.42,0.315), Vector2(0.42,0.40), Vector2(0.35,0.43),
++		Vector2(0.34,0.46), Vector2(0.34,1.25), Vector2(0.333,2.70),
++		Vector2(0.327,4.70), Vector2(0.316,4.96), Vector2(0.35,5.00),
++		Vector2(0.35,5.06), Vector2(0.39,5.10), Vector2(0.46,5.175)])
++	var vertices := PackedVector3Array()
++	var normals := PackedVector3Array()
++	var tangents := PackedFloat32Array()
++	var uvs := PackedVector2Array()
++	var indices := PackedInt32Array()
++	for ring: int in range(profile.size()):
++		var before: Vector2 = profile[maxi(0,ring-1)]
++		var after: Vector2 = profile[mini(profile.size()-1,ring+1)]
++		var direction := (after-before).normalized()
++		for segment: int in range(SEGMENTS+1):
++			var angle := TAU*float(segment)/float(SEGMENTS)
++			var radial := Vector3(cos(angle),0,sin(angle))
++			vertices.append(radial*profile[ring].x + Vector3.UP*profile[ring].y)
++			normals.append((radial*direction.y-Vector3.UP*direction.x).normalized())
++			tangents.append_array(PackedFloat32Array([-sin(angle),0,cos(angle),-1]))
++			uvs.append(Vector2(float(segment)/float(SEGMENTS),profile[ring].y))
++			if ring == profile.size()-1 or segment == SEGMENTS:
++				continue
++			var a := ring*(SEGMENTS+1)+segment
++			var b := a+1
++			var c := a+SEGMENTS+2
++			var d := a+SEGMENTS+1
++			# Godot's clockwise front winding, outward facing on the shaft.
++			indices.append_array(PackedInt32Array([a,b,c,a,c,d]))
++	for cap: int in [0, profile.size()-1]:
++		var normal := Vector3.DOWN if cap == 0 else Vector3.UP
++		var center := vertices.size()
++		vertices.append(Vector3.UP*profile[cap].y)
++		normals.append(normal)
++		tangents.append_array(PackedFloat32Array([1,0,0,1 if cap == 0 else -1]))
++		uvs.append(Vector2(0.5,0.5))
++		for segment: int in range(SEGMENTS+1):
++			var angle := TAU*float(segment)/float(SEGMENTS)
++			var radial := Vector3(cos(angle),0,sin(angle))
++			vertices.append(radial*profile[cap].x+Vector3.UP*profile[cap].y)
++			normals.append(normal)
++			tangents.append_array(PackedFloat32Array([1,0,0,1 if cap == 0 else -1]))
++			uvs.append(Vector2(0.5+cos(angle)*0.5,0.5+sin(angle)*0.5))
++			if segment == SEGMENTS:
++				continue
++			var first := center+segment+1
++			if cap == 0:
++				indices.append_array(PackedInt32Array([center,first+1,first]))
++			else:
++				indices.append_array(PackedInt32Array([center,first,first+1]))
++	var arrays: Array = []
++	arrays.resize(Mesh.ARRAY_MAX)
++	arrays[Mesh.ARRAY_VERTEX] = vertices
++	arrays[Mesh.ARRAY_NORMAL] = normals
++	arrays[Mesh.ARRAY_TANGENT] = tangents
++	arrays[Mesh.ARRAY_TEX_UV] = uvs
++	arrays[Mesh.ARRAY_INDEX] = indices
++	_mesh = ArrayMesh.new()
++	_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
++	return _mesh

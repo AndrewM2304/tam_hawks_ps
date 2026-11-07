@@ -1,0 +1,69 @@
+extends SceneTree
+const Policy = preload("res://game/levels/water_shadow_policy.gd")
+var checks := 0
+var failures := 0
+func _initialize() -> void: _run.call_deferred()
+func _check(ok: bool,label: String) -> void:
+	checks+=1
+	if ok:return
+	failures+=1
+	push_error(label)
+func _run() -> void:
+	var scene:=Node3D.new()
+	root.add_child(scene)
+	var water:=ShaderMaterial.new()
+	water.shader=Policy.WATER
+	var native:=StandardMaterial3D.new()
+	var lookalike:=ShaderMaterial.new()
+	lookalike.shader=Policy.WATER.duplicate() as Shader
+	var extra:=ShaderMaterial.new()
+	extra.shader=Policy.WATER
+	extra.next_pass=native
+	var instances: Dictionary={}
+	for key: String in ["water","solid","lookalike","extra-pass","overlay","shadow-only"]:
+		var mesh:=MeshInstance3D.new()
+		mesh.name=key
+		mesh.mesh=BoxMesh.new()
+		mesh.material_override=water if key in ["water","overlay","shadow-only"] else (lookalike if key=="lookalike" else (extra if key=="extra-pass" else native))
+		if key=="overlay":mesh.material_overlay=native
+		if key=="shadow-only":mesh.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+		scene.add_child(mesh)
+		instances[key]=mesh
+	var multi:=MultiMeshInstance3D.new()
+	multi.name="multimesh-water"
+	multi.multimesh=MultiMesh.new()
+	multi.multimesh.transform_format=MultiMesh.TRANSFORM_3D
+	multi.multimesh.mesh=BoxMesh.new()
+	multi.multimesh.instance_count=2
+	multi.material_override=water
+	scene.add_child(multi)
+	var embedded:=MeshInstance3D.new()
+	embedded.name="embedded-water"
+	var embedded_mesh:=BoxMesh.new()
+	embedded_mesh.material=water
+	embedded.mesh=embedded_mesh
+	scene.add_child(embedded)
+	var mixed:=MeshInstance3D.new()
+	mixed.name="mixed-water-solid"
+	var combined:=ArrayMesh.new()
+	for material: Material in [water,native]:
+		combined.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,BoxMesh.new().surface_get_arrays(0))
+		combined.surface_set_material(combined.get_surface_count()-1,material)
+	mixed.mesh=combined
+	scene.add_child(mixed)
+	var resources := [water.get_instance_id(),native.get_instance_id(),multi.multimesh.get_instance_id(),embedded.mesh.get_instance_id(),mixed.mesh.get_instance_id()]
+	var report:=Policy.apply(scene)
+	_check(report.matched_count==3 and report.changed_count==3,"exact water override, embedded surface and MultiMesh are the only changed instances")
+	_check(report.unsupported.size()==4,"extra pass, overlay, shadow-only and mixed material cases remain explicit unsupported")
+	for node: GeometryInstance3D in [instances.water,multi,embedded]:_check(node.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF,"pure exact water stops casting")
+	for key: String in ["solid","lookalike","extra-pass","overlay"]:_check(instances[key].cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_ON,"non-water/unsupported caster remains unchanged: "+key)
+	_check(instances["shadow-only"].cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY and mixed.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_ON,"mixed/hidden geometry retains original rendering semantics")
+	_check(resources==[water.get_instance_id(),native.get_instance_id(),multi.multimesh.get_instance_id(),embedded.mesh.get_instance_id(),mixed.mesh.get_instance_id()],"material, mesh and instance resources retain native identities")
+	_check(Policy.apply(scene).changed_count==0,"policy is idempotent")
+	_check(not Policy.WATER.code.contains("shadows_disabled"),"water shader continues to receive real scene shadows")
+	var out:=FileAccess.open("res://.local/water-policy-guard.json",FileAccess.WRITE)
+	if out:out.store_string(JSON.stringify({"checks":checks,"failures":failures,"report":report,"scope":"Focused native resource/caster guard only; visual/Main/hardware separate"},"\t")+"\n");out.close()
+	print("WATER_POLICY_GUARD checks=",checks," failures=",failures)
+	scene.queue_free()
+	await process_frame
+	quit(1 if failures else 0)

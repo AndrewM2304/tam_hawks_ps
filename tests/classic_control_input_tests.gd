@@ -151,32 +151,32 @@ static func _manual(tree: SceneTree, rider: Node3D, check: Callable, device: Str
 	await _frames(tree,2)
 	var heading: float = rider.rotation.y
 	var positive: float = rider.manual_balance
-	_horizontal(device,-.9)
+	_vertical(device,.9 * rider._manual_balance_input_sign())
 	await _frames(tree,2)
 	var left: float = rider.manual_balance
 	check.call(rider.manual_active and positive>0 and absf(left)<absf(positive)-.008,
-		"classic pad: %s Left corrects positive %s balance" % [device,id])
+		"classic pad: %s fore/aft correction reduces positive %s balance" % [device,id])
 	await _frames(tree,6)
-	_horizontal(device,0)
+	_vertical(device,0)
 	await _frames(tree,1)
 	var negative: float = rider.manual_balance
-	_horizontal(device,.9)
+	_vertical(device,-.9 * rider._manual_balance_input_sign())
 	await _frames(tree,4)
-	_horizontal(device,0)
+	_vertical(device,0)
 	print("CLASSIC PAD MANUAL device=",device," nose=",nose," same_tick=",same_tick,
 		" balance=",[positive,left,negative,rider.manual_balance]," yaw_delta=",wrapf(rider.rotation.y-heading,-PI,PI),
 		" speed=",rider.speed," active=",rider.manual_active," awards=",seen)
 	check.call(rider.manual_active and negative<-.025 and absf(rider.manual_balance)<absf(negative)-.008
 		and absf(wrapf(rider.rotation.y-heading,-PI,PI))<.0001 and _manual_count(seen)==1
 		and rider.manual_id==id and rider.is_on_floor(),
-		"classic pad: %s Right corrects negative %s balance without carving, relabel or duplicate award" % [device,id])
+		"classic pad: %s opposite fore/aft input corrects negative %s balance without carving, relabel or duplicate award" % [device,id])
 	if device=="dpad" and not nose and not same_tick:
 		_pad(JOY_BUTTON_RIGHT_SHOULDER,true)
 		await _frames(tree,5)
 		_pad(JOY_BUTTON_RIGHT_SHOULDER,false)
 		check.call(rider.manual_active and absf(wrapf(rider.rotation.y-heading,-PI,PI))>.015
 			and _manual_count(seen)==1,
-			"classic pad: R1 can deliberately carve during a latched manual while directions balance")
+			"classic pad: R1 can deliberately carve during a latched manual while Up/Down balance")
 	rider.trick_performed.disconnect(listener)
 
 

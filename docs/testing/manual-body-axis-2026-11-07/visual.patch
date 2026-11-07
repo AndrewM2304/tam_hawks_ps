@@ -1,0 +1,23 @@
+--- a/game/player/skater_visual.gd
++++ b/game/player/skater_visual.gd
+@@ -513,13 +513,19 @@
+ 		# The existing tow lean belongs to the connected torso and pelvis.
+ 		hips_origin += toward_shift
+ 		hips_y = hips_origin.y
+-	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07 * manual_sign
++	_upper.rotation.z = -steer * 0.045
+ 	_upper.rotation.z -= grind_balance * _grind_blend * 0.20
+ 	_upper.rotation.z += grab_body_roll * _grab_blend
+ 	_upper.rotation.z -= grab_lean.x * 0.7
+ 	_upper.rotation.z += -wall_local.x * 0.18 * _wall_blend - _slide_direction * 0.09 * _slide_blend - walk_sway * 0.6
+ 	_upper.rotation.x = lerpf(_upper.rotation.x, -1.50, _bail_blend)
+ 	_upper.rotation.z = lerpf(_upper.rotation.z, 0.30, _bail_blend)
++	# Apply fore/aft weight in the functional deck frame before body yaw.
++	# Pogo and Hang Ten turn the torso, so its local roll is a different axis.
++	var balance_axis := Vector3.UP.cross(deck_back)
++	var body_balance_angle := manual_balance * _manual_blend * 0.07 * manual_sign * (1.0 - _bail_blend)
++	if absf(body_balance_angle) > 0.000001 and balance_axis.length_squared() > 0.5:
++		_upper.basis = Basis(balance_axis.normalized(), body_balance_angle) * _upper.basis
+ 	if _grab_blend > 0.0:
+ 		var unconstrained_torso := _upper.position
+ 		var contact := _rider.to_local(_board.to_global(grab_target))

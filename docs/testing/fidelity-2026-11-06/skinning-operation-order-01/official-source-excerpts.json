@@ -1,0 +1,83 @@
+[
+  {
+    "url": "https://github.com/godotengine/godot/blob/4.6.3-stable/drivers/gles3/shaders/skeleton.glsl",
+    "full_file_sha256": "4a7637ef93114055cfeb670a5dbf1de264ba7ed69b9b064de68e14f8d9b1b941",
+    "ranges": [
+      {
+        "first_line": 241,
+        "last_line": 263,
+        "exact_text": "\tuvec4 bones = in_bone_attrib * uvec4(3);\n\tuvec4 bones_a = bones + uvec4(1);\n\tuvec4 bones_b = bones + uvec4(2);\n\n\thighp mat4 m;\n\tm = GET_BONE_MATRIX(bones.x, bones_a.x, bones_b.x, in_weight_attrib.x);\n\tm += GET_BONE_MATRIX(bones.y, bones_a.y, bones_b.y, in_weight_attrib.y);\n\tm += GET_BONE_MATRIX(bones.z, bones_a.z, bones_b.z, in_weight_attrib.z);\n\tm += GET_BONE_MATRIX(bones.w, bones_a.w, bones_b.w, in_weight_attrib.w);\n\n#ifdef USE_EIGHT_WEIGHTS\n\tbones = in_bone_attrib2 * uvec4(3);\n\tbones_a = bones + uvec4(1);\n\tbones_b = bones + uvec4(2);\n\n\tm += GET_BONE_MATRIX(bones.x, bones_a.x, bones_b.x, in_weight_attrib2.x);\n\tm += GET_BONE_MATRIX(bones.y, bones_a.y, bones_b.y, in_weight_attrib2.y);\n\tm += GET_BONE_MATRIX(bones.z, bones_a.z, bones_b.z, in_weight_attrib2.z);\n\tm += GET_BONE_MATRIX(bones.w, bones_a.w, bones_b.w, in_weight_attrib2.w);\n#endif\n\n\t// Reverse order because its transposed.\n\tout_vertex = (vec4(out_vertex, 1.0) * m).xyz;\n"
+      }
+    ]
+  },
+  {
+    "url": "https://github.com/godotengine/godot/blob/4.6.3-stable/servers/rendering/renderer_rd/shaders/skeleton.glsl",
+    "full_file_sha256": "a36b5b2ac9141314b63f7e8b67607eb405a1664a575318e5165f71c75851fcf6",
+    "ranges": [
+      {
+        "first_line": 251,
+        "last_line": 289,
+        "exact_text": "\t\tuvec2 bones = uvec2(src_bone_weights.data[skin_offset + 0], src_bone_weights.data[skin_offset + 1]);\n\t\tuvec2 bones_01 = uvec2(bones.x & 0xFFFF, bones.x >> 16) * 3; //pre-add xform offset\n\t\tuvec2 bones_23 = uvec2(bones.y & 0xFFFF, bones.y >> 16) * 3;\n\n\t\tskin_offset += params.skin_weight_offset;\n\n\t\tuvec2 weights = uvec2(src_bone_weights.data[skin_offset + 0], src_bone_weights.data[skin_offset + 1]);\n\n\t\tvec2 weights_01 = unpackUnorm2x16(weights.x);\n\t\tvec2 weights_23 = unpackUnorm2x16(weights.y);\n\n\t\tmat4 m = mat4(bone_transforms.data[bones_01.x], bone_transforms.data[bones_01.x + 1], bone_transforms.data[bones_01.x + 2], vec4(0.0, 0.0, 0.0, 1.0)) * weights_01.x;\n\t\tm += mat4(bone_transforms.data[bones_01.y], bone_transforms.data[bones_01.y + 1], bone_transforms.data[bones_01.y + 2], vec4(0.0, 0.0, 0.0, 1.0)) * weights_01.y;\n\t\tm += mat4(bone_transforms.data[bones_23.x], bone_transforms.data[bones_23.x + 1], bone_transforms.data[bones_23.x + 2], vec4(0.0, 0.0, 0.0, 1.0)) * weights_23.x;\n\t\tm += mat4(bone_transforms.data[bones_23.y], bone_transforms.data[bones_23.y + 1], bone_transforms.data[bones_23.y + 2], vec4(0.0, 0.0, 0.0, 1.0)) * weights_23.y;\n\n\t\tif (params.skin_weight_offset == 4) {\n\t\t\t//using 8 bones/weights\n\t\t\tskin_offset = params.skin_stride * index + 2;\n\n\t\t\tbones = uvec2(src_bone_weights.data[skin_offset + 0], src_bone_weights.data[skin_offset + 1]);\n\t\t\tbones_01 = uvec2(bones.x & 0xFFFF, bones.x >> 16) * 3; //pre-add xform offset\n\t\t\tbones_23 = uvec2(bones.y & 0xFFFF, bones.y >> 16) * 3;\n\n\t\t\tskin_offset += params.skin_weight_offset;\n\n\t\t\tweights = uvec2(src_bone_weights.data[skin_offset + 0], src_bone_weights.data[skin_offset + 1]);\n\n\t\t\tweights_01 = unpackUnorm2x16(weights.x);\n\t\t\tweights_23 = unpackUnorm2x16(weights.y);\n\n\t\t\tm += mat4(bone_transforms.data[bones_01.x], bone_transforms.data[bones_01.x + 1], bone_transforms.data[bones_01.x + 2], vec4(0.0, 0.0, 0.0, 1.0)) * weights_01.x;\n\t\t\tm += mat4(bone_transforms.data[bones_01.y], bone_transforms.data[bones_01.y + 1], bone_transforms.data[bones_01.y + 2], vec4(0.0, 0.0, 0.0, 1.0)) * weights_01.y;\n\t\t\tm += mat4(bone_transforms.data[bones_23.x], bone_transforms.data[bones_23.x + 1], bone_transforms.data[bones_23.x + 2], vec4(0.0, 0.0, 0.0, 1.0)) * weights_23.x;\n\t\t\tm += mat4(bone_transforms.data[bones_23.y], bone_transforms.data[bones_23.y + 1], bone_transforms.data[bones_23.y + 2], vec4(0.0, 0.0, 0.0, 1.0)) * weights_23.y;\n\t\t}\n\n\t\t//reverse order because its transposed\n\t\tvertex = (vec4(vertex, 1.0) * m).xyz;\n"
+      }
+    ]
+  },
+  {
+    "url": "https://github.com/godotengine/godot/blob/4.6.3-stable/drivers/gles3/shaders/scene.glsl",
+    "full_file_sha256": "2061f98c86286043389de30861e05d13667e3d10828e7598346877118e4d4e53",
+    "ranges": [
+      {
+        "first_line": 593,
+        "last_line": 598,
+        "exact_text": "\thighp vec3 vertex = vertex_angle_attrib_input.xyz * compressed_aabb_size_input + compressed_aabb_position_input;\n\n\thighp mat4 model_matrix = world_transform_input;\n#ifdef USE_INSTANCING\n\thighp mat4 m = mat4(instance_xform0_input, instance_xform1_input, instance_xform2_input, vec4(0.0, 0.0, 0.0, 1.0));\n\tmodel_matrix = model_matrix * transpose(m);\n"
+      },
+      {
+        "first_line": 678,
+        "last_line": 683,
+        "exact_text": "\n\t// Using world coordinates\n#if !defined(SKIP_TRANSFORM_USED) && defined(VERTEX_WORLD_COORDS_USED)\n\n\tvertex = (model_matrix * vec4(vertex, 1.0)).xyz;\n\n"
+      },
+      {
+        "first_line": 701,
+        "last_line": 716,
+        "exact_text": "\n\thighp mat4 modelview = scene_data_input.view_matrix * model_matrix;\n\thighp mat3 modelview_normal = mat3(scene_data_input.view_matrix) * model_normal_matrix;\n\n\tfloat point_size = 1.0;\n\n\t{\n#CODE : VERTEX\n\t}\n\n\tgl_PointSize = point_size;\n\n\t// Using local coordinates (default)\n#if !defined(SKIP_TRANSFORM_USED) && !defined(VERTEX_WORLD_COORDS_USED)\n\n\tvertex = (modelview * vec4(vertex, 1.0)).xyz;\n"
+      }
+    ]
+  },
+  {
+    "url": "https://github.com/godotengine/godot/blob/4.6.3-stable/scene/3d/skeleton_3d.cpp",
+    "full_file_sha256": "a3f1c913ee48a9df1dc417ad3b8e2178a33214c9edb3f76947ab2f6a2cdf75dc",
+    "ranges": [
+      {
+        "first_line": 398,
+        "last_line": 404,
+        "exact_text": "\n\t\t\t\tfor (uint32_t i = 0; i < bind_count; i++) {\n\t\t\t\t\tuint32_t bone_index = E->skin_bone_indices_ptrs[i];\n\t\t\t\t\tERR_CONTINUE(bone_index >= (uint32_t)len);\n\t\t\t\t\trs->skeleton_bone_set_transform(skeleton, i, bonesptr[bone_index].global_pose * skin->get_bind_pose(i));\n\t\t\t\t}\n\t\t\t}\n"
+      }
+    ]
+  },
+  {
+    "url": "https://github.com/godotengine/godot/blob/4.6.3-stable/scene/3d/mesh_instance_3d.cpp",
+    "full_file_sha256": "cce59c34d842172b4e31b71664c5c881b2883452e8f4332f7fa854a5bad29308",
+    "ranges": [
+      {
+        "first_line": 175,
+        "last_line": 197,
+        "exact_text": "void MeshInstance3D::_resolve_skeleton_path() {\n\tRef<SkinReference> new_skin_reference;\n\n\tif (!skeleton_path.is_empty()) {\n\t\tSkeleton3D *skeleton = Object::cast_to<Skeleton3D>(get_node_or_null(skeleton_path)); // skeleton_path may be outdated when reparenting.\n\t\tif (skeleton) {\n\t\t\tif (skin_internal.is_null()) {\n\t\t\t\tnew_skin_reference = skeleton->register_skin(skeleton->create_skin_from_rest_transforms());\n\t\t\t\t//a skin was created for us\n\t\t\t\tskin_internal = new_skin_reference->get_skin();\n\t\t\t\tnotify_property_list_changed();\n\t\t\t} else {\n\t\t\t\tnew_skin_reference = skeleton->register_skin(skin_internal);\n\t\t\t}\n\t\t}\n\t}\n\n\tskin_ref = new_skin_reference;\n\n\tif (skin_ref.is_valid()) {\n\t\tRenderingServer::get_singleton()->instance_attach_skeleton(get_instance(), skin_ref->get_skeleton());\n\t} else {\n\t\tRenderingServer::get_singleton()->instance_attach_skeleton(get_instance(), RID());\n"
+      },
+      {
+        "first_line": 808,
+        "last_line": 833,
+        "exact_text": "\t\t\tfor (unsigned int weight_index = 0; weight_index < bones_per_vertex; weight_index++) {\n\t\t\t\tfloat bone_weight = source_weights_ptr[vertex_index * bones_per_vertex + weight_index];\n\t\t\t\tif (bone_weight < FLT_EPSILON) {\n\t\t\t\t\tcontinue;\n\t\t\t\t}\n\t\t\t\tint vertex_bone_index = source_bones_ptr[vertex_index * bones_per_vertex + weight_index];\n\t\t\t\tconst Transform3D &bone_transform = bone_transforms[vertex_bone_index];\n\t\t\t\tconst Basis bone_basis = bone_transform.basis.orthonormalized();\n\n\t\t\t\tERR_FAIL_INDEX_V(vertex_bone_index, static_cast<int>(bone_transforms.size()), Ref<ArrayMesh>());\n\n\t\t\t\tlerped_vertex += source_vertex.lerp(bone_transform.xform(source_vertex), bone_weight) - source_vertex;\n\t\t\t\t;\n\n\t\t\t\tif (use_normal_array) {\n\t\t\t\t\tlerped_normal += source_normal.lerp(bone_basis.xform(source_normal), bone_weight) - source_normal;\n\t\t\t\t}\n\n\t\t\t\tif (use_tangent_array) {\n\t\t\t\t\tlerped_tangent += source_tangent_vec3.lerp(bone_basis.xform(source_tangent_vec3), bone_weight) - source_tangent_vec3;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tlerped_vertices_ptrw[vertex_index] += lerped_vertex;\n\n\t\t\tif (use_normal_array) {\n"
+      }
+    ]
+  },
+  {
+    "url": "https://github.com/godotengine/godot/blob/4.6.3-stable/servers/rendering/renderer_scene_cull.cpp",
+    "full_file_sha256": "f3392b87812d2cbfd73f108bb86ac17625aaac6c7af931921a3445c57750eee5",
+    "ranges": [
+      {
+        "first_line": 1719,
+        "last_line": 1726,
+        "exact_text": "\t\t}\n\n\t\tERR_FAIL_NULL(geom->geometry_instance);\n\n\t\tgeom->geometry_instance->set_transform(*instance_xform, p_instance->aabb, p_instance->transformed_aabb);\n\t\tif (p_instance->teleported) {\n\t\t\tgeom->geometry_instance->reset_motion_vectors();\n\t\t}\n"
+      }
+    ]
+  }
+]

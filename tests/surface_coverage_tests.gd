@@ -5,6 +5,7 @@ const Ride = preload("res://game/tricks/grind_ride.gd")
 const WallRide = preload("res://game/player/wall_ride.gd")
 const SkaterProbe = preload("res://game/player/skater.gd")
 const DefaultEdges = preload("res://game/levels/skate_edges.gd")
+const NativePrism = preload("res://tests/support/native_prism_audit.gd")
 const INHERITED_OBSTRUCTIONS := {
   "clyde_half_west_coping": "retained landward halfpipe wall blocks an interior coping approach",
   "Grind_Edge_StairCheek_x-1000y90z-900_3_0": "inner stair cheek meets the adjoining native stair solid",
@@ -144,6 +145,18 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	dense_blocked.sort()
 	check.call(dense_samples>=5000 and dense_blocked==expected_blocked,
 		"surface audit: over5000 native-profile sweeps admit every unlisted track and independently reject exactly17 documented inherited obstructed candidates")
+	var river_curb: RefCounted=lines.get("Grind_Edge_NorthEmbankment_229_0")
+	var bank_tail_clear:=false
+	if river_curb!=null:
+		var endpoint: Vector3=body_path._body_point(river_curb,river_curb.length)
+		bank_tail_clear=river_curb.length>57.0 and endpoint.x>80.3 and endpoint.x<80.5 \
+			and rider._rail_path_clear(endpoint+Vector3.UP*.12,endpoint) \
+			and rider._rail_path_clear(body_path._body_point(river_curb,river_curb.length-.2),endpoint)
+	check.call(bank_tail_clear,
+		"surface audit: original long river-curb identity retains over57m and its real capsule clears the shortened bank-side endpoint")
+	var obstructed_tail:=Vector3(80.98643,2.055,77.98)
+	check.call(not rider._rail_path_clear(obstructed_tail+Vector3.UP*.12,obstructed_tail),
+		"surface audit: actual terminal bank still rejects the original newly obstructed river-curb tail instead of hiding it in inherited exceptions")
 	for id: String in expected_blocked:
 		check.call(dense_witnesses.has(id),"surface audit: actual native admission refuses documented obstruction "+id)
 	print("SURFACE INHERITED NEGATIVE WITNESSES ",JSON.stringify(dense_witnesses))
@@ -598,6 +611,9 @@ static func _native_masonry_bounds(body: StaticBody3D) -> bool:
 		var points := PackedVector3Array()
 		if child.shape is ConvexPolygonShape3D:
 			points = child.shape.points
+		elif child.shape is ConcavePolygonShape3D and body.has_meta("bank_terminal_return"):
+			if NativePrism.closed_bank_faces(child).size()!=20:return false
+			points=child.shape.get_faces()
 		elif child.shape is BoxShape3D:
 			var half: Vector3 = child.shape.size * 0.5
 			for x: float in [-half.x, half.x]:

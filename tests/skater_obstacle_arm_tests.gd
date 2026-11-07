@@ -173,7 +173,10 @@ static func _vertices(actor: CharacterBody3D,data: Dictionary) -> Dictionary:
 	var skeleton: Skeleton3D=rig._garments.skeleton
 	var jacket: MeshInstance3D=data.jacket
 	var palette: Array[Transform3D]=[]
-	for bind: int in jacket.skin.get_bind_count():palette.append(skeleton.global_transform*skeleton.get_bone_global_pose(Body._bone_for(jacket.skin,skeleton,bind))*jacket.skin.get_bind_pose(bind))
+	# Godot 4.6.3 GLES/RD first skin in local coordinates, discard W, then
+	# apply this actual MeshInstance model once. Decoded UNORM weights stay
+	# unchanged; putting world in each influence scales its translation.
+	for bind: int in jacket.skin.get_bind_count():palette.append(skeleton.get_bone_global_pose(Body._bone_for(jacket.skin,skeleton,bind))*jacket.skin.get_bind_pose(bind))
 	# This is the actual declared finite shutter Box including the unchanged
 	# native7.99mm skin, not an infinite plane or an arm-joint proxy.
 	var gate: Node3D=data.gate
@@ -184,8 +187,13 @@ static func _vertices(actor: CharacterBody3D,data: Dictionary) -> Dictionary:
 		var bound:=AABB()
 		if actor._obstacle_arm_fit is Fit:bound=actor._obstacle_arm_fit._bounds(actor._obstacle_arm_fit.arms[index],{},rig._arms[index].hand.global_transform).grow(0.00001)
 		for record: Dictionary in data.sleeves[index]:
-			var point:=Vector3.ZERO
-			for influence: int in record.binds.size():point+=(palette[record.binds[influence]]*Vector3(record.point))*float(record.weights[influence])
+			var x:=Vector3.ZERO;var y:=Vector3.ZERO;var z:=Vector3.ZERO;var origin:=Vector3.ZERO
+			for influence: int in record.binds.size():
+				var transform: Transform3D=palette[record.binds[influence]]
+				var weight: float=record.weights[influence]
+				x+=transform.basis.x*weight;y+=transform.basis.y*weight;z+=transform.basis.z*weight;origin+=transform.origin*weight
+			var local_point:=Transform3D(Basis(x,y,z),origin)*Vector3(record.point)
+			var point:=jacket.global_transform*local_point
 			if actor._obstacle_arm_fit is Fit:contained=contained and bound.has_point(point)
 			panel_hits+=int(panel.has_point(gate._panel.to_local(point)))
 		var mesh: MeshInstance3D=rig._arms[index].hand.get_node("HandAndFingers")

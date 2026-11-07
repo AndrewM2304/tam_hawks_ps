@@ -88,10 +88,10 @@ static func run(_tree: SceneTree, game: Node, check: Callable) -> void:
 	game.skater.manual_active = true
 	game.skater.manual_balance = 0.4
 	game._refresh_hud()
-	var marker_x: float = game.hud._balance_marker.position.x
+	var marker_y: float = game.hud._balance_marker.position.y
 	game.skater.manual_balance = -0.4
 	game._refresh_hud()
-	check.call(game.hud._balance_marker.position.x < marker_x - 100.0,
+	check.call(game.hud._balance_marker.position.y < marker_y - 35.0,
 		"HUD efficiency: each balance change moves the correction marker in the same call")
 	game.skater.manual_active = false
 	game.encounters.reset_run()

@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "mode": "push",
+  "started_utc": "2026-11-07T00:54:27.602207+00:00",
+  "finished_utc": "2026-11-07T00:54:57.699937+00:00",
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/qa-fidelity/controls-runner.gd",
+    "--",
+    "push"
+  ],
+  "executed_project": "/workspace/tam_hawks_ps/.local/qa-fidelity/checkpoint-source-01",
+  "source_scope": "Exact two-sided dirty source-copy inventory, not final main acceptance unless independently tied to integration.",
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "source_stable": true,
+  "changed_inputs": [],
+  "source_inputs": 787,
+  "engine_exit": 1,
+  "exception": null,
+  "engine_errors": true,
+  "native_timeline_consecutive": null,
+  "eligible": false,
+  "files": {
+    "source-before.json": "513a82d66f69d4005c6a1fdc0f8669f60aeac2587334551c91b11606c9efd415",
+    "engine.log": "25ede81f44a7d51cde1735c3b3d1d253c7235fbe7384c7bd32d9b5f57989be7e",
+    "source-after.json": "513a82d66f69d4005c6a1fdc0f8669f60aeac2587334551c91b11606c9efd415"
+  },
+  "limits": "Native input diagnostic or explicitly labelled static HUD chase inspection. No normal-speed motion, physical-controller, performance, Mac or overall fidelity acceptance."
+}

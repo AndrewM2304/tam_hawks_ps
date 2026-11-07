@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Native presentation/contact regressions. Initial active-manual fixtures are
 ## declared below; no transform, velocity or score is corrected during travel.
 
@@ -60,10 +61,7 @@ static func _crossing(tree: SceneTree, check: Callable, id: String, grade: Strin
 		# the same input, and their physical histories must remain identical.
 		var correction: float=-(0.18+0.08*rider._manual_elapsed)/rider.MANUAL_BALANCE_CONTROL \
 			-(rider.manual_balance-0.05)*1.2
-		Input.action_release("steer_left")
-		Input.action_release("steer_right")
-		if correction<0: Input.action_press("steer_left",-correction)
-		else: Input.action_press("steer_right",correction)
+		ManualBalance.correct(rider,correction)
 		await _frames(tree,1)
 		physical_parity=physical_parity and _physics(rider)==_physics(control)
 		local_pivot_parity=local_pivot_parity \

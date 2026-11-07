@@ -1,0 +1,45 @@
+{
+  "utc": "2026-11-07T03:39:32.607213+00:00",
+  "branch": "main",
+  "head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "action": "Root-authorized exact QA-reviewed clean initial-target boundary proposal plus dedicated+8mm initial fixture phase/comment. Inputs, thresholds, endpoints and all twins unchanged.",
+  "changes": [
+    {
+      "path": "game/player/skater_obstacle_arm_fit.gd",
+      "before_sha256": "45390fb46d21a3a90e739db413024fd1941bfdee0f9f35de67b2c6d27f10f784",
+      "after_sha256": "ff779d03537f86a879fde2aab49c5b342970ab80c432b8c2f22e79af099de3ca"
+    },
+    {
+      "path": "tests/skater_wall_manual_tests.gd",
+      "before_sha256": "e9c0b37dd4447883248e7baf0c6d74328e2d265dc1cb7cc77e712ba6fd5290cf",
+      "after_sha256": "3c3c917aea4284493dab9c0e5ec24f5e803aa625b72ccd08c4e9b7110ef34d2c"
+    }
+  ],
+  "independent_review": "docs/testing/deformed-contact-2026-11-07/independent-wrist-cap-review/",
+  "skipped_band_original": "docs/testing/deformed-contact-2026-11-07/current-01/",
+  "private_full_gate": ".local/deformed-contact/current-cap-private-01/run-receipt.json",
+  "clean_actual_source_gate": {
+    "packet": "docs/testing/deformed-contact-2026-11-07/current-02/",
+    "utc": "2026-11-07T03:41:47.144136+00:00",
+    "passes": 139,
+    "failures": 0,
+    "modules": [
+      {
+        "failures": 0,
+        "name": "entire_skater_wall_manual_tests",
+        "passes": 91
+      },
+      {
+        "failures": 0,
+        "name": "entire_skater_obstacle_arm_tests",
+        "passes": 48
+      }
+    ],
+    "returncode": 0,
+    "source_count": 797,
+    "source_stable": true,
+    "raw_engine_error": false,
+    "observer_sha256": "efdaf4b8e8a4486d345b8d8291724d6fc60f230ed3aa217f793f47a2ceba089a",
+    "scope": "Exact clean actual main files; complete two modules; current procedural clothing, fitted/moving/full-suite/M5 gates separate."
+  }
+}

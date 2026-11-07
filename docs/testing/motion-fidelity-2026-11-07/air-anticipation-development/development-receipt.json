@@ -1,0 +1,25 @@
+{
+  "private_candidate_only": true,
+  "acceptance": false,
+  "source_scope": "Source inventory sampled after development replay only; not a before/after source-frozen acceptance epoch. Controller held after replay for independent cold-read.",
+  "source_input_count": 786,
+  "native_rows": 1408,
+  "native_equal_rows": true,
+  "native_compared_keys": [
+    "physics",
+    "air",
+    "wall",
+    "floor",
+    "body",
+    "velocity",
+    "sequence"
+  ],
+  "native_differences": [],
+  "baseline_max_offset_step_m": 0.119816407561302,
+  "candidate_max_offset_step_m": 0.0271979197859764,
+  "candidate_max_total_offset_m": 0.131497010588646,
+  "old_reactive_oracle_result": "1 passed,3 failed: owner-only ZERO assertion intentionally remains unchanged; this is rejected whole receipt.",
+  "new_forecast_negatives": "Not run; independent finite-native forecast witness required.",
+  "moving_visual": "Not run; no visual acceptance.",
+  "trace_sha256": "9a1203282bc573617833d9f0b266052dca9a570eb22d08c10d5c0396392e1327"
+}

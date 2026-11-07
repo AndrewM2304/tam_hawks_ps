@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""Run only on an explicit root-owned engine lease; no main writes or imports."""
+import datetime,hashlib,json,os,re,subprocess,time
+from pathlib import Path
+R=Path('/workspace/tam_hawks_ps');O=R/'.local/qa-fidelity/body-axis-01';S=O/'source'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def inventory():
+ files=[p for base in ['game','tests','tools'] for p in (S/base).rglob('*') if p.is_file()]
+ files += [S/'project.godot',S/'.local/body_axis_probe.gd',S/'.godot/global_script_class_cache.cfg']
+ files += [p for p in (S/'.godot/imported').rglob('*') if p.is_file()]
+ return {str(p.relative_to(S)):sha(p) for p in sorted(files)}
+# Source changes are private intentional variants; every individual process has an immutable input epoch.
+for mode in ['baseline','candidate']:
+ dest=O/mode
+ if dest.exists():raise SystemExit('refusing occupied epoch '+mode)
+ dest.mkdir()
+ (S/'game/player/skater_visual.gd').write_bytes((O/(mode+'-skater_visual.gd.txt')).read_bytes())
+ before=inventory();(dest/'source-before.json').write_text(json.dumps(before,sort_keys=True,indent=2)+'\n')
+ env=dict(os.environ)
+ for key,folder in [('XDG_DATA_HOME','data'),('XDG_CONFIG_HOME','config'),('XDG_CACHE_HOME','cache')]:
+  env[key]=str(dest/folder);(dest/folder).mkdir()
+ env['GODOT_SILENCE_ROOT_WARNING']='1'
+ cmd=['godot','--headless','--path',str(S),'--audio-driver','Dummy','--fixed-fps','60','--script','res://.local/body_axis_probe.gd']
+ receipt={'schema':1,'mode':mode,'command':cmd,'started_utc':now(),'deadline_seconds':38,'source_inputs':len(before),'scope':'Independent104 real-Main board/torso/manual-control assertions, exact one-file root-proposed visual overlay; no new gameplay or main source changes. No performance/exclusivity/M5 claim.'}
+ start=time.monotonic();timeout=False
+ with (dest/'engine.log').open('wb') as f:
+  proc=subprocess.Popen(cmd,cwd=S,env=env,stdout=f,stderr=subprocess.STDOUT);receipt['godot_pid']=proc.pid
+  (dest/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+  try:code=proc.wait(timeout=38)
+  except subprocess.TimeoutExpired:timeout=True;proc.terminate();proc.wait(timeout=5);code=proc.returncode
+ receipt.update({'finished_utc':now(),'wall_seconds':time.monotonic()-start,'engine_exit':code,'timed_out':timeout})
+ after=inventory();(dest/'source-after.json').write_text(json.dumps(after,sort_keys=True,indent=2)+'\n');receipt['changed_inputs']=[k for k in set(before)|set(after) if before.get(k)!=after.get(k)];receipt['source_stable']=before==after
+ log=(dest/'engine.log').read_text();match=re.search(r'BODY AXIS RESULT: (\d+) passed, (\d+) failed',log);receipt['native_result']=[int(x) for x in match.groups()] if match else None
+ rows=[json.loads(x.split('FIDELITY_MANUAL_WORLD_SIGN ',1)[1]) for x in log.splitlines() if x.startswith('FIDELITY_MANUAL_WORLD_SIGN ')]
+ receipt['torso_measures']=[{'case':x['case'],'forward_delta':x['body_after_forward']['torso_axis_fore_aft']-x['body_before_forward']['torso_axis_fore_aft'],'back_delta':x['body_after_back']['torso_axis_fore_aft']-x['body_before_back']['torso_axis_fore_aft']} for x in rows]
+ receipt['unexpected_engine_errors']=[x for x in log.splitlines() if any(t in x for t in ['SCRIPT ERROR:','Parse Error','ERROR:']) and 'ERROR: FAIL: fidelity controls:' not in x]
+ receipt['eligible']=not timeout and receipt['source_stable'] and code==0 and match is not None and int(match.group(2))==0 and not receipt['unexpected_engine_errors']
+ (dest/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in receipt.items() if k not in ['command']},indent=2),flush=True)
+ if timeout or not receipt['source_stable'] or receipt['unexpected_engine_errors']:raise SystemExit(2)
+ if mode=='candidate' and not receipt['eligible']:raise SystemExit(1)

@@ -475,7 +475,10 @@ func _build_exploration_boundaries() -> void:
 	for span: Vector2 in [Vector2(west_join.x,-15),Vector2(-9,9),Vector2(15,east_join.x)]:
 		_boundary("QuayLandwardBoundary",Vector2(span.x,55.2),Vector2(span.y,55.2))
 	_boundary("NorthQuayEndBoundary",Vector2(-84.8,west_join.y),Vector2(-84.8,77.8))
-	_boundary("NorthQuayEndBoundary",Vector2(84.8,east_join.y),Vector2(84.8,77.8))
+	# Retain a visible five-metre terminal backing above the quay. Native
+	# maximum-speed uphill Ollies cleared the former Y5 top into unsupported
+	# ground; the same four panel slots/display now continue honestly to Y7.
+	_boundary("NorthQuayEndBoundary",Vector2(84.8,east_join.y),Vector2(84.8,77.8),5.0)
 	for x: float in [-38.8,75.8]:
 		_boundary("SouthPocketEndBoundary",Vector2(x,116.2),Vector2(x,142.8))
 	_boundary("SouthPocketRearBoundary",Vector2(-38.8,142.8),Vector2(75.8,142.8))
@@ -531,12 +534,32 @@ func _boundary(id: String, start: Vector2, end: Vector2, fence_height: float = 3
 	if behind_decks: wall_material = _material("shop_navy")
 	var boundary := ExplorationBoundary.build(self,id,points,wall_material,_material("iron"),
 		10.0 if behind_decks else fence_height,behind_decks or id.begins_with("SouthPocket"),opaque_edge)
+	if id=="NorthQuayEndBoundary" and start.x>0.0:
+		# The east relay now ends in a real graded return against the retained
+		# wall. Reuse its native slots/display/finish; preserve the approach mouth
+		# and independent Z68–72 bypass before X78. No new transition module.
+		var bank: Dictionary=ExplorationBoundary.bank_terminal_wall(boundary,80.8,84.7,2.0)
+		var bounds: Rect2=bank.bounds
+		_surfaces.append({"bounds":bounds,"height_at":_east_quay_return_height,"spacing":0.5})
+		var mid_z: float=bounds.get_center().y
+		# The inboard approach leaves the original river bollards a full metre
+		# to the side; the whole bank remains available for different entries.
+		var entry_z:=73.5
+		_practice_features.append({"id":"clyde_east_return_bank","kind":"bank_wall_return","district":"clyde",
+			"position":to_global(Vector3(82.75,3.0,mid_z)),"bounds":bounds,"floor_y":2.0,"rise":2.0,
+			"approach":PackedVector3Array([to_global(Vector3(75,2,entry_z)),to_global(Vector3(80.8,2,entry_z))]),
+			"landing":PackedVector3Array([to_global(Vector3(80.8,2,entry_z)),to_global(Vector3(75,2,entry_z))]),
+			"wall_top":bank.wall_top,"added_triangles":bank.added_triangles})
 	# This is a continuous, solid print-yard masonry wall, rather than exposed
 	# perimeter ironwork. Its native backing remains the hard level boundary.
 	if id == "SouthPocketRearBoundary":
 		boundary.set_meta("no_wallride",false)
 		boundary.set_meta("wallrideable",true)
 		boundary.remove_meta("wallride_exclusion_reason")
+
+
+func _east_quay_return_height(x: float,_z: float) -> float:
+	return 2.0+2.0*clampf((x-80.8)/3.9,0,1)
 
 
 func get_district_id(world_position: Vector3) -> String:
@@ -883,8 +906,12 @@ func _build_clyde() -> void:
 	_rail("clyde_bridge_rail", PackedVector3Array([Vector3(Layout.TRANSFER_X+1.6, 3.25, 80), Vector3(Layout.TRANSFER_X+1.6, 3.55, 86), Vector3(Layout.TRANSFER_X+1.6, 4.0, 92)]), "rail", 0.065)
 	for x: float in [-76.0,-58.0,-8.0,8.0,44.0,66.0,79.0]:
 		_bollard(Vector3(x, 2.0, 75.0))
-	for x: float in [-73.0,8.0,70.0]:
-		_bench(Vector3(x, 2.0, 59.0))
+	_bench(Vector3(-73,2,59))
+	# Reuse the two short isolated benches as a readable east-arrival relay.
+	# Both real seats/supports move together; the Z68–72 travel lane stays clear.
+	# Original guide identities survive, with no additional bodies or resources.
+	_bench(Vector3(42,2,64),0.0,5.6,"x800y244z5900")
+	_bench(Vector3(64,2,64),deg_to_rad(15),5.6,"x7000y244z5900")
 	_route("clyde_north_quay", "Station to Barras via Clyde", PackedVector3Array([
 		Vector3(-94,2,45),Vector3(-94,2,55),Vector3(-78,2,67),Vector3(-78,2,69),
 		Vector3(78,2,69),Vector3(78,2,67),Vector3(94,2,55),
@@ -941,25 +968,7 @@ func _build_park() -> void:
 			var at := path[index]
 			at.y = lerpf(11.0, at.y, smoothstep(6.0, 14.0, distance))
 			path[index] = at
-	var grass := ShaderMaterial.new()
-	var shader := Shader.new()
-	shader.code = """shader_type spatial;
-varying vec3 world_position;
-void vertex(){world_position=(MODEL_MATRIX*vec4(VERTEX,1.0)).xyz;}
-float hash(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
-float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y);}
-void fragment(){
-	// Keep detail broad enough to remain stable across the Mac and GL renderer.
-	// Sub-10cm hash cells shimmer and alias on this large, shallow landscape.
-	vec2 p=world_position.xz;
-	float patches=noise(p*0.12)*0.68+noise(p*0.38)*0.32;
-	float shade=0.96+0.04*sin(dot(p,vec2(0.037,0.051)));
-	ALBEDO=mix(vec3(0.20,0.27,0.14),vec3(0.29,0.35,0.20),patches)*shade;
-	ROUGHNESS=0.98;
-	SPECULAR=0.08;
-}
-"""
-	grass.shader = shader
+	var grass: Material = _material("grass")
 	var excavations: Array[Rect2] = []
 	if _skatepark_source != null: excavations.append(SKATEPARK_BOUNDS)
 	Surface.terrain(self, "KelvingroveRollingGround", PARK_LANDSCAPE, 2.5, _park_height, grass, excavations)
@@ -1535,9 +1544,14 @@ func _bollard(at: Vector3) -> void:
 	add_child(visual)
 
 
-func _bench(at: Vector3) -> void:
-	_box("QuayBenchSeat", at + Vector3.UP * 0.44, Vector3(2.8, 0.10, 0.55), _material("wood"))
-	for x: float in [-1.0, 1.0]: _box("QuayBenchSupport", at + Vector3(x, 0.20, 0), Vector3(0.14, 0.4, 0.45), _material("iron"), false)
+func _bench(at: Vector3,yaw: float=0.0,length: float=2.8,edge_stamp: String="") -> void:
+	var basis:=Basis(Vector3.UP,yaw)
+	var seat:=_box("QuayBenchSeat",at+Vector3.UP*0.44,Vector3(length,0.10,0.55),_material("wood"))
+	seat.basis=basis
+	if not edge_stamp.is_empty(): seat.set_meta("skate_edge_identity_stamp",edge_stamp)
+	for x: float in [-1.0,1.0]:
+		var support:=_box("QuayBenchSupport",at+basis*Vector3(x*(length*0.5-0.4),0.20,0),Vector3(0.14,0.4,0.45),_material("iron"),false)
+		support.basis=basis
 
 
 func _path_border(points: PackedVector3Array) -> void:

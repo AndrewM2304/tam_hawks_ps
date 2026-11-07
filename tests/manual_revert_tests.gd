@@ -134,15 +134,15 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(skater.get_node("SkaterVisual/Board").rotation.x > 0.20,
 		"manual: real board pose raises its nose while balanced")
 	var balance: float = skater.manual_balance
-	Input.action_press("steer_right")
+	Input.action_press("brake")
 	await _frames(tree, 6)
-	Input.action_release("steer_right")
-	check.call(skater.manual_balance > balance + 0.1, "manual: right input shifts balance right")
+	Input.action_release("brake")
+	check.call(skater.manual_balance > balance + 0.1, "manual: Back input leans toward the tail")
 	balance = skater.manual_balance
-	Input.action_press("steer_left")
+	Input.action_press("push")
 	await _frames(tree, 6)
-	Input.action_release("steer_left")
-	check.call(skater.manual_balance < balance - 0.1, "manual: left input corrects rightward balance")
+	Input.action_release("push")
+	check.call(skater.manual_balance < balance - 0.1, "manual: Forward input corrects tailward balance")
 	Input.action_release("manual")
 	await _frames(tree, 1)
 	check.call(not skater.manual_active and events["ends"] == 1,
@@ -185,7 +185,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	skater.speed = 8.0
 	Input.action_press("manual")
 	await _frames(tree, 1)
-	Input.action_press("steer_right")
+	Input.action_press("brake")
 	await _frames(tree, 40)
 	check.call(events["bails"] == 1 and not skater.manual_active,
 		"manual: actual balance input exceeding the limit bails once and clears state")
@@ -203,7 +203,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(not skater.manual_active and not skater.airborne and events["Revert"] == 0,
 		"manual/revert: overtime entry gate rejects all fresh grounded links")
 	_release_actions()
-	# The earlier balance-bail trial now uses horizontal input. Begin the
+	# The earlier balance-bail trial uses fore/aft input. Begin the
 	# independent revert trial from a normal reset so its exact heading check
 	# does not inherit the ordinary steering response after that bail.
 	skater.reset_skater()

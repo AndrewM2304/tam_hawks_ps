@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Fixed owner-witness coordinates and actual native input, independent of the
 ## placement helper's transform implementation. No mid-run actor correction.
 
@@ -363,7 +364,7 @@ static func run_player(tree: SceneTree,game: Node,check: Callable) -> void:
 			phase=1
 		if phase==1 and game.skater.manual_active:
 			manual_frames+=1
-			Input.action_press("push",clampf(0.15+(game.skater.manual_balance-0.05)*2.0,0.0,0.4))
+			ManualBalance.correct(game.skater,-clampf(0.15+(game.skater.manual_balance-0.05)*2.0,0.0,0.4))
 			if manual_frames>=10:
 				Input.action_press("ollie")
 				phase=2

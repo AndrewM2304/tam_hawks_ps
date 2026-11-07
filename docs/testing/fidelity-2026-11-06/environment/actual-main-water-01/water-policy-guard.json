@@ -1,0 +1,52 @@
+{
+	"checks": 13,
+	"failures": 0,
+	"report": {
+		"changed_count": 3,
+		"matched_count": 3,
+		"shader_instance_id": -9223372010833312346,
+		"shader_path": "res://game/art/assets/horizon/clyde_water.gdshader",
+		"unsupported": [
+			{
+				"path": "extra-pass",
+				"reason": "mixed, foreign or extra-pass material"
+			},
+			{
+				"path": "overlay",
+				"reason": "material overlay retained"
+			},
+			{
+				"path": "shadow-only",
+				"reason": "shadow-only geometry would change visible content"
+			},
+			{
+				"path": "mixed-water-solid",
+				"reason": "mixed, foreign or extra-pass material"
+			}
+		],
+		"water_instances": [
+			{
+				"after_cast_shadow": 0,
+				"before_cast_shadow": 1,
+				"instance_id": 26575111608,
+				"material_id": -9223372010363550285,
+				"path": "water"
+			},
+			{
+				"after_cast_shadow": 0,
+				"before_cast_shadow": 1,
+				"instance_id": 26776438212,
+				"material_id": -9223372010363550285,
+				"path": "multimesh-water"
+			},
+			{
+				"after_cast_shadow": 0,
+				"before_cast_shadow": 1,
+				"instance_id": 26826769863,
+				"material_id": 0,
+				"path": "embedded-water"
+			}
+		]
+	},
+	"scope": "Focused native resource/caster guard only; visual/Main/hardware separate"
+}

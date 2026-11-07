@@ -174,23 +174,58 @@ static func run_world(world: Node,check: Callable) -> void:
 	var semantic_count := 0
 	var uncertain_slats := 0
 	var semantic_valid := true
+	var native_seats: Dictionary={}
+	var native_seat_count:=0
+	var verified_seat_count:=0
+	var rejected_seat_ends: Array[String]=[]
+	var seat_records: Array[Dictionary]=[]
+	for body: StaticBody3D in world.find_children("*","StaticBody3D",true,false):
+		if body.get_meta("art_label","")!="QuayBenchSeat":continue
+		var stamp:=String(body.get_meta("skate_edge_identity_stamp",""))
+		if stamp in ["x800y244z5900","x7000y244z5900"]:native_seats[stamp]=body
 	for line: RefCounted in lines:
 		if not String(line.id).begins_with(Edges.PREFIX): continue
 		semantic_count+=1
 		var distance: float=line.length*0.5
-		var generic := false
-		if not line.contact_verified:
-			generic=rider._grind_candidate_supported(line,distance,1.0)
-		var chosen: Dictionary=rider._grind_choices.get(line.get_instance_id(),{})
-		semantic_valid=semantic_valid and not line.contact_verified and line.contact_source.is_empty() \
-			and line.contact_vertical_offset==0.0 and line.contact_normal_offset==0.0 \
-			and line.contact_at(distance).is_equal_approx(line.point_at(distance)) \
-			and generic and chosen.get("id","")=="rail_grind"
+		var inspected: StaticBody3D
+		for stamp: String in native_seats:
+			if String(line.id).begins_with(Edges.PREFIX+"Bench_"+stamp+"_"):inspected=native_seats[stamp]
+		if inspected!=null:
+			native_seat_count+=1
+			var valid:=false
+			var outward_error:=0.0
+			if line.contact_verified:
+				verified_seat_count+=1
+				valid=_native_seat_metadata(line,inspected)
+			else:
+				# Rounded world endpoints on these two short rotated ends fail the
+				# existing1e-6 perpendicular guard. Preserve its honest generic
+				# fallback rather than authorising an unsupported named bearing.
+				var right:=String(line.id)==Edges.PREFIX+"Bench_x7000y244z5900_1_0"
+				var left:=String(line.id)==Edges.PREFIX+"Bench_x7000y244z5900_3_0"
+				for child: Node in inspected.get_children():
+					if child is CollisionShape3D and child.shape is BoxShape3D:
+						var outward: Vector3=child.global_basis*(Vector3.RIGHT if right else Vector3.LEFT)
+						outward_error=absf(outward.dot(line.dir_at(distance)))
+				valid=(right or left) and outward_error>.000001 and outward_error<.0001 \
+					and _generic_semantic_metadata(rider,line,distance)
+				rejected_seat_ends.append(String(line.id))
+			semantic_valid=valid and semantic_valid
+			seat_records.append({"id":line.id,"verified":line.contact_verified,"valid":valid,
+				"source":line.contact_source,"vertical_offset":line.contact_vertical_offset,
+				"outward":line.contact_edge_outward,"outward_perpendicular_error":outward_error,
+				"support_rids":line.native_support_rids,"actual_box_rid":inspected.get_rid()})
+		else:
+			semantic_valid=_generic_semantic_metadata(rider,line,distance) and semantic_valid
 		if String(line.id).begins_with(Edges.PREFIX+"StreetBenchSeat_") \
 				or String(line.id).begins_with(Edges.PREFIX+"StreetBenchBack_"):
 			uncertain_slats+=1
-	check.call(semantic_count>0 and uncertain_slats>0 and semantic_valid,
-		"grind contact world: every semantic source keeps original generic classification and unchanged guide until conforming solid-edge contact is supported")
+	rejected_seat_ends.sort()
+	var expected_rejected: Array[String]=[Edges.PREFIX+"Bench_x7000y244z5900_1_0",Edges.PREFIX+"Bench_x7000y244z5900_3_0"]
+	check.call(semantic_count>0 and uncertain_slats>0 and native_seats.size()==2 and native_seat_count==8 \
+		and verified_seat_count==6 and rejected_seat_ends==expected_rejected and semantic_valid,
+		"grind contact world: six inspected native seat faces authenticate real support; two rejected rotated short ends and every other semantic source retain original generic guides")
+	print("GRIND_CONTACT_NATIVE_SEATS ",seat_records)
 	for specification: Array in [["Planter_",Vector3(-29,0.84,11.5)],
 		["MarketCounter_",Vector3(109.5,1.24,2)],["StreetBenchSeat_",Vector3(29,0.585,27.26)],
 		["BridgeRail_",Vector3(-28.85,3.8,81)]]:
@@ -203,6 +238,35 @@ static func run_world(world: Node,check: Callable) -> void:
 			"grind contact world: established real semantic route retains its original authored identity and top-guide location "+str(specification[0]))
 	print("GRIND_CONTACT_METADATA generic_semantic_edges=",semantic_count," unverified_slatted_edges=",uncertain_slats)
 	rider.free()
+
+
+static func _generic_semantic_metadata(rider: Node,line: RefCounted,distance: float) -> bool:
+	var generic:=false
+	if not line.contact_verified:generic=rider._grind_candidate_supported(line,distance,1.0)
+	var chosen: Dictionary=rider._grind_choices.get(line.get_instance_id(),{})
+	return not line.contact_verified and line.contact_source.is_empty() \
+		and line.contact_vertical_offset==0.0 and line.contact_normal_offset==0.0 \
+		and line.contact_at(distance).is_equal_approx(line.point_at(distance)) \
+		and generic and chosen.get("id","")=="rail_grind"
+
+
+static func _native_seat_metadata(line: RefCounted,body: StaticBody3D) -> bool:
+	var box: CollisionShape3D
+	for child: Node in body.get_children():
+		if child is CollisionShape3D and child.shape is BoxShape3D:box=child
+	if box==null:return false
+	var half: Vector3=box.shape.size*.5
+	var middle: Vector3=line.contact_at(line.length*.5)
+	var at: Vector3=box.to_local(middle)
+	var local_out: Vector3=box.global_basis.inverse()*line.contact_edge_outward
+	var on_edge: bool=(absf(absf(at.x)-half.x)<.0001 and absf(local_out.x)>.999 and signf(at.x)==signf(local_out.x)) \
+		or (absf(absf(at.z)-half.z)<.0001 and absf(local_out.z)>.999 and signf(at.z)==signf(local_out.z))
+	return line.contact_verified and line.contact_source=="skate_edges.native_box_top" \
+		and line.contact_vertical_offset== -Edges.SKIN and line.contact_normal_offset==0.0 \
+		and line.native_support_rids==[body.get_rid()] and local_out.is_finite() \
+		and absf(local_out.y)<.0001 and absf(local_out.length()-1.0)<.0001 \
+		and absf(at.y-half.y)<.0001 and absf(at.x)<=half.x+.0001 and absf(at.z)<=half.z+.0001 \
+		and on_edge and absf(line.dir_at(line.length*.5).dot(line.contact_edge_outward))<.0001
 
 
 static func _normal_joint_refusals(check: Callable) -> void:

@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "mode": "baseline",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/qa-fidelity/body-axis-01/source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "res://.local/body_axis_probe.gd"
+  ],
+  "started_utc": "2026-11-07T03:45:04.792583+00:00",
+  "deadline_seconds": 38,
+  "source_inputs": 999,
+  "scope": "Independent104 real-Main board/torso/manual-control assertions, exact one-file root-proposed visual overlay; no new gameplay or main source changes. No performance/exclusivity/M5 claim.",
+  "godot_pid": 52563,
+  "finished_utc": "2026-11-07T03:45:32.961056+00:00",
+  "wall_seconds": 28.167909040999803,
+  "engine_exit": 1,
+  "timed_out": false,
+  "changed_inputs": [],
+  "source_stable": true,
+  "native_result": [
+    100,
+    4
+  ],
+  "torso_measures": [
+    {
+      "case": "manual",
+      "forward_delta": 0.006212070584297194,
+      "back_delta": -0.009591810405254406
+    },
+    {
+      "case": "nose_manual",
+      "forward_delta": 0.0075831972062588,
+      "back_delta": -0.0080413650721312
+    },
+    {
+      "case": "manual fakie",
+      "forward_delta": 0.007871668785810505,
+      "back_delta": -0.008005369454622303
+    },
+    {
+      "case": "nose_manual fakie",
+      "forward_delta": 0.006342669948935502,
+      "back_delta": -0.009484820067882503
+    },
+    {
+      "case": "pogo",
+      "forward_delta": -0.008485049009323106,
+      "back_delta": 0.010888762772083296
+    },
+    {
+      "case": "casper_manual",
+      "forward_delta": 0.006229743361473097,
+      "back_delta": -0.009597457945346805
+    },
+    {
+      "case": "manual_pivot",
+      "forward_delta": 0.007795035839080797,
+      "back_delta": -0.008044071495533003
+    },
+    {
+      "case": "nose_manual_pivot",
+      "forward_delta": 0.006283368915319401,
+      "back_delta": -0.0092287510633468
+    },
+    {
+      "case": "hang_ten",
+      "forward_delta": -0.0044879363849759015,
+      "back_delta": 0.000839190557599
+    },
+    {
+      "case": "one_foot_nose_manual",
+      "forward_delta": 0.0075917504727841,
+      "back_delta": -0.008038554340601
+    }
+  ],
+  "unexpected_engine_errors": [],
+  "eligible": false
+}

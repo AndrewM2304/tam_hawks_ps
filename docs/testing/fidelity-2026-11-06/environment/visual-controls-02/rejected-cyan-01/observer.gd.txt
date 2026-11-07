@@ -1,0 +1,156 @@
+extends "res://tools/environment_water_isolated_probe.gd"
+## Visual-only continuation of the verified isolated observer. Actual plane and
+## daylight; no timing samples or performance acceptance during headless suite.
+const FLAT = preload("res://tools/fixtures/environment/water_flat_normal.gdshader")
+const PRODUCTION_SHA := "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190"
+var _control_water: MeshInstance3D
+var _proof_markers: Array[MeshInstance3D] = []
+var _proof_swatch: ColorRect
+var _control_materials: Array[Dictionary] = []
+
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	if args.size() != 1 or DisplayServer.get_name() == "headless": quit(2); return
+	_output = args[0]
+	if not (ProjectSettings.globalize_path(_output).simplify_path()+"/").begins_with(ProjectSettings.globalize_path("res://.local/").simplify_path()+"/"):
+		quit(2); return
+	_started = Time.get_ticks_usec()
+	Engine.max_fps = 0
+	root.size = Vector2i(640,400)
+	root.content_scale_size = root.size
+	_check(FileAccess.get_sha256(CANDIDATE) == PRODUCTION_SHA,"exact unchanged production water source")
+	var lighting := World.new()
+	lighting._build_lighting()
+	for child: Node in lighting.get_children():
+		lighting.remove_child(child)
+		root.add_child(child)
+	lighting.free()
+	var outdoors := Outdoors.new()
+	outdoors._water()
+	root.add_child(outdoors)
+	_control_water = outdoors.get_node("ClydeWater")
+	_material = _control_water.material_override
+	_check(_material.shader == load(CANDIDATE),"exact production material uses exact production shader")
+	_check(_control_water.mesh is PlaneMesh and _control_water.mesh.size == Outdoors.VISIBLE_WATER.size,"exact production water geometry")
+	var flat := ShaderMaterial.new()
+	flat.shader = FLAT
+	var native := StandardMaterial3D.new()
+	native.albedo_color = Color(0.055,0.110,0.115)
+	native.roughness = 0.36
+	native.metallic = 0.0
+	native.metallic_specular = 0.50
+	native.diffuse_mode = BaseMaterial3D.DIFFUSE_LAMBERT
+	_control_materials = [{"id":"production-wave","material":_material},
+		{"id":"constant-normal","material":flat},{"id":"native-standard","material":native}]
+	_camera = Camera3D.new()
+	_camera.fov = 68
+	_camera.far = 1000
+	root.add_child(_camera)
+	_camera.current = true
+	_create_pixel_proofs()
+	_write_report(false,"startup")
+	for mode_index: int in _control_materials.size():
+		var mode: Dictionary = _control_materials[mode_index]
+		_control_water.material_override = mode.material
+		var view_index := 0
+		for view: Dictionary in _views():
+			_place(view)
+			_position_proofs(mode_index,view_index)
+			await _record_visual(mode,view)
+			_write_report(false,"visual-controls")
+			view_index += 1
+	_check(_images.size() == 9,"all nine visual controls completed")
+	_control_water.material_override = _material
+	_write_report(true,"complete")
+	print("ENVIRONMENT_WATER_VISUAL_RESULT checks=",_checks," failures=",_failures," images=",_images.size())
+	quit(1 if _failures else 0)
+
+func _create_pixel_proofs() -> void:
+	for color: Color in [Color(1,0,1),Color(0,1,1)]:
+		var mesh := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.09
+		sphere.height = 0.18
+		sphere.radial_segments = 12
+		sphere.rings = 6
+		mesh.mesh = sphere
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.albedo_color = color
+		mesh.material_override = material
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		root.add_child(mesh)
+		_proof_markers.append(mesh)
+	var canvas := CanvasLayer.new()
+	root.add_child(canvas)
+	_proof_swatch = ColorRect.new()
+	_proof_swatch.position = Vector2(4,4)
+	_proof_swatch.size = Vector2(18,18)
+	canvas.add_child(_proof_swatch)
+
+func _position_proofs(mode: int,view: int) -> void:
+	# Independent world nodes, deliberately changing projected position between
+	# views/modes. A fully stale camera+marker frame cannot pass the next target.
+	_proof_markers[0].global_position = _camera.to_global(Vector3(-1.6+view*0.35+mode*0.10,1.2,-5))
+	_proof_markers[1].global_position = _camera.to_global(Vector3(1.5-view*0.25,0.8+mode*0.12,-5))
+	_proof_swatch.color = Color8(30+70*mode,40+70*view,190-30*mode)
+
+func _record_visual(mode: Dictionary,view: Dictionary) -> void:
+	# This is the same verified isolated observer fence: native warm draws,
+	# same-frame process/physics counters, post-draw readback, full RGBA8 hash.
+	for frame: int in 3: await RenderingServer.frame_post_draw
+	await process_frame
+	await create_timer(0.0,true).timeout
+	var tick := Engine.get_physics_frames()
+	var process_tick := Engine.get_process_frames()
+	await RenderingServer.frame_post_draw
+	_check(tick == Engine.get_physics_frames() and process_tick == Engine.get_process_frames(),"natural visual readback completes selected current frame")
+	var image := root.get_texture().get_image()
+	image.convert(Image.FORMAT_RGBA8)
+	_check(image.get_width() == 640 and image.get_height() == 400,"actual native visual buffer is640by400")
+	var proof := _verify_pixel_proofs(image)
+	var filename: String = str(mode.id)+"-"+str(view.id)+".png"
+	_check(image.save_png(_output.path_join(filename)) == OK,"lossless visual control saved")
+	var hash := HashingContext.new()
+	hash.start(HashingContext.HASH_SHA256)
+	hash.update(image.get_data())
+	_images.append({"file":filename,"mode":mode.id,"view":view.id,"rgba8_sha256":hash.finish().hex_encode(),
+		"camera_position":_vector(_camera.global_position),"camera_forward":_vector(-_camera.global_basis.z),
+		"camera_basis":[_vector(_camera.global_basis.x),_vector(_camera.global_basis.y),_vector(_camera.global_basis.z)],
+		"fov":_camera.fov,"keep_aspect":_camera.keep_aspect,"near":_camera.near,"far":_camera.far,
+		"physics_before":tick,"physics_after":Engine.get_physics_frames(),"process_before":process_tick,"process_after":Engine.get_process_frames(),
+		"pixel_proofs":proof,"material_class":mode.material.get_class(),"counters":_counters()})
+
+func _verify_pixel_proofs(image: Image) -> Dictionary:
+	var records: Array[Dictionary] = []
+	for index: int in _proof_markers.size():
+		var point := _proof_markers[index].global_position
+		var projected := _camera.unproject_position(point)
+		var center := Vector2.ZERO
+		var count := 0
+		for y: int in range(maxi(0,int(projected.y)-10),mini(image.get_height(),int(projected.y)+11)):
+			for x: int in range(maxi(0,int(projected.x)-10),mini(image.get_width(),int(projected.x)+11)):
+				var color := image.get_pixel(x,y)
+				var found := color.r>0.70 and color.b>0.70 and color.g<0.25 if index==0 else color.g>0.70 and color.b>0.70 and color.r<0.25
+				if found: center+=Vector2(x,y);count+=1
+		if count: center/=float(count)
+		var error := center.distance_to(projected)
+		_check(count>=8 and error<=2.0,"projected independent3D marker matches actual pixels")
+		records.append({"color":"magenta" if index==0 else "cyan","world_position":_vector(point),"projected_xy":[projected.x,projected.y],"pixel_count":count,"centroid_xy":[center.x,center.y],"error_pixels":error})
+	var expected := _proof_swatch.color
+	var actual := image.get_pixel(10,10)
+	var swatch_error := maxf(absf(expected.r-actual.r),maxf(absf(expected.g-actual.g),absf(expected.b-actual.b)))
+	_check(swatch_error<=2.0/255.0,"current Canvas material/view swatch agrees with native pixels")
+	return {"markers":records,"canvas_expected_rgb":[expected.r,expected.g,expected.b],"canvas_actual_rgb":[actual.r,actual.g,actual.b],"canvas_error":swatch_error,"canvas_sample_xy":[10,10]}
+
+func _write_report(complete: bool,phase: String) -> void:
+	var report := {"schema":1,"complete":complete,"phase":phase,"checks":_checks,"failures":_failures,
+		"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),
+		"resolution":[root.size.x,root.size.y],"production_shader_sha256":FileAccess.get_sha256(CANDIDATE),"flat_shader_sha256":FileAccess.get_sha256("res://tools/fixtures/environment/water_flat_normal.gdshader"),
+		"lighting_source":"Exact GlasgowSquare._build_lighting(), no full-world ready","geometry_source":"Exact OutdoorRoutes._water() central plane",
+		"material_contract":{"albedo":[0.055,0.110,0.115],"roughness":0.36,"metallic":0.0,"specular":0.50,"native_diffuse":"Lambert","native_normal_map":false},
+		"images":_images,"cost_brackets":[],"timing_measured":false,
+		"limits":"Visual-only640x400 controls. Explicitly permitted concurrent untimed headless suite; no sole-engine, pacing, FPS or cost claim. Exact production plane/daylight; production-wave, constant-world-normal custom shader and native Lambert StandardMaterial3D with matched exposed PBR values. Native TIME active for production waves only. Two small independent3D markers and a Canvas swatch prove current camera/Canvas boundary; these are diagnostic overlays outside the primary water region. Native RGBA8 originals, camera transforms and same-frame counters preserved. No Main, rider, save or personal Music."}
+	var file := FileAccess.open(_output.path_join("visual-water-report.json"),FileAccess.WRITE)
+	if file: file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	else:_check(false,"visual report writable")

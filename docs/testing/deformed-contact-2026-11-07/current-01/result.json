@@ -1,0 +1,20 @@
+{
+	"failures": [
+		"entire_skater_wall_manual_tests: wall Manual: actual moving approach acquires inside positive native skin before the unfitted mesh penetrates",
+		"entire_skater_wall_manual_tests: ordinary Manual: original Skin/curl clears the finite panel during earned fits while the no-arm twin intrudes, with contained envelopes and attached clothes"
+	],
+	"modules": [
+		{
+			"failures": 2,
+			"name": "entire_skater_wall_manual_tests",
+			"passes": 89
+		},
+		{
+			"failures": 0,
+			"name": "entire_skater_obstacle_arm_tests",
+			"passes": 48
+		}
+	],
+	"passes": 137,
+	"scope": "entire original WallManual.run and ObstacleArm.run against current production source; only shader-correct CPU witness semantics changed; no performance/M5 claim"
+}

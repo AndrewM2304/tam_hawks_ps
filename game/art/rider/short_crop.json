@@ -1,0 +1,21 @@
+{
+  "source": "game/art/assets/makehuman_hm08/hair.obj",
+  "source_sha256": "906b29d0238e7c527ce8115d80ddc134d4be5f143f2b16e6ab0cbb359060ba1e",
+  "source_licence": "CC0-1.0; retained MakeHuman notices",
+  "adaptation": "Original deterministic volume fit and 1050 tapered opaque three-segment fiber clumps, merged with scalp into one native surface.",
+  "generator": "tools/rider_asset_hair.py",
+  "generator_sha256": "3e8960d24e61e688fa5367ce70cc768f13bfe4a3d82f42c08cf8463175800b67",
+  "mesh_sha256": "f70d380b4a2d453d151ea3d22d90f9fb08e0b295de3fbd1a7c2e9ab5d33211ff",
+  "triangles": 7048,
+  "bound_min_m": [
+    -0.07617760656360217,
+    0.02442211,
+    -0.10866314394035378
+  ],
+  "bound_max_m": [
+    0.0764839487698152,
+    0.15986289750237878,
+    0.1019348893962951
+  ],
+  "runtime": "One opaque native mesh surface copied once at startup and shared between actors; no per-frame geometry rebuilding."
+}

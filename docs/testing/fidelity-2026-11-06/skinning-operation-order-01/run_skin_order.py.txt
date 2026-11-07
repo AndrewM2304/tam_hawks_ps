@@ -1,0 +1,34 @@
+from pathlib import Path
+import os,json,time,subprocess,signal,hashlib,datetime
+ROOT=Path('/workspace/tam_hawks_ps');PROJECT=ROOT/'.local/qa-fidelity/checkpoint-source-03';OUT=ROOT/'.local/qa-fidelity/native-skinning-order-01';OBSERVER=ROOT/'.local/qa-fidelity/native_skin_order.gd'
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def inventory():
+ files=[PROJECT/'project.godot']+[p for d in ['game','tests','tools'] for p in (PROJECT/d).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+ return {**{str(p.relative_to(PROJECT)):sha(p) for p in sorted(files)},'EXTERNAL_OBSERVER':sha(OBSERVER),'EXTERNAL_WRAPPER':sha(Path(__file__))}
+def stop(p):
+ if p and p.poll() is None:
+  os.killpg(p.pid,signal.SIGTERM)
+  try:p.wait(timeout=2)
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait(timeout=2)
+before=inventory();(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(OUT/'headless-native-skin-order.json').write_bytes((OUT/'native-skin-order.json').read_bytes())
+engine=xorg=None;failure=None;engine_exit=None;start=datetime.datetime.now(datetime.timezone.utc).isoformat();t=time.monotonic();command=[]
+try:
+ with (OUT/'display').open('w') as displayfile,(OUT/'xorg-console.log').open('w') as xlog:
+  xorg=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(displayfile.fileno()),'-config',str(PROJECT/'tools/xorg-dummy.conf'),'-logfile',str(OUT/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=[displayfile.fileno()],stdout=xlog,stderr=subprocess.STDOUT,start_new_session=True)
+  deadline=time.monotonic()+5;display=''
+  while time.monotonic()<deadline:
+   display=(OUT/'display').read_text().strip()
+   if display:break
+   if xorg.poll() is not None:raise RuntimeError('Xorg startup failed')
+   time.sleep(.05)
+  if not display:raise RuntimeError('Xorg startup timeout')
+  command=[str(PROJECT/'tools/run.sh'),'--rendering-method','gl_compatibility','--audio-driver','Dummy','--windowed','--resolution','64x64','--script',str(OBSERVER),'--',str(OUT)]
+  with (OUT/'gpu.log').open('w') as log:
+   engine=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,env={**os.environ,'DISPLAY':':'+display,'LIBGL_ALWAYS_SOFTWARE':'1','LP_NUM_THREADS':'2'},start_new_session=True)
+   try:engine_exit=engine.wait(timeout=20)
+   except subprocess.TimeoutExpired:failure='20-second GPU deadline exceeded'
+except Exception as e:failure=repr(e)
+finally:stop(engine);stop(xorg)
+after=inventory();(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');log=(OUT/'gpu.log').read_text() if (OUT/'gpu.log').exists() else ''
+receipt={'schema':1,'started_utc':start,'finished_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'command':command,'engine_exit':engine_exit,'wrapper_seconds':time.monotonic()-t,'timeout_seconds':20,'failure':failure,'source_count':len(before),'source_stable':before==after,'engine_errors':any(x in log for x in ['ERROR:','SCRIPT ERROR:','Parse Error:']),'scope':'Root-leased isolated64x64 native ArrayMesh/Skin GPU operation-order witness, authored diagnostic camera, no Main gameplay/performance claim. No import. Headless source-after-only; this before/after belongs only to subsequent GPU run.'}
+(OUT/'gpu-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt));print(log[:4000])

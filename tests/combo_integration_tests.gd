@@ -1,4 +1,6 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
+const ManualUsability = preload("res://tests/manual_combo_usability_tests.gd")
 ## Independent real-input/physics checks for manuals, reverts and pending banks.
 
 # The west approach has clear flat runout before the new gallery grade.
@@ -16,6 +18,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _manual_release_and_bail(tree, game, check)
 	await _link_boundary(tree, game, check)
 	await _manual_overtime(tree, game, check)
+	await ManualUsability.run(tree, game, check)
 	_release_actions()
 	game.skater.spawn_position = original_spawn
 	game.restart_run()
@@ -175,7 +178,7 @@ static func _manual_release_and_bail(tree: SceneTree, game: Node, check: Callabl
 	var bail_count: Array[int] = [0]
 	var on_bail := func() -> void: bail_count[0] += 1
 	game.skater.bailed.connect(on_bail)
-	Input.action_press("steer_right")
+	Input.action_press("brake")
 	await _frames(tree, 65)
 	check.call(bail_count[0] == 1 and not game.skater.manual_active
 		and game.score.total_score == 100 and game.score.get_combo_value() == 0,
@@ -276,15 +279,10 @@ static func _wait_landing(tree: SceneTree, game: Node) -> void:
 
 static func _balance_manual(tree: SceneTree, game: Node, count: int) -> void:
 	for i in range(count):
-		Input.action_release("steer_left")
-		Input.action_release("steer_right")
-		if game.skater.manual_balance > 0.025:
-			Input.action_press("steer_left", 0.3)
-		elif game.skater.manual_balance < -0.025:
-			Input.action_press("steer_right", 0.3)
+		ManualBalance.hold(game.skater, 0.025, 0.3)
 		await _frames(tree, 1)
-	Input.action_release("steer_left")
-	Input.action_release("steer_right")
+	Input.action_release("push")
+	Input.action_release("brake")
 
 
 static func _key(key: Key, pressed: bool) -> void:

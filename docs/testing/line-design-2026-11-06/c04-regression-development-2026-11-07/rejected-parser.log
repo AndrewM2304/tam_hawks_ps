@@ -1,0 +1,57 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "local_out" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://tests/grind_contact_metadata_tests.gd:228)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://.local/c04_audit_career_combined.gd:0)
+ERROR: Failed to load script "res://.local/c04_audit_career_combined.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+PASS: PT24 runs: placement precedes ordinary world snapshots
+PASS: PT24 runs: Exchange seat physically follows the north-south east quay close
+PASS: PT24-19: existing civic seat becomes the corridor's east-west technical line
+PASS: PT24 runs: safe bridge return ledge follows the landing's north-south heading
+PASS: PT24 runs: fixed moved-seat contacts have real native bearings under their transformed guides
+PASS: PT24 runs: original Exchange teaching rail keeps both native guide endpoints
+PASS: PT24-20: existing wall resources become a low loading kerb and real steel bearing with tyre clearance
+PASS: PT24-20: all four new guide contacts sit on the reused steel bearing's real native top
+PASS: PT24 runs: original station bank route is translated once alongside its physical terrain and feature record
+PASS: PT24 runs: full-width native support and clear return recording_court_return
+PASS: PT24 runs: full-width native support and clear return exchange_east_quay_handoff
+PASS: PT24 runs: full-width native support and clear return civic_backstreet_ledge_return
+PASS: PT24 runs: full-width native support and clear return station_transition_handoff
+PASS: PT24 runs: full-width native support and clear return clyde_west_landing_return
+PASS: PT24 runs: all five actual placement continuations are published
+PASS: PT24 runs: fixed protected two-way passage stays open [(-82.0, 2.0, 34.0), (-82.0, 2.0, -34.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(57.0, 4.0, -80.0), (82.0, 4.0, -80.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-25.0, 2.329412, 118.0), (-25.0, 2.0, 122.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-25.0, 2.0, 122.0), (-25.0, 2.0, 125.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-22.0, 0.0, 28.0), (22.0, 0.0, 28.0)]
+PASS: PT24-20: unchanged secret recording has native support and a clear standing capsule
+PASS: PT24-27: eighteen fixed service-wall sites have real collision and matching displayed masonry
+PASS: PT24-27: opened native alley saves seven metres against a supported closed-gate detour while both street mouths stay clear
+PASS: PT24-18: civic return geometry matches the fixture's explicit construction setting
+PASS: PT24-18: return transition faces the exact southbound witness with a4.5m mouth and two1.25m escape shoulders
+PASS: PT24-18: eighteen independent curved return samples match the real finite native face
+PASS: PT24-18: grounded visible/native return sides preserve the original west-going park port
+PASS: PT24-18: twenty independent rear-miss sites have real displayed/nativeY6 floor through to the frontage
+PASS: PT24-18: fixed full-length shoulder is supported and capsule-clear in both directionsX-35.6
+PASS: PT24-18: fixed full-length shoulder is supported and capsule-clear in both directionsX-41.4
+PASS: PT24-18: eighteen two-sided displayed/native frontage-return witnesses close the east gutter before the retained floor ends
+PASS: PT24-18: continued southward no-jump Push meets the real frontage return and stops safely on supported ground
+PT24_CIVIC_CONTINUED_MISS progressed=true supported=true contact=true furthestZ=-109.481422424316 still=75 bails=0 ollies=0 at=(-35.6, 6.001328, -109.4814)
+PASS: PT24-18: ordinary no-jump Push/Brake leaves the rear miss pocket along shoulderX-35.6
+PT24_CIVIC_MISS_RECOVERY x=-35.6 reached=true supported=true bails=0 ollies=0 at=(-35.6, 6.014065, -121.803)
+PASS: PT24-18: ordinary no-jump Push/Brake leaves the rear miss pocket along shoulderX-41.4
+PT24_CIVIC_MISS_RECOVERY x=-41.4 reached=true supported=true bails=0 ollies=0 at=(-41.4, 6.013829, -121.8278)
+PASS: PT24-18: ordinary native push earns civic ramp air and returns to the supported port without a forced wall impact
+PT24_CIVIC_RETURN climbed=true air=true returned=true bails=0 camera=true at=(-38.5, 6.000467, -116.4804)
+PASS: PT24-20: actual Manual to Ollie to loading-edge grind earns one combo bank with clear chase
+PT24_CONNECTED_INPUT phase=4 manuals=1 frames=10 held=24 captures=["Grind_Ledge_RecordingCourt"] banks=1 score=1275 bails=0 camera=true at=(113.0, 2.245556, -27.36696)
+PASS: C04-L03:297 fixed-width bank/court/close/entrance sites have native support and two-way rider clearance
+PASS: C04-L03: both actual Merchant lower-court escapes and the civic cross-street remain clear
+CIVIC_FLAGSHIP_GEOMETRY samples=297 support=true clear=true lower_return=true added_bodies=0 added_triangles=0 added_draws=0
+PASS: C04-L03: actual Push descends the civic bank and earns a lower-court Ollie before landing
+PASS: C04-L03: actual balanced Manual carves through the lower civic court and graded close onto the raised gallery entrance
+PASS: C04-L03: the complete civic/gallery Ollie-Manual route banks its exact earned value once
+PASS: C04-L03: complete rider, board, soles and native chase volume stay clear along the full linked run
+CIVIC_FLAGSHIP_RESULT {"at":"Vector3(-3.6777644, 2.6624317, -36.9636)","bails":0,"bank_slope_ticks":70,"banked":400,"banks":1,"camera_clear":true,"camera_samples":136,"close_slope_ticks":132,"descended":true,"distance":88.1066915174015,"entrance_slope_ticks":41,"landed":true,"manual":true,"manual_begin":"Vector3(-22, 4.0124507, -89.24615)","manual_end":"Vector3(-3.9974706, 2.6624317, -36.94645)","manual_ticks":545,"pending":400,"reached":true,"stages":[{"at":"Vector3(-22, 5.99987, -113.998055)","speed":0.116729728877544,"stage":"civic_bank_descent"},{"at":"Vector3(-22, 4.003694, -94.82182)","speed":10.1985158920288,"stage":"lower_court_pop"},{"at":"Vector3(-22, 4.107037, -94.48693)","speed":9.83207702636719,"stage":"lower_court_air"},{"at":"Vector3(-22, 4.0124507, -89.24615)","speed":9.64874172210693,"stage":"manual_court_close_entrance"},{"at":"Vector3(-3.9380395, 2.6624317, -36.94964)","speed":3.57099437713623,"stage":"single_bank_on_entrance"},{"at":"Vector3(-3.6777644, 2.6624317, -36.9636)","speed":0.0,"stage":"stable_bank_observation"}],"target_index":7,"ticks":817,"tricks":["Ollie","Manual"]}

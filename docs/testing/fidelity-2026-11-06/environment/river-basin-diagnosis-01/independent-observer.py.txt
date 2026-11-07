@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+"""Independent read-only source, native pixels, projection and intervention audit."""
+import hashlib,json,math
+from pathlib import Path
+import numpy as np
+from PIL import Image
+R=Path('/workspace/tam_hawks_ps');E=R/'docs/testing/fidelity-2026-11-06/environment/river-basin-diagnosis-01';S=R/'.local/environment-phase2/main-water-diagnosis-source';checks=[]
+def ck(n,b,a=None):checks.append({'name':n,'pass':bool(b),'actual':a})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def rd(n):return json.loads((E/n).read_text())
+a=rd('source-before.json');b=rd('source-after.json');r=rd('receipt.json');d=rd('actual-main-water-report.json')
+ck('795 exact native input inventories',a==b and len(a)==795,len(a));m=[k for k,v in a.items() if not (S/k).is_file() or sha(S/k)!=v];ck('private executed source still authenticates all inputs',not m,m)
+ck('receipt binds exact original inventory bytes',sha(E/'source-before.json')==sha(E/'source-after.json')==r['source_inventory_sha256'])
+ck('clean native completed128/0',r['eligible'] and r['engine_exit']==0 and not r['engine_errors'] and r['source_stable'] and d['complete'] and d['checks']==128 and d['failures']==0)
+ck('raw engine log contains no errors',not any(x in (E/'engine.log').read_text() for x in ['SCRIPT ERROR:','ERROR:','Parse Error','Traceback']))
+ck('timing acceptance explicitly absent',d['timing_measured'] is False and r['timing_measured'] is False)
+arrays={}
+for f,v in r['images'].items():
+ im=np.asarray(Image.open(E/f).convert('RGBA'));arrays[f]=im
+ ck(f+': exact PNG byte hash',sha(E/f)==v)
+ ck(f+': original native dimensions',im.shape==(800,1280,4))
+for row in d['images']+d['synchronization_proofs']:
+ im=arrays[row['file']];ck(row['file']+': independently decoded native RGBA',hashlib.sha256(im.tobytes()).hexdigest()==row['pixels']['rgba8_sha256'] and im.nbytes==row['pixels']['bytes'])
+max_projection_error=0;max_native_error=0
+for row in d['images']:
+ im=arrays[row['file']];name=row['file'];basis=np.array(row['camera_basis']).T;pos=np.array(row['camera_position']);P=np.array(row['projection_columns']).T
+ ck(name+': finite numeric camera/projection and actual forward',np.isfinite(basis).all() and np.isfinite(P).all() and np.isfinite(pos).all() and np.max(np.abs(basis.T@basis-np.eye(3)))<1e-6 and np.max(np.abs(-basis[:,2]-row['camera_forward']))<1e-8)
+ ck(name+': declared perspective matches native matrix',row['viewport_size']==[1280,800] and row['keep_aspect']==1 and row['fov']==68 and abs(row['near']-.05)<1e-7 and row['far']==220 and abs(P[1,1]-1/math.tan(math.radians(34)))<1e-6 and abs(P[0,0]*1.6-P[1,1])<1e-6 and P[3,2]==-1)
+ ck(name+': same physics/process readback brackets',row['physics_before']==row['physics_after'] and row['process_before']==row['process_after'])
+ for mark in row['pixel_proofs']['markers']:
+  local=np.linalg.solve(basis,np.array(mark['world_position'])-pos);clip=P@np.r_[local,1];ndc=clip[:3]/clip[3];project=np.array([(ndc[0]+1)*640,(1-ndc[1])*400]);pe=float(np.linalg.norm(project-mark['projected_xy']));max_projection_error=max(max_projection_error,pe)
+  x,y=mark['projected_xy'];x0,x1=max(0,int(x)-10),min(1280,int(x)+11);y0,y1=max(0,int(y)-10),min(800,int(y)+11);rgb=im[y0:y1,x0:x1,:3].astype(float)/255.;c=0 if mark['color']=='red' else 1;o=[i for i in range(3) if i!=c];mask=(rgb[:,:,c]>.75)&(rgb[:,:,c]-rgb[:,:,o[0]]>.20)&(rgb[:,:,c]-rgb[:,:,o[1]]>.20);yy,xx=np.nonzero(mask);cent=np.array([xx.mean()+x0+.5,yy.mean()+y0+.5]);ne=float(np.linalg.norm(cent-project));max_native_error=max(max_native_error,ne)
+  ck(name+': independently projected '+mark['color']+' marker matches native pixels',pe<.001 and len(xx)==mark['pixel_count'] and len(xx)>=8 and float(np.linalg.norm(cent-mark['centroid_xy']))<.001 and ne<=2,{'projection_error_px':pe,'native_error_px':ne,'pixel_count':len(xx)})
+ proof=row['pixel_proofs'];x,y=proof['canvas_sample_xy'];pixel=im[y,x,:3]/255.;ck(name+': independent current Canvas pixel',np.max(np.abs(pixel-proof['canvas_expected_rgb']))<=2/255 and np.max(np.abs(pixel-proof['canvas_actual_rgb']))<1e-6)
+base=d['state_inventories']['water-on-basin-on'];basin_path='ExchangeFountain/FountainBasin'
+for state,inv in d['state_inventories'].items():
+ ck(state+': exact native collisions and sun',inv['collisions']==base['collisions'] and inv['sun']==base['sun'])
+ expected=[]
+ for w in base['water']:
+  w=dict(w)
+  if state.startswith('water-off'):w['cast_shadow']=0
+  expected.append(w)
+ ck(state+': all three exact water flags only',inv['water']==expected and len(expected)==3)
+ expected=[]
+ for n in base['nonwater']:
+  n=dict(n)
+  if n['path']==basin_path and state.endswith('basin-off'):n['cast_shadow']=0
+  expected.append(n)
+ ck(state+': only exact basin cast flag may change among1809 non-water instances',inv['nonwater']==expected and len(expected)==1809)
+for row in d['images']:
+ expected=('water-on-basin-on' if row['mode']!='candidate' else 'water-off-basin-on') if row['view']=='river-unobstructed' else ('water-off-basin-on' if row['mode']!='candidate' else 'water-off-basin-off')
+ ck(row['file']+': separate causal intervention applies correct state',row['state']==expected and row['water_cast_flags']==([1,1,1] if expected.startswith('water-on') else [0,0,0]) and row['basin_cast_flag']==(0 if expected.endswith('basin-off') else 1))
+for view in ['river-unobstructed','fountain-wide','fountain-close']:
+ rows=[x for x in d['images'] if x['view']==view]
+ ck(view+': complete A/B/A and exact recorded camera',len(rows)==3 and {x['mode'] for x in rows}=={'before-a','candidate','before-b'} and all(all(x[k]==rows[0][k] for k in ['camera_basis','projection_columns','camera_position','camera_forward','camera_target','near','far','fov','keep_aspect']) for x in rows))
+ ck(view+': exact native texture/buffer resources retained',all(all(x['counters'][k]==rows[0]['counters'][k] for k in ['texture_bytes','buffer_bytes']) for x in rows))
+# Independent segment/slab intersection, not Godot's AABB helper under test.
+def intersects(start,end,lo,size):
+ start=np.array(start);delta=np.array(end)-start;lo=np.array(lo);hi=lo+size;t0,t1=0.,1.
+ for i in range(3):
+  if abs(delta[i])<1e-12:
+   if start[i]<lo[i] or start[i]>hi[i]:return False
+  else:
+   a,b=(lo[i]-start[i])/delta[i],(hi[i]-start[i])/delta[i]
+   if a>b:a,b=b,a
+   t0,t1=max(t0,a),min(t1,b)
+   if t0>t1:return False
+ return True
+rv=next(x for x in d['images'] if x['view']=='river-unobstructed')
+for bridge in d['actual_bridge_bounds']:
+ ck('independent river sightline clears bridge '+bridge['path'],not intersects(rv['camera_position'],rv['camera_target'],bridge['position'],bridge['size']))
+ ck('bridge actual mesh identity binds native non-water inventory '+bridge['path'],any(n['path']==bridge['path'] and n.get('mesh_id')==bridge['mesh_id'] for n in base['nonwater']))
+layer=d['actual_fountain_layers'];bt=layer['basin_world_position'][1]+layer['basin_world_size'][1];wt=layer['water_world_position'][1]+layer['water_world_size'][1];wb=layer['water_world_position'][1]
+ck('independent5mm top-separation/lower-overlap arithmetic',abs(wt-bt-.005)<1e-7 and abs(bt-wb-.005)<1e-7 and abs(wt-bt-layer['upper_water_above_basin_top_m'])<1e-12 and abs(bt-wb-layer['lower_water_below_basin_top_m'])<1e-12,{'stone_top_m':bt,'water_top_m':wt,'water_bottom_m':wb})
+ck('actual solid plinth cylinder recorded rather than invented hollow pool',len(layer['native_shapes'])==2 and layer['native_shapes'][0]['class']=='CylinderShape3D' and abs(layer['native_shapes'][0]['radius']-6.2)<1e-6 and abs(layer['native_shapes'][0]['height']-.55)<1e-6)
+for f in (E/'executed-source').rglob('*.txt'):
+ key=str(f.relative_to(E/'executed-source'))[:-4];ck('archived executed source '+key,key in a and sha(f)==a[key])
+out={'schema':1,'reviewer':'independent_qa','method':'Read-only independently decoded all native PNG/RGBA; full numeric camera/projection multiplication; native marker masks/centroids and Canvas samples; same-tick brackets; exact source identities and isolated native state inventories; separate Python segment/bridge-AABB and fountain-layer arithmetic. No QA engine run.','checks':len(checks),'failures':sum(not c['pass'] for c in checks),'source_inputs':len(a),'original_native_images':len(r['images']),'independently_projected_markers':18,'per_view_canvas_proofs':9,'max_projection_metadata_error_px':max_projection_error,'max_native_marker_error_px':max_native_error,'verdict':'Bounded causal diagnosis passes: actual-Main river fine bands disappear when only exact water casting is disabled; fountain fine bands disappear when water is held off and only the existing basin casting is disabled. Both defects return in controls. No production/geometry/art/cost admission.','personally_opened_originals':[x['file'] for x in d['images']],'limits':['These are nine frozen authored actual-Main views, not real-input gameplay, normal-speed motion or temporal-shadow/shimmer review. Native TIME phases remain active.','The river centre sightline clears three actual bridge bounds and visible bridge shadows remain. Ordinary foreground token still occupies part of the view; this is not a wholly unobstructed water-only frame.','Native original basin is a solid plinth with water proxy overlapping by5mm and top only5mm higher. Caster isolation identifies a contributing rendering relationship, not a corrected physically hollow basin or exact renderer root cause.','Numeric camera/projection, per-readback tick brackets and changing marker/Canvas targets repair missing per-view metadata in this epoch only. Earlier actual-main-water-01 retains its limits.','Native counters and preserved resources are not frame-time/cost admission. Existing water high-coverage cost rejection remains open; software Linux/M5/macOS and whole-game hardware gates remain separate.','Root-authorised diagnostic overlap and copied warm renderer cache are disclosed. No whole-run sole-engine or cold-cache performance assertion.'],'native_counters':{x['file']:x['counters'] for x in d['images']},'checks_detail':checks,'evidence_sha256':{str(f.relative_to(E)):sha(f) for f in E.rglob('*') if f.is_file() and not f.name.startswith('independent-')}}
+(R/'.local/qa-fidelity/river-basin-independent-review.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({k:v for k,v in out.items() if k not in ['checks_detail','evidence_sha256','native_counters']},indent=2))
+if out['failures']:print(json.dumps([c for c in checks if not c['pass']],indent=2))
+raise SystemExit(bool(out['failures']))

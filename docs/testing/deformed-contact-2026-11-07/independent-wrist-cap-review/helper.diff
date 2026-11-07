@@ -1,0 +1,18 @@
+--- a/game/player/skater_obstacle_arm_fit.gd
++++ b/game/player/skater_obstacle_arm_fit.gd
+@@ -251,11 +251,14 @@
+ 		var hand_min: float=(hand_bounds.get_center()-wrist).dot(normal)-hand_bounds.size.dot(normal.abs())*0.5
+ 		var goal:=maxf(0.0,-hand_min)+SKIN*2.0
+ 		var wrist_gap: float=(wrist-point).dot(normal)
++		# The old hand orientation is only a seed; IK changes its bearing.
++		# Try the greatest legal target and require complete native clearance.
++		goal=minf(goal,wrist_gap+MAX_WRIST_SHIFT-0.000001)
+ 		var solved:=false
+ 		for attempt in 3:
+ 			var target_gap:=goal
+ 			var shift:=maxf(0.0,target_gap-wrist_gap)
+-			if shift>MAX_WRIST_SHIFT:continue
++			if shift>MAX_WRIST_SHIFT:break
+ 			var target:=wrist+normal*shift
+ 			var elbow_max:=maxf(elbow_min,target_gap)
+ 			var circle:=_elbow(shoulder,target,elbow,normal,point,elbow_min,elbow_max)

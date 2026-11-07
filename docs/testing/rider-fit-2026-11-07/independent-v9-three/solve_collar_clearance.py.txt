@@ -1,0 +1,103 @@
+"""Private bounded multi-pose wardrobe-fit solve on real crossing contacts.
+
+Original topology, UVs, weights, BODY mask and all100 waist edges stay fixed.
+Minimises L1 vertex offset plus L1 source-edge variation with an 8mm hard norm
+budget (conservative per-axis bounds). The output is an offline fit proposal.
+"""
+from pathlib import Path
+import json,numpy as np
+from scipy import sparse
+from scipy.optimize import linprog
+from extend_helper_field import nearest_triangle
+H=Path(__file__).resolve().parent
+loader=(H/'diagnose_v8_islands.py').read_text();exec(compile(loader[:loader.index('report=[]')],'frozen_v8_loader','exec'))
+source_ids=np.asarray(metadata['SkinnedJacket']['mesh_vertex_to_source_obj_vertex']);cloth=meshes['SkinnedJacket'];j=cloth['JOINTS_0'];w=cloth['WEIGHTS_0'];rest=cloth['POSITION'];tri_ids=cloth['tri'];original=np.load(H/'fitted-cloth.npz')['positions'];delta=np.zeros_like(original)
+waist={i for edge in metadata['waist_seam_correspondence']['source_vertex_edges'] for i in edge}
+adj={i:set() for i in set(source_ids)}
+for tri in tri_ids:
+ ids=source_ids[tri]
+ for i in ids:adj[i].update(k for k in ids if k!=i)
+poses=[]
+for name,state in [('rest',None),('idle',receipt['frames'][0]['native_state']),('push',receipt['frames'][2]['native_state'])]:
+ bt=positions('UpperChest',state)[meshes['UpperChest']['tri']]
+ if state is None:A=np.tile(np.eye(3),(len(rest),1,1));translation=np.zeros_like(rest)
+ else:
+  matrices=np.array([state['bone_global_pose_in_skeleton'][name] for name in bones])@binds
+  A=sum(matrices[j[:,k],:3,:3]*w[:,k,None,None] for k in range(4));translation=sum(matrices[j[:,k],:3,3]*w[:,k,None] for k in range(4));world=np.array(state['skeleton_global']);A=np.einsum('ij,njk->nik',world[:3,:3],A);translation=translation@world[:3,:3].T+world[:3,3]
+ poses.append((name,bt,A,translation))
+def edge_intersections(a,tri):
+ hits=[]
+ for i,j in [(0,1),(1,2),(2,0)]:
+  direction=a[j]-a[i];length=np.linalg.norm(direction)
+  if length<1e-12:continue
+  t=ray(a[i],direction/length,tri)
+  for k in np.flatnonzero((t>1e-9)&(t<length-1e-9)):hits.append((int(k),a[i]+direction/length*t[k]))
+ return hits
+
+# Exact observed source BODY defects and their authenticated symmetric faces.
+# Expand by two real shared-vertex adjacency rings, not a guessed spatial crop.
+source_tri_ids=metadata['UpperChest']['mesh_triangle_to_source_body_triangle']
+body_native_tri=meshes['UpperChest']['tri']
+source_body_ids=np.asarray(metadata['UpperChest']['mesh_vertex_to_source_body_vertex'])
+selected_body={i for i,v in enumerate(source_tri_ids) if v in (2318,2413,15561,15652)}
+for ring in range(2):
+    vertices={int(v) for i in selected_body for v in source_body_ids[body_native_tri[i]]}
+    selected_body.update(i for i,tri in enumerate(body_native_tri) if any(int(v) in vertices for v in source_body_ids[tri]))
+def crossings(bt,ct):
+ low,high=ct.min(1),ct.max(1);pairs=[]
+ for body_id,triangle in enumerate(bt):
+  if body_id not in selected_body:continue
+  candidates=np.flatnonzero(np.all(high>=triangle.min(0)-1e-9,axis=1)&np.all(low<=triangle.max(0)+1e-9,axis=1))
+  for k in candidates:
+   points=[p for _,p in edge_intersections(triangle,ct[k:k+1])]+[p for _,p in edge_intersections(ct[k],triangle[None])]
+   if points:pairs.append((body_id,int(k),points))
+ return pairs
+initial=[];patch=set()
+for name,bt,A,t in poses:
+ p=np.einsum('nij,nj->ni',A,rest)+t;pairs=crossings(bt,p[tri_ids]);initial.append({'pose':name,'pairs':len(pairs)})
+ for _,ct,_ in pairs:patch.update(map(int,source_ids[tri_ids[ct]]))
+for ring in range(2):patch.update(j for i in list(patch) for j in adj[i])
+assert not patch.intersection(waist)
+patch=sorted(patch);lookup={v:i for i,v in enumerate(patch)};edges=sorted({tuple(sorted((i,j))) for i in patch for j in adj[i]});N=len(patch)*3;M=len(edges)*3;rows=[];rhs=[];contacts=[];history=[]
+limit=.008/np.sqrt(3);margin=.0015
+for iteration in range(5):
+ current=[]
+ for name,bt,A,t in poses:
+  p=np.einsum('nij,nj->ni',A,rest+delta[source_ids])+t;ct=p[tri_ids];base=np.einsum('nij,nj->ni',A,rest)+t;pairs=crossings(bt,ct);current.append({'pose':name,'pairs':len(pairs)})
+  for body_id,cloth_id,points in pairs:
+   triangle=bt[body_id];normal=np.cross(triangle[1]-triangle[0],triangle[2]-triangle[0]);normal/=np.linalg.norm(normal);native=tri_ids[cloth_id];src=source_ids[native]
+   if not all(int(i) in lookup for i in src):continue
+   for point in points:
+    _,bary,_=nearest_triangle(point,ct[cloth_id:cloth_id+1]);bary=bary[0];coeff={}
+    for k,i in enumerate(native):
+     for axis,value in enumerate(bary[k]*(normal@A[i])):coeff[lookup[int(src[k])]*3+axis]=float(value)
+    basepoint=bary@base[native];value=margin+float((point-basepoint)@normal);rows.append(coeff);rhs.append(value)
+    contacts.append({'pose':name,'source_body_triangle':metadata['UpperChest']['mesh_triangle_to_source_body_triangle'][body_id],'source_cloth_triangle':metadata['SkinnedJacket']['mesh_triangle_to_source_obj_triangle'][cloth_id],'barycentric':bary.tolist(),'body_outward_normal':normal.tolist(),'required_linear_offset_m':value})
+ print('contacts',iteration,current,'constraints',len(rows),'source vertices',len(patch),flush=True)
+ if not any(x['pairs'] for x in current):break
+ rr,cc,vv=[],[],[];bound=[]
+ def add(coeff,right):
+  r=len(bound)
+  for c,v in coeff.items():rr.append(r);cc.append(c);vv.append(v)
+  bound.append(right)
+ for row,right in zip(rows,rhs):add({i:-v for i,v in row.items()},-right)
+ for i in range(N):add({i:1,N+i:-1},0);add({i:-1,N+i:-1},0)
+ for e,(a,b) in enumerate(edges):
+  for axis in range(3):
+   coeff={2*N+e*3+axis:-1}
+   if a in lookup:coeff[lookup[a]*3+axis]=1
+   if b in lookup:coeff[lookup[b]*3+axis]=-1
+   add(coeff,0);add({i:(v if i>=2*N else -v) for i,v in coeff.items()},0)
+ matrix=sparse.coo_matrix((vv,(rr,cc)),shape=(len(bound),2*N+M)).tocsr();cost=np.r_[np.zeros(N),np.ones(N),np.full(M,.35)]
+ solve=linprog(cost,A_ub=matrix,b_ub=bound,bounds=[(-limit,limit)]*N+[(0,None)]*(N+M),method='highs',options={'time_limit':45})
+ history.append({'iteration':iteration,'crossings_before':current,'constraints':len(rows),'success':bool(solve.success),'message':solve.message})
+ print(solve.message,flush=True)
+ if not solve.success:break
+ delta[patch]=solve.x[:N].reshape(-1,3)
+ history[-1]['max_offset_m']=float(np.linalg.norm(delta,axis=1).max());history[-1]['objective']=float(solve.fun)
+ print('max offset mm',history[-1]['max_offset_m']*1000,flush=True)
+final=[]
+for name,bt,A,t in poses:
+ p=np.einsum('nij,nj->ni',A,rest+delta[source_ids])+t;final.append({'pose':name,'pairs':len(crossings(bt,p[tri_ids]))})
+report={'selected_source_body_triangle_ids':[source_tri_ids[i] for i in sorted(selected_body)],'scope':'PRIVATE bounded local collar-fit proposal; no body/topology/UV/weight/mask changes or runtime/visual acceptance.','maximum_offset_budget_m':.008,'clearance_margin_m':margin,'source_waist_vertex_ids_unchanged':sorted(waist),'source_patch_vertex_ids':patch,'objective':'L1 vertex offset +0.35 L1 source-edge offset variation; conservative per-axis bounds enforce Euclidean8mm maximum','initial_crossings':initial,'final_crossings':final,'history':history,'contacts':contacts,'max_offset_m':float(np.linalg.norm(delta,axis=1).max()),'source_vertex_offsets_m':{str(i):v.tolist() for i,v in enumerate(delta) if np.linalg.norm(v)>1e-10}}
+np.save(H/'collar-clearance-offset.npy',delta);(H/'collar-clearance-fit.json').write_text(json.dumps(report,indent=2,default=lambda value:int(value) if isinstance(value,np.integer) else float(value))+'\n');print('FINAL',final,flush=True)

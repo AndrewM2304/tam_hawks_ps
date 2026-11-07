@@ -1,5 +1,6 @@
 extends RefCounted
 const BoardGeometry = preload("res://tests/board_geometry_tests_support.gd")
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Independent production-player proof. Only documented initial fixtures assign
 ## position/motion; all preparation, contacts, tricks and recovery then run native.
 ## An optional observer records these same physics steps as continuous evidence.
@@ -496,7 +497,9 @@ static func _sloped_recovery_first_frame(tree: SceneTree, game: Node, check: Cal
 			and game.skater.get_floor_normal().dot(Vector3.UP) > 0.70,
 			"authentic Main: genuine push and Manual earn one supported entry on the %.0f-degree native bank" % degrees)
 		var native_pose := _native_observer(game,true)
-		Input.action_press("steer_right")
+		# FID-304 moves manual correction to fore/aft; keep this same
+		# deliberate positive imbalance without steering off the native bank.
+		ManualBalance.correct(game.skater, 1.0)
 		var previous: Array[Vector3] = _markers(game)
 		var active_max := 0.0
 		var recovered_max := -1.0
@@ -520,7 +523,8 @@ static func _sloped_recovery_first_frame(tree: SceneTree, game: Node, check: Cal
 						"phase":game.skater.bail_phase,"native":game.skater._native_floor_valid,"normal":game.skater.get_floor_normal()}
 				active_max = maxf(active_max, step)
 				if not seen:
-					Input.action_release("steer_right")
+					Input.action_release("push")
+					Input.action_release("brake")
 					Input.action_release("manual")
 				seen = true
 			if was_bail and not game.skater.bail_active:

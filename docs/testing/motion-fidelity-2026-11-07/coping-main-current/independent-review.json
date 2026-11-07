@@ -1,0 +1,118 @@
+{
+  "schema": "tam-hawks-independent-live-clyde-review-v1",
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T02:46:09.706633+00:00",
+  "method": "Read retained original engine log, observer, wrapper receipt, source inventories and actual active snapshot. No additional QA engine run.",
+  "status": "REJECTED original ordinary-Main C04 retest. D014 remains OPEN.",
+  "recorded_inputs": 790,
+  "source_before_after_equal": true,
+  "observer_sha256_verified": true,
+  "recorded_result": [
+    5,
+    1
+  ],
+  "result_scope": "Raw footer and native assertion failure verified; inherited _check suppresses individual passing labels. No independent count of5 pass lines is invented.",
+  "engine_exit": 1,
+  "failure_witness": {
+    "air_support": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0)]",
+    "board_frame": "[X: (-0.0, 0.0, 1.0), Y: (0.001054, 0.999999, 0.0), Z: (-0.999999, 0.001054, -0.0), O: (-10.60112, 2.128268, 139.5002)]",
+    "board_interpolated": "[X: (-0.0, 0.0, 1.0), Y: (0.001376, 0.999999, 0.0), Z: (-0.999999, 0.001376, -0.0), O: (-10.8177, 2.128351, 139.5002)]",
+    "board_pitch": -0.00105389684904367,
+    "body_frame": "[X: (-0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, -0.0), O: (-10.60112, 2.01381, 139.5002)]",
+    "camera_process_frame": 180,
+    "failure": {
+      "at": "(-10.34624, 2.008, 139.3761)",
+      "collider": "NativeBowlSteelCoping",
+      "gap": -0.0325615257024765,
+      "hit": "(-10.39484, 2.029624, 139.3772)",
+      "interpolated_at": "(-10.56285, 2.008, 139.3761)",
+      "kind": "mesh",
+      "local": "(-0.124021, -0.12, -0.255012)",
+      "mesh": "/root/@Node3D@2/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+      "normal": "(-0.564534, 0.197491, 0.801436)"
+    },
+    "force_air": false,
+    "fraction": 0.0,
+    "native_normal": "(0.0, 1.0, 0.0)",
+    "native_valid": true,
+    "nearest_tyre": 0,
+    "physics_frame": 181,
+    "process_frame": 180,
+    "rims": [
+      {
+        "minimum_gap": -0.0578656122088432,
+        "support": {
+          "at": "(-10.34625, 2.008, 139.3762)",
+          "collider": "NativeBowlSteelCoping",
+          "hit": "(-10.34625, 2.06699, 139.3762)",
+          "normal": "(-0.11187, 0.980935, 0.158906)"
+        },
+        "wheel": 0
+      },
+      {
+        "minimum_gap": 0.00799989700317383,
+        "support": {
+          "at": "(-10.34625, 2.008, 139.6241)",
+          "collider": "ClydePrintYardGround",
+          "hit": "(-10.34625, 2.0, 139.6241)",
+          "normal": "(0.0, 1.0, 0.0)"
+        },
+        "wheel": 1
+      },
+      {
+        "minimum_gap": 0.00853729248046875,
+        "support": {
+          "at": "(-10.85625, 2.008537, 139.3941)",
+          "collider": "ClydePrintYardGround",
+          "hit": "(-10.85625, 2.0, 139.3941)",
+          "normal": "(0.0, 1.0, 0.0)"
+        },
+        "wheel": 2
+      },
+      {
+        "minimum_gap": 0.00853729248046875,
+        "support": {
+          "at": "(-10.85625, 2.008537, 139.6241)",
+          "collider": "ClydePrintYardGround",
+          "hit": "(-10.85625, 2.0, 139.6241)",
+          "normal": "(0.0, 1.0, 0.0)"
+        },
+        "wheel": 3
+      }
+    ],
+    "state": {
+      "airborne": false,
+      "at": "Vector3(-10.601124, 2.0138104, 139.50015)",
+      "feature_state": "idle",
+      "floor": true,
+      "inputs": {},
+      "spin": 0.0,
+      "velocity": "Vector3(12.994593, 0, 5.6801167e-07)"
+    },
+    "transition": false,
+    "tyre_vertex_error": 3.25927877247525e-05,
+    "visual_frame": "[X: (-0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, -0.0), O: (-10.60112, 2.008, 139.5002)]"
+  },
+  "authored_active_snapshot": {
+    "kind": "authored",
+    "transition_active": true,
+    "transition_state": "surface",
+    "transition_feature": "/root/@Node3D@2/GlasgowSquare/ClydeEastBowl",
+    "cylindrical_transition_active": false,
+    "physics_frame": 264
+  },
+  "snapshot_scope": "Real authored Clyde bowl activation is observed without setting private active/state fields. Observer calls _snapshot during real native driver. This validates authored branch only; actual active cylindrical Dictionary branch remains unmeasured.",
+  "evidence_sha256": {
+    "source-before.json": "3986c3eb46440047e4c054f46bbe3e766f3885d61801b5d397145606899c1017",
+    "observer.gd": "c7cf54e1d2993828746db800b973fadaa50e32750c9f013ec67ad5c35e065948",
+    "engine.log": "87246aec6d75a71616fe887877ad6e440d8eb8a14d3f311a0c6b89b35fdeb915",
+    "clyde-active-snapshots.json": "94731bfe8c798d21617f115ed89154ec35e99f47411942501b7929bdb607d124",
+    "receipt.json": "e637f60bfed09782c0d76e668bc7dd335e3b3b3927047a4035bfc3a2112463c1",
+    "source-after.json": "3986c3eb46440047e4c054f46bbe3e766f3885d61801b5d397145606899c1017"
+  },
+  "limits": [
+    "Native route reaches/returns with no bails but board/tyre/camera contact fails; these successful behaviours do not override actual penetration.",
+    "Ordinary Main ground combines constructor-owned coping and actual ClydePrintYardGround; isolated AnnularDeck fixture was insufficient.",
+    "Possible root-authorized untimed qualitative diagnostics were disclosed. No timing/process-exclusivity/Mac/visual-finish acceptance."
+  ]
+}

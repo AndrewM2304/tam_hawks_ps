@@ -1,3 +1,138 @@
+# Fidelity studio in progress — 6–7 November 2026
+
+The owner requests substantial realism, dense original skating lines,
+forward-facing natural pushing and reliable manual combo links with physically
+appropriate balance controls/meters. Target: **MacBook Air M5**; an engine rewrite
+is authorised if necessary. **AAA fidelity, final integrated regression and actual
+Mac performance are not claimed.** Work continues after production checkpoints.
+
+The checkout initially held historical `315d245`. Early specialist work was
+preserved, origin fetched and main fast-forwarded to `0b62035` before accepting
+production changes. Obsolete cross-bank/interpolation patches were discarded.
+Work remains directly on main, with non-force integration, no hosted CI, no
+spending and no release publication. October evidence below keeps its own scope.
+
+Start with [STUDIO](planning/STUDIO.md), [persistent roles/skills](../.agents/agents/README.md),
+[AAA_BENCHMARK](product/AAA_BENCHMARK.md), [FIDELITY_TICKETS](planning/FIDELITY_TICKETS.md),
+[independent QE](testing/FIDELITY-REVIEW.md), [bounded BA](testing/FIDELITY-BA.md) and
+[ADR-034](architecture/decisions/ADR-034-fidelity-studio-and-m5-rendering.md).
+Role briefs and repository-local skills are reusable instructions, not unattended
+workers or published remote issues.
+
+## Implemented candidate and source-bound results
+
+- CC0 photographic paving, sandstone, asphalt, grass and timber now use physical
+  scale, explicit PBR imports and reproducible source/derivative manifests. Exact
+  static window-shader batching and native moving-train glass are independently
+  guarded. [Environment evidence](testing/ENVIRONMENT-FIDELITY-2026-11-06.md)
+  records **31.250384 MiB** additional native texture allocation against the
+  declared 32 MiB ceiling, retaining eight draws/96 primitives in its isolated
+  control. Six actual 2K/1K normal pairs show no conspicuous static loss; incomplete
+  per-frame metadata is disclosed. This is not whole-game/Mac cost acceptance.
+- [Both renderers](testing/fidelity-2026-11-06/renderers/README.md) complete the
+  same frozen 17-view native observer: separate 61/0 results, exact pixels,
+  camera/Canvas proofs and unchanged 781-input inventories. Forward+ alone leaves
+  the dominant asset defects visible. Keep Godot 4.6.3 and default Compatibility;
+  later actual Metal/M5 evaluation remains open. Capture durations are not FPS.
+- Current procedural rider improvements include licensed cropped skin, smoother
+  anatomy, connected clothes, shoes and strand clumps: 50,596 source triangles /
+  29 surfaces in the recorded focused epoch. It still fails the final silhouette
+  and clothing benchmark. A private **continuous CC0 fitted outfit and hair** is
+  advancing with an independent rigging specialist; rejected collar/cuff/brow
+  iterations are retained. Those assets have not replaced production yet.
+- Distance-matched pushing turns hips/torso/lead shoe toward signed travel.
+  Baseline actual-Main planting slid over 200 mm/tick; candidate flat/incline
+  diagnostics reduce slip to millimetres. Finite raised-seat support, named-seat
+  Ollie release and grounded bank/wall presentation repairs retain actual body
+  trajectories and strict native model/support guards. Normal-speed final-rig
+  front/side/chase review and full regression remain required.
+- Existing Exchange bank and two east-quay seats form an actual native
+  grind/manual/grind relay with bank return. A source-bound focused epoch passes
+  326/0 in its recorded routes/line/inventory scope, banking 6,496 once without a
+  bail. The 9.5-second/39-metre bypass return contains no tricks and is explicitly
+  not a dense closed circuit. Four adverse charged bank jumps exposed a finite
+  wall-crown escape; visible/native backing now reaches Y7 with the same one
+  body, four shape slots and mesh count. Airborne full-model clearance is under repair;
+  the latest integrated line cohort is not accepted yet.
+- Fresh airborne manual requests last **less than 350 ms**; ground recovery stays
+  120 ms. Actual W/S fore/aft correction follows board/travel stance; A/D steering
+  remains separate and grinds retain lateral balance. The independent native sign/variant cohort has84 checks plus a CLI guard
+  (85/0 total); a separate 15-case landing matrix passes 47/0, preserving
+  expiry, release, score-once and fresh-request guards. The corrected vertical
+  [meter](testing/fidelity-2026-11-06/manual-meter-02/README.md) has a clean six-frame
+  native 34/0 packet: full labels and projected head/board/approach clearance at
+  UI1.0/1.4, plus release. Its disclosed brief CPU overlap carries no timing claim;
+  other resolutions, moving-risk/remapped-device review and full FID-304 stay open.
+
+## Current defects and next integration
+
+The first November source checkpoint is an **in-progress trial**, not an accepted
+AAA build. Its complete required run below remains rejected; later focused
+repairs retain their own source and scope. The current actual-Skin arm helper
+now passes the complete wall/manual and obstacle-arm cohorts **139/0**, including
+the original 8 mm skin, 20 cm wrist and query limits. Its GPU operation order was
+independently checked; the CPU skeleton-baking API is not the rendering oracle.
+See [current contact evidence](testing/deformed-contact-2026-11-07/current-02/README.md).
+
+Manual body lean now follows the actual deck/travel frame for all ten styles.
+An independent matched old/new run changes **100/4 to 104/0**, correcting the
+four Pogo/Hang Ten torso-sign failures without changing skating physics; see
+[the native comparison](testing/manual-body-axis-2026-11-07/README.md).
+The complete legacy trick UI, park finish and horizon contracts pass **74/0**
+after updating intentional PBR/daylight assumptions; geometry, collision,
+text-fit and resource assertions remain. These are separate focused results,
+not a replacement for the complete required run.
+
+The new three-wave water treatment **failed its high-coverage isolated cost cell**;
+other views drifted and remain inconclusive. The earlier full-Main timing attempt
+was safely stopped and rejected, with zero completed cost cells. Preserve both
+records. A cheaper two-wave treatment is prepared offline for a new matched epoch;
+no cost or moving-water acceptance is implied by the texture-budget pass.
+
+The [first complete integrated required run](testing/fidelity-2026-11-06/integrated-required-01-rejected/README.md)
+is **rejected:6,311 passed /25 failed**, exit1, with800 unchanged exact source
+inputs and a clean preparatory import. It stopped correctly before CLI Music
+isolation. Its1620.781s duration includes authorised untimed private diagnostic
+processes and is not frame-time evidence. Byte-identical derivative regeneration
+changed file mtimes during the run; the receipt makes no write-free claim.
+
+The25 failures cover obsolete PBR/daylight/shape assumptions, missed fore/aft
+manual driver migration, a career route blocked by the rotated bank, a generated
+quay guide inside its new bank, and real coping/arm contact failures. Focused
+repairs are underway without reducing native, career, score or text-fit limits.
+The [actual32-frame bank film](testing/fidelity-2026-11-06/bank-crown-motion-01/README.md)
+separately proves a visible119.816mm correction snap (D015); its endpoint/capture
+integrity passes do not accept motion. A fresh finite same-owner swept forecast
+is being developed privately to spread the necessary correction. D014 exposed
+oversized original coping: 90 mm diameter/70 mm deck reveal. A primary-source
+[60 mm/12 mm/10 mm profile](research/COPING-PROPORTIONS.md) is still private.
+Its component, shared-feature, original Main and per-physics contact checks pass
+in separate recorded scopes; old-profile fixtures and independent admission
+must be reconciled before production promotion. Both defects remain open on
+the current actual source.
+
+The continuous fitted rider is still private. Its production admission must
+exercise the new cached native-Skin envelope, semantically correct seam tests,
+real per-leg sole geometry and all NPC clothing/accessories. The passing current
+procedural-rider contact gate does not certify the pending fitted outfit.
+
+Next: complete focused repairs and fitted-rider/helper admission, take a new
+source freeze, pass the complete required check, inspect current motion and verify
+cold source launch and fresh unsigned Linux/universal-Mac packages. Commit/push
+reviewable checkpoints on main without force while continuing this work.
+Official Godot4.6.3 export templates/notices are
+locally hash-verified; no November package or actual Mac launch is claimed yet.
+
+Continue into the continuous fitted rider, recessed facades/shop joinery,
+representative actual-GLB grind-contact audit, cheaper water and genuinely distinct
+cross-area return lines. Architectural component prototypes fit their reduced
+geometry/resource declaration but still need actual Main admission and independent
+visual/collision checks. Persistent specialist briefs and tickets track this work.
+Target-Mac sustained pacing, physical controls/Music consent and human visual/fun
+acceptance remain open while independently actionable implementation continues.
+
+---
+
 # Owner steering landing and wallride repairs — 28 October 2026
 
 The [owner-priority repair](planning/OWNER-TURN-WALLRIDE-2026-10-28.md) starts from main `21b0e86`.

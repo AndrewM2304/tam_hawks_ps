@@ -1,0 +1,73 @@
+"""Author component diagnostic. Run only in the root-granted engine lease."""
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+ROOT = Path(__file__).resolve().parents[2]
+BASE = ROOT / ".local/architectural-fidelity"
+FILES = ("facade_kit.gd", "facade_shell.gd", "exchange_gallery.gd", "gallery_column.gd")
+
+
+def digest(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def source_inputs() -> dict[str, str]:
+    result = {}
+    for folder in (ROOT / "game", ROOT / "tools"):
+        for path in sorted(folder.rglob("*")):
+            if path.is_file() and ".godot" not in path.parts:
+                result[str(path.relative_to(ROOT))] = digest(path)
+    for path in [ROOT / "project.godot", *sorted((BASE / "prototype").glob("*.gd")), BASE / "native_probe.gd", BASE / "native_probe.py", *sorted((BASE / "run").glob("*.gd"))]:
+        result[str(path.relative_to(ROOT))] = digest(path)
+    return result
+
+
+def main() -> int:
+    label = sys.argv[1]
+    destination = BASE / "native" / label
+    destination.mkdir(parents=True, exist_ok=False)
+    private = BASE / "run"
+    private.mkdir(exist_ok=True)
+    for filename in FILES:
+        value = (BASE / "prototype" / filename).read_text()
+        for dependency in FILES:
+            value = value.replace(f'res://game/levels/art/{dependency}', f'res://.local/architectural-fidelity/run/{dependency}')
+        (private / filename).write_text(value)
+    before = source_inputs()
+    (destination / "source-before.json").write_text(json.dumps(before, indent=2) + "\n")
+    receipts = []
+    for variant in ("baseline", "candidate", "control"):
+        selected = "baseline" if variant == "control" else variant
+        output = destination / f"{variant}.json"
+        command = ["./tools/run.sh", "--headless", "--audio-driver", "Dummy", "--script", "res://.local/architectural-fidelity/native_probe.gd", "--", selected, str(output)]
+        started = time.monotonic()
+        with (destination / f"{variant}.log").open("w") as stream:
+            completed = subprocess.run(command, stdout=stream, stderr=subprocess.STDOUT, timeout=90, check=False)
+        receipts.append({"variant": variant, "command": command, "exit": completed.returncode, "elapsed_seconds_diagnostic_only": time.monotonic() - started})
+        if completed.returncode or not output.exists() or re.search(r"SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:", (destination / f"{variant}.log").read_text()):
+            break
+    after = source_inputs()
+    (destination / "source-after.json").write_text(json.dumps(after, indent=2) + "\n")
+    receipt = {"scope": "author native component only, no render, frame timing, Main or target-Mac claim", "private_source_rewrite": "four exact preload path substitutions into ignored run directory; production unchanged", "source_stable": before == after, "inputs": len(before), "runs": receipts}
+    if len(receipts) == 3 and all(row["exit"] == 0 for row in receipts):
+        base = json.loads((destination / "baseline.json").read_text())
+        candidate = json.loads((destination / "candidate.json").read_text())
+        control = json.loads((destination / "control.json").read_text())
+        receipt["delta"] = {key: candidate[key] - base[key] for key in ("source_triangle_instances", "source_draw_nodes", "unique_meshes", "unique_materials", "mesh_array_bytes", "multimesh_transform_bytes", "recess_shells")}
+        receipt["collision_identical"] = base["collision_records"] == candidate["collision_records"] == control["collision_records"]
+        receipt["control_geometry_identical"] = all(base[key] == control[key] for key in ("source_triangle_instances", "source_draw_nodes", "mesh_array_bytes", "multimesh_transform_bytes"))
+        receipt["actual_aperture"] = base["target_upper_wall_ray_hits"] > 0 and candidate["target_upper_wall_ray_hits"] == 0
+    (destination / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
+    print(json.dumps(receipt, indent=2))
+    return int(not receipt["source_stable"] or len(receipts) != 3 or any(row["exit"] for row in receipts))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

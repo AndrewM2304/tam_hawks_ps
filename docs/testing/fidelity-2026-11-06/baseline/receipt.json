@@ -1,0 +1,140 @@
+{
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--audio-driver",
+    "Dummy",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-render-loop",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/qa-fidelity/snapshot.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/qa-fidelity/baseline-source/.local/qa-fidelity/main-before"
+  ],
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "changed_inputs": [],
+  "source_stable": true,
+  "images": {
+    "rider-rear.png": "15df07c0f141595681aa2e09e07a335b29069d7ccb996124c8b3763546ff89b6",
+    "rider-front.png": "9faaa8d0c0a81ab3e264afce857ac93caf41f2d6fc5d9966004c378751fbcaf2",
+    "exchange-shopfront.png": "149cf84d226f7af88a60b8ea82d1a2ddbc0794ccc206df746a55975bf47aa607",
+    "clyde-west-quay.png": "8dd5f8123bd00205c7c9a45ec083f262903dba2e37b19ec0fc35bd5f29774615",
+    "ordinary-spawn.png": "7bc1c5be519243041a3c012a6c2d43f65496b73e72ffa222edd0d229e3c0c1ad",
+    "overview_central.png": "e5d48c83ef6676ae44081534e1d91de588aa00fae7715e90fb38be6ccee3ad7f",
+    "overview_sunken_kelvingrove.png": "4af9810764769d61a54e45ca5aec7a5c9d53e24de3c2a99065c8b614c23826ba",
+    "rider-side.png": "04c75c10b7de0fb145733205130ce05d61a864a20d477c35d183fec98418ccdf",
+    "overview_clyde.png": "59370287aaf02eca6653c7205f120b73cec15294209ca0d6612d1891782a31c4",
+    "overview_park.png": "33bae19c23653fc9c2077684c3766f5a38c123369416c7e93b9055cc9840e485",
+    "clyde-east-quay.png": "5f27e7120594c40285a471ad32078167c89d8efcf80386b53fe38ce192b635dd",
+    "overview_exchange.png": "dcfeaf5c1e80e45b9c235055aa252b6930fc89187edde71056153334d52bfc1f",
+    "overview_george.png": "ee3ab0f58dd19f4a320d22794568956f12b2765a83538c03c7b40856d6ec5c7b",
+    "overview_barras.png": "b033884b0f014701bd99736efe72790eac25d6a570e37806ecae193385975b5f",
+    "synchronization/return_to_production_chase.png": "95b6d5efc7e2bc33c7c0acf037d82cbaf38defb626b4deaa3481d8a4753c5399",
+    "synchronization/overview_before_contact.png": "a0d6dbe2e7839f7e1825d7da5286b1ea40c2025442f2f0427b41874be599bd5d",
+    "synchronization/first_contact_inspection.png": "46975d0be84deb954a69953a7b5eaddb6329b694c1917cbff6a1728a74bebe40"
+  },
+  "snapshot_sha256": "b7575289c209042109cbdca887acaae76676021d8293ce98405c62ef3cc64728",
+  "engine_exit": 0,
+  "failures": 0,
+  "eligible": true,
+  "decoded_pixel_verification": {
+    "method": "Pillow decode to RGBA8; independent SHA256 comparison against existing full_fidelity native buffer hashes; original PNGs unchanged",
+    "images": [
+      {
+        "file": "ordinary-spawn.png",
+        "decoded_rgba8_sha256": "69e984d4776f48e46a3ec8f643a67cc59452e9dd7f8be13d2241a535aa54956c",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "rider-front.png",
+        "decoded_rgba8_sha256": "015f07cc852d02d1741f0faf489aa22a17b388a379436acaa9c3078ea266a65b",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "rider-side.png",
+        "decoded_rgba8_sha256": "83a2091f01dfe830cb359e1538926178694f524b43f426df27e38df62f461eca",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "rider-rear.png",
+        "decoded_rgba8_sha256": "d3718e9a6bdf6d7f71c4405cb46c0173a18568972eeb398dcc5cada3d0f9ed5b",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "exchange-shopfront.png",
+        "decoded_rgba8_sha256": "e490847a183660c9d4d5768b9b5f23f2bbb6fcde874ba998fc683e48bb51820c",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "clyde-east-quay.png",
+        "decoded_rgba8_sha256": "fd958a30db609d7878fe4c3980b409f8b5ec300b49bd3db049465a95218ea216",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "clyde-west-quay.png",
+        "decoded_rgba8_sha256": "bb6c82ff1d97b740657f6ac3e93280699376501d03a397d197fe93e7679fde5c",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "overview_exchange.png",
+        "decoded_rgba8_sha256": "7b877afe2a23242c3abde27859561a0344f4683ac56859e65e7cebed97c23979",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "overview_george.png",
+        "decoded_rgba8_sha256": "355e0b37859c83d45e08269eeefcfc9ee2dd3dfbe948f8ddc2f05067d4992d3d",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "overview_central.png",
+        "decoded_rgba8_sha256": "359a1b8998e4c17d736cf4e22a129fbef4ecb3d2a0b574e896b3eecdc053dcb0",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "overview_barras.png",
+        "decoded_rgba8_sha256": "4d82fab529db7c1f8a15c3af61367da3688a7175882a4661b946b29153d15712",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "overview_clyde.png",
+        "decoded_rgba8_sha256": "878b697e7018965c18132c91b0dc1e74f5c29b1442353696d328dbe0563da3a1",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "overview_park.png",
+        "decoded_rgba8_sha256": "8a697ae0a023c57bf6a1204690c07313f2de2aa55d71f53a6a0bbc1109872753",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "overview_sunken_kelvingrove.png",
+        "decoded_rgba8_sha256": "8d69d84c0a40efd45a262afa7205c8f91d6ddb4711030cb67757a60a7cd0c38a",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "synchronization/overview_before_contact.png",
+        "decoded_rgba8_sha256": "9ab79816df48977b9777eb33fb8ca963276f6a2e5e7a7f60c7f18282bc18898c",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "synchronization/first_contact_inspection.png",
+        "decoded_rgba8_sha256": "7c3488ff086f720fddbe489e430d18a306b3b1a0c807784ea40e5e10209431aa",
+        "native_pixels_equal": true
+      },
+      {
+        "file": "synchronization/return_to_production_chase.png",
+        "decoded_rgba8_sha256": "bbcaf59817726e2bf324d70081cced06eadf04931c1a6cf623a07a3aaf7d801e",
+        "native_pixels_equal": true
+      }
+    ],
+    "passed": 17
+  },
+  "started_utc": "2026-11-06T23:26:23.954106+00:00",
+  "finished_utc": "2026-11-06T23:27:54.013926+00:00",
+  "timestamp_method": "Observed UTC write times of first source inventory and original capture receipt; no real-time performance inference.",
+  "packet_policy": "All17 original full-resolution PNGs, exact narrow observer/runner text and inventories retained. Disposable full archived source remains ignored under .local and is not duplicated in this packet."
+}

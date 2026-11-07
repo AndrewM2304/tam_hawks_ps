@@ -1,0 +1,189 @@
+"""Four-file architecture installer. Root releases production source first.
+
+No engine, import, Git, network or service invocation. Every production write is
+hash-guarded; revert refuses to clobber a later contributor's changed bytes.
+"""
+from __future__ import annotations
+
+import argparse
+import datetime
+import difflib
+import hashlib
+import json
+import os
+from pathlib import Path
+import tempfile
+
+ROOT = Path(__file__).resolve().parents[2]
+BASE = ROOT / ".local/architectural-fidelity"
+PACKET = ROOT / "docs/testing/fidelity-2026-11-06/architecture/native-author-component"
+ART = Path("game/levels/art")
+FILES = ("facade_kit.gd", "facade_shell.gd", "exchange_gallery.gd", "gallery_column.gd")
+EXISTING = {"facade_kit.gd", "exchange_gallery.gd"}
+INPUTS = json.loads((PACKET / "source-before.json").read_text())
+
+
+def sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def read(path: Path) -> bytes | None:
+    return path.read_bytes() if path.is_file() else None
+
+
+def expected(name: str) -> str | None:
+    return INPUTS[str(ART / name)] if name in EXISTING else None
+
+
+def candidate(name: str) -> bytes:
+    data = (BASE / "prototype" / name).read_bytes()
+    wanted = INPUTS[str(Path(".local/architectural-fidelity/prototype") / name)]
+    if sha(data) != wanted:
+        raise RuntimeError(f"Candidate changed since recorded native component: {name}")
+    return data
+
+
+def identity(data: bytes | None) -> str | None:
+    return None if data is None else sha(data)
+
+
+def atomic(path: Path, data: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary = tempfile.mkstemp(prefix=".architecture-", dir=path.parent)
+    try:
+        with os.fdopen(descriptor, "wb") as stream:
+            stream.write(data)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def save(path: Path, data: dict) -> None:
+    atomic(path, (json.dumps(data, indent=2) + "\n").encode())
+
+
+def target_root(value: str | None) -> Path:
+    target = ROOT if value is None else Path(value).resolve()
+    if target != ROOT and not target.is_relative_to(BASE):
+        raise RuntimeError("Rehearsal target must be inside the ignored architecture directory")
+    return target
+
+
+def inspect(target: Path) -> dict:
+    files = []
+    for name in FILES:
+        original = read(target / ART / name)
+        replacement = candidate(name)
+        files.append({"file":str(ART / name),"expected_original_sha256":expected(name),
+            "actual_original_sha256":identity(original),"candidate_sha256":sha(replacement),
+            "ready":identity(original)==expected(name),"candidate_bytes":len(replacement)})
+    return {"target":str(target),"production":target==ROOT,"ready":all(row["ready"] for row in files),"files":files}
+
+
+def prepare(target: Path) -> dict:
+    report = inspect(target)
+    if not report["ready"]:
+        raise RuntimeError("Source changed or a new helper path already exists; refusing stale patch")
+    forward, reverse = [], []
+    for name in FILES:
+        original = read(target / ART / name)
+        replacement = candidate(name)
+        a = [] if original is None else original.decode().splitlines(keepends=True)
+        b = replacement.decode().splitlines(keepends=True)
+        before = "/dev/null" if original is None else "a/"+str(ART/name)
+        after = "b/"+str(ART/name)
+        forward.extend(difflib.unified_diff(a,b,fromfile=before,tofile=after))
+        reverse.extend(difflib.unified_diff(b,a,fromfile="a/"+str(ART/name),tofile="/dev/null" if original is None else "b/"+str(ART/name)))
+    atomic(BASE/"candidate.patch","".join(forward).encode())
+    atomic(BASE/"revert.patch","".join(reverse).encode())
+    report["forward_patch"] = str(BASE/"candidate.patch")
+    report["reverse_patch"] = str(BASE/"revert.patch")
+    save(BASE/"installer-inspection.json",report)
+    return report
+
+
+def install(target: Path, production: bool) -> dict:
+    if target == ROOT and not production:
+        raise RuntimeError("Production install needs --production after root releases source")
+    report = prepare(target)
+    token = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    journal_dir = BASE/"installation-journals"/token
+    journal_dir.mkdir(parents=True,exist_ok=False)
+    journal = {"state":"prepared","target":str(target),"created_utc":token,"files":[]}
+    for name in FILES:
+        original = read(target/ART/name)
+        if original is not None:
+            atomic(journal_dir/(name+".before"),original)
+        atomic(journal_dir/(name+".after"),candidate(name))
+        journal["files"].append({"name":name,"before_sha256":identity(original),"after_sha256":sha(candidate(name)),"applied":False})
+    save(journal_dir/"journal.json",journal)
+    try:
+        for row in journal["files"]:
+            destination = target/ART/row["name"]
+            if identity(read(destination)) != row["before_sha256"]:
+                raise RuntimeError(f"Concurrent edit before write: {destination}")
+            atomic(destination,(journal_dir/(row["name"]+".after")).read_bytes())
+            row["applied"] = True
+            save(journal_dir/"journal.json",journal)
+        journal["state"] = "installed"
+    except Exception:
+        journal["state"] = "partial-failure"
+        save(journal_dir/"journal.json",journal)
+        raise
+    save(journal_dir/"journal.json",journal)
+    save(BASE/"latest-installation.json",{"journal":str(journal_dir/"journal.json")})
+    report["journal"] = str(journal_dir/"journal.json")
+    return report
+
+
+def revert(path: Path, production: bool) -> dict:
+    journal = json.loads(path.read_text())
+    target = target_root(journal["target"])
+    if target == ROOT and not production:
+        raise RuntimeError("Production revert needs --production and current source ownership")
+    if journal["state"] not in {"installed","partial-failure"}:
+        raise RuntimeError("Journal is not an installed/partial candidate")
+    applied = [row for row in journal["files"] if row["applied"]]
+    # Validate ALL files before any restore, protecting subsequent contributors.
+    for row in applied:
+        if identity(read(target/ART/row["name"])) != row["after_sha256"]:
+            raise RuntimeError(f"Later edit blocks revert: {row['name']}")
+        if row["before_sha256"] is not None:
+            original = (path.parent/(row["name"]+".before")).read_bytes()
+            if sha(original) != row["before_sha256"]:
+                raise RuntimeError(f"Backup identity changed: {row['name']}")
+    for row in reversed(applied):
+        destination = target/ART/row["name"]
+        if row["before_sha256"] is None:
+            destination.unlink()
+        else:
+            original = (path.parent/(row["name"]+".before")).read_bytes()
+            atomic(destination,original)
+    journal["state"] = "reverted"
+    save(path,journal)
+    return {"reverted":len(applied),"target":str(target),"journal":str(path),
+        "uid_note":"No UID/import-cache files are removed or changed; root reconciles any generated new-helper UID after an actual editor import."}
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("command",choices=["inspect","prepare","install","revert"])
+    parser.add_argument("--target-root")
+    parser.add_argument("--production",action="store_true")
+    parser.add_argument("--journal",type=Path)
+    args = parser.parse_args()
+    target = target_root(args.target_root)
+    if args.command == "inspect": result = inspect(target)
+    elif args.command == "prepare": result = prepare(target)
+    elif args.command == "install": result = install(target,args.production)
+    else:
+        path = args.journal or Path(json.loads((BASE/"latest-installation.json").read_text())["journal"])
+        result = revert(path,args.production)
+    print(json.dumps(result,indent=2))
+
+
+if __name__ == "__main__":
+    main()

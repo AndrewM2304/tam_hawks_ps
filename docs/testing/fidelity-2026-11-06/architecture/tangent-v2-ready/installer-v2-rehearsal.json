@@ -1,0 +1,26 @@
+{
+  "kind": "offline-v2-installer-adapter-rehearsal",
+  "native_engine_runs": 0,
+  "checks": [
+    {
+      "pass": true,
+      "message": "V2 identity and pending-native scope are explicit in installation report"
+    },
+    {
+      "pass": true,
+      "message": "All four V2 source hashes match the explicit pending-native manifest"
+    },
+    {
+      "pass": true,
+      "message": "Reviewed revert restores original pair and removes exact V2 helper files"
+    },
+    {
+      "pass": true,
+      "message": "Actual production files remain byte-identical or absent"
+    }
+  ],
+  "passed": 4,
+  "failed": 0,
+  "production_unchanged": true,
+  "note": "V1 negative controls remain a separate9/0 independent and13/0 author receipt. V2 adapter changes candidate bytes/identity only, not guarded file operations."
+}

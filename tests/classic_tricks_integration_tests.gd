@@ -1,5 +1,6 @@
 extends RefCounted
 const ClydeLayout = preload("res://game/levels/clyde_layout.gd")
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Independent real-body checks for the classic control/trick pass.
 ## Each trial declares only its initial fixture. Controls drive all subsequent
 ## movement; no tick rewrites heading, position, velocity or animation timers.
@@ -205,7 +206,9 @@ static func _manual_variants(tree: SceneTree, check: Callable) -> void:
 		var name: String = Catalog.definition(id).display_name
 		check.call(rider.manual_active and rider.manual_id == id and seen.count(name) == 1,
 			"classic manual: mapped M selects %s at eligible real ground speed" % id)
-		Input.action_press("steer_right" if nose else "steer_left")
+		# The owner's FID-304 manual axis is now fore/aft; preserve each
+		# variant's original signed correction and unchanged pose thresholds.
+		ManualBalance.correct(rider, 1.0 if nose else -1.0)
 		await _frames(tree, 9)
 		check.call(rider.manual_active and rider.manual_id == id and seen.count(name) == 1,
 			"classic manual: %s balance correction cannot relabel or duplicate the trick" % id)

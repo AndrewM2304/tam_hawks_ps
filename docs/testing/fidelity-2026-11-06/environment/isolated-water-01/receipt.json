@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T00:59:43.969476+00:00",
+  "finished_utc": "2026-11-07T01:00:33.163064+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "640x400",
+      "--script",
+      "tools/environment_water_isolated_probe.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-water-isolated-source/.local/environment-water/candidate-gl-isolated"
+    ]
+  ],
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_water_isolated_probe.gd",
+  "process_timeout_seconds": 120,
+  "workload": "isolated-water-640x400",
+  "source_inventory_sha256": "6ce4e1fdcb8a706627838ad390718ff38f483f94fc505797513ddf587cec88df",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "before-grazing.png": "d0f5f9f36126649e06428bb63822a83149adb07ddb3eabca6ad8ee09e380bfe7",
+    "before-high-coverage.png": "f869d5ee0db9c2e009f1f88955fd01aa22a4bc1b4a1fcc6da43131c557144f58",
+    "before-river-oblique.png": "c9b1b1db554e3b0a0d9df87f26fd009357e61157f0fb6bfaced625cb58ce8d95",
+    "candidate-grazing.png": "b2a3fa104f930c611688cd48c0cbc6192128419eff659a4dad5cc6b07067c061",
+    "candidate-high-coverage.png": "403f771e52107a8855aa0485f90cf44e907aa9931b7d98d97d584d2705d80522",
+    "candidate-river-oblique.png": "7a36373c48e29c907dd9c3fdb7c86e843b27d3cd52eead8d7c50c9394c26a1f5"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

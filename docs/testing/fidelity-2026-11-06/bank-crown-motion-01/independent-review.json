@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T02:02:27.349105+00:00",
+  "runs": {
+    "side": {
+      "checks": 492,
+      "failures": 0,
+      "selected_frames": 32,
+      "all_images": 37,
+      "source_inputs": 791,
+      "maximum_offset_step_m": 0.119816407561302,
+      "source_before_after_equal": true,
+      "engine_exit": 0,
+      "timeline_contiguous": true,
+      "events": [
+        {
+          "at": [
+            80.1276473999023,
+            2.01356863975525,
+            73.5002059936523
+          ],
+          "event": "charge",
+          "physics": 196,
+          "speed": 14.9999990463257
+        },
+        {
+          "at": [
+            83.727783203125,
+            3.55006766319275,
+            73.5000915527344
+          ],
+          "event": "release",
+          "physics": 212,
+          "speed": 14.9997415542603,
+          "velocity": [
+            13.3472566604614,
+            6.84475803375244,
+            -0.00042729900451377
+          ]
+        },
+        {
+          "at": [
+            84.4059982299805,
+            7.34944629669189,
+            73.499870300293
+          ],
+          "event": "first_descent",
+          "physics": 241
+        },
+        {
+          "at": [
+            84.4059982299805,
+            3.88440346717834,
+            73.4996719360352
+          ],
+          "event": "native_landing",
+          "physics": 268
+        }
+      ],
+      "shirt_region_observation": {
+        "method": "Fixed x[500,800),y[250,400) region; read-only darkblue mask R<80,G>R+5,B>R+10, pixelcentres. This measures an image-region change, not wholebodyCOM or exact projected model points.",
+        "frames": [
+          {
+            "file": "bank-side-009.png",
+            "darkblue_pixels": 11927,
+            "centroid_x": 647.7392890081328,
+            "centroid_y": 322.78724742181606
+          },
+          {
+            "file": "bank-side-010.png",
+            "darkblue_pixels": 12019,
+            "centroid_x": 647.8226557949913,
+            "centroid_y": 321.73729095598634
+          },
+          {
+            "file": "bank-side-011.png",
+            "darkblue_pixels": 12341,
+            "centroid_x": 676.4500850822461,
+            "centroid_y": 321.93391945547364
+          },
+          {
+            "file": "bank-side-012.png",
+            "darkblue_pixels": 12461,
+            "centroid_x": 685.758165476286,
+            "centroid_y": 322.18654201107455
+          }
+        ],
+        "centroid_shift_010_to_011_px": 28.627429287254813
+      }
+    },
+    "chase": {
+      "checks": 314,
+      "failures": 0,
+      "selected_frames": 3,
+      "all_images": 8,
+      "source_inputs": 791,
+      "maximum_offset_step_m": 0.119816407561302,
+      "source_before_after_equal": true,
+      "engine_exit": 0,
+      "timeline_contiguous": true,
+      "events": [
+        {
+          "at": [
+            80.1276473999023,
+            2.01356863975525,
+            73.5002059936523
+          ],
+          "event": "charge",
+          "physics": 196,
+          "speed": 14.9999990463257
+        },
+        {
+          "at": [
+            83.727783203125,
+            3.55006766319275,
+            73.5000915527344
+          ],
+          "event": "release",
+          "physics": 212,
+          "speed": 14.9997415542603,
+          "velocity": [
+            13.3472566604614,
+            6.84475803375244,
+            -0.00042729900451377
+          ]
+        },
+        {
+          "at": [
+            84.4059982299805,
+            6.81771802902222,
+            73.4997940063477
+          ],
+          "event": "first_large_correction",
+          "physics": 251
+        },
+        {
+          "at": [
+            84.4059982299805,
+            3.88440346717834,
+            73.4996719360352
+          ],
+          "event": "native_landing",
+          "physics": 268
+        }
+      ]
+    }
+  },
+  "native_originals_retained": 45,
+  "verdict": "Fail, bounded motion criterion FID-D015. Source/pixel/native-frame integrity passes; observed lateral presentation pop remains. Native containment D012 is separately passed in158/0 source/log scope.",
+  "observed": "All32fullworld side frames are consecutive real60Hz physics samples. Frames009/010/011 show a distinct sideward connected rider/deck step. Fixed darkblue shirt ROI centroid shifts28.627px010\u2192011; native presentation offset steps119.816407mm. Actual unchanged production chase is retained at the same three correction ticks; forward-axis chase masks much of the lateral displacement but still shows hard upright descent.",
+  "video": "Exact32successive native frames encoded60/1fps,1280x800,.533333s; all32video frames fullydecode. Video artifact is prepared for normal-speed viewing. This reviewer inspected original chronological frames; no unavailable player/tool human temporal acceptance is claimed.",
+  "source_copy": "789game/tests/tools/project inputs exactlyequal source-before/source-after/copied inventory; imported.godot copied afterrootcleanimport, no import inQAproject. Eachrun inventories789+externalobserver/wrapper=791 unchanged bytes.",
+  "activity_disclosure": "Root explicitly permitted concurrent untimed ordinaryheadless required-01 PID33416. Mainenvironment builder rewrote9files byte-identically during this period; root verified hashes and cache unchanged. Mainrider baker earlier also rewrote byte-identical data beforefreeze. These are write activities, distinct from bytehash stability. QA private source byteguard passes; no process-exclusivity/performance claim.",
+  "fixture_scope": "Standalone80.1m gate afterexplicit initial(66,2.08,73.5)/\u2212PI/2 setup/50native settledticks, actualpush/continuoussteer/16tickcharge. Does not inherit3priorpops. Reproduces exact release14.999741m/s, peak7.350675m and119.816407mm maximum correction class, not asserted whole1408tick trajectoryidentity. Entireordinaryworld/physics/light/HUD remains; sidecamera onlyauthored/interpolationOFF. Actualrider/productioncamera interpolation retained.",
+  "next_action": "Finite earned-wall swept-component anticipation/contactresponse preserving actualmesh8mm skin; retest exact original4charges, noforeign/staleowner attraction, initial/reset/landing and groundcontact neighbours; same-source native-frame/video review.",
+  "limits": [
+    "No whole-game/M5 performance, physicalcontrols/humanfun or AAA acceptance.",
+    "Static/camera proofs proveactualbuffers/currentcamera; rawstate metadata is physics state while normalnativecharacter interpolation remains enabled.",
+    "D014fullsuite coping/other regressions remain separate; neither integraltest success nor export/sourcecommit acceptance follows from these captures."
+  ]
+}

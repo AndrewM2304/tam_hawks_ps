@@ -1,0 +1,584 @@
+{
+  "cases": [
+    {
+      "gate": 78.0,
+      "query_distribution": {
+        "count": 0,
+        "owner_only_air_frames": 0,
+        "accepted_attempts": 0,
+        "refused_attempts": 0,
+        "histogram": {},
+        "kind": "incremental forecast query counts/accepted-current-guard upper bounds; no timing or FPS claim",
+        "refusal_attribution_complete": true,
+        "percentile_method": "nearest rank; failed attempts and zero-query refusals included",
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "p100": 0
+      },
+      "synchronous_controls": [],
+      "controls_ran": false,
+      "all_controls_pass": null,
+      "independent_component_queries": 0,
+      "independent_pose_queries": 0,
+      "independent_face_rays": 0
+    },
+    {
+      "gate": 78.7,
+      "query_distribution": {
+        "count": 6,
+        "owner_only_air_frames": 7,
+        "accepted_attempts": 5,
+        "refused_attempts": 1,
+        "histogram": {
+          "122": 1,
+          "121": 1,
+          "85": 2,
+          "119": 1,
+          "118": 1
+        },
+        "kind": "incremental forecast query counts/accepted-current-guard upper bounds; no timing or FPS claim",
+        "refusal_attribution_complete": true,
+        "percentile_method": "nearest rank; failed attempts and zero-query refusals included",
+        "p50": 118,
+        "p95": 122,
+        "p99": 122,
+        "p100": 122
+      },
+      "synchronous_controls": [
+        {
+          "control": "no_owner_argument",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "no_earned_owner",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_rid",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_shape",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_normal",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_plane",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "mode_takeover",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "invalid_delta",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "upward_predicted_clear",
+          "physics": 542,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": false,
+          "independent_future_miss": true
+        },
+        {
+          "control": "away_predicted_clear",
+          "physics": 542,
+          "refused": true,
+          "queries": 5,
+          "zero_query_required": false,
+          "independent_future_miss": true
+        },
+        {
+          "control": "finite_frame_positive",
+          "physics": 542,
+          "matches": true,
+          "accepted": true,
+          "expected": true,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_frame_origin",
+          "physics": 542,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_frame_basis",
+          "physics": 542,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "singular_frame",
+          "physics": 542,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "mirrored_frame",
+          "physics": 542,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_travel",
+          "physics": 542,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "finite_basis_determinant_overflow",
+          "physics": 542,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "finite_sum_overflow",
+          "physics": 542,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "synchronous_complete_restore",
+          "physics": 542,
+          "restored": true
+        }
+      ],
+      "controls_ran": true,
+      "all_controls_pass": true,
+      "independent_component_queries": 678,
+      "independent_pose_queries": 36,
+      "independent_face_rays": 6
+    },
+    {
+      "gate": 79.4,
+      "query_distribution": {
+        "count": 15,
+        "owner_only_air_frames": 16,
+        "accepted_attempts": 7,
+        "refused_attempts": 8,
+        "histogram": {
+          "7": 2,
+          "5": 1,
+          "1": 2,
+          "0": 1,
+          "33": 1,
+          "66": 1,
+          "152": 5,
+          "119": 1,
+          "86": 1
+        },
+        "kind": "incremental forecast query counts/accepted-current-guard upper bounds; no timing or FPS claim",
+        "refusal_attribution_complete": true,
+        "percentile_method": "nearest rank; failed attempts and zero-query refusals included",
+        "p50": 66,
+        "p95": 152,
+        "p99": 152,
+        "p100": 152
+      },
+      "synchronous_controls": [
+        {
+          "control": "no_owner_argument",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "no_earned_owner",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_rid",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_shape",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_normal",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_plane",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "mode_takeover",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "invalid_delta",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "upward_predicted_clear",
+          "physics": 899,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": false,
+          "independent_future_miss": true
+        },
+        {
+          "control": "away_predicted_clear",
+          "physics": 899,
+          "refused": true,
+          "queries": 2,
+          "zero_query_required": false,
+          "independent_future_miss": true
+        },
+        {
+          "control": "finite_frame_positive",
+          "physics": 899,
+          "matches": true,
+          "accepted": true,
+          "expected": true,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_frame_origin",
+          "physics": 899,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_frame_basis",
+          "physics": 899,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "singular_frame",
+          "physics": 899,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "mirrored_frame",
+          "physics": 899,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_travel",
+          "physics": 899,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "finite_basis_determinant_overflow",
+          "physics": 899,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "finite_sum_overflow",
+          "physics": 899,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "synchronous_complete_restore",
+          "physics": 899,
+          "restored": true
+        }
+      ],
+      "controls_ran": true,
+      "all_controls_pass": true,
+      "independent_component_queries": 711,
+      "independent_pose_queries": 42,
+      "independent_face_rays": 7
+    },
+    {
+      "gate": 80.1,
+      "query_distribution": {
+        "count": 20,
+        "owner_only_air_frames": 21,
+        "accepted_attempts": 7,
+        "refused_attempts": 13,
+        "histogram": {
+          "3": 1,
+          "1": 2,
+          "0": 9,
+          "34": 1,
+          "120": 5,
+          "119": 1,
+          "86": 1
+        },
+        "kind": "incremental forecast query counts/accepted-current-guard upper bounds; no timing or FPS claim",
+        "refusal_attribution_complete": true,
+        "percentile_method": "nearest rank; failed attempts and zero-query refusals included",
+        "p50": 1,
+        "p95": 120,
+        "p99": 120,
+        "p100": 120
+      },
+      "synchronous_controls": [
+        {
+          "control": "no_owner_argument",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "no_earned_owner",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_rid",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_shape",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_normal",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "foreign_argument_plane",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "mode_takeover",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "invalid_delta",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": true,
+          "independent_future_miss": true
+        },
+        {
+          "control": "upward_predicted_clear",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": false,
+          "independent_future_miss": true
+        },
+        {
+          "control": "away_predicted_clear",
+          "physics": 1256,
+          "refused": true,
+          "queries": 0,
+          "zero_query_required": false,
+          "independent_future_miss": true
+        },
+        {
+          "control": "finite_frame_positive",
+          "physics": 1256,
+          "matches": true,
+          "accepted": true,
+          "expected": true,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_frame_origin",
+          "physics": 1256,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_frame_basis",
+          "physics": 1256,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "singular_frame",
+          "physics": 1256,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "mirrored_frame",
+          "physics": 1256,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "nan_travel",
+          "physics": 1256,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "finite_basis_determinant_overflow",
+          "physics": 1256,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "finite_sum_overflow",
+          "physics": 1256,
+          "matches": true,
+          "accepted": false,
+          "expected": false,
+          "query_delta": 0
+        },
+        {
+          "control": "synchronous_complete_restore",
+          "physics": 1256,
+          "restored": true
+        }
+      ],
+      "controls_ran": true,
+      "all_controls_pass": true,
+      "independent_component_queries": 711,
+      "independent_pose_queries": 42,
+      "independent_face_rays": 7
+    }
+  ],
+  "attempt_count": 41,
+  "incremental_forecast_query_percentiles": {
+    "50": 66,
+    "95": 152,
+    "99": 152,
+    "100": 152
+  },
+  "cost_scope": "Controller incremental forecast queries, with successful final current guards charged at a conservative upper bound. Unchanged reactive entry/native component scans and all independent observer queries are excluded and do not vanish.",
+  "CPU_time_budget": "Target <=1ms p95/2ms p99 on M5; UNMEASURED. Counts do not establish elapsed cost or FPS.",
+  "visual_acceptance": false,
+  "production_admission": false,
+  "source_stable": true,
+  "query_attribution_accepted": false,
+  "query_attribution_defect": "Observer live-Dictionary alias at gate78.7physics544 misclassifies accepted120 as refusal85 during synchronous fault injection. Nativecontact/physical source-scoped proofs remain; corrected observer rerun required."
+}

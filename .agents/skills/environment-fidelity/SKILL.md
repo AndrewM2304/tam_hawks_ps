@@ -1,0 +1,36 @@
+---
+name: environment-fidelity
+description: Produce and verify realistic Godot city materials, architectural surfaces and lighting while preserving skate collision and route readability.
+---
+
+Read AGENTS.md, docs/STATUS.md, docs/product/ART_DIRECTION.md, docs/architecture/interfaces.md, docs/product/AAA_BENCHMARK.md and the active fidelity tickets first.
+
+Own materials, shaders and visual architecture only. Agree exact shared-file sections with the orchestrator before editing. Do not alter route, grind, gap or collision geometry without the level designer.
+
+1. Capture matched ordinary chase and close views before changing art. Diagnose texture scale, roughness, specular response, light direction, silhouette, seams and repetition individually.
+2. Prefer inspected CC0 PBR sources and existing native Godot materials. Verify licence on the actual asset provider, record exact URLs, download date, creator, file hashes and physical tile scale before import. No game rips, Maps textures, purchases or paid APIs.
+3. Use real-world tile size; keep facade courses and paving slabs plausible. Author albedo tints gently because photographic albedo already contains material colour. Use restrained OpenGL normals, correct roughness channel and mipmapped anisotropic filtering. Keep decorative mesh detail separate from invisible collision.
+4. Match a single coherent Glasgow daylight condition. Preserve clear rider and landing silhouettes in both sun and shade; do not hide weak materials with fog, darkness, bloom or blur. Maintain the pinned engine/renderer unless explicit measured evidence supports a change.
+5. Review actual multi-view captures, including close surfaces at oblique skating angles. Reject texture stretching, repeated large stains, water shimmer, grass stripes, blown-out stone, flat glass and shadow detachments. Iterate against evidence.
+6. Run tools/check.sh after production GDScript changes and capture real rendered frames. Report exact source/input identity and draw/geometry observations. Software-renderer timings are diagnostic, never Apple Silicon acceptance.
+7. File remaining visual defects honestly. Tests and PBR maps alone do not constitute AAA quality, final art approval or performance certification.
+
+Keep provenance in docs/licences/ENVIRONMENT-FIDELITY.md and evidence under docs/testing. Future agents can resume this workflow from the repository without relying on chat memory.
+
+The reproducible source check is `python3 tools/fetch_environment_materials.py --verify-only`; photographic derivative verification is `python3 tools/build_environment_derivatives.py --verify-only`. A native water change uses `python3 tools/environment_water_probe.py <new-label>` only during an exclusive, source-frozen Godot slot after editor import. It retains exact pre-change shader identity, matched river/fountain/pond inspection approaches and three A/B/A timing brackets; source/engine rejection must never be relabelled as acceptance. Readbacks are excluded from timing samples.
+
+The full-Main software workload can be impractical: the November epoch observed 21–28-second fountain readbacks and was stopped honestly. Prefer `--isolated-water` for a bounded shader-only 640×400 diagnostic using the exact production plane/daylight functions, nine A/B/A cells and a 120-second process bound. This cannot establish whole-game or hardware performance. Persist partial runtime camera/pixel metadata after each completed phase; interrupted screenshots without those records remain limited still evidence. Preserve successful earlier independent allocation-process results separately from a later rejected workload.
+
+Preserve current main's admitted static batching, LOD, culling, shared horizon and water. Before replacing a native material with a ShaderMaterial, inspect batching eligibility: a new shader can multiply draws even when it adds no visible geometry. Declare resource budgets before expansion and obtain matched uncontended draw/geometry/texture and p50/p95/p99 measurements. Keep failed cost cells rejected and current features enabled.
+
+Trace every consumer of a shared material key before changing its semantics. `facade_glass` is reserved for static architectural panes; legacy `glass` stays native for the moving train. World-position room hashing on a moving merged mesh re-randomizes its interior and visibly flashes. All static facade/door/dormer panes share the static key so the correction does not create an extra static batch family. Keep the station material-stability guard and exact shader-object batching checks.
+
+Resource admission uses actual native allocation: `environment_texture_probe.gd` replaces the exact retired procedural maps with the production library on an otherwise identical visible grid. Its API texture-memory delta is stronger evidence than imported-file sizes. The final 1K normal policy is accepted only after the source-bound normal quality pairs and close/chase inspection; retain 2K albedo. The first 2K-normal candidate exceeded the 32 MiB declaration and must not be relabelled as admitted by raising that ceiling.
+
+Keep diagnostic camera samples distinct from normal-speed playback. Water snapshots taken at authored camera steps with wall-clock shader TIME cannot certify temporal smoothness at 60 fps. An uncontended measurement lease needs explicit team coordination; record unexpected competing engine processes and disclose the observer's sampling interval. Release the lease as soon as all rendering processes stop so ordinary gameplay verification can resume.
+
+Use absolute private script paths and an absolute private working directory for every generator during a source freeze. Verify both before execution. A byte-identical regeneration still changes mtimes and performs work; disclose any such incident with exact file hashes, UTC times and the acceptance scope instead of claiming a write-free or CPU-exclusive epoch.
+
+Startup synchronization does not validate every later camera. Reuse the verified natural-frame observer and preserve, for each inspected image, native RGBA identity, full camera basis/projection/aspect/near/far, physics/process tick brackets, two independently projected world markers and a current Canvas sample. Measure real scene bounds before placing inspection cameras; a bridge-obstructed river view cannot accept river water. Keep older packets' missing metadata explicit rather than retrofitting it from a later run.
+
+Diagnose residual water artifacts with matched controls before adding shader complexity: constant normal, native material, water casting off and sun shadows off. Use the exact final Main sky and daylight. Godot 4.6.3 GLES reports shadow primitives separately but its draw accounting can put shadow draws in the visible counter; zero shadow draw calls does not exclude shadow work. The November control isolates fine striation to water casting. Any policy must select the exact audited water Shader object, preserve receiving shadows and every non-water caster, and guard mixed surfaces, overlays, extra passes and shadow-only geometry. Component evidence does not replace actual river, pond and fountain review or admit a different wave shader's cost.

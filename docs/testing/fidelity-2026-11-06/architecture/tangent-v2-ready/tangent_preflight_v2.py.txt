@@ -1,0 +1,43 @@
+"""Analytic UV derivative audit; not native rendering or performance evidence."""
+from pathlib import Path
+import hashlib,json,math,re
+BASE=Path(__file__).resolve().parent
+source=(BASE/"prototype-v2/gallery_column.gd").read_text()
+original=(BASE/"prototype/gallery_column.gd").read_text()
+expected=original.replace("PackedFloat32Array([-sin(angle),0,cos(angle),1])","PackedFloat32Array([-sin(angle),0,cos(angle),-1])")
+expected=expected.replace("PackedFloat32Array([1,0,0,1])","PackedFloat32Array([1,0,0,1 if cap == 0 else -1])")
+assert source==expected, "V2 must change only the three explicit tangent-W emissions"
+profile_text=source.split("var profile := PackedVector2Array([",1)[1].split("])",1)[0]
+profile=[(float(r),float(y)) for r,y in re.findall(r"Vector2\(([0-9.]+),([0-9.]+)\)",profile_text)]
+segments=int(re.search(r"const SEGMENTS := (\d+)",source).group(1))
+def cross(a,b):return (a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0])
+def dot(a,b):return sum(x*y for x,y in zip(a,b))
+def unit(v):return tuple(x/math.sqrt(dot(v,v)) for x in v)
+before=after=orthogonal=samples=0
+for ring,(radius,y) in enumerate(profile):
+    previous=profile[max(0,ring-1)];next_=profile[min(len(profile)-1,ring+1)]
+    dr=next_[0]-previous[0];dy=next_[1]-previous[1]
+    for j in range(segments+1):
+        angle=2*math.pi*j/segments;c=math.cos(angle);s=math.sin(angle)
+        tangent=(-s,0,c);normal=unit((c*dy,-dr,s*dy));dv=unit((c*dr,dy,s*dr))
+        alignment=dot(cross(normal,tangent),dv)
+        before+=alignment<.999999;after+=-alignment<.999999
+        orthogonal+=abs(dot(normal,tangent))>1e-9;samples+=1
+for cap,normal in [(0,(0,-1,0)),(len(profile)-1,(0,1,0))]:
+    for j in range(segments+2):
+        tangent=(1,0,0);dv=(0,0,1);alignment=dot(cross(normal,tangent),dv)
+        before+=alignment<.999999;after+=alignment*(1 if cap==0 else -1)<.999999
+        orthogonal+=abs(dot(normal,tangent))>1e-9;samples+=1
+receipt={"kind":"offline-analytic-author-tangent-basis-preflight","native_engine_runs":0,
+	"source_delta_is_only_handedness":source==expected,
+    "samples":samples,"v1_opposed_v_derivative_failures":before,"v2_opposed_v_derivative_failures":after,
+    "normal_tangent_orthogonality_failures":orthogonal,
+    "convention":"Godot4.6 GLES and RD: binormal=normalize(cross(normal,tangent)*binormal_sign). U increases around +Z, V increases up shaft; cap U=+X,V=+Z.",
+    "references":["https://github.com/godotengine/godot/blob/4.6-stable/drivers/gles3/shaders/scene.glsl#L617",
+        "https://github.com/godotengine/godot/blob/4.6-stable/servers/rendering/renderer_rd/shaders/forward_clustered/scene_forward_clustered.glsl#L750"],
+    "files":json.loads((BASE/"candidate-v2.json").read_text())["files"],
+    "probe_sha256":hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    "limits":"Numeric author derivative check; not native tangent upload, shading, Main resource cost or final visual acceptance."}
+(BASE/"tangent-v2-preflight.json").write_text(json.dumps(receipt,indent=2)+"\n")
+print(json.dumps(receipt,indent=2))
+assert samples==502 and before==476 and after==0 and orthogonal==0

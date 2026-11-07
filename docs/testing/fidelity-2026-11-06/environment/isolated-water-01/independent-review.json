@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T01:08:50.109679+00:00",
+  "capture_integrity": "Pass, bounded shader-only640x400 epoch: all preservation hashes, six PNG/native buffers, unchanged sources, nine recomputed percentile/resource cells and host observer independently checked. No engine error.",
+  "sources_unchanged": 784,
+  "host_observations": 50,
+  "native_pixels": [
+    {
+      "file": "before-river-oblique.png",
+      "rgba8_sha256": "1e83b4f8149440559378dd7ef1d5396f36c86b459fa2bee37c511effb71affa4",
+      "native_match": true
+    },
+    {
+      "file": "before-high-coverage.png",
+      "rgba8_sha256": "37e562a018e020e7dcfbfcf1c0f88ccbef83f4823b92b85d6bd48dc3d5201448",
+      "native_match": true
+    },
+    {
+      "file": "before-grazing.png",
+      "rgba8_sha256": "60cbcf0559aa4e2ff271bd86b6d55ff2b19107303e8f86609b9ae27b8a4ad8d9",
+      "native_match": true
+    },
+    {
+      "file": "candidate-river-oblique.png",
+      "rgba8_sha256": "93bffe71b2d880905ffdf808fa1f9c98e123affd6f1e147d3bfa81d2abea0a02",
+      "native_match": true
+    },
+    {
+      "file": "candidate-high-coverage.png",
+      "rgba8_sha256": "8e43d5e89421fa5bb1e61e273a0e9a4b55338bde5fc153f852afa9ead188e904",
+      "native_match": true
+    },
+    {
+      "file": "candidate-grazing.png",
+      "rgba8_sha256": "cd08d5d3b995885c6de070834657d3a2d28fa477f71c5f088eb45c9d4ad1bdeb",
+      "native_match": true
+    }
+  ],
+  "recomputed_metrics": [
+    {
+      "view": "river-oblique",
+      "mode": "before-a",
+      "samples": 145,
+      "sample_duration_ms": 3016.7690000000002,
+      "p50_ms": 20.458,
+      "p95_ms": 27.427,
+      "p99_ms": 36.151
+    },
+    {
+      "view": "river-oblique",
+      "mode": "candidate",
+      "samples": 143,
+      "sample_duration_ms": 3004.125,
+      "p50_ms": 20.727,
+      "p95_ms": 25.741,
+      "p99_ms": 31.995
+    },
+    {
+      "view": "river-oblique",
+      "mode": "before-b",
+      "samples": 90,
+      "sample_duration_ms": 3054.83,
+      "p50_ms": 25.276,
+      "p95_ms": 64.391,
+      "p99_ms": 94.102
+    },
+    {
+      "view": "high-coverage",
+      "mode": "before-a",
+      "samples": 50,
+      "sample_duration_ms": 3027.297,
+      "p50_ms": 58.608,
+      "p95_ms": 88.097,
+      "p99_ms": 95.056
+    },
+    {
+      "view": "high-coverage",
+      "mode": "candidate",
+      "samples": 48,
+      "sample_duration_ms": 3145.234,
+      "p50_ms": 66.751,
+      "p95_ms": 102.1,
+      "p99_ms": 115.008
+    },
+    {
+      "view": "high-coverage",
+      "mode": "before-b",
+      "samples": 62,
+      "sample_duration_ms": 3033.569,
+      "p50_ms": 46.096,
+      "p95_ms": 70.167,
+      "p99_ms": 87.129
+    },
+    {
+      "view": "grazing",
+      "mode": "before-a",
+      "samples": 53,
+      "sample_duration_ms": 3055.802,
+      "p50_ms": 59.906,
+      "p95_ms": 76.686,
+      "p99_ms": 84.588
+    },
+    {
+      "view": "grazing",
+      "mode": "candidate",
+      "samples": 96,
+      "sample_duration_ms": 3011.362,
+      "p50_ms": 24.58,
+      "p95_ms": 54.275,
+      "p99_ms": 68.603
+    },
+    {
+      "view": "grazing",
+      "mode": "before-b",
+      "samples": 125,
+      "sample_duration_ms": 3003.563,
+      "p50_ms": 23.754,
+      "p95_ms": 29.998,
+      "p99_ms": 37.147
+    }
+  ],
+  "cost_admission": "Rejected: high-coverage candidate exceeds BOTH controls at p50/p95/p99; other views inconclusive because controls drift. No causal certainty or pass follows from an average over views.",
+  "visual_observation": "Reviewer opened all six originals at native size. Broad repeated parallel bands soften, but bright glint and fine stipple/striation remain, especially at grazing/high coverage. Native TIME phases differ; stills do not establish temporal stability.",
+  "limits": "Actual production plane/daylight invoked without Main at640x400 on Linux llvmpipe. No route, moving gameplay, full-world1080p, Mac performance, full fidelity or AAA acceptance. Zero shadow draws weakens a caster explanation but does not identify the residual artifact source."
+}

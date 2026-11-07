@@ -60,6 +60,9 @@ const FLIP_DURATION := 0.32
 const MANUAL_MIN_SPEED := 2.0
 const MANUAL_REENTRY_DELAY := 0.35
 const MANUAL_BALANCE_CONTROL := 1.5
+# A fresh request may anticipate an airborne landing, while grounded recovery
+# retains the short existing trick buffer. Holding an expired input never renews it.
+const MANUAL_AIR_BUFFER_TIME := 0.35
 const REVERT_DURATION := 0.18
 const REVERT_SPEED_RETAINED := 0.85
 const SPECIAL_DURATION := 0.65
@@ -113,7 +116,13 @@ var _vert_return: Dictionary = {}
 var _vert_start_yaw := 0.0
 var _vert_start_up := 0.0
 var _grind_visual_offset := Vector3.ZERO
+var _grind_exit_pose_pending := false
+var _grind_exit_board := Transform3D.IDENTITY
 var _obstacle_visual_offset := Vector3.ZERO
+var _graded_obstacle_floor_rid := RID()
+var _graded_obstacle_floor_shape := -1
+var _obstacle_air_wall: Dictionary = {}
+var _obstacle_air_wall_owner: Dictionary = {}
 var _obstacle_ollie_continuation := false
 var _obstacle_manual_continuation := false
 var _obstacle_shoe_bounds: Array[AABB] = []
@@ -499,7 +508,13 @@ func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> voi
 	_transition.stop()
 	_vert_return.clear()
 	_grind_visual_offset = Vector3.ZERO
+	_grind_exit_pose_pending = false
+	_grind_exit_board = Transform3D.IDENTITY
 	_obstacle_visual_offset = Vector3.ZERO
+	_graded_obstacle_floor_rid = RID()
+	_graded_obstacle_floor_shape = -1
+	_obstacle_air_wall.clear()
+	_obstacle_air_wall_owner.clear()
 	_obstacle_ollie_continuation = false
 	_obstacle_manual_continuation = false
 	transition_normal = Vector3.UP
@@ -907,6 +922,11 @@ func _notification(what: int) -> void:
 		# Menu navigation cannot complete a half-entered gesture on resume.
 		# An existing manual, motion, pose and eligibility timers remain frozen.
 		_clear_direction_gesture()
+		if not manual_active:
+			_manual_buffer_remaining = 0.0
+			_manual_request.clear()
+			_manual_gesture_pending = ""
+			_manual_gesture_hold = false
 
 	if what == NOTIFICATION_UNPAUSED and grinding:
 		# Menu releases do not drop a locked rail; a fresh gameplay edge still exits.
@@ -935,6 +955,7 @@ func _sample_trick_requests(delta: float) -> void:
 	_flip_buffer_remaining = maxf(0.0, _flip_buffer_remaining - delta)
 	_grab_buffer_remaining = maxf(0.0, _grab_buffer_remaining - delta)
 	_manual_buffer_remaining = maxf(0.0, _manual_buffer_remaining - delta)
+	if _manual_buffer_remaining < 0.00000001: _manual_buffer_remaining = 0.0
 	_grind_buffer_remaining = maxf(0.0, _grind_buffer_remaining - delta)
 	_selection_remaining = maxf(0.0, _selection_remaining - delta)
 	_vertical_edge_age += delta
@@ -969,12 +990,16 @@ func _sample_trick_requests(delta: float) -> void:
 		_grind_direction = direction
 		_grind_entry_action=_trick_input.pop_action("grind")
 		_selection_remaining = 0.14
-	# Fresh requests may wait for the last buffer-length of recovery; actual
-	# entry still needs the full cooldown, floor support and a held request.
-	if Input.is_action_just_pressed("manual") and not manual_active and _manual_cooldown <= TRICK_BUFFER_TIME \
+	# Actual admission still requires the complete cooldown, native support,
+	# minimum speed and a held button or deliberately completed gesture.
+	var manual_request_window := MANUAL_AIR_BUFFER_TIME if airborne else TRICK_BUFFER_TIME
+	if Input.is_action_just_released("manual") and not manual_active and not _manual_gesture_hold:
+		_manual_buffer_remaining = 0.0
+		_manual_request.clear()
+	if Input.is_action_just_pressed("manual") and not manual_active and _manual_cooldown <= manual_request_window \
 			and (airborne or absf(speed) >= MANUAL_MIN_SPEED):
 		_manual_request = DirectionalTricks.select("manual", direction)
-		_manual_buffer_remaining = TRICK_BUFFER_TIME
+		_manual_buffer_remaining = manual_request_window
 		_manual_gesture_hold = false
 	var vertical := -1 if direction.y < -0.5 else (1 if direction.y > 0.5 else 0)
 	if vertical == 0 and _last_vertical != 0 \
@@ -983,9 +1008,9 @@ func _sample_trick_requests(delta: float) -> void:
 	if vertical != 0 and vertical != _last_vertical:
 		if _vertical_neutral_seen and _vertical_edge != 0 and vertical == -_vertical_edge and _vertical_edge_age <= 0.22 \
 				and not manual_active and not transition_active and not lip_active \
-				and _manual_cooldown <= TRICK_BUFFER_TIME and (airborne or absf(speed) >= MANUAL_MIN_SPEED):
+				and _manual_cooldown <= manual_request_window and (airborne or absf(speed) >= MANUAL_MIN_SPEED):
 			_manual_request = TrickCatalog.definition("manual" if _vertical_edge < 0 else "nose_manual")
-			_manual_buffer_remaining = TRICK_BUFFER_TIME
+			_manual_buffer_remaining = manual_request_window
 			_manual_gesture_hold = true
 		_vertical_neutral_seen = false
 		_vertical_edge = vertical
@@ -1562,7 +1587,7 @@ func _physics_process(delta: float) -> void:
 			_end_manual(false)
 		elif not _controls_enabled or not (Input.is_action_pressed("manual") or _manual_gesture_hold) or absf(speed) < MANUAL_MIN_SPEED:
 			_end_manual(true)
-		elif not _tick_manual_balance(delta, _steering):
+		elif not _tick_manual_balance(delta, Input.get_axis("brake", "push") * _manual_balance_input_sign()):
 			return
 
 	powersliding=grounded_before and _controls_enabled and not manual_active and brake_input>.5 and absf(_steering)>.6 and absf(speed)>4.0
@@ -1587,9 +1612,9 @@ func _physics_process(delta: float) -> void:
 			speed = _response.coast_speed(speed, delta)
 	# Ground carving turns travel; airborne stick input drives visible spin.
 	# Camera preferences cannot change physical turning or carried momentum.
-	# Balance correction must not also carve. Shoulders provide an independent
-	# turning input during manuals; ordinary ground/air controls stay the same.
-	var turn_input := Input.get_axis("spin_left", "spin_right") if manual_active else _steering
+	# Fore/aft balance consumes push/brake while the manual coasts. Lateral
+	# steering remains available; shoulders retain their former turning alias.
+	var turn_input := clampf(_steering + Input.get_axis("spin_left", "spin_right"), -1.0, 1.0) if manual_active else _steering
 	var steering_angle: float = _response.steering_step(turn_input, speed, true, delta) if grounded_before else 0.0
 	if powersliding: steering_angle+=-_steering*2.0*delta
 	rotation.y += steering_angle
@@ -1951,6 +1976,50 @@ func _tick_manual_balance(delta: float, correction: float) -> bool:
 		_manual_cooldown = MANUAL_REENTRY_DELAY
 		return false
 	return true
+
+
+func _manual_balance_input_sign() -> float:
+	# Positive displayed balance means leaning toward actual travel. Use the
+	# actual board frame, not the rider's local Euler axis names: the torso is
+	# usually side-on, and the deck/stance may be reversed or inverted.
+	var travel := -global_basis.z * (-1.0 if speed < 0.0 else 1.0)
+	var up := get_floor_normal() if is_on_floor() else Vector3.UP
+	var frame: Basis = _board_visual.get_parent().global_basis
+	var pitch: float = _board_visual.rotation.x
+	var yaw: float = _board_visual.rotation.y
+	# Godot's YXZ rotation: local roll leaves the deck's longitudinal axis
+	# unchanged, including Casper's inverted deck. Analytic pitch derivative.
+	var nose := frame * Vector3(-sin(yaw) * cos(pitch), sin(pitch), -cos(yaw) * cos(pitch))
+	var pitch_rise := frame * Vector3(sin(yaw) * sin(pitch), cos(pitch), cos(yaw) * sin(pitch))
+	var pitch_sign := cos(_deck_yaw)
+	if manual_trick_id != "pogo" and manual_trick_id != "casper_manual":
+		pitch_sign *= _manual_base_sign
+	var direction := -pitch_rise.dot(up) * nose.dot(travel) * pitch_sign
+	if absf(direction) < 0.00001:
+		return -_manual_base_sign * (-1.0 if speed < 0.0 else 1.0)
+	return signf(direction)
+
+
+func balance_axis() -> StringName:
+	return &"fore_aft" if manual_active else &"lateral"
+
+
+func manual_request_pending() -> bool:
+	return airborne and not manual_active and not bailing and _controls_enabled and _trick_entries_enabled \
+		and _manual_buffer_remaining > 0.0 and not _manual_request.is_empty() \
+		and (Input.is_action_pressed("manual") or _manual_gesture_hold)
+
+
+func balance_value() -> float:
+	if lip_active: return lip_balance
+	if skitching: return skitch_balance
+	if grinding: return grind_balance
+	return manual_balance * _manual_balance_input_sign() if manual_active else 0.0
+
+
+func balance_action(positive: bool) -> StringName:
+	if manual_active: return &"push" if positive else &"brake"
+	return &"steer_right" if positive else &"steer_left"
 
 
 func _end_manual(grounded_exit: bool) -> void:
@@ -2376,6 +2445,11 @@ func _release_grind(jump: bool) -> void:
 	_begin_air()
 	if named:
 		_air_grind_yaw = angle_difference(_stance_angle,exit_yaw)
+		# The last native edge pose can differ from the cosmetic grind-balance
+		# frame. Start flight from the actual rigid board, including its roll.
+		_air_support_basis = (global_basis.inverse()*exit_board.basis*Basis(Vector3.UP,-exit_yaw)).orthonormalized()
+		_grind_exit_board = exit_board
+		_grind_exit_pose_pending = true
 	speed=Vector3(velocity.x,0,velocity.z).dot(-global_basis.z)
 	if jump:
 		_set_launch_mode()
@@ -2563,7 +2637,8 @@ func _update_pose(delta: float) -> void:
 			var foot_offset := maxf(0, capsule.radius * (1.0 - upcoming_normal.y) - 0.008)
 			air_visual_offset = -upcoming_normal * foot_offset * anticipation
 		var angle := _air_support_basis.get_rotation_quaternion().angle_to(target_basis.get_rotation_quaternion())
-		_air_support_basis = _air_support_basis.slerp(target_basis, minf(1, 4.5 * delta / maxf(angle, 0.000001))).orthonormalized()
+		if not _grind_exit_pose_pending:
+			_air_support_basis = _air_support_basis.slerp(target_basis, minf(1, 4.5 * delta / maxf(angle, 0.000001))).orthonormalized()
 		_visual.basis = _air_support_basis * Basis(Vector3.UP, visual_yaw)
 	if wallriding:
 		_air_support_basis = _wall.presentation_basis(_air_support_basis, global_basis, delta)
@@ -2623,16 +2698,22 @@ func _update_pose(delta: float) -> void:
 		_rider_visual.rotation.z = lerp_angle(_rider_visual.rotation.z,(.20 if _reduced_motion else .65)*sin(PI*fall),1.0-exp(-12.0*delta))
 	else:
 		_rider_visual.rotation.z = 0.0
-	if grinding and (_grind_contact.valid or _grind_transfer.active):
+	if (grinding and (_grind_contact.valid or _grind_transfer.active)) \
+			or (_grind_exit_pose_pending and airborne and not bail_active):
 		# Exact declared contacts take precedence over entry mesh smoothing and
 		# independent slope/balance rotations. During an unweighted transfer,
 		# display only the helper's natively tested frame; feet follow the deck.
-		var displayed_grind: Transform3D = _grind_transfer.board_transform if _grind_transfer.active else _grind_contact.board_transform
+		# Release precedes the next physical movement. Keep this one pose on its
+		# proven bearing; retiring its roll/offset now would cut a tyre through
+		# the finite seat before the capsule has risen with the jump impulse.
+		var displayed_grind: Transform3D = _grind_exit_board if _grind_exit_pose_pending else \
+			(_grind_transfer.board_transform if _grind_transfer.active else _grind_contact.board_transform)
 		_board_visual.rotation = Vector3.ZERO
 		_board_visual.position.y = .12
 		_visual.basis = global_basis.inverse() * displayed_grind.basis
 		_visual.position = to_local(displayed_grind.origin - displayed_grind.basis * Vector3(0,.12,0))
 		_grind_visual_offset = Vector3.ZERO
+	_grind_exit_pose_pending = false
 	if bailing:
 		var target_basis:=_visual.basis.orthonormalized()
 		var angle:=_bail_visual_basis.get_rotation_quaternion().angle_to(target_basis.get_rotation_quaternion())
@@ -2706,6 +2787,19 @@ func _place_obstacle_wheels(delta: float) -> void:
 	# Reuse its real vertical-wall contacts to fit only the connected figure;
 	# an obstacle must never move the physical actor or split feet from board.
 	var manual_pose: bool = manual_active or _visual_rig._manual_blend>0.0001
+	if not airborne or manual_pose or _launch_id!="ollie" or transition_active \
+			or grinding or wallriding or bail_active or setup_active or skitching \
+			or lip_active or powersliding or _special_remaining>0.0 \
+			or _flip_remaining>0.0 or _grab_remaining>0.0:
+		_obstacle_air_wall.clear()
+		_obstacle_air_wall_owner.clear()
+	if manual_pose or airborne or not _native_floor_valid or not is_on_floor() \
+			or _native_floor_normal().y>=0.999 or _force_air_tick \
+			or transition_active or grinding or wallriding or bail_active or setup_active \
+			or skitching or lip_active or powersliding or _special_remaining>0.0 \
+			or _flip_remaining>0.0 or _grab_remaining>0.0 or _ollie_pose_remaining>0.0:
+		_graded_obstacle_floor_rid=RID()
+		_graded_obstacle_floor_shape=-1
 	if manual_pose and (manual_active or _obstacle_manual_continuation) \
 			and not airborne and _native_floor_valid and is_on_floor() \
 			and not _force_air_tick and _native_floor_normal().y>0.999 \
@@ -2734,6 +2828,11 @@ func _place_obstacle_wheels(delta: float) -> void:
 		_obstacle_ollie_continuation=false
 		return
 	if airborne:
+		# A real airborne capsule can strike a finite wall after a bank pop.
+		# That differs from continuing a fit earned before a flat-ground Ollie.
+		if not _obstacle_ollie_continuation and _launch_id=="ollie" \
+				and _flip_remaining<=0.0 and _grab_remaining<=0.0 \
+				and _place_air_wall_wheels(delta):return
 		# Continue only a real flat-ground jump's already proven fit into a
 		# Ollie/Flip/Grab. Every proposal needs fresh finite board/shoe
 		# clearance; only a Grab may derive a bounded live-face correction.
@@ -2761,9 +2860,12 @@ func _place_obstacle_wheels(delta: float) -> void:
 		return
 	if not _native_floor_valid or not is_on_floor() or _force_air_tick \
 			or _flip_remaining>0.0 or _grab_remaining>0.0 \
-			or _ollie_pose_remaining>0.0 or _native_floor_normal().y<0.999:
+			or _ollie_pose_remaining>0.0:
 		_obstacle_visual_offset=Vector3.ZERO
 		_obstacle_ollie_continuation=false
+		return
+	if _native_floor_normal().y<0.999:
+		_place_graded_obstacle_wheels(delta)
 		return
 	var offset := _obstacle_visual_offset*exp(-maxf(0.0,delta)/0.045)
 	if offset.length_squared()<0.0000000001:offset=Vector3.ZERO
@@ -2814,6 +2916,268 @@ func _place_obstacle_wheels(delta: float) -> void:
 		return
 	_obstacle_visual_offset=Vector3.ZERO
 	_obstacle_ollie_continuation=false
+
+
+func _place_air_wall_wheels(delta: float) -> bool:
+	# Arm only on BOTH a current capsule wall contact and an actual connected
+	# model component hitting that exact finite shape. The actor, its velocity
+	# and the figure's vertical position stay entirely native.
+	if _obstacle_air_wall.is_empty() and _obstacle_air_wall_owner.is_empty() and not is_on_wall():return false
+	var space := get_world_3d().direct_space_state
+	var faces: Array[Dictionary]=[]
+	var prior_live:=false
+	for slide_index: int in get_slide_collision_count():
+		var contact := get_slide_collision(slide_index)
+		for index: int in contact.get_collision_count():
+			var normal := contact.get_normal(index)
+			if not normal.is_finite() or absf(normal.y)>0.001:continue
+			normal=Vector3(normal.x,0,normal.z).normalized()
+			var point := contact.get_position(index)
+			var ray := PhysicsRayQueryParameters3D.create(point+normal*0.03,point-normal*0.03,collision_mask,[get_rid()])
+			var hit := space.intersect_ray(ray)
+			if hit.is_empty() or hit.rid!=contact.get_collider_rid(index) \
+					or int(hit.shape)!=contact.get_collider_shape_index(index) \
+					or Vector3(hit.normal).dot(normal)<0.999:continue
+			var model_face:=_air_wall_model_face(hit)
+			if not model_face.is_empty():faces.append(model_face)
+	if not _obstacle_air_wall.is_empty():
+		# Revalidate at the CURRENT board height and tangential position. An
+		# old lower wall point cannot become an infinite plane above its crown.
+		var normal:Vector3=_obstacle_air_wall.normal
+		var point:Vector3=_obstacle_air_wall.position
+		var at:=_board_visual.global_position
+		at-=normal*(at-point).dot(normal)
+		var ray:=PhysicsRayQueryParameters3D.create(at+normal*0.03,at-normal*0.03,collision_mask,[get_rid()])
+		var hit:=space.intersect_ray(ray)
+		if not hit.is_empty() and hit.rid==_obstacle_air_wall.rid \
+				and int(hit.shape)==int(_obstacle_air_wall.shape) and Vector3(hit.normal).dot(normal)>0.999:
+			faces.append(hit)
+			prior_live=true
+		else:
+			# The board centre can rise above a finite wall while a lower kick
+			# still meets its face. Authenticate that actual component contact;
+			# neither the old lower point nor a failed centre ray suffices.
+			var model_face:=_air_wall_model_face(_obstacle_air_wall)
+			if not model_face.is_empty():
+				faces.append(model_face)
+				prior_live=true
+	elif not _obstacle_air_wall_owner.is_empty():
+		# Keep only the identity earned in this air epoch while the model is
+		# completely above a crown. It authorizes NO translation or plane.
+		# Descending geometry must create a NEW actual component contact and
+		# authenticate the same finite face before any correction can resume.
+		var model_face:=_air_wall_model_face(_obstacle_air_wall_owner)
+		if not model_face.is_empty():faces.append(model_face)
+	if faces.is_empty():
+		_obstacle_air_wall.clear()
+		return false
+	var prior:=_obstacle_visual_offset if prior_live else Vector3.ZERO
+	if not prior.is_finite() or prior.length()>0.18 or absf(prior.y)>0.000001:
+		_obstacle_air_wall.clear()
+		return false
+	var offset:=prior*exp(-maxf(0.0,delta)/0.045)
+	if offset.length_squared()<0.0000000001:offset=Vector3.ZERO
+	var geometry:Dictionary=_visual_rig.board_contact_geometry()
+	for face:Dictionary in faces:
+		var normal:Vector3=face.normal
+		var gap:=INF
+		for vertex:Vector3 in geometry.support_points:
+			gap=minf(gap,(_board_visual.to_global(vertex)+offset-Vector3(face.position)).dot(normal))
+		for index:int in _visual_rig._legs.size():
+			var bounds:AABB=_obstacle_shoe_bounds[index]
+			var foot:Transform3D=_visual_rig._legs[index].foot.global_transform
+			for x:float in [bounds.position.x,bounds.end.x]:
+				for y:float in [bounds.position.y,bounds.end.y]:
+					for z:float in [bounds.position.z,bounds.end.z]:
+						gap=minf(gap,(foot*Vector3(x,y,z)+offset-Vector3(face.position)).dot(normal))
+		if is_finite(gap) and gap<GROUND_PRESENTATION_SKIN:
+			offset+=normal*(GROUND_PRESENTATION_SKIN-gap)
+	for attempt:int in 2:
+		var candidate:=offset if attempt==0 else prior
+		if not candidate.is_finite() or candidate.length()>0.18 or absf(candidate.y)>0.000001 \
+				or candidate.distance_to(prior)>0.18 or (attempt==1 and candidate==offset):continue
+		if not _obstacle_air_clear(candidate):continue
+		var frame:=_board_visual.global_transform
+		frame.origin+=candidate
+		if not _manual_model_frame_clear(frame):continue
+		# The finite crown may intersect only a lower kick while most of the
+		# model lies above it. An infinite-face minimum would move that whole
+		# model needlessly. Minimize the already proven horizontal endpoint
+		# against real finite volumes, retaining every existing clearance skin.
+		var minimum:=_minimum_air_wall_offset(candidate)
+		frame.origin=_board_visual.global_position+minimum
+		if _manual_model_frame_clear(frame):candidate=minimum
+		_visual.position+=global_basis.inverse()*candidate
+		_obstacle_visual_offset=candidate
+		_obstacle_air_wall=faces[0] if candidate!=Vector3.ZERO else {}
+		if candidate!=Vector3.ZERO:_obstacle_air_wall_owner=faces[0].duplicate()
+		return true
+	_obstacle_air_wall.clear()
+	return false
+
+
+func _minimum_air_wall_offset(ceiling: Vector3) -> Vector3:
+	if _obstacle_air_clear(Vector3.ZERO):return Vector3.ZERO
+	var lower:=0.0
+	var upper:=1.0
+	# Eight subdivisions bound the additional endpoint uncertainty below
+	# 0.704mm even at the existing180mm maximum. Final native validation is
+	# mandatory; this is no geometric certificate or relaxed contact margin.
+	for iteration:int in 8:
+		var middle:float=(lower+upper)*0.5
+		if _obstacle_air_clear(ceiling*middle):upper=middle
+		else:lower=middle
+	return ceiling*upper
+
+
+func _air_wall_model_face(face: Dictionary) -> Dictionary:
+	# A whole-board convex envelope may bridge empty truck space. Require a
+	# real cached connected component hit before creating any new air fit.
+	var query:=PhysicsShapeQueryParameters3D.new()
+	query.transform=_board_visual.global_transform
+	query.collision_mask=collision_mask
+	query.exclude=[get_rid()]
+	query.margin=0.0
+	var space:=get_world_3d().direct_space_state
+	var face_rays:=0
+	for part:Dictionary in _grind_clearance._parts:
+		query.shape=part.shape
+		for hit:Dictionary in space.intersect_shape(query,8):
+			if hit.rid!=face.rid or int(hit.shape)!=int(face.shape):continue
+			var rest:=space.get_rest_info(query)
+			var normal:Vector3=face.normal
+			var ray:=PhysicsRayQueryParameters3D.create(Vector3.ZERO,Vector3.ZERO,collision_mask,[get_rid()])
+			var finite:Dictionary={}
+			if not rest.is_empty() and rest.rid==face.rid and int(rest.shape)==int(face.shape):
+				var point:Vector3=rest.point
+				ray.from=point+normal*0.03
+				ray.to=point-normal*0.03
+				finite=space.intersect_ray(ray)
+				if not finite.is_empty() and finite.rid==face.rid and int(finite.shape)==int(face.shape) \
+						and Vector3(finite.normal).dot(normal)>0.999:return finite
+			# A rest query can select the crown corner even though a lower real
+			# vertex crosses the vertical face. Probe only crossing vertices of
+			# this actually intersecting component; cap exceptional native work.
+			for vertex:Vector3 in part.points:
+				var at:Vector3=query.transform*vertex
+				var distance:float=(at-Vector3(face.position)).dot(normal)
+				if distance>=GROUND_PRESENTATION_SKIN:continue
+				if face_rays>=64:return {}
+				face_rays+=1
+				at-=normal*distance
+				ray.from=at+normal*0.03
+				ray.to=at-normal*0.03
+				finite=space.intersect_ray(ray)
+				if not finite.is_empty() and finite.rid==face.rid and int(finite.shape)==int(face.shape) \
+						and Vector3(finite.normal).dot(normal)>0.999:return finite
+	return {}
+
+
+func _place_graded_obstacle_wheels(delta: float) -> void:
+	# A longer real deck reaches a terminal wall before the upright capsule.
+	# Retain the actual grade: move only the connected presentation along its
+	# support plane, then prove every tyre and the complete board/shoes finite.
+	_obstacle_ollie_continuation=false
+	if _obstacle_visual_offset==Vector3.ZERO and not is_on_wall():return
+	var support := _native_floor_hit(_native_floor_normal())
+	if support.is_empty():
+		_obstacle_visual_offset=Vector3.ZERO
+		return
+	var up: Vector3=support.normal
+	if not up.is_finite() or up.y<cos(floor_max_angle):
+		_obstacle_visual_offset=Vector3.ZERO
+		return
+	# A rebound may lose its capsule wall flag for one tick. Only an offset
+	# earned on this exact live floor shape can participate in that residual;
+	# changing supports must not donate an old correction to another surface.
+	var same_floor: bool=support.rid==_graded_obstacle_floor_rid \
+		and int(support.shape)==_graded_obstacle_floor_shape
+	var prior := _obstacle_visual_offset.slide(up) if same_floor else Vector3.ZERO
+	var offset := prior*exp(-maxf(0.0,delta)/0.045)
+	if offset.length_squared()<0.0000000001:offset=Vector3.ZERO
+	if offset==Vector3.ZERO and not is_on_wall():
+		_obstacle_visual_offset=Vector3.ZERO
+		return
+	var geometry: Dictionary=_visual_rig.board_contact_geometry()
+	var planes: Array[Vector4]=[]
+	var space := get_world_3d().direct_space_state
+	for slide_index: int in get_slide_collision_count():
+		var contact := get_slide_collision(slide_index)
+		for index: int in contact.get_collision_count():
+			var normal := contact.get_normal(index)
+			if not normal.is_finite() or absf(normal.y)>0.001:continue
+			normal=Vector3(normal.x,0,normal.z).normalized()
+			var point := contact.get_position(index)
+			var ray := PhysicsRayQueryParameters3D.create(point+normal*0.03,point-normal*0.03,collision_mask,[get_rid()])
+			var finite := space.intersect_ray(ray)
+			if finite.is_empty() or finite.rid!=contact.get_collider_rid(index) \
+					or int(finite.shape)!=contact.get_collider_shape_index(index) \
+					or Vector3(finite.normal).dot(normal)<0.999:continue
+			point=finite.position
+			planes.append(Vector4(normal.x,normal.y,normal.z,point.dot(normal)))
+			var gap := INF
+			for vertex: Vector3 in geometry.support_points:
+				gap=minf(gap,(_board_visual.to_global(vertex)+offset-point).dot(normal))
+			for leg: Dictionary in _visual_rig._legs:
+				for vertex: Vector3 in _visual_rig._sole_points:
+					gap=minf(gap,(leg.foot.to_global(vertex)+offset-point).dot(normal))
+			var tangent := normal.slide(up)
+			var authority := tangent.dot(normal)
+			if is_finite(gap) and gap<GROUND_PRESENTATION_SKIN and authority>0.1:
+				offset+=tangent*((GROUND_PRESENTATION_SKIN-gap)/authority)
+	var candidates: Array[Vector3]=[offset,prior]
+	if prior!=Vector3.ZERO:
+		# The longer model may still touch the finite wall after the native
+		# capsule has rebounded. Derive the current minimum from a fresh hull
+		# contact and face ray, rather than carrying yesterday's infinite plane.
+		var contact_offset := _obstacle_manual_contact_offset(geometry)
+		if contact_offset!=Vector3.ZERO:
+			var axis := contact_offset.normalized()
+			var tangent := axis.slide(up)
+			var authority := tangent.dot(axis)
+			if authority>0.1:
+				candidates.append(tangent*(contact_offset.length()/authority))
+	for attempt: int in candidates.size():
+		var candidate := candidates[attempt]
+		if not candidate.is_finite() or candidate.length()>0.18 \
+				or candidate.distance_to(prior)>0.18 \
+				or (attempt==1 and candidate==offset):continue
+		if not _graded_obstacle_offset_supported(geometry,candidate,planes,support):continue
+		_visual.position+=global_basis.inverse()*candidate
+		_obstacle_visual_offset=candidate
+		_graded_obstacle_floor_rid=support.rid if candidate!=Vector3.ZERO else RID()
+		_graded_obstacle_floor_shape=int(support.shape) if candidate!=Vector3.ZERO else -1
+		return
+	_obstacle_visual_offset=Vector3.ZERO
+	_graded_obstacle_floor_rid=RID()
+	_graded_obstacle_floor_shape=-1
+
+
+func _graded_obstacle_offset_supported(geometry: Dictionary,offset: Vector3,planes: Array[Vector4],support: Dictionary) -> bool:
+	var up: Vector3=support.normal
+	for plane: Vector4 in planes:
+		var normal:=Vector3(plane.x,plane.y,plane.z)
+		for vertex: Vector3 in geometry.support_points:
+			if (_board_visual.to_global(vertex)+offset).dot(normal)-plane.w<GROUND_PRESENTATION_SKIN-0.00001:return false
+		for leg: Dictionary in _visual_rig._legs:
+			for vertex: Vector3 in _visual_rig._sole_points:
+				if (leg.foot.to_global(vertex)+offset).dot(normal)-plane.w<GROUND_PRESENTATION_SKIN-0.00001:return false
+	var space := get_world_3d().direct_space_state
+	for wheel: Dictionary in geometry.wheels:
+		var at: Vector3=_board_visual.to_global(wheel.center)+offset
+		var ray := PhysicsRayQueryParameters3D.create(at+up*0.16,at-up*0.20,collision_mask,[get_rid()])
+		var hit := space.intersect_ray(ray)
+		if hit.is_empty() or Vector3(hit.normal).dot(up)<0.999 \
+				or hit.rid!=support.rid or int(hit.shape)!=int(support.shape) \
+				or absf((Vector3(hit.position)-Vector3(support.position)).dot(up))>0.001:return false
+		var gap := INF
+		for vertex: Vector3 in wheel.points:
+			gap=minf(gap,(_board_visual.to_global(vertex)+offset-Vector3(hit.position)).dot(up))
+		if gap<0.004 or gap>0.03:return false
+	if not _obstacle_air_clear(offset):return false
+	var frame := _board_visual.global_transform
+	frame.origin+=offset
+	return _manual_model_frame_clear(frame)
 
 
 func _place_obstacle_manual_wheels(delta: float) -> void:
@@ -3032,7 +3396,8 @@ func _obstacle_manual_contact_offset(geometry: Dictionary) -> Vector3:
 	ray.to=saved_to
 	ray.collision_mask=saved_mask
 	var normal: Vector3=face.get("normal",Vector3.ZERO)
-	if face.is_empty() or face.get("rid")!=rest.get("rid") or not normal.is_finite() \
+	if face.is_empty() or face.get("rid")!=rest.get("rid") \
+			or int(face.get("shape",-1))!=int(rest.get("shape",-2)) or not normal.is_finite() \
 			or absf(normal.y)>0.001 or normal.dot(axis)<0.999: return Vector3.ZERO
 	axis=Vector3(normal.x,0,normal.z).normalized()
 	point=face.position
@@ -3840,7 +4205,42 @@ func _native_floor_hit(normal: Vector3) -> Dictionary:
 	var query := PhysicsRayQueryParameters3D.create(global_position + normal * 0.35,
 		global_position - normal * 0.6, collision_mask)
 	query.exclude = [get_rid()]
-	return get_world_3d().direct_space_state.intersect_ray(query)
+	var space := get_world_3d().direct_space_state
+	var hit := space.intersect_ray(query)
+	# A finite ledge can support the capsule just beyond its centre ray. In
+	# that case a ray onto the lower paving must not bury the whole connected
+	# rider/board beneath the real bearing. Only fresh native floor contacts
+	# may supply this plane; teleports and unsupported frames invalidate them.
+	if not _native_floor_valid or not is_on_floor(): return hit
+	var highest := -INF if hit.is_empty() else (Vector3(hit.position)-global_position).dot(normal)
+	for slide_index: int in get_slide_collision_count():
+		var contact := get_slide_collision(slide_index)
+		for index: int in contact.get_collision_count():
+			var support_normal := contact.get_normal(index)
+			if support_normal.dot(normal)<0.98 or support_normal.dot(up_direction)<cos(floor_max_angle): continue
+			var point := contact.get_position(index)
+			var height := (point-global_position).dot(normal)
+			if height<=highest+0.001: continue
+			var body := contact.get_collider(index) as CollisionObject3D
+			if not is_instance_valid(body) or (body.collision_layer & collision_mask)==0: continue
+			# Confirm that the contact point still lies on the same finite native
+			# shape. A moved/removed prop cannot donate an old infinite plane.
+			query.from=point+support_normal*0.03
+			query.to=point-support_normal*0.03
+			var finite := space.intersect_ray(query)
+			if finite.is_empty() or finite.rid!=contact.get_collider_rid(index) \
+					or int(finite.shape)!=contact.get_collider_shape_index(index) \
+					or Vector3(finite.normal).dot(support_normal)<0.98: continue
+			point=finite.position
+			support_normal=finite.normal
+			height=(point-global_position).dot(normal)
+			if height<=highest+0.001: continue
+			highest=height
+			# Project onto the actual contact plane while retaining the centre's
+			# tangential position. Subsequent tyre/model fits remain finite.
+			hit=finite
+			hit.position=global_position-support_normal*(global_position-point).dot(support_normal)
+	return hit
 
 
 
@@ -4023,7 +4423,9 @@ func _sample_feature_charge(was_held:bool) -> void:
 		_launch_impulse=_pop_impulse
 		_launch_id="ollie"
 		var family_prepared:=(_flip_buffer_remaining>0.0 and not _flip_request.is_empty()) or (_grab_buffer_remaining>0.0 and not _grab_request.is_empty())
-		var direction: String=_trick_input.direction() if _trick_input.direction_age()<=.18 else "neutral"
+		# Fore/aft corrections made during a manual are balance controls, not
+		# a fresh Nollie/Boneless/No Comply setup for the linking Ollie.
+		var direction: String=_trick_input.direction() if not manual_active and _trick_input.direction_age()<=.18 else "neutral"
 		if not family_prepared and direction=="north":_launch_id="nollie"
 		elif not family_prepared and direction=="south" and is_on_floor() and not (grinding or transition_active or wallriding or skitching):
 			_launch_id="no_comply" if Input.is_action_pressed("manual") else "boneless"
@@ -4216,7 +4618,10 @@ func _native_board_floor() -> Dictionary:
 			var drawn: Vector3 = point+axis*0.008+final_frame*(_visual_rig._board_rest_position+vertex)
 			gap = minf(gap,(drawn-Vector3(hit.position)).dot(Vector3(hit.normal)))
 		lift = maxf(lift,(0.008-gap)/Vector3(hit.normal).y)
-	if lift>0.10: return {}
+	if lift>0.10:
+		# A small coping's tangent can demand an impossible infinite-plane
+		# lift. Retry its real finite tyres from the original100mm budget.
+		return _native_footprint_board_fit(original_point,original_axis,original_frame,bowl) if is_instance_valid(bowl) else {}
 	point.y += lift
 	if is_instance_valid(bowl):
 		# Plane samples alone cannot establish that each finite tyre volume is
@@ -4356,6 +4761,11 @@ func _native_wheel_footprint_hits(pose:Transform3D,bowl:Node3D) -> Array[Diction
 		if shape_index<0 or shape_index>=PhysicsServer3D.body_get_shape_count(body.get_rid()):break
 		hit["collider"]=body
 		hit["position"]=hit.point
+		if is_instance_valid(bowl):
+			var finite:=_native_footprint_contact(space,_floor_wheel_query,hit)
+			if finite.is_empty():break
+			hit["position"]=finite.position
+			hit["normal"]=finite.normal
 		if not _native_board_support_allowed(hit,bowl):break
 		hits.append(hit)
 	_floor_wheel_query.shape=saved_shape
@@ -4366,6 +4776,33 @@ func _native_wheel_footprint_hits(pose:Transform3D,bowl:Node3D) -> Array[Diction
 	if hits.size()!=4:hits.clear()
 	return hits
 
+
+func _native_footprint_contact(space:PhysicsDirectSpaceState3D,query:PhysicsShapeQueryParameters3D,rest:Dictionary)->Dictionary:
+	# A concave rest point can lie beyond its finite source triangle. Pair
+	# endpoints only aim bounded rays in the original downward cast direction;
+	# the fresh actual native face supplies the support point and normal.
+	var candidates:Array[Vector3]=[]
+	var rest_normal:Vector3=rest.get("normal",Vector3.INF)
+	var rest_point:Vector3=rest.get("point",Vector3.INF)
+	if rest_point.is_finite() and rest_normal.is_finite() \
+			and absf(rest_normal.length_squared()-1.0)<0.001 and rest_normal.y>0.05:
+		candidates.append(rest_point)
+	var pairs:=space.collide_shape(query,8)
+	if pairs.size()%2!=0:return {}
+	# At most8 pairs are sampled; this does not claim all contacts were
+	# enumerated. The final complete native model/tyre proof is mandatory.
+	for index:int in range(0,pairs.size()-1,2):
+		var point:Vector3=pairs[index+1]
+		var direction:Vector3=point-pairs[index]
+		if not point.is_finite() or not direction.is_finite() or direction.length_squared()<=0.0000000001:continue
+		if direction.normalized().y>0.05:candidates.append(point)
+	var selected:Dictionary={}
+	for point:Vector3 in candidates:
+		var hit:=_native_board_floor_ray(space,point+Vector3.UP*0.03,point-Vector3.UP*0.03)
+		if hit.is_empty() or hit.rid!=rest.rid or int(hit.shape)!=int(rest.shape) \
+				or not Vector3(hit.normal).is_finite() or Vector3(hit.normal).y<=0.05:continue
+		if selected.is_empty() or Vector3(hit.position).y>Vector3(selected.position).y:selected=hit
+	return selected
 
 func _native_footprint_board_fit(point:Vector3,axis:Vector3,frame:Basis,bowl:Node3D) -> Dictionary:
 	# Retry finite supports only after an ordinary native candidate is blocked.

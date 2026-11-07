@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "status": "PRIVATE CANDIDATE ONLY; production unchanged",
+  "asset": "cobblestone_floor_02",
+  "provider": "Poly Haven",
+  "creator": "Rob Tuytel",
+  "licence": "CC0-1.0",
+  "licence_url": "https://polyhaven.com/license",
+  "asset_url": "https://polyhaven.com/a/cobblestone_floor_02",
+  "inspected_utc_date": "2026-11-07",
+  "retrieved_utc": "2026-11-07T01:38:29.571915+00:00",
+  "images_modified": false,
+  "physical_width_m": 2.0,
+  "scale_evidence": "Official asset page inspected directly: 2m wide",
+  "normal_convention": "OpenGL +Y",
+  "packed_arm_channels": {
+    "red": "AO",
+    "green": "roughness",
+    "blue": "metallic (unused; dielectric)"
+  },
+  "budget": "Replaces existing 3 pavement bindings, never adds them: 2K albedo/1K normal/ARM, 15 total bound maps and original 32 MiB additional ceiling retained. Native memory/readability/tiling require later matched evidence.",
+  "files": {
+    "albedo": {
+      "path": ".local/environment-phase2/assets/cobblestone_floor_02/cobblestone_floor_02_diff_2k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_floor_02/cobblestone_floor_02_diff_2k.jpg",
+      "sha256": "1a2d1f21ccff0f70cd181c28f529ce040c123b5c605cc0069f26450040bd6b40",
+      "bytes": 915386,
+      "dimensions_px": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "import_maximum_dimension": 2048
+    },
+    "normal_opengl": {
+      "path": ".local/environment-phase2/assets/cobblestone_floor_02/cobblestone_floor_02_nor_gl_2k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_floor_02/cobblestone_floor_02_nor_gl_2k.jpg",
+      "sha256": "3849d3d07b9de564a3b50c0878ce752502fd071f9b63cb6b2acea5d16de72606",
+      "bytes": 646806,
+      "dimensions_px": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "import_maximum_dimension": 1024
+    },
+    "arm": {
+      "path": ".local/environment-phase2/assets/cobblestone_floor_02/cobblestone_floor_02_arm_2k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_floor_02/cobblestone_floor_02_arm_2k.jpg",
+      "sha256": "741a616d8aa0b44392026bc3289cb44aa81708a7b248842bdb57501fe9e414f6",
+      "bytes": 721397,
+      "dimensions_px": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "import_maximum_dimension": 1024
+    }
+  }
+}

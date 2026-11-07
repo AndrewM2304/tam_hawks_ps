@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 const BoardGeometry = preload("res://tests/board_geometry_tests_support.gd")
 ## Production input/physics regressions for the complete skate process.
 ## Restarts set each initial fixture; every launch, turn and landing is simulated.
@@ -523,13 +524,10 @@ static func _neutral_direction(tree: SceneTree) -> void:
 
 static func _balance(tree: SceneTree, game: Node, frames: int) -> void:
 	for frame in frames:
-		Input.action_release("steer_left")
-		Input.action_release("steer_right")
-		if game.skater.manual_balance > 0.08: Input.action_press("steer_left")
-		elif game.skater.manual_balance < -0.08: Input.action_press("steer_right")
+		ManualBalance.hold(game.skater, 0.08, 1.0)
 		await _frames(tree, 1)
-	Input.action_release("steer_left")
-	Input.action_release("steer_right")
+	Input.action_release("push")
+	Input.action_release("brake")
 
 static func _key(key: Key) -> void:
 	var event := InputEventKey.new()

@@ -1,0 +1,85 @@
+{
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T01:18:42.403306+00:00",
+  "verdict": "Pass bounded static D011 correction at1280x800/UI1.0+1.4, not whole FID304 acceptance.",
+  "source_inputs_unchanged": 787,
+  "checks_stdout": 34,
+  "assertion_failures": 0,
+  "engine_errors": false,
+  "native_pixel_proofs": [
+    {
+      "file": "manual-ui-1.4.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "c0c7ba59f053a8a3577bbf350857aa56258b0eed2b267f8ea7bb309ded37ff2a",
+      "native_buffer_match": true,
+      "label_lines": 3,
+      "label_visible_lines": 3,
+      "native_bounds_clear": true
+    },
+    {
+      "file": "manual-ui-1.0.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "cacc1b593d04e529f0c4f3571f9938f56e66896f1708248e7d4d8c31155c20e8",
+      "native_buffer_match": true,
+      "label_lines": 3,
+      "label_visible_lines": 3,
+      "native_bounds_clear": true
+    },
+    {
+      "file": "manual-release.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "2e9e369d70709ef5f67e5eb3a10c193f3aaa74d0ba6dca6def4a8cc6344a43da",
+      "native_buffer_match": true
+    },
+    {
+      "file": "synchronization/overview_before_contact.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "467a1fbea33489c057e22218e1d2b841b96efccbf3b8974d20b053528d83d0d2",
+      "native_buffer_match": true,
+      "canvas_pixel_matches": true
+    },
+    {
+      "file": "synchronization/first_contact_inspection.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "1531fb34a29432cc5f72637f5d84c100c39ab4ae8325a18a9668f86932cb734d",
+      "native_buffer_match": true,
+      "canvas_pixel_matches": true
+    },
+    {
+      "file": "synchronization/return_to_production_chase.png",
+      "decoded_size": [
+        1280,
+        800
+      ],
+      "decoded_rgba8_sha256": "8ad5ab9d96044c2e6ce46becde985e5eda3a01755016100460f9066fd7737093",
+      "native_buffer_match": true,
+      "canvas_pixel_matches": true
+    }
+  ],
+  "independent_visual_review": "All three actual chase originals opened at output size: complete MANUAL/W FORWARD/S BACK text visible, vertical track retained, meter outside head/board and central approach; actual release clears panel. All6PNG/native buffers and3Canvas swatches independently match.",
+  "source_overlay": "Exact checkpoint01 gameplay/rider plus only currentgame/ui/hud.gd and fixedtools/full_fidelity_capture.gd. Overlay before/after stable; exact785productioninput inventory retained. Not latest bank/wall/fitted-cloth production or integrated main.",
+  "cpu_overlap": {
+    "reported_by": "architectural_fidelity",
+    "filesystem_bounds_utc": [
+      "2026-11-07T01:15:18.594214717Z",
+      "2026-11-07T01:15:25.272563516Z"
+    ],
+    "scope": "Three brief headless pure-geometry probes under earlier parallel grant overlapped this graphical epoch. Bounds are file-derived, not invented exact Popen timestamps. No other graphical process reported. This packet makes no exclusivity, frame-time, FPS or target-device claim."
+  },
+  "remaining": "Full moving manual/risk variants, remaps/current controllers, other resolutions, pose biomechanics, complete linked combos and integrated regression are separate gates."
+}

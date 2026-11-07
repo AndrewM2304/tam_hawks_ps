@@ -1,3 +1,29 @@
+# Fidelity studio mandate — 6 November 2026
+
+The owner requests a substantial realism and skating-line improvement programme,
+with specialised parallel agents, reusable skills, demanding tickets and independent
+BA/QE verification. The target is the owner's **MacBook Air M5**. An engine rewrite
+is authorised if needed; document the demonstrated limitation and a playable parity
+plan before replacing the working game. Fidelity, continuous believable characters,
+credible materials and smooth contact/movement take priority. Research Tony Hawk
+levels for enclosure, line chaining and returns, and author original arrangements.
+
+Start with [the studio guide](docs/planning/STUDIO.md),
+[specialist roles](.agents/agents/README.md),
+[the benchmark](docs/product/AAA_BENCHMARK.md) and
+[current fidelity tickets](docs/planning/FIDELITY_TICKETS.md).
+The role briefs name exact repository-local skills under `.agents/skills/`; read the
+assigned SKILL.md before implementation. The rendering evaluator additionally uses
+[renderer-evaluation](.agents/skills/renderer-evaluation/SKILL.md).
+Pull/reconcile current origin/main before diagnosis: historical captures and tests
+must retain their source scope. Work directly on main, integrate all authorised
+changes and push without force. Preserve existing gameplay, trial availability,
+Music isolation, compatible licensing and no-spend/no-hosted-CI/no-release rules.
+Passing tests or a production checkpoint is not completion of the visual ambition;
+continue independently actionable work and keep failed/unmeasured gates explicit.
+
+---
+
 # Ongoing owner instruction — 27 October 2026
 
 The owner explicitly corrected repeated stopping after completed batches.

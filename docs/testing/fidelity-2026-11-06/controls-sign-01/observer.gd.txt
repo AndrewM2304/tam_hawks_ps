@@ -1,0 +1,22 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+const Signs=preload("res://tests/fidelity_acceptance_tests.gd")
+const Motion=preload("res://tests/motion_fidelity_tests.gd")
+var checks:=0
+var failures:=0
+func _initialize()->void:_run.call_deferred()
+func _run()->void:
+	var game:=Main.new()
+	game.persistence_enabled=false
+	root.add_child(game)
+	game.start_mode(true)
+	_check(not game.music._can_control and not game.music._persist,"CLI personal Music isolated")
+	var mode:String=OS.get_cmdline_user_args()[0]
+	if mode=="sign":await Signs.run(self,game,_check)
+	elif mode=="push":await Motion.run_main(self,game,_check)
+	else:_check(false,"recognised independent QA mode")
+	print("QA_FIDELITY_ACCEPTANCE mode=",mode," checks=",checks," failures=",failures)
+	quit(1 if failures else 0)
+func _check(ok:bool,label:String)->void:
+	checks+=1
+	if not ok:failures+=1;print("FAIL ",label)

@@ -1,0 +1,20 @@
+func _native_footprint_contact(space:PhysicsDirectSpaceState3D,query:PhysicsShapeQueryParameters3D,rest:Dictionary)->Dictionary:
+	# A concave collision's deepest rest point can lie beyond the finite
+	# source triangle. Only fresh native rays can supply a support plane.
+	var candidates:Array[Vector3]=[rest.point,rest.normal]
+	var pairs:=space.collide_shape(query,8)
+	for index:int in range(0,pairs.size()-1,2):
+		var normal:Vector3=pairs[index+1]-pairs[index]
+		if normal.length_squared()<=0.0000000001:continue
+		candidates.append(pairs[index+1])
+		candidates.append(normal.normalized())
+	var selected:Dictionary={}
+	for index:int in range(0,candidates.size()-1,2):
+		var point:Vector3=candidates[index]
+		var normal:Vector3=candidates[index+1]
+		if not point.is_finite() or not normal.is_finite() or normal.y<=0.05:continue
+		var hit:=_native_board_floor_ray(space,point+normal*0.03,point-normal*0.03)
+		if hit.is_empty() or hit.rid!=rest.rid or int(hit.shape)!=int(rest.shape) \
+				or Vector3(hit.normal).dot(normal)<0.9 or Vector3(hit.normal).y<=0.05:continue
+		if selected.is_empty() or Vector3(hit.position).y>Vector3(selected.position).y:selected=hit
+	return selected

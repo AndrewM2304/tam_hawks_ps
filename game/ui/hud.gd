@@ -61,6 +61,10 @@ var _balance_panel: PanelContainer
 var _balance_marker: ColorRect
 var _balance_label: Label
 var _balance_track: Control
+var _balance_rail: ColorRect
+var _balance_centre: ColorRect
+var _balance_vertical := false
+var _balance_display_value := 0.0
 var _special_panel: PanelContainer
 var _modal: ColorRect
 var _dialog: PanelContainer
@@ -146,22 +150,23 @@ func _build_hud() -> void:
 	var balance_box := _vbox(_balance_panel, 7)
 	_balance_label = _label(balance_box, "RAIL BALANCE", 14, PAPER)
 	_balance_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	# Balance instructions are deliberately multiline. The shared one-line
+	# ellipsis policy hid the actual correction controls during a manual.
+	_balance_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_balance_label.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_balance_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_balance_track = Control.new()
 	_balance_track.custom_minimum_size.y = 18
+	_balance_track.resized.connect(_layout_balance_track)
 	balance_box.add_child(_balance_track)
-	var rail := ColorRect.new()
-	rail.color = TRACK
-	rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	rail.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	rail.offset_top = 5
-	rail.offset_bottom = -5
-	_balance_track.add_child(rail)
-	var centre := ColorRect.new()
-	centre.color = MUTED
-	centre.position = Vector2(141, 0)
-	centre.size = Vector2(3, 18)
-	centre.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_balance_track.add_child(centre)
+	_balance_rail = ColorRect.new()
+	_balance_rail.color = TRACK
+	_balance_rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_balance_track.add_child(_balance_rail)
+	_balance_centre = ColorRect.new()
+	_balance_centre.color = MUTED
+	_balance_centre.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_balance_track.add_child(_balance_centre)
 	_balance_marker = ColorRect.new()
 	_balance_marker.color = ACCENT
 	_balance_marker.size = Vector2(9, 18)
@@ -261,14 +266,25 @@ func update_display(state: Dictionary) -> void:
 	var lip := bool(state.get("lip_active",state.get("lip",false)))
 	var skitch := bool(state.get("skitching",false)) and bool(state.get("skitch_caught",true))
 	var balance_key := "lip_balance" if lip else ("skitch_balance" if skitch else ("balance" if grinding else "manual_balance"))
-	var balance := clampf(float(state.get(balance_key,0.0)),-1.0,1.0)
+	var balance := clampf(float(state.get("balance_value",-float(state.get(balance_key,0.0)) if manual else state.get(balance_key,0.0))),-1.0,1.0)
+	var vertical := str(state.get("balance_axis","fore_aft" if manual else "lateral")) == "fore_aft"
+	if vertical != _balance_vertical:
+		_balance_vertical = vertical
+		_balance_label.custom_minimum_size.y = 44 if vertical else 19
+		_balance_track.custom_minimum_size.y = 116 if vertical else 18
+		_relayout(true)
 	_balance_panel.visible = grinding or manual or lip or skitch
-	_balance_marker.position = Vector2(138.0+balance*130.0,0)
+	_layout_balance_track(balance)
 	_balance_marker.color = ORANGE if absf(balance)>0.7 else ACCENT
 	var ride_name := str(state.get("grind_name","RAIL")) if grinding else (str(state.get("lip_name","LIP")) if lip else ("SKITCH" if skitch else str(state.get("manual_name","MANUAL"))))
-	_balance_label.text = ride_name.to_upper()+"  /  "+_prompt_for("steer_left","A").replace("D-pad ","")+"–"+_prompt_for("steer_right","D").replace("D-pad ","")
+	var negative_action := str(state.get("balance_negative_action","brake" if vertical else "steer_left"))
+	var positive_action := str(state.get("balance_positive_action","push" if vertical else "steer_right"))
+	var negative_prompt := _prompt_for(negative_action,"S" if vertical else "A").replace("D-pad ","")
+	var positive_prompt := _prompt_for(positive_action,"W" if vertical else "D").replace("D-pad ","")
+	_balance_label.text = ride_name.to_upper()+"\n"+positive_prompt+" FORWARD  /  "+negative_prompt+" BACK" if vertical else ride_name.to_upper()+"  /  "+negative_prompt+"–"+positive_prompt
 	if absf(balance)>0.7:
-		_balance_label.text = "CORRECT  ·  "+_prompt_for("steer_left" if balance>0.0 else "steer_right","")
+		var risk := ("FORWARD" if balance>0.0 else "BACK") if vertical else ("RIGHT" if balance>0.0 else "LEFT")
+		_balance_label.text = risk+" RISK\nCORRECT  ·  "+(negative_prompt if balance>0.0 else positive_prompt)
 	var combo: int = state.get("combo", 0)
 	_combo.text = "%s × %d" % [_number(int(state.get("combo_base", 0))), int(state.get("multiplier", 0))] if combo > 0 else ""
 	_tricks.text = str(state.get("tricks", "")) if combo > 0 else ""
@@ -280,6 +296,8 @@ func update_display(state: Dictionary) -> void:
 		_combo_status.text = "%s PENDING  ·  KEEP THE LINE ALIVE" % _number(combo)
 		if link_time > 0.0:
 			_combo_status.text = "LINK IT  %.2fs  ·  %s MANUAL / UP–DOWN  ·  %s REVERT" % [link_time, _prompt_for("manual", "M"), _prompt_for("revert", "C")]
+		elif bool(state.get("manual_queued", false)):
+			_combo_status.text = "MANUAL QUEUED  ·  LAND TO LINK"
 	if combo != _last_combo and combo > 0 and not bool(_settings.get("reduced_motion", false)):
 		if is_instance_valid(_combo_tween): _combo_tween.kill()
 		_combo.modulate = Color(1.0, 1.0, 0.72)
@@ -868,7 +886,7 @@ func _build_controls(content: VBoxContainer) -> void:
 	_binding_status = _label(content, "Controller prompts follow your saved bindings.", 15, ACCENT)
 	_binding_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_binding_status.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
-	var trick_help := _label(content, "Hold Ollie to crouch; release to pop. Direction + Flip / Grab selects a trick. Hold grabs.\nTap Grind to lock a rail; tap again to drop. Hold Grind at quarter-pipe coping for a lip trick.\nManual + Up selects Nose Manual. D-pad or stick Up–neutral–Down starts Manual; Down–neutral–Up starts Nose Manual.\nBalance manuals, rails and lips with Left/Right. Turn manuals with %s / %s.\nAir left/right spins the skater; shoulders spin too. Specials: %s / %s. Interact: %s. Quarter/half-pipe: Clyde quay." % [_prompt_for("spin_left", "Q"), _prompt_for("spin_right", "E"), _prompt_for("special_one", "U"), _prompt_for("special_two", "I"), _prompt_for("interact", "X")], 15, PAPER)
+	var trick_help := _label(content, "Hold Ollie to crouch; release to pop. Direction + Flip / Grab selects a trick. Hold grabs.\nTap Grind to lock a rail; tap again to drop. Hold Grind at quarter-pipe coping for a lip trick.\nManual + Up selects Nose Manual. D-pad or stick Up–neutral–Down starts Manual; Down–neutral–Up starts Nose Manual.\nBalance manuals fore/aft with Forward/Back; steer with Left/Right. Rails and lips balance Left/Right.\nShoulders %s / %s also turn manuals.\nAir left/right spins the skater; shoulders spin too. Specials: %s / %s. Interact: %s. Quarter/half-pipe: Clyde quay." % [_prompt_for("spin_left", "Q"), _prompt_for("spin_right", "E"), _prompt_for("special_one", "U"), _prompt_for("special_two", "I"), _prompt_for("interact", "X")], 15, PAPER)
 	trick_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	trick_help.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	if not ResourceLoader.exists("res://game/core/input_profile.gd"):
@@ -1090,6 +1108,27 @@ func _hide_modal() -> void:
 	_navigation.clear()
 
 
+func _layout_balance_track(value: float = NAN) -> void:
+	if is_finite(value): _balance_display_value = value
+	if not is_instance_valid(_balance_marker): return
+	var width := maxf(_balance_track.size.x, _balance_panel.size.x - 32.0)
+	var middle := width * 0.5
+	if _balance_vertical:
+		_balance_rail.position = Vector2(middle - 4, 8)
+		_balance_rail.size = Vector2(8, 100)
+		_balance_centre.position = Vector2(middle - 16, 57)
+		_balance_centre.size = Vector2(32, 3)
+		_balance_marker.size = Vector2(20, 8)
+		_balance_marker.position = Vector2(middle - 10, 54 - _balance_display_value * 50)
+	else:
+		_balance_rail.position = Vector2(8, 5)
+		_balance_rail.size = Vector2(width - 16, 8)
+		_balance_centre.position = Vector2(middle - 1.5, 0)
+		_balance_centre.size = Vector2(3, 18)
+		_balance_marker.size = Vector2(9, 18)
+		_balance_marker.position = Vector2(middle - 4.5 + _balance_display_value * (middle - 8), 0)
+
+
 func _relayout(force: bool = false) -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
 	var preference := clampf(float(_settings.get("ui_scale", 1.0)), 1.0, 1.4)
@@ -1115,8 +1154,14 @@ func _relayout(force: bool = false) -> void:
 	var side_width := minf(345.0, (extent.x - 412.0) * 0.5)
 	_goals.position = Vector2(extent.x - side_width - 28, 126)
 	_goals.size = Vector2(side_width, 28)
-	_balance_panel.position = Vector2(extent.x * 0.5 - 158, 132)
-	_balance_panel.size = Vector2(316, 76)
+	if _balance_vertical:
+		# Keep the tall manual meter beside the rider and below the goals. A
+		# centred card covered the rendered head at the larger UI setting.
+		_balance_panel.size = Vector2(188, 200)
+		_balance_panel.position = Vector2(minf(extent.x - 216, extent.x * 0.5 + 190), 230)
+	else:
+		_balance_panel.position = Vector2(extent.x * 0.5 - 158, 132)
+		_balance_panel.size = Vector2(316, 76)
 	_save_warning.position = Vector2(28, extent.y - 288)
 	_save_warning.size = Vector2(180, 84)
 	_special_panel.position = Vector2(28, 106)
@@ -1492,7 +1537,7 @@ func _build_trick_guide(content: VBoxContainer) -> void:
 	])
 	_guide_card(content, "MANUALS & LANDING LINKS", [
 		"Tap up, release to neutral, then down for Manual; down, neutral, then up gives Nose Manual. Complete the pair within 220 ms. A held opposition or direct reversal does not count.",
-		"You can also hold %s just before landing; forward selects Nose Manual. Balance with %s / %s; %s / %s steer separately during a manual." % [_prompt_for("manual", "M"), _prompt_for("steer_left", "A"), _prompt_for("steer_right", "D"), _prompt_for("spin_left","Q"), _prompt_for("spin_right","E")],
+		"Hold %s shortly before landing (under 0.35s). Forward selects Nose Manual. Balance fore/aft with %s / %s; %s / %s steer separately during a manual." % [_prompt_for("manual", "M"), _prompt_for("push", "W"), _prompt_for("brake", "S"), _prompt_for("steer_left","A"), _prompt_for("steer_right","D")],
 		"During a manual, tap %s for One-foot Manual, %s for Spacewalk or %s for a Manual Pivot." % [_prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("revert", "C")],
 		"Add forward + %s for One-foot Nose Manual, back + %s for Casper Manual, or left / right + %s for Crossfoot Manual. Forward + %s gives Hang Ten; back + %s gives Pogo; forward + %s gives Nose Manual Pivot." % [_prompt_for("flip", "J"), _prompt_for("flip", "J"), _prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("grab", "K"), _prompt_for("revert", "C")],
 		"After landing, press %s for Revert, then manual or ollie before the link timer ends. Revert changes stance; it does not restart that timer." % _prompt_for("revert", "C"),
@@ -1653,6 +1698,8 @@ func _build_recovery_overlay() -> void:
 
 func _activity_hint(state: Dictionary) -> String:
 	if bool(state.get("bail_active",false)): return ""
+	if bool(state.get("manual_queued",false)):
+		return "MANUAL QUEUED  /  Land on clear ground"
 	if bool(state.get("setup_active",false)):
 		return str(state.get("setup_id","Setup")).replace("_"," ").to_upper()+"  /  Plant and pop"
 	if bool(state.get("crouching",false)):
@@ -1666,7 +1713,7 @@ func _activity_hint(state: Dictionary) -> String:
 	if bool(state.get("grinding",false)):
 		return _prompt_for("flip","J")+" / "+_prompt_for("grab","K")+" style · "+_prompt_for("revert","C")+" pivot · "+_prompt_for("grind","L")+" tap to drop"
 	if bool(state.get("manual",false)):
-		return _prompt_for("steer_left","A")+" / "+_prompt_for("steer_right","D")+" balance · "+_prompt_for("spin_left","Q")+" / "+_prompt_for("spin_right","E")+" steer"
+		return _prompt_for("push","W")+" / "+_prompt_for("brake","S")+" fore/aft balance · "+_prompt_for("steer_left","A")+" / "+_prompt_for("steer_right","D")+" steer"
 	return ""
 
 

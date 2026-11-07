@@ -1,0 +1,22 @@
+{
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/qa-fidelity/push-candidate.gd"
+  ],
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "git_status": " M AGENTS.md\n M docs/licences/REGISTER.md\n M docs/planning/ACTIVE_WORK.md\n M docs/planning/BACKLOG.md\n M docs/planning/RESUME.md\n M game/art/assets/horizon/clyde_water.gdshader\n M game/levels/city_art.gd\n M game/levels/exploration_boundary.gd\n M game/levels/glasgow_square.gd\n M game/levels/outdoor_routes.gd\n M game/levels/pt24_connected_runs.gd\n M game/levels/skate_edges.gd\n M game/levels/static_batches.gd\n M game/main.gd\n M game/player/skater.gd\n M game/player/skater_anatomy.gd\n M game/player/skater_footwear.gd\n M game/player/skater_garments.gd\n M game/player/skater_visual.gd\n M tests/full_level_density_tests.gd\n M tests/static_batches_tests.gd\n M tools/export.sh\n M tools/full_fidelity_capture.gd\n M tools/full_fidelity_capture.sh\n?? .agents/\n?? docs/architecture/decisions/ADR-034-fidelity-studio-and-m5-rendering.md\n?? docs/licences/ENVIRONMENT-FIDELITY.md\n?? docs/planning/FIDELITY_TICKETS.md\n?? docs/planning/STUDIO.md\n?? docs/product/AAA_BENCHMARK.md\n?? docs/research/THPS-LINE-DESIGN.md\n?? docs/testing/FIDELITY-BA.md\n?? docs/testing/FIDELITY-REVIEW.md\n?? docs/testing/MOTION-FIDELITY.md\n?? docs/testing/fidelity-2026-11-06/\n?? docs/testing/fidelity-ba/\n?? docs/testing/line-design-2026-11-06/\n?? docs/testing/motion-fidelity-2026-11-06/\n?? game/art/assets/environment_pbr/\n?? game/art/rider/\n?? game/art/shaders/\n?? game/levels/art/material_library.gd\n?? game/levels/art/material_library.gd.uid\n?? tests/line_design_tests.gd\n?? tests/line_design_tests.gd.uid\n?? tests/motion_fidelity_tests.gd\n?? tests/motion_fidelity_tests.gd.uid\n?? tools/build_environment_derivatives.py\n?? tools/environment_water_probe.gd\n?? tools/environment_water_probe.gd.uid\n?? tools/environment_water_probe.py\n?? tools/fetch_environment_materials.py\n?? tools/fixtures/\n?? tools/motion_fidelity_probe.gd.uid\n?? tools/rider_asset_acquire.py\n?? tools/rider_asset_bake.py\n?? tools/rider_asset_hair.py\n?? tools/rider_asset_inspect.gd\n?? tools/rider_asset_inspect.gd.uid\n?? tools/rider_asset_inspect.sh\n?? tools/rider_asset_validate.gd\n?? tools/rider_asset_validate.gd.uid\n",
+  "started_utc": "2026-11-06T23:49:34.343441+00:00",
+  "finished_utc": "2026-11-06T23:49:58.321396+00:00",
+  "engine_exit": 0,
+  "changed_inputs": [
+    "game/levels/outdoor_routes.gd",
+    "tests/line_design_tests.gd"
+  ],
+  "source_stable": false
+}

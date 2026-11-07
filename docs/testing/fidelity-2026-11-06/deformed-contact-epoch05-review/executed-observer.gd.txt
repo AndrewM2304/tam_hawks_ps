@@ -1,0 +1,278 @@
+extends SceneTree
+const Arm=preload("res://tests/skater_obstacle_arm_tests.gd")
+const Manual=preload("res://tests/skater_manual_arm_controls.gd")
+const Wall=preload("res://tests/skater_wall_presentation_tests.gd")
+const Candidate=preload("res://game/player/skater_obstacle_arm_fit.gd")
+class WrongNativeFace extends Candidate:
+	var foreign_rid: RID
+	var wrong_shape: int=-1
+	var omit_shape:=false
+	var altered:=false
+	func _face(ray: PhysicsRayQueryParameters3D,from: Vector3,to: Vector3) -> Dictionary:
+		var actual: Dictionary=super._face(ray,from,to)
+		if not actual.is_empty():
+			if foreign_rid.is_valid():actual.rid=foreign_rid
+			if wrong_shape>=0:actual.shape=wrong_shape
+			if omit_shape:actual.erase("shape")
+			altered=true
+		return actual
+var passed:=0
+var failed: Array[String]=[]
+var measurements: Array[Dictionary]=[]
+
+func _initialize() -> void:call_deferred("_run")
+
+func _run() -> void:
+	await Arm.run(self,_check)
+	var manual_case:=Manual.new()
+	await manual_case.run(self,_check)
+	_check(manual_case.helper.maximum_transformed_influences<=16000 and manual_case.helper.cache_bytes<=512*1024,
+		"cached contact: native active Manual stays within declared16kcontribution/512KiB cache budgets")
+	measurements.append({"cohort":"original_manual_controls","maximum_bounds":manual_case.helper.maximum_bounds_evaluations,
+		"maximum_contributions":manual_case.helper.maximum_transformed_influences,"maximum_model_transforms":manual_case.helper.maximum_model_transforms,
+		"cache_bytes":manual_case.helper.cache_bytes})
+	await _cache_contract()
+	await _native_face_guards()
+	var out:=FileAccess.open("res://private-result.json",FileAccess.WRITE)
+	out.store_string(JSON.stringify({"scope":"private current-procedural snapshot with only contact-helper overlay; overlapping untimed headless/RA diagnostics; no FPS/M5 claim",
+		"passes":passed,"failures":failed,"measurements":measurements},"\t")+"\n")
+	out.close()
+	print("DEFORMED_CONTACT_RESULT ",passed,"/",failed.size())
+	quit(0 if failed.is_empty() else 1)
+
+func _cache_contract() -> void:
+	var f:=Arm._fixture(self,false)
+	await Wall._frames(self,5)
+	var rider: CharacterBody3D=f.rider
+	rider.set_physics_process(false)
+	var helper: RefCounted=rider._obstacle_arm_fit
+	var rig: RefCounted=rider._visual_rig
+	var skin: Skin=helper.jacket.skin
+	var query_before:=Arm._query_state(rider)
+	var native_contained:=true
+	var maximum_error:=0.0
+	for arm: Dictionary in helper.arms:
+		var box: AABB=helper._bounds(arm,{},arm.hand.global_transform).grow(.00001)
+		var witnesses:=_points(helper,arm,{})
+		for p: Vector3 in witnesses:native_contained=native_contained and box.has_point(p)
+		for index: int in 24:
+			var upper: Transform3D=helper.skeleton.get_bone_global_pose(arm.upper)
+			var lower: Transform3D=helper.skeleton.get_bone_global_pose(arm.lower)
+			upper.basis=Basis(Vector3.UP,-.45+index*.04)*upper.basis
+			lower.basis=Basis(Vector3.RIGHT,-.30+index*.025)*lower.basis
+			var overrides: Dictionary={arm.upper:upper,arm.lower:lower}
+			box=helper._bounds(arm,overrides,arm.hand.global_transform).grow(.00001)
+			for p: Vector3 in _points(helper,arm,overrides):native_contained=native_contained and box.has_point(p)
+	_check(native_contained,"cached contact: every actual indexed incident-triangle endpoint remains in native LBS bounds across 48 override palettes")
+	var root_frame: Transform3D=f.root.global_transform
+	f.root.global_position+=Vector3(137,0,-103)
+	var far_inside:=true
+	var old_formula_error:=0.0
+	for far_arm: Dictionary in helper.arms:
+		var far_box: AABB=helper._bounds(far_arm,{},far_arm.hand.global_transform).grow(.00001)
+		var shader_points:=_points(helper,far_arm,{})
+		var old_points:=_wrong_world_weighted_points(helper,far_arm)
+		for i: int in shader_points.size():
+			far_inside=far_inside and far_box.has_point(shader_points[i])
+			old_formula_error=maxf(old_formula_error,shader_points[i].distance_to(old_points[i]))
+	_check(far_inside and old_formula_error>0.001,"cached contact: far-origin decoded nonunit UNORM matches local shader skin then model once and rejects inherited world-per-influence oracle")
+	measurements.append({"cohort":"far_origin_native_weights","model_origin":str(helper.jacket.global_position),"old_oracle_maximum_error_m":old_formula_error,
+		"mesh_skeleton_world_equal":helper.jacket.global_transform==helper.skeleton.global_transform})
+	f.root.global_transform=root_frame
+	var mesh_frame: Transform3D=helper.jacket.transform
+	helper.jacket.position+=Vector3(.07,.01,-.03)
+	var mesh_model_inside:=true
+	for model_arm: Dictionary in helper.arms:
+		var model_box: AABB=helper._bounds(model_arm,{},model_arm.hand.global_transform).grow(.00001)
+		for p: Vector3 in _points(helper,model_arm,{}):mesh_model_inside=mesh_model_inside and model_box.has_point(p)
+	_check(mesh_model_inside and helper.jacket.global_transform!=helper.skeleton.global_transform,
+		"cached contact: actual MeshInstance model transform is applied once even when its transform differs from Skeleton")
+	helper.jacket.transform=mesh_frame
+	_check(helper.cache_bytes<=512*1024,"cached contact: actual retained packed geometry/palette stays within512KiB")
+	var arm: Dictionary=helper.arms[0]
+	var old: AABB=helper._bounds(arm,{},arm.hand.global_transform).grow(.00001)
+	var corrupt: Skin=skin.duplicate(true)
+	var affected: int=-1
+	for bind: int in corrupt.get_bind_count():
+		if helper._bone(bind)==arm.upper:affected=bind;break
+	var pose:=corrupt.get_bind_pose(affected)
+	pose.origin.x+=.8
+	corrupt.set_bind_pose(affected,pose)
+	helper.jacket.skin=corrupt
+	var stale_outside:=0
+	for p: Vector3 in _points(helper,arm,{}):stale_outside+=int(not old.has_point(p))
+	var rebuilt: AABB=helper._bounds(arm,{},arm.hand.global_transform).grow(.00001)
+	var all_after:=true
+	for p: Vector3 in _points(helper,arm,{}):all_after=all_after and rebuilt.has_point(p)
+	_check(stale_outside>0 and all_after,"cached contact: actual800mm inverse-bind corruption escapes stale bounds and fresh real Skin palette contains it")
+	helper.jacket.skin=skin
+	helper._bounds(arm,{},arm.hand.global_transform)
+	# Modify actual indexed topology using existing opposite-arm endpoints.
+	# This creates a real bridge triangle; no witness/proxy vertex is added.
+	var original_mesh: Mesh=helper.jacket.mesh
+	var arrays:=original_mesh.surface_get_arrays(0)
+	var indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+	var vertices: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+	var binds: PackedInt32Array=arrays[Mesh.ARRAY_BONES]
+	var weights: PackedFloat32Array=arrays[Mesh.ARRAY_WEIGHTS]
+	var stride:=binds.size()/vertices.size()
+	var chosen: Array[int]=[]
+	for i: int in vertices.size():
+		var amount:=0.0
+		for k: int in stride:
+			var bone: int=helper._bone(binds[i*stride+k])
+			if bone==helper.arms[1].upper or bone==helper.arms[1].lower:amount+=weights[i*stride+k]
+		if amount>.99:chosen.append(i)
+		if chosen.size()==2:break
+	var source_arm_index: int=-1
+	for i: int in vertices.size():
+		for k: int in stride:
+			if helper._bone(binds[i*stride+k])==arm.upper and weights[i*stride+k]>.99:source_arm_index=i;break
+		if source_arm_index>=0:break
+	var before_count: int=arm.points.size()
+	if not indices.is_empty() and chosen.size()==2 and source_arm_index>=0:
+		indices.append(source_arm_index);indices.append(chosen[0]);indices.append(chosen[1])
+		arrays[Mesh.ARRAY_INDEX]=indices
+		var changed:=ArrayMesh.new()
+		changed.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+		helper.jacket.mesh=changed
+		var changed_bounds: AABB=helper._bounds(arm,{},arm.hand.global_transform).grow(.00001)
+		var changed_inside:=true
+		for p: Vector3 in _points(helper,arm,{}):changed_inside=changed_inside and changed_bounds.has_point(p)
+		_check(arm.points.size()>before_count and changed_inside,"cached contact: actual added opposite-arm bridge triangle invalidates source cache and includes its real endpoints")
+	else:_check(false,"cached contact: topology negative fixture has authentic indexed opposite-arm source vertices")
+	helper.jacket.mesh=original_mesh
+	helper._bounds(arm,{},arm.hand.global_transform)
+	# A genuinely tiny positive weight still makes this an arm incident
+	# triangle, even though the visible displacement is very small.
+	if chosen.size()==2:
+		var tiny_arrays:=original_mesh.surface_get_arrays(0)
+		var tiny_binds: PackedInt32Array=tiny_arrays[Mesh.ARRAY_BONES]
+		var tiny_weights: PackedFloat32Array=tiny_arrays[Mesh.ARRAY_WEIGHTS]
+		var left_bind: int=-1
+		var right_bind: int=-1
+		for bind: int in skin.get_bind_count():
+			if helper._bone(bind)==arm.upper:left_bind=bind
+			if helper._bone(bind)==helper.arms[1].upper:right_bind=bind
+		var v: int=chosen[0]
+		for k: int in stride:tiny_binds[v*stride+k]=0;tiny_weights[v*stride+k]=0
+		var tiny_source_weight:=2.0/65535.0
+		tiny_binds[v*stride]=left_bind;tiny_weights[v*stride]=tiny_source_weight
+		tiny_binds[v*stride+1]=right_bind;tiny_weights[v*stride+1]=1.0-tiny_source_weight
+		tiny_arrays[Mesh.ARRAY_BONES]=tiny_binds;tiny_arrays[Mesh.ARRAY_WEIGHTS]=tiny_weights
+		var tiny:=ArrayMesh.new();tiny.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,tiny_arrays)
+		helper.jacket.mesh=tiny
+		var tiny_bound: AABB=helper._bounds(arm,{},arm.hand.global_transform).grow(.00001)
+		var tiny_inside:=true
+		for p: Vector3 in _points(helper,arm,{}):tiny_inside=tiny_inside and tiny_bound.has_point(p)
+		var decoded_tiny: PackedFloat32Array=tiny.surface_get_arrays(0)[Mesh.ARRAY_WEIGHTS]
+		_check(decoded_tiny[v*stride]>0.0 and decoded_tiny[v*stride]<0.001 and arm.points.size()>before_count and tiny_inside,
+			"cached contact: a real decoded tiny-positive UNORM16 arm weight includes every native incident-triangle endpoint")
+		helper.jacket.mesh=original_mesh
+		helper._bounds(arm,{},arm.hand.global_transform)
+	var original_pose:=Arm._arm_pose(rider)
+	for missing: bool in [false,true]:
+		var invalid: Skin=skin.duplicate(true)
+		if missing:
+			invalid.set_bind_bone(affected,-1)
+			invalid.set_bind_name(affected,"__absent_native_bone__")
+		else:invalid.set_bind_bone(affected,helper.skeleton.get_bone_count()+7)
+		helper.jacket.skin=invalid
+		helper.apply(1.0/60.0)
+		_check(not helper.supported and helper.calls==0 and Arm._arm_pose(rider)==original_pose and Arm._query_state(rider)==query_before,
+			"cached contact: "+("missing" if missing else "out-of-range")+" actual Skin binding refuses before native bone-pose/query work")
+		helper.jacket.skin=skin
+		helper._bounds(arm,{},arm.hand.global_transform)
+	var unsupported:=ArrayMesh.new()
+	unsupported.add_surface_from_arrays(Mesh.PRIMITIVE_POINTS,original_mesh.surface_get_arrays(0))
+	helper.jacket.mesh=unsupported
+	helper.apply(1.0/60.0)
+	_check(not helper.supported and helper.calls==0 and Arm._arm_pose(rider)==original_pose and Arm._query_state(rider)==query_before,
+		"cached contact: changed native nontriangle primitive fails closed before indexed traversal or query work")
+	helper.jacket.mesh=original_mesh
+	helper._bounds(arm,{},arm.hand.global_transform)
+	for malformed: bool in [false,true]:
+		var quant_arrays:=original_mesh.surface_get_arrays(0)
+		var quant_weights: PackedFloat32Array=quant_arrays[Mesh.ARRAY_WEIGHTS]
+		for k: int in stride:quant_weights[k]=0.2 if malformed else 1.0/float(stride)
+		quant_arrays[Mesh.ARRAY_WEIGHTS]=quant_weights
+		var quantized:=ArrayMesh.new();quantized.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,quant_arrays)
+		helper.jacket.mesh=quantized
+		var valid_layout: bool=helper._valid_native_geometry()
+		if malformed:
+			helper.apply(1.0/60.0)
+			_check(not valid_layout and not helper.supported and helper.calls==0,
+				"cached contact: malformed native weight mass beyond the UNORM16 bound fails closed")
+		else:
+			var decoded: PackedFloat32Array=quantized.surface_get_arrays(0)[Mesh.ARRAY_WEIGHTS]
+			var sum:=0.0
+			for k: int in stride:sum+=decoded[k]
+			_check(valid_layout and 1.0-sum>0.00001 and 1.0-sum<=float(stride)/65535.0+0.000001,
+				"cached contact: valid decoded UNORM16 endpoint loss is admitted without renormalizing native weights")
+		helper.jacket.mesh=original_mesh
+		helper._bounds(arm,{},arm.hand.global_transform)
+	_check(Arm._query_state(rider)==query_before,"cached contact: pure envelope/cache diagnostics preserve all native query fields")
+	measurements.append({"cache_bytes":helper.cache_bytes,"cache_rebuilds":helper.cache_rebuilds,"left_vertices":helper.arms[0].points.size(),
+		"right_vertices":helper.arms[1].points.size(),"left_influences":helper.arms[0].binds.size(),"right_influences":helper.arms[1].binds.size(),
+		"wrong_bind_stale_outside":stale_outside,"native_max_bounds_per_tick":helper.maximum_bounds_evaluations,
+		"native_max_contributions_per_tick":helper.maximum_transformed_influences})
+	f.viewport.queue_free()
+	await process_frame
+
+func _native_face_guards() -> void:
+	var f:=Arm._fixture(self,true)
+	await Arm._approach(self,f)
+	Input.action_press("flip")
+	await Wall._frames(self,6)
+	Wall._release()
+	var rider: CharacterBody3D=f.rider
+	rider.set_physics_process(false)
+	# A second real native shape exists on this same body, well outside the
+	# fixture. Negative ray metadata deliberately substitutes its valid index.
+	var second:=CollisionShape3D.new()
+	var box:=BoxShape3D.new();box.size=Vector3(.1,.1,.1)
+	second.shape=box;second.position=Vector3(15,15,15)
+	f.gate._panel.add_child(second)
+	for mode: int in 3:
+		var wrong:=WrongNativeFace.new();wrong.prepare(rider)
+		if mode==0:wrong.wrong_shape=1
+		elif mode==1:wrong.foreign_rid=f.root.get_child(0).get_rid()
+		else:wrong.omit_shape=true
+		rider._obstacle_arm_fit=wrong
+		var pose:=Arm._arm_pose(rider)
+		var query:=Arm._query_state(rider)
+		wrong.apply(1.0/60.0)
+		_check(wrong.altered and wrong.accepted==0 and Arm._arm_pose(rider)==pose and Arm._query_state(rider)==query and wrong.maximum_calls<=12,
+			"native face: "+["same body different real shape","different real body RID","missing integer shape"][mode]+" cannot authorize an arm correction")
+	f.viewport.queue_free()
+	await process_frame
+
+func _points(helper: RefCounted,arm: Dictionary,overrides: Dictionary) -> PackedVector3Array:
+	var result:=PackedVector3Array()
+	var palette: Array[Transform3D]=[]
+	for bind: int in helper.jacket.skin.get_bind_count():
+		var bone: int=helper._bone(bind)
+		var pose: Transform3D=overrides.get(bone,helper.skeleton.get_bone_global_pose(bone))
+		palette.append(pose*helper.jacket.skin.get_bind_pose(bind))
+	for vertex: int in arm.points.size():
+		var x:=Vector3.ZERO;var y:=Vector3.ZERO;var z:=Vector3.ZERO;var origin:=Vector3.ZERO
+		for index: int in range(arm.offsets[vertex],arm.offsets[vertex+1]):
+			var transform: Transform3D=palette[arm.binds[index]]
+			var weight: float=arm.weights[index]
+			x+=transform.basis.x*weight;y+=transform.basis.y*weight;z+=transform.basis.z*weight;origin+=transform.origin*weight
+		result.append(helper.jacket.global_transform*(Transform3D(Basis(x,y,z),origin)*Vector3(arm.points[vertex])))
+	return result
+
+func _wrong_world_weighted_points(helper: RefCounted,arm: Dictionary) -> PackedVector3Array:
+	var result:=PackedVector3Array()
+	for vertex: int in arm.points.size():
+		var point:=Vector3.ZERO
+		for index: int in range(arm.offsets[vertex],arm.offsets[vertex+1]):
+			var bind: int=arm.binds[index]
+			point+=(helper.jacket.global_transform*helper.skeleton.get_bone_global_pose(helper._bone(bind))*helper.jacket.skin.get_bind_pose(bind)*Vector3(arm.points[vertex]))*float(arm.weights[index])
+		result.append(point)
+	return result
+
+func _check(ok: bool,label: String) -> void:
+	if ok:passed+=1;print("PASS ",label)
+	else:failed.append(label);print("FAIL ",label)

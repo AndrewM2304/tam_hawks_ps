@@ -38,6 +38,8 @@ static func run(tree: SceneTree,check: Callable) -> void:
 	var triangles_before := 0
 	var triangles_after := 0
 	var resident := true
+	var shared_grass: Material = world.get_node("CityArt").materials.grass
+	resident = shared_grass is StandardMaterial3D and shared_grass == outdoors._material("grass")
 	var port_native_overlap := 0.0
 	var port_display_overlap := 0.0
 	var port_edge_roundoff := 0.0
@@ -46,7 +48,7 @@ static func run(tree: SceneTree,check: Callable) -> void:
 		var visual: MeshInstance3D = body.get_child(0)
 		var collision: CollisionShape3D = body.get_child(1)
 		resident=resident and body.get_child_count()==2 and visual.mesh.get_surface_count()==1 \
-			and visual.material_override is ShaderMaterial and collision.shape is ConcavePolygonShape3D
+			and visual.material_override == shared_grass and collision.shape is ConcavePolygonShape3D
 		triangles_before+=int(visual.get_meta("grass_triangles_before",0))
 		triangles_after+=visual.mesh.get_faces().size()/3
 		native_overlap+=_overlap(_polygons(collision.shape.get_faces(),LOWER_ENTRY),paved)

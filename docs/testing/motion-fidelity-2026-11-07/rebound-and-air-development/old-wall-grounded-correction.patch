@@ -1,0 +1,105 @@
+--- checkpoint01/skater.gd
++++ grounded-candidate/skater.gd
+@@ -119,6 +119,8 @@
+ var _grind_exit_pose_pending := false
+ var _grind_exit_board := Transform3D.IDENTITY
+ var _obstacle_visual_offset := Vector3.ZERO
++var _graded_obstacle_floor_rid := RID()
++var _graded_obstacle_floor_shape := -1
+ var _obstacle_ollie_continuation := false
+ var _obstacle_manual_continuation := false
+ var _obstacle_shoe_bounds: Array[AABB] = []
+@@ -507,6 +509,8 @@
+ 	_grind_exit_pose_pending = false
+ 	_grind_exit_board = Transform3D.IDENTITY
+ 	_obstacle_visual_offset = Vector3.ZERO
++	_graded_obstacle_floor_rid = RID()
++	_graded_obstacle_floor_shape = -1
+ 	_obstacle_ollie_continuation = false
+ 	_obstacle_manual_continuation = false
+ 	transition_normal = Vector3.UP
+@@ -2779,6 +2783,13 @@
+ 	# Reuse its real vertical-wall contacts to fit only the connected figure;
+ 	# an obstacle must never move the physical actor or split feet from board.
+ 	var manual_pose: bool = manual_active or _visual_rig._manual_blend>0.0001
++	if manual_pose or airborne or not _native_floor_valid or not is_on_floor() \
++			or _native_floor_normal().y>=0.999 or _force_air_tick \
++			or transition_active or grinding or wallriding or bail_active or setup_active \
++			or skitching or lip_active or powersliding or _special_remaining>0.0 \
++			or _flip_remaining>0.0 or _grab_remaining>0.0 or _ollie_pose_remaining>0.0:
++		_graded_obstacle_floor_rid=RID()
++		_graded_obstacle_floor_shape=-1
+ 	if manual_pose and (manual_active or _obstacle_manual_continuation) \
+ 			and not airborne and _native_floor_valid and is_on_floor() \
+ 			and not _force_air_tick and _native_floor_normal().y>0.999 \
+@@ -2906,7 +2917,12 @@
+ 	if not up.is_finite() or up.y<cos(floor_max_angle):
+ 		_obstacle_visual_offset=Vector3.ZERO
+ 		return
+-	var prior := _obstacle_visual_offset.slide(up)
++	# A rebound may lose its capsule wall flag for one tick. Only an offset
++	# earned on this exact live floor shape can participate in that residual;
++	# changing supports must not donate an old correction to another surface.
++	var same_floor: bool=support.rid==_graded_obstacle_floor_rid \
++		and int(support.shape)==_graded_obstacle_floor_shape
++	var prior := _obstacle_visual_offset.slide(up) if same_floor else Vector3.ZERO
+ 	var offset := prior*exp(-maxf(0.0,delta)/0.045)
+ 	if offset.length_squared()<0.0000000001:offset=Vector3.ZERO
+ 	if offset==Vector3.ZERO and not is_on_wall():
+@@ -2939,15 +2955,32 @@
+ 			var authority := tangent.dot(normal)
+ 			if is_finite(gap) and gap<GROUND_PRESENTATION_SKIN and authority>0.1:
+ 				offset+=tangent*((GROUND_PRESENTATION_SKIN-gap)/authority)
+-	for attempt: int in 2:
+-		var candidate := offset if attempt==0 else prior
++	var candidates: Array[Vector3]=[offset,prior]
++	if prior!=Vector3.ZERO:
++		# The longer model may still touch the finite wall after the native
++		# capsule has rebounded. Derive the current minimum from a fresh hull
++		# contact and face ray, rather than carrying yesterday's infinite plane.
++		var contact_offset := _obstacle_manual_contact_offset(geometry)
++		if contact_offset!=Vector3.ZERO:
++			var axis := contact_offset.normalized()
++			var tangent := axis.slide(up)
++			var authority := tangent.dot(axis)
++			if authority>0.1:
++				candidates.append(tangent*(contact_offset.length()/authority))
++	for attempt: int in candidates.size():
++		var candidate := candidates[attempt]
+ 		if not candidate.is_finite() or candidate.length()>0.18 \
++				or candidate.distance_to(prior)>0.18 \
+ 				or (attempt==1 and candidate==offset):continue
+ 		if not _graded_obstacle_offset_supported(geometry,candidate,planes,support):continue
+ 		_visual.position+=global_basis.inverse()*candidate
+ 		_obstacle_visual_offset=candidate
++		_graded_obstacle_floor_rid=support.rid if candidate!=Vector3.ZERO else RID()
++		_graded_obstacle_floor_shape=int(support.shape) if candidate!=Vector3.ZERO else -1
+ 		return
+ 	_obstacle_visual_offset=Vector3.ZERO
++	_graded_obstacle_floor_rid=RID()
++	_graded_obstacle_floor_shape=-1
+ 
+ 
+ func _graded_obstacle_offset_supported(geometry: Dictionary,offset: Vector3,planes: Array[Vector4],support: Dictionary) -> bool:
+@@ -2970,7 +3003,10 @@
+ 		for vertex: Vector3 in wheel.points:
+ 			gap=minf(gap,(_board_visual.to_global(vertex)+offset-Vector3(hit.position)).dot(up))
+ 		if gap<0.004 or gap>0.03:return false
+-	return _obstacle_air_clear(offset)
++	if not _obstacle_air_clear(offset):return false
++	var frame := _board_visual.global_transform
++	frame.origin+=offset
++	return _manual_model_frame_clear(frame)
+ 
+ 
+ func _place_obstacle_manual_wheels(delta: float) -> void:
+@@ -3189,7 +3225,8 @@
+ 	ray.to=saved_to
+ 	ray.collision_mask=saved_mask
+ 	var normal: Vector3=face.get("normal",Vector3.ZERO)
+-	if face.is_empty() or face.get("rid")!=rest.get("rid") or not normal.is_finite() \
++	if face.is_empty() or face.get("rid")!=rest.get("rid") \
++			or int(face.get("shape",-1))!=int(rest.get("shape",-2)) or not normal.is_finite() \
+ 			or absf(normal.y)>0.001 or normal.dot(axis)<0.999: return Vector3.ZERO
+ 	axis=Vector3(normal.x,0,normal.z).normalized()
+ 	point=face.position

@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Independent callback boundaries and continuous real-input delivery routes.
 ## Only the caller's initial fixture resets position. Ground heading is aimed;
 ## speed, velocity, gap, trick, bank and success are never injected by the driver.
@@ -298,14 +299,11 @@ static func drive_delivery(tree: SceneTree, game: Node, route_id: String, observ
 	evidence.manual_entered = game.skater.manual_active
 	await _observe(observer, "manual", evidence)
 	for frame in 180:
-		Input.action_release("steer_left")
-		Input.action_release("steer_right")
-		if game.skater.manual_balance > 0.05: Input.action_press("steer_left")
-		elif game.skater.manual_balance < -0.05: Input.action_press("steer_right")
+		ManualBalance.hold(game.skater, 0.05, 1.0)
 		if game.skater.global_position.z >= -15.3: break
 		await _step(tree, game, evidence)
-	Input.action_release("steer_left")
-	Input.action_release("steer_right")
+	Input.action_release("push")
+	Input.action_release("brake")
 	Input.action_press("ollie")
 	await _step(tree, game, evidence)
 	Input.action_release("ollie")

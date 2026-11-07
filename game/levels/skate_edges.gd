@@ -1,5 +1,6 @@
 extends RefCounted
 const ClydeLayout = preload("res://game/levels/clyde_layout.gd")
+const ContactFrame = preload("res://game/levels/transition_feature.gd")
 ## Startup-only semantic edge authoring. No display nodes/collision/process work.
 ## Selected real props supply exact shape transforms; arbitrary decorative mesh
 ## edges, building windows and out-of-bounds fence kilometres are not scanned.
@@ -48,11 +49,27 @@ static func build(world: Node3D) -> Array:
 				size.x=1.25
 				size.z=8.1
 				top_extra=0.06
-			var stamp := _stamp(world.to_local(body.global_position))
+			var stamp := String(body.get_meta("skate_edge_identity_stamp",_stamp(world.to_local(body.global_position))))
 			var points := box_top(frame,size,top_extra)
 			var provider_begin := lines.size()
+			# Only the two inspected, reauthored quay seats opt into named native
+			# contact. Other semantic providers keep their original legacy scope.
+			var native_seat := label=="QuayBenchSeat" and body.has_meta("skate_edge_identity_stamp") \
+				and not body.has_meta("skate_edge_box_size") and ContactFrame.contact_frame_supported(frame)
+			var outward_faces: Array[Vector3]=[Vector3.FORWARD,Vector3.RIGHT,Vector3.BACK,Vector3.LEFT]
 			for index: int in range(4):
+				var edge_begin := lines.size()
 				_add_segment(world,lines,original,String(boxes[label])+"_"+stamp+"_"+str(index),points[index],points[(index+1)%4],"ledge")
+				if native_seat:
+					var outward: Vector3=(frame.basis*outward_faces[index]).normalized()
+					for edge_index: int in range(edge_begin,lines.size()):
+						var line: RefCounted=lines[edge_index]
+						line.configure_contact(-SKIN,0.0,"skate_edges.native_box_top")
+						line.configure_edge_contact(outward)
+						if line.contact_edge_outward==Vector3.ZERO:
+							line.configure_contact(0.0,0.0,"")
+						else:
+							line.native_support_rids.append(body.get_rid())
 			var provider_ids: Array[String]=[]
 			for index: int in range(provider_begin,lines.size()):provider_ids.append(lines[index].id)
 			body.set_meta("skate_edge_provider_ids",provider_ids)
@@ -327,4 +344,32 @@ static func _quay_edges(world: Node3D,sources: Array[Node3D],lines: Array,origin
 			# curb tops, not virtual grind tracks across a flush bridge entrance.
 			var a:=collision.to_global(Vector3(span.x,size.y/2,side*(size.z/2-0.02)))+Vector3.UP*SKIN
 			var b:=collision.to_global(Vector3(span.y,size.y/2,side*(size.z/2-0.02)))+Vector3.UP*SKIN
+			b=_quay_end_before_banks(sources,a,b)
 			_add_segment(world,lines,original,label+"_"+str(roundi(span.x*10)),a,b,"curb")
+
+
+static func _quay_end_before_banks(sources: Array[Node3D],a: Vector3,b: Vector3) -> Vector3:
+	# The existing long river curb remains useful, but its capsule cannot pass
+	# through the newly connected terminal bank. Crop only the obstructed tail,
+	# from actual transformed native vertices, retaining the original guide ID.
+	var direction: Vector3=(b-a).normalized()
+	var across: Vector3=Vector3.UP.cross(direction).normalized()
+	var end_distance:=a.distance_to(b)
+	for body: Node3D in sources:
+		if not body is StaticBody3D or not body.has_meta("bank_terminal_return"):continue
+		var lower:=Vector3(INF,INF,INF)
+		var upper:=Vector3(-INF,-INF,-INF)
+		var vertices:=0
+		for child: Node in body.get_children():
+			if not child is CollisionShape3D or child.disabled or not child.shape is ConcavePolygonShape3D:continue
+			for point: Vector3 in child.shape.get_faces():
+				var relative: Vector3=child.to_global(point)-a
+				var projected:=Vector3(relative.dot(direction),relative.y,relative.dot(across))
+				lower=lower.min(projected)
+				upper=upper.max(projected)
+				vertices+=1
+		if vertices==0 or not lower.is_finite() or not upper.is_finite():continue
+		if lower.z>STEEL_CLEAR_RADIUS or upper.z< -STEEL_CLEAR_RADIUS:continue
+		if lower.y>STEEL_CLEAR_HEIGHT or upper.y< -0.015:continue
+		if lower.x>0.0:end_distance=minf(end_distance,lower.x-STEEL_CLEAR_RADIUS)
+	return a+direction*maxf(0.0,end_distance)

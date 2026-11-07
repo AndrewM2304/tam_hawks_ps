@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 ## Two bounded C04 lines. Only each declared restart/facing is assigned;
 ## every subsequent turn, contact, trick and bank uses ordinary mapped input.
 
@@ -327,19 +328,27 @@ static func _balance_manual(game: Node) -> void:
 	if game.skater.manual_active:
 		var outward := 1.0 if game.skater.manual_balance>=0 else -1.0
 		var correction: float=-(outward*(0.18+0.08*game.skater._manual_elapsed)+game.skater.manual_balance*1.4)/1.5
-		_axis("steer_left","steer_right",clampf(correction,-1,1))
-	else: _axis("steer_left","steer_right",0)
+		ManualBalance.correct(game.skater,clampf(correction,-1,1))
+	else: ManualBalance.correct(game.skater,0)
 
 
 static func _steer_to(game: Node,target: Vector3,manual: bool) -> void:
+	# Target steering owns the whole turn intent; do not retain a summed
+	# shoulder alias from the previous manual/air phase.
+	_axis("spin_left","spin_right",0)
 	var delta: Vector3=target-game.skater.global_position
 	var desired := atan2(-delta.x,-delta.z)
 	var error: float=angle_difference(game.skater.rotation.y,desired)
 	var amount: float=-clampf(error*1.8,-1,1)
-	_axis("spin_left" if manual else "steer_left","spin_right" if manual else "steer_right",amount)
+	_axis("steer_left","steer_right",amount)
 
 
 static func _speed_input(game: Node,ceiling: float) -> void:
+	# W/S balances a loaded Manual. A ground speed request must preserve
+	# that input ownership while the actual Manual coasts.
+	if game.skater.manual_active:
+		_balance_manual(game)
+		return
 	if absf(game.skater.speed)>ceiling:
 		Input.action_release("push")
 		Input.action_press("brake")

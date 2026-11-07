@@ -1,0 +1,100 @@
+extends SceneTree
+## Independent diagnostic only: actual Main input/contact/events; no per-tick state injection.
+const Main=preload("res://game/main.gd")
+var game:Node
+var step:=0
+var events:Array[Dictionary]=[]
+var cases:Array[Dictionary]=[]
+var checks:=0
+var failures:=0
+func _initialize()->void:_run.call_deferred()
+func _run()->void:
+	game=Main.new()
+	game.persistence_enabled=false
+	root.add_child(game)
+	_check(not game.music._can_control and not game.music._persist,"CLI personal Music isolated")
+	game.skater.trick_performed.connect(func(label:String,points:int):events.append({"tick":step,"event":"trick","label":label,"points":points}))
+	game.skater.landed.connect(func(clean:bool):events.append({"tick":step,"event":"landed","clean":clean}))
+	game.skater.bailed.connect(func():events.append({"tick":step,"event":"bail"}))
+	game.skater.combo_link_started.connect(func():events.append({"tick":step,"event":"link_started"}))
+	game.skater.combo_link_ended.connect(func():events.append({"tick":step,"event":"link_ended"}))
+	var calibration:Dictionary=await _case("calibration",-1000,"none",0)
+	var landing_tick:int=calibration.first_landing_tick
+	_check(landing_tick>20,"calibration produces native landing after a real ollie/flip")
+	for before:int in [6,12,18,20,21,22,27]:await _case("held_%dms_before"%roundi(before*1000.0/60.0),landing_tick-before,"hold",landing_tick)
+	for after:int in [0,3,12,24]:await _case("held_%dms_after"%(after*1000/60),landing_tick+after,"hold",landing_tick)
+	await _case("released_200ms_before",landing_tick-12,"released",landing_tick)
+	await _case("stale_held_since_takeoff",1,"hold",landing_tick)
+	await _case("two_tap_gesture_200ms_before",landing_tick-12,"gesture",landing_tick)
+	_release()
+	var path:String=OS.get_cmdline_user_args()[0]
+	var report:={"schema":1,"fixture":"Default-enabled real Main; reset only at case boundary;40 settle ticks,40push ticks,2ollie-charge ticks,release,real flip. Synthesized mapped Input actions; no pose, velocity, score, balance or heading assignment during run.","source":"November candidate; exact before/after inventories and executed project path in enclosing receipt are authoritative.","limits":"Headless native timing diagnostic, not normal-speed visual, physical-controller or M5 acceptance. Manual requests do not alter airborne trajectory; schedule references independently measured calibration contact.","checks":checks,"failures":failures,"engine":Engine.get_version_info(),"cases":cases}
+	var file:=FileAccess.open(path,FileAccess.WRITE)
+	file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	print("QA_MANUAL_MATRIX checks=",checks," failures=",failures," cases=",cases.size()," path=",path)
+	quit(1 if failures else 0)
+func _case(label:String,request_tick:int,mode:String,reference_landing:int)->Dictionary:
+	_release()
+	game.start_mode(true)
+	await _frames(40)
+	_check(game.skater.is_on_floor(),label+" starts on actual default support")
+	Input.action_press("push")
+	await _frames(40)
+	Input.action_release("push")
+	Input.action_press("ollie")
+	await _frames(2)
+	Input.action_release("ollie")
+	step=0;events=[]
+	var trace:Array[Dictionary]=[]
+	var landing:=-1
+	var manual_tick:=-1
+	var bank_ticks:Array[int]=[]
+	var last_score:=0
+	for tick in 96:
+		step=tick
+		if tick==1:Input.action_press("flip")
+		if tick==3:Input.action_release("flip")
+		if tick==request_tick:
+			if mode in ["hold","released"]:Input.action_press("manual")
+			if mode=="gesture":Input.action_press("push")
+		if mode=="released" and tick==request_tick+4:Input.action_release("manual")
+		if mode=="gesture":
+			if tick==request_tick+1:Input.action_release("push")
+			if tick==request_tick+2:Input.action_press("brake")
+			if tick==request_tick+3:Input.action_release("brake")
+		await _frames(1)
+		if landing<0 and game.skater.is_on_floor() and not game.skater.airborne:landing=tick
+		if manual_tick<0 and game.skater.manual_active:manual_tick=tick
+		if game.score.total_score!=last_score:bank_ticks.append(tick)
+		last_score=game.score.total_score
+		trace.append({"tick":tick,"native_tick":Engine.get_physics_frames(),"position":_v(game.skater.global_position),"velocity":_v(game.skater.velocity),"speed":game.skater.speed,"floor":game.skater.is_on_floor(),"airborne":game.skater.airborne,"manual":game.skater.manual_active,"manual_id":game.skater.manual_trick_id,"manual_balance":game.skater.manual_balance,"request_buffer":game.skater._manual_buffer_remaining,"manual_held":Input.is_action_pressed("manual"),"gesture_hold":game.skater._manual_gesture_hold,"manual_queued":game.skater.manual_request_pending(),"combo_value":game.score.get_combo_value(),"pending_landing":game.score.pending_landing,"landing_remaining":game.score.landing_remaining,"banked":game.score.total_score,"bail":game.skater.bail_active})
+		# Only real corrective input keeps an admitted manual alive; no state assignment.
+		if game.skater.manual_active:
+			Input.action_release("push");Input.action_release("brake")
+			if game.skater.balance_value()>0.025:Input.action_press("brake",0.30)
+			elif game.skater.balance_value()<-.025:Input.action_press("push",0.30)
+	var row:={"case":label,"request_tick":request_tick,"reference_landing_tick":reference_landing,"first_landing_tick":landing,"actual_ms_before_contact":(landing-request_tick)*1000.0/60.0 if request_tick>=0 else null,"manual_entry_tick":manual_tick,"bank_ticks":bank_ticks,"final_score":game.score.total_score,"events":events.duplicate(true),"trace":trace}
+
+	if mode=="none":
+		_check(manual_tick<0 and game.score.total_score==800 and bank_ticks.size()==1,label+" banks real ollie+flip exactly once")
+	elif mode=="released" or label=="stale_held_since_takeoff" or (mode=="hold" and request_tick<landing and landing-request_tick>=21):
+		_check(manual_tick<0 and game.score.total_score==800 and bank_ticks.size()==1,label+" rejects cancelled/stale request without invented link")
+	elif label=="held_400ms_after":
+		_check(manual_tick>=0 and bank_ticks.size()==1 and bank_ticks[0]<manual_tick and game.score.total_score==800,label+" starts a new manual only after actual previous bank")
+	else:
+		_check(manual_tick>=landing and manual_tick<=maxi(landing,request_tick)+1 and bank_ticks.is_empty() and game.score.total_score==0,label+" carries earned combo into supported manual before bank")
+	cases.append(row)
+	print("QA_MANUAL_CASE ",JSON.stringify({"case":label,"landing":landing,"manual_entry":manual_tick,"bank_ticks":bank_ticks,"score":game.score.total_score,"request_ms_before_contact":row.actual_ms_before_contact}))
+	_check(landing>=0 and not events.any(func(event:Dictionary)->bool:return event.event=="bail"),label+" completes native landing without bail")
+	return row
+func _frames(count:int)->void:
+	for tick in count:
+		await physics_frame
+		await process_frame
+		await create_timer(0.0,true).timeout
+func _release()->void:
+	for action in InputMap.get_actions():Input.action_release(action)
+func _v(value:Vector3)->Array:return [value.x,value.y,value.z]
+func _check(ok:bool,label:String)->void:
+	checks+=1
+	if not ok:failures+=1;print("FAIL ",label)

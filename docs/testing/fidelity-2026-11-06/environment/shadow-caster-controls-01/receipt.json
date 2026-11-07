@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T02:37:45.766233+00:00",
+  "finished_utc": "2026-11-07T02:38:04.663859+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "640x400",
+      "--script",
+      "tools/environment_water_shadow_controls.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/water-lighting-source/.local/environment-water/shadow-controls-01"
+    ]
+  ],
+  "git_head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_water_shadow_controls.gd",
+  "process_timeout_seconds": 120,
+  "workload": "visual-water-controls-640x400",
+  "concurrent_headless_authorised_pid": null,
+  "other_godot_at_start": [],
+  "timing_measured": false,
+  "source_inventory_sha256": "c180a347e60ce552e4cdeafa591b630756db97dd57eb9c45ddccca6307494b4f",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "native-baseline-grazing.png": "5159ec3abe4b0e9e389be5551d2a613fca2c3ed78dd7afcd777abfa947d780cf",
+    "native-baseline-high-coverage.png": "a38853efeb630274ae170831ee8115f84b1052a3eaee3033e8f3367d0ccd1b2d",
+    "native-baseline-river-oblique.png": "ed66ffa34d68a8b19545ce88dfe7f5042c8f143dab6cfcf48ff91404c361a0ad",
+    "native-sun-shadows-off-grazing.png": "cff19459fa1cad91ffc2d55fc229e18c9ad957ee6f4eccec6ac2edb39d433aec",
+    "native-sun-shadows-off-high-coverage.png": "112472dae432970be19bc546e5efd366b1faddda8c4df794b662ba9fe7ee6d6a",
+    "native-sun-shadows-off-river-oblique.png": "8e05f4099013f3ead321dec6af286aca3099cd5004a7249a688a39965db2193d",
+    "native-water-caster-off-grazing.png": "8552edbc4029a37d8fb9f8aef7b9dde0632090a52275e168a33878ca2d7399a4",
+    "native-water-caster-off-high-coverage.png": "bb2f8e81182654bcdc928559e57b25590558e0541bde29cbc211fd111e5032e6",
+    "native-water-caster-off-river-oblique.png": "d7a0384815cc4cac24cbf8169e35326f08b2304b7bd5fe41311b38cf2e51ce62"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

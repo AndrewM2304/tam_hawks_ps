@@ -1,0 +1,90 @@
+from pathlib import Path
+from PIL import Image
+import json,hashlib,datetime,math,re,shutil
+ROOT=Path('/workspace/tam_hawks_ps')
+PROJECT=ROOT/'.local/water-two-wave-source'
+SOURCE=PROJECT/'.local/environment-water/two-wave-48warm-01'
+OUT=ROOT/'docs/testing/fidelity-2026-11-06/environment/two-wave-48warm-01'
+OUT.mkdir(exist_ok=False)
+def sha(data):return hashlib.sha256(data).hexdigest()
+def read(p):return json.loads(p.read_text())
+def retain(p,name=None):
+ q=OUT/(p.name if name is None else name);q.write_bytes(p.read_bytes());return q
+r=read(SOURCE/'isolated-water-report.json');receipt=read(SOURCE/'receipt.json')
+a=read(SOURCE/'source-before.json');b=read(SOURCE/'source-after.json')
+assert a==b and len(a)==786
+assert all((PROJECT/path).is_file() and sha((PROJECT/path).read_bytes())==expected for path,expected in a.items())
+original=read(PROJECT/'.local/copy-production-before.json');experiment=read(PROJECT/'.local/copy-experiment.json');copy=read(PROJECT/'.local/copy-receipt.json')
+changed=sorted(k for k in set(original)|set(experiment) if original.get(k)!=experiment.get(k))
+assert changed==sorted(['game/art/assets/horizon/clyde_water.gdshader','tools/environment_water_isolated_probe.gd'])
+assert experiment==a and not copy['production_source_changed_during_copy']
+assert sha((SOURCE/'source-before.json').read_bytes())==receipt['source_inventory_sha256']
+assert r['complete'] and r['checks']==31 and r['failures']==0 and receipt['engine_exit']==0 and not receipt['engine_errors'] and receipt['source_stable']
+assert not re.search(r'(?m)(SCRIPT ERROR:|Parse Error:|ERROR:)',(SOURCE/'engine.log').read_text())
+metrics=[]
+for cell in r['cost_brackets']:
+ raw=cell['raw_samples'];assert len(raw)==cell['sample_count'] and len(raw)>=48
+ entry={'view':cell['id'],'mode':cell['mode'],'samples':len(raw),'sample_duration_ms':sum(v['frame_ms'] for v in raw)}
+ assert entry['sample_duration_ms']>=3000
+ for key in ['frame_ms','draws','visible_draws','shadow_draws','primitives','texture_bytes','buffer_bytes']:
+  values=sorted(float(v[key]) for v in raw)
+  for p in [.5,.95,.99]:
+   v=values[math.ceil(p*len(values))-1];field=key+'_p'+str(int(p*100));assert abs(v-float(cell[field]))<.000001
+   if key=='frame_ms':entry['p'+str(int(p*100))+'_ms']=v
+ metrics.append(entry)
+assert len(metrics)==9
+pixels=[]
+for frame in r['images']:
+ p=SOURCE/frame['file'];decoded=Image.open(p).convert('RGBA');assert decoded.size==(640,400)
+ digest=sha(decoded.tobytes());assert digest==frame['rgba8_sha256'] and sha(p.read_bytes())==receipt['images'][frame['file']]
+ pixels.append({'file':frame['file'],'rgba8_sha256':digest,'native_match':True});retain(p)
+for view in {f['view'] for f in r['images']}:
+ frames=[f for f in r['images'] if f['view']==view];assert len(frames)==2
+ for key in ['camera_position','camera_forward','fov']:assert frames[0][key]==frames[1][key]
+ for cell in r['cost_brackets']:
+  if cell['id']==view:
+   for key in ['camera_position','camera_forward']:assert cell[key]==frames[0][key]
+host=read(ROOT/'.local/water-two-wave-host-observer.json');processes={}
+for sample in host['samples']:
+ for line in sample['godot'].splitlines():
+  parts=line.split(None,3)
+  assert len(parts)==4 and '--path '+str(PROJECT)+' ' in parts[3]
+  pid=parts[0];processes.setdefault(pid,{'first_observed_utc':sample['utc'],'last_observed_utc':sample['utc'],'sample_count':0,'command':parts[3]})
+  processes[pid]['last_observed_utc']=sample['utc'];processes[pid]['sample_count']+=1
+for name in ['receipt.json','source-before.json','source-after.json','isolated-water-report.json','engine.log','xorg-console.log','xorg.log']:retain(SOURCE/name)
+for name in ['copy-receipt.json','copy-production-before.json','copy-experiment.json']:retain(PROJECT/'.local'/name)
+retain(ROOT/'.local/water-two-wave-host-observer.json','host-observer.json')
+for src,dest in [('game/art/assets/horizon/clyde_water.gdshader','candidate.gdshader.txt'),('tools/fixtures/environment/clyde_water_before_2026_11_06.gdshader','before.gdshader.txt'),('tools/environment_water_isolated_probe.gd','observer.gd.txt'),('tools/environment_water_probe.py','wrapper.py.txt'),('game/levels/outdoor_routes.gd','outdoor_routes.gd.txt'),('game/levels/glasgow_square.gd','glasgow_square.gd.txt')]:retain(PROJECT/src,dest)
+retain(Path(__file__),'independent-observer.py.txt')
+result={'schema':1,'reviewer':'independent_qa','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'capture_integrity':'Pass, bounded completed shader-only 640x400 epoch:786 source hashes stable/executed copy matches, exact two overlays, six native RGBA/camera identities and all189 percentile/resource values recomputed.31/0, clean engine.','cost_admission':'Not admitted: warmed controls still drift, candidate does not consistently meet both bracketing controls. No independent exclusive-process or target-Mac claim. Original three-wave rejection remains active.','source_inputs':len(a),'overlays':changed,'checks':r['checks'],'failures':r['failures'],'host_observations':len(host['samples']),'host_processes':processes,'host_limit':'Primary PID31734 plus unclassified transient identical-command PID31762 in one observation; no PPID or direct provenance evidence. Root reports one wrapper invocation/one engine Popen. No different-project/command Godot observed. Do not claim process exclusivity.','native_pixels':pixels,'recomputed_metrics':metrics,'resources':'All cell counters retain2 draws/2 visible draws/0 shadow draws/4 primitives/14736405 texture bytes/7443628 buffer bytes; equality does not prove frame-time admission.','visual_review':'Independently opened all six original640x400 frames. Candidate reduces broad parallel ripple bands and looks calmer in all three views, but regular fine stippled/specular striation remains prominent, particularly grazing/high coverage. Time phases differ; stills do not establish temporal stability or full Main appearance.','next_action':'Fresh constant-normal diagnostic to isolate remaining striation; retain real-wave visible finish and stronger repeated matched timing before any production cost decision. No source promotion from this result.','limits':['Exact production 900x38m plane and daylight only; no Main/city/rider/collision/routes/Music/save.','Native shader TIME active with unmatched still phases;48 warm frames per cell and at least48samples/3seconds,8s cell guard.','Linux llvmpipe/Mesa diagnostic; no 1080p whole-game/actual M5 frame-time, thermal or memory acceptance.']}
+(OUT/'independent-review.json').write_text(json.dumps(result,indent=2)+'\n')
+(OUT/'README.md').write_text('''# Independent two-wave water diagnostic review
+
+The private shader-only experiment completed 31/0 with clean logs and786 stable
+source inputs. The independent [review](independent-review.json) verifies the exact
+two overlays, all six original PNG/native buffers and matched camera metadata,
+and independently recomputes all189 reported percentile/resource values.
+
+**Cost is not admitted.** High coverage candidate p50/p95/p99 is
+21.837/27.586/31.193ms, between drifting controls27.047/61.574/79.401ms and
+20.843/25.283/28.361ms. Oblique candidate p50 exceeds both controls; grazing p95
+slightly exceeds both. Forty-eight warm frames did not remove drift. The host
+observer also records a one-sample unclassified identical-command secondary PID;
+no PPID attribution or process-exclusive timing claim is made. Root reports one
+wrapper invocation and one engine Popen. No different command/project was observed.
+
+All six originals were opened independently. Broad ripple bands soften and the
+surface looks calmer, but fine regular specular stippling/striation persists,
+especially grazing and high coverage. The next isolated control should hold the
+normal constant to locate that residual before another finish/cost decision.
+Different native TIME phases prevent temporal acceptance from these stills.
+
+The exact copied shader/observer/wrapper and actual geometry/daylight source are
+retained as text with source/copy inventories and raw samples. No Main gameplay,
+whole-world1080p cost, actual MacBook Air M5 performance or moving-water acceptance
+is claimed. The original three-wave high-coverage rejection and FID-D013 stay open;
+this private two-wave experiment changes no production shader.
+''')
+preservation={str(p.relative_to(OUT)):sha(p.read_bytes()) for p in sorted(OUT.iterdir()) if p.is_file()}
+(OUT/'preservation.json').write_text(json.dumps({'schema':1,'retained_files':preservation},indent=2)+'\n')
+print(json.dumps({'source_inputs':len(a),'pixels':len(pixels),'metrics_recomputed':189,'files_preserved':len(preservation),'processes':{p:v['sample_count'] for p,v in processes.items()},'metrics':metrics}))

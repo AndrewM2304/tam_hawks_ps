@@ -1,0 +1,11 @@
+# Y7 backing: capsule containment repaired, airborne presentation rejected
+
+The same east terminal wall now visibly and natively reachesY7: five metres above the quay, using its original body, four shape slots, single display and80triangles. No extra collider, invisible catch, support floor or velocity clamp was added. The2m-rise/3.9m-run bank and diagonal Barras mouth are unchanged.
+
+The [exact original four-input probe](probe.gd) was rerun without changing gates, charge duration, spawn or controls. [Original output](native.log) records0escaped bodies,0bails/recoveries, reached15m/s and maximumX84.40576–84.40600 in all four cases. Their native peak body heights are6.42182,6.78014,7.12244and7.35068m. This supports **only measured native containment of those exact inputs**. In particular, a body apex above the top does not itself establish escape; the actual trajectories remained inboard.
+
+**FID-D012 remains rejected.** Every case exposes an actual visible board/sole extremity behind the wall during airborne rebound. Strict chase rays hit the native front atX84.7 before the actual marker atX84.7068–84.7163. For the first case, rider`(84.40576,6.013633,73.50007)`, camera`(79.50575,5.821057,73.50028)`, marker`(84.71347,6.328008,73.50699)`. This requires a real finite-wall presentation repair, not a weakened camera assertion or shortened frame window.
+
+The unchanged investigative probe exited0 because its original failure counter only counted escaped bodies. That numeric result is **not** presentation acceptance; all four camera failures are retained and rejected here. `tests/line_design_tests.gd::run_bank_jump_misses` now promotes all four exact cases into the ordinary cohort with required native landing, actual reached speed, capsule clearance, bounded containment and strict camera. The new four assertions are intentionally failing until the runtime defect is fixed. The earlier326/0 receipt predates these additional cases and remains limited to its original scope.
+
+[Source hashes](source-hashes.json) were sampled after the diagnostic; they are not an immutable whole-source before/after receipt. Motion is repairing its separate grounded residual issue on an isolated older-wall copy. That repair is not evidence for this airborne case. Current matched graphical evidence and independent frozen-source retest remain pending.

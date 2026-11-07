@@ -4,14 +4,20 @@ set -euo pipefail
 TASK_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$TASK_ROOT"
 TASK_PRIVATE_DISPLAY=false
+TASK_COHORT=all
+TASK_PUSH_VIEW=contact
 while (($#)); do
   case "$1" in
     --private-display) TASK_PRIVATE_DISPLAY=true ;;
-    --help|-h) echo 'Usage: tools/full_fidelity_capture.sh [--private-display]'; exit 0 ;;
-    *) echo 'Usage: tools/full_fidelity_capture.sh [--private-display]' >&2; exit 2 ;;
+    --cohort) TASK_COHORT="${2:?--cohort needs all or push-contact}"; shift ;;
+    --push-view) TASK_PUSH_VIEW="${2:?--push-view needs contact, front, side or chase}"; shift ;;
+    --help|-h) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase]'; exit 0 ;;
+    *) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase]' >&2; exit 2 ;;
   esac
   shift
 done
+case "$TASK_COHORT" in all|push-contact) ;; *) echo "Invalid cohort: $TASK_COHORT" >&2; exit 2 ;; esac
+case "$TASK_PUSH_VIEW" in contact|front|side|chase) ;; *) echo "Invalid push view: $TASK_PUSH_VIEW" >&2; exit 2 ;; esac
 TASK_VERSION="$(./tools/run.sh --version)"
 case "$TASK_VERSION" in 4.6.3.*) ;; *) echo "Expected Godot 4.6.3, found $TASK_VERSION" >&2; exit 1 ;; esac
 mkdir -p .local
@@ -19,6 +25,12 @@ TASK_OUTPUT="$(mktemp -d "$TASK_ROOT/.local/full-fidelity-$(date -u +%Y%m%dT%H%M
 ./tools/run.sh --headless --editor --import >"$TASK_OUTPUT/import.log" 2>&1
 if grep -Eq 'SCRIPT ERROR:|Parse Error:|ERROR:' "$TASK_OUTPUT/import.log"; then
   cat "$TASK_OUTPUT/import.log" >&2
+  exit 1
+fi
+./tools/run.sh --headless --audio-driver Dummy --fixed-fps 60 \
+  --script tools/full_fidelity_capture_smoke.gd >"$TASK_OUTPUT/snapshot-smoke.log" 2>&1
+if grep -Eq 'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:' "$TASK_OUTPUT/snapshot-smoke.log"; then
+  cat "$TASK_OUTPUT/snapshot-smoke.log" >&2
   exit 1
 fi
 TASK_DISPLAY_PID=""
@@ -52,10 +64,11 @@ if [[ "$(uname -s)" == Linux && ( -z "${DISPLAY:-}" || "$TASK_PRIVATE_DISPLAY" =
   export LP_NUM_THREADS=4
 fi
 
-python3 - "$TASK_ROOT" "$TASK_OUTPUT" <<'PY'
+python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_COHORT" "$TASK_PUSH_VIEW" <<'PY'
 import hashlib, json, math, os, pathlib, re, shutil, signal, struct, subprocess, sys, time, zlib
-root, output = map(pathlib.Path, sys.argv[1:])
-destination = root / 'docs/testing/screenshots/full-fidelity'
+root, output = map(pathlib.Path, sys.argv[1:3])
+cohort, push_view = sys.argv[3:5]
+destination = root / 'docs/testing/screenshots' / ('full-fidelity' if cohort=='all' else 'push-contact-'+push_view)
 sys.path.insert(0,str(root/'tools'))
 from full_fidelity_capture_png import PixelSpoolEncoder, decode_proven_rgba8
 
@@ -97,7 +110,7 @@ for executable in ('ffmpeg','ffprobe'):
 before=fingerprint()
 command=[str(root/'tools/run.sh'),'--rendering-method','gl_compatibility','--audio-driver','Dummy',
     '--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60',
-    '--script','tools/full_fidelity_capture.gd','--',str(output)]
+    '--script','tools/full_fidelity_capture.gd','--',str(output),cohort,push_view]
 process=None
 encoder=PixelSpoolEncoder(output)
 encoder.start()
@@ -158,6 +171,8 @@ required={'nollie_native_launch','rotation_native_spin_left','rotation_native_sp
     'exchange_south_line','civic_lower_island','station_low_manual','barras_forecourt_line','clyde_south_link',
     'clyde_south_middle','clyde_south_east_west','clyde_south_link_capture'}
 names={c['id'] for c in clips}
+if report.get('cohort')!=cohort or report.get('complete_repertoire_coverage')!=(cohort=='all'):
+    raise SystemExit('Capture coverage declaration does not match requested cohort.')
 actual_catalog=set(report.get('catalog_ids',[]))
 observed_catalog=set()
 previous_native={}
@@ -171,22 +186,30 @@ for sample in report.get('native_timeline',[]):
     for identity in state.get('accepted_score_identities',[]):
         if identity in actual_catalog: observed_catalog.add(identity)
         elif identity.startswith('gap:'): observed_catalog.add('named_gap')
-if len(actual_catalog)!=78 or actual_catalog-observed_catalog:
-    raise SystemExit('Missing real accepted catalog identities: '+str(sorted(actual_catalog-observed_catalog)))
-report['accepted_catalog_identity_coverage']={'total':len(actual_catalog),'observed':sorted(observed_catalog),'complete':True}
-families=report.get('catalog_families',{})
-for family,count,prefix in [('flip',24,'flip_'),('grab',8,'grab_native_'),('lip',9,'lip_'),('special',6,'special_')]:
-    ids=families.get(family,[])
-    if len(ids)!=count or len(set(ids))!=count: raise SystemExit('Incomplete catalog family '+family)
-    required.update(prefix+name for name in ids)
-for family,count in [('grind',10),('manual',11)]:
-    ids=families.get(family,[])
-    if len(ids)!=count or len(set(ids))!=count: raise SystemExit('Incomplete catalog family '+family)
-    for name in ids:
-        required.add(('grind_grind_pivot' if name=='grind_pivot' else 'grind_native_'+name) if family=='grind'
-            else ('manual_native_'+name if name in ('manual','nose_manual') else 'manual_'+name))
-if len(names)!=len(clips) or required-names or len(clips)<50:
-    raise SystemExit('Incomplete actual motion coverage: '+str(sorted(required-names)))
+if cohort=='all':
+    if len(actual_catalog)!=78 or actual_catalog-observed_catalog:
+        raise SystemExit('Missing real accepted catalog identities: '+str(sorted(actual_catalog-observed_catalog)))
+    report['accepted_catalog_identity_coverage']={'total':len(actual_catalog),'observed':sorted(observed_catalog),'complete':True}
+    families=report.get('catalog_families',{})
+    for family,count,prefix in [('flip',24,'flip_'),('grab',8,'grab_native_'),('lip',9,'lip_'),('special',6,'special_')]:
+        ids=families.get(family,[])
+        if len(ids)!=count or len(set(ids))!=count: raise SystemExit('Incomplete catalog family '+family)
+        required.update(prefix+name for name in ids)
+    for family,count in [('grind',10),('manual',11)]:
+        ids=families.get(family,[])
+        if len(ids)!=count or len(set(ids))!=count: raise SystemExit('Incomplete catalog family '+family)
+        for name in ids:
+            required.add(('grind_grind_pivot' if name=='grind_pivot' else 'grind_native_'+name) if family=='grind'
+                else ('manual_native_'+name if name in ('manual','nose_manual') else 'manual_'+name))
+    if len(names)!=len(clips) or required-names or len(clips)<50:
+        raise SystemExit('Incomplete actual motion coverage: '+str(sorted(required-names)))
+else:
+    required={'push_contact_'+name for name in ('regular','fakie','from_rest','brake','brake_return','pop_catch','pop_early')}
+    if len(names)!=len(clips) or names!=required:
+        raise SystemExit('Incomplete actual push contact coverage: '+str(sorted(required-names)))
+    report['accepted_catalog_identity_coverage']={'total':len(actual_catalog),'observed':sorted(observed_catalog),'complete':False,'scope':'Focused push cohort only; full78 acceptance remains separate.'}
+frame_rate=int(report['motion_sample_hz'])
+if frame_rate!=(60 if cohort=='push-contact' else 15): raise SystemExit('Unexpected native sample rate')
 total_frames=0
 public_files=[]
 proofs=report.get('synchronization_proofs',[])
@@ -213,7 +236,7 @@ for proof in proofs:
         marker.update(independent_png_pixel_count=len(matches),independent_png_centroid_error=error)
     proof['independent_png_projection_and_canvas_valid']=True
     public_files.append(proof['file'])
-if len(report.get('overviews',[]))!=7 or {o['file'] for o in report['overviews']}!={'overview_'+name+'.png' for name in ['exchange','george','central','barras','clyde','park','sunken_kelvingrove']}:
+if cohort=='all' and (len(report.get('overviews',[]))!=7 or {o['file'] for o in report['overviews']}!={'overview_'+name+'.png' for name in ['exchange','george','central','barras','clyde','park','sunken_kelvingrove']}):
     raise SystemExit('Expected all six district overviews and the new sunken facility overview.')
 for overview in report['overviews']:
     overview.update(png_details(output/overview['file'],overview['pixels']))
@@ -226,19 +249,26 @@ for clip in clips:
     for frame in frames: frame.update(png_details(output/frame['file'],frame['pixels']))
     total_frames+=len(frames)
     movie=output/(name+'.mp4')
-    subprocess.run(['ffmpeg','-v','error','-nostdin','-y','-framerate','15','-i',
+    subprocess.run(['ffmpeg','-v','error','-nostdin','-y','-framerate',str(frame_rate),'-i',
         str(output/'frames'/name/'%05d.png'),'-c:v','libx264','-preset','medium','-crf','22',
         '-pix_fmt','yuv420p','-movflags','+faststart',str(movie)],check=True,timeout=120)
     probe=json.loads(subprocess.run(['ffprobe','-v','error','-select_streams','v:0','-show_entries',
         'stream=codec_name,width,height,nb_frames,r_frame_rate,duration','-of','json',str(movie)],
         check=True,capture_output=True,text=True,timeout=15).stdout)['streams'][0]
-    if int(probe['nb_frames'])!=len(frames) or (probe['width'],probe['height'])!=(1280,800) or probe['r_frame_rate']!='15/1':
+    if int(probe['nb_frames'])!=len(frames) or (probe['width'],probe['height'])!=(1280,800) or probe['r_frame_rate']!=str(frame_rate)+'/1':
         raise SystemExit('Video stream validation failed: '+name)
     subprocess.run(['ffmpeg','-v','error','-nostdin','-i',str(movie),'-f','null','-'],check=True,timeout=120)
     clip['video']={'file':movie.name,'sha256':hashlib.sha256(movie.read_bytes()).hexdigest(),
         'bytes':movie.stat().st_size,'stream':probe,'decoded_all_frames':True}
     public_files.append(movie.name)
     selected={0,len(frames)//2,len(frames)-1}
+    if name.startswith('push_contact_'):
+        plant=[(abs(float(f['state'].get('push_phase',0))-.30),i) for i,f in enumerate(frames)
+            if f['state'].get('push_blend',0)>.98 and f['state'].get('push_phase',1)<.60]
+        recovery=[(abs(float(f['state'].get('push_phase',0))-.80),i) for i,f in enumerate(frames)
+            if f['state'].get('push_blend',0)>.90 and f['state'].get('push_phase',0)>.60]
+        if plant: selected.add(min(plant)[1])
+        if recovery: selected.add(min(recovery)[1])
     contact=[(abs(float(f['state'].get('setup_phase',0))-.65),i) for i,f in enumerate(frames) if f['state'].get('setup_active')]
     if contact: selected.add(min(contact)[1])
     bearing=[]
@@ -266,7 +296,7 @@ metadata=[';FFMETADATA1','title=Tam Hawks Pro Skater - native phase review']
 cursor=0
 for clip in clips:
     end=cursor+len(clip['frames'])
-    metadata+=['[CHAPTER]','TIMEBASE=1/15','START='+str(cursor),'END='+str(end),'title='+clip['id']]
+    metadata+=['[CHAPTER]','TIMEBASE=1/'+str(frame_rate),'START='+str(cursor),'END='+str(end),'title='+clip['id']]
     cursor=end
 (output/'phase-reel.ffmetadata').write_text('\n'.join(metadata)+'\n')
 reel=output/'all-phases.mp4'
@@ -290,14 +320,15 @@ report.update(source_sha256=before,source_changed_during_run=False,source_stable
     git_commit=subprocess.run(['git','rev-parse','HEAD'],cwd=root,check=True,capture_output=True,text=True).stdout.strip(),
     git_dirty=bool(subprocess.run(['git','status','--porcelain'],cwd=root,check=True,capture_output=True,text=True).stdout.strip()),
     engine_log_sha256=hashlib.sha256((output/'engine.log').read_bytes()).hexdigest(),
-    import_log_sha256=hashlib.sha256((output/'import.log').read_bytes()).hexdigest())
+    import_log_sha256=hashlib.sha256((output/'import.log').read_bytes()).hexdigest(),
+    snapshot_smoke_log_sha256=hashlib.sha256((output/'snapshot-smoke.log').read_bytes()).hexdigest())
 if fingerprint()!=before: raise SystemExit('Source changed during encoding; no publication.')
 (output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
 destination.mkdir(parents=True,exist_ok=True)
-for filename in public_files+['manifest.json','engine.log','import.log']:
+for filename in public_files+['manifest.json','engine.log','import.log','snapshot-smoke.log']:
     (destination/filename).parent.mkdir(parents=True,exist_ok=True)
     shutil.copyfile(output/filename,destination/filename)
-print('FULL_FIDELITY_CAPTURE_OK: %d source-stable clips, %d real frames, %d checks, zero failures in %s'%
-    (len(clips),total_frames,report['checks'],destination))
+print('FULL_FIDELITY_CAPTURE_OK: %s cohort, %d source-stable clips, %d real frames, %d checks, zero failures in %s'%
+    (cohort,len(clips),total_frames,report['checks'],destination))
 print('MANIFEST_SHA256: '+hashlib.sha256((output/'manifest.json').read_bytes()).hexdigest())
 PY

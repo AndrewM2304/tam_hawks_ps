@@ -1,0 +1,109 @@
+extends "res://tools/environment_water_visual_controls.gd"
+## Visual interventions only: isolate direct-sun versus sky specular paths.
+const ContextSky = preload("res://game/levels/horizon_background.gd")
+var _sun_control: DirectionalLight3D
+var _environment_control: Environment
+var _lighting_records: Array[Dictionary] = []
+var _baseline_shadow_enabled := true
+var _baseline_water_caster := GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+
+func _run() -> void:
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=1 or DisplayServer.get_name()=="headless":quit(2);return
+	_output=args[0]
+	if not (ProjectSettings.globalize_path(_output).simplify_path()+"/").begins_with(ProjectSettings.globalize_path("res://.local/").simplify_path()+"/"):
+		quit(2);return
+	_started=Time.get_ticks_usec()
+	Engine.max_fps=0
+	root.size=Vector2i(640,400)
+	root.content_scale_size=root.size
+	_check(FileAccess.get_sha256(CANDIDATE)==PRODUCTION_SHA,"production water remains unchanged")
+	var lighting:=World.new()
+	lighting._build_lighting()
+	for child: Node in lighting.get_children():
+		lighting.remove_child(child)
+		root.add_child(child)
+		if child is DirectionalLight3D:_sun_control=child
+		if child is WorldEnvironment:_environment_control=child.environment
+	lighting.free()
+	_check(_sun_control!=null and _environment_control!=null,"exact production sunlight/environment obtained")
+	# Ordinary Main replaces the initial procedural sky with this exact
+	# admitted horizon material; mirror only that material setup, no geometry.
+	var panorama:=ShaderMaterial.new()
+	panorama.shader=ContextSky.SKY_SHADER
+	panorama.set_shader_parameter("context_sky",ContextSky.SKY_CUBE)
+	_environment_control.sky.sky_material=panorama
+	_environment_control.sky.process_mode=Sky.PROCESS_MODE_QUALITY
+	var original_specular:=_sun_control.light_specular
+	var original_reflection:=_environment_control.reflected_light_source
+	var outdoors:=Outdoors.new()
+	outdoors._water()
+	root.add_child(outdoors)
+	_control_water=outdoors.get_node("ClydeWater")
+	_material=_control_water.material_override
+	_check(_material.shader==load(CANDIDATE),"exact unchanged production water resource")
+	var native:=StandardMaterial3D.new()
+	native.albedo_color=Color(0.055,0.110,0.115)
+	native.roughness=0.36
+	native.metallic=0.0
+	native.metallic_specular=0.50
+	native.diffuse_mode=BaseMaterial3D.DIFFUSE_LAMBERT
+	_control_water.material_override=native
+	_baseline_shadow_enabled=_sun_control.shadow_enabled
+	_baseline_water_caster=_control_water.cast_shadow
+	_control_materials=_make_control_modes(native)
+	_camera=Camera3D.new()
+	_camera.fov=68
+	_camera.far=1000
+	root.add_child(_camera)
+	_camera.current=true
+	_create_pixel_proofs()
+	_write_report(false,"startup")
+	for mode_index: int in _control_materials.size():
+		var mode: Dictionary=_control_materials[mode_index]
+		_apply_lighting_mode(mode_index,original_specular,original_reflection)
+		var state:=_lighting_state()
+		state.mode=mode.id
+		_lighting_records.append(state)
+		var view_index:=0
+		for view: Dictionary in _views():
+			_place(view)
+			_position_proofs(mode_index,view_index)
+			await _record_visual(mode,view)
+			var recorded: Dictionary=_images.back()
+			recorded.lighting_contract=_lighting_state()
+			_write_report(false,"lighting-interventions")
+			view_index+=1
+	_sun_control.light_specular=original_specular
+	_environment_control.reflected_light_source=original_reflection
+	_check(_images.size()==9,"all nine lighting intervention originals completed")
+	_write_report(true,"complete")
+	print("ENVIRONMENT_WATER_LIGHTING_RESULT checks=",_checks," failures=",_failures," images=",_images.size())
+	quit(1 if _failures else 0)
+
+func _make_control_modes(native: StandardMaterial3D) -> Array[Dictionary]:
+	return [{"id":"native-baseline","material":native},{"id":"native-sun-specular-zero","material":native},{"id":"native-sky-reflection-disabled","material":native}]
+
+func _apply_lighting_mode(index: int,specular: float,reflection: Environment.ReflectionSource) -> void:
+	_sun_control.light_specular=specular
+	_environment_control.reflected_light_source=reflection
+	_sun_control.shadow_enabled=_baseline_shadow_enabled
+	_control_water.cast_shadow=_baseline_water_caster
+	if index==1:_sun_control.light_specular=0.0
+	if index==2:_environment_control.reflected_light_source=Environment.REFLECTION_SOURCE_DISABLED
+
+func _lighting_state() -> Dictionary:
+	return {"sun_shadow_enabled":_sun_control.shadow_enabled,"water_cast_shadow":_control_water.cast_shadow,"sun_light_specular":_sun_control.light_specular,"sun_energy":_sun_control.light_energy,
+		"reflected_light_source":_environment_control.reflected_light_source,"ambient_light_source":_environment_control.ambient_light_source,
+		"ambient_energy":_environment_control.ambient_light_energy,"tonemap_mode":_environment_control.tonemap_mode,
+		"fog_enabled":_environment_control.fog_enabled,"fog_density":_environment_control.fog_density,"viewport_debanding":root.use_debanding,"sky_class":_environment_control.sky.sky_material.get_class(),"sky_process_mode":_environment_control.sky.process_mode,"sky_shader_sha256":FileAccess.get_sha256("res://game/art/assets/horizon/horizon_sky.gdshader"),"sky_cube_source_sha256":FileAccess.get_sha256("res://game/art/assets/horizon/glasgow_horizon_cube.png")}
+
+func _write_report(complete: bool,phase: String) -> void:
+	var report: Dictionary={"schema":1,"complete":complete,"phase":phase,"checks":_checks,"failures":_failures,
+		"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),"resolution":[root.size.x,root.size.y],
+		"images":_images,"cost_brackets":[],"timing_measured":false,"lighting_interventions":_lighting_records,
+		"material_contract":{"class":"StandardMaterial3D","diffuse":"Lambert","albedo":[0.055,0.110,0.115],"roughness":0.36,"specular":0.50,"metallic":0,"normal_map":false},
+		"limits":"Private visual-only640x400 native-standard water plane. Three modes reset production lighting before changing exactly one branch: baseline, direct-sunlight specular multiplier zero, native environment reflections disabled. Exact ordinary-Main Horizon.SKY_SHADER/SKY_CUBE quality setup is applied without horizon geometry. Same three cameras and current red/green projected world markers/Canvas proof. Concurrent untimed suite permitted only through explicit wrapper registration; no performance/timing/sole-engine claim. This diagnoses a common lighting/output artifact; modified lighting is not proposed for production and does not establish final water motion/M5 acceptance."}
+	var file:=FileAccess.open(_output.path_join("visual-water-report.json"),FileAccess.WRITE)
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	else:_check(false,"lighting report writable")

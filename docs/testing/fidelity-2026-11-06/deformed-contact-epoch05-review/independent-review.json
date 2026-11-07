@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T03:02:45.828658+00:00",
+  "method": "Cold-read exact private helper/observer, independently recount raw assertions, verify recorded and remaining674 source inputs, native counters and independent actual-GPU skinning operation-order witness. No QA rerun of this120-assertion cohort.",
+  "status": "Private helper native subset/source reviewed; no production or final integration acceptance.",
+  "recorded_native_assertions": 120,
+  "recorded_native_failures": 0,
+  "recorded_engine_exit": 0,
+  "recorded_engine_errors": false,
+  "recorded_source_inputs": 674,
+  "source_before_after_equal": true,
+  "all_remaining_private_source_bytes_match_after": true,
+  "helper_sha256": "45390fb46d21a3a90e739db413024fd1941bfdee0f9f35de67b2c6d27f10f784",
+  "independent_shader_gpu_reference": "../skinning-operation-order-01/README.md",
+  "native_measurements": [
+    {
+      "cache_bytes": 63376,
+      "cohort": "original_manual_controls",
+      "maximum_bounds": 4,
+      "maximum_contributions": 6344,
+      "maximum_model_transforms": 4624
+    },
+    {
+      "cohort": "far_origin_native_weights",
+      "mesh_skeleton_world_equal": true,
+      "model_origin": "(137.0, 0.008, -106.0)",
+      "old_oracle_maximum_error_m": 0.00265985913574696
+    },
+    {
+      "cache_bytes": 63376,
+      "cache_rebuilds": 9,
+      "left_influences": 1586,
+      "left_vertices": 1156,
+      "native_max_bounds_per_tick": 0,
+      "native_max_contributions_per_tick": 0,
+      "right_influences": 1586,
+      "right_vertices": 1156,
+      "wrong_bind_stale_outside": 676
+    }
+  ],
+  "total_weighted_contributions_plus_model_transforms": 10968,
+  "source_findings": [
+    "Actual indexed incident triangles include every strictly-positive arm influence and neighbouring zero-arm endpoints; no32-group cutoff.",
+    "Native geometry primitive/index/finite/weight arrays and actual Skin binding references validate before bone lookup/query. UNORM validity allowance is explicitly quantization-derived; values remain unnormalized.",
+    "Same live native face requires exact integer shape equality and RID; actual wrong-body/same-body-wrong-shape/missing-shape controls pass.",
+    "Exact native local weighted matrix sum precedes actual jacket MeshInstance world model once, matching independent executed GLES witness and official RD source. Independent GPU reference is not inherited CPU oracle or native CPU mesh-bake API.",
+    "Cache changes track mesh identity/change signal, Skin identity/bind count, bone mapping and inverse-bind transforms. Routine packed geometry is reused.",
+    "Existing fixed shoulder, original arm lengths,8mm skin,20cm free-wrist,220mm continuity and12-query limits remain. Original native free-arm trajectory records92 accepted/0 refused,6max queries,187.215mm shift,74.540mm body-marker step and800 bank."
+  ],
+  "limits": [
+    "Recorded120/0 used current procedural rider snapshot; authentic fitted garment and Main context remain separate.",
+    "Private observer/helper share the local matrix equation; separate native GPU witness establishes that equation, not every asset selection/cache implementation.",
+    "No timing/allocation/M5 claim from8.90-second untimed headless wrapper.63376B is cache payload accounting, not total process memory.",
+    "Source-byte stability does not assert no filesystem write activity; only674 recorded inputs in scope.",
+    "Actual promotion, final required suite, source-clean launch/export and visual/moving review need their own receipts."
+  ]
+}

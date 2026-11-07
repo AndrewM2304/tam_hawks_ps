@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "source_inputs": 77,
+  "archived_source_all_match": true,
+  "original_png_file_hashes_verified": 6,
+  "marker_pixel_centroids_independently_recomputed": [
+    {
+      "frame": "idle-face",
+      "channel": 0,
+      "count": 52,
+      "centroid": [
+        640.0,
+        400.0
+      ],
+      "recorded_projection": [
+        640.0001,
+        400.0
+      ],
+      "error_px": 9.999999997489795e-05
+    },
+    {
+      "frame": "idle-face",
+      "channel": 1,
+      "count": 42,
+      "centroid": [
+        728.5952380952381,
+        399.95238095238096
+      ],
+      "recorded_projection": [
+        728.8048,
+        400.0
+      ],
+      "error_px": 0.2149040847066218
+    },
+    {
+      "frame": "idle-face",
+      "channel": 2,
+      "count": 50,
+      "centroid": [
+        639.96,
+        311.1
+      ],
+      "recorded_projection": [
+        640.0001,
+        311.1954
+      ],
+      "error_px": 0.10348511970323059
+    },
+    {
+      "frame": "idle-profile",
+      "channel": 0,
+      "count": 52,
+      "centroid": [
+        640.0,
+        400.0
+      ],
+      "recorded_projection": [
+        640.0001,
+        400.0
+      ],
+      "error_px": 9.999999997489795e-05
+    },
+    {
+      "frame": "idle-profile",
+      "channel": 1,
+      "count": 42,
+      "centroid": [
+        728.5952380952381,
+        399.95238095238096
+      ],
+      "recorded_projection": [
+        728.8047,
+        400.0
+      ],
+      "error_px": 0.214806571693347
+    },
+    {
+      "frame": "idle-profile",
+      "channel": 2,
+      "count": 42,
+      "centroid": [
+        639.952380952381,
+        311.4047619047619
+      ],
+      "recorded_projection": [
+        640.0001,
+        311.1953
+      ],
+      "error_px": 0.21482876216226363
+    },
+    {
+      "frame": "push",
+      "channel": 0,
+      "count": 32,
+      "centroid": [
+        640.0,
+        400.0
+      ],
+      "recorded_projection": [
+        639.9999,
+        400.0
+      ],
+      "error_px": 9.999999997489795e-05
+    },
+    {
+      "frame": "push",
+      "channel": 1,
+      "count": 32,
+      "centroid": [
+        717.0,
+        400.0
+      ],
+      "recorded_projection": [
+        716.9293,
+        400.0
+      ],
+      "error_px": 0.070699999999988
+    },
+    {
+      "frame": "push",
+      "channel": 2,
+      "count": 32,
+      "centroid": [
+        640.0,
+        323.0
+      ],
+      "recorded_projection": [
+        640.0,
+        323.0706
+      ],
+      "error_px": 0.0706000000000131
+    }
+  ],
+  "actual_visible_review": "Personally opened all three original V6 frames. Eyes/face and neck surface improve relative to earlier diagnostics. Rejected: idle-profile has bright triangular chest/shoulder pieces crossing the blue shirt, and push shows a broad pale upper-back patch outside the garment. Continuous body/clothing coverage remains failed.",
+  "capture_limits": "Private authored static SkaterVisual diagnostic, not actual Main/gameplay input or moving review. Observer uses natural frame_post_draw readback without force_draw. Complete native RGBA hashes, before/after per-image process/physics counters and full camera basis metadata are absent; separate marker sync pictures do not replace those fields. Pixel centroids are independently recomputed from recorded projection, not an independent world-to-screen calculation.",
+  "concurrency": "Concurrent root fixed-fps headless required suite PID33416 and possibly Motion private Clyde diagnostic; no timing/performance or exclusive-engine claim.",
+  "source_freshness": "All77 archived source files independently match original receipt. No invented separate source-before/after inventories.",
+  "verdict": "Reject V6 before production promotion; no AAA, final anatomy, fitting, contact, temporal, cost or hardware acceptance."
+}

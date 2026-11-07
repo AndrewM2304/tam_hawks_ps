@@ -1,0 +1,55 @@
+from pathlib import Path
+import importlib.util, hashlib, json, datetime
+ROOT=Path('/workspace/tam_hawks_ps')
+FILE=ROOT/'.local/architectural-fidelity/controlled_install.py'
+PACK=ROOT/'docs/testing/fidelity-2026-11-06/architecture/native-author-component'
+BASE=ROOT/'.local/qa-fidelity/architecture-installer-independent-01'
+BASE.mkdir(exist_ok=False)
+def digest(b): return hashlib.sha256(b).hexdigest()
+def snapshot():
+ return {name: digest((ROOT/'game/levels/art'/name).read_bytes()) if (ROOT/'game/levels/art'/name).is_file() else None for name in ('facade_kit.gd','facade_shell.gd','exchange_gallery.gd','gallery_column.gd')}
+before=snapshot()
+spec=importlib.util.spec_from_file_location('architecture_installer_review',FILE)
+m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+m.BASE=BASE
+checks=[]
+def check(condition,message):
+ checks.append({'pass':bool(condition),'message':message})
+ assert condition,message
+def refuses(fn):
+ try: fn()
+ except RuntimeError:return True
+ return False
+(BASE/'prototype').mkdir()
+for name in m.FILES:
+ data=(PACK/(name+'.txt')).read_bytes()
+ (BASE/'prototype'/name).write_bytes(data)
+check(all(m.sha(m.candidate(name)) == m.INPUTS[str(Path('.local/architectural-fidelity/prototype')/name)] for name in m.FILES),'Retained candidate bytes equal native author inventory for all four modules')
+target=BASE/'target'
+(target/m.ART).mkdir(parents=True)
+for name in m.EXISTING:
+ (target/m.ART/name).write_bytes((PACK/('baseline-'+name+'.txt')).read_bytes())
+check(m.inspect(target)['ready'],'Authenticated original pair and absent helpers are admitted')
+report=m.install(target,False)
+journal=Path(report['journal'])
+check(all((target/m.ART/name).read_bytes()==(PACK/(name+'.txt')).read_bytes() for name in m.FILES),'Independent private install writes exact four retained candidates')
+# Later edit must prevent every restore.
+changed=target/m.ART/'facade_kit.gd'
+changed.write_bytes(changed.read_bytes()+b'\n# independent later contributor\n')
+installed={name:(target/m.ART/name).read_bytes() for name in m.FILES}
+check(refuses(lambda:m.revert(journal,False)) and all((target/m.ART/name).read_bytes()==installed[name] for name in m.FILES),'Later contributor edit refuses complete revert before any restore')
+changed.write_bytes((PACK/'facade_kit.gd.txt').read_bytes())
+backup=journal.parent/'exchange_gallery.gd.before'
+old=backup.read_bytes();backup.write_bytes(old+b'corrupt')
+installed={name:(target/m.ART/name).read_bytes() for name in m.FILES}
+check(refuses(lambda:m.revert(journal,False)) and all((target/m.ART/name).read_bytes()==installed[name] for name in m.FILES),'Corrupt backup refuses complete revert before any restore')
+backup.write_bytes(old)
+m.revert(journal,False)
+check(all((target/m.ART/name).read_bytes()==(PACK/('baseline-'+name+'.txt')).read_bytes() for name in m.EXISTING) and all(not (target/m.ART/name).exists() for name in set(m.FILES)-m.EXISTING),'Revert restores authenticated pair and removes exact helpers')
+(target/m.ART/'facade_shell.gd').write_text('# unrelated helper\n')
+check(refuses(lambda:m.install(target,False)),'Occupied new helper refuses a stale installation')
+check(refuses(lambda:m.install(ROOT,False)),'Production target refuses install without explicit production mode')
+check(snapshot()==before,'Every production path remains byte-identical or absent throughout independent review')
+result={'schema':1,'reviewer':'independent_qa','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'kind':'offline independent installer cold-read and private negative controls','engine_invocations':0,'production_mutations':0,'source_installer_sha256':digest(FILE.read_bytes()),'retained_native_inventory_sha256':digest((PACK/'source-before.json').read_bytes()),'production_before':before,'production_after':snapshot(),'checks':checks,'passed':sum(x['pass'] for x in checks),'failed':sum(not x['pass'] for x in checks),'limits':['Explicit whole-source ownership lease is still required; byte guards are not concurrent locking.','A multi-file interrupted write may leave a partial candidate; journal supports guarded recovery, not an atomic four-file transaction.','This does not accept visual quality, native Main geometry, rendered batch cost, GPU memory, timing, exports or Mac performance.']}
+out=ROOT/'docs/testing/fidelity-2026-11-06/architecture/installer-independent-review.json';out.write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({k:v for k,v in result.items() if k not in ('production_before','production_after')}))

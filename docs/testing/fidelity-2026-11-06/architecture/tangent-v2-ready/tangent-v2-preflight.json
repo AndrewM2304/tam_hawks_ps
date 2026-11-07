@@ -1,0 +1,22 @@
+{
+  "kind": "offline-analytic-author-tangent-basis-preflight",
+  "native_engine_runs": 0,
+  "source_delta_is_only_handedness": true,
+  "samples": 502,
+  "v1_opposed_v_derivative_failures": 476,
+  "v2_opposed_v_derivative_failures": 0,
+  "normal_tangent_orthogonality_failures": 0,
+  "convention": "Godot4.6 GLES and RD: binormal=normalize(cross(normal,tangent)*binormal_sign). U increases around +Z, V increases up shaft; cap U=+X,V=+Z.",
+  "references": [
+    "https://github.com/godotengine/godot/blob/4.6-stable/drivers/gles3/shaders/scene.glsl#L617",
+    "https://github.com/godotengine/godot/blob/4.6-stable/servers/rendering/renderer_rd/shaders/forward_clustered/scene_forward_clustered.glsl#L750"
+  ],
+  "files": {
+    "facade_kit.gd": "d4f0bfb0d1a6f1a3a6692164cb6f681ec5b83d9e71322c51d3f58911a7570450",
+    "facade_shell.gd": "c793410decdbcadd7add6c0e64dd8ee4468c7e0ba42f8d971c5cd7d28ec31c51",
+    "exchange_gallery.gd": "086f1b52da5060df871cfd6f417bef9cf948b796ef25da0e13d12e867f7a6f4b",
+    "gallery_column.gd": "2847df574dd597415f38309be5a3938784f2cfd2ffc6fc88d1e11a07ed1560fe"
+  },
+  "probe_sha256": "980e4f9fef3ca4609d4202268e37974d78e658d1f75059e44762a50d7996e180",
+  "limits": "Numeric author derivative check; not native tangent upload, shading, Main resource cost or final visual acceptance."
+}

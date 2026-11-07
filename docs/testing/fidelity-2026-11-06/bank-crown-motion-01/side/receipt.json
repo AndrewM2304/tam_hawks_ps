@@ -1,0 +1,245 @@
+{
+  "schema": 1,
+  "label": "bank-crown-side-01",
+  "view": "side",
+  "started_utc": "2026-11-07T01:50:33.728558+00:00",
+  "finished_utc": "2026-11-07T01:55:40.864837+00:00",
+  "project": "/workspace/tam_hawks_ps/.local/qa-fidelity/checkpoint-source-03",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--headless",
+      "--check-only",
+      "--script",
+      "/workspace/tam_hawks_ps/.local/qa-fidelity/bank_motion_capture.gd"
+    ],
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--disable-render-loop",
+      "--audio-driver",
+      "Dummy",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "/workspace/tam_hawks_ps/.local/qa-fidelity/bank_motion_capture.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/qa-fidelity/native-review/bank-crown-side-01",
+      "side"
+    ]
+  ],
+  "source_inputs": 791,
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "exception": null,
+  "complete": true,
+  "native_frames_selected": 32,
+  "native_timeline_contiguous": true,
+  "native_pixels": [
+    {
+      "file": "current-quay-approach.png",
+      "native_match": true,
+      "rgba8_sha256": "da3120bffba3d0ab1a1376de0cf7dec52f70ba529ce9dad893cf664827593445"
+    },
+    {
+      "file": "bank-side-000.png",
+      "native_match": true,
+      "rgba8_sha256": "56ec43eb0fbc35d497d1c63fb84c4c69e94ac5a2e9dd2816e9e385b26d682f91"
+    },
+    {
+      "file": "bank-side-001.png",
+      "native_match": true,
+      "rgba8_sha256": "3fa38205d26062a2533b64dab89b6393ffd2515e6e5dc0271c3af8cf08bf3427"
+    },
+    {
+      "file": "bank-side-002.png",
+      "native_match": true,
+      "rgba8_sha256": "d17fcde29a0f56c40b92711eeb6e7b284d806500ac6eb2e6a45fdfa42e16b6a0"
+    },
+    {
+      "file": "bank-side-003.png",
+      "native_match": true,
+      "rgba8_sha256": "ead47c207fba853834c9c84469b3a568326e6f4d11cb1fa6652b21eda47d6699"
+    },
+    {
+      "file": "bank-side-004.png",
+      "native_match": true,
+      "rgba8_sha256": "24c295f5c58d6d7d15b0aed0c6ff6cb66f29d2a83921aad55fa4b03ae91f0ecb"
+    },
+    {
+      "file": "bank-side-005.png",
+      "native_match": true,
+      "rgba8_sha256": "e453259f08d2b7bd272a29b4ec1729fb213576ac5822bb6bb7868cc373c1c1a7"
+    },
+    {
+      "file": "bank-side-006.png",
+      "native_match": true,
+      "rgba8_sha256": "0bbc5c1e2173c9867ab0791af82b6bde9a5da523d6756188ece5b3af77c2e29f"
+    },
+    {
+      "file": "bank-side-007.png",
+      "native_match": true,
+      "rgba8_sha256": "47bc80994d453f5a5a1fcb8440dece0668b8882d81613e472cacf454379b8421"
+    },
+    {
+      "file": "bank-side-008.png",
+      "native_match": true,
+      "rgba8_sha256": "d0654fa18950505935d0ee88c4ff0c112f49a200c6bc09a335bac073f2c8b916"
+    },
+    {
+      "file": "bank-side-009.png",
+      "native_match": true,
+      "rgba8_sha256": "f2f9f117204f8f177cfc7a91f0a0d3722da32cbab16e7734ef37b440f1f8ffa1"
+    },
+    {
+      "file": "bank-side-010.png",
+      "native_match": true,
+      "rgba8_sha256": "617cf31572b92076ca4eba59723143e01711f118955a0a68d2773cbaced67525"
+    },
+    {
+      "file": "bank-side-011.png",
+      "native_match": true,
+      "rgba8_sha256": "d1318427a9fd6c6bbfcd6fdcd3208a39aa4ef7d92b18f591c3d17317fa556116"
+    },
+    {
+      "file": "bank-side-012.png",
+      "native_match": true,
+      "rgba8_sha256": "6b264826c0e0908cd356a807ea94be5995ddd2505e568509e53f543ff0122838"
+    },
+    {
+      "file": "bank-side-013.png",
+      "native_match": true,
+      "rgba8_sha256": "51745b0f5112de37a54978480fb8bdc567a311a5896e1918981b6c3bf26792e2"
+    },
+    {
+      "file": "bank-side-014.png",
+      "native_match": true,
+      "rgba8_sha256": "110f4572dea6b5792a941ae3c67d6dd06c235f029018dd8bdc93b9c914f9caf5"
+    },
+    {
+      "file": "bank-side-015.png",
+      "native_match": true,
+      "rgba8_sha256": "09366ae0be7f29a955d8f69582011bba64b1838ce2a5652f2ab35ca6511d9c13"
+    },
+    {
+      "file": "bank-side-016.png",
+      "native_match": true,
+      "rgba8_sha256": "5cb7714f5bd743fc6ff0bff9bfca2068a74147bf6f04652f1057f276b01baada"
+    },
+    {
+      "file": "bank-side-017.png",
+      "native_match": true,
+      "rgba8_sha256": "46234fad7e2eeae2ba28a02e7a90f875eb1a899d397dd77253a20339e063ec1e"
+    },
+    {
+      "file": "bank-side-018.png",
+      "native_match": true,
+      "rgba8_sha256": "e56a3ec706fd37867c59eabcc7250cea50a8c84f0d3a86c235f1b4e76758a4f3"
+    },
+    {
+      "file": "bank-side-019.png",
+      "native_match": true,
+      "rgba8_sha256": "f1a078406fdc1e3ca758ee43752acea22bc3d362bc5d11702e0c1125eb059ace"
+    },
+    {
+      "file": "bank-side-020.png",
+      "native_match": true,
+      "rgba8_sha256": "79885e817ad1fcb8441491c11a177af1b884bf4d39626fb505aca2c684885e5c"
+    },
+    {
+      "file": "bank-side-021.png",
+      "native_match": true,
+      "rgba8_sha256": "e829f09b6a26d1eac7090a1bca2d91ca90c38bd8ce64e807093335ac859fe0a7"
+    },
+    {
+      "file": "bank-side-022.png",
+      "native_match": true,
+      "rgba8_sha256": "778f293a113ae2d7fd55f556d4c52ddd6a6b8d7550f87559f2c1146efec0574a"
+    },
+    {
+      "file": "bank-side-023.png",
+      "native_match": true,
+      "rgba8_sha256": "e77958f2062f3803ce2bc4790279ee3b503433d671277b8d7da2dcc908dac6d8"
+    },
+    {
+      "file": "bank-side-024.png",
+      "native_match": true,
+      "rgba8_sha256": "5b02fa6ccab41067ae3970329771553cf4fd404b4bf5a439b58e30ed73fc6811"
+    },
+    {
+      "file": "bank-side-025.png",
+      "native_match": true,
+      "rgba8_sha256": "92e961087060ba946a82829bebb9382d8372e7b962112fe74a3f67f352af4246"
+    },
+    {
+      "file": "bank-side-026.png",
+      "native_match": true,
+      "rgba8_sha256": "7977a7d2876a1bcf4d403939ad99949a4390a91d3aec96b3256a6e5a157ff355"
+    },
+    {
+      "file": "bank-side-027.png",
+      "native_match": true,
+      "rgba8_sha256": "dec049185b216b235596429fcf58ec2d4070421788c5cc5237bd7211d9b1af9e"
+    },
+    {
+      "file": "bank-side-028.png",
+      "native_match": true,
+      "rgba8_sha256": "ac18401a1d970ac01d0fa9adc15655e28b7cb70365e2234c1f2291986d7628d7"
+    },
+    {
+      "file": "bank-side-029.png",
+      "native_match": true,
+      "rgba8_sha256": "7a0be2dacdd189951579aa2c99c296d8c8528103a089d1de50fd812d98fd456d"
+    },
+    {
+      "file": "bank-side-030.png",
+      "native_match": true,
+      "rgba8_sha256": "6be4bb376569d4587495355f2af0c6605b91438188b91d31c24508a036850682"
+    },
+    {
+      "file": "bank-side-031.png",
+      "native_match": true,
+      "rgba8_sha256": "4c42c91cfb95f4fb2c11328ee1347caa80dcb09c6249ed41432ed92a1d9dc9ea"
+    },
+    {
+      "file": "current-quay-landed-chase.png",
+      "native_match": true,
+      "rgba8_sha256": "341137ee2aba79518050084b78cde04e7e5792105898339cdb64b547cc4a7d27"
+    },
+    {
+      "file": "synchronization/overview_before_contact.png",
+      "native_match": true,
+      "rgba8_sha256": "467a1fbea33489c057e22218e1d2b841b96efccbf3b8974d20b053528d83d0d2"
+    },
+    {
+      "file": "synchronization/first_contact_inspection.png",
+      "native_match": true,
+      "rgba8_sha256": "1531fb34a29432cc5f72637f5d84c100c39ab4ae8325a18a9668f86932cb734d"
+    },
+    {
+      "file": "synchronization/return_to_production_chase.png",
+      "native_match": true,
+      "rgba8_sha256": "8ad5ab9d96044c2e6ce46becde985e5eda3a01755016100460f9066fd7737093"
+    }
+  ],
+  "video": {
+    "width": 1280,
+    "height": 800,
+    "r_frame_rate": "60/1",
+    "duration": "0.533333",
+    "nb_frames": "32",
+    "file": "bank-crown-60fps.mp4",
+    "sha256": "e4f2f3630b25d661b091a2035e271133f05af31907a9cba8727499a1208cc3cd",
+    "all_frames_decode": true,
+    "limits": "60Hz physics-time playback artifact; no realtime rendering/FPS or human temporal acceptance."
+  },
+  "eligible": true,
+  "concurrent_processes_before": "  33416 godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd\n",
+  "limits": "Qualitative current-source motion only. Parent-authorised untimed headless-suite overlap is recorded; no process-exclusivity, frame-time, Mac or full visual acceptance. If stopped/partial retain original completed frames and native metadata, whole epoch rejected."
+}

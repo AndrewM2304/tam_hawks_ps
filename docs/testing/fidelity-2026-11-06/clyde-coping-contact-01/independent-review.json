@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "defect": "FID-D014",
+  "priority": "P1",
+  "owner": "motion engineer, director integration",
+  "reviewer": "independent_qa",
+  "utc": "2026-11-07T02:04:30.318850+00:00",
+  "scope": "Independently parsed exact first-contact native failure in the ongoing required-01 full suite; this is a retained excerpt, not completed whole-suite acceptance.",
+  "actual": "At body(-10.64739,2.014219,139.5004), actual onfloor/nonair state has NativeBowlSteelCoping wheel0 penetration35.716120mm and visible mesh/camera witness5.410435mm into the same coping. Centre nativeUP/AnnularDeck support and threeother wheel gaps around8mm do not clear the protruding finite wheel/coping contact.",
+  "physics_frame": 10798,
+  "process_frame": 10797,
+  "expected": "Actual finite tyre/deck/native support and full-body chase clearance throughout changed-bank crossing/coast/bowl-side return; no generic floor-plane or capsule-only substitute.",
+  "evidence": {
+    "excerpt_sha256": "6cf5d2679f1683eb13c3193b7c6cef6009d5be6e0729772ec87bead206319730",
+    "required_before_sha256": "12c5c0d9369ae4857607ab4c6907e68edd9e7d91b53cd026811fb46683a88eaf"
+  },
+  "next_action": "Reproduce exact loaded finite coping/AnnularDeck transition, preserve actual camera/mesh/tyre witness and original bounds, use fresh native local mixedsupport authority; retest full affected line and wall/bowl/grade neighbours, then new fullsuite.",
+  "limits": [
+    "Required-01 still running when excerpt retained; final aftermanifest/count/exit belongs to director.",
+    "Coordinates and snapshots are actual native diagnostic data; no rendered frame was inspected for this exact coping failure.",
+    "D012crown containment and D015lateralpop are separate defects."
+  ]
+}

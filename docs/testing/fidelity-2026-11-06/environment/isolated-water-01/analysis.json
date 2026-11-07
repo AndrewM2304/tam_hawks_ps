@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "capture_integrity": "PASS: native0exit,31checks0fail,source-stable,complete9cells/6originals; separate from quality/cost acceptance",
+  "cost_admission": "NOT ADMITTED; high-coverage cost cell rejected, other cells inconclusive. Do not average away the failing view.",
+  "visual_review": "Environment specialist personally opened all six originals. Broad thin parallel bands soften and pale sky response becomes calmer; strong bright glint and fine stipple/striation remain. Native TIME differs between modes. Independent QA agrees bounded still improvement but does not accept temporal shimmer.",
+  "shadow_hypothesis": "Fine striation persists on isolated plane while native shadow draw count is zero; this weakens the earlier shadow-caster explanation. No production shadow/collision geometry change follows from the hypothesis.",
+  "resolution": [
+    640,
+    400
+  ],
+  "views": [
+    {
+      "id": "river-oblique",
+      "metrics": {
+        "frame_ms_p50": {
+          "before_a": 20.458,
+          "candidate": 20.727,
+          "before_b": 25.276,
+          "candidate_vs_control_mean_percent": -9.358464162329982,
+          "control_drift_percent": 23.550689216932263,
+          "candidate_exceeds_both_controls": false
+        },
+        "frame_ms_p95": {
+          "before_a": 27.427,
+          "candidate": 25.741,
+          "before_b": 64.391,
+          "candidate_vs_control_mean_percent": -43.93038402056243,
+          "control_drift_percent": 134.77230466328805,
+          "candidate_exceeds_both_controls": false
+        },
+        "frame_ms_p99": {
+          "before_a": 36.151,
+          "candidate": 31.995,
+          "before_b": 94.102,
+          "candidate_vs_control_mean_percent": -50.872532686387274,
+          "control_drift_percent": 160.3026195679234,
+          "candidate_exceeds_both_controls": false
+        }
+      },
+      "resource_ranges": {
+        "draws": [
+          2
+        ],
+        "visible_draws": [
+          2
+        ],
+        "shadow_draws": [
+          0
+        ],
+        "primitives": [
+          4
+        ],
+        "texture_bytes": [
+          14736405
+        ],
+        "buffer_bytes": [
+          7443628
+        ]
+      },
+      "status": "INCONCLUSIVE: substantial before/after control drift"
+    },
+    {
+      "id": "high-coverage",
+      "metrics": {
+        "frame_ms_p50": {
+          "before_a": 58.608,
+          "candidate": 66.751,
+          "before_b": 46.096,
+          "candidate_vs_control_mean_percent": 27.5042023227384,
+          "control_drift_percent": -21.348621348621354,
+          "candidate_exceeds_both_controls": true
+        },
+        "frame_ms_p95": {
+          "before_a": 88.097,
+          "candidate": 102.1,
+          "before_b": 70.167,
+          "candidate_vs_control_mean_percent": 29.024920386190157,
+          "control_drift_percent": -20.35256592165453,
+          "candidate_exceeds_both_controls": true
+        },
+        "frame_ms_p99": {
+          "before_a": 95.056,
+          "candidate": 115.008,
+          "before_b": 87.129,
+          "candidate_vs_control_mean_percent": 26.25408238878062,
+          "control_drift_percent": -8.33929473152667,
+          "candidate_exceeds_both_controls": true
+        }
+      },
+      "resource_ranges": {
+        "draws": [
+          2
+        ],
+        "visible_draws": [
+          2
+        ],
+        "shadow_draws": [
+          0
+        ],
+        "primitives": [
+          4
+        ],
+        "texture_bytes": [
+          14736405
+        ],
+        "buffer_bytes": [
+          7443628
+        ]
+      },
+      "status": "REJECTED for cost admission: candidate exceeds both controls at all three percentiles"
+    },
+    {
+      "id": "grazing",
+      "metrics": {
+        "frame_ms_p50": {
+          "before_a": 59.906,
+          "candidate": 24.58,
+          "before_b": 23.754,
+          "candidate_vs_control_mean_percent": -41.23834568491513,
+          "control_drift_percent": -60.34787834273695,
+          "candidate_exceeds_both_controls": false
+        },
+        "frame_ms_p95": {
+          "before_a": 76.686,
+          "candidate": 54.275,
+          "before_b": 29.998,
+          "candidate_vs_control_mean_percent": 1.7490907727494065,
+          "control_drift_percent": -60.882038442479725,
+          "candidate_exceeds_both_controls": false
+        },
+        "frame_ms_p99": {
+          "before_a": 84.588,
+          "candidate": 68.603,
+          "before_b": 37.147,
+          "candidate_vs_control_mean_percent": 12.708752618392417,
+          "control_drift_percent": -56.084787440298854,
+          "candidate_exceeds_both_controls": false
+        }
+      },
+      "resource_ranges": {
+        "draws": [
+          2
+        ],
+        "visible_draws": [
+          2
+        ],
+        "shadow_draws": [
+          0
+        ],
+        "primitives": [
+          4
+        ],
+        "texture_bytes": [
+          14736405
+        ],
+        "buffer_bytes": [
+          7443628
+        ]
+      },
+      "status": "INCONCLUSIVE: substantial before/after control drift"
+    }
+  ],
+  "limits": "One A/B/A bracket per view;3seconds and at least48samples after8warmframes. Linux llvmpipe software renderer, not1080p full Main, hardware pacing or normal-speed motion. Controls drift materially despite no competing observed Godot and rider fitter idle. A future stronger-warmup experiment is a new epoch, never relabelling this rejected cell.",
+  "files": {
+    "baseline-shader.gdshader.txt": "e60ac5cbafce8eaaca67ed1d44903ca6fe94329b4fd1c375306bba7dd9cc71f3",
+    "before-grazing.png": "d0f5f9f36126649e06428bb63822a83149adb07ddb3eabca6ad8ee09e380bfe7",
+    "before-high-coverage.png": "f869d5ee0db9c2e009f1f88955fd01aa22a4bc1b4a1fcc6da43131c557144f58",
+    "before-river-oblique.png": "c9b1b1db554e3b0a0d9df87f26fd009357e61157f0fb6bfaced625cb58ce8d95",
+    "candidate-grazing.png": "b2a3fa104f930c611688cd48c0cbc6192128419eff659a4dad5cc6b07067c061",
+    "candidate-high-coverage.png": "403f771e52107a8855aa0485f90cf44e907aa9931b7d98d97d584d2705d80522",
+    "candidate-river-oblique.png": "7a36373c48e29c907dd9c3fdb7c86e843b27d3cd52eead8d7c50c9394c26a1f5",
+    "candidate-shader.gdshader.txt": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+    "copy-receipt.json": "b10e2cfe4a86bed530f07bd2c069c362f5411c3dbb187554b0d9a803f925b213",
+    "engine.log": "7b9416ed8e46e15ca2f4d62390d1217608b014423f06dfd8e23342d0403f0a8a",
+    "host-observer-source.py.txt": "857cb4748894c907f5d048240e35bd124a5cdd50af2aa54eea02aab9ad83980e",
+    "isolated-water-report.json": "9e017b1c12a64bb851321c44459b563f3185dd3a83a76dce1cc062d2cb4ea0e1",
+    "lighting-function.gd.txt": "31807dcf66da0f04e377695ac3a48701ec8b56e56910a885c88faa9c1368467d",
+    "observer.gd.txt": "b2163332c6ab1b82780016714ee0e661d569faa335ee74c71a423e8905e839a0",
+    "plane-function.gd.txt": "f1ca75d35b6b9dcd6ff561d6b5aa0cad40dd7ce964dd262050d5c122e1394aee",
+    "process-observer.json": "be2327c95d53a906c8566b205ac601da376c62af5db9f80fc847a92ab57bee79",
+    "receipt.json": "a28b5e6906de321e759efc938ea3c1f7b2c284efc27ecd175bd755da21ac2bcf",
+    "runner.py.txt": "09ad002fc7d60dafcbc70084ed0b628cfcc4cf55ce5fab4d6320ca83ddea40d3",
+    "source-after.json": "6ce4e1fdcb8a706627838ad390718ff38f483f94fc505797513ddf587cec88df",
+    "source-before.json": "6ce4e1fdcb8a706627838ad390718ff38f483f94fc505797513ddf587cec88df"
+  }
+}

@@ -147,7 +147,7 @@ static func run_ui(tree: SceneTree, check: Callable) -> void:
 	check.call(bounds.encloses(hud._dialog.get_global_rect()) and hud._scroll.size.y >= 80,
 		"trick HUD: trick guide retains usable scrolling at 960×600 and large UI")
 	var instructions := _find_label(hud._dialog, "Release a grab before the next flip.")
-	var manual_instructions := _find_label(hud._dialog, "just before landing; forward selects")
+	var manual_instructions := _find_label(hud._dialog, "shortly before landing (under 0.35s).")
 	check.call(_all_wrapped_lines_fit(instructions) and instructions.get_line_count() >= 2
 		and _all_wrapped_lines_fit(manual_instructions) and manual_instructions.get_line_count() >= 2,
 		"trick HUD: complete flip and manual instructions wrap into fully allocated lines at large UI")

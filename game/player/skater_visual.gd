@@ -97,10 +97,14 @@ func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 	_cylinder.height = 1.0
 	_cylinder.radial_segments = 12
 	_anatomy = Anatomy.new()
-	var denim := _material(Color("343b42"), 0.96)
-	var seams := _material(Color("435057"), 0.92)
+	var denim := _material(Color("414b54"), 0.96)
+	var seams := _material(Color("58616a"), 0.92)
 	var rubber := _material(Color("aaa79a"), 0.90)
-	var shoes := _material(Color("35332e"), 0.88)
+	var shoes := _material(Color("4b4239"), 0.88)
+	shoes.albedo_texture = preload("res://game/art/rider/suede_albedo.png")
+	shoes.normal_enabled = true
+	shoes.normal_texture = preload("res://game/art/rider/suede_normal.png")
+	shoes.normal_scale = 0.42
 	var dark := _material(Color("262123"), 0.98)
 	_build_board()
 	_upper = Node3D.new()
@@ -109,8 +113,8 @@ func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 	_garments = Garments.new()
 	_garments.build(_rider, shirt, denim)
 	_loft(_upper, "JacketHem", [Vector4(0.016, 0.177, 0.128, 0), Vector4(0.035, 0.178, 0.128, 0)], seams)
-	_loft(_upper, "Collar", [Vector4(0.475, 0.075, 0.064, -0.008), Vector4(0.515, 0.062, 0.054, -0.008)], seams)
-	_segment(_upper, "JacketZip", Vector3(0, 0.055, -0.128), Vector3(0, 0.415, -0.124), 0.0025, dark)
+	_build_collar(_upper, shirt)
+	_build_zipper(_upper, dark)
 	for side: float in [-1.0, 1.0]:
 		_segment(_upper, "PocketSeam", Vector3(side * 0.065, 0.13, -0.117), Vector3(side * 0.125, 0.19, -0.107), 0.002, seams)
 	var head := Node3D.new()
@@ -423,7 +427,14 @@ func animate(delta: float, state: Dictionary) -> void:
 		var support_point: Vector3 = state.get("lip_ground_point", _board.get_parent().global_position)
 		if support_point.is_finite(): _board.global_position = support_point - _board.global_basis * bearing
 	if pushing:
-		_push_phase = fmod(_push_phase + delta * (1.25 + ride_speed * 0.025), 1.0)
+		# The planted stroke must travel backwards relative to the deck as fast
+		# as the deck travels forwards. A fixed cadence made a loaded sole slide
+		# two metres across stationary pavement during one fast push. Keep the
+		# return at a readable duration and never skip its ground/lift boundary.
+		if _push_phase < 0.60:
+			_push_phase = minf(0.60, _push_phase + delta * ride_speed * 0.60 / 0.65)
+		else:
+			_push_phase = fmod(_push_phase + delta * 0.40 / 0.32, 1.0)
 	# Absorb impact promptly, then recover with the shoes still planted.
 	# The old symmetric sine waited 150 ms after contact for full weight.
 	var landing_age := 0.36 - _landing
@@ -477,9 +488,18 @@ func animate(delta: float, state: Dictionary) -> void:
 	_torso_turn = _blend(_torso_turn, 0.08 + steer * 0.10 + sin(TAU * _push_phase) * _push_blend * 0.08 + support_turn * 0.25 - _slide_direction * 0.30 * _slide_blend - walk_sway * 0.45, delta, 9.0)
 	var nose_turn := atan2(-nose_forward.x, -nose_forward.z)
 	var pelvis_turn := lerp_angle(_pelvis_turn, nose_turn, hang_ten)
+	# A push is a forward locomotion stance. Turn both connected body masses
+	# toward actual regular/fakie travel, rather than leaving the hips sideways
+	# and asking the neck and trailing leg to do all the work.
+	var push_direction := travel_node.global_basis * Basis(Vector3.UP, -PI * (1.0 - travel_sign) * 0.5) * Vector3.FORWARD
+	var local_push_direction := _rider.global_basis.inverse() * push_direction
+	var push_facing_yaw := atan2(-local_push_direction.x, -local_push_direction.z)
+	var push_pose_weight := _push_blend * (1.0 - _bail_blend)
+	pelvis_turn = lerp_angle(pelvis_turn, push_facing_yaw, push_pose_weight)
 	_upper.rotation.y = _torso_turn
 	_upper.rotation.y -= 0.25 * _ramp_anticipation
 	_upper.rotation.y = lerp_angle(_upper.rotation.y, nose_turn, hang_ten)
+	_upper.rotation.y = lerp_angle(_upper.rotation.y, push_facing_yaw, push_pose_weight)
 	if _pogo_blend > 0.0001:
 		var nose := _rider.to_local(_board.to_global(grab_stance * pogo_hand_target(0.0))) - hips_origin
 		_upper.rotation.y = lerp_angle(_upper.rotation.y, atan2(-nose.x, -nose.z), _pogo_blend)
@@ -493,13 +513,19 @@ func animate(delta: float, state: Dictionary) -> void:
 		# The existing tow lean belongs to the connected torso and pelvis.
 		hips_origin += toward_shift
 		hips_y = hips_origin.y
-	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07 * manual_sign
+	_upper.rotation.z = -steer * 0.045
 	_upper.rotation.z -= grind_balance * _grind_blend * 0.20
 	_upper.rotation.z += grab_body_roll * _grab_blend
 	_upper.rotation.z -= grab_lean.x * 0.7
 	_upper.rotation.z += -wall_local.x * 0.18 * _wall_blend - _slide_direction * 0.09 * _slide_blend - walk_sway * 0.6
 	_upper.rotation.x = lerpf(_upper.rotation.x, -1.50, _bail_blend)
 	_upper.rotation.z = lerpf(_upper.rotation.z, 0.30, _bail_blend)
+	# Apply fore/aft weight in the functional deck frame before body yaw.
+	# Pogo and Hang Ten turn the torso, so its local roll is a different axis.
+	var balance_axis := Vector3.UP.cross(deck_back)
+	var body_balance_angle := manual_balance * _manual_blend * 0.07 * manual_sign * (1.0 - _bail_blend)
+	if absf(body_balance_angle) > 0.000001 and balance_axis.length_squared() > 0.5:
+		_upper.basis = Basis(balance_axis.normalized(), body_balance_angle) * _upper.basis
 	if _grab_blend > 0.0:
 		var unconstrained_torso := _upper.position
 		var contact := _rider.to_local(_board.to_global(grab_target))
@@ -561,7 +587,8 @@ func animate(delta: float, state: Dictionary) -> void:
 		if Vector2(actual.x, actual.z).length_squared() > 0.64:
 			travel_direction = Vector3(actual.x, 0, actual.z).normalized()
 	var look_direction := _rider.global_basis.inverse() * travel_direction
-	var look_yaw := clampf(atan2(-look_direction.x, -look_direction.z) - _torso_turn, -1.10, 1.10)
+	var neck_torso_yaw := lerp_angle(_torso_turn, _upper.rotation.y, push_pose_weight)
+	var look_yaw := clampf(atan2(-look_direction.x, -look_direction.z) - neck_torso_yaw, -1.10, 1.10)
 	_head.rotation.y = lerp_angle(_head.rotation.y, look_yaw + steer * 0.06, 1.0 - exp(-8.0 * delta))
 	_head.rotation.x = -0.04 + _grab_blend * 0.20 + compression * 0.6
 	# Turn about the base of the anatomical neck, keeping its crop inside the collar.
@@ -596,7 +623,11 @@ func animate(delta: float, state: Dictionary) -> void:
 			var stroke_yaw := -0.08-PI*(1.0-travel_sign)*0.5
 			shoe_yaw = lerpf(shoe_yaw,stroke_yaw,maxf(foot_push_blend,foot_brake_blend))
 		else:
-			shoe_yaw += 0.20 * foot_push_blend
+			var forward_yaw := -0.08-PI*(1.0-travel_sign)*0.5
+			shoe_yaw = lerpf(shoe_yaw, forward_yaw, foot_push_blend)
+			# Move the planted shoe's toe onto the flat grip section as it turns
+			# longitudinally, keeping its long outsole clear of the raised kick.
+			deck_foot.z += 0.08 * foot_push_blend
 		# A spacewalk shuffles one foot while the other stays loaded. The
 		# unweighted one-foot leg lifts outward and slightly toward the centre.
 		var walk_step := sin(_walk_phase + (0.0 if side < 0.0 else PI))
@@ -737,6 +768,8 @@ func animate(delta: float, state: Dictionary) -> void:
 		var spread := 0.33 + 0.12 * _air_blend + 0.13 * _grind_blend + 0.07 * _manual_blend + 0.08 * _slide_blend + 0.055 * _lip_blend
 		var hand := Vector3(side * spread, hips_y + 0.015 + 0.12 * _air_blend + 0.10 * _grind_blend, -0.14 + side * 0.09)
 		hand.z += side * 0.17 * sin(TAU * _push_phase) * _push_blend
+		var push_hand := hips_origin + Basis(Vector3.UP, push_facing_yaw) * (hand - hips_origin)
+		hand = hand.lerp(push_hand, push_pose_weight)
 		hand.y += side * (grind_balance * _grind_blend * 0.13 + manual_balance * _manual_blend * 0.08 * manual_sign)
 		hand.z += side * sin(grind_yaw) * _grind_blend * 0.10
 		hand.y -= 0.09 * _crouch_blend
@@ -784,7 +817,9 @@ func animate(delta: float, state: Dictionary) -> void:
 			palm_grip = maxf(palm_grip, tow_weight)
 			palm_axis = palm_axis.slerp(skitch_axis, tow_weight).normalized()
 		hand = _reachable(shoulder, hand, 0.30, 0.29)
-		var elbow := _joint(shoulder, hand, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
+		var elbow_pole := Vector3(side * 0.65, -0.10, 0.55)
+		elbow_pole = elbow_pole.lerp(Basis(Vector3.UP, push_facing_yaw) * elbow_pole, push_pose_weight)
+		var elbow := _joint(shoulder, hand, 0.30, 0.29, elbow_pole)
 		_garments.pose_arm(side, shoulder, elbow, hand)
 		arm["hand"].position = hand
 		arm["hand"].basis = _hand_basis(side, elbow - hand, palm_grip, palm_axis)
@@ -1218,6 +1253,7 @@ func _surface_height_at(faces: PackedVector3Array, point: Vector3) -> float:
 func _loft(parent: Node3D, node_name: String, rings: Array, material: Material) -> MeshInstance3D:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	surface.set_smooth_group(0)
 	const SEGMENTS := 20
 	for ring_index in range(rings.size() - 1):
 		var lower: Vector4 = rings[ring_index]
@@ -1239,6 +1275,50 @@ func _loft(parent: Node3D, node_name: String, rings: Array, material: Material) 
 			_triangle(surface, Vector3(0, ring.x, ring.w), a if end_index > 0 else b, b if end_index > 0 else a)
 	surface.generate_normals()
 	return _instance(parent, node_name, surface.commit(), material)
+
+func _build_collar(parent: Node3D, material: Material) -> void:
+	# An open, softly rolled stand collar has an inner wall and a small front
+	# opening. A capped cylinder intersecting the neck produces a plastic ring.
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	surface.set_smooth_group(0)
+	const SEGMENTS := 48
+	const PROFILE: Array[Vector3] = [Vector3(0.482, 0.076, 0.064),
+		Vector3(0.488, 0.075, 0.063), Vector3(0.515, 0.065, 0.055),
+		Vector3(0.518, 0.063, 0.053), Vector3(0.515, 0.061, 0.051),
+		Vector3(0.484, 0.069, 0.057)]
+	for row in PROFILE.size() - 1:
+		for col in SEGMENTS:
+			for corner: Vector2i in [Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0),
+				Vector2i(0, 1), Vector2i(1, 1), Vector2i(1, 0)]:
+				var profile: Vector3 = PROFILE[row + corner.x]
+				var angle := TAU * float(col + corner.y) / SEGMENTS
+				var front := pow(maxf(0.0, -sin(angle)), 7.0)
+				var roll := smoothstep(0.482, 0.515, profile.x)
+				var height := profile.x - 0.015 * front * roll
+				surface.set_uv(Vector2(float(col + corner.y) / SEGMENTS, float(row + corner.x) * 0.025))
+				surface.set_color(Color(0.91, 0.91, 0.91))
+				surface.add_vertex(Vector3(cos(angle) * profile.y, height, sin(angle) * profile.z - 0.008))
+	surface.generate_normals()
+	surface.generate_tangents()
+	surface.index()
+	_instance(parent, "Collar", surface.commit(), material)
+
+func _build_zipper(parent: Node3D, material: Material) -> void:
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	surface.set_smooth_group(0)
+	var path: Array[Vector3] = [Vector3(0, 0.055, -0.132), Vector3(0, 0.10, -0.126),
+		Vector3(0, 0.17, -0.123), Vector3(0, 0.25, -0.128), Vector3(0, 0.33, -0.133),
+		Vector3(0, 0.40, -0.123), Vector3(0, 0.44, -0.109)]
+	for row in path.size() - 1:
+		for col in 8:
+			for corner: Vector2i in [Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0),
+				Vector2i(0, 1), Vector2i(1, 1), Vector2i(1, 0)]:
+				var angle := TAU * float(col + corner.y) / 8.0
+				surface.add_vertex(path[row + corner.x] + Vector3(cos(angle) * 0.0015, 0, sin(angle) * 0.0015))
+	surface.generate_normals()
+	_instance(parent, "JacketZip", surface.commit(), material)
 
 func _material(color: Color, roughness: float = 0.85, metallic: float = 0.0) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()

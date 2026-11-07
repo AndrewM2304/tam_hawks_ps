@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "mode": "read-only source and diagnostic arithmetic; no engine execution",
+  "source_scope": "Author captured post-run inventory only. This is not a frozen before/after source epoch or accepted replay.",
+  "controller_sha256": "f72f60c995b75b9d66fd2bff75a3a12adbff24a5ffd22739e386176d07cf562c",
+  "trace_raw_sha256": "9a1203282bc573617833d9f0b266052dca9a570eb22d08c10d5c0396392e1327",
+  "native_rows_old": 1408,
+  "native_rows_new": 1408,
+  "native_compared_keys": [
+    "physics",
+    "air",
+    "wall",
+    "floor",
+    "body",
+    "velocity",
+    "sequence"
+  ],
+  "native_differences": [],
+  "baseline_max_offset_step_m": 0.11981640756168946,
+  "candidate_max_offset_step_m": 0.027197919785976396,
+  "candidate_max_offset_m": 0.131497010588646,
+  "forecast_rows": 20,
+  "source_findings": [
+    "Owner identity can only be earned by reactive actual wall/component contact within the same Ollie air epoch; ordinary clear air adds no forecast.",
+    "Future candidate authorization checks actual finite same-RID/shape component overlap and a newly authenticated face; no infinite plane alone authorizes translation.",
+    "Current and endpoint whole-board/component/shoe checks retain existing8mm/strict clearances; actor and velocity are not modified by these helpers.",
+    "Ballistic forecast holds current rigid orientation. This is an explicit intent estimate and cannot prove future animated pose.",
+    "Added query work needs a declared bound and observed counts; seven component/ray forecasts plus binary endpoint checks may be significant in this rare branch."
+  ],
+  "required_before_acceptance": [
+    "Fail nonfinite current frame, velocity and predicted travel before any native query.",
+    "Actual native no-owner, earned-owner predicted-miss/away, foreign RID/shape/face and reset/mode takeover negatives.",
+    "Replace old owner-only ZERO witness only with proof-bound finite forecast receipt checks, never a blanket nonzero allowance.",
+    "Before/after frozen input inventory, exact core trajectory comparison and unchanged native/current8mm/full-component safety.",
+    "Same source-bound consecutive original side/chase frames and normal-speed moving review;27.2mm step alone is not a visual pass."
+  ],
+  "verdict": "Private design direction is plausible; native negative controls, cost bound and actual moving acceptance remain pending. Original1/3 oracle remains rejected. D015 stays open."
+}

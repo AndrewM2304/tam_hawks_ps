@@ -1,0 +1,16 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+ERROR: Failed loading resource: res://game/art/rider/head_normal.png.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_skin_maps (res://game/player/skater_anatomy.gd:65)
+       [1] _init (res://game/player/skater_anatomy.gd:23)
+       [2] build (res://game/player/skater_visual.gd:99)
+       [3] _build_skater (res://game/player/skater.gd:3702)
+       [4] _ready (res://game/player/skater.gd:358)
+       [5] _fixture (res://tests/classic_tricks_integration_tests.gd:750)
+       [6] _run (res://tools/rider_asset_inspect.gd:24)
+RIDER_STUDIO frames=7 failures=0

@@ -1,0 +1,36 @@
+{
+  "record_kind": "author-reported execution notes",
+  "native_wrapper_receipt_available": false,
+  "recorded_after_run": true,
+  "provenance": "Exit codes were observed in exec/write_stdin tool responses in the chat transcript, not inferred from log footers. These notes are not a native wrapper receipt or independent process observation.",
+  "cwd": "/workspace/tam_hawks_ps",
+  "environment": {
+    "XDG_DATA_HOME": "/workspace/tam_hawks_ps/.local/c04-audit-data",
+    "XDG_CONFIG_HOME": "/workspace/tam_hawks_ps/.local/c04-audit-config",
+    "XDG_CACHE_HOME": "/workspace/tam_hawks_ps/.local/c04-audit-cache"
+  },
+  "native_process_pid_recorded": false,
+  "whole_run_wall_time_recorded": false,
+  "author_reported_exit_code": 124,
+  "tool_observation": {
+    "tool": "tools.write_stdin",
+    "session_id": 41168,
+    "chunk_id": "fbca06"
+  },
+  "argv": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "180s",
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/c04_audit_career_combined.gd"
+  ],
+  "os_deadline_seconds": 180,
+  "combined_stdout_stderr_log": "bounded-native.log"
+}

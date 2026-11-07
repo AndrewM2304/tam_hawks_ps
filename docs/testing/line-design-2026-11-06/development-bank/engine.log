@@ -1,0 +1,17 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: November bank: original eastern terminal wall owns the integrated finite return
+PASS: November bank: direct native/display counts retain one mesh and original slots with eight added triangles per panel
+PASS: November bank:18 independent slope witnesses share exact native/display/query planes and normals
+PASS: November bank: nine fixed elevated rays preserve real opaque terminal containment
+PASS: November bank: existing diagonal Barras mouth retains five supported two-way shoulder sweeps
+PASS: November bank: actual native climb/stop/fakie rollback safely re-enters at mapped approach cap3.2
+NOVEMBER_BANK_RETURN physics_start=51 cap=3.2 entry_speed=3.18878149986267 peak=(81.53865, 2.421404, 74.71161) events=[{ "event": "input_release", "tick": 96, "physics": 147, "at": (80.51654, 2.013848, 74.71152), "speed": 3.18878149986267 }, { "event": "native_rollback", "tick": 159, "physics": 210, "at": (81.46503, 2.383652, 74.71161), "speed": -0.52108496427536 }, { "event": "flat_reentry", "tick": 209, "physics": 260, "at": (80.58683, 2.0132, 74.71161), "speed": -1.36733996868134 }] supported=true camera=true bails=0
+PASS: November bank: actual native climb/stop/fakie rollback safely re-enters at mapped approach cap4.0
+NOVEMBER_BANK_RETURN physics_start=310 cap=4.0 entry_speed=3.91387915611267 peak=(81.92007, 2.625103, 74.71194) events=[{ "event": "input_release", "tick": 81, "physics": 391, "at": (80.54716, 2.013872, 74.71197), "speed": 3.91387915611267 }, { "event": "native_rollback", "tick": 154, "physics": 464, "at": (81.84373, 2.585955, 74.71194), "speed": -0.51551425457001 }, { "event": "flat_reentry", "tick": 425, "physics": 735, "at": (80.59875, 2.013776, 74.71195), "speed": -0.77453607320786 }] supported=true camera=true bails=0
+PASS: November bank: actual native climb/stop/fakie rollback safely re-enters at mapped approach cap4.6
+NOVEMBER_BANK_RETURN physics_start=785 cap=4.6 entry_speed=4.72412061691284 peak=(82.44008, 2.891793, 74.71208) events=[{ "event": "input_release", "tick": 73, "physics": 858, "at": (80.50822, 2.013436, 74.71216), "speed": 4.72412061691284 }, { "event": "native_rollback", "tick": 161, "physics": 946, "at": (82.33672, 2.83881, 74.71207), "speed": -0.5114004611969 }, { "event": "flat_reentry", "tick": 478, "physics": 1263, "at": (80.59891, 2.013336, 74.71198), "speed": -0.16433714330196 }] supported=true camera=true bails=0
+PASS: C04 flagship: actual no-jump east_quay_banked_wall miss bypass returns on supported ground with clear chase
+C04_FLAGSHIP east_quay_banked_wall_miss_return captures=[] entries=[] holds=0 banks=0 total=0 bails=0 recoveries=0 manual=0 bankManual=0 faces=[] transfer=false crossed=false farFloor=false farAt=(inf, inf, inf) camera=true supported=true at=(93.96604, 0.463602, 46.14085) stages=[{ "phase": "east_quay_banked_wall_ordinary_miss_return", "at": (74.00278, 2.001777, 68.99998), "speed": 0.16662845015526 }] gates=[] fountainCharge=(inf, inf, inf) fountainRelease=(inf, inf, inf) fountainReleaseSpeed=0.0
+NOVEMBER_BANK_GEOMETRY bounds=[P: (80.8, 71.62333), S: (3.9, 6.176674)] profile=[(80.8, 2.0), (84.7, 4.0), (84.7, 5.0), (84.9, 5.0), (84.9, 1.8), (80.8, 1.8)] shapes=4 native_triangles=80 display_triangles=80 added_triangles=32
+NOVEMBER BANK RESULT: 9 passed, 0 failed

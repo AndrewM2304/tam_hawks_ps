@@ -1,0 +1,138 @@
+extends "res://tools/full_fidelity_capture.gd"
+## Declared current-Main adverse-input fixture. No actor/pose/velocity changes
+## after spawn. Natural native readback inherited from full_fidelity_capture.
+const Drive = preload("res://tests/pt24_flagship_runs_tests.gd")
+var _rows: Array[Dictionary]=[]
+var _native_trace: Array[Dictionary]=[]
+var _events: Array[Dictionary]=[]
+var _capture_started:=false
+var _capture_count:=0
+var _saw_air:=false
+var _saw_landing:=false
+var _view:="side"
+var _expected_frames:=32
+
+func _run()->void:
+	if DisplayServer.get_name()=="headless":quit(2);return
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=2 or args[1] not in ["side","chase"]:quit(2);return
+	output=args[0]
+	_view=args[1]
+	_expected_frames=32 if _view=="side" else 3
+	DirAccess.make_dir_recursive_absolute(output)
+	root.size=Vector2i(1280,800)
+	root.content_scale_size=root.size
+	RenderingServer.set_render_loop_enabled(false)
+	game=Main.new()
+	game.persistence_enabled=false
+	root.add_child(game)
+	game.start_mode(true)
+	_check(not game.music._can_control and not game.music._persist,"bank motion isolates personal Music and persistence")
+	await _frames(40)
+	_inspection=Camera3D.new()
+	_inspection.far=220
+	_inspection.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
+	game.add_child(_inspection)
+	await _synchronization_probe()
+	Drive._release()
+	# The only authored actor setup: explicit start/heading before motion.
+	game.skater.spawn_position=Vector3(66,2.08,73.5)
+	game.start_mode(true)
+	game.skater.rotation.y=-PI*.5
+	await _frames(50)
+	await _capture("current-quay-approach",false)
+	var charging:=false
+	var released:=false
+	var charge_ticks:=0
+	var release_physics:=-1
+	for tick:int in 480:
+		if not released:
+			Drive._steer_to(game,Vector3(88,2,73.5),false)
+			Input.action_press("push")
+			if not charging and game.skater.global_position.x>=80.1:
+				charging=true
+				Input.action_press("ollie")
+				_events.append({"event":"charge","physics":Engine.get_physics_frames(),"at":_v(game.skater.global_position),"speed":game.skater.speed})
+			if charging:
+				charge_ticks+=1
+				if charge_ticks>16:
+					released=true
+					release_physics=Engine.get_physics_frames()
+					Drive._release()
+					_events.append({"event":"release","physics":release_physics,"at":_v(game.skater.global_position),"speed":game.skater.speed,"velocity":_v(game.skater.velocity)})
+		await _tick()
+		var rider:CharacterBody3D=game.skater
+		_saw_air=_saw_air or rider.airborne
+		if released and rider.airborne and not _capture_started and ((rider.velocity.y<0 and _view=="side") or (rider._obstacle_visual_offset.length()>.09 and _view=="chase")):
+			_capture_started=true
+			_events.append({"event":"first_descent" if _view=="side" else "first_large_correction","physics":Engine.get_physics_frames(),"at":_v(rider.global_position)})
+		if _capture_started and _capture_count<_expected_frames:
+			await _capture("bank-"+_view+"-%03d"%_capture_count,_view=="side")
+			_capture_count+=1
+		if _saw_air and rider.is_on_floor() and not rider.airborne:
+			if not _saw_landing:_events.append({"event":"native_landing","physics":Engine.get_physics_frames(),"at":_v(rider.global_position)})
+			_saw_landing=true
+		if _capture_count==_expected_frames and _saw_landing:break
+	Drive._release()
+	await _frames(4)
+	await _capture("current-quay-landed-chase",false)
+	_check(_saw_air and _saw_landing and not game.skater.bail_active,"adverse bank input genuinely leaves and regains native floor without a bail")
+	_check(_capture_count==_expected_frames,"bank "+_view+" inspection contains its declared successive physics frames")
+	var records:Array[Dictionary]=[]
+	for row:Dictionary in _rows:
+		if str(row.file).begins_with("bank-"):records.append(row)
+	for index:int in range(1,records.size()):
+		_check(int(records[index].physics_frame)-int(records[index-1].physics_frame)==1,"bank selected native observations are consecutive")
+	_write_report(true)
+	print("QA_BANK_MOTION checks=",checks," failures=",failures," native_frames=",_native_trace.size()," images=",_rows.size()+_sync_proofs.size()," view=",_view)
+	quit(1 if failures else 0)
+
+func _write_report(complete:bool)->void:
+	var file:=FileAccess.open(output.path_join("bank-motion-report.json"),FileAccess.WRITE)
+	_check(file!=null,"incremental bank motion report writable")
+	if file==null:return
+	var maximum_step:=0.0
+	for index:int in range(1,_native_trace.size()):
+		var before:Array=_native_trace[index-1].offset
+		var after:Array=_native_trace[index].offset
+		maximum_step=maxf(maximum_step,Vector3(after[0],after[1],after[2]).distance_to(Vector3(before[0],before[1],before[2])))
+	var report:={"schema":1,"complete":complete,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),
+		"renderer":RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),"resolution":[1280,800],"view":_view,
+		"fixtures":"Ordinary default-on Main with persistence/Music disabled; initial spawn(66,2.08,73.5),heading−PI/2 then50settled native ticks; real mapped Push with continuous native steering toward(88,2,73.5) and80.1m gate/16tick charge. No actor,velocity,pose,balance orscore assignments aftersetup. Side:32 authored frames from firstdescent; chase:3 actualchase frames from first>90mm correction. Original chase before/after, 3 cameraCanvas synchronization frames. Inspectioncamera interpolationOFF; real productioncamera/actor interpolation retained. Standalone case does not inherit three priorpop states. Fixed60Hz replay is not realtime performance.",
+		"limits":"Qualitative source-bound contact/motion probe; any concurrent headless suite is disclosed separately. Source/capture integrity is not visual acceptance. No target-Mac, full-game pacing or whole-map/final-rig proof.",
+		"synchronization":_sync_proofs,"frames":_rows,"events":_events,"native_trace":_native_trace,"maximum_offset_step_m":maximum_step}
+	file.store_string(JSON.stringify(report,"\t")+"\n")
+	file.close()
+
+func _frames(count:int)->void:
+	for frame:int in count:await _tick(false)
+
+func _tick(record:bool=true)->void:
+	var before:=Engine.get_physics_frames()
+	await physics_frame
+	await process_frame
+	await create_timer(0.0,true).timeout
+	_check(Engine.get_physics_frames()==before+1,"one explicitly observed actual physics tick advances")
+	if record:
+		var rider:CharacterBody3D=game.skater
+		_native_trace.append({"physics_frame":Engine.get_physics_frames(),"process_frame":Engine.get_process_frames(),
+			"at":_v(rider.global_position),"velocity":_v(rider.velocity),"speed":rider.speed,"airborne":rider.airborne,"native_floor":rider.is_on_floor(),
+			"offset":_v(rider._obstacle_visual_offset),"board":_v(rider._board_visual.global_position),"rider_root":_v(rider._rider_visual.global_position),
+			"active_air_wall":not rider._obstacle_air_wall.is_empty(),"owner_hint":not rider._obstacle_air_wall_owner.is_empty()})
+
+func _capture(label:String,inspection:bool)->void:
+	game.hud.visible=true
+	if inspection:
+		var focus:Vector3=game.skater.global_position+Vector3.UP*.7
+		_inspection.fov=40
+		_inspection.global_position=focus+Vector3(-4,1.5,-6).normalized()*6.4
+		_inspection.look_at(focus)
+		_inspection.reset_physics_interpolation()
+		_inspection.current=true
+	else:game.skater._camera.current=true
+	var image:Image=await _render_current_frame()
+	var camera:Camera3D=root.get_camera_3d()
+	_rows.append({"file":label+".png","inspection":inspection,"physics_frame":Engine.get_physics_frames(),"process_frame":Engine.get_process_frames(),
+		"camera_position":_v(camera.global_position),"camera_forward":_v(-camera.global_basis.z),"camera_fov":camera.fov,
+		"state":_snapshot(game),"offset":_v(game.skater._obstacle_visual_offset),"pixels":_store_frame(image,label+".png")})
+	_write_report(false)

@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "utc": "2026-11-07T01:48:56.508742+00:00",
+  "scope": "Independent readback of exact native158/0 source/log packet; no rerun or production change by verifier.",
+  "source_manifest_inputs": 261,
+  "source_before_after_equal": true,
+  "reviewed_predicate_matches_current_text": true,
+  "native_log_sha256": "5c7a533837d57937f2968939211499f653c33ede170c6d4a21d24502868e98a6",
+  "results": "Bounded native contact/safety pass:158/0 clean; four original charged inputs contained/native landed with strict every-air capsule, actualGLB and shoe/camera checks. Four loaded-native wrongfloor/deep/NaN/same-owner-wall negatives each actually reject.",
+  "adverse_inputs": [
+    {
+      "gate": 78.0,
+      "maximum_x": 84.40576171875,
+      "actual_air_physics": 51.0,
+      "maximum_loaded_depth": 0.0,
+      "escaped": "false",
+      "capsule": "true",
+      "camera": "true",
+      "native_landing": "true",
+      "air_model_clear": "true",
+      "air_capsule_clear": "true",
+      "shoe_clear": "true",
+      "reset_air_clear": "true",
+      "landing_air_clear": "true",
+      "owner_only_zero_offset": "true"
+    },
+    {
+      "gate": 78.7,
+      "maximum_x": 84.4059371948242,
+      "actual_air_physics": 53.0,
+      "maximum_loaded_depth": 0.00060565400902,
+      "escaped": "false",
+      "capsule": "true",
+      "camera": "true",
+      "native_landing": "true",
+      "air_model_clear": "true",
+      "air_capsule_clear": "true",
+      "shoe_clear": "true",
+      "reset_air_clear": "true",
+      "landing_air_clear": "true",
+      "owner_only_zero_offset": "true"
+    },
+    {
+      "gate": 79.4,
+      "maximum_x": 84.4059753417969,
+      "actual_air_physics": 54.0,
+      "maximum_loaded_depth": 0.00061030317131,
+      "escaped": "false",
+      "capsule": "true",
+      "camera": "true",
+      "native_landing": "true",
+      "air_model_clear": "true",
+      "air_capsule_clear": "true",
+      "shoe_clear": "true",
+      "reset_air_clear": "true",
+      "landing_air_clear": "true",
+      "owner_only_zero_offset": "true"
+    },
+    {
+      "gate": 80.1,
+      "maximum_x": 84.4059982299805,
+      "actual_air_physics": 55.0,
+      "maximum_loaded_depth": 0.0,
+      "escaped": "false",
+      "capsule": "true",
+      "camera": "true",
+      "native_landing": "true",
+      "air_model_clear": "true",
+      "air_capsule_clear": "true",
+      "shoe_clear": "true",
+      "reset_air_clear": "true",
+      "landing_air_clear": "true",
+      "owner_only_zero_offset": "true"
+    }
+  ],
+  "negative_controls": [
+    "NOVEMBER_LOADED_CAPSULE_NEGATIVES physics=7269wrong_floor=true deep=true nonfinite=true same_owner_vertical_wall=true actual_gap_floor={ \"position\": (84.40576, 3.84911, 73.49976), \"normal\": (-0.456317, 0.889817, 0.0), \"face_index\": 9, \"collider_id\": 191025388727, \"collider\": @StaticBody3D@2410:<StaticBody3D#191025388727>, \"shape\": 1, \"rid\": RID(20229295964582) }",
+    "NOVEMBER_LOADED_CAPSULE_NEGATIVES physics=7629wrong_floor=true deep=true nonfinite=true same_owner_vertical_wall=true actual_gap_floor={ \"position\": (84.36346, 3.827415, 73.49961), \"normal\": (-0.456317, 0.889817, 0.0), \"face_index\": 9, \"collider_id\": 191025388727, \"collider\": @StaticBody3D@2410:<StaticBody3D#191025388727>, \"shape\": 1, \"rid\": RID(20229295964582) }",
+    "NOVEMBER_LOADED_CAPSULE_NEGATIVES physics=7989wrong_floor=true deep=true nonfinite=true same_owner_vertical_wall=true actual_gap_floor={ \"position\": (84.00701, 3.644622, 73.49969), \"normal\": (-0.456317, 0.889817, 0.0), \"face_index\": 9, \"collider_id\": 191025388727, \"collider\": @StaticBody3D@2410:<StaticBody3D#191025388727>, \"shape\": 1, \"rid\": RID(20229295964582) }",
+    "NOVEMBER_LOADED_CAPSULE_NEGATIVES physics=8341wrong_floor=true deep=true nonfinite=true same_owner_vertical_wall=true actual_gap_floor={ \"position\": (84.21134, 3.749407, 73.49967), \"normal\": (-0.456317, 0.889817, 0.0), \"face_index\": 9, \"collider_id\": 191025388727, \"collider\": @StaticBody3D@2410:<StaticBody3D#191025388727>, \"shape\": 1, \"rid\": RID(20229295964582) }"
+  ],
+  "limits": [
+    "261script/scene sources are stable; this packet does not inventory all asset/import state or establish target hardware.",
+    "Maximum actual loaded floor depth0.610303mm is distinct from preexisting14.9999997mm native solver allowance. No airborne/wall tolerance changed.",
+    "At gates79.4/80.1 actual presentation offset steps exceed105/119mm. Native clearance does not certify smooth movement; current-source graphical/native-frame sequence still required.",
+    "Fullcombined regression, wholemapdensity, realMac/performance and AAA remain open."
+  ]
+}

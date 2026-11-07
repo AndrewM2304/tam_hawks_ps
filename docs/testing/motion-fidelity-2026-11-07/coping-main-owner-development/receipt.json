@@ -1,0 +1,35 @@
+{
+  "baseline": {
+    "exit": 1,
+    "source_stable": true,
+    "source_count": 790,
+    "observer_sha256": "b9f948e49da7391b2ef850b9b6aab977af8ea927442228860fbbfc6911a7614e",
+    "result": [
+      "ERROR: FAIL: C04-L05: the moved bank's full crossing, coast and bowl-side return keep strict ordinary full-body chase clearance",
+      "CLYDE_BANK_RETURN_RESULT {\"at\":\"Vector3(-14.280875, 2.0140224, 124.32227)\",\"bail_records\":[],\"bails\":0,\"bank_after\":100,\"bank_before\":100,\"bowl_samples\":238,\"camera_clear\":false,\"camera_samples\":499,\"coast_at\":\"Vector3(-2.3478937, 1.2174945, 137.51459)\",\"minimum_y\":-0.385893225669861,\"returned\":true,\"support_finite\":true}",
+      "CLYDE CURRENT MAIN RESULT: 5 passed, 1 failed"
+    ]
+  },
+  "candidate": {
+    "exit": 1,
+    "source_stable": true,
+    "source_count": 790,
+    "observer_sha256": "b9f948e49da7391b2ef850b9b6aab977af8ea927442228860fbbfc6911a7614e",
+    "result": [
+      "ERROR: FAIL: C04-L05: the moved bank's full crossing, coast and bowl-side return keep strict ordinary full-body chase clearance",
+      "CLYDE_BANK_RETURN_RESULT {\"at\":\"Vector3(-14.280875, 2.0140224, 124.32227)\",\"bail_records\":[],\"bails\":0,\"bank_after\":100,\"bank_before\":100,\"bowl_samples\":238,\"camera_clear\":false,\"camera_samples\":499,\"coast_at\":\"Vector3(-2.3478937, 1.2174945, 137.51459)\",\"minimum_y\":-0.385893225669861,\"returned\":true,\"support_finite\":true}",
+      "CLYDE CURRENT MAIN RESULT: 5 passed, 1 failed"
+    ]
+  },
+  "trajectory": {
+    "baseline_rows": 530,
+    "candidate_rows": 530,
+    "exact_equal": true,
+    "mismatch_rows": 0
+  },
+  "wall_seconds": 45.89313094499994,
+  "visual_acceptance": false,
+  "target_performance": false,
+  "finished_utc": "2026-11-07T02:50:24.944451+00:00",
+  "start_utc_recorded": false
+}

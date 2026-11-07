@@ -1,4 +1,5 @@
 extends RefCounted
+const ManualBalance = preload("res://tests/support/manual_balance_driver.gd")
 const BoardGeometry = preload("res://tests/board_geometry_tests_support.gd")
 ## Whole-map authored opportunity, native route clearance and real input lines.
 const SurfaceChecks = preload("res://tests/surface_coverage_tests.gd")
@@ -101,9 +102,10 @@ static func _manual_crossing(tree: SceneTree,game: Node,feature: Dictionary,chec
 	var points: PackedVector3Array = feature.line
 	# The compact quay's declared approach already begins beside its real
 	# retained wall. Extra legacy runway would be unsupported beyond that wall.
-	game.skater.spawn_position = points[0]+Vector3(0 if feature.id=="clyde_south_link" else -3,0.08,0)
+	var direction:=Vector3(points[-1].x-points[0].x,0,points[-1].z-points[0].z).normalized()
+	game.skater.spawn_position = points[0]-direction*(0.0 if feature.id=="clyde_south_link" else 3.0)+Vector3.UP*0.08
 	game.start_mode(true)
-	game.skater.rotation.y = -PI*0.5
+	game.skater.rotation.y = atan2(-direction.x,-direction.z)
 	await _frames(tree,30)
 	if observer.is_valid(): await observer.call(feature.id,game,-1)
 	var bails := [0]
@@ -120,23 +122,23 @@ static func _manual_crossing(tree: SceneTree,game: Node,feature: Dictionary,chec
 	var camera_clear := true
 	for frame in 420:
 		var at: Vector3 = game.skater.global_position
-		if not began and at.x >= points[2].x+1.6:
+		if not began and (at-points[2]).dot(direction) >= 1.6:
 			began = true
 			Input.action_press("manual")
 		if game.skater.manual_active:
 			manual_frames += 1
-			crossed_deck = crossed_deck or (at.x >= points[2].x and at.x <= points[3].x and absf(at.y-points[2].y)<0.12)
+			crossed_deck = crossed_deck or ((at-points[2]).dot(direction) >= 0 and (at-points[3]).dot(direction) <= 0 and absf(at.y-points[2].y)<0.12)
 			Input.action_release("brake")
-			Input.action_press("push",clampf(0.15+(game.skater.manual_balance-0.05)*2.0,0.0,0.4))
+			ManualBalance.correct(game.skater,-clampf(0.15+(game.skater.manual_balance-0.05)*2.0,0.0,0.4))
 		else:
 			Input.action_release("brake")
 			Input.action_press("push")
-		if began and not finished and at.x >= points[4].x+0.5:
+		if began and not finished and (at-points[4]).dot(direction) >= 0.5:
 			Input.action_release("manual")
 			Input.action_release("brake")
 			Input.action_press("push")
 			finished = true
-		if at.x >= points[5].x-0.2:
+		if (at-points[5]).dot(direction) >= -0.2:
 			reached = true
 			break
 		if frame%6==0: camera_clear = camera_clear and _camera_clear(game)

@@ -11,6 +11,7 @@ const GrindSurface = preload("res://tests/grind_surface_contact_tests.gd")
 const Kelvingrove = preload("res://tests/kelvingrove_skatepark_tests.gd")
 const Remaining = preload("res://tests/remaining_feature_tests.gd")
 const Catalog = preload("res://game/tricks/trick_catalog.gd")
+const PushContact = preload("res://tests/motion_fidelity_tests.gd")
 var game: Node
 var output := "res://.local/full-fidelity-motion"
 var checks := 0
@@ -22,6 +23,8 @@ var _inspection: Camera3D
 var _global_step := 0
 var _sync_proofs: Array[Dictionary] = []
 var _raw_spool := false
+var _cohort := "all"
+var _push_view := "contact"
 
 func _initialize() -> void:
 	_run.call_deferred()
@@ -33,6 +36,16 @@ func _run() -> void:
 		return
 	var arguments := OS.get_cmdline_user_args()
 	if not arguments.is_empty(): output = arguments[0]
+	if arguments.size()>1:_cohort=arguments[1]
+	if arguments.size()>2:_push_view=arguments[2]
+	if _cohort not in ["all","push-contact"]:
+		push_error("Unknown full-fidelity cohort: "+_cohort)
+		quit(1)
+		return
+	if _push_view not in ["contact","front","side","chase"]:
+		push_error("Unknown push inspection view: "+_push_view)
+		quit(1)
+		return
 	_raw_spool = OS.get_environment("FULL_FIDELITY_RAW_SPOOL") == "1"
 	RenderingServer.set_render_loop_enabled(false)
 	DirAccess.make_dir_recursive_absolute(output)
@@ -47,28 +60,35 @@ func _run() -> void:
 	_inspection.name = "DeclaredMotionInspectionCamera"
 	_inspection.fov = 40.0
 	game.add_child(_inspection)
-	await _overviews()
+	if _cohort=="all":await _overviews()
 	await _synchronization_probe()
-	await Authentic.run(self, game, _check, _observe)
-	await CurvedVisual.run(self, game, _check, _observe)
-	await GrindSurface.run(self, game, _check, _observe)
-	await Kelvingrove.run(self, game, _check, _observe)
-	await Platform.run(self, game, _check, _observe)
-	await Remaining.run_main(self, game, _check, _observe)
-	await Repertoire.run_playable(self, game, _check, _observe)
-	await Density.run_player(self, game, _check, _observe)
+	if _cohort=="push-contact":
+		await PushContact.run_main(self,game,_check,_observe)
+	else:
+		await Authentic.run(self, game, _check, _observe)
+		await CurvedVisual.run(self, game, _check, _observe)
+		await GrindSurface.run(self, game, _check, _observe)
+		await Kelvingrove.run(self, game, _check, _observe)
+		await Platform.run(self, game, _check, _observe)
+		await Remaining.run_main(self, game, _check, _observe)
+		await Repertoire.run_playable(self, game, _check, _observe)
+		await Density.run_player(self, game, _check, _observe)
 	var clips: Array = _clips.values()
-	_check(clips.size() >= 50, "full motion: all connected mechanics and repertoire phases produced real clips")
+	_check(clips.size() >= (7 if _cohort=="push-contact" else 50),
+		"full motion: selected "+_cohort+" cohort produced its required real clips")
 	var catalog_families := {}
 	for family: String in Catalog.FAMILIES:
 		catalog_families[family] = Catalog.family_ids(family)
 	var report := {"engine": Engine.get_version_info().string,
 		"renderer": RenderingServer.get_current_rendering_method(), "platform": OS.get_name(),
 		"production_main": true, "profile_writes_enabled": game.persistence_enabled,
-		"checks": checks, "failures": failures, "physics_hz": 60, "motion_sample_hz": 15,
+		"checks": checks, "failures": failures, "physics_hz": 60, "motion_sample_hz": 60 if _cohort=="push-contact" else 15,
+		"cohort":_cohort,"complete_repertoire_coverage":_cohort=="all",
+		"push_camera_view":_push_view,
+		"push_fixture_policy":"Regular/fakie moving-start cases seed signed6m/s and one initial heading on the same native spine; a separate actual push-from-rest case seeds no motion. Brake and6/18-tick push-to-pop interruptions use actual mapped input from rest.",
 		"clips": clips, "overviews": _overview_frames, "synchronization_proofs": _sync_proofs, "native_timeline": _timeline, "catalog_families": catalog_families, "catalog_ids":Catalog.ids(),
-		"fixture_policy": "Only declared restart/initial-contact fixtures from the linked integration tests; real input/native motion thereafter. Repertoire uses explicitly declared elevated air fixtures and special unlock/meter eligibility seeds.",
-		"camera_policy": "Native chase for world lines, connected surfaces and activities; authored marker-bounded contact inspection for tricks/setup/recovery; explicit cart-centred inspection for the empty parked turn.",
+		"fixture_policy": "Only declared restart/initial-contact fixtures from the linked integration tests; real input/native motion thereafter. Repertoire uses explicitly declared elevated air fixtures and special unlock/meter eligibility seeds." if _cohort=="all" else "Declared default-spawn restarts, regular/fakie initial headings and two signed6m/s moving starts. Separate from-rest, brake and6/18-tick pop cases use actual input without motion seeds; see push_fixture_policy.",
+		"camera_policy": "Native chase for world lines, connected surfaces and activities; authored marker-bounded contact inspection for tricks/setup/recovery; explicit cart-centred inspection for the empty parked turn." if _cohort=="all" else ("Production chase camera and HUD throughout actual push/brake/pop motion." if _push_view=="chase" else "Authored "+_push_view+" inspection of actual production Main input/motion; camera/Canvas boundary proofs retained."),
 		"render_fence_policy": "Production processing is fenced by a same-frame zero timer; each selected frame uses the natural render loop and awaits frame_post_draw, with unchanged physics/process counters. Independent coloured 3D markers at actual projected head/board and current Canvas swatches prove camera/Canvas boundary synchronization.",
 		"pixel_storage_policy": "Native RGBA8 bytes are hashed before atomic raw spooling; a local standard-library lossless PNG worker encodes those exact bytes and independently checks the decoded pixel hash. No pixel/resolution/sample reduction.",
 		"raw_frame_policy": "Lossless input PNGs remain in the ignored staging directory; published movies are fully decoded and source-frame hashes/timeline plus selected lossless review frames are retained.",
@@ -98,8 +118,9 @@ func _observe(phase: String, observed_game: Node, _phase_step: int) -> void:
 	if not _clips.has(phase):
 		var inspection := _uses_inspection(phase)
 		var camera_label := "authored vehicle inspection" if phase == "cart_parked_turn" else ("authored contact inspection" if inspection else "production chase")
+		if phase.begins_with("push_contact_") and inspection:camera_label="authored "+_push_view+" push inspection"
 		_clips[phase] = {"id": phase, "camera": camera_label,
-			"native_steps": 0, "sample_stride": 4, "frames": []}
+			"native_steps": 0, "sample_stride": 1 if phase.begins_with("push_contact_") else 4, "frames": []}
 		DirAccess.make_dir_recursive_absolute(output.path_join("frames/" + phase))
 	var clip: Dictionary = _clips[phase]
 	if clip.has("last_physics_frame"):
@@ -107,7 +128,7 @@ func _observe(phase: String, observed_game: Node, _phase_step: int) -> void:
 			"native motion has no missing physics observations in " + phase)
 	clip.last_physics_frame = state.physics_frame
 	clip.native_steps += 1
-	if (int(clip.native_steps) - 1) % 4 != 0: return
+	if (int(clip.native_steps) - 1) % int(clip.sample_stride) != 0: return
 	var inspection: bool = _uses_inspection(phase)
 	var vehicle_inspection := phase == "cart_parked_turn"
 	game.hud.visible = not (inspection or vehicle_inspection)
@@ -128,7 +149,12 @@ func _observe(phase: String, observed_game: Node, _phase_step: int) -> void:
 		var center := (minimum + maximum) * 0.5
 		var radius := maximum.distance_to(minimum) * 0.5 + 0.20
 		var distance := maxf(3.8, radius / tan(deg_to_rad(20.0)) * 1.20)
-		_inspection.global_position = center + Vector3(2.4, 1.4, 2.8).normalized() * distance
+		var view_axis:=Vector3(2.4,1.4,2.8).normalized()
+		if phase.begins_with("push_contact_"):
+			var forward:Vector3=(-game.skater.global_basis.z*game.skater._visual_rig._last_travel_direction).slide(Vector3.UP).normalized()
+			if _push_view=="front":view_axis=(forward+Vector3.UP*0.35).normalized()
+			elif _push_view=="side":view_axis=(forward.cross(Vector3.UP)+Vector3.UP*0.35).normalized()
+		_inspection.global_position = center + view_axis * distance
 		_inspection.look_at(center)
 		_inspection.current = true
 	else:
@@ -146,6 +172,8 @@ func _snapshot(observed: Node) -> Dictionary:
 	var skater: CharacterBody3D = observed.skater
 	var vehicle: Node3D = observed.feature_hub.vehicle
 	var vehicle_status: Dictionary = vehicle.status_snapshot()
+	var cylindrical_feature: Dictionary=skater._transition.feature
+	var cylindrical_body: StaticBody3D=cylindrical_feature.get("body")
 	var actions: Dictionary = {}
 	for action in InputMap.get_actions():
 		var strength := Input.get_action_strength(action)
@@ -167,12 +195,24 @@ func _snapshot(observed: Node) -> Dictionary:
 		"manual_id": skater.manual_trick_id, "lip_id": skater.lip_trick_id,
 		"grinding": skater.grinding, "manual_active": skater.manual_active, "lip_active": skater.lip_active,
 		"grab_remaining": skater._grab_remaining, "grab_blend": skater._visual_rig._grab_blend,
+		"push_phase":skater._visual_rig._push_phase,"push_blend":skater._visual_rig._push_blend,
+		"torso_forward":_v(-skater._visual_rig._upper.global_basis.z),
+		"hips_forward":_v(-(skater._visual_rig._garments.skeleton.global_basis \
+			* skater._visual_rig._garments.skeleton.get_bone_global_pose(int(skater._visual_rig._garments._bones.hips)).basis).z),
+		"head_forward":_v(-skater._visual_rig._head.global_basis.z),
+		"front_shoe_forward":_v(-skater._visual_rig._legs[0].foot.global_basis.z),
+		"rear_sole":_v(skater._visual_rig._legs[1].foot.to_global(Vector3(0,-0.0605,0))),
 		"flip_remaining": skater._flip_remaining, "special_remaining": skater._special_remaining,
 		"setup_active": skater.setup_active, "setup_id": skater.setup_id, "setup_phase": skater.setup_phase,
 		"bail_active": skater.bail_active, "bail_phase": skater.bail_phase, "skitching": skater.skitching,
 		"skitch_caught": skater.skitch_caught, "recovery_fade": skater.recovery_fade,
 		"wallriding": skater.wallriding, "transition_active": skater.transition_active,
-		"transition_state":skater._transition.state, "transition_feature":str(skater._transition.feature.get_path()) if is_instance_valid(skater._transition.feature) else "",
+		"transition_state":skater._feature_transition.state,
+		"transition_feature":str(skater._feature_transition.feature.get_path()) if is_instance_valid(skater._feature_transition.feature) else "",
+		"cylindrical_transition_active":skater._transition.active,
+		"cylindrical_transition_feature_id":str(cylindrical_feature.get("id","")),
+		"cylindrical_transition_body":str(cylindrical_body.get_path()) if is_instance_valid(cylindrical_body) else "",
+		"cylindrical_transition_theta":skater._transition.theta,
 		"native_floor_valid":skater._native_floor_valid, "force_air_tick":skater._force_air_tick, "up_direction":_v(skater.up_direction),
 		"capsule_up":_v(skater.get_node("BodyCollision").global_basis.y.normalized()),
 		"combo": observed.score.get_combo_value(), "entries": observed.score.combo_trick_count,
@@ -192,7 +232,7 @@ func _uses_inspection(phase: String) -> bool:
 		or phase == "platform_roof_boneless" \
 		or phase.begins_with("flip_") or phase.begins_with("grab_") or phase.begins_with("manual_") \
 		or phase.begins_with("special_") or phase.begins_with("lip_") or phase.begins_with("grind_") \
-		or phase == "triple_flip_one_entry"
+		or phase == "triple_flip_one_entry" or (phase.begins_with("push_contact_") and _push_view!="chase")
 
 func _overviews() -> void:
 	game.set_physics_process(false)

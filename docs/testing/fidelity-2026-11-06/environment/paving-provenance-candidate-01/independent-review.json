@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T02:30:10.365959+00:00",
+  "scope": "Private candidate source identity, licence, physical-scale and reproducibility only; no native import, Main binding, visual, runtime allocation or cost acceptance.",
+  "official_sources": {
+    "asset": "https://polyhaven.com/a/cobblestone_floor_02",
+    "licence": "https://polyhaven.com/license",
+    "metadata": "https://api.polyhaven.com/info/cobblestone_floor_02"
+  },
+  "official_site_hashes": {
+    "official-info.json": "e970887be102b049ad10d5d2889e14b313aadc2ab688fb3080e54032552856be",
+    "official-license.html": "46158a6b319ae8ef55acd18bd96d986c9261fb0cc8086124e97bcbefe779a623",
+    "official-asset.html": "c1d89d60901a303e91dd58ce35a3685a26703f60a680dad8be574d129c33023d"
+  },
+  "direct_source_observations": {
+    "creator": {
+      "Rob Tuytel": "All"
+    },
+    "official_dimensions_mm": [
+      2000,
+      2000
+    ],
+    "asset_page_display": "2m wide",
+    "asset_page_license_notice": "CC0 1.0 Universal - public domain dedication, no attribution required",
+    "provider_license_text": "Our assets are all licensed as CC0, which is effectively Public Domain even in jurisdictions that do not support the Public Domain."
+  },
+  "identity": "All three private2048x2048 RGB JPEG originals independently match exact byte count/SHA256; independently re-downloaded all three from official dl.polyhaven.org URLs and obtained identical hashes. No provider images modified.",
+  "repeatability": [
+    {
+      "command": [
+        "python3",
+        "/workspace/tam_hawks_ps/.local/environment-phase2/paving-source/tools/fetch_environment_materials.py",
+        "--verify-only"
+      ],
+      "cwd": "/workspace/tam_hawks_ps/.local/environment-phase2/paving-source",
+      "exit": 0,
+      "actual": "5materials/15exact maps/stable repeat schema/import contracts; verifier reports no network or writes."
+    },
+    {
+      "command": [
+        "python3",
+        "/workspace/tam_hawks_ps/.local/environment-phase2/paving-source/tools/build_environment_derivatives.py",
+        "--verify-only"
+      ],
+      "cwd": "/workspace/tam_hawks_ps/.local/environment-phase2/paving-source",
+      "exit": 0,
+      "actual": "5materials/15exact maps plus3derived maps/complete repeat identity/import contracts; verifier reports no network or writes."
+    }
+  ],
+  "policy": "Private material library replaces existing pavement bindings with cobblestone_floor_02, rather than adding live groups.2K albedo/1K normal+ARM import limits retained;32MiB incremental native allocation ceiling unchanged. Active allocation and import resolution must be established by a new native report. Old unbound pavement assets still exist in private source tree; source file count is not live texture allocation.",
+  "source_scope": "Private source inspected at review time; no invented before/after frozen execution inventory. Actual production was not modified by this review.",
+  "verdict": "Bounded provenance/licence/source/rebuild checks pass for private candidate. Native allocation, tiling/physical scale readability, whole-world cost and temporal/M5 acceptance remain open."
+}

@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T02:22:16.251575+00:00",
+  "source_url": "https://github.com/godotengine/godot/blob/4.6.3-stable/drivers/gles3/rasterizer_scene_gles3.cpp",
+  "source_file_sha256": "4f569beade29e4e2d6a0e2882233927697eee48b11afcacfb4992a2bcaa17ff9",
+  "source_findings": [
+    {
+      "lines": "2242\u20132256",
+      "actual": "_render_shadow_pass invokes _render_list_template<PASS_MODE_SHADOW>."
+    },
+    {
+      "lines": "3768\u20133772",
+      "actual": "All passes except DEPTH and MOTION_VECTORS increment VIEWPORT_RENDER_INFO_TYPE_VISIBLE draw calls, including SHADOW."
+    },
+    {
+      "lines": "1421\u20131437",
+      "actual": "Shadow primitive counts are separately recorded under VIEWPORT_RENDER_INFO_TYPE_SHADOW."
+    }
+  ],
+  "correction": "The earlier inference that zero reported shadow draws weakens a caster explanation is retracted. On this GLES implementation zero in that draw category is not evidence that no shadow pass was rendered. Earlier raw measurements/hashes remain unchanged.",
+  "affected_historical_comments": [
+    "isolated-water-01/independent-review.json limits",
+    "isolated-water-01/README.md final paragraph"
+  ],
+  "consequence": "D004 striation cause remains unknown. Constant-normal/native-material agreement does not isolate shadows. Future explicitly declared caster/light-shadow controls should record shadow primitives and exact settings. No new engine experiment or production change performed."
+}
