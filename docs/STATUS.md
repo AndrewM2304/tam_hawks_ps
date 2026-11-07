@@ -17,6 +17,18 @@ complete6,697/0 regression. The new Merchant integration installs85 source/data
 files over that base, with853 other recorded inputs preserved during installation.
 
 The pushed Merchant checkpoint is **d5498ab**, confirmed equal to origin/main.
+Window fix **7a3a234** is now also pushed. Its clean unsigned universal-Mac/Linux
+[packages02](testing/merchant-district-2026-11-07/packages-02/README.md) pass native
+resource/archive/provenance checks after required07. Actual Mac execution remains
+open. [Private board continuation](testing/board-fidelity-2026-11-07/native-construction-02/README.md)
+preserves native25/0, static22/0+22/0 and all rejected epochs without adoption.
+The thin board changes mounting by29.225mm and has a visible grip fragment;
+complete contact migration and independent review remain open. A separate native
+diagnosis reproduces released-board box-collider burial and rejects a phantom
+whole hull;32 reused components plus private1mm solver allowance improve floor
+contact. Production adoption, active physics cost, cone and recovery checks are
+still pending. No AAA or ordinary moving-board acceptance is inferred.
+
 The subsequent window-UV fix now passes the complete
 [required07 check](testing/merchant-district-2026-11-07/required07-window-complete/README.md):
 6,709/0 game,2/0 CLI,65/0 Book,22/0 lifecycle and31/0 parsed-menu checks, all941

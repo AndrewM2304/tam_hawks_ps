@@ -23,6 +23,13 @@ circuits, final AAA art/motion and actual M5 performance remain accepted work,
 not passed gates. Specialist usage exhaustion prevents new independent reviews;
 root's available implementation/verification continues.
 
+FID-103 continuation is sealed in the [native board packet](../testing/board-fidelity-2026-11-07/native-construction-02/README.md).
+Private native25/0 and static22/0 per candidate/control do not authorize the
+29.225mm datum migration or close its visible grip-fragment defect. Next concrete
+released-board work: replace its defective bail box with existing component
+shapes only after cost, real empty-space/native contacts, recovery and festival
+cone checks; private1mm solver diagnostic is promising, still uninstalled.
+
 ---
 
 # Steering and wallride source verified — 28 October 2026

@@ -1,0 +1,2750 @@
+{
+  "base_commit": "7a3a234a523001fb5334f7d159c344bfa14edf6d",
+  "scope": "Private native candidate and rejected development epochs. No adoption into actual game. Each receipt retains its own source/cache scope and failure status. Generated caches excluded.",
+  "files": [
+    {
+      "path": "payload/board/PLAN.md.gz",
+      "sha256": "577cfb63ab159a1839a1059fbe26d529ce91523202a5f2e1e23f401f147ee845",
+      "original_sha256": "9e941da9cc4fc1d6a7b5890a91be00b0338c9c332963e4bf1b587d71dbf04991",
+      "original_bytes": 3046,
+      "source": ".local/board-construction-next/PLAN.md"
+    },
+    {
+      "path": "payload/board/README.md.gz",
+      "sha256": "ef5186a85a04136b1a8887f59b090cf99b7263058f139b26008cdb24871998f2",
+      "original_sha256": "39f691fbdf225542f25db8cfcffd76346eea70f6b0c5506ed4b5542cfdc75e91",
+      "original_bytes": 4295,
+      "source": ".local/board-construction-next/README.md"
+    },
+    {
+      "path": "payload/board/baseline-build.log.gz",
+      "sha256": "3e73afd81ad85986a629fee4681d0f5ed911e3226b59eaa020b1e221de6bcee4",
+      "original_sha256": "9f1ed6f4f5828747612d3c3dafb11dd165cdbff13f0d5fff47e8bfd208f88401",
+      "original_bytes": 1122,
+      "source": ".local/board-construction-next/baseline-build.log"
+    },
+    {
+      "path": "payload/board/baseline-certificate.json.gz",
+      "sha256": "ee294948984f720939c553d4a6496b7cd8e68ac1ffdfddfe945a75402b8749e8",
+      "original_sha256": "0e36809afd196c7934d1d553f8507905c110f7b1ab5735a787717ebeb806c1d1",
+      "original_bytes": 70458,
+      "source": ".local/board-construction-next/baseline-certificate.json"
+    },
+    {
+      "path": "payload/board/baseline-expected.json.gz",
+      "sha256": "e39c02ff962ee95fbe24dc578bf151231c66ab884091ad8f295bcbf833760e10",
+      "original_sha256": "ef3a0fdb73f67428f66caab1bae9818c22cf856e18db0759cee8b61d35707b6b",
+      "original_bytes": 447,
+      "source": ".local/board-construction-next/baseline-expected.json"
+    },
+    {
+      "path": "payload/board/baseline-pairing-correction.json.gz",
+      "sha256": "8dc4d5b30ead404c2bcf14c1650104ba8b733969b6216edc29f146a5d3567285",
+      "original_sha256": "a00221a2c926bf0ac308c7c744bccba2f28d0af4d63b94dde45248e98f9e7137",
+      "original_bytes": 568,
+      "source": ".local/board-construction-next/baseline-pairing-correction.json"
+    },
+    {
+      "path": "payload/board/baseline-report-01-rejected-nearest-centre.json.gz",
+      "sha256": "645d39327cd34717cc5354e11c3c63ebccca069b5c69148ee1d6b3cc9010f161",
+      "original_sha256": "3ca89919ed13a3d0c01838f9f3825b6270586626f1f066edcbf384da23d674f3",
+      "original_bytes": 13033,
+      "source": ".local/board-construction-next/baseline-report-01-rejected-nearest-centre.json"
+    },
+    {
+      "path": "payload/board/baseline-report.json.gz",
+      "sha256": "ed117bc399471bcb46e9c3cb07f83367ba62146bfcd8a610614552b8618ff33e",
+      "original_sha256": "be715fcd64e1e1828c47d87cdfb70f0ae84ec9167fca3b2cd80bde4bdbe04ab8",
+      "original_bytes": 13417,
+      "source": ".local/board-construction-next/baseline-report.json"
+    },
+    {
+      "path": "payload/board/baseline-source-ownership.json.gz",
+      "sha256": "4eacb26bb855c86b0791cb78aba7bc2d90d8f25bf25cf738a9d4baff63b100b2",
+      "original_sha256": "44233612156efb0054d96b82e99247152e626284f24bce53b03b081bef0294fb",
+      "original_bytes": 277447,
+      "source": ".local/board-construction-next/baseline-source-ownership.json"
+    },
+    {
+      "path": "payload/board/build_baseline-before-count-bounds.py.gz",
+      "sha256": "474b6a7045058546a13ca1c84f718257318678b734dad9f25ba94b225f70d025",
+      "original_sha256": "4e3c77b3dabc161239a2aa7e4be3c097f6aa81ac63f27b66bf803e72713739a4",
+      "original_bytes": 3764,
+      "source": ".local/board-construction-next/build_baseline-before-count-bounds.py"
+    },
+    {
+      "path": "payload/board/build_baseline.py.gz",
+      "sha256": "a374fb7c3632b1e501f2524b0539c4cba8bcdb4816e77803ac1b5afb72530a96",
+      "original_sha256": "41fd4ca4c4f90df3364aa88c77c6eca56b9af9c6336b62d290479c90fe639f1c",
+      "original_bytes": 4319,
+      "source": ".local/board-construction-next/build_baseline.py"
+    },
+    {
+      "path": "payload/board/definition-constant-rejected-01/board_contact_definition.gd.txt.gz",
+      "sha256": "b9f695131e14509f418e2deaea78a27e405360f6c04bed9c24a955bcc8c33773",
+      "original_sha256": "6f3b1409cbedc94ce4d55bf9bda188b89e1bdbed112c8086a042eb442dc94f7f",
+      "original_bytes": 26738,
+      "source": ".local/board-construction-next/definition-constant-rejected-01/board_contact_definition.gd.txt"
+    },
+    {
+      "path": "payload/board/definition-constant-rejected-01/emit_cooked_definition.py.txt.gz",
+      "sha256": "162ab706d23fbf66421f41203df4c588febf70a8c1ca2a33601467986ac57232",
+      "original_sha256": "2c439925282fa99550d04242e5319c5ddf563440deaeba8347f0973ed05a624d",
+      "original_bytes": 4616,
+      "source": ".local/board-construction-next/definition-constant-rejected-01/emit_cooked_definition.py.txt"
+    },
+    {
+      "path": "payload/board/definition-constant-rejected-01/physical-definition-emission.json.gz",
+      "sha256": "62b57fb8f4a3d9a5e101eb99dead4fbccb47f489be72b55613940bb93923d624",
+      "original_sha256": "2b5f6dc0aa2d2eff30e0e01175f3244f6ff1a8325b931788fc8326415820508e",
+      "original_bytes": 862,
+      "source": ".local/board-construction-next/definition-constant-rejected-01/physical-definition-emission.json"
+    },
+    {
+      "path": "payload/board/definition-constant-rejected-01/receipt.json.gz",
+      "sha256": "10cefc5d664878223c7390ed6ebeb3005d14c775a0e846357716a47a049e73ca",
+      "original_sha256": "266d406dfdbb835a3c4481d21052d28d9cb1407577c9121a0e287dbd09c127a7",
+      "original_bytes": 1545,
+      "source": ".local/board-construction-next/definition-constant-rejected-01/receipt.json"
+    },
+    {
+      "path": "payload/board/emit_cooked_definition.py.gz",
+      "sha256": "9b1b3e71386cd4f4b0e3b8d30e150a45a72e4bf2e319d40345009c7b73a71af8",
+      "original_sha256": "cda202f695ca13209fba462a78e9d6d51226497528b073cd529929a1fc23f202",
+      "original_bytes": 4631,
+      "source": ".local/board-construction-next/emit_cooked_definition.py"
+    },
+    {
+      "path": "payload/board/handoff-source-stage.json.gz",
+      "sha256": "dd7f81429ef7758ff5084b3e47e4147e035d181d6146f384c0172cb1c4a8ef0d",
+      "original_sha256": "0289444d060a43055bcccd357b7e9128008e90cbacdd18e8cdb77d556229503a",
+      "original_bytes": 3449,
+      "source": ".local/board-construction-next/handoff-source-stage.json"
+    },
+    {
+      "path": "payload/board/import_board_wood_semantic_final.gd.gz",
+      "sha256": "5bf53d1df53aa06a1483d6284b6360bdbf7e8333fc0b5a45a3fbbf41c00ea66a",
+      "original_sha256": "8574186fcd0a7d7da304971dbd5fe88a52b187b5b12fcea91e5d22c82eca479a",
+      "original_bytes": 5823,
+      "source": ".local/board-construction-next/import_board_wood_semantic_final.gd"
+    },
+    {
+      "path": "payload/board/loose-board-proposal/handoff.json.gz",
+      "sha256": "2d88fe4f63cd69b669012fb4f2f7449aa26ddd47d005ec094208fc4608806db2",
+      "original_sha256": "ee19345455f04064e276e296d8456498bbaf198286a00ba8c7754405cdc1bf30",
+      "original_bytes": 1035,
+      "source": ".local/board-construction-next/loose-board-proposal/handoff.json"
+    },
+    {
+      "path": "payload/board/loose-board-proposal/skater.gd.gz",
+      "sha256": "91010ffc921d6cb9846cbf0c6fb4ee00fb822dd84db7705aca255d8beadfd60f",
+      "original_sha256": "d59a3eccc99e3a8eaaafa6e44a9e9fa065fbd66874230aa3ecc104e81591252d",
+      "original_bytes": 234789,
+      "source": ".local/board-construction-next/loose-board-proposal/skater.gd"
+    },
+    {
+      "path": "payload/board/loose-board-proposal/skater.gd.before.gz",
+      "sha256": "80731ace65df3b57fe693444937b2b80b5081470434ed0d906fb688a29b38539",
+      "original_sha256": "e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd",
+      "original_bytes": 234550,
+      "source": ".local/board-construction-next/loose-board-proposal/skater.gd.before"
+    },
+    {
+      "path": "payload/board/loose-board-proposal/skater.gd.patch.gz",
+      "sha256": "723a30beadccbc6372647351fdf3214bffa8289a1efa691e6a01fee371527540",
+      "original_sha256": "a28093d3e4594d5f705e8d36f4dbc79cfa2926543dadd6ec6e6c07dcf7e5dc94",
+      "original_bytes": 663,
+      "source": ".local/board-construction-next/loose-board-proposal/skater.gd.patch"
+    },
+    {
+      "path": "payload/board/material-api-01/launcher.py.txt.gz",
+      "sha256": "d9cfdff1b7824bbf3154c82c7aa926931f51f108216d3e3531e1bfa74aba4595",
+      "original_sha256": "5f5bec6648061fca2be2b1ffb9ad4759c233cd69510cd927ee9293522f42d99d",
+      "original_bytes": 1929,
+      "source": ".local/board-construction-next/material-api-01/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/material-api-01/native.log.gz",
+      "sha256": "d7ffd3029bf4191a18e050f2b7f37f1f615f5938a81df4e58d41b8b529f477c3",
+      "original_sha256": "45a49a24134dda905f89f0b9967e67b91d4cc8677cf3bcdc36381f295e5acf25",
+      "original_bytes": 440,
+      "source": ".local/board-construction-next/material-api-01/native.log"
+    },
+    {
+      "path": "payload/board/material-api-01/receipt.json.gz",
+      "sha256": "52f42228e1d98bf6ea224d74c1da12e2cd0a06a279ff7e2a9b4bfbc3334ff09a",
+      "original_sha256": "ec9b9886b03695ebae2402ad9816bc688beed538568eeef99b44c6f964508014",
+      "original_bytes": 574,
+      "source": ".local/board-construction-next/material-api-01/receipt.json"
+    },
+    {
+      "path": "payload/board/material-api-01/source-after.json.gz",
+      "sha256": "0d6afffc7af331b363c42252aae1f38112807f40faf65040034a563a2cf73109",
+      "original_sha256": "d3934127349116b397a32716ddb4cefa9196acfd4417c6a8a065f59da2eb6c59",
+      "original_bytes": 335,
+      "source": ".local/board-construction-next/material-api-01/source-after.json"
+    },
+    {
+      "path": "payload/board/material-api-01/source-before.json.gz",
+      "sha256": "0d6afffc7af331b363c42252aae1f38112807f40faf65040034a563a2cf73109",
+      "original_sha256": "d3934127349116b397a32716ddb4cefa9196acfd4417c6a8a065f59da2eb6c59",
+      "original_bytes": 335,
+      "source": ".local/board-construction-next/material-api-01/source-before.json"
+    },
+    {
+      "path": "payload/board/material-api-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/material-api-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/material-api-01/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/material-api-01/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/material-api-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log.gz",
+      "sha256": "d7ffd3029bf4191a18e050f2b7f37f1f615f5938a81df4e58d41b8b529f477c3",
+      "original_sha256": "45a49a24134dda905f89f0b9967e67b91d4cc8677cf3bcdc36381f295e5acf25",
+      "original_bytes": 440,
+      "source": ".local/board-construction-next/material-api-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log"
+    },
+    {
+      "path": "payload/board/native-control-01/cache-native-after.json.gz",
+      "sha256": "34dfa9e90d7a2326b0d635629b15373b279117084202d440fb251f2ccf2c3a1b",
+      "original_sha256": "72343d84e61939bf9318489469b82668ba4f51507cd0578ff711a3aa87d10804",
+      "original_bytes": 813,
+      "source": ".local/board-construction-next/native-control-01/cache-native-after.json"
+    },
+    {
+      "path": "payload/board/native-control-01/cache-native-before.json.gz",
+      "sha256": "34dfa9e90d7a2326b0d635629b15373b279117084202d440fb251f2ccf2c3a1b",
+      "original_sha256": "72343d84e61939bf9318489469b82668ba4f51507cd0578ff711a3aa87d10804",
+      "original_bytes": 813,
+      "source": ".local/board-construction-next/native-control-01/cache-native-before.json"
+    },
+    {
+      "path": "payload/board/native-control-01/control-receipt-adapter.json.gz",
+      "sha256": "425f5fd343f81ab5541ea4e785688aabc7ea2b58f3500d7333599d89e12a6e49",
+      "original_sha256": "eea1dbe533232b0a55105e83bccc2ffdd57b76ce08d150cc136ceda589f135e2",
+      "original_bytes": 755,
+      "source": ".local/board-construction-next/native-control-01/control-receipt-adapter.json"
+    },
+    {
+      "path": "payload/board/native-control-01/import.log.gz",
+      "sha256": "ba3651ddac332fc172f19738cb0e10c839b25445185159d86b9ee9458afaec29",
+      "original_sha256": "9de2a1aa5091b97097c3de74c6fa316baa8ff5ba49089b46ca5749eb32cd1cc7",
+      "original_bytes": 3399,
+      "source": ".local/board-construction-next/native-control-01/import.log"
+    },
+    {
+      "path": "payload/board/native-control-01/launcher.py.txt.gz",
+      "sha256": "1947a4f57e664e10036e9cfa619fb443f7999ea9a8960f855909ce6f5e37bd30",
+      "original_sha256": "f5e28573c32c65b2c9cc9a472adf333185155827e7bd85136b576de9fcb3c82f",
+      "original_bytes": 3444,
+      "source": ".local/board-construction-next/native-control-01/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/native-control-01/native-control.json.gz",
+      "sha256": "ef2a11c8216f6a697a3904600c487746aaa920e0371ee85247b068b9c0ffc912",
+      "original_sha256": "b41ce1d67310a8163c35c6d1be675dfc88afc76313686f993015b1523f997b8f",
+      "original_bytes": 473007,
+      "source": ".local/board-construction-next/native-control-01/native-control.json"
+    },
+    {
+      "path": "payload/board/native-control-01/native.log.gz",
+      "sha256": "892659e2305bc615f485732972304d12b802bcd63262dbe0d188d51d1c3c0642",
+      "original_sha256": "cba4001f08abb94e180780ea0e2d9c91c671a19155fa1100b2c7b400d476c738",
+      "original_bytes": 949,
+      "source": ".local/board-construction-next/native-control-01/native.log"
+    },
+    {
+      "path": "payload/board/native-control-01/receipt.json.gz",
+      "sha256": "d961e472abea701834894805aba96ff4aeba7e25b7f62eed38cdab2345988fb7",
+      "original_sha256": "f2de5edf7abfcb6f8175df74986876fea112330d0d976df379500786cb67b95e",
+      "original_bytes": 1832,
+      "source": ".local/board-construction-next/native-control-01/receipt.json"
+    },
+    {
+      "path": "payload/board/native-control-01/source-import-after.json.gz",
+      "sha256": "3737213d56fe17814dac0c262b49e83e29d73f0be425a2606c7994ae39b2506a",
+      "original_sha256": "a29e22dd11de6818e5a9682dc1f684f054971a480d4e18bbb3691c2bc0a62587",
+      "original_bytes": 2509,
+      "source": ".local/board-construction-next/native-control-01/source-import-after.json"
+    },
+    {
+      "path": "payload/board/native-control-01/source-import-before.json.gz",
+      "sha256": "a34bfe5d86c83544daa7845b4da75a63fe772273bd361daee8f18b7a395e8887",
+      "original_sha256": "678f023c4c0dda9dacab084eb34ebed780eee0b321131a02318b2ff5a20070d3",
+      "original_bytes": 1547,
+      "source": ".local/board-construction-next/native-control-01/source-import-before.json"
+    },
+    {
+      "path": "payload/board/native-control-01/source-native-after.json.gz",
+      "sha256": "3737213d56fe17814dac0c262b49e83e29d73f0be425a2606c7994ae39b2506a",
+      "original_sha256": "a29e22dd11de6818e5a9682dc1f684f054971a480d4e18bbb3691c2bc0a62587",
+      "original_bytes": 2509,
+      "source": ".local/board-construction-next/native-control-01/source-native-after.json"
+    },
+    {
+      "path": "payload/board/native-control-01/source-native-before.json.gz",
+      "sha256": "3737213d56fe17814dac0c262b49e83e29d73f0be425a2606c7994ae39b2506a",
+      "original_sha256": "a29e22dd11de6818e5a9682dc1f684f054971a480d4e18bbb3691c2bc0a62587",
+      "original_bytes": 2509,
+      "source": ".local/board-construction-next/native-control-01/source-native-before.json"
+    },
+    {
+      "path": "payload/board/native-control-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/native-control-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/native-control-01/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/native-control-01/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/native-control-01/xdg-cache/godot/editor_doc_cache-4.6.res.gz",
+      "sha256": "6809431dc9720ea261b991a4e8e1edc51af5b85082371cb1235e2215ea47af20",
+      "original_sha256": "e7532ed8a2e0d48c8ed96ae5921b970df8afa12a0271b7b51725d92c5b534b46",
+      "original_bytes": 3142773,
+      "source": ".local/board-construction-next/native-control-01/xdg-cache/godot/editor_doc_cache-4.6.res"
+    },
+    {
+      "path": "payload/board/native-control-01/xdg-config/godot/editor_settings-4.6.tres.gz",
+      "sha256": "dbc33d48366e9511298344c5c5e8791f18f9927d2dedee3d68deda9b3626b8fa",
+      "original_sha256": "6f05c28873fc107d4f2d89e44b07f610506f6c025e3feb63b21e214d6ca07739",
+      "original_bytes": 3372,
+      "source": ".local/board-construction-next/native-control-01/xdg-config/godot/editor_settings-4.6.tres"
+    },
+    {
+      "path": "payload/board/native-control-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log.gz",
+      "sha256": "892659e2305bc615f485732972304d12b802bcd63262dbe0d188d51d1c3c0642",
+      "original_sha256": "cba4001f08abb94e180780ea0e2d9c91c671a19155fa1100b2c7b400d476c738",
+      "original_bytes": 949,
+      "source": ".local/board-construction-next/native-control-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log"
+    },
+    {
+      "path": "payload/board/parser-01/launcher.py.txt.gz",
+      "sha256": "8f5be9b8ae22a56f27de71225c1d111cf95e511fc58d5ea63274a35edfdff379",
+      "original_sha256": "51bd587d2d77202fe809dc0981a06e5e6da12f7856161232f145a22af847ac7d",
+      "original_bytes": 3067,
+      "source": ".local/board-construction-next/parser-01/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/parser-01/native.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/parser-01/native.log"
+    },
+    {
+      "path": "payload/board/parser-01/receipt.json.gz",
+      "sha256": "87144c5ea2d676b22e8224d1459eeb6bfbe88a6a25cf0fc0cf34be8e1a2ad5ae",
+      "original_sha256": "df779d70321a056dec73aae08b9c20ce26b4fe4e3bf3f9a311ed241b802f07be",
+      "original_bytes": 1366,
+      "source": ".local/board-construction-next/parser-01/receipt.json"
+    },
+    {
+      "path": "payload/board/parser-01/source-after.json.gz",
+      "sha256": "3b16eddec4c76013ec888b987bd48eeb71860ca2abb07c92de39a38edb971dec",
+      "original_sha256": "3bfc2cc38038fa208fecdd3c072e9e1ee2d14ae0964be8949f2e4cf57f90b9ae",
+      "original_bytes": 2184,
+      "source": ".local/board-construction-next/parser-01/source-after.json"
+    },
+    {
+      "path": "payload/board/parser-01/source-before.json.gz",
+      "sha256": "3b16eddec4c76013ec888b987bd48eeb71860ca2abb07c92de39a38edb971dec",
+      "original_sha256": "3bfc2cc38038fa208fecdd3c072e9e1ee2d14ae0964be8949f2e4cf57f90b9ae",
+      "original_bytes": 2184,
+      "source": ".local/board-construction-next/parser-01/source-before.json"
+    },
+    {
+      "path": "payload/board/parser-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/parser-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/parser-01/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/parser-01/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/parser-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/parser-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log"
+    },
+    {
+      "path": "payload/board/physical-certificate.json.gz",
+      "sha256": "fa12568cf701389bea5cabe91570c246d92630bf524704496c0c2ad697ce69ce",
+      "original_sha256": "2ee51d7d62f34b09b0a4750653f95e0848f6540bb444171f2859d9051dc5b6ce",
+      "original_bytes": 73153,
+      "source": ".local/board-construction-next/physical-certificate.json"
+    },
+    {
+      "path": "payload/board/physical-definition-emission.json.gz",
+      "sha256": "174a774e260984d23c5e30b000d95b7abb1f1d33e5e7680f31392ddcb16e92ff",
+      "original_sha256": "38829091d575b41c925806a147424b39b53115bca4aa5658f1d8f6d587dc8746",
+      "original_bytes": 862,
+      "source": ".local/board-construction-next/physical-definition-emission.json"
+    },
+    {
+      "path": "payload/board/physical-expected.json.gz",
+      "sha256": "d334f6cf9f9c6f6beec524512ddd33d80845068815b8fb02de656a6ef737c0ab",
+      "original_sha256": "154de508500e3d85c58609ef4e656bba29cce9b2541a4a2e8816eb50fb5148d0",
+      "original_bytes": 447,
+      "source": ".local/board-construction-next/physical-expected.json"
+    },
+    {
+      "path": "payload/board/physical-project/datum_probe.gd.gz",
+      "sha256": "d9fa4c2ffbcd9af0b743ba3c0a8c21fd911e6d5a95e06af834258be6dd56bd26",
+      "original_sha256": "9763ad4f7506cd957dfd101a76f579213d68269211ec98e06fbb29600d1d12ce",
+      "original_bytes": 2025,
+      "source": ".local/board-construction-next/physical-project/datum_probe.gd"
+    },
+    {
+      "path": "payload/board/physical-project/game/art/assets/tam_skateboard/tam_skateboard.glb",
+      "sha256": "c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5",
+      "original_sha256": "c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5",
+      "original_bytes": 644584,
+      "source": ".local/board-construction-next/physical-project/game/art/assets/tam_skateboard/tam_skateboard.glb"
+    },
+    {
+      "path": "payload/board/physical-project/game/art/assets/tam_skateboard/tam_skateboard.glb.import.gz",
+      "sha256": "3b0baee216afedda897c8e58728a5d92b4d8395933009748d3314ebbedd734bc",
+      "original_sha256": "46094a26837e02812e33fd3ecd242ebec8222432745f83b574ea3b16946242c4",
+      "original_bytes": 1115,
+      "source": ".local/board-construction-next/physical-project/game/art/assets/tam_skateboard/tam_skateboard.glb.import"
+    },
+    {
+      "path": "payload/board/physical-project/game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png",
+      "sha256": "a8931d5421762bcebb8b20ceefe88992975a899cee4148696ba0886358de68bf",
+      "original_sha256": "a8931d5421762bcebb8b20ceefe88992975a899cee4148696ba0886358de68bf",
+      "original_bytes": 421245,
+      "source": ".local/board-construction-next/physical-project/game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png"
+    },
+    {
+      "path": "payload/board/physical-project/game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png.import.gz",
+      "sha256": "3e098a32c8d3cf2fd2d87bb2d97a9455349f557f950f73c3c03ff7f0c721f50c",
+      "original_sha256": "30d25d2f6e53e4c7c1bb9a34c2c7b804708bea45c506910ed9770902a2969b63",
+      "original_bytes": 1082,
+      "source": ".local/board-construction-next/physical-project/game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png.import"
+    },
+    {
+      "path": "payload/board/physical-project/game/art/board_contact_definition.gd.gz",
+      "sha256": "aa76f7b7566d1b9c79fe8272f8a7d3d7b75fc51913a8c12aac19ec693f4046c9",
+      "original_sha256": "a1a270744828c5c27a60492f4fba05ea11bf53ff04b0d2d2161ed26b0faabd9b",
+      "original_bytes": 544,
+      "source": ".local/board-construction-next/physical-project/game/art/board_contact_definition.gd"
+    },
+    {
+      "path": "payload/board/physical-project/game/art/board_contact_definition.gd.uid.gz",
+      "sha256": "b006ee4fd60d0dcefaec5ce8a17f9eb9fc37a548cf2afa539c99f544bd787b16",
+      "original_sha256": "61cf853914466a3d1b926f134a05fcc98f53911894322aa0231488db26c37fca",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/game/art/board_contact_definition.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/directional_tricks.gd.gz",
+      "sha256": "837842f72fcb37acdac1144c1ce37ca6c82245147aa208bb730c4a69e1ede327",
+      "original_sha256": "181b7147015fe8cfdb230f8467e69472672aa8136a623f1a0305f3a316103300",
+      "original_bytes": 2178,
+      "source": ".local/board-construction-next/physical-project/game/tricks/directional_tricks.gd"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/directional_tricks.gd.uid.gz",
+      "sha256": "6c59b4befd79c5a7412deaa7a524f008fd633190dea8094586735e18dcd89273",
+      "original_sha256": "583b6919691501278598bdb0476d04e2c94d96df8e24adbc2a08915a04f93ecb",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/game/tricks/directional_tricks.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/grind_clearance.gd.gz",
+      "sha256": "842d6590deaa373fb62b9bf9837c6e0f15538cbd4676f9365e0ea9bcf8feaf55",
+      "original_sha256": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+      "original_bytes": 17130,
+      "source": ".local/board-construction-next/physical-project/game/tricks/grind_clearance.gd"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/grind_clearance.gd.uid.gz",
+      "sha256": "1959971d09dd589a00b55b21537c238dfb659ca2b1eba3cc868405e6c0db4417",
+      "original_sha256": "1e8488a1d3e2b55b5a0eaad38d097b8c355ccce698bd81cbcad456a2b535ee26",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/game/tricks/grind_clearance.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/grind_line.gd.gz",
+      "sha256": "8e6224d814aa2fa82783cacad377a1f97c7d6a08440eb263c629d0f56a1a53f1",
+      "original_sha256": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+      "original_bytes": 9593,
+      "source": ".local/board-construction-next/physical-project/game/tricks/grind_line.gd"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/grind_line.gd.uid.gz",
+      "sha256": "da787bc3a88f71339bae20cfb11ef12405add62fed24610db61c402f4f847a50",
+      "original_sha256": "bac1f32517830f6c5dcdbf6187c21001040f3c335ad7cfd021e0c439f785ef0c",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/game/tricks/grind_line.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/grind_style.gd.gz",
+      "sha256": "3025efdcb5a5247ffdde22f1f179a35262a85628873810753129ec70543ba892",
+      "original_sha256": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+      "original_bytes": 11809,
+      "source": ".local/board-construction-next/physical-project/game/tricks/grind_style.gd"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/grind_style.gd.uid.gz",
+      "sha256": "6b529183ccbf103265cfbd207b6716a353f5fa26d0d4fc4d8c5c75464ca13797",
+      "original_sha256": "803f83e99eb62ac088fe4a7fec60ff4f4def98cdbb18731594ad0b916b87d39a",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/game/tricks/grind_style.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/semantic_board_cache.gd.gz",
+      "sha256": "3ae7278ed441bd83073cb404e8b41c4597068b89bc2cc6e03f69d96f9b8462b8",
+      "original_sha256": "3cb288a1142e9809aebaff3f8404078a1e1c522663c97529991d56e09a7587cc",
+      "original_bytes": 15677,
+      "source": ".local/board-construction-next/physical-project/game/tricks/semantic_board_cache.gd"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/semantic_board_cache.gd.uid.gz",
+      "sha256": "fc7eaff32ca319f51ab563100adefda54da6cf4f54f4ef6d9d6cb508ee6945a6",
+      "original_sha256": "6f6aace00c78a40579c844acf4afa9ad31398f6e5ee0b8d49100fd13c4414ff3",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/game/tricks/semantic_board_cache.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/trick_catalog.gd.gz",
+      "sha256": "6c178856bc029e34f468316fb2ea25ce7c0f8ee103cbe8c6fb549b1b30f25cb3",
+      "original_sha256": "9cb1bdce05dc7ab20abc7731b862e90039df4709fa8b6c4fc24b01f243cb1f99",
+      "original_bytes": 39082,
+      "source": ".local/board-construction-next/physical-project/game/tricks/trick_catalog.gd"
+    },
+    {
+      "path": "payload/board/physical-project/game/tricks/trick_catalog.gd.uid.gz",
+      "sha256": "a3452e31ec2e361228e16a22bff791691a55b05fb34952219a6bcb2cf73a4164",
+      "original_sha256": "f9548dd52a1656c8024dc8af19f850410c3116a4e10f6e50f911f7276f368bf0",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/game/tricks/trick_catalog.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/graphics.gd.gz",
+      "sha256": "0334f8d7892519f2dd0e2178ca75db903c5956840ae2be826ed148468824a685",
+      "original_sha256": "32b756bee139fcac0a320cea244c1a6c1ad5cff00aebff33f6495f69fc0ba2ec",
+      "original_bytes": 10087,
+      "source": ".local/board-construction-next/physical-project/graphics.gd"
+    },
+    {
+      "path": "payload/board/physical-project/material_guard_probe.gd.gz",
+      "sha256": "16d3f6e6d23e93150cd0351bfd4ac20c3dfff008145947ce51b1eff0d969b946",
+      "original_sha256": "9dbc33b8a82c4c92d11e238abfacde47548e9979abd924a130760922a14c8fb2",
+      "original_bytes": 2027,
+      "source": ".local/board-construction-next/physical-project/material_guard_probe.gd"
+    },
+    {
+      "path": "payload/board/physical-project/material_guard_probe.gd.uid.gz",
+      "sha256": "37303ad675046b8d73e885365d91ed396c628094587dabdbb4c42f853e058620",
+      "original_sha256": "0106211cb95fafdd63e17766ab98d5ba3cabe2215a0a8894469d8ab40d0e060b",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/material_guard_probe.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/native-control.json.gz",
+      "sha256": "ef2a11c8216f6a697a3904600c487746aaa920e0371ee85247b068b9c0ffc912",
+      "original_sha256": "b41ce1d67310a8163c35c6d1be675dfc88afc76313686f993015b1523f997b8f",
+      "original_bytes": 473007,
+      "source": ".local/board-construction-next/physical-project/native-control.json"
+    },
+    {
+      "path": "payload/board/physical-project/native_control_probe.gd.gz",
+      "sha256": "fe83daae098a9e2598cc55f0055d5a2fc90d4986e3b4cc673d676aa6794b4753",
+      "original_sha256": "09b6517f1810215805bc54ad698988048484eeee9f00a10ba76ca9662cd0918e",
+      "original_bytes": 6429,
+      "source": ".local/board-construction-next/physical-project/native_control_probe.gd"
+    },
+    {
+      "path": "payload/board/physical-project/native_control_probe.gd.uid.gz",
+      "sha256": "db75a610a20485e1e6e7c62c79853c3c0ce9fb24e38ed90216c7855b3f0b05ce",
+      "original_sha256": "bbef29c02d379f8338f1db07c5cc8e1f81f3c02a8eb64c72fa52aabf50c19d80",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/native_control_probe.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/project.godot.gz",
+      "sha256": "946fd0bcc65661f0e94858965916cfa4ce1f1704b4dcd49ce71bfa095c83ba95",
+      "original_sha256": "1ccbea6225794374f72da303501ba59d69eb8adbb09aa2d72c15201d29bb140a",
+      "original_bytes": 148,
+      "source": ".local/board-construction-next/physical-project/project.godot"
+    },
+    {
+      "path": "payload/board/physical-project/semantic_runtime_probe.gd.gz",
+      "sha256": "052683a563450d29e0fad99d81fe6d522f7122d4e21190fc9e6a735489beb303",
+      "original_sha256": "c66e3704da8821e72c613c6b6e747e6af391421c0b4541238b520497e45d27c4",
+      "original_bytes": 7218,
+      "source": ".local/board-construction-next/physical-project/semantic_runtime_probe.gd"
+    },
+    {
+      "path": "payload/board/physical-project/semantic_runtime_probe.gd.uid.gz",
+      "sha256": "8378a371e5b48ecdc8bd202df2a90952b9b29783e8d3504d5325fabb6526fdf3",
+      "original_sha256": "4c17a1c4d4ec2b77c574f1fdc787147c9f231117fee713a0b58eff3ea9990f3e",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/semantic_runtime_probe.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/tools/art/board_contact_certificate.gd.gz",
+      "sha256": "202650c8f6fe3fd831ff37ffa3beb3977985884235cf57b5e0733d63f0eedd6e",
+      "original_sha256": "d858fbd9a163a5297f37ff5f6aa82a5665373403b4782d89944b2cbf28d4eb3c",
+      "original_bytes": 15401,
+      "source": ".local/board-construction-next/physical-project/tools/art/board_contact_certificate.gd"
+    },
+    {
+      "path": "payload/board/physical-project/tools/art/board_contact_certificate.gd.uid.gz",
+      "sha256": "f8eb00c819ba9bb12db092e11e8c9563ef131d39691c086caa9ec8c5648447e2",
+      "original_sha256": "25d715eb4115d361facdb02ea7b10e2c938f8049a0411031eac05432ce93fc41",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/tools/art/board_contact_certificate.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/tools/art/board_wood_source.gd.gz",
+      "sha256": "64eeddbfe49d0e8e5ad974dacb8fbe0bb71861cc16b4f361d5d50a533f800a92",
+      "original_sha256": "a0a555c98943ca08248ba2d3af1a1bed26f44026b3bef003557275adf1314b61",
+      "original_bytes": 5441,
+      "source": ".local/board-construction-next/physical-project/tools/art/board_wood_source.gd"
+    },
+    {
+      "path": "payload/board/physical-project/tools/art/board_wood_source.gd.uid.gz",
+      "sha256": "05eab9e1c09d97c3b511d654297b733d0895e1ef559f5114674367c186e76d2d",
+      "original_sha256": "13f4426ab28b67dd8ed2568d30623f1243620b1b28f4179c37196a20d151eb4a",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/physical-project/tools/art/board_wood_source.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-project/tools/art/import_board_wood.gd.gz",
+      "sha256": "e6b517253055024f84c339de36ed3366bf5a1200c7377549220c49077352cd99",
+      "original_sha256": "a2230c22bfa69211797bbae731fd17917451458f17da0636547d6f086d8d83a4",
+      "original_bytes": 5956,
+      "source": ".local/board-construction-next/physical-project/tools/art/import_board_wood.gd"
+    },
+    {
+      "path": "payload/board/physical-project/tools/art/import_board_wood.gd.uid.gz",
+      "sha256": "2c45b35e3e09384ed42943c9a426a4cf9811e0f040258a3b24b1b77155871d09",
+      "original_sha256": "e794f35bb903b1ef9444c3515c5dbec8ab71c6c0d1082d3b4aa4fc77ff9a989e",
+      "original_bytes": 19,
+      "source": ".local/board-construction-next/physical-project/tools/art/import_board_wood.gd.uid"
+    },
+    {
+      "path": "payload/board/physical-source-key-feasibility.json.gz",
+      "sha256": "f60b64ff0e50c6a4ad0be52d9662004565b02ae90fe610c8ddc4be0a1853c720",
+      "original_sha256": "019399574ff24df7ada8d4124272f120f5aa087fa30379efa6dd8f481657ee40",
+      "original_bytes": 776,
+      "source": ".local/board-construction-next/physical-source-key-feasibility.json"
+    },
+    {
+      "path": "payload/board/prepare_private_project.py.gz",
+      "sha256": "151c3236b8ba00af48dcf3e602921d19a3a95dee94250913a8e2a5dfcb463c0b",
+      "original_sha256": "6a43b1eb744ff378dea12745676ab4650a2a3e39f72a3714f50d06f8d4ed6796",
+      "original_bytes": 4363,
+      "source": ".local/board-construction-next/prepare_private_project.py"
+    },
+    {
+      "path": "payload/board/private-project-preparation-02.json.gz",
+      "sha256": "d4a55784c44d0fb853dca384b2c184bff700cf8faaf3fb9c01903d8b31aafc96",
+      "original_sha256": "3dcdca17a1e64eea242168506fe98daf718fca8ab5f5d437423acc335306fa38",
+      "original_bytes": 2003,
+      "source": ".local/board-construction-next/private-project-preparation-02.json"
+    },
+    {
+      "path": "payload/board/private-project-preparation-03.json.gz",
+      "sha256": "f6d537496839dbc36dc36e9b036be4995a5997a03003ce37cb77b96c4fac1b13",
+      "original_sha256": "b18929d7d636d0e790b95b329a5921c1ca2c7bfea824500ac37d639d58884a51",
+      "original_bytes": 2194,
+      "source": ".local/board-construction-next/private-project-preparation-03.json"
+    },
+    {
+      "path": "payload/board/private-project-preparation.json.gz",
+      "sha256": "3f75c9e7cb8e109264bb87d5657383dd6aa7d70ceb08e591751ebe74bcab9266",
+      "original_sha256": "6955ee168ae31224c220da1cd9abd000e6935ea856f1e3d8951d0ae1d3bf54fa",
+      "original_bytes": 2407,
+      "source": ".local/board-construction-next/private-project-preparation.json"
+    },
+    {
+      "path": "payload/board/root-api-02/after.json.gz",
+      "sha256": "3996c2e877105a0ccc2f7c913e95a423773ce6892834029ea528c708e3d29c32",
+      "original_sha256": "0cf1ed7225c6805ba9bddf381a7d284a25145006b6a94d8f09248811fdb0e3f9",
+      "original_bytes": 2922,
+      "source": ".local/board-construction-next/root-api-02/after.json"
+    },
+    {
+      "path": "payload/board/root-api-02/before.json.gz",
+      "sha256": "3996c2e877105a0ccc2f7c913e95a423773ce6892834029ea528c708e3d29c32",
+      "original_sha256": "0cf1ed7225c6805ba9bddf381a7d284a25145006b6a94d8f09248811fdb0e3f9",
+      "original_bytes": 2922,
+      "source": ".local/board-construction-next/root-api-02/before.json"
+    },
+    {
+      "path": "payload/board/root-api-02/command.log.gz",
+      "sha256": "d7ffd3029bf4191a18e050f2b7f37f1f615f5938a81df4e58d41b8b529f477c3",
+      "original_sha256": "45a49a24134dda905f89f0b9967e67b91d4cc8677cf3bcdc36381f295e5acf25",
+      "original_bytes": 440,
+      "source": ".local/board-construction-next/root-api-02/command.log"
+    },
+    {
+      "path": "payload/board/root-api-02/receipt.json.gz",
+      "sha256": "2ff0e3aa0b3c47e46c4a759e578289503ad120589aaaa8ad7f981cdf7fa81c7c",
+      "original_sha256": "3b50751252a71f56ff7f0f0585ca03ef90afbe65aebe1cf68a2a4754ae9f40e3",
+      "original_bytes": 564,
+      "source": ".local/board-construction-next/root-api-02/receipt.json"
+    },
+    {
+      "path": "payload/board/root-datums-10/after.json.gz",
+      "sha256": "f7b538755537cd31d3c58feb626cd389916a9b0993b23ee475800a09589e1259",
+      "original_sha256": "413ed286e162710fe247d78bac8adc7f1eb9962824fbf02672794ff49f9e995f",
+      "original_bytes": 20487,
+      "source": ".local/board-construction-next/root-datums-10/after.json"
+    },
+    {
+      "path": "payload/board/root-datums-10/before.json.gz",
+      "sha256": "f7b538755537cd31d3c58feb626cd389916a9b0993b23ee475800a09589e1259",
+      "original_sha256": "413ed286e162710fe247d78bac8adc7f1eb9962824fbf02672794ff49f9e995f",
+      "original_bytes": 20487,
+      "source": ".local/board-construction-next/root-datums-10/before.json"
+    },
+    {
+      "path": "payload/board/root-datums-10/command.log.gz",
+      "sha256": "5aebff66e31ada506e4bd9e4127f198c5e74b6558cbf5fad6d34737055e3f34f",
+      "original_sha256": "7477433fe1596c3e7396efd9e38dcff297d2cdf57f5b39d43f497288203ce16c",
+      "original_bytes": 1805,
+      "source": ".local/board-construction-next/root-datums-10/command.log"
+    },
+    {
+      "path": "payload/board/root-datums-10/receipt.json.gz",
+      "sha256": "3357d0e38f313f1a5ec1b62eda67df4853f2283a95a63f4b7528f9a076e104d7",
+      "original_sha256": "16eedc655a040166cab65e9c225d7f0bbfebaa28059791d36537d1c28ea1eeb2",
+      "original_bytes": 472,
+      "source": ".local/board-construction-next/root-datums-10/receipt.json"
+    },
+    {
+      "path": "payload/board/root-datums-10/result.json.gz",
+      "sha256": "b4b3db5fc8c18c9de76a0c6abf69b5df0bbe302cd0eeaf451b7d864ae02d7b4c",
+      "original_sha256": "be696aea1e52f6e40b8e86aa9c096dd2b141b7ba354369bf7e07434f22b49186",
+      "original_bytes": 2184,
+      "source": ".local/board-construction-next/root-datums-10/result.json"
+    },
+    {
+      "path": "payload/board/root-material-guard-03/after.json.gz",
+      "sha256": "b515d19a65f5e3b8e4e3f1982b8ed0631021d6c02a65ab1b88c4b8ee49a3b6c0",
+      "original_sha256": "acc77e61478602af3de913c1596ae4b76d2c06034e2226c1e87c24c8031b5080",
+      "original_bytes": 3118,
+      "source": ".local/board-construction-next/root-material-guard-03/after.json"
+    },
+    {
+      "path": "payload/board/root-material-guard-03/before.json.gz",
+      "sha256": "b515d19a65f5e3b8e4e3f1982b8ed0631021d6c02a65ab1b88c4b8ee49a3b6c0",
+      "original_sha256": "acc77e61478602af3de913c1596ae4b76d2c06034e2226c1e87c24c8031b5080",
+      "original_bytes": 3118,
+      "source": ".local/board-construction-next/root-material-guard-03/before.json"
+    },
+    {
+      "path": "payload/board/root-material-guard-03/command.log.gz",
+      "sha256": "651fbfdba62061f066af32bee7cdab5d01ee4950219f93cdeb4e85c3c483c002",
+      "original_sha256": "e9d6ae6765f99c5a17a647e672ff590d063a5bb22820085ce311212b4128668b",
+      "original_bytes": 589,
+      "source": ".local/board-construction-next/root-material-guard-03/command.log"
+    },
+    {
+      "path": "payload/board/root-material-guard-03/receipt.json.gz",
+      "sha256": "a94926e0d650be6b5d400dbbe0a59153fcdd3c86e331c18b249d1e1e30d6fab4",
+      "original_sha256": "8ac4fa7d367775148487cfdf69563450a5c655103c9d198569519a87ea504017",
+      "original_bytes": 637,
+      "source": ".local/board-construction-next/root-material-guard-03/receipt.json"
+    },
+    {
+      "path": "payload/board/root-material-guard-03/result.json.gz",
+      "sha256": "48337e243dee038e27e86695ad4ed9514093c3b78f267fef0c1ea1294147ba50",
+      "original_sha256": "eb6a92a7e821b897621644e33811cd587105ff2f2f6d63fab6c7ee5ba8ea39b5",
+      "original_bytes": 32,
+      "source": ".local/board-construction-next/root-material-guard-03/result.json"
+    },
+    {
+      "path": "payload/board/root-native-cert-export-04/after.json.gz",
+      "sha256": "465e239f1a9aa4ccdfc330c5a12786cb037f848e2ef1fc53b8ecf7b930abdff8",
+      "original_sha256": "0dcc9b4c6ac86a76328cf8bc2df13ba4235227de4e91407ca1eb3729f4ae0911",
+      "original_bytes": 3420,
+      "source": ".local/board-construction-next/root-native-cert-export-04/after.json"
+    },
+    {
+      "path": "payload/board/root-native-cert-export-04/before.json.gz",
+      "sha256": "465e239f1a9aa4ccdfc330c5a12786cb037f848e2ef1fc53b8ecf7b930abdff8",
+      "original_sha256": "0dcc9b4c6ac86a76328cf8bc2df13ba4235227de4e91407ca1eb3729f4ae0911",
+      "original_bytes": 3420,
+      "source": ".local/board-construction-next/root-native-cert-export-04/before.json"
+    },
+    {
+      "path": "payload/board/root-native-cert-export-04/command.log.gz",
+      "sha256": "7524adf7cb77f840f3feb3214ea8d39c546f95451f135889ddbef62ae29e7292",
+      "original_sha256": "9b9583b859ddd1ef28dae38789609495f801565e396ae0c04e46906471efecd6",
+      "original_bytes": 113,
+      "source": ".local/board-construction-next/root-native-cert-export-04/command.log"
+    },
+    {
+      "path": "payload/board/root-native-cert-export-04/native-certificate.json.gz",
+      "sha256": "ec78bc4e6dbe29cf3cbc870f35a829323293a9e41e196387e8ed6844dddb499d",
+      "original_sha256": "23d65c5709ee8e19a8193be20200748285c0cff85d64b36e1baddea6d9297c94",
+      "original_bytes": 60703,
+      "source": ".local/board-construction-next/root-native-cert-export-04/native-certificate.json"
+    },
+    {
+      "path": "payload/board/root-native-cert-export-04/probe.gd.txt.gz",
+      "sha256": "a9059ae0b6029adbaa14b878fc4b5b32deafa75c15846ceaab80d1430693b134",
+      "original_sha256": "7b726bbfb83ea46cd9a376d49a2cca7d1197b7beb9401b2b114ab56aeedb6d56",
+      "original_bytes": 1606,
+      "source": ".local/board-construction-next/root-native-cert-export-04/probe.gd.txt"
+    },
+    {
+      "path": "payload/board/root-native-cert-export-04/receipt.json.gz",
+      "sha256": "51ce3af1084e42ae05cb66d64ec6df6e75f7a74fb3f42c211368dbd0016c7871",
+      "original_sha256": "2fb638ca90628570d6df0f75993fc0da99018787a28907ab8c46749a1f7dc70e",
+      "original_bytes": 825,
+      "source": ".local/board-construction-next/root-native-cert-export-04/receipt.json"
+    },
+    {
+      "path": "payload/board/root-parser-05/after.json.gz",
+      "sha256": "bbe8a26c92e96189aae2daf031662809d7f14764dd26f5aefa8724237954ad98",
+      "original_sha256": "d9210b7a78d0a3fd4085c85f73b1605d026af3a690b98a7ef1caa9b9bd7d96ac",
+      "original_bytes": 3339,
+      "source": ".local/board-construction-next/root-parser-05/after.json"
+    },
+    {
+      "path": "payload/board/root-parser-05/before.json.gz",
+      "sha256": "bbe8a26c92e96189aae2daf031662809d7f14764dd26f5aefa8724237954ad98",
+      "original_sha256": "d9210b7a78d0a3fd4085c85f73b1605d026af3a690b98a7ef1caa9b9bd7d96ac",
+      "original_bytes": 3339,
+      "source": ".local/board-construction-next/root-parser-05/before.json"
+    },
+    {
+      "path": "payload/board/root-parser-05/board_contact_certificate.gd.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/root-parser-05/board_contact_certificate.gd.log"
+    },
+    {
+      "path": "payload/board/root-parser-05/board_contact_definition.gd.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/root-parser-05/board_contact_definition.gd.log"
+    },
+    {
+      "path": "payload/board/root-parser-05/receipt.json.gz",
+      "sha256": "e8c7e6427e6033f10ff191c774fb2003e47be02cf218e2786c1ccde4e60479ec",
+      "original_sha256": "83d7f7f36b34dea98bfeda4b6522a244e0ce4a96d862e2999866a5b5ff19c8ac",
+      "original_bytes": 1811,
+      "source": ".local/board-construction-next/root-parser-05/receipt.json"
+    },
+    {
+      "path": "payload/board/root-parser-05/semantic_board_cache.gd.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/root-parser-05/semantic_board_cache.gd.log"
+    },
+    {
+      "path": "payload/board/root-parser-05/semantic_runtime_probe.gd.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/root-parser-05/semantic_runtime_probe.gd.log"
+    },
+    {
+      "path": "payload/board/root-render-07/baseline/display.gz",
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_bytes": 0,
+      "source": ".local/board-construction-next/root-render-07/baseline/display"
+    },
+    {
+      "path": "payload/board/root-render-07/baseline/graphics.gd.txt.gz",
+      "sha256": "a50caddd561d9999d7dff2a2b1a39e603c5406fcb49d5078979fa8b8c88dc5e0",
+      "original_sha256": "e92b514deb8130dfbb8a5103ba744fc59b52a90d8e5fbacfdff3af10da1a1d22",
+      "original_bytes": 9554,
+      "source": ".local/board-construction-next/root-render-07/baseline/graphics.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-07/baseline/observer.py.txt.gz",
+      "sha256": "dd03153252c9059be06e17150b4f6fb343a9513284272c8651a430a633ca4bae",
+      "original_sha256": "b3b2d665a49048bf718b4d59f676c5ee9a109ce3ab6d3837eed2a2ec95292dfc",
+      "original_bytes": 3500,
+      "source": ".local/board-construction-next/root-render-07/baseline/observer.py.txt"
+    },
+    {
+      "path": "payload/board/root-render-07/baseline/receipt.json.gz",
+      "sha256": "bf2a54e21b7117cceed365d85778e54b29f1f17d8e7221618a5a0c033028748f",
+      "original_sha256": "a12d4745f61b4b7a49a837d0fa060a696124157783fe3bc00a89ae2466df2d35",
+      "original_bytes": 294,
+      "source": ".local/board-construction-next/root-render-07/baseline/receipt.json"
+    },
+    {
+      "path": "payload/board/root-render-07/baseline/source-after.json.gz",
+      "sha256": "bcbd2153fd86cd2c74875ad3178d272cf9e0d44047d463d0a9ffdc1bf849efc6",
+      "original_sha256": "68431dee265f670214a57f9e15d45a2a4a053dcc78dbcc1db3b7db18e460bd58",
+      "original_bytes": 4239,
+      "source": ".local/board-construction-next/root-render-07/baseline/source-after.json"
+    },
+    {
+      "path": "payload/board/root-render-07/baseline/source-before.json.gz",
+      "sha256": "bcbd2153fd86cd2c74875ad3178d272cf9e0d44047d463d0a9ffdc1bf849efc6",
+      "original_sha256": "68431dee265f670214a57f9e15d45a2a4a053dcc78dbcc1db3b7db18e460bd58",
+      "original_bytes": 4239,
+      "source": ".local/board-construction-next/root-render-07/baseline/source-before.json"
+    },
+    {
+      "path": "payload/board/root-render-07/baseline/xorg-console.log.gz",
+      "sha256": "2cec935f0d9f96b136b43a02b72044fde51a101496f9f4980da28cda95e75927",
+      "original_sha256": "635c7b1abec0c0713c0043c8dc25f6c3cda8200df3564c16e2f1c2537ef21a25",
+      "original_bytes": 1726,
+      "source": ".local/board-construction-next/root-render-07/baseline/xorg-console.log"
+    },
+    {
+      "path": "payload/board/root-render-07/baseline/xorg.log.gz",
+      "sha256": "e14d1ac35a3c3827568ec1585521a797e3189a46c5ad8f2a88ab931c99dfd089",
+      "original_sha256": "9aa779272e218ed08d5bed2859a34140dbd49206b3264efbe497a2392426d910",
+      "original_bytes": 5858,
+      "source": ".local/board-construction-next/root-render-07/baseline/xorg.log"
+    },
+    {
+      "path": "payload/board/root-render-07/plan.json.gz",
+      "sha256": "09f1540c6355797edf8cda5ae21a990455a0f41332551fecaccaf85617daa241",
+      "original_sha256": "3e2facad3f8696fd52c231391897b870d90748ed99b72ec88d8eda67157c2f7b",
+      "original_bytes": 1057,
+      "source": ".local/board-construction-next/root-render-07/plan.json"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/display.gz",
+      "sha256": "cabc3a30b39528db601f65ca3ced008dd775595c901102d08ac8ae8976b29bcf",
+      "original_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "original_bytes": 2,
+      "source": ".local/board-construction-next/root-render-08/baseline/display"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/engine.log.gz",
+      "sha256": "00df8fa9ce493ef908c035d8b0460f47756fa04feeb90d0d51f592245f84e7fd",
+      "original_sha256": "6c86c9156bf338eb19e51e488dd6414506bd0dfaf743ac62c5b9322c0f40b806",
+      "original_bytes": 654,
+      "source": ".local/board-construction-next/root-render-08/baseline/engine.log"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/graphics.gd.txt.gz",
+      "sha256": "d8bdabb94a73888505ac505ba603a504ea91e3193e76a4fab0f1edd2cbc66a5b",
+      "original_sha256": "8812f028fa73b79109a91453dad7ab02998decd762ce30bdddb1f7e89bc05cdf",
+      "original_bytes": 9549,
+      "source": ".local/board-construction-next/root-render-08/baseline/graphics.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/observer.py.txt.gz",
+      "sha256": "ec8bc7741d2ad4d77afd2edf8956902879c1b05f1a5fe03a6d5f9b1d92687305",
+      "original_sha256": "2c751b1a5ad8bc24b99afe0a7705b33dc7f16808edaf2c5ad742650af4e1ecaa",
+      "original_bytes": 3500,
+      "source": ".local/board-construction-next/root-render-08/baseline/observer.py.txt"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/receipt.json.gz",
+      "sha256": "0bb8191079e89e6d3ca1854ad4e7f42aa09e477f236b59efb075fd018006601b",
+      "original_sha256": "cf046b75b34171d3f79c931b96c534c44a4aeb2030b583f891aa4537bc9a1c7e",
+      "original_bytes": 959,
+      "source": ".local/board-construction-next/root-render-08/baseline/receipt.json"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/source-after.json.gz",
+      "sha256": "990ea19ab46d5c3110da0ab5439d91f61f24345cb679d9088eab8fcfa67f7320",
+      "original_sha256": "88d71b503793b569ebc5f83c4a796ad4378ffa2bbbcaee8dc53173eda00c6e34",
+      "original_bytes": 4239,
+      "source": ".local/board-construction-next/root-render-08/baseline/source-after.json"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/source-before.json.gz",
+      "sha256": "990ea19ab46d5c3110da0ab5439d91f61f24345cb679d9088eab8fcfa67f7320",
+      "original_sha256": "88d71b503793b569ebc5f83c4a796ad4378ffa2bbbcaee8dc53173eda00c6e34",
+      "original_bytes": 4239,
+      "source": ".local/board-construction-next/root-render-08/baseline/source-before.json"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/xorg-console.log.gz",
+      "sha256": "46e432ba2444008a41e24716173d992650741bca76089705e5031cd99041ed91",
+      "original_sha256": "c42618ca52f40dda905f2df09aee4ffa402ed1628ed2713864e5fb3226f33087",
+      "original_bytes": 1494,
+      "source": ".local/board-construction-next/root-render-08/baseline/xorg-console.log"
+    },
+    {
+      "path": "payload/board/root-render-08/baseline/xorg.log.gz",
+      "sha256": "821b314e43537d440704c0da5cf99c2ed1f5d6b1a172aa1547032c14ae2e64e1",
+      "original_sha256": "f37fbff92e4d289ea39db07341a96ece141c7069732a64771ef478655d908176",
+      "original_bytes": 51941,
+      "source": ".local/board-construction-next/root-render-08/baseline/xorg.log"
+    },
+    {
+      "path": "payload/board/root-render-08/before-observer.gd.txt.gz",
+      "sha256": "a50caddd561d9999d7dff2a2b1a39e603c5406fcb49d5078979fa8b8c88dc5e0",
+      "original_sha256": "e92b514deb8130dfbb8a5103ba744fc59b52a90d8e5fbacfdff3af10da1a1d22",
+      "original_bytes": 9554,
+      "source": ".local/board-construction-next/root-render-08/before-observer.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-08/observer-correction.json.gz",
+      "sha256": "734014d84df6afbb6dc2872f4662c025016920e29c610584d2cb6c8b07a5efcb",
+      "original_sha256": "15ba03bd3418e751516fd8081afed246fd1d887845c14c79b1d0a8e640cb4924",
+      "original_bytes": 424,
+      "source": ".local/board-construction-next/root-render-08/observer-correction.json"
+    },
+    {
+      "path": "payload/board/root-render-08/observer.gd.txt.gz",
+      "sha256": "d8bdabb94a73888505ac505ba603a504ea91e3193e76a4fab0f1edd2cbc66a5b",
+      "original_sha256": "8812f028fa73b79109a91453dad7ab02998decd762ce30bdddb1f7e89bc05cdf",
+      "original_bytes": 9549,
+      "source": ".local/board-construction-next/root-render-08/observer.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-08/parser.log.gz",
+      "sha256": "1649f71555298cb378f8e34123d13782c724f1846260ce458c569e1834f4dc76",
+      "original_sha256": "3d8b26f225358f1185ea18621b45e2f63727821f98c7d155fb5f90284da26fbc",
+      "original_bytes": 359,
+      "source": ".local/board-construction-next/root-render-08/parser.log"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/display.gz",
+      "sha256": "cabc3a30b39528db601f65ca3ced008dd775595c901102d08ac8ae8976b29bcf",
+      "original_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "original_bytes": 2,
+      "source": ".local/board-construction-next/root-render-09/baseline/display"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/engine.log.gz",
+      "sha256": "50a8f478b32fdbacbc933ee876c3cc0a8e4675723353c6f99c5bfa271f5cc15c",
+      "original_sha256": "3ed6f1d43b6075bde15cf9e49e3b97bea6debea307bdd89518a71a729f1608f0",
+      "original_bytes": 408,
+      "source": ".local/board-construction-next/root-render-09/baseline/engine.log"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/graphics.gd.txt.gz",
+      "sha256": "b6163852459b1c2369b1650eaf69e7ebbea363987a45f95c5b224da5bc9563ab",
+      "original_sha256": "6e5f8f42e6424c51928b533a6ef5b2eb6537a9859edbb45d718692c8d1a94c24",
+      "original_bytes": 9549,
+      "source": ".local/board-construction-next/root-render-09/baseline/graphics.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/observer.py.txt.gz",
+      "sha256": "2feeff4826ad0a12d71fc3ad969d96cba75282e06dec26cf6eb3442ed2ed6b7e",
+      "original_sha256": "cadd8119262e76d8bc9093e01156a0054cd69586f6646cb17e9dc46909b65c8f",
+      "original_bytes": 3500,
+      "source": ".local/board-construction-next/root-render-09/baseline/observer.py.txt"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/receipt.json.gz",
+      "sha256": "6cb209dd4b755fba143240c22746a560a886bc8498798686bd76c42dca34b9c9",
+      "original_sha256": "0046699318a9ac9dccf845e0a5d2f8dd6b29de7e3304da1dff811e2189c9162c",
+      "original_bytes": 1016,
+      "source": ".local/board-construction-next/root-render-09/baseline/receipt.json"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/ride_quarter.png",
+      "sha256": "dec31befeefdc4cedc7f3e421493b01b8375ce05477cf4b9210c81986cd4084f",
+      "original_sha256": "dec31befeefdc4cedc7f3e421493b01b8375ce05477cf4b9210c81986cd4084f",
+      "original_bytes": 185791,
+      "source": ".local/board-construction-next/root-render-09/baseline/ride_quarter.png"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/side_construction.png",
+      "sha256": "1d6fd888ddbc1fafbb1cbbd748fac93fc1501bf8251d9ef734b76472fabac863",
+      "original_sha256": "1d6fd888ddbc1fafbb1cbbd748fac93fc1501bf8251d9ef734b76472fabac863",
+      "original_bytes": 241545,
+      "source": ".local/board-construction-next/root-render-09/baseline/side_construction.png"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/source-after.json.gz",
+      "sha256": "143fbf8c003ef4475852888431fb4217ccf3a62efa6596e5460096bef109f437",
+      "original_sha256": "3a29d7ddfaf4a4d247aec48a152cd8dfc7c3f807f497969053242be91a10dc9b",
+      "original_bytes": 4239,
+      "source": ".local/board-construction-next/root-render-09/baseline/source-after.json"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/source-before.json.gz",
+      "sha256": "143fbf8c003ef4475852888431fb4217ccf3a62efa6596e5460096bef109f437",
+      "original_sha256": "3a29d7ddfaf4a4d247aec48a152cd8dfc7c3f807f497969053242be91a10dc9b",
+      "original_bytes": 4239,
+      "source": ".local/board-construction-next/root-render-09/baseline/source-before.json"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/underside.png",
+      "sha256": "ecee5f620d2352a5e82f3a77bb7eca044e28e5e4f0f3ff15ba0e183f29cfca28",
+      "original_sha256": "ecee5f620d2352a5e82f3a77bb7eca044e28e5e4f0f3ff15ba0e183f29cfca28",
+      "original_bytes": 401442,
+      "source": ".local/board-construction-next/root-render-09/baseline/underside.png"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/views.json.gz",
+      "sha256": "6bd1d9d5fe435a17b18ecebb7326ca5ab2598630ee8743958d719e8b043777f3",
+      "original_sha256": "a26c2aa664bad0dce9f4831c8ee90afd5b07debb528d828e4b8d9c92439d269f",
+      "original_bytes": 6728,
+      "source": ".local/board-construction-next/root-render-09/baseline/views.json"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/xorg-console.log.gz",
+      "sha256": "263fb308e8afbe0290073721878199e31c31f88d666590fb1260bc071613b250",
+      "original_sha256": "5465d115e1c66b754b1bdc858ca7b62110aa2878c3006129411bd0dce2037144",
+      "original_bytes": 1494,
+      "source": ".local/board-construction-next/root-render-09/baseline/xorg-console.log"
+    },
+    {
+      "path": "payload/board/root-render-09/baseline/xorg.log.gz",
+      "sha256": "5b8fc8ebabf200311ce64323b38ec137168d9b1f4c9323533bf407ec07644e9a",
+      "original_sha256": "873616e47fbb2aebb6895494f9c764b4e6a941dcefed43283e3855e9b2683332",
+      "original_bytes": 51941,
+      "source": ".local/board-construction-next/root-render-09/baseline/xorg.log"
+    },
+    {
+      "path": "payload/board/root-render-09/before-observer.gd.txt.gz",
+      "sha256": "d8bdabb94a73888505ac505ba603a504ea91e3193e76a4fab0f1edd2cbc66a5b",
+      "original_sha256": "8812f028fa73b79109a91453dad7ab02998decd762ce30bdddb1f7e89bc05cdf",
+      "original_bytes": 9549,
+      "source": ".local/board-construction-next/root-render-09/before-observer.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/display.gz",
+      "sha256": "cabc3a30b39528db601f65ca3ced008dd775595c901102d08ac8ae8976b29bcf",
+      "original_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "original_bytes": 2,
+      "source": ".local/board-construction-next/root-render-09/candidate/display"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/engine.log.gz",
+      "sha256": "50a8f478b32fdbacbc933ee876c3cc0a8e4675723353c6f99c5bfa271f5cc15c",
+      "original_sha256": "3ed6f1d43b6075bde15cf9e49e3b97bea6debea307bdd89518a71a729f1608f0",
+      "original_bytes": 408,
+      "source": ".local/board-construction-next/root-render-09/candidate/engine.log"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/graphics.gd.txt.gz",
+      "sha256": "b6163852459b1c2369b1650eaf69e7ebbea363987a45f95c5b224da5bc9563ab",
+      "original_sha256": "6e5f8f42e6424c51928b533a6ef5b2eb6537a9859edbb45d718692c8d1a94c24",
+      "original_bytes": 9549,
+      "source": ".local/board-construction-next/root-render-09/candidate/graphics.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/observer.py.txt.gz",
+      "sha256": "262c1e967740738aa82565d95029c1b728c348296089752f08a91df0a13882b0",
+      "original_sha256": "8bceda36601b2febf1a36e834c79f0e30912b4f93d15991811d32d35123740a1",
+      "original_bytes": 3505,
+      "source": ".local/board-construction-next/root-render-09/candidate/observer.py.txt"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/receipt.json.gz",
+      "sha256": "0e2d6062e3436a8ef2bc0229d3be17162aca33d2ba92b6b6f20e647529626a13",
+      "original_sha256": "6137644a4f43553641c084c4aadffa4243cc09562a031d281e886867aca5d173",
+      "original_bytes": 1021,
+      "source": ".local/board-construction-next/root-render-09/candidate/receipt.json"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/ride_quarter.png",
+      "sha256": "2a8b5d2f5a6c146faa8dcb431815ddde47edd3018e1068f9691141870d58897f",
+      "original_sha256": "2a8b5d2f5a6c146faa8dcb431815ddde47edd3018e1068f9691141870d58897f",
+      "original_bytes": 174633,
+      "source": ".local/board-construction-next/root-render-09/candidate/ride_quarter.png"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/side_construction.png",
+      "sha256": "2b955c3181ee95cd0ffcf1b6936f1872c63fd5458f38fbfc94ffb492dd07cb66",
+      "original_sha256": "2b955c3181ee95cd0ffcf1b6936f1872c63fd5458f38fbfc94ffb492dd07cb66",
+      "original_bytes": 223953,
+      "source": ".local/board-construction-next/root-render-09/candidate/side_construction.png"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/source-after.json.gz",
+      "sha256": "143fbf8c003ef4475852888431fb4217ccf3a62efa6596e5460096bef109f437",
+      "original_sha256": "3a29d7ddfaf4a4d247aec48a152cd8dfc7c3f807f497969053242be91a10dc9b",
+      "original_bytes": 4239,
+      "source": ".local/board-construction-next/root-render-09/candidate/source-after.json"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/source-before.json.gz",
+      "sha256": "143fbf8c003ef4475852888431fb4217ccf3a62efa6596e5460096bef109f437",
+      "original_sha256": "3a29d7ddfaf4a4d247aec48a152cd8dfc7c3f807f497969053242be91a10dc9b",
+      "original_bytes": 4239,
+      "source": ".local/board-construction-next/root-render-09/candidate/source-before.json"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/underside.png",
+      "sha256": "c4367d253056420ed7f70dd94155a55f1bf6d632030d6ae8fb42d03c53a1982a",
+      "original_sha256": "c4367d253056420ed7f70dd94155a55f1bf6d632030d6ae8fb42d03c53a1982a",
+      "original_bytes": 392271,
+      "source": ".local/board-construction-next/root-render-09/candidate/underside.png"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/views.json.gz",
+      "sha256": "1dc7fd7c492ccd2d331e03fec1917ba08a956c52ee6fc93e3cc36714cbecf0c8",
+      "original_sha256": "da802dc6e6c60ceb03c72cc9257efa03717e39c583ed3a0bab3990050e90d915",
+      "original_bytes": 6728,
+      "source": ".local/board-construction-next/root-render-09/candidate/views.json"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/xorg-console.log.gz",
+      "sha256": "d33e462bb3baf3a74e7ed973023f474136714af1908890be9dcc44d006b8d19c",
+      "original_sha256": "3995bc69f2f09ff20c822b8a860a994d50b151abbead6780162e753aefe7bf3f",
+      "original_bytes": 1495,
+      "source": ".local/board-construction-next/root-render-09/candidate/xorg-console.log"
+    },
+    {
+      "path": "payload/board/root-render-09/candidate/xorg.log.gz",
+      "sha256": "1b4c165dad7e985f4369743f6c49d9960bbdc8efcb6d247ea316921779d359bd",
+      "original_sha256": "91000ebf69acb192a819eb22fcddebe8bc3cdce9cb69a50316805c2f7e8a725d",
+      "original_bytes": 51942,
+      "source": ".local/board-construction-next/root-render-09/candidate/xorg.log"
+    },
+    {
+      "path": "payload/board/root-render-09/correction.json.gz",
+      "sha256": "e70320e122078181e569d3310aa4fadb87de581f321739f2791873794632adbc",
+      "original_sha256": "da8dafc7d88cf24da5367ba7444c5d8c06e9493ff2b9e28d841aa75ff52e4994",
+      "original_bytes": 466,
+      "source": ".local/board-construction-next/root-render-09/correction.json"
+    },
+    {
+      "path": "payload/board/root-render-09/observer.gd.txt.gz",
+      "sha256": "b6163852459b1c2369b1650eaf69e7ebbea363987a45f95c5b224da5bc9563ab",
+      "original_sha256": "6e5f8f42e6424c51928b533a6ef5b2eb6537a9859edbb45d718692c8d1a94c24",
+      "original_bytes": 9549,
+      "source": ".local/board-construction-next/root-render-09/observer.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-09/parser.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/root-render-09/parser.log"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/display.gz",
+      "sha256": "cabc3a30b39528db601f65ca3ced008dd775595c901102d08ac8ae8976b29bcf",
+      "original_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "original_bytes": 2,
+      "source": ".local/board-construction-next/root-render-10/baseline/display"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/engine.log.gz",
+      "sha256": "e000b51c2e2d1b3adce2be24a8b558a465bd12409755c3476257febe69daef46",
+      "original_sha256": "f056686642588c6607774908f3e1d5cbcbf8c372133aece6490b03a1b2afa6c2",
+      "original_bytes": 408,
+      "source": ".local/board-construction-next/root-render-10/baseline/engine.log"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/graphics.gd.txt.gz",
+      "sha256": "0334f8d7892519f2dd0e2178ca75db903c5956840ae2be826ed148468824a685",
+      "original_sha256": "32b756bee139fcac0a320cea244c1a6c1ad5cff00aebff33f6495f69fc0ba2ec",
+      "original_bytes": 10087,
+      "source": ".local/board-construction-next/root-render-10/baseline/graphics.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/observer.py.txt.gz",
+      "sha256": "6c8eaf541962864aa4b2782ff9ab9939ae7b1066c546308a02326be06b0d96e5",
+      "original_sha256": "66e9a0be462cd72bce2846a3943f827b33eca10f41b231e9ee20a79adea09e85",
+      "original_bytes": 3500,
+      "source": ".local/board-construction-next/root-render-10/baseline/observer.py.txt"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/receipt.json.gz",
+      "sha256": "adfb808008c83023f904fa1261e5d500877a94a5179ffaad45718f754c8d693d",
+      "original_sha256": "645194b8b64705c3a3834f7c2cc2ba9c66d5b350026060af3175c21d98cee391",
+      "original_bytes": 1016,
+      "source": ".local/board-construction-next/root-render-10/baseline/receipt.json"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/ride_quarter.png",
+      "sha256": "3f3d9bc663cc59c27f7ecd0d454cb4ce073019cfe283da18ff86e3cdd2289ca2",
+      "original_sha256": "3f3d9bc663cc59c27f7ecd0d454cb4ce073019cfe283da18ff86e3cdd2289ca2",
+      "original_bytes": 185901,
+      "source": ".local/board-construction-next/root-render-10/baseline/ride_quarter.png"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/side_construction.png",
+      "sha256": "40ae6e59424d76adfec4b0c426f43cd9fca510f2a152c91575d1d65720cd09bd",
+      "original_sha256": "40ae6e59424d76adfec4b0c426f43cd9fca510f2a152c91575d1d65720cd09bd",
+      "original_bytes": 241576,
+      "source": ".local/board-construction-next/root-render-10/baseline/side_construction.png"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/source-after.json.gz",
+      "sha256": "06a8c94c37b55690975a6f1e5791cb2bef8419e931f06bc0e20edc43adb46fa1",
+      "original_sha256": "cb47e9bff140d465eb810b3ac296256f4a9265c96532eb93ffaf6b7f35090e42",
+      "original_bytes": 4327,
+      "source": ".local/board-construction-next/root-render-10/baseline/source-after.json"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/source-before.json.gz",
+      "sha256": "06a8c94c37b55690975a6f1e5791cb2bef8419e931f06bc0e20edc43adb46fa1",
+      "original_sha256": "cb47e9bff140d465eb810b3ac296256f4a9265c96532eb93ffaf6b7f35090e42",
+      "original_bytes": 4327,
+      "source": ".local/board-construction-next/root-render-10/baseline/source-before.json"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/underside.png",
+      "sha256": "eb1aa0e09edb68f344b5046c0bff4523998e8482df73f8a79657e8332f440c47",
+      "original_sha256": "eb1aa0e09edb68f344b5046c0bff4523998e8482df73f8a79657e8332f440c47",
+      "original_bytes": 401574,
+      "source": ".local/board-construction-next/root-render-10/baseline/underside.png"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/views.json.gz",
+      "sha256": "9a5bf4b6a5e975e7914e64288af9b67ee982e064130778e14b621d08815861d3",
+      "original_sha256": "ede5fd9e7521df0ef16582260ba10af479a8452b43d68ff2cbfe723f2b0c83aa",
+      "original_bytes": 6808,
+      "source": ".local/board-construction-next/root-render-10/baseline/views.json"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/xorg-console.log.gz",
+      "sha256": "34b22b1c2b1c0b047cd6ec5800e54339d11691e8cb51ed8c1309face84543463",
+      "original_sha256": "1f0fe1b513553311a5a5ba272e249a68d195b81e306e7837d4cfb08ef28186b4",
+      "original_bytes": 1494,
+      "source": ".local/board-construction-next/root-render-10/baseline/xorg-console.log"
+    },
+    {
+      "path": "payload/board/root-render-10/baseline/xorg.log.gz",
+      "sha256": "6868210e30a5c6db9aeebbaa43ae63ad64d90668b8a1c4117f10be6a470a1fca",
+      "original_sha256": "4be9382aa390387db22e0189e869ef36b689bc55092a6f29d29812166a5dac52",
+      "original_bytes": 51941,
+      "source": ".local/board-construction-next/root-render-10/baseline/xorg.log"
+    },
+    {
+      "path": "payload/board/root-render-10/before-observer.gd.txt.gz",
+      "sha256": "b6163852459b1c2369b1650eaf69e7ebbea363987a45f95c5b224da5bc9563ab",
+      "original_sha256": "6e5f8f42e6424c51928b533a6ef5b2eb6537a9859edbb45d718692c8d1a94c24",
+      "original_bytes": 9549,
+      "source": ".local/board-construction-next/root-render-10/before-observer.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/display.gz",
+      "sha256": "cabc3a30b39528db601f65ca3ced008dd775595c901102d08ac8ae8976b29bcf",
+      "original_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "original_bytes": 2,
+      "source": ".local/board-construction-next/root-render-10/candidate/display"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/engine.log.gz",
+      "sha256": "e000b51c2e2d1b3adce2be24a8b558a465bd12409755c3476257febe69daef46",
+      "original_sha256": "f056686642588c6607774908f3e1d5cbcbf8c372133aece6490b03a1b2afa6c2",
+      "original_bytes": 408,
+      "source": ".local/board-construction-next/root-render-10/candidate/engine.log"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/graphics.gd.txt.gz",
+      "sha256": "0334f8d7892519f2dd0e2178ca75db903c5956840ae2be826ed148468824a685",
+      "original_sha256": "32b756bee139fcac0a320cea244c1a6c1ad5cff00aebff33f6495f69fc0ba2ec",
+      "original_bytes": 10087,
+      "source": ".local/board-construction-next/root-render-10/candidate/graphics.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/observer.py.txt.gz",
+      "sha256": "cfc9d688b632bb55c53d17d448f5369e7f17c5d255cafc84cb5ecbf90cccc0ac",
+      "original_sha256": "a3c70fc39a7257bb9733f645f39ceda890275fb88549d59b06169dc2bd0a2026",
+      "original_bytes": 3505,
+      "source": ".local/board-construction-next/root-render-10/candidate/observer.py.txt"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/receipt.json.gz",
+      "sha256": "ccdfa699f1159bf03dac801ce004d4f02302b2a7b6d29de62cf0409e8869dcfe",
+      "original_sha256": "888f2cd62e7df007e16315017a48d74e789cee178d4f32070f8f21e52c9739d0",
+      "original_bytes": 1021,
+      "source": ".local/board-construction-next/root-render-10/candidate/receipt.json"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/ride_quarter.png",
+      "sha256": "11d8bed4eaa9f59a824097721e331fdcc33974827d6f804a17d289c058574393",
+      "original_sha256": "11d8bed4eaa9f59a824097721e331fdcc33974827d6f804a17d289c058574393",
+      "original_bytes": 175837,
+      "source": ".local/board-construction-next/root-render-10/candidate/ride_quarter.png"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/side_construction.png",
+      "sha256": "d7f0133867e3c35913ad6a9e94baca1d75b9f19d21d131ffbe142c2d897c1960",
+      "original_sha256": "d7f0133867e3c35913ad6a9e94baca1d75b9f19d21d131ffbe142c2d897c1960",
+      "original_bytes": 228890,
+      "source": ".local/board-construction-next/root-render-10/candidate/side_construction.png"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/source-after.json.gz",
+      "sha256": "06a8c94c37b55690975a6f1e5791cb2bef8419e931f06bc0e20edc43adb46fa1",
+      "original_sha256": "cb47e9bff140d465eb810b3ac296256f4a9265c96532eb93ffaf6b7f35090e42",
+      "original_bytes": 4327,
+      "source": ".local/board-construction-next/root-render-10/candidate/source-after.json"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/source-before.json.gz",
+      "sha256": "06a8c94c37b55690975a6f1e5791cb2bef8419e931f06bc0e20edc43adb46fa1",
+      "original_sha256": "cb47e9bff140d465eb810b3ac296256f4a9265c96532eb93ffaf6b7f35090e42",
+      "original_bytes": 4327,
+      "source": ".local/board-construction-next/root-render-10/candidate/source-before.json"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/underside.png",
+      "sha256": "6db14324b31adad0d57a6b507d3169b377044d9e9a5cee9cdf502e548ad2bea4",
+      "original_sha256": "6db14324b31adad0d57a6b507d3169b377044d9e9a5cee9cdf502e548ad2bea4",
+      "original_bytes": 389148,
+      "source": ".local/board-construction-next/root-render-10/candidate/underside.png"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/views.json.gz",
+      "sha256": "2532d41536928403b0fae1c3a14eb86bc8e60d910d8ec444433dcdaee3c77d67",
+      "original_sha256": "195ee229683a8dfc4502008357eb4106f0c5f3f0204848fc66ff95d8cbfab260",
+      "original_bytes": 6811,
+      "source": ".local/board-construction-next/root-render-10/candidate/views.json"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/xorg-console.log.gz",
+      "sha256": "aa315a29cbd9a76071e9b2ce58bd0c0fe39a3b079a221ea5114371b742dce94e",
+      "original_sha256": "98807fe77faa775a5b5b6565f881488890025b3fc0822bd7502f57526f388780",
+      "original_bytes": 1495,
+      "source": ".local/board-construction-next/root-render-10/candidate/xorg-console.log"
+    },
+    {
+      "path": "payload/board/root-render-10/candidate/xorg.log.gz",
+      "sha256": "6012c80dfc2d56c81cf76c1f6efae6c35800de6954614c100d6e1e121223a90d",
+      "original_sha256": "6017f3afa758b697d8fa52c0d4a46fd0ff35e09e1199ece7d5d38dd206b9ebb9",
+      "original_bytes": 51942,
+      "source": ".local/board-construction-next/root-render-10/candidate/xorg.log"
+    },
+    {
+      "path": "payload/board/root-render-10/observer.gd.txt.gz",
+      "sha256": "0334f8d7892519f2dd0e2178ca75db903c5956840ae2be826ed148468824a685",
+      "original_sha256": "32b756bee139fcac0a320cea244c1a6c1ad5cff00aebff33f6495f69fc0ba2ec",
+      "original_bytes": 10087,
+      "source": ".local/board-construction-next/root-render-10/observer.gd.txt"
+    },
+    {
+      "path": "payload/board/root-render-10/parser.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/root-render-10/parser.log"
+    },
+    {
+      "path": "payload/board/root-render-10/plan.json.gz",
+      "sha256": "df5334286c72754f359cd228bc249d7ee08eb9e9f713de293a7df0d129b1642d",
+      "original_sha256": "87a68156b784260378b4184a554c5417dd50fdf6f61fd741f4aa43619dad1a1d",
+      "original_bytes": 765,
+      "source": ".local/board-construction-next/root-render-10/plan.json"
+    },
+    {
+      "path": "payload/board/root-repair-02/after.gd.txt.gz",
+      "sha256": "570ae014aa2d7dd1e4fa7b86886707d73ff88dcc5f1361c63eb1957a7c3c80bc",
+      "original_sha256": "d7443e1f45b9b2d71b05cbdd0ca552633a13e708f4decc68ba225edce14a9a31",
+      "original_bytes": 15351,
+      "source": ".local/board-construction-next/root-repair-02/after.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-02/before.gd.txt.gz",
+      "sha256": "a48281261129d2b773bab7fcd90a99f7f9e6c10daee2dc1d16b8a7ad7c7e69cb",
+      "original_sha256": "db60b0157f78b9987b96a2f9b410fbd03d22b15dbb5ac59ca980b314bbcd1bda",
+      "original_bytes": 15359,
+      "source": ".local/board-construction-next/root-repair-02/before.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-02/plan.json.gz",
+      "sha256": "f819a5c830aedbdf4771264e2fc54c950258f31660bf41f1675c311f2b94016b",
+      "original_sha256": "894dd12e5b629664bb60897c75d06ff854531a3cbe4bcfcda8614a9d79e8cb39",
+      "original_bytes": 1107,
+      "source": ".local/board-construction-next/root-repair-02/plan.json"
+    },
+    {
+      "path": "payload/board/root-repair-03/after.gd.txt.gz",
+      "sha256": "24e0a3cc87c74ae309f343266ba050b5a00826938f5abccd0da817d534991d0d",
+      "original_sha256": "2dc9cd1566517bbc7099386434f30a620cb1d0d917860bddda267fede6123dc0",
+      "original_bytes": 15376,
+      "source": ".local/board-construction-next/root-repair-03/after.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-03/before.gd.txt.gz",
+      "sha256": "570ae014aa2d7dd1e4fa7b86886707d73ff88dcc5f1361c63eb1957a7c3c80bc",
+      "original_sha256": "d7443e1f45b9b2d71b05cbdd0ca552633a13e708f4decc68ba225edce14a9a31",
+      "original_bytes": 15351,
+      "source": ".local/board-construction-next/root-repair-03/before.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-03/plan.json.gz",
+      "sha256": "3d1dc0f13f73a8d1056fc8636a6a1a4f9ef86d27db7edc50d57f2cf901a81b0e",
+      "original_sha256": "b36c0a70df32076e251d82d2c69f8f8269b0214b3f20c5aac9ca92bd926fc93d",
+      "original_bytes": 997,
+      "source": ".local/board-construction-next/root-repair-03/plan.json"
+    },
+    {
+      "path": "payload/board/root-repair-04/after-definition.gd.txt.gz",
+      "sha256": "8e9cf0c1a049bd1f8bfbcfb2f85e969e7ef34a030be99f552f98fd131e7531ea",
+      "original_sha256": "be5f6020887d11f12507ed35f6fda77849e2a879bbafc2887a494d72622ab950",
+      "original_bytes": 15831,
+      "source": ".local/board-construction-next/root-repair-04/after-definition.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-04/after-helper.gd.txt.gz",
+      "sha256": "3ae7278ed441bd83073cb404e8b41c4597068b89bc2cc6e03f69d96f9b8462b8",
+      "original_sha256": "3cb288a1142e9809aebaff3f8404078a1e1c522663c97529991d56e09a7587cc",
+      "original_bytes": 15677,
+      "source": ".local/board-construction-next/root-repair-04/after-helper.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-04/before-definition.gd.txt.gz",
+      "sha256": "a1a75d9822e143e59a3bf7cc4f8132e72c3cc4967ac6d278abca5cb47bf726c3",
+      "original_sha256": "edda031d325050b46769d56b0654de9e6a8a4af4192504c6a69b953887142b3c",
+      "original_bytes": 26753,
+      "source": ".local/board-construction-next/root-repair-04/before-definition.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-04/before-helper.gd.txt.gz",
+      "sha256": "24e0a3cc87c74ae309f343266ba050b5a00826938f5abccd0da817d534991d0d",
+      "original_sha256": "2dc9cd1566517bbc7099386434f30a620cb1d0d917860bddda267fede6123dc0",
+      "original_bytes": 15376,
+      "source": ".local/board-construction-next/root-repair-04/before-helper.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-04/compact-certificate.json.gz",
+      "sha256": "5306585bf81e2f4d5738bb2a0f0a2380b6e50fa3fd31e6575ceb37fbf1462005",
+      "original_sha256": "3749741878d78b8594cc058048f218a9342ee049b2222fb0135353c68b44aef1",
+      "original_bytes": 57397,
+      "source": ".local/board-construction-next/root-repair-04/compact-certificate.json"
+    },
+    {
+      "path": "payload/board/root-repair-04/expected.json.gz",
+      "sha256": "014dfbbfb5002e8a6ffba87df77308e249ef296f23d80b74ebafd88586a133f3",
+      "original_sha256": "ff0dab14f2c23cae12ed8e95943c62b3d890fc5ed1dd435664f52e5e6931412a",
+      "original_bytes": 447,
+      "source": ".local/board-construction-next/root-repair-04/expected.json"
+    },
+    {
+      "path": "payload/board/root-repair-04/plan.json.gz",
+      "sha256": "b6772bcbe0284d182b4197cb4efd47599d7c2a24e085895914bd397d632d8056",
+      "original_sha256": "bde643ca3edf108469517acd07a4e989c306581d33b7070c478703290ff8969f",
+      "original_bytes": 1434,
+      "source": ".local/board-construction-next/root-repair-04/plan.json"
+    },
+    {
+      "path": "payload/board/root-repair-04/receipt.json.gz",
+      "sha256": "e8ba5546238667f387ced281e7a26691d5c975b58bc453506df1bfaf1a127a05",
+      "original_sha256": "97a0088500345a0f9d05dd62717505d43418d1565efa1b62a65b13471f3a8748",
+      "original_bytes": 644,
+      "source": ".local/board-construction-next/root-repair-04/receipt.json"
+    },
+    {
+      "path": "payload/board/root-repair-05/after-importer.gd.txt.gz",
+      "sha256": "e6b517253055024f84c339de36ed3366bf5a1200c7377549220c49077352cd99",
+      "original_sha256": "a2230c22bfa69211797bbae731fd17917451458f17da0636547d6f086d8d83a4",
+      "original_bytes": 5956,
+      "source": ".local/board-construction-next/root-repair-05/after-importer.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/before-importer.gd.txt.gz",
+      "sha256": "5bf53d1df53aa06a1483d6284b6360bdbf7e8333fc0b5a45a3fbbf41c00ea66a",
+      "original_sha256": "8574186fcd0a7d7da304971dbd5fe88a52b187b5b12fcea91e5d22c82eca479a",
+      "original_bytes": 5823,
+      "source": ".local/board-construction-next/root-repair-05/before-importer.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/before-runtime-definition.gd.txt.gz",
+      "sha256": "8e9cf0c1a049bd1f8bfbcfb2f85e969e7ef34a030be99f552f98fd131e7531ea",
+      "original_sha256": "be5f6020887d11f12507ed35f6fda77849e2a879bbafc2887a494d72622ab950",
+      "original_bytes": 15831,
+      "source": ".local/board-construction-next/root-repair-05/before-runtime-definition.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/before-runtime-probe.gd.txt.gz",
+      "sha256": "05985f2104eb3d6b431599444d2fbf73e265619a9a4a7115b6f4ae6260b0114a",
+      "original_sha256": "c9afbeda899263b9fa1946d18d67f510f23b1a21efc4c090ffad5a0a9582a42b",
+      "original_bytes": 6777,
+      "source": ".local/board-construction-next/root-repair-05/before-runtime-probe.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/compact-certificate.json.gz",
+      "sha256": "651cb196fcb6c8e76f6d2b5fe9fb0ea20418a9fc5b070f72f2d71c7b640d480c",
+      "original_sha256": "c035e3ebc705daaf522aa4c674821a798ad431d202a80090e94c5c85ed65a298",
+      "original_bytes": 57397,
+      "source": ".local/board-construction-next/root-repair-05/compact-certificate.json"
+    },
+    {
+      "path": "payload/board/root-repair-05/editor-certificate.gd.txt.gz",
+      "sha256": "c73fff03ea4a4a8069ad824384513320e1c72915c2717d7c49df1b83c446dd11",
+      "original_sha256": "80fca88438ac9fb7a9c090053253558bd615118b7f7c243b1b969f6b93c243a1",
+      "original_bytes": 15395,
+      "source": ".local/board-construction-next/root-repair-05/editor-certificate.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/expected.json.gz",
+      "sha256": "256fdf436a80c4f2b8520a4813148efdb9e50b15fbbe917d72d16b597a26ec9d",
+      "original_sha256": "c2bab46d1436bfc3e2554f8b01727dd158ff545cb3f341de7b83a4c161bdd9fb",
+      "original_bytes": 447,
+      "source": ".local/board-construction-next/root-repair-05/expected.json"
+    },
+    {
+      "path": "payload/board/root-repair-05/plan.json.gz",
+      "sha256": "7eeea8792ddd71e05893cbdf8199289c2d2ab45b7b9aa939d6eb7b1dff1a6477",
+      "original_sha256": "31f601cd854731aa714761fa344f62b8056b816a21091b1b96865a87b9cbae96",
+      "original_bytes": 1281,
+      "source": ".local/board-construction-next/root-repair-05/plan.json"
+    },
+    {
+      "path": "payload/board/root-repair-05/receipt.json.gz",
+      "sha256": "5d86355b168dbc4e968bc4f552a8bd7da8132b55e2a1fce9f9f52d783da620a3",
+      "original_sha256": "90b8cf86fc10f606e4d14ef7852bac406ce6f1a8b5c726cf5bf1e8ad1db6b352",
+      "original_bytes": 368,
+      "source": ".local/board-construction-next/root-repair-05/receipt.json"
+    },
+    {
+      "path": "payload/board/root-repair-05/retired-source/export_native_certificate.gd.txt.gz",
+      "sha256": "a9059ae0b6029adbaa14b878fc4b5b32deafa75c15846ceaab80d1430693b134",
+      "original_sha256": "7b726bbfb83ea46cd9a376d49a2cca7d1197b7beb9401b2b114ab56aeedb6d56",
+      "original_bytes": 1606,
+      "source": ".local/board-construction-next/root-repair-05/retired-source/export_native_certificate.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/retired-source/export_native_certificate.gd.uid.txt.gz",
+      "sha256": "3d20319a67b81cc202ad44b540973fdde130a75b07d22732f3b97c15fb0ca04d",
+      "original_sha256": "b9632aa5db16c5084607c92cc63164276aa526d7048c9531d6e5975597192172",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/root-repair-05/retired-source/export_native_certificate.gd.uid.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/retired-source/material_api_probe.gd.txt.gz",
+      "sha256": "160342b476b2e95dd79d9ec05cb53ed0c3ad842f55a2d46f8f5fa9ea76ae0a34",
+      "original_sha256": "9640df5f25de4cc5fef16c04b85546e821378992a19dd59bf8db666dc03d31bd",
+      "original_bytes": 613,
+      "source": ".local/board-construction-next/root-repair-05/retired-source/material_api_probe.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/retired-source/material_api_probe.gd.uid.txt.gz",
+      "sha256": "5abd6556c63709e84984e1accb59f06e929be2965778139bac39d248ee10c521",
+      "original_sha256": "abc623a4c21c1a8ae8a0b02ca90db3a3c20358c2181ca88a7065839c200b1f74",
+      "original_bytes": 20,
+      "source": ".local/board-construction-next/root-repair-05/retired-source/material_api_probe.gd.uid.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/runtime-expected.gd.txt.gz",
+      "sha256": "aa76f7b7566d1b9c79fe8272f8a7d3d7b75fc51913a8c12aac19ec693f4046c9",
+      "original_sha256": "a1a270744828c5c27a60492f4fba05ea11bf53ff04b0d2d2161ed26b0faabd9b",
+      "original_bytes": 544,
+      "source": ".local/board-construction-next/root-repair-05/runtime-expected.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-05/runtime-probe.gd.txt.gz",
+      "sha256": "052683a563450d29e0fad99d81fe6d522f7122d4e21190fc9e6a735489beb303",
+      "original_sha256": "c66e3704da8821e72c613c6b6e747e6af391421c0b4541238b520497e45d27c4",
+      "original_bytes": 7218,
+      "source": ".local/board-construction-next/root-repair-05/runtime-probe.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-06/after-editor.gd.txt.gz",
+      "sha256": "202650c8f6fe3fd831ff37ffa3beb3977985884235cf57b5e0733d63f0eedd6e",
+      "original_sha256": "d858fbd9a163a5297f37ff5f6aa82a5665373403b4782d89944b2cbf28d4eb3c",
+      "original_bytes": 15401,
+      "source": ".local/board-construction-next/root-repair-06/after-editor.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-06/before-editor.gd.txt.gz",
+      "sha256": "c73fff03ea4a4a8069ad824384513320e1c72915c2717d7c49df1b83c446dd11",
+      "original_sha256": "80fca88438ac9fb7a9c090053253558bd615118b7f7c243b1b969f6b93c243a1",
+      "original_bytes": 15395,
+      "source": ".local/board-construction-next/root-repair-06/before-editor.gd.txt"
+    },
+    {
+      "path": "payload/board/root-repair-06/generator-before.py.txt.gz",
+      "sha256": "9a48abd11ff67ee55f5a95f171ceaa9f04634b4c9157c82eb45322dea87977a3",
+      "original_sha256": "445ec8f148edaa333717cf1a5c01078385d00793cd3f3be8f158989f76ab9988",
+      "original_bytes": 6514,
+      "source": ".local/board-construction-next/root-repair-06/generator-before.py.txt"
+    },
+    {
+      "path": "payload/board/root-repair-06/plan.json.gz",
+      "sha256": "59ebf52e0ed2f5284829071e1a90c55784765a2507b0cf838988f25074fc7cfe",
+      "original_sha256": "968254c3398f19ee6ff9133eea14248da6abe29046258ff45de8b7a145cb9e7c",
+      "original_bytes": 669,
+      "source": ".local/board-construction-next/root-repair-06/plan.json"
+    },
+    {
+      "path": "payload/board/root-semantic-native-03/after.json.gz",
+      "sha256": "9e8e8205990e1ec9ec059686d6fef53512c3b8cdf3b1da208518129dd7da7651",
+      "original_sha256": "d8d10245e3f0cf36a7f22216162bce2dfe9c3b57035401101d38a67dcb437745",
+      "original_bytes": 3318,
+      "source": ".local/board-construction-next/root-semantic-native-03/after.json"
+    },
+    {
+      "path": "payload/board/root-semantic-native-03/before.json.gz",
+      "sha256": "9e8e8205990e1ec9ec059686d6fef53512c3b8cdf3b1da208518129dd7da7651",
+      "original_sha256": "d8d10245e3f0cf36a7f22216162bce2dfe9c3b57035401101d38a67dcb437745",
+      "original_bytes": 3318,
+      "source": ".local/board-construction-next/root-semantic-native-03/before.json"
+    },
+    {
+      "path": "payload/board/root-semantic-native-03/command.log.gz",
+      "sha256": "bcea9292c03cbc4fb523158c70725c55d9c2725284e1d7a6f6832c02bd328ac2",
+      "original_sha256": "b497d86253229c9e57579189876febf1f042833ba3507755516b180ea7faf9b3",
+      "original_bytes": 1745,
+      "source": ".local/board-construction-next/root-semantic-native-03/command.log"
+    },
+    {
+      "path": "payload/board/root-semantic-native-03/probe.gd.txt.gz",
+      "sha256": "05985f2104eb3d6b431599444d2fbf73e265619a9a4a7115b6f4ae6260b0114a",
+      "original_sha256": "c9afbeda899263b9fa1946d18d67f510f23b1a21efc4c090ffad5a0a9582a42b",
+      "original_bytes": 6777,
+      "source": ".local/board-construction-next/root-semantic-native-03/probe.gd.txt"
+    },
+    {
+      "path": "payload/board/root-semantic-native-03/receipt.json.gz",
+      "sha256": "4c935f50b2895ef47c313c933705059255aa9262a92322743918bf319fecd825",
+      "original_sha256": "62aa788b32cdf52e0441504a236359b12fca679977b127dee2caf4665ec3de50",
+      "original_bytes": 1657,
+      "source": ".local/board-construction-next/root-semantic-native-03/receipt.json"
+    },
+    {
+      "path": "payload/board/root-semantic-native-03/result.json.gz",
+      "sha256": "5b333ee0f7f56d6fee7cb7925c2a013a4306bbe663daaa2ed1dec5d8e57d6961",
+      "original_sha256": "75517b76747fe93e0a30ed754793ef01af4a0a530d226647dc996f3c0765d1be",
+      "original_bytes": 3101,
+      "source": ".local/board-construction-next/root-semantic-native-03/result.json"
+    },
+    {
+      "path": "payload/board/root-semantic-native-06/after.json.gz",
+      "sha256": "10f28a386d2f154e4ab75d9455a361a46016ddf8da35c803c5efc2edf474ca92",
+      "original_sha256": "acdc461cf50a98f22c8d493f27757ad372a14839924f9cb0323e65c7066bec9e",
+      "original_bytes": 3455,
+      "source": ".local/board-construction-next/root-semantic-native-06/after.json"
+    },
+    {
+      "path": "payload/board/root-semantic-native-06/before.json.gz",
+      "sha256": "10f28a386d2f154e4ab75d9455a361a46016ddf8da35c803c5efc2edf474ca92",
+      "original_sha256": "acdc461cf50a98f22c8d493f27757ad372a14839924f9cb0323e65c7066bec9e",
+      "original_bytes": 3455,
+      "source": ".local/board-construction-next/root-semantic-native-06/before.json"
+    },
+    {
+      "path": "payload/board/root-semantic-native-06/command.log.gz",
+      "sha256": "10903a18ae302bf0ee5b1c2119b615810104dcc8fd307add00f63bc7b5850c27",
+      "original_sha256": "b7ec050c58770d6096e27e50620ade14ab3ecc3a736e3bc28e6c6bfd3321ff3d",
+      "original_bytes": 1610,
+      "source": ".local/board-construction-next/root-semantic-native-06/command.log"
+    },
+    {
+      "path": "payload/board/root-semantic-native-06/probe.gd.txt.gz",
+      "sha256": "052683a563450d29e0fad99d81fe6d522f7122d4e21190fc9e6a735489beb303",
+      "original_sha256": "c66e3704da8821e72c613c6b6e747e6af391421c0b4541238b520497e45d27c4",
+      "original_bytes": 7218,
+      "source": ".local/board-construction-next/root-semantic-native-06/probe.gd.txt"
+    },
+    {
+      "path": "payload/board/root-semantic-native-06/receipt.json.gz",
+      "sha256": "1a3bc29da7fa3facbb9ffa128b05d16b005cb379f5eac037fd9c31bd3d6dcc3f",
+      "original_sha256": "5775710220a0dce386015f447764661ba54d93a58b13a8ca63a3478a0672eebe",
+      "original_bytes": 1951,
+      "source": ".local/board-construction-next/root-semantic-native-06/receipt.json"
+    },
+    {
+      "path": "payload/board/root-semantic-native-06/result.json.gz",
+      "sha256": "4095cab14726b77315fc418a4b7fd36fda8203cae40b20642ece5093c21a65ab",
+      "original_sha256": "2f7a29214c2a28f7e8acdbad8767dcbb18823ca8fa79b158c97b7e1a8ef968d3",
+      "original_bytes": 3317,
+      "source": ".local/board-construction-next/root-semantic-native-06/result.json"
+    },
+    {
+      "path": "payload/board/root_compact_schema04.py.gz",
+      "sha256": "99196a3e493e13dfe01f9783fb309ce323d4f6d1746693b3dc41d8c5f640bb42",
+      "original_sha256": "bbf1cf15fb947455692ee57f6ba6e028eb7128f32ad570c998cdc28dd96aadcf",
+      "original_bytes": 5780,
+      "source": ".local/board-construction-next/root_compact_schema04.py"
+    },
+    {
+      "path": "payload/board/root_split_expected05.py.gz",
+      "sha256": "e24cf8b1ed8224b3ebc909c51e3768bfa1270de87a8fc81b0b4ac9c8f4c20062",
+      "original_sha256": "7e1cb5fd43f945ac9736bbf4c61d1e3a35c0041f702881c807589cc082954314",
+      "original_bytes": 6521,
+      "source": ".local/board-construction-next/root_split_expected05.py"
+    },
+    {
+      "path": "payload/board/run_material_api.py.gz",
+      "sha256": "d9cfdff1b7824bbf3154c82c7aa926931f51f108216d3e3531e1bfa74aba4595",
+      "original_sha256": "5f5bec6648061fca2be2b1ffb9ad4759c233cd69510cd927ee9293522f42d99d",
+      "original_bytes": 1929,
+      "source": ".local/board-construction-next/run_material_api.py"
+    },
+    {
+      "path": "payload/board/run_native_control.preflight-rejected.py.txt.gz",
+      "sha256": "755daab7618f7f6c151b4110d8097e8ef9cf1e52d6f82d5be236866a83cd261f",
+      "original_sha256": "d38d8f58a9712e6670bba4b34cd631c6ee437c2052c9771f158db46afe173908",
+      "original_bytes": 3234,
+      "source": ".local/board-construction-next/run_native_control.preflight-rejected.py.txt"
+    },
+    {
+      "path": "payload/board/run_native_control.py.gz",
+      "sha256": "1947a4f57e664e10036e9cfa619fb443f7999ea9a8960f855909ce6f5e37bd30",
+      "original_sha256": "f5e28573c32c65b2c9cc9a472adf333185155827e7bd85136b576de9fcb3c82f",
+      "original_bytes": 3444,
+      "source": ".local/board-construction-next/run_native_control.py"
+    },
+    {
+      "path": "payload/board/run_parser.py.gz",
+      "sha256": "8f5be9b8ae22a56f27de71225c1d111cf95e511fc58d5ea63274a35edfdff379",
+      "original_sha256": "51bd587d2d77202fe809dc0981a06e5e6da12f7856161232f145a22af847ac7d",
+      "original_bytes": 3067,
+      "source": ".local/board-construction-next/run_parser.py"
+    },
+    {
+      "path": "payload/board/run_root_board_baseline_views07.py.gz",
+      "sha256": "dd03153252c9059be06e17150b4f6fb343a9513284272c8651a430a633ca4bae",
+      "original_sha256": "b3b2d665a49048bf718b4d59f676c5ee9a109ce3ab6d3837eed2a2ec95292dfc",
+      "original_bytes": 3500,
+      "source": ".local/board-construction-next/run_root_board_baseline_views07.py"
+    },
+    {
+      "path": "payload/board/run_root_board_baseline_views08.py.gz",
+      "sha256": "ec8bc7741d2ad4d77afd2edf8956902879c1b05f1a5fe03a6d5f9b1d92687305",
+      "original_sha256": "2c751b1a5ad8bc24b99afe0a7705b33dc7f16808edaf2c5ad742650af4e1ecaa",
+      "original_bytes": 3500,
+      "source": ".local/board-construction-next/run_root_board_baseline_views08.py"
+    },
+    {
+      "path": "payload/board/run_root_board_baseline_views09.py.gz",
+      "sha256": "2feeff4826ad0a12d71fc3ad969d96cba75282e06dec26cf6eb3442ed2ed6b7e",
+      "original_sha256": "cadd8119262e76d8bc9093e01156a0054cd69586f6646cb17e9dc46909b65c8f",
+      "original_bytes": 3500,
+      "source": ".local/board-construction-next/run_root_board_baseline_views09.py"
+    },
+    {
+      "path": "payload/board/run_root_board_baseline_views10.py.gz",
+      "sha256": "6c8eaf541962864aa4b2782ff9ab9939ae7b1066c546308a02326be06b0d96e5",
+      "original_sha256": "66e9a0be462cd72bce2846a3943f827b33eca10f41b231e9ee20a79adea09e85",
+      "original_bytes": 3500,
+      "source": ".local/board-construction-next/run_root_board_baseline_views10.py"
+    },
+    {
+      "path": "payload/board/run_root_board_candidate_views09.py.gz",
+      "sha256": "262c1e967740738aa82565d95029c1b728c348296089752f08a91df0a13882b0",
+      "original_sha256": "8bceda36601b2febf1a36e834c79f0e30912b4f93d15991811d32d35123740a1",
+      "original_bytes": 3505,
+      "source": ".local/board-construction-next/run_root_board_candidate_views09.py"
+    },
+    {
+      "path": "payload/board/run_root_board_candidate_views10.py.gz",
+      "sha256": "cfc9d688b632bb55c53d17d448f5369e7f17c5d255cafc84cb5ecbf90cccc0ac",
+      "original_sha256": "a3c70fc39a7257bb9733f645f39ceda890275fb88549d59b06169dc2bd0a2026",
+      "original_bytes": 3505,
+      "source": ".local/board-construction-next/run_root_board_candidate_views10.py"
+    },
+    {
+      "path": "payload/board/run_semantic_import.py.gz",
+      "sha256": "814689fd34d15a754e9ec4aa8e4b3a50a69a7ad986579077c84af6d5752da65c",
+      "original_sha256": "c4a03d3bf1298b60fe19a29cd5fac9ee21f5c4859e9ccefe43ebe6816782a97a",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/run_semantic_import.py"
+    },
+    {
+      "path": "payload/board/run_semantic_import02.py.gz",
+      "sha256": "76f4054a43a1454637ab0c89878cb2da7da5b9502b56198319bd0a277803e7e3",
+      "original_sha256": "b6de37105ed560cdf83f358fb3f8ff62cc849a3eb28c6695b895cb96952e2308",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/run_semantic_import02.py"
+    },
+    {
+      "path": "payload/board/run_semantic_import03.py.gz",
+      "sha256": "8904ced75dfb09e95504cf9ae935640f958b1abd1ef0d1a9a3e0516f06700df0",
+      "original_sha256": "074abc0a2a7327ec4803b5b9ea246813406ac9f66ad0e36a61cf1272b84d6c73",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/run_semantic_import03.py"
+    },
+    {
+      "path": "payload/board/run_semantic_import04.py.gz",
+      "sha256": "9fc88665c3094c83c5fe731bcebac868954ae02e4ee223e1ddd41017811da133",
+      "original_sha256": "f0f65313f7f0cee3972cfe7f8314beb49d4a1509ee0aadee5dfa0625bf4f92bb",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/run_semantic_import04.py"
+    },
+    {
+      "path": "payload/board/run_semantic_import05.py.gz",
+      "sha256": "6fdb1fb655a705731ff5b71a8bb49b197481ad3bd901375d434cf0d5cc952b5e",
+      "original_sha256": "0160a9cc502eb99bc6cb8bd3719cd71dccef2fc24de5f1304a13432e472f4054",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/run_semantic_import05.py"
+    },
+    {
+      "path": "payload/board/run_semantic_import06.py.gz",
+      "sha256": "68cf97ccaa8df7dc3b03beaa0744508f9b3e7dc2e321a26ca2bcefe80d48b623",
+      "original_sha256": "4c6f2af16b05742025901ad8fe9e4ee9490c666c20f6a1449c0e7e3ad2c94eb9",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/run_semantic_import06.py"
+    },
+    {
+      "path": "payload/board/run_semantic_parser.py.gz",
+      "sha256": "67816d0a1af597bb9e66d9d55dea4fec731910f4e598415b173b29160c599d84",
+      "original_sha256": "fc9b87c3f1b5cf56283cd9601736e257b288ef86313987a21e355272b4af0879",
+      "original_bytes": 2866,
+      "source": ".local/board-construction-next/run_semantic_parser.py"
+    },
+    {
+      "path": "payload/board/run_semantic_parser02.py.gz",
+      "sha256": "e1e79d71ebd22fd655bf4c4e627b7bea7575ed70da12a4e0a34290a8593e280e",
+      "original_sha256": "687c89103e57d6d9a57088e6da852d30155a3baed712ebf43875d33e683359e9",
+      "original_bytes": 2866,
+      "source": ".local/board-construction-next/run_semantic_parser02.py"
+    },
+    {
+      "path": "payload/board/scope-corrections.json.gz",
+      "sha256": "656995b422da767f23668d2b223ba8b44cf901ef97654200d89f9140c6c5a975",
+      "original_sha256": "30a2e263b8d23ffc9c1fb667024f05d72b949d8af34cea699b2a31e7894f9a84",
+      "original_bytes": 1381,
+      "source": ".local/board-construction-next/scope-corrections.json"
+    },
+    {
+      "path": "payload/board/semantic-import-01/cache-after.json.gz",
+      "sha256": "19f647fed694f170cc4e660af9e9d70c82158412b644b0e8fddeb5b37239e5c0",
+      "original_sha256": "67fbbe174fe505d7f7dc964ad7298eac835e0333d6bdac14eb8cff49f7bab2d2",
+      "original_bytes": 465,
+      "source": ".local/board-construction-next/semantic-import-01/cache-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-01/cache-before.json.gz",
+      "sha256": "d998d7d71c6a50799c5472f3e82c3fb7582cbb5f37b3e6e381713c29e099164e",
+      "original_sha256": "814559988664d68507ddd122b1ef83847ea604b94ebe2a36571e730fcfc31f33",
+      "original_bytes": 610,
+      "source": ".local/board-construction-next/semantic-import-01/cache-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-01/import.log.gz",
+      "sha256": "017d953088fa0206ed098898a5df1c7a82c664aad5b5026a1e6d3a97e2786260",
+      "original_sha256": "816f6f7a650572eeacb5d99f15d1a2caa0654aba0ee7d678336aa81d68aaaa4b",
+      "original_bytes": 4445,
+      "source": ".local/board-construction-next/semantic-import-01/import.log"
+    },
+    {
+      "path": "payload/board/semantic-import-01/launcher.py.txt.gz",
+      "sha256": "814689fd34d15a754e9ec4aa8e4b3a50a69a7ad986579077c84af6d5752da65c",
+      "original_sha256": "c4a03d3bf1298b60fe19a29cd5fac9ee21f5c4859e9ccefe43ebe6816782a97a",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/semantic-import-01/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/semantic-import-01/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5.gz",
+      "sha256": "f9b14753783a42cb77fa3c190cc0948daea23a55ad89c1de4b959d6091f2e7f5",
+      "original_sha256": "9ce69bc244634d6a4f61310d4c80c2b22d4891b941387c4ed0984aa8875b3ed5",
+      "original_bytes": 91,
+      "source": ".local/board-construction-next/semantic-import-01/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5"
+    },
+    {
+      "path": "payload/board/semantic-import-01/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.scn.gz",
+      "sha256": "bbb0d99b8f86c0c3aff738c058ce31877ff13b2d5e90fc6c8274ad35fc7ff73f",
+      "original_sha256": "08ed78fc5971ff1d4dd800e8869cccc3539b36519281b3ee6e91ade6c730e0f3",
+      "original_bytes": 149046,
+      "source": ".local/board-construction-next/semantic-import-01/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.scn"
+    },
+    {
+      "path": "payload/board/semantic-import-01/receipt.json.gz",
+      "sha256": "5c4727bfcdcb481397dc4a330270aa7dc14372fb46a73f54a059a473b0a3a5f1",
+      "original_sha256": "e20136a34ed1f67684f00a08ee01e692d6c496143dc87e0997c5da51dfba885c",
+      "original_bytes": 1548,
+      "source": ".local/board-construction-next/semantic-import-01/receipt.json"
+    },
+    {
+      "path": "payload/board/semantic-import-01/source-after.json.gz",
+      "sha256": "2909df026d196837d183eaa5d24f70826f8e101e43d71ef81b53395c1805bd49",
+      "original_sha256": "a7514f556a93ed77473103797a964f00330afd5c7218b98c8c3445324d953c8e",
+      "original_bytes": 2734,
+      "source": ".local/board-construction-next/semantic-import-01/source-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-01/source-before.json.gz",
+      "sha256": "90bc07f4be94911104345d482ec5af394fb9cf2fbb686c2a586d6ce7e642f1ec",
+      "original_sha256": "4f487d4b503610ba4bc51903145f5737301825ecda16feea65d592255f2d679d",
+      "original_bytes": 2620,
+      "source": ".local/board-construction-next/semantic-import-01/source-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/semantic-import-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/semantic-import-01/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/semantic-import-01/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/semantic-import-01/xdg-cache/godot/editor_doc_cache-4.6.res.gz",
+      "sha256": "3fd82ca84377661b9fe6270720e105b3e61a46581fb085a5abe5827de8ad0a71",
+      "original_sha256": "3bde7a224679aa78a8f6d0ff397dd3a0fa2fff65b445277467cc0b8fae15b7bc",
+      "original_bytes": 3142772,
+      "source": ".local/board-construction-next/semantic-import-01/xdg-cache/godot/editor_doc_cache-4.6.res"
+    },
+    {
+      "path": "payload/board/semantic-import-01/xdg-config/godot/editor_settings-4.6.tres.gz",
+      "sha256": "3666c1d77f8403cb952520bfc9c734fb789186cb6299c06cf9f9d4277a7ef121",
+      "original_sha256": "a8bea3c18fb95832017877361412dd54d2cba9245e6a53492f00e8a16b99f884",
+      "original_bytes": 3373,
+      "source": ".local/board-construction-next/semantic-import-01/xdg-config/godot/editor_settings-4.6.tres"
+    },
+    {
+      "path": "payload/board/semantic-import-02/cache-after.json.gz",
+      "sha256": "4348dcdc99466e77629fada9f5531291f8a82b33645eadaf60397153b75dcd5e",
+      "original_sha256": "e7d80010148d780fdd98ed8330033d195e6dfb270e1fbc004b35a89a7d5d071d",
+      "original_bytes": 610,
+      "source": ".local/board-construction-next/semantic-import-02/cache-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-02/cache-before.json.gz",
+      "sha256": "19f647fed694f170cc4e660af9e9d70c82158412b644b0e8fddeb5b37239e5c0",
+      "original_sha256": "67fbbe174fe505d7f7dc964ad7298eac835e0333d6bdac14eb8cff49f7bab2d2",
+      "original_bytes": 465,
+      "source": ".local/board-construction-next/semantic-import-02/cache-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-02/import.log.gz",
+      "sha256": "0588776a9f93229ba6116f102c8b7d1832e25ae565b1bb1f0cad0496a59246ac",
+      "original_sha256": "9f9e92bbc834b64ddd6e549781bb8fdf57d6e98e127326f51cf2ffad478568f4",
+      "original_bytes": 8587,
+      "source": ".local/board-construction-next/semantic-import-02/import.log"
+    },
+    {
+      "path": "payload/board/semantic-import-02/launcher.py.txt.gz",
+      "sha256": "76f4054a43a1454637ab0c89878cb2da7da5b9502b56198319bd0a277803e7e3",
+      "original_sha256": "b6de37105ed560cdf83f358fb3f8ff62cc849a3eb28c6695b895cb96952e2308",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/semantic-import-02/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/semantic-import-02/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5.gz",
+      "sha256": "d7c7f8bd03ee73cd246febe5e0411911a8e065a4df241d31096ba8899d25cc30",
+      "original_sha256": "45fe98d3e7b3a78379bb0c131a59ce985fafa7cb3c344dd4f04946a0503ac6c0",
+      "original_bytes": 91,
+      "source": ".local/board-construction-next/semantic-import-02/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5"
+    },
+    {
+      "path": "payload/board/semantic-import-02/receipt.json.gz",
+      "sha256": "f5020f6a0a62175aae1f2d5be129e80e939e38a25d4f906a6ffd053f322313e2",
+      "original_sha256": "6e366db6642f9051e9fc04391050f54181fca91a3672c775f4d6e2dd19169071",
+      "original_bytes": 1325,
+      "source": ".local/board-construction-next/semantic-import-02/receipt.json"
+    },
+    {
+      "path": "payload/board/semantic-import-02/source-after.json.gz",
+      "sha256": "4b6a1a9ee3dee5497188782a10ef69329e0680fe1cc1cb5ac6cae1495a6600b6",
+      "original_sha256": "bd3497fa242d74b8f8105137a47e38528eec461422e8263d2713b0be24944282",
+      "original_bytes": 2928,
+      "source": ".local/board-construction-next/semantic-import-02/source-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-02/source-before.json.gz",
+      "sha256": "0f3936357eea9ee7b3b169aea8b56bf19671d3feca49a7539d06b6ad830802a3",
+      "original_sha256": "66599123c72180ac96a2159ba37caa713e699cffb56172dec8a7d728b0727cad",
+      "original_bytes": 2829,
+      "source": ".local/board-construction-next/semantic-import-02/source-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-02/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/semantic-import-02/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/semantic-import-02/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/semantic-import-02/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/semantic-import-02/xdg-cache/godot/editor_doc_cache-4.6.res.gz",
+      "sha256": "ca8cda57d5db806b0fc03cc1e16d0a38d14c10828e0c269aa407ae4acaf599c1",
+      "original_sha256": "b49a7854178a65e791a5b662878e9db86a8d30eadbb8ba67eb408207d9c40911",
+      "original_bytes": 3142773,
+      "source": ".local/board-construction-next/semantic-import-02/xdg-cache/godot/editor_doc_cache-4.6.res"
+    },
+    {
+      "path": "payload/board/semantic-import-02/xdg-config/godot/editor_settings-4.6.tres.gz",
+      "sha256": "815e48de3c7a29db4842e42d80ad9b462ca653a2cf8e71d3dc4ee5452f03d0d9",
+      "original_sha256": "0df12c05586005f6847e5bfb033da85baf86423f3d5b7d0fabdd0427b5b5f103",
+      "original_bytes": 3373,
+      "source": ".local/board-construction-next/semantic-import-02/xdg-config/godot/editor_settings-4.6.tres"
+    },
+    {
+      "path": "payload/board/semantic-import-03/cache-after.json.gz",
+      "sha256": "2cb5449adbb52e733e2dec647faf50d476816439bbad12d2c68eb7ec919176a5",
+      "original_sha256": "44871e5c7b0cd96379721e3baf06d10b58a2f2fe92bda076b226d8874c4ac782",
+      "original_bytes": 610,
+      "source": ".local/board-construction-next/semantic-import-03/cache-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-03/cache-before.json.gz",
+      "sha256": "4348dcdc99466e77629fada9f5531291f8a82b33645eadaf60397153b75dcd5e",
+      "original_sha256": "e7d80010148d780fdd98ed8330033d195e6dfb270e1fbc004b35a89a7d5d071d",
+      "original_bytes": 610,
+      "source": ".local/board-construction-next/semantic-import-03/cache-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-03/import.log.gz",
+      "sha256": "06080361b21f8bb698dfd29adf6eea7bb2b3b49ef8d9c171ba2a2db1c576d5e4",
+      "original_sha256": "13db744140fda969c7f98f60d8b4fc7905c5780a3e152d134b340b10c2f5e402",
+      "original_bytes": 2527,
+      "source": ".local/board-construction-next/semantic-import-03/import.log"
+    },
+    {
+      "path": "payload/board/semantic-import-03/launcher.py.txt.gz",
+      "sha256": "8904ced75dfb09e95504cf9ae935640f958b1abd1ef0d1a9a3e0516f06700df0",
+      "original_sha256": "074abc0a2a7327ec4803b5b9ea246813406ac9f66ad0e36a61cf1272b84d6c73",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/semantic-import-03/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/semantic-import-03/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5.gz",
+      "sha256": "4c120ea7286919d34b651e0f5c6b3c6f00bae0f20758e4c42cc74f8e1f3735c1",
+      "original_sha256": "5f2d73e7cf7d4820c055e5b0385963a908ab28d5a6162c9e3fb0a9c3b16174d5",
+      "original_bytes": 91,
+      "source": ".local/board-construction-next/semantic-import-03/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5"
+    },
+    {
+      "path": "payload/board/semantic-import-03/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.scn.gz",
+      "sha256": "21840ea50672019d152f45026bf501cce0b24efb833c985b4dc1058171a0b64d",
+      "original_sha256": "490c94b62984f11f721f76799a549696a58347c3bb66eb19fccdf48830ed83e4",
+      "original_bytes": 154345,
+      "source": ".local/board-construction-next/semantic-import-03/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.scn"
+    },
+    {
+      "path": "payload/board/semantic-import-03/receipt.json.gz",
+      "sha256": "1a434c8ad4a502c52e60988dcd4470f0df48751c78cbc3b5f521620654f04d24",
+      "original_sha256": "1f501be67450f2b821a685c9acda85a71ba941575711c6818c75716c84e9db6b",
+      "original_bytes": 1535,
+      "source": ".local/board-construction-next/semantic-import-03/receipt.json"
+    },
+    {
+      "path": "payload/board/semantic-import-03/source-after.json.gz",
+      "sha256": "fb329da1c38b18ca8bb753a03cab4821d99c35577389e81f68d109c077f2959e",
+      "original_sha256": "b5c8c132f96dde3e7bafeb5799ac2289048b7b7ba7840343698763ef2aeef352",
+      "original_bytes": 3126,
+      "source": ".local/board-construction-next/semantic-import-03/source-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-03/source-before.json.gz",
+      "sha256": "5cca41cfeb99225d36d920c21cacedf64a5663a377de786dc6cd7204fb9b44f7",
+      "original_sha256": "cce8f5731ff520e2a53164446e91a931c139f2d49bdf11ba44476f3bfa315f31",
+      "original_bytes": 3025,
+      "source": ".local/board-construction-next/semantic-import-03/source-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-03/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/semantic-import-03/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/semantic-import-03/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/semantic-import-03/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/semantic-import-03/xdg-cache/godot/editor_doc_cache-4.6.res.gz",
+      "sha256": "b5c42f9cccbce5160aa5069c0e67870e9692402c79c4ebd77e6808feca37df16",
+      "original_sha256": "39902b460cfa4fef4c325b43e9955b3c9b03ffc5639e55a2e9f760a71fa878d3",
+      "original_bytes": 3142773,
+      "source": ".local/board-construction-next/semantic-import-03/xdg-cache/godot/editor_doc_cache-4.6.res"
+    },
+    {
+      "path": "payload/board/semantic-import-03/xdg-config/godot/editor_settings-4.6.tres.gz",
+      "sha256": "59101ced6eb93a851a9235fc91d4ed5e6c0303c92cfff935c97f3c4ce5b2ad4b",
+      "original_sha256": "f5290d3a1045e516847396286cb2c5d03ef5938345f8567948df98e4d5c804c3",
+      "original_bytes": 3373,
+      "source": ".local/board-construction-next/semantic-import-03/xdg-config/godot/editor_settings-4.6.tres"
+    },
+    {
+      "path": "payload/board/semantic-import-04/cache-after.json.gz",
+      "sha256": "19f647fed694f170cc4e660af9e9d70c82158412b644b0e8fddeb5b37239e5c0",
+      "original_sha256": "67fbbe174fe505d7f7dc964ad7298eac835e0333d6bdac14eb8cff49f7bab2d2",
+      "original_bytes": 465,
+      "source": ".local/board-construction-next/semantic-import-04/cache-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-04/cache-before.json.gz",
+      "sha256": "2cb5449adbb52e733e2dec647faf50d476816439bbad12d2c68eb7ec919176a5",
+      "original_sha256": "44871e5c7b0cd96379721e3baf06d10b58a2f2fe92bda076b226d8874c4ac782",
+      "original_bytes": 610,
+      "source": ".local/board-construction-next/semantic-import-04/cache-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-04/import.log.gz",
+      "sha256": "361f8c086c1d3d1d36301fce82c0e2962199009d50a4a7eacca4d2af2df3f1a6",
+      "original_sha256": "3877936fd36ba2c4ec6414175dfc04f1867e2a33e63e64f403e9178622d53854",
+      "original_bytes": 4607,
+      "source": ".local/board-construction-next/semantic-import-04/import.log"
+    },
+    {
+      "path": "payload/board/semantic-import-04/launcher.py.txt.gz",
+      "sha256": "9fc88665c3094c83c5fe731bcebac868954ae02e4ee223e1ddd41017811da133",
+      "original_sha256": "f0f65313f7f0cee3972cfe7f8314beb49d4a1509ee0aadee5dfa0625bf4f92bb",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/semantic-import-04/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/semantic-import-04/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5.gz",
+      "sha256": "5e3bc250c7dad638333789d00451acfcdb1cc002438d9317e16094b74ddf4eff",
+      "original_sha256": "5a46f4637a338a6667e592d647946109587ae223ae82aa60bab11f49492222db",
+      "original_bytes": 91,
+      "source": ".local/board-construction-next/semantic-import-04/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5"
+    },
+    {
+      "path": "payload/board/semantic-import-04/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.scn.gz",
+      "sha256": "17288b9897f614a8f7d6fb3807046052d8140c67f0ab2ce3fe6b984e7a634260",
+      "original_sha256": "4878fadf1783277e172543a3fb8ff16e1d8947fb66f577da2a2e6667bd59e9f5",
+      "original_bytes": 154344,
+      "source": ".local/board-construction-next/semantic-import-04/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.scn"
+    },
+    {
+      "path": "payload/board/semantic-import-04/receipt.json.gz",
+      "sha256": "14a36f65aeb4b16b2db850a1099c7ef756daa07cfd704e003dbf94c9e799d079",
+      "original_sha256": "9c0425a0167150f4ad97ba200c91d7fe842130e1ab4098a0205e4e5c40abc871",
+      "original_bytes": 1577,
+      "source": ".local/board-construction-next/semantic-import-04/receipt.json"
+    },
+    {
+      "path": "payload/board/semantic-import-04/source-after.json.gz",
+      "sha256": "ec19c6ef9de6defaf1bb10a46865d1e0e7df301b8344e95bb4f139c2e9cf4d3b",
+      "original_sha256": "866425bb9a4f8925962bb71e81c73544bd15df1952aa6d669b0bb47a6b2c6bee",
+      "original_bytes": 3536,
+      "source": ".local/board-construction-next/semantic-import-04/source-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-04/source-before.json.gz",
+      "sha256": "153120ab519497e29f2f777e11081dc05d5257321f1810d919e068cdd3c04fc1",
+      "original_sha256": "39d84a8fbfe3c21286be8174af4d9b93acf6b5a559b4cb7775ae49af25838ac4",
+      "original_bytes": 3327,
+      "source": ".local/board-construction-next/semantic-import-04/source-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-04/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/semantic-import-04/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/semantic-import-04/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/semantic-import-04/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/semantic-import-04/xdg-cache/godot/editor_doc_cache-4.6.res.gz",
+      "sha256": "5df0cf432d320e4a377babb5f7c3d5a37f25baedb89b06af042e3cb86f900477",
+      "original_sha256": "d0bb098d363ab1c5151408d37d2520c1bc577e9f0d5597e8c9531752d75324fb",
+      "original_bytes": 3142772,
+      "source": ".local/board-construction-next/semantic-import-04/xdg-cache/godot/editor_doc_cache-4.6.res"
+    },
+    {
+      "path": "payload/board/semantic-import-04/xdg-config/godot/editor_settings-4.6.tres.gz",
+      "sha256": "5a929226f82a63ed5ea416bc9c2e83a1984d8bbb7885873cdad84109ed128ddc",
+      "original_sha256": "09b3824a5020351411c052e489b950ea4313a33f227fe30f60b7ef8cb9ecfb67",
+      "original_bytes": 3373,
+      "source": ".local/board-construction-next/semantic-import-04/xdg-config/godot/editor_settings-4.6.tres"
+    },
+    {
+      "path": "payload/board/semantic-import-05/cache-after.json.gz",
+      "sha256": "19f647fed694f170cc4e660af9e9d70c82158412b644b0e8fddeb5b37239e5c0",
+      "original_sha256": "67fbbe174fe505d7f7dc964ad7298eac835e0333d6bdac14eb8cff49f7bab2d2",
+      "original_bytes": 465,
+      "source": ".local/board-construction-next/semantic-import-05/cache-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-05/cache-before.json.gz",
+      "sha256": "19f647fed694f170cc4e660af9e9d70c82158412b644b0e8fddeb5b37239e5c0",
+      "original_sha256": "67fbbe174fe505d7f7dc964ad7298eac835e0333d6bdac14eb8cff49f7bab2d2",
+      "original_bytes": 465,
+      "source": ".local/board-construction-next/semantic-import-05/cache-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-05/import.log.gz",
+      "sha256": "98ab63dc2cc65dd934a2653f67afe1197cf4788d5c59d89febff9945be394ccc",
+      "original_sha256": "b178e1c2808ee395365d8e646f049670a7c2a0b9a576b1d2871e1975a709f7a3",
+      "original_bytes": 4071,
+      "source": ".local/board-construction-next/semantic-import-05/import.log"
+    },
+    {
+      "path": "payload/board/semantic-import-05/launcher.py.txt.gz",
+      "sha256": "6fdb1fb655a705731ff5b71a8bb49b197481ad3bd901375d434cf0d5cc952b5e",
+      "original_sha256": "0160a9cc502eb99bc6cb8bd3719cd71dccef2fc24de5f1304a13432e472f4054",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/semantic-import-05/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/semantic-import-05/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5.gz",
+      "sha256": "d7c7f8bd03ee73cd246febe5e0411911a8e065a4df241d31096ba8899d25cc30",
+      "original_sha256": "45fe98d3e7b3a78379bb0c131a59ce985fafa7cb3c344dd4f04946a0503ac6c0",
+      "original_bytes": 91,
+      "source": ".local/board-construction-next/semantic-import-05/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5"
+    },
+    {
+      "path": "payload/board/semantic-import-05/receipt.json.gz",
+      "sha256": "e2f1fc578167b4d2a26e18a51002e393dcfdeeb14b33930b330f2ff31cef7f9e",
+      "original_sha256": "dae16b511fbb71eaf995ed9bd1acf7f4ea0b48014125512e72ace8e903012a29",
+      "original_bytes": 1182,
+      "source": ".local/board-construction-next/semantic-import-05/receipt.json"
+    },
+    {
+      "path": "payload/board/semantic-import-05/source-after.json.gz",
+      "sha256": "6c6ce679747aec33c63e2a6ef4c86c776712f901be81c6a9b9bc382708f45eb1",
+      "original_sha256": "5bf734a5953fe10044d062e8852cc11401c995e21084e170509e4f714a93d559",
+      "original_bytes": 3362,
+      "source": ".local/board-construction-next/semantic-import-05/source-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-05/source-before.json.gz",
+      "sha256": "cf7dbd07aa46994cc66b7a4ba47a71c863cc69727544a021899768c3676105ee",
+      "original_sha256": "77360224e1887c89442aba0096bc1b9aefdb4b10e8b1e4fe93312a10a45dfc49",
+      "original_bytes": 3246,
+      "source": ".local/board-construction-next/semantic-import-05/source-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-05/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/semantic-import-05/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/semantic-import-05/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/semantic-import-05/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/semantic-import-05/xdg-cache/godot/editor_doc_cache-4.6.res.gz",
+      "sha256": "ed41578c0dc4abe450c6ccb96b3b16754dc8bf760b53af371cfd763bcd37c814",
+      "original_sha256": "5aa1ce960ca8a30423a69b96f4c0d1e70709660878fb64d77279ef1d0bef5c69",
+      "original_bytes": 3142774,
+      "source": ".local/board-construction-next/semantic-import-05/xdg-cache/godot/editor_doc_cache-4.6.res"
+    },
+    {
+      "path": "payload/board/semantic-import-05/xdg-config/godot/editor_settings-4.6.tres.gz",
+      "sha256": "7eba2eeaacdbdbd8c28f3d579f6e0b106de6c46ba700f4351c45b5ad7a7615fb",
+      "original_sha256": "a5fd9edc916d6191812afd70edbcbd4217b77cdec088761609760a04c6e3ebb1",
+      "original_bytes": 3373,
+      "source": ".local/board-construction-next/semantic-import-05/xdg-config/godot/editor_settings-4.6.tres"
+    },
+    {
+      "path": "payload/board/semantic-import-06/cache-after.json.gz",
+      "sha256": "80457fa7cdb899a6957beaea6ee8852433774fd58509305646ec2a8fe368d219",
+      "original_sha256": "f49c0343e3511ccea805d937a239eb8ea09602f6249d7aff7b058cc92e46277a",
+      "original_bytes": 610,
+      "source": ".local/board-construction-next/semantic-import-06/cache-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-06/cache-before.json.gz",
+      "sha256": "19f647fed694f170cc4e660af9e9d70c82158412b644b0e8fddeb5b37239e5c0",
+      "original_sha256": "67fbbe174fe505d7f7dc964ad7298eac835e0333d6bdac14eb8cff49f7bab2d2",
+      "original_bytes": 465,
+      "source": ".local/board-construction-next/semantic-import-06/cache-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-06/import.log.gz",
+      "sha256": "cb16e910d0cd3cc0596d307d86c688a4995d302741cc7f7ff10c0ebadbe8bd2a",
+      "original_sha256": "618651253a986b2e3321e02e38922faedccabd0bd578e59ac3d0c4d4206aa9cd",
+      "original_bytes": 2250,
+      "source": ".local/board-construction-next/semantic-import-06/import.log"
+    },
+    {
+      "path": "payload/board/semantic-import-06/launcher.py.txt.gz",
+      "sha256": "68cf97ccaa8df7dc3b03beaa0744508f9b3e7dc2e321a26ca2bcefe80d48b623",
+      "original_sha256": "4c6f2af16b05742025901ad8fe9e4ee9490c666c20f6a1449c0e7e3ad2c94eb9",
+      "original_bytes": 3830,
+      "source": ".local/board-construction-next/semantic-import-06/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/semantic-import-06/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5.gz",
+      "sha256": "d7c7f8bd03ee73cd246febe5e0411911a8e065a4df241d31096ba8899d25cc30",
+      "original_sha256": "45fe98d3e7b3a78379bb0c131a59ce985fafa7cb3c344dd4f04946a0503ac6c0",
+      "original_bytes": 91,
+      "source": ".local/board-construction-next/semantic-import-06/old-control-cache/tam_skateboard.glb-4ebb09d77a3b099e8c4061ba1f7d4299.md5"
+    },
+    {
+      "path": "payload/board/semantic-import-06/receipt.json.gz",
+      "sha256": "e9897c8633e1e146f5e5e7178a8d2e79976054d62e7f1b2467346e113e703bb5",
+      "original_sha256": "98529daf2114de1d38184c9b5b93fdae1701e8b649b3a2642b4c2d67e83b69b3",
+      "original_bytes": 1290,
+      "source": ".local/board-construction-next/semantic-import-06/receipt.json"
+    },
+    {
+      "path": "payload/board/semantic-import-06/source-after.json.gz",
+      "sha256": "62bae94bcdf7c3865da9dd9e9542388bc81327eebbb3ed097f01c964d3541194",
+      "original_sha256": "a458b85443455a5df69269ca598c81e284f54e455db095531f3ca783cbe11420",
+      "original_bytes": 3362,
+      "source": ".local/board-construction-next/semantic-import-06/source-after.json"
+    },
+    {
+      "path": "payload/board/semantic-import-06/source-before.json.gz",
+      "sha256": "62bae94bcdf7c3865da9dd9e9542388bc81327eebbb3ed097f01c964d3541194",
+      "original_sha256": "a458b85443455a5df69269ca598c81e284f54e455db095531f3ca783cbe11420",
+      "original_bytes": 3362,
+      "source": ".local/board-construction-next/semantic-import-06/source-before.json"
+    },
+    {
+      "path": "payload/board/semantic-import-06/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/semantic-import-06/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/semantic-import-06/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/semantic-import-06/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/semantic-import-06/xdg-cache/godot/editor_doc_cache-4.6.res.gz",
+      "sha256": "b7c5268a917b8660022c1c4198aff673674a4f0d5f473fe0b32c0e96e3627d8e",
+      "original_sha256": "2f41deef5056196f4fe541485e881dba64365028788e0cf663ebce0e50b6f472",
+      "original_bytes": 3142772,
+      "source": ".local/board-construction-next/semantic-import-06/xdg-cache/godot/editor_doc_cache-4.6.res"
+    },
+    {
+      "path": "payload/board/semantic-import-06/xdg-config/godot/editor_settings-4.6.tres.gz",
+      "sha256": "8387f3480e91ae0de0f21c72a526978ddb9931553c4a28bd8681442bd64cb719",
+      "original_sha256": "95289fc7b6cfd00db96d947c415dcab13856d06ee53fb32fef33f70a033ae776",
+      "original_bytes": 3373,
+      "source": ".local/board-construction-next/semantic-import-06/xdg-config/godot/editor_settings-4.6.tres"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/definition.log.gz",
+      "sha256": "fc77b6edddd1a3b0accd0bd2c40f3a5c4958de6713cad7dcbf5027da6d0bf67f",
+      "original_sha256": "96b3d6e5f7668a66bece70b98b52b1709cb17007876c7c9c377352bc1b5ff77c",
+      "original_bytes": 398,
+      "source": ".local/board-construction-next/semantic-parser-01/definition.log"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/helper.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/semantic-parser-01/helper.log"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/launcher.py.txt.gz",
+      "sha256": "67816d0a1af597bb9e66d9d55dea4fec731910f4e598415b173b29160c599d84",
+      "original_sha256": "fc9b87c3f1b5cf56283cd9601736e257b288ef86313987a21e355272b4af0879",
+      "original_bytes": 2866,
+      "source": ".local/board-construction-next/semantic-parser-01/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/receipt.json.gz",
+      "sha256": "10cefc5d664878223c7390ed6ebeb3005d14c775a0e846357716a47a049e73ca",
+      "original_sha256": "266d406dfdbb835a3c4481d21052d28d9cb1407577c9121a0e287dbd09c127a7",
+      "original_bytes": 1545,
+      "source": ".local/board-construction-next/semantic-parser-01/receipt.json"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/source-after.json.gz",
+      "sha256": "1f9c485b4f1e69abd1daa7850ac14d00d5860316eeadff68db26815986ff9701",
+      "original_sha256": "e4fad47543c15efa6d18197d38a41b1dddf65071269f6e95891620899e3f8702",
+      "original_bytes": 2620,
+      "source": ".local/board-construction-next/semantic-parser-01/source-after.json"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/source-before.json.gz",
+      "sha256": "1f9c485b4f1e69abd1daa7850ac14d00d5860316eeadff68db26815986ff9701",
+      "original_sha256": "e4fad47543c15efa6d18197d38a41b1dddf65071269f6e95891620899e3f8702",
+      "original_bytes": 2620,
+      "source": ".local/board-construction-next/semantic-parser-01/source-before.json"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/semantic-parser-01/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/semantic-parser-01/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log.gz",
+      "sha256": "1f9ab4de1bab1e862174ab48a4a915144f104dd2cb5fc160c42a1ff561148dc0",
+      "original_sha256": "271581741b367079e05f2f9f128220a390572f675b0e1e7628895fa2713e10f5",
+      "original_bytes": 391,
+      "source": ".local/board-construction-next/semantic-parser-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log"
+    },
+    {
+      "path": "payload/board/semantic-parser-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot2026-11-07T10.29.38.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/semantic-parser-01/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot2026-11-07T10.29.38.log"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/definition.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/semantic-parser-02/definition.log"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/final-policy.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/semantic-parser-02/final-policy.log"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/helper.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/semantic-parser-02/helper.log"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/launcher.py.txt.gz",
+      "sha256": "e1e79d71ebd22fd655bf4c4e627b7bea7575ed70da12a4e0a34290a8593e280e",
+      "original_sha256": "687c89103e57d6d9a57088e6da852d30155a3baed712ebf43875d33e683359e9",
+      "original_bytes": 2866,
+      "source": ".local/board-construction-next/semantic-parser-02/launcher.py.txt"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/receipt.json.gz",
+      "sha256": "63c9416544f72d7b9484442c9837b3645bf2cd0a0240efc8b9eaea79f3628bfa",
+      "original_sha256": "001404566ebada254a46a39fa198b8ad1b01906e3d18930d23c428ff502697d7",
+      "original_bytes": 2095,
+      "source": ".local/board-construction-next/semantic-parser-02/receipt.json"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/source-after.json.gz",
+      "sha256": "90bc07f4be94911104345d482ec5af394fb9cf2fbb686c2a586d6ce7e642f1ec",
+      "original_sha256": "4f487d4b503610ba4bc51903145f5737301825ecda16feea65d592255f2d679d",
+      "original_bytes": 2620,
+      "source": ".local/board-construction-next/semantic-parser-02/source-after.json"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/source-before.json.gz",
+      "sha256": "90bc07f4be94911104345d482ec5af394fb9cf2fbb686c2a586d6ce7e642f1ec",
+      "original_sha256": "4f487d4b503610ba4bc51903145f5737301825ecda16feea65d592255f2d679d",
+      "original_bytes": 2620,
+      "source": ".local/board-construction-next/semantic-parser-02/source-before.json"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9.gz",
+      "sha256": "b144d8b11da9000950e355771f48799c48a83ddf0a761be4ea9adfe7a64f4f48",
+      "original_sha256": "1ce278d90e1b82e12924c1bb8e6434c796b0732c84ad48cc0901f101cc587bd1",
+      "original_bytes": 352,
+      "source": ".local/board-construction-next/semantic-parser-02/xdg-cache/fontconfig/3830d5c3ddfd5cd38a049b759396e72e-le64.cache-9"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/xdg-cache/fontconfig/CACHEDIR.TAG.gz",
+      "sha256": "5db539cee4cc3950fcca09cf49bf7e03680bf9134eba98409c5519d7bff0c4e9",
+      "original_sha256": "05e7633fb31bf1f6f8d89020c16b9f24587fdf7638e951c9745b192f5fc3b682",
+      "original_bytes": 200,
+      "source": ".local/board-construction-next/semantic-parser-02/xdg-cache/fontconfig/CACHEDIR.TAG"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/semantic-parser-02/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot.log"
+    },
+    {
+      "path": "payload/board/semantic-parser-02/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot2026-11-07T10.30.48.log.gz",
+      "sha256": "517801cf8e481102b53a6ac405cc87fd5a6b18a016679d496dbc46e8dee9c939",
+      "original_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+      "original_bytes": 73,
+      "source": ".local/board-construction-next/semantic-parser-02/xdg-data/godot/app_userdata/PRIVATE physical board semantic contact study/logs/godot2026-11-07T10.30.48.log"
+    },
+    {
+      "path": "payload/board/semantic_admission.py.gz",
+      "sha256": "df8907b430197ed77805111863b9156fd90942b27029117552b01f091653d7a8",
+      "original_sha256": "96e0d70a9979adfc4e746dafb3d3a127a098b786e2d3908b2311b37293e2ae60",
+      "original_bytes": 19950,
+      "source": ".local/board-construction-next/semantic_admission.py"
+    },
+    {
+      "path": "payload/board/semantic_board_cache.gd.gz",
+      "sha256": "3ae7278ed441bd83073cb404e8b41c4597068b89bc2cc6e03f69d96f9b8462b8",
+      "original_sha256": "3cb288a1142e9809aebaff3f8404078a1e1c522663c97529991d56e09a7587cc",
+      "original_bytes": 15677,
+      "source": ".local/board-construction-next/semantic_board_cache.gd"
+    },
+    {
+      "path": "payload/board/source-candidate-02-manifest.json.gz",
+      "sha256": "bdb1a9f7e21143006ffa2c3fc7c66e153d1117dac62957697e0b7586509dabfd",
+      "original_sha256": "6ebd3de12fb6caa7fc145aff8d3b1d30de0902bae20532b347bd134fdee07dd9",
+      "original_bytes": 1946,
+      "source": ".local/board-construction-next/source-candidate-02-manifest.json"
+    },
+    {
+      "path": "payload/board/source-candidate-03-manifest.json.gz",
+      "sha256": "3438e5bb22ada3c04d0d56990868bb7cf7423fa5440b933c25d00ab1c9343ed0",
+      "original_sha256": "3a2636b1e6b15eee7e9d9114a9d6698c3b43505b1c85f19008c52db958806613",
+      "original_bytes": 2074,
+      "source": ".local/board-construction-next/source-candidate-03-manifest.json"
+    },
+    {
+      "path": "payload/board/source-negative-report.json.gz",
+      "sha256": "a2bea317807541f5054884aa1b53b46a4151f2d1ed395b23fc84bfc75dd3550f",
+      "original_sha256": "309c222c2cf7e4089370e734bf134ddefb3c356d2db231f36b2c23068be380e6",
+      "original_bytes": 10591,
+      "source": ".local/board-construction-next/source-negative-report.json"
+    },
+    {
+      "path": "payload/board/specification.json.gz",
+      "sha256": "b60bd6f496e83725468d61bb53b1b67b8841b980bc846a117e8b65bb55b0fead",
+      "original_sha256": "45fa403be55892aa0f2cfc9e646d01029005a45dcd984c68e672167416fa1116",
+      "original_bytes": 1447,
+      "source": ".local/board-construction-next/specification.json"
+    },
+    {
+      "path": "payload/board/test_semantic_admission.py.gz",
+      "sha256": "a267f17161cb32157f3a70d538ff2597e38d098be9b5de774b3e93fb1f504d65",
+      "original_sha256": "dc26c9132d670d358569d8b4664dbef251576cc30d18ecd566783cf5567be342",
+      "original_bytes": 12802,
+      "source": ".local/board-construction-next/test_semantic_admission.py"
+    },
+    {
+      "path": "payload/loose/loose-board-study-01/after.json.gz",
+      "sha256": "35ff5444c2f3cb990685474b793c6b0cae4eff04f009a41cf42e1f2af2aa0326",
+      "original_sha256": "4eb2fd25847826dbe99f02509c80cee402b69bbc4dc885973a2c6b6bfe9ef0de",
+      "original_bytes": 105066,
+      "source": ".local/loose-board-study-01/after.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-01/before.json.gz",
+      "sha256": "35ff5444c2f3cb990685474b793c6b0cae4eff04f009a41cf42e1f2af2aa0326",
+      "original_sha256": "4eb2fd25847826dbe99f02509c80cee402b69bbc4dc885973a2c6b6bfe9ef0de",
+      "original_bytes": 105066,
+      "source": ".local/loose-board-study-01/before.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-01/command.log.gz",
+      "sha256": "7f31c1c43a193d5af414bff959dfb6f137a3a04e01d2a43d7a218d82475214a3",
+      "original_sha256": "bfbf9b701d0f0e2fc25ecd5026d34408c666e1c4b4572055a6dce64ddca22a09",
+      "original_bytes": 100,
+      "source": ".local/loose-board-study-01/command.log"
+    },
+    {
+      "path": "payload/loose/loose-board-study-01/plan.json.gz",
+      "sha256": "89f20b9d9af7be63b051f5a61301f66c882495840f5d4244f1f8405c29485468",
+      "original_sha256": "1ae9ad7bae6da336231b51c7229e62100d69914cf2bee22a5c6dd5d333b1ee01",
+      "original_bytes": 689,
+      "source": ".local/loose-board-study-01/plan.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-01/probe.gd.txt.gz",
+      "sha256": "fa0ba3781068979988cef0cdb6560d876df77e2a8084b1b2bd83d8a255716a38",
+      "original_sha256": "a0c809103668c766c50cb59ae3027f3de2aff75ce4563e8855ef35eb000e0519",
+      "original_bytes": 4996,
+      "source": ".local/loose-board-study-01/probe.gd.txt"
+    },
+    {
+      "path": "payload/loose/loose-board-study-01/receipt.json.gz",
+      "sha256": "5312b07c0aed7cb93f574234ec3f951bf070a8fe7528230fb6ece71f4ee490ce",
+      "original_sha256": "29b5ed88ec2abd4d73ec5a80afb38693a6056dda7c5796d164b12e4e147c03d5",
+      "original_bytes": 500,
+      "source": ".local/loose-board-study-01/receipt.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-01/result.json.gz",
+      "sha256": "6f8abcd8ad8057751491ed7ad345796367a09e3232f2667dc944a16baa1db873",
+      "original_sha256": "ab18605e0a53c26ba4ddddd8dcd22c848d60236cf70851c9507009ccad27d7d4",
+      "original_bytes": 4619,
+      "source": ".local/loose-board-study-01/result.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-02/after.json.gz",
+      "sha256": "31e5059f73fbc5bf2eda9ad8667fd2652031a2496ee013eb8a6e1dfaad93a19f",
+      "original_sha256": "d697b006d6541e06f856d42ad70effd6f79f2f886063407c0615ec19ad5f6e85",
+      "original_bytes": 105066,
+      "source": ".local/loose-board-study-02/after.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-02/before-probe.gd.txt.gz",
+      "sha256": "fa0ba3781068979988cef0cdb6560d876df77e2a8084b1b2bd83d8a255716a38",
+      "original_sha256": "a0c809103668c766c50cb59ae3027f3de2aff75ce4563e8855ef35eb000e0519",
+      "original_bytes": 4996,
+      "source": ".local/loose-board-study-02/before-probe.gd.txt"
+    },
+    {
+      "path": "payload/loose/loose-board-study-02/before.json.gz",
+      "sha256": "31e5059f73fbc5bf2eda9ad8667fd2652031a2496ee013eb8a6e1dfaad93a19f",
+      "original_sha256": "d697b006d6541e06f856d42ad70effd6f79f2f886063407c0615ec19ad5f6e85",
+      "original_bytes": 105066,
+      "source": ".local/loose-board-study-02/before.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-02/command.log.gz",
+      "sha256": "7f31c1c43a193d5af414bff959dfb6f137a3a04e01d2a43d7a218d82475214a3",
+      "original_sha256": "bfbf9b701d0f0e2fc25ecd5026d34408c666e1c4b4572055a6dce64ddca22a09",
+      "original_bytes": 100,
+      "source": ".local/loose-board-study-02/command.log"
+    },
+    {
+      "path": "payload/loose/loose-board-study-02/plan.json.gz",
+      "sha256": "97d8bbcc848324e02671b3322061bb645f743630fcd07f1e138b0d4cd342194d",
+      "original_sha256": "4de15703d10511f032c25e7398c157dac74c37c58156c946987c79fab939f23f",
+      "original_bytes": 948,
+      "source": ".local/loose-board-study-02/plan.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-02/probe.gd.txt.gz",
+      "sha256": "e97b4406feb70c3400d6c5e7a12707c7ec0234b6a509c8f469b69a191bd8b130",
+      "original_sha256": "79a43bdd0bb7eb63e50966f9ad336755110952503d48075dff0fd01271ced0f3",
+      "original_bytes": 5373,
+      "source": ".local/loose-board-study-02/probe.gd.txt"
+    },
+    {
+      "path": "payload/loose/loose-board-study-02/receipt.json.gz",
+      "sha256": "378c3e26236bd6e1ace8b40a75cc59d1c16a11076a43bb1ee13fbb2f22e39551",
+      "original_sha256": "c1ee9a6eed924ea118fd9e610943e226c247dc84fa9a2a6f351edaeb4a657abb",
+      "original_bytes": 500,
+      "source": ".local/loose-board-study-02/receipt.json"
+    },
+    {
+      "path": "payload/loose/loose-board-study-02/result.json.gz",
+      "sha256": "eff7b809ef251781f9f096fa6415a8a0c928ccd3254f7828566dd22eef764811",
+      "original_sha256": "b356070cb1dae0b23f3d418d613b01b6a67d62272b1575acea9f63cea0538b52",
+      "original_bytes": 4733,
+      "source": ".local/loose-board-study-02/result.json"
+    },
+    {
+      "path": "payload/loose/initial-observer.gd.txt.gz",
+      "sha256": "fa0ba3781068979988cef0cdb6560d876df77e2a8084b1b2bd83d8a255716a38",
+      "original_sha256": "a0c809103668c766c50cb59ae3027f3de2aff75ce4563e8855ef35eb000e0519",
+      "original_bytes": 4996,
+      "source": ".local/loose_board_study.gd"
+    }
+  ],
+  "excluded_generated": [
+    {
+      "path": ".local/board-construction-next/physical-project/baseline_board.scn",
+      "sha256": "cc7dd922edafdb15fc0120c9656ec4d35677dcaed0d174742dd12931c9116dc7",
+      "reason": "Generated native baseline control: reimport actual board at pinned main7a3a234, not source payload."
+    }
+  ]
+}

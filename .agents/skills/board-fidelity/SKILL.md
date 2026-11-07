@@ -78,3 +78,17 @@ concentric bearings/tyres defeat centroid-only correspondence. Guard rendered
 material deformation/overrides and stale resources, declaring any scalar validity
 work. Source controls and historical native arrays do not certify a new parser,
 import, collision, cooked package, motion or target-hardware result.
+
+The [native continuation](../../../docs/testing/board-fidelity-2026-11-07/native-construction-02/README.md)
+adds actual engine lessons: query native material properties (`grow`, not
+`grow_enabled`), and do not assume material setters emit Resource.changed.
+Avoid empty HashingContext.update calls. PackedArray constructors cannot form
+the attempted constant dictionary: keep a typed `@tool` editor certificate and
+small immutable runtime expectations separately. An aggregate native-signature
+hash may compact metadata while authenticating every original buffer and face.
+Measure deserialized retained allocation, not encoded size alone. Inspect native
+LOD renders for fragments even when topology assertions pass. Derive actual
+tyre-ground datums before mounting a reconstruction. Whole-board convex hulls
+can bridge real under-deck voids; reuse authenticated component shapes and
+validate actual solver contact. Global solver settings also affect the festival
+cone, not only the rider's loose board.
